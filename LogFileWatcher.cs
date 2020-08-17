@@ -65,7 +65,7 @@ namespace FallGuysStats {
             running = true;
             List<LogLine> currentLines = new List<LogLine>();
             List<LogLine> tempLines = new List<LogLine>();
-            DateTime currentDate = DateTime.MinValue;
+            DateTime lastDate = DateTime.MinValue;
             while (!stop) {
                 FileInfo fileInfo = new FileInfo(filePath);
                 if (fileInfo.Exists) {
@@ -81,6 +81,7 @@ namespace FallGuysStats {
                         if (fs.Length > offset) {
                             using (StreamReader sr = new StreamReader(fs)) {
                                 string line;
+                                DateTime currentDate = lastDate;
                                 while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
                                     LogLine logLine = new LogLine(fileName, line);
 
@@ -108,6 +109,7 @@ namespace FallGuysStats {
                                                     currentLines.AddRange(tempLines);
                                                     currentLines.Add(logLine);
                                                     currentLines.Add(temp);
+                                                    lastDate = currentDate;
                                                     offset = fs.Position;
                                                     tempLines.Clear();
                                                     break;

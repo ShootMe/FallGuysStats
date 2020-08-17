@@ -154,7 +154,7 @@
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Fall Guys Stats v1.2";
+            this.Text = "Fall Guys Stats v1.3";
             this.Shown += new System.EventHandler(this.Stats_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
