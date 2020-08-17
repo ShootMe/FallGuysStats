@@ -9,9 +9,14 @@ namespace FallGuysStats {
         public int Tier { get; set; }
         public bool Qualified { get; set; }
         public int Kudos { get; set; }
+        public int Players { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
 
+        public void ToLocalTime() {
+            Start = Start.Add(Start - Start.ToUniversalTime());
+            End = End.Add(End - End.ToUniversalTime());
+        }
         public override string ToString() {
             return $"{Name}: Round={Round} Position={Position} Duration={End - Start} Kudos={Kudos}";
         }

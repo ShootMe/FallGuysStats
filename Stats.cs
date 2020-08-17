@@ -210,6 +210,9 @@ namespace FallGuysStats {
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                         return one.Start.CompareTo(two.Start);
                     });
+                    for (int i = 0; i < rounds.Count; i++) {
+                        rounds[i].ToLocalTime();
+                    }
                     details.RoundDetails = rounds;
                     details.ShowDialog(this);
                 }

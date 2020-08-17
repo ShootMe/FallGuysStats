@@ -95,6 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="fall.ico" />
+    <None Include="medal_silver.png" />
+    <None Include="medal_pink.png" />
+    <None Include="medal_gold.png" />
+    <None Include="medal_eliminated.png" />
+    <None Include="medal_bronze.png" />
     <None Include="info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

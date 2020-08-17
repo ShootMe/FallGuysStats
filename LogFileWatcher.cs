@@ -143,6 +143,8 @@ namespace FallGuysStats {
             RoundInfo stat = null;
             List<RoundInfo> round = new List<RoundInfo>();
             List<RoundInfo> allStats = new List<RoundInfo>();
+            int players;
+            bool countPlayers = false;
             while (!stop) {
                 lock (lines) {
                     for (int i = 0; i < lines.Count; i++) {
@@ -152,8 +154,15 @@ namespace FallGuysStats {
                             stat = new RoundInfo();
                             round.Add(stat);
                             stat.Name = line.Line.Substring(index + 62);
+                            countPlayers = true;
+                        } else if (stat != null && countPlayers && line.Line.IndexOf("[ClientGameManager] Added player ") > 0 && (index = line.Line.IndexOf(" players in system.")) > 0) {
+                            int prevIndex = line.Line.LastIndexOf(' ', index - 1);
+                            if (int.TryParse(line.Line.Substring(prevIndex, index - prevIndex), out players)) {
+                                stat.Players = players;
+                            }
                         } else if (stat != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing") > 0) {
                             stat.Start = line.Date;
+                            countPlayers = false;
                         } else if (stat != null &&
                             (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver") > 0
                             || line.Line.IndexOf("Changing local player state to: SpectatingEliminated") > 0)) {
