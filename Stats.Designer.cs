@@ -33,18 +33,20 @@
             this.lblTotalWins = new System.Windows.Forms.Label();
             this.lblFinalChance = new System.Windows.Forms.Label();
             this.lblWinChance = new System.Windows.Forms.Label();
-            this.gridDetails = new FallGuysStats.Grid();
             this.rdAll = new System.Windows.Forms.RadioButton();
             this.rdSeason = new System.Windows.Forms.RadioButton();
             this.rdWeek = new System.Windows.Forms.RadioButton();
             this.rdSession = new System.Windows.Forms.RadioButton();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.gridDetails = new FallGuysStats.Grid();
+            this.lblKudos = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalShows
             // 
             this.lblTotalShows.AutoSize = true;
-            this.lblTotalShows.Location = new System.Drawing.Point(145, 34);
+            this.lblTotalShows.Location = new System.Drawing.Point(128, 34);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
             this.lblTotalShows.TabIndex = 5;
@@ -55,14 +57,14 @@
             this.lblTotalTime.AutoSize = true;
             this.lblTotalTime.Location = new System.Drawing.Point(8, 34);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(113, 13);
+            this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
             this.lblTotalTime.TabIndex = 4;
-            this.lblTotalTime.Text = "Time Played: 00:00:00";
+            this.lblTotalTime.Text = "Time Played: 0:00:00";
             // 
             // lblTotalRounds
             // 
             this.lblTotalRounds.AutoSize = true;
-            this.lblTotalRounds.Location = new System.Drawing.Point(231, 34);
+            this.lblTotalRounds.Location = new System.Drawing.Point(206, 34);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
             this.lblTotalRounds.TabIndex = 6;
@@ -71,7 +73,7 @@
             // lblTotalWins
             // 
             this.lblTotalWins.AutoSize = true;
-            this.lblTotalWins.Location = new System.Drawing.Point(323, 34);
+            this.lblTotalWins.Location = new System.Drawing.Point(296, 34);
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
             this.lblTotalWins.TabIndex = 7;
@@ -80,62 +82,20 @@
             // lblFinalChance
             // 
             this.lblFinalChance.AutoSize = true;
-            this.lblFinalChance.Location = new System.Drawing.Point(399, 34);
+            this.lblFinalChance.Location = new System.Drawing.Point(365, 34);
             this.lblFinalChance.Name = "lblFinalChance";
-            this.lblFinalChance.Size = new System.Drawing.Size(52, 13);
+            this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
             this.lblFinalChance.TabIndex = 8;
-            this.lblFinalChance.Text = "Final %: 0";
+            this.lblFinalChance.Text = "Final %: 0.0";
             // 
             // lblWinChance
             // 
             this.lblWinChance.AutoSize = true;
-            this.lblWinChance.Location = new System.Drawing.Point(492, 34);
+            this.lblWinChance.Location = new System.Drawing.Point(443, 34);
             this.lblWinChance.Name = "lblWinChance";
-            this.lblWinChance.Size = new System.Drawing.Size(49, 13);
+            this.lblWinChance.Size = new System.Drawing.Size(58, 13);
             this.lblWinChance.TabIndex = 9;
-            this.lblWinChance.Text = "Win %: 0";
-            // 
-            // gridDetails
-            // 
-            this.gridDetails.AllowUserToDeleteRows = false;
-            this.gridDetails.AllowUserToOrderColumns = false;
-            this.gridDetails.AllowUserToResizeColumns = false;
-            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
-            this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridDetails.ColumnHeadersHeight = 20;
-            this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gridDetails.EnableHeadersVisualStyles = false;
-            this.gridDetails.Location = new System.Drawing.Point(0, 53);
-            this.gridDetails.Name = "gridDetails";
-            this.gridDetails.ReadOnly = true;
-            this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(614, 570);
-            this.gridDetails.TabIndex = 10;
-            this.gridDetails.TabStop = false;
-            this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
-            this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
-            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
-            this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
+            this.lblWinChance.Text = "Win %: 0.0";
             // 
             // rdAll
             // 
@@ -183,12 +143,75 @@
             this.rdSession.UseVisualStyleBackColor = true;
             this.rdSession.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
             // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(500, 6);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(102, 23);
+            this.btnUpdate.TabIndex = 11;
+            this.btnUpdate.Text = "Check for Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // gridDetails
+            // 
+            this.gridDetails.AllowUserToDeleteRows = false;
+            this.gridDetails.AllowUserToOrderColumns = false;
+            this.gridDetails.AllowUserToResizeColumns = false;
+            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
+            this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridDetails.ColumnHeadersHeight = 20;
+            this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridDetails.EnableHeadersVisualStyles = false;
+            this.gridDetails.Location = new System.Drawing.Point(0, 53);
+            this.gridDetails.Name = "gridDetails";
+            this.gridDetails.ReadOnly = true;
+            this.gridDetails.RowHeadersVisible = false;
+            this.gridDetails.Size = new System.Drawing.Size(614, 570);
+            this.gridDetails.TabIndex = 10;
+            this.gridDetails.TabStop = false;
+            this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
+            this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
+            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
+            this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
+            // 
+            // lblKudos
+            // 
+            this.lblKudos.AutoSize = true;
+            this.lblKudos.Location = new System.Drawing.Point(520, 34);
+            this.lblKudos.Name = "lblKudos";
+            this.lblKudos.Size = new System.Drawing.Size(49, 13);
+            this.lblKudos.TabIndex = 12;
+            this.lblKudos.Text = "Kudos: 0";
+            // 
             // Stats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.ClientSize = new System.Drawing.Size(614, 623);
+            this.Controls.Add(this.lblKudos);
+            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.rdSession);
             this.Controls.Add(this.rdWeek);
             this.Controls.Add(this.rdSeason);
@@ -208,7 +231,7 @@
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Fall Guys Stats v1.5";
+            this.Text = "Fall Guys Stats";
             this.Shown += new System.EventHandler(this.Stats_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
@@ -228,6 +251,8 @@
         private System.Windows.Forms.RadioButton rdSeason;
         private System.Windows.Forms.RadioButton rdWeek;
         private System.Windows.Forms.RadioButton rdSession;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Label lblKudos;
     }
 }
 

@@ -1,13 +1,31 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
+using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class Stats : Form {
         [STAThread]
-        static void Main() {
+        static void Main(string[] args) {
+            foreach (string file in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old")) {
+                int retries = 0;
+                while (retries < 20) {
+                    try {
+                        File.SetAttributes(file, FileAttributes.Normal);
+                        File.Delete(file);
+                        break;
+                    } catch {
+                        retries++;
+                    }
+                    Thread.Sleep(50);
+                }
+            }
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Stats());
@@ -25,6 +43,7 @@ namespace FallGuysStats {
         private TimeSpan Duration;
         private int Wins;
         private int Finals;
+        private int Kudos;
         private string logPath;
         private int nextShowID;
         private bool loadingExisting;
@@ -33,7 +52,10 @@ namespace FallGuysStats {
         public Stats() {
             InitializeComponent();
 
+            Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
+
             logFile.OnParsedLogLines += LogFile_OnParsedLogLines;
+            logFile.OnNewLogFileDate += LogFile_OnNewLogFileDate;
 
             details.Add(new LevelStats("Door Dash", "round_door_dash"));
             details.Add(new LevelStats("Dizzy Heights", "round_gauntlet_02"));
@@ -87,6 +109,12 @@ namespace FallGuysStats {
             logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
             logFile.Start(logPath, "Player.log");
         }
+        private void LogFile_OnNewLogFileDate(DateTime newDate) {
+            SessionStart = newDate;
+            if (rdSession.Checked) {
+                rdAll_CheckedChanged(rdSession, null);
+            }
+        }
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
             if (!loadingExisting) { statsDB.BeginTrans(); }
 
@@ -110,6 +138,7 @@ namespace FallGuysStats {
                 }
                 Rounds++;
                 Duration += stat.End - stat.Start;
+                Kudos += stat.Kudos;
                 switch (stat.Name) {
                     case "round_fall_mountain_hub_complete":
                     case "round_floor_fall":
@@ -129,7 +158,12 @@ namespace FallGuysStats {
             }
 
             if (!loadingExisting) { statsDB.Commit(); }
-            this.Invoke((Action)UpdateTotals);
+
+            if (!this.Disposing && !this.IsDisposed) {
+                try {
+                    this.Invoke((Action)UpdateTotals);
+                } catch { }
+            }
         }
         private void ClearTotals() {
             Rounds = 0;
@@ -137,6 +171,7 @@ namespace FallGuysStats {
             Wins = 0;
             Shows = 0;
             Finals = 0;
+            Kudos = 0;
         }
         private void UpdateTotals() {
             lblTotalRounds.Text = $"Rounds: {Rounds}";
@@ -147,6 +182,7 @@ namespace FallGuysStats {
             lblFinalChance.Text = $"Final %: {finalChance:0.0}";
             float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
             lblWinChance.Text = $"Win %: {winChance:0.0}";
+            lblKudos.Text = $"Kudos: {Kudos}";
             gridDetails.Refresh();
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
@@ -255,9 +291,58 @@ namespace FallGuysStats {
                 return one.Start.CompareTo(two.Start);
             });
 
+            if (rounds.Count > 0 && (button == rdWeek || button == rdSession)) {
+                int minShowID = rounds[0].ShowID;
+                if (button == rdWeek) {
+                    rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < WeekStart));
+                } else {
+                    rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
+                }
+            }
+
             loadingExisting = true;
             LogFile_OnParsedLogLines(rounds);
             loadingExisting = false;
+        }
+        private void btnUpdate_Click(object sender, EventArgs e) {
+            try {
+                string assemblyInfo = null;
+                using (ZipWebClient web = new ZipWebClient()) {
+                    assemblyInfo = web.DownloadString(@"https://github.com/ShootMe/FallGuysStats/raw/master/Properties/AssemblyInfo.cs");
+
+                    int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                    if (index > 0) {
+                        int indexEnd = assemblyInfo.IndexOf("\")", index);
+                        Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                        if (newVersion > Assembly.GetEntryAssembly().GetName().Version) {
+                            if (MessageBox.Show(this, $"There is a new version of Fall Guy Stats available (v{newVersion.ToString(2)}). Do you wish to update now?", "Update Program", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                                byte[] data = web.DownloadData($"https://github.com/ShootMe/FallGuysStats/raw/master/FallGuyStats.zip");
+                                string exeName = null;
+                                using (MemoryStream ms = new MemoryStream(data)) {
+                                    using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
+                                        foreach (var entry in zipFile.Entries) {
+                                            if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
+                                                exeName = entry.Name;
+                                            }
+                                            File.Move(entry.Name, $"{entry.Name}.old");
+                                            entry.ExtractToFile(entry.Name, true);
+                                        }
+                                    }
+                                }
+
+                                Process.Start(new ProcessStartInfo(exeName));
+                                this.Close();
+                            }
+                        } else {
+                            MessageBox.Show(this, "You are at the latest version.", "Updater", MessageBoxButtons.OK, MessageBoxIcon.None);
+                        }
+                    } else {
+                        MessageBox.Show(this, "Could not determine version.", "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
