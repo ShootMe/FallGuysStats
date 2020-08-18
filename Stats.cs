@@ -123,6 +123,7 @@ namespace FallGuysStats {
                 }
 
                 if (lookup.ContainsKey(stat.Name)) {
+                    stat.ToLocalTime();
                     lookup[stat.Name].Add(stat);
                 }
             }
@@ -219,14 +220,10 @@ namespace FallGuysStats {
                 using (LevelDetails details = new LevelDetails()) {
                     LevelStats stats = gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
                     details.LevelName = stats.Name;
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    rounds.AddRange(roundDetails.Find(x => x.Name == stats.LevelName));
+                    List<RoundInfo> rounds = stats.Stats;
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                         return one.Start.CompareTo(two.Start);
                     });
-                    for (int i = 0; i < rounds.Count; i++) {
-                        rounds[i].ToLocalTime();
-                    }
                     details.RoundDetails = rounds;
                     details.ShowDialog(this);
                 }
