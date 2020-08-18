@@ -29,14 +29,13 @@ namespace FallGuysStats {
         private string filePath;
         private string fileName;
         private List<LogLine> lines = new List<LogLine>();
-        private bool logFileExists;
         private long offset;
         private bool running;
         private bool stop;
         private Thread watcher, parser;
 
         public event Action<List<RoundInfo>> OnParsedLogLines;
-        public event Action<string> OnLogFileFound;
+        public event Action<DateTime> OnNewLogFileDate;
 
         public void Start(string logDirectory, string fileName) {
             if (running) { return; }
@@ -45,7 +44,6 @@ namespace FallGuysStats {
             filePath = Path.Combine(logDirectory, fileName);
             stop = false;
             offset = 0;
-            logFileExists = false;
             watcher = new Thread(ReadLogFile) { IsBackground = true };
             watcher.Start();
             parser = new Thread(ParseLines) { IsBackground = true };
@@ -69,11 +67,6 @@ namespace FallGuysStats {
             while (!stop) {
                 FileInfo fileInfo = new FileInfo(filePath);
                 if (fileInfo.Exists) {
-                    if (!logFileExists) {
-                        logFileExists = true;
-                        OnLogFileFound?.Invoke(fileName);
-                    }
-
                     using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
                         tempLines.Clear();
                         fs.Seek(offset, SeekOrigin.Begin);
@@ -89,6 +82,7 @@ namespace FallGuysStats {
                                         int index;
                                         if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
                                             currentDate = DateTime.Parse(line.Substring(index + 43, 19));
+                                            OnNewLogFileDate?.Invoke(currentDate);
                                         }
 
                                         if (currentDate != DateTime.MinValue) {
