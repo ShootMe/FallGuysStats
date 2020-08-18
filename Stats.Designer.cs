@@ -34,61 +34,65 @@
             this.lblFinalChance = new System.Windows.Forms.Label();
             this.lblWinChance = new System.Windows.Forms.Label();
             this.gridDetails = new FallGuysStats.Grid();
+            this.rdAll = new System.Windows.Forms.RadioButton();
+            this.rdSeason = new System.Windows.Forms.RadioButton();
+            this.rdWeek = new System.Windows.Forms.RadioButton();
+            this.rdSession = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalShows
             // 
             this.lblTotalShows.AutoSize = true;
-            this.lblTotalShows.Location = new System.Drawing.Point(152, 9);
+            this.lblTotalShows.Location = new System.Drawing.Point(145, 34);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
-            this.lblTotalShows.TabIndex = 4;
+            this.lblTotalShows.TabIndex = 5;
             this.lblTotalShows.Text = "Shows: 0";
             // 
             // lblTotalTime
             // 
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(12, 9);
+            this.lblTotalTime.Location = new System.Drawing.Point(8, 34);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(134, 13);
-            this.lblTotalTime.TabIndex = 3;
-            this.lblTotalTime.Text = "Time Played: 00:00:00.000";
+            this.lblTotalTime.Size = new System.Drawing.Size(113, 13);
+            this.lblTotalTime.TabIndex = 4;
+            this.lblTotalTime.Text = "Time Played: 00:00:00";
             // 
             // lblTotalRounds
             // 
             this.lblTotalRounds.AutoSize = true;
-            this.lblTotalRounds.Location = new System.Drawing.Point(226, 9);
+            this.lblTotalRounds.Location = new System.Drawing.Point(231, 34);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
-            this.lblTotalRounds.TabIndex = 5;
+            this.lblTotalRounds.TabIndex = 6;
             this.lblTotalRounds.Text = "Rounds: 0";
             // 
             // lblTotalWins
             // 
             this.lblTotalWins.AutoSize = true;
-            this.lblTotalWins.Location = new System.Drawing.Point(306, 9);
+            this.lblTotalWins.Location = new System.Drawing.Point(323, 34);
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
-            this.lblTotalWins.TabIndex = 6;
+            this.lblTotalWins.TabIndex = 7;
             this.lblTotalWins.Text = "Wins: 0";
             // 
             // lblFinalChance
             // 
             this.lblFinalChance.AutoSize = true;
-            this.lblFinalChance.Location = new System.Drawing.Point(370, 9);
+            this.lblFinalChance.Location = new System.Drawing.Point(399, 34);
             this.lblFinalChance.Name = "lblFinalChance";
             this.lblFinalChance.Size = new System.Drawing.Size(52, 13);
-            this.lblFinalChance.TabIndex = 7;
+            this.lblFinalChance.TabIndex = 8;
             this.lblFinalChance.Text = "Final %: 0";
             // 
             // lblWinChance
             // 
             this.lblWinChance.AutoSize = true;
-            this.lblWinChance.Location = new System.Drawing.Point(447, 9);
+            this.lblWinChance.Location = new System.Drawing.Point(492, 34);
             this.lblWinChance.Name = "lblWinChance";
             this.lblWinChance.Size = new System.Drawing.Size(49, 13);
-            this.lblWinChance.TabIndex = 8;
+            this.lblWinChance.TabIndex = 9;
             this.lblWinChance.Text = "Win %: 0";
             // 
             // gridDetails
@@ -121,40 +125,90 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridDetails.EnableHeadersVisualStyles = false;
-            this.gridDetails.Location = new System.Drawing.Point(11, 33);
+            this.gridDetails.Location = new System.Drawing.Point(0, 53);
             this.gridDetails.Name = "gridDetails";
+            this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(611, 571);
-            this.gridDetails.TabIndex = 9;
+            this.gridDetails.Size = new System.Drawing.Size(614, 570);
+            this.gridDetails.TabIndex = 10;
+            this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
+            // 
+            // rdAll
+            // 
+            this.rdAll.AutoSize = true;
+            this.rdAll.Checked = true;
+            this.rdAll.Location = new System.Drawing.Point(12, 9);
+            this.rdAll.Name = "rdAll";
+            this.rdAll.Size = new System.Drawing.Size(63, 17);
+            this.rdAll.TabIndex = 0;
+            this.rdAll.TabStop = true;
+            this.rdAll.Text = "All Stats";
+            this.rdAll.UseVisualStyleBackColor = true;
+            this.rdAll.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // rdSeason
+            // 
+            this.rdSeason.AutoSize = true;
+            this.rdSeason.Location = new System.Drawing.Point(81, 9);
+            this.rdSeason.Name = "rdSeason";
+            this.rdSeason.Size = new System.Drawing.Size(61, 17);
+            this.rdSeason.TabIndex = 1;
+            this.rdSeason.Text = "Season";
+            this.rdSeason.UseVisualStyleBackColor = true;
+            this.rdSeason.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // rdWeek
+            // 
+            this.rdWeek.AutoSize = true;
+            this.rdWeek.Location = new System.Drawing.Point(147, 9);
+            this.rdWeek.Name = "rdWeek";
+            this.rdWeek.Size = new System.Drawing.Size(54, 17);
+            this.rdWeek.TabIndex = 2;
+            this.rdWeek.Text = "Week";
+            this.rdWeek.UseVisualStyleBackColor = true;
+            this.rdWeek.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // rdSession
+            // 
+            this.rdSession.AutoSize = true;
+            this.rdSession.Location = new System.Drawing.Point(207, 9);
+            this.rdSession.Name = "rdSession";
+            this.rdSession.Size = new System.Drawing.Size(62, 17);
+            this.rdSession.TabIndex = 3;
+            this.rdSession.Text = "Session";
+            this.rdSession.UseVisualStyleBackColor = true;
+            this.rdSession.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
             // 
             // Stats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(634, 616);
+            this.ClientSize = new System.Drawing.Size(614, 623);
+            this.Controls.Add(this.rdSession);
+            this.Controls.Add(this.rdWeek);
+            this.Controls.Add(this.rdSeason);
+            this.Controls.Add(this.rdAll);
             this.Controls.Add(this.lblWinChance);
+            this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.lblFinalChance);
+            this.Controls.Add(this.lblTotalShows);
             this.Controls.Add(this.lblTotalWins);
             this.Controls.Add(this.lblTotalRounds);
-            this.Controls.Add(this.lblTotalTime);
-            this.Controls.Add(this.lblTotalShows);
             this.Controls.Add(this.gridDetails);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(650, 655);
-            this.MinimumSize = new System.Drawing.Size(650, 655);
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Fall Guys Stats v1.4";
+            this.Text = "Fall Guys Stats v1.5";
             this.Shown += new System.EventHandler(this.Stats_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
@@ -170,6 +224,10 @@
         private System.Windows.Forms.Label lblTotalWins;
         private System.Windows.Forms.Label lblFinalChance;
         private System.Windows.Forms.Label lblWinChance;
+        private System.Windows.Forms.RadioButton rdAll;
+        private System.Windows.Forms.RadioButton rdSeason;
+        private System.Windows.Forms.RadioButton rdWeek;
+        private System.Windows.Forms.RadioButton rdSession;
     }
 }
 

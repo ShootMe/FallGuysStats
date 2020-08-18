@@ -12,6 +12,11 @@ namespace FallGuysStats {
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Stats());
         }
+
+        private static DateTime SeasonStart = new DateTime(2020, 8, 2, 0, 0, 0, DateTimeKind.Local);
+        private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
+        private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
+
         private List<LevelStats> details = new List<LevelStats>();
         private Dictionary<string, LevelStats> lookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
@@ -83,7 +88,8 @@ namespace FallGuysStats {
             logFile.Start(logPath, "Player.log");
         }
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
-            statsDB.BeginTrans();
+            if (!loadingExisting) { statsDB.BeginTrans(); }
+
             foreach (RoundInfo stat in round) {
                 if (!loadingExisting) {
                     RoundInfo info = roundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
@@ -120,19 +126,27 @@ namespace FallGuysStats {
                     lookup[stat.Name].Add(stat);
                 }
             }
-            statsDB.Commit();
-            int count = roundDetails.Count();
-            this.Invoke((Action)delegate () {
-                lblTotalRounds.Text = $"Rounds: {Rounds}";
-                lblTotalShows.Text = $"Shows: {Shows}";
-                lblTotalTime.Text = $"Time Played: {Duration:g}";
-                lblTotalWins.Text = $"Wins: {Wins}";
-                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
-                lblFinalChance.Text = $"Final %: {finalChance:0.0}";
-                float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
-                lblWinChance.Text = $"Win %: {winChance:0.0}";
-                gridDetails.Refresh();
-            });
+
+            if (!loadingExisting) { statsDB.Commit(); }
+            this.Invoke((Action)UpdateTotals);
+        }
+        private void ClearTotals() {
+            Rounds = 0;
+            Duration = TimeSpan.Zero;
+            Wins = 0;
+            Shows = 0;
+            Finals = 0;
+        }
+        private void UpdateTotals() {
+            lblTotalRounds.Text = $"Rounds: {Rounds}";
+            lblTotalShows.Text = $"Shows: {Shows}";
+            lblTotalTime.Text = $"Time Played: {Duration:h\\:mm\\:ss}";
+            lblTotalWins.Text = $"Wins: {Wins}";
+            float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
+            lblFinalChance.Text = $"Final %: {finalChance:0.0}";
+            float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
+            lblWinChance.Text = $"Win %: {winChance:0.0}";
+            gridDetails.Refresh();
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             int pos = 0;
@@ -217,6 +231,36 @@ namespace FallGuysStats {
                     details.ShowDialog(this);
                 }
             }
+        }
+        private void rdAll_CheckedChanged(object sender, EventArgs e) {
+            RadioButton button = sender as RadioButton;
+            if (!button.Checked) { return; }
+
+            for (int i = 0; i < details.Count; i++) {
+                LevelStats calculator = details[i];
+                calculator.Clear();
+            }
+
+            ClearTotals();
+
+            List<RoundInfo> rounds = new List<RoundInfo>();
+            if (button == rdAll) {
+                rounds.AddRange(roundDetails.FindAll());
+            } else if (button == rdSeason) {
+                rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart));
+            } else if (button == rdWeek) {
+                rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart));
+            } else {
+                rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart));
+            }
+
+            rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                return one.Start.CompareTo(two.Start);
+            });
+
+            loadingExisting = true;
+            LogFile_OnParsedLogLines(rounds);
+            loadingExisting = false;
         }
     }
 }
