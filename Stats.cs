@@ -321,7 +321,7 @@ namespace FallGuysStats {
             try {
                 string assemblyInfo = null;
                 using (ZipWebClient web = new ZipWebClient()) {
-                    assemblyInfo = web.DownloadString(@"https://github.com/ShootMe/FallGuysStats/raw/master/Properties/AssemblyInfo.cs");
+                    assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
 
                     int index = assemblyInfo.IndexOf("AssemblyVersion(");
                     if (index > 0) {
@@ -329,7 +329,7 @@ namespace FallGuysStats {
                         Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                         if (newVersion > Assembly.GetEntryAssembly().GetName().Version) {
                             if (MessageBox.Show(this, $"There is a new version of Fall Guy Stats available (v{newVersion.ToString(2)}). Do you wish to update now?", "Update Program", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                                byte[] data = web.DownloadData($"https://github.com/ShootMe/FallGuysStats/raw/master/FallGuyStats.zip");
+                                byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStats.zip");
                                 string exeName = null;
                                 using (MemoryStream ms = new MemoryStream(data)) {
                                     using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
