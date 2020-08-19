@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -16,7 +17,7 @@ namespace FallGuysStats {
         private ToolStripMenuItem exportItem;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
-
+        public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
         public Grid() {
             InitializeComponent();
             AllowUserToAddRows = false;
@@ -36,6 +37,20 @@ namespace FallGuysStats {
             ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
             ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
+        }
+        public SortOrder GetSortOrder(string columnName) {
+            SortOrder sortOrder = SortOrder.None;
+            Orders.TryGetValue(columnName, out sortOrder);
+
+            if (sortOrder == SortOrder.None || sortOrder == SortOrder.Descending) {
+                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                Orders[columnName] = SortOrder.Ascending;
+                return SortOrder.Ascending;
+            } else {
+                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Descending;
+                Orders[columnName] = SortOrder.Descending;
+                return SortOrder.Descending;
+            }
         }
         public DataGridViewRow CloneWithValues(DataGridViewRow row) {
             DataGridViewRow clonedRow = (DataGridViewRow)row.Clone();

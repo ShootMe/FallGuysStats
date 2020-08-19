@@ -22,6 +22,12 @@ namespace FallGuysStats {
             return $"{Name}: Round={Round} Position={Position} Duration={End - Start} Kudos={Kudos}";
         }
     }
+    public enum LevelType {
+        Race,
+        Survival,
+        Team,
+        Final
+    }
     public class LevelStats {
         public string Name { get; set; }
         public int Qualified { get; set; }
@@ -31,14 +37,16 @@ namespace FallGuysStats {
         public int Played { get; set; }
         public int Kudos { get; set; }
         public int AveKudos { get { return Kudos / (Played == 0 ? 1 : Played); } }
+        public LevelType Type;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
         public TimeSpan Duration;
         public string LevelName;
         public List<RoundInfo> Stats;
 
-        public LevelStats(string name, string levelName) {
+        public LevelStats(string name, string levelName, LevelType type) {
             Name = name;
             LevelName = levelName;
+            Type = type;
             Stats = new List<RoundInfo>();
             Clear();
         }
