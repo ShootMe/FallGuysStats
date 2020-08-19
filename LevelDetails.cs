@@ -14,6 +14,7 @@ namespace FallGuysStats {
         }
         private void gridDetails_DataSourceChanged(object sender, System.EventArgs e) {
             if (gridDetails.Columns.Count == 0) { return; }
+
             int pos = 0;
             gridDetails.Columns["Name"].Visible = false;
             gridDetails.Columns["Tier"].Visible = false;
@@ -30,6 +31,8 @@ namespace FallGuysStats {
             gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            if (e.RowIndex < 0) { return; }
+
             if (gridDetails.Columns[e.ColumnIndex].Name == "End") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
@@ -48,14 +51,16 @@ namespace FallGuysStats {
             }
         }
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-            SortOrder sortOrder = GetSortOrder(e.ColumnIndex);
+            string columnName = gridDetails.Columns[e.ColumnIndex].Name;
+            SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
+
             RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 if (sortOrder == SortOrder.Descending) {
                     RoundInfo temp = one;
                     one = two;
                     two = temp;
                 }
-                switch (gridDetails.Columns[e.ColumnIndex].Name) {
+                switch (columnName) {
                     case "ShowID": return one.ShowID.CompareTo(two.ShowID);
                     case "Round": return one.Round.CompareTo(two.Round);
                     case "Players": return one.Players.CompareTo(two.Players);
@@ -71,19 +76,10 @@ namespace FallGuysStats {
                     default: return one.Kudos.CompareTo(two.Kudos);
                 }
             });
+
             gridDetails.DataSource = null;
             gridDetails.DataSource = RoundDetails;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
-        }
-        private SortOrder GetSortOrder(int columnIndex) {
-            if (gridDetails.Columns[columnIndex].HeaderCell.SortGlyphDirection == SortOrder.None ||
-                gridDetails.Columns[columnIndex].HeaderCell.SortGlyphDirection == SortOrder.Descending) {
-                gridDetails.Columns[columnIndex].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
-                return SortOrder.Ascending;
-            } else {
-                gridDetails.Columns[columnIndex].HeaderCell.SortGlyphDirection = SortOrder.Descending;
-                return SortOrder.Descending;
-            }
         }
     }
 }
