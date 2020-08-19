@@ -95,6 +95,17 @@ namespace FallGuysStats {
 
             statsDB = new LiteDatabase(@"data.db");
             roundDetails = statsDB.GetCollection<RoundInfo>("RoundDetails");
+            statsDB.BeginTrans();
+            roundDetails.EnsureIndex(x => x.Name);
+            roundDetails.EnsureIndex(x => x.ShowID);
+            roundDetails.EnsureIndex(x => x.Round);
+            roundDetails.EnsureIndex(x => x.Start);
+            statsDB.Commit();
+        }
+        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
+            try {
+                statsDB.Dispose();
+            } catch { }
         }
         private void Stats_Shown(object sender, EventArgs e) {
             if (roundDetails.Count() > 0) {
@@ -110,9 +121,11 @@ namespace FallGuysStats {
             logFile.Start(logPath, "Player.log");
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
-            SessionStart = newDate;
-            if (rdSession.Checked) {
-                rdAll_CheckedChanged(rdSession, null);
+            if (SessionStart != newDate) {
+                SessionStart = newDate;
+                if (rdSession.Checked) {
+                    rdAll_CheckedChanged(rdSession, null);
+                }
             }
         }
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
