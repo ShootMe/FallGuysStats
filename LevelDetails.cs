@@ -17,6 +17,7 @@ namespace FallGuysStats {
             int pos = 0;
             gridDetails.Columns["Name"].Visible = false;
             gridDetails.Columns["Tier"].Visible = false;
+            gridDetails.Columns["Qualified"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
@@ -24,8 +25,8 @@ namespace FallGuysStats {
             gridDetails.Setup("Players", pos++, 60, "Players", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Start", pos++, 115, "Start", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("End", pos++, 60, "Duration", DataGridViewContentAlignment.MiddleCenter);
-            gridDetails.Setup("Qualified", pos++, 70, "Qualified", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("Position", pos++, 60, "Position", DataGridViewContentAlignment.MiddleRight);
+            gridDetails.Setup("Score", pos++, 60, "Score", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -62,6 +63,7 @@ namespace FallGuysStats {
                     case "End": return (one.End - one.Start).CompareTo(two.End - two.Start);
                     case "Qualified": return one.Qualified.CompareTo(two.Qualified);
                     case "Position": return one.Position.CompareTo(two.Position);
+                    case "Score": return one.Score.GetValueOrDefault(0).CompareTo(two.Score.GetValueOrDefault(0));
                     case "Medal":
                         int tierOne = one.Qualified ? one.Tier == 0 ? 4 : one.Tier : 5;
                         int tierTwo = two.Qualified ? two.Tier == 0 ? 4 : two.Tier : 5;

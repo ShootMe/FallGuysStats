@@ -232,6 +232,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fall Guys Stats";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Shown += new System.EventHandler(this.Stats_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);

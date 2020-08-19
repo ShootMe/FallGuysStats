@@ -180,24 +180,9 @@ namespace FallGuysStats {
                                     stat.Round = roundNum;
                                 } else if (foundRound) {
                                     if (detail.IndexOf("> Position: ") == 0) {
-                                        switch (stat.Name) {
-                                            case "round_block_party":
-                                            case "round_jump_club":
-                                            case "round_match_fall":
-                                            case "round_tunnel":
-                                            case "round_tail_tag":
-                                            case "round_fall_ball_60_players":
-                                            case "round_jinxed":
-                                            case "round_egg_grab":
-                                            case "round_ballhogs":
-                                            case "round_hoops":
-                                            case "round_rocknroll":
-                                            case "round_conveyor_arena":
-                                                break;
-                                            default:
-                                                stat.Position = int.Parse(detail.Substring(12));
-                                                break;
-                                        }
+                                        stat.Position = int.Parse(detail.Substring(12));
+                                    } else if (detail.IndexOf("> Team Score: ") == 0) {
+                                        stat.Score = int.Parse(detail.Substring(14));
                                     } else if (detail.IndexOf("> Qualified: ") == 0) {
                                         char qualified = detail[13];
                                         stat.Qualified = qualified == 'T';
