@@ -6,6 +6,7 @@ namespace FallGuysStats {
         public int ShowID { get; set; }
         public int Round { get; set; }
         public int Position { get; set; }
+        public int? Score { get; set; }
         public int Tier { get; set; }
         public bool Qualified { get; set; }
         public int Kudos { get; set; }

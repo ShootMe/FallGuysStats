@@ -62,7 +62,7 @@
             this.gridDetails.Location = new System.Drawing.Point(0, 0);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(560, 504);
+            this.gridDetails.Size = new System.Drawing.Size(565, 504);
             this.gridDetails.TabIndex = 10;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
@@ -73,7 +73,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(560, 504);
+            this.ClientSize = new System.Drawing.Size(565, 504);
             this.Controls.Add(this.gridDetails);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
