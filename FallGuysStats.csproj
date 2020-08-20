@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>fall.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\fall.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiteDB">
@@ -51,31 +51,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Grid.cs">
+    <Compile Include="Controls\Grid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LevelDetails.cs">
+    <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LevelDetails.Designer.cs">
+    <Compile Include="Views\LevelDetails.Designer.cs">
       <DependentUpon>LevelDetails.cs</DependentUpon>
     </Compile>
-    <Compile Include="Stats.cs">
+    <Compile Include="Views\Stats.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Stats.Designer.cs">
+    <Compile Include="Views\Stats.Designer.cs">
       <DependentUpon>Stats.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogFileWatcher.cs" />
+    <Compile Include="Entities\LogFileWatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LevelStats.cs" />
-    <Compile Include="ZipWebClient.cs">
+    <Compile Include="Entities\LevelStats.cs" />
+    <Compile Include="Entities\ZipWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <EmbeddedResource Include="LevelDetails.resx">
+    <EmbeddedResource Include="Views\LevelDetails.resx">
       <DependentUpon>LevelDetails.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Stats.resx">
+    <EmbeddedResource Include="Views\Stats.resx">
       <DependentUpon>Stats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -99,13 +99,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fall.ico" />
-    <None Include="medal_silver.png" />
-    <None Include="medal_pink.png" />
-    <None Include="medal_gold.png" />
-    <None Include="medal_eliminated.png" />
-    <None Include="medal_bronze.png" />
-    <None Include="info.png" />
+    <Content Include="Resources\fall.ico" />
+    <None Include="Resources\medal_silver.png" />
+    <None Include="Resources\medal_pink.png" />
+    <None Include="Resources\medal_gold.png" />
+    <None Include="Resources\medal_eliminated.png" />
+    <None Include="Resources\medal_bronze.png" />
+    <None Include="Resources\info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
