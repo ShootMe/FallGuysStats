@@ -46,11 +46,14 @@
             // lblTotalShows
             // 
             this.lblTotalShows.AutoSize = true;
+            this.lblTotalShows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalShows.Location = new System.Drawing.Point(128, 34);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
             this.lblTotalShows.TabIndex = 5;
             this.lblTotalShows.Text = "Shows: 0";
+            this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
             // 
             // lblTotalTime
             // 
