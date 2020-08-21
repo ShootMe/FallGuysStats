@@ -29,6 +29,37 @@ namespace FallGuysStats {
         Final
     }
     public class LevelStats {
+        public static Dictionary<string, string> DisplayNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "round_door_dash",                  "Door Dash" },
+            { "round_gauntlet_02",                "Dizzy Heights" },
+            { "round_dodge_fall",                 "Fruit Chute" },
+            { "round_chompchomp",                 "Gate Crash" },
+            { "round_gauntlet_01",                "Hit Parade" },
+            { "round_see_saw",                    "Sea Saw" },
+            { "round_lava",                       "Slime Climb" },
+            { "round_tip_toe",                    "Tip Toe" },
+            { "round_gauntlet_03",                "Whirlygig" },
+
+            { "round_block_party",                "Block Party" },
+            { "round_jump_club",                  "Jump Club" },
+            { "round_match_fall",                 "Perfect Match" },
+            { "round_tunnel",                     "Roll Out" },
+            { "round_tail_tag",                   "Tail Tag" },
+
+            { "round_egg_grab",                   "Egg Scramble" },
+            { "round_fall_ball_60_players",       "Fall Ball" },
+            { "round_ballhogs",                   "Hoarders" },
+            { "round_hoops",                      "Hoopsie Daisy" },
+            { "round_jinxed",                     "Jinxed" },
+            { "round_rocknroll",                  "Rock'N'Roll" },
+            { "round_conveyor_arena",             "Team Tail Tag" },
+
+            { "round_fall_mountain_hub_complete", "Fall Mountain" },
+            { "round_floor_fall",                 "Hex-A-Gone" },
+            { "round_jump_showdown",              "Jump Showdown" },
+            { "round_royal_rumble",               "Royal Fumble" },
+        };
+
         public string Name { get; set; }
         public int Qualified { get; set; }
         public int Gold { get; set; }
@@ -43,8 +74,13 @@ namespace FallGuysStats {
         public string LevelName;
         public List<RoundInfo> Stats;
 
-        public LevelStats(string name, string levelName, LevelType type) {
-            Name = name;
+        public LevelStats(string levelName, LevelType type) {
+            string name = null;
+            if (DisplayNameLookup.TryGetValue(levelName, out name)) {
+                Name = name;
+            } else {
+                Name = levelName;
+            }
             LevelName = levelName;
             Type = type;
             Stats = new List<RoundInfo>();
