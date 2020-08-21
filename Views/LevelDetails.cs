@@ -72,25 +72,49 @@ namespace FallGuysStats {
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
 
             RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
+                int roundCompare = one.Round.CompareTo(two.Round);
+                int showCompare = one.ShowID.CompareTo(two.ShowID);
                 if (sortOrder == SortOrder.Descending) {
                     RoundInfo temp = one;
                     one = two;
                     two = temp;
                 }
                 switch (columnName) {
-                    case "ShowID": return one.ShowID.CompareTo(two.ShowID);
-                    case "Round": return one.Round.CompareTo(two.Round);
-                    case "Players": return one.Players.CompareTo(two.Players);
+                    case "ShowID":
+                        showCompare = one.ShowID.CompareTo(two.ShowID);
+                        return showCompare == 0 ? roundCompare : showCompare;
+                    case "Round":
+                        roundCompare = one.Round.CompareTo(two.Round);
+                        return roundCompare == 0 ? showCompare : roundCompare;
+                    case "Name":
+                        string nameOne = one.Name;
+                        LevelStats.DisplayNameLookup.TryGetValue(one.Name, out nameOne);
+                        string nameTwo = two.Name;
+                        LevelStats.DisplayNameLookup.TryGetValue(two.Name, out nameTwo);
+                        int nameCompare = nameOne.CompareTo(nameTwo);
+                        return nameCompare != 0 ? nameCompare : roundCompare;
+                    case "Players":
+                        int playerCompare = one.Players.CompareTo(two.Players);
+                        return playerCompare != 0 ? playerCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Start": return one.Start.CompareTo(two.Start);
                     case "End": return (one.End - one.Start).CompareTo(two.End - two.Start);
-                    case "Qualified": return one.Qualified.CompareTo(two.Qualified);
-                    case "Position": return one.Position.CompareTo(two.Position);
-                    case "Score": return one.Score.GetValueOrDefault(0).CompareTo(two.Score.GetValueOrDefault(0));
+                    case "Qualified":
+                        int qualifiedCompare = one.Qualified.CompareTo(two.Qualified);
+                        return qualifiedCompare != 0 ? qualifiedCompare : showCompare == 0 ? roundCompare : showCompare;
+                    case "Position":
+                        int positionCompare = one.Position.CompareTo(two.Position);
+                        return positionCompare != 0 ? positionCompare : showCompare == 0 ? roundCompare : showCompare;
+                    case "Score":
+                        int scoreCompare = one.Score.GetValueOrDefault(-1).CompareTo(two.Score.GetValueOrDefault(-1));
+                        return scoreCompare != 0 ? scoreCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Medal":
                         int tierOne = one.Qualified ? one.Tier == 0 ? 4 : one.Tier : 5;
                         int tierTwo = two.Qualified ? two.Tier == 0 ? 4 : two.Tier : 5;
-                        return tierOne.CompareTo(tierTwo);
-                    default: return one.Kudos.CompareTo(two.Kudos);
+                        int tierCompare = tierOne.CompareTo(tierTwo);
+                        return tierCompare != 0 ? tierCompare : showCompare == 0 ? roundCompare : showCompare;
+                    default:
+                        int kudosCompare = one.Kudos.CompareTo(two.Kudos);
+                        return kudosCompare != 0 ? kudosCompare : showCompare == 0 ? roundCompare : showCompare;
                 }
             });
 
