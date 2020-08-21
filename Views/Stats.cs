@@ -61,34 +61,34 @@ namespace FallGuysStats {
             logFile.OnParsedLogLines += LogFile_OnParsedLogLines;
             logFile.OnNewLogFileDate += LogFile_OnNewLogFileDate;
 
-            details.Add(new LevelStats("Door Dash", "round_door_dash", LevelType.Race));
-            details.Add(new LevelStats("Dizzy Heights", "round_gauntlet_02", LevelType.Race));
-            details.Add(new LevelStats("Fruit Chute", "round_dodge_fall", LevelType.Race));
-            details.Add(new LevelStats("Gate Crash", "round_chompchomp", LevelType.Race));
-            details.Add(new LevelStats("Hit Parade", "round_gauntlet_01", LevelType.Race));
-            details.Add(new LevelStats("Sea Saw", "round_see_saw", LevelType.Race));
-            details.Add(new LevelStats("Slime Climb", "round_lava", LevelType.Race));
-            details.Add(new LevelStats("Tip Toe", "round_tip_toe", LevelType.Race));
-            details.Add(new LevelStats("Whirlygig", "round_gauntlet_03", LevelType.Race));
+            details.Add(new LevelStats("round_door_dash", LevelType.Race));
+            details.Add(new LevelStats("round_gauntlet_02", LevelType.Race));
+            details.Add(new LevelStats("round_dodge_fall", LevelType.Race));
+            details.Add(new LevelStats("round_chompchomp", LevelType.Race));
+            details.Add(new LevelStats("round_gauntlet_01", LevelType.Race));
+            details.Add(new LevelStats("round_see_saw", LevelType.Race));
+            details.Add(new LevelStats("round_lava", LevelType.Race));
+            details.Add(new LevelStats("round_tip_toe", LevelType.Race));
+            details.Add(new LevelStats("round_gauntlet_03", LevelType.Race));
 
-            details.Add(new LevelStats("Block Party", "round_block_party", LevelType.Survival));
-            details.Add(new LevelStats("Jump Club", "round_jump_club", LevelType.Survival));
-            details.Add(new LevelStats("Perfect Match", "round_match_fall", LevelType.Survival));
-            details.Add(new LevelStats("Roll Out", "round_tunnel", LevelType.Survival));
-            details.Add(new LevelStats("Tail Tag", "round_tail_tag", LevelType.Survival));
+            details.Add(new LevelStats("round_block_party", LevelType.Survival));
+            details.Add(new LevelStats("round_jump_club", LevelType.Survival));
+            details.Add(new LevelStats("round_match_fall", LevelType.Survival));
+            details.Add(new LevelStats("round_tunnel", LevelType.Survival));
+            details.Add(new LevelStats("round_tail_tag", LevelType.Survival));
 
-            details.Add(new LevelStats("Egg Scramble", "round_egg_grab", LevelType.Team));
-            details.Add(new LevelStats("Fall Ball", "round_fall_ball_60_players", LevelType.Team));
-            details.Add(new LevelStats("Hoarders", "round_ballhogs", LevelType.Team));
-            details.Add(new LevelStats("Hoopsie Daisy", "round_hoops", LevelType.Team));
-            details.Add(new LevelStats("Jinxed", "round_jinxed", LevelType.Team));
-            details.Add(new LevelStats("Rock'N'Roll", "round_rocknroll", LevelType.Team));
-            details.Add(new LevelStats("Team Tail Tag", "round_conveyor_arena", LevelType.Team));
+            details.Add(new LevelStats("round_egg_grab", LevelType.Team));
+            details.Add(new LevelStats("round_fall_ball_60_players", LevelType.Team));
+            details.Add(new LevelStats("round_ballhogs", LevelType.Team));
+            details.Add(new LevelStats("round_hoops", LevelType.Team));
+            details.Add(new LevelStats("round_jinxed", LevelType.Team));
+            details.Add(new LevelStats("round_rocknroll", LevelType.Team));
+            details.Add(new LevelStats("round_conveyor_arena", LevelType.Team));
 
-            details.Add(new LevelStats("Fall Mountain", "round_fall_mountain_hub_complete", LevelType.Final));
-            details.Add(new LevelStats("Hex-A-Gone", "round_floor_fall", LevelType.Final));
-            details.Add(new LevelStats("Jump Showdown", "round_jump_showdown", LevelType.Final));
-            details.Add(new LevelStats("Royal Fumble", "round_royal_rumble", LevelType.Final));
+            details.Add(new LevelStats("round_fall_mountain_hub_complete", LevelType.Final));
+            details.Add(new LevelStats("round_floor_fall", LevelType.Final));
+            details.Add(new LevelStats("round_jump_showdown", LevelType.Final));
+            details.Add(new LevelStats("round_royal_rumble", LevelType.Final));
 
             for (int i = 0; i < details.Count; i++) {
                 LevelStats calculator = details[i];
@@ -272,16 +272,34 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
 
                 if (gridDetails.Columns[e.ColumnIndex].Name == "Info") {
-                    using (LevelDetails details = new LevelDetails()) {
+                    using (LevelDetails levelDetails = new LevelDetails()) {
                         LevelStats stats = gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                        details.LevelName = stats.Name;
+                        levelDetails.LevelName = stats.Name;
                         List<RoundInfo> rounds = stats.Stats;
                         rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                             return one.Start.CompareTo(two.Start);
                         });
-                        details.RoundDetails = rounds;
-                        details.ShowDialog(this);
+                        levelDetails.RoundDetails = rounds;
+                        levelDetails.ShowDialog(this);
                     }
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lblTotalShows_Click(object sender, EventArgs e) {
+            try {
+                using (LevelDetails levelDetails = new LevelDetails()) {
+                    levelDetails.LevelName = "Shows";
+                    List<RoundInfo> rounds = new List<RoundInfo>();
+                    for (int i = 0; i < details.Count; i++) {
+                        rounds.AddRange(details[i].Stats);
+                    }
+                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                        return one.Start.CompareTo(two.Start);
+                    });
+                    levelDetails.RoundDetails = rounds;
+                    levelDetails.ShowDialog(this);
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

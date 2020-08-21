@@ -4,25 +4,37 @@ namespace FallGuysStats {
     public partial class LevelDetails : Form {
         public string LevelName { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
+        private bool ShowStats = false;
         public LevelDetails() {
             InitializeComponent();
         }
 
         private void LevelDetails_Load(object sender, System.EventArgs e) {
+            if (LevelName == "Shows") {
+                Text = $"Show Stats";
+                ShowStats = true;
+                ClientSize = new System.Drawing.Size(Width + 85, Height);
+            } else {
+                Text = $"Level Stats - {LevelName}";
+            }
+
             gridDetails.DataSource = RoundDetails;
-            Text = $"Level Stats - {LevelName}";
         }
         private void gridDetails_DataSourceChanged(object sender, System.EventArgs e) {
             if (gridDetails.Columns.Count == 0) { return; }
 
             int pos = 0;
-            gridDetails.Columns["Name"].Visible = false;
             gridDetails.Columns["Tier"].Visible = false;
             gridDetails.Columns["Qualified"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Round", pos++, 50, "Round", DataGridViewContentAlignment.MiddleRight);
+            if (ShowStats) {
+                gridDetails.Setup("Name", pos++, 95, "Level", DataGridViewContentAlignment.MiddleLeft);
+            } else {
+                gridDetails.Columns["Name"].Visible = false;
+            }
             gridDetails.Setup("Players", pos++, 60, "Players", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Start", pos++, 115, "Start", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("End", pos++, 60, "Duration", DataGridViewContentAlignment.MiddleCenter);
@@ -47,6 +59,11 @@ namespace FallGuysStats {
                     }
                 } else {
                     e.Value = Properties.Resources.medal_eliminated;
+                }
+            } else if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
+                string name = null;
+                if (LevelStats.DisplayNameLookup.TryGetValue((string)e.Value, out name)) {
+                    e.Value = name;
                 }
             }
         }
