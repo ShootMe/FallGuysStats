@@ -199,7 +199,7 @@ namespace FallGuysStats {
             try {
                 lblTotalRounds.Text = $"Rounds: {Rounds}";
                 lblTotalShows.Text = $"Shows: {Shows}";
-                lblTotalTime.Text = $"Time Played: {Duration:h\\:mm\\:ss}";
+                lblTotalTime.Text = $"Time Played: {(int)Duration.TotalHours}:{Duration:mm\\:ss}";
                 lblTotalWins.Text = $"Wins: {Wins}";
                 float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
                 lblFinalChance.Text = $"Final %: {finalChance:0.0}";
