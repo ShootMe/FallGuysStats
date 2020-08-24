@@ -4,7 +4,7 @@ namespace FallGuysStats {
     public partial class LevelDetails : Form {
         public string LevelName { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
-        private bool ShowStats = false;
+        private int ShowStats = 0;
         public LevelDetails() {
             InitializeComponent();
         }
@@ -12,7 +12,11 @@ namespace FallGuysStats {
         private void LevelDetails_Load(object sender, System.EventArgs e) {
             if (LevelName == "Shows") {
                 Text = $"Show Stats";
-                ShowStats = true;
+                ShowStats = 2;
+                ClientSize = new System.Drawing.Size(Width - 180, Height);
+            } else if (LevelName == "Rounds") {
+                Text = $"Round Stats";
+                ShowStats = 1;
                 ClientSize = new System.Drawing.Size(Width + 85, Height);
             } else {
                 Text = $"Level Stats - {LevelName}";
@@ -29,17 +33,26 @@ namespace FallGuysStats {
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
-            gridDetails.Setup("Round", pos++, 50, "Round", DataGridViewContentAlignment.MiddleRight);
-            if (ShowStats) {
+            gridDetails.Setup("Round", pos++, 50, ShowStats == 2 ? "Rounds" : "Round", DataGridViewContentAlignment.MiddleRight);
+            if (ShowStats == 1) {
                 gridDetails.Setup("Name", pos++, 95, "Level", DataGridViewContentAlignment.MiddleLeft);
             } else {
                 gridDetails.Columns["Name"].Visible = false;
             }
-            gridDetails.Setup("Players", pos++, 60, "Players", DataGridViewContentAlignment.MiddleRight);
+            if (ShowStats != 2) {
+                gridDetails.Setup("Players", pos++, 60, "Players", DataGridViewContentAlignment.MiddleRight);
+            } else {
+                gridDetails.Columns["Players"].Visible = false;
+            }
             gridDetails.Setup("Start", pos++, 115, "Start", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("End", pos++, 60, "Duration", DataGridViewContentAlignment.MiddleCenter);
-            gridDetails.Setup("Position", pos++, 60, "Position", DataGridViewContentAlignment.MiddleRight);
-            gridDetails.Setup("Score", pos++, 60, "Score", DataGridViewContentAlignment.MiddleRight);
+            if (ShowStats != 2) {
+                gridDetails.Setup("Position", pos++, 60, "Position", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Score", pos++, 60, "Score", DataGridViewContentAlignment.MiddleRight);
+            } else {
+                gridDetails.Columns["Position"].Visible = false;
+                gridDetails.Columns["Score"].Visible = false;
+            }
             gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
