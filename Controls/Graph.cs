@@ -103,7 +103,7 @@ namespace FallGuysStats {
                 }
             }
             if (!visible) { return; }
-
+            ymin = 0;
             //Get bounds
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;
             CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
