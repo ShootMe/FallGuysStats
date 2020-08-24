@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Graph.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Grid.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -72,6 +75,12 @@
     <Compile Include="Entities\ZipWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Views\StatsDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\StatsDisplay.Designer.cs">
+      <DependentUpon>StatsDisplay.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\LevelDetails.resx">
       <DependentUpon>LevelDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -88,6 +97,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\StatsDisplay.resx">
+      <DependentUpon>StatsDisplay.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

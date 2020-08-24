@@ -40,6 +40,7 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.gridDetails = new FallGuysStats.Grid();
             this.lblKudos = new System.Windows.Forms.Label();
+            this.rdDay = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             this.lblTotalShows.Location = new System.Drawing.Point(128, 34);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
-            this.lblTotalShows.TabIndex = 5;
+            this.lblTotalShows.TabIndex = 7;
             this.lblTotalShows.Text = "Shows: 0";
             this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
             // 
@@ -61,7 +62,7 @@
             this.lblTotalTime.Location = new System.Drawing.Point(8, 34);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
-            this.lblTotalTime.TabIndex = 4;
+            this.lblTotalTime.TabIndex = 6;
             this.lblTotalTime.Text = "Time Played: 0:00:00";
             // 
             // lblTotalRounds
@@ -70,17 +71,20 @@
             this.lblTotalRounds.Location = new System.Drawing.Point(206, 34);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
-            this.lblTotalRounds.TabIndex = 6;
+            this.lblTotalRounds.TabIndex = 8;
             this.lblTotalRounds.Text = "Rounds: 0";
             // 
             // lblTotalWins
             // 
             this.lblTotalWins.AutoSize = true;
+            this.lblTotalWins.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalWins.Location = new System.Drawing.Point(296, 34);
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
-            this.lblTotalWins.TabIndex = 7;
+            this.lblTotalWins.TabIndex = 9;
             this.lblTotalWins.Text = "Wins: 0";
+            this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             // 
             // lblFinalChance
             // 
@@ -88,7 +92,7 @@
             this.lblFinalChance.Location = new System.Drawing.Point(365, 34);
             this.lblFinalChance.Name = "lblFinalChance";
             this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
-            this.lblFinalChance.TabIndex = 8;
+            this.lblFinalChance.TabIndex = 10;
             this.lblFinalChance.Text = "Final %: 0.0";
             // 
             // lblWinChance
@@ -97,7 +101,7 @@
             this.lblWinChance.Location = new System.Drawing.Point(443, 34);
             this.lblWinChance.Name = "lblWinChance";
             this.lblWinChance.Size = new System.Drawing.Size(58, 13);
-            this.lblWinChance.TabIndex = 9;
+            this.lblWinChance.TabIndex = 11;
             this.lblWinChance.Text = "Win %: 0.0";
             // 
             // rdAll
@@ -138,10 +142,10 @@
             // rdSession
             // 
             this.rdSession.AutoSize = true;
-            this.rdSession.Location = new System.Drawing.Point(207, 9);
+            this.rdSession.Location = new System.Drawing.Point(257, 9);
             this.rdSession.Name = "rdSession";
             this.rdSession.Size = new System.Drawing.Size(62, 17);
-            this.rdSession.TabIndex = 3;
+            this.rdSession.TabIndex = 4;
             this.rdSession.Text = "Session";
             this.rdSession.UseVisualStyleBackColor = true;
             this.rdSession.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
@@ -151,7 +155,7 @@
             this.btnUpdate.Location = new System.Drawing.Point(500, 6);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(102, 23);
-            this.btnUpdate.TabIndex = 11;
+            this.btnUpdate.TabIndex = 5;
             this.btnUpdate.Text = "Check for Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
@@ -191,7 +195,7 @@
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.Size = new System.Drawing.Size(614, 570);
-            this.gridDetails.TabIndex = 10;
+            this.gridDetails.TabIndex = 13;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
@@ -208,12 +212,24 @@
             this.lblKudos.TabIndex = 12;
             this.lblKudos.Text = "Kudos: 0";
             // 
+            // rdDay
+            // 
+            this.rdDay.AutoSize = true;
+            this.rdDay.Location = new System.Drawing.Point(207, 9);
+            this.rdDay.Name = "rdDay";
+            this.rdDay.Size = new System.Drawing.Size(44, 17);
+            this.rdDay.TabIndex = 3;
+            this.rdDay.Text = "Day";
+            this.rdDay.UseVisualStyleBackColor = true;
+            this.rdDay.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
             // Stats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.ClientSize = new System.Drawing.Size(614, 623);
+            this.Controls.Add(this.rdDay);
             this.Controls.Add(this.lblKudos);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.rdSession);
@@ -258,6 +274,7 @@
         private System.Windows.Forms.RadioButton rdSession;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label lblKudos;
+        private System.Windows.Forms.RadioButton rdDay;
     }
 }
 
