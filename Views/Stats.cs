@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -37,6 +38,7 @@ namespace FallGuysStats {
 
         private static DateTime SeasonStart = new DateTime(2020, 8, 2, 0, 0, 0, DateTimeKind.Local);
         private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
+        private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
         private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
 
         private List<LevelStats> details = new List<LevelStats>();
@@ -344,6 +346,50 @@ namespace FallGuysStats {
             gridDetails.DataSource = details;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
         }
+        private void lblTotalWins_Click(object sender, EventArgs e) {
+            try {
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < details.Count; i++) {
+                    rounds.AddRange(details[i].Stats);
+                }
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    return one.Start.CompareTo(two.Start);
+                });
+
+                using (StatsDisplay display = new StatsDisplay() { Text = "Wins Per Day" }) {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("Date", typeof(DateTime));
+                    dt.Columns.Add("Wins", typeof(int));
+
+                    if (rounds.Count > 0) {
+                        DateTime start = rounds[0].Start;
+                        int currentWins = 0;
+                        for (int i = 0; i < rounds.Count; i++) {
+                            RoundInfo info = rounds[i];
+                            LevelStats levelStats = null;
+                            if (info.Qualified && lookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final) {
+                                currentWins++;
+                            }
+
+                            if (info.Start.Date != start.Date) {
+                                dt.Rows.Add(start.Date, currentWins);
+                                currentWins = 0;
+                                start = info.Start;
+                            }
+                        }
+
+                        dt.Rows.Add(start.Date, currentWins);
+                    } else {
+                        dt.Rows.Add(DateTime.Now.Date, 0);
+                    }
+
+                    display.Details = dt;
+                    display.ShowDialog(this);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void rdAll_CheckedChanged(object sender, EventArgs e) {
             try {
                 RadioButton button = sender as RadioButton;
@@ -363,6 +409,8 @@ namespace FallGuysStats {
                     rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart));
                 } else if (button == rdWeek) {
                     rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart));
+                } else if (button == rdDay) {
+                    rounds.AddRange(roundDetails.Find(x => x.Start > DayStart));
                 } else {
                     rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart));
                 }
@@ -371,10 +419,12 @@ namespace FallGuysStats {
                     return one.Start.CompareTo(two.Start);
                 });
 
-                if (rounds.Count > 0 && (button == rdWeek || button == rdSession)) {
+                if (rounds.Count > 0 && (button == rdWeek || button == rdDay || button == rdSession)) {
                     int minShowID = rounds[0].ShowID;
                     if (button == rdWeek) {
                         rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < WeekStart));
+                    } else if (button == rdDay) {
+                        rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < DayStart));
                     } else {
                         rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
                     }
