@@ -35,7 +35,7 @@ namespace FallGuysStats {
             { "round_dodge_fall",                 "Fruit Chute" },
             { "round_chompchomp",                 "Gate Crash" },
             { "round_gauntlet_01",                "Hit Parade" },
-            { "round_see_saw",                    "Sea Saw" },
+            { "round_see_saw",                    "See Saw" },
             { "round_lava",                       "Slime Climb" },
             { "round_tip_toe",                    "Tip Toe" },
             { "round_gauntlet_03",                "Whirlygig" },
