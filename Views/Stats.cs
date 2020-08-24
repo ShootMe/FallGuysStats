@@ -289,24 +289,6 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void lblTotalShows_Click(object sender, EventArgs e) {
-            try {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Shows";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < details.Count; i++) {
-                        rounds.AddRange(details[i].Stats);
-                    }
-                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        return one.Start.CompareTo(two.Start);
-                    });
-                    levelDetails.RoundDetails = rounds;
-                    levelDetails.ShowDialog(this);
-                }
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             string columnName = gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
@@ -345,6 +327,62 @@ namespace FallGuysStats {
             gridDetails.DataSource = null;
             gridDetails.DataSource = details;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
+        }
+        private void lblTotalShows_Click(object sender, EventArgs e) {
+            try {
+                using (LevelDetails levelDetails = new LevelDetails()) {
+                    levelDetails.LevelName = "Shows";
+                    List<RoundInfo> rounds = new List<RoundInfo>();
+                    for (int i = 0; i < details.Count; i++) {
+                        rounds.AddRange(details[i].Stats);
+                    }
+                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                        return one.Start.CompareTo(two.Start);
+                    });
+
+                    List<RoundInfo> shows = new List<RoundInfo>();
+                    int roundCount = 0;
+                    int kudosTotal = 0;
+                    bool won = false;
+                    DateTime endDate = DateTime.MinValue;
+                    for (int i = rounds.Count - 1; i >= 0; i--) {
+                        RoundInfo info = rounds[i];
+                        if (roundCount == 0) {
+                            endDate = info.End;
+                            won = info.Qualified;
+                        }
+                        roundCount++;
+                        kudosTotal += info.Kudos;
+                        if (info.Round == 1) {
+                            shows.Insert(0, new RoundInfo() { Name = string.Empty, End = endDate, Start = info.Start, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
+                            roundCount = 0;
+                            kudosTotal = 0;
+                        }
+                    }
+                    levelDetails.RoundDetails = shows;
+                    levelDetails.ShowDialog(this);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lblTotalRounds_Click(object sender, EventArgs e) {
+            try {
+                using (LevelDetails levelDetails = new LevelDetails()) {
+                    levelDetails.LevelName = "Rounds";
+                    List<RoundInfo> rounds = new List<RoundInfo>();
+                    for (int i = 0; i < details.Count; i++) {
+                        rounds.AddRange(details[i].Stats);
+                    }
+                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                        return one.Start.CompareTo(two.Start);
+                    });
+                    levelDetails.RoundDetails = rounds;
+                    levelDetails.ShowDialog(this);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void lblTotalWins_Click(object sender, EventArgs e) {
             try {
