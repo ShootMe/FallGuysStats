@@ -205,6 +205,7 @@ namespace FallGuysStats {
                 ymax = 10;
                 ymin = 0;
             }
+            ymin = 0;
 
             //Draw labels
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;

@@ -38,7 +38,7 @@
             this.graph.Location = new System.Drawing.Point(0, 0);
             this.graph.Name = "graph";
             this.graph.Opacity = 0;
-            this.graph.Size = new System.Drawing.Size(704, 466);
+            this.graph.Size = new System.Drawing.Size(614, 461);
             this.graph.TabIndex = 0;
             this.graph.TabStop = false;
             // 
@@ -47,7 +47,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(704, 466);
+            this.ClientSize = new System.Drawing.Size(614, 461);
             this.Controls.Add(this.graph);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
