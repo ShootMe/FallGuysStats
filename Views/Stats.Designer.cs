@@ -38,9 +38,9 @@
             this.rdWeek = new System.Windows.Forms.RadioButton();
             this.rdSession = new System.Windows.Forms.RadioButton();
             this.btnUpdate = new System.Windows.Forms.Button();
-            this.gridDetails = new FallGuysStats.Grid();
             this.lblKudos = new System.Windows.Forms.Label();
             this.rdDay = new System.Windows.Forms.RadioButton();
+            this.gridDetails = new FallGuysStats.Grid();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,11 +68,14 @@
             // lblTotalRounds
             // 
             this.lblTotalRounds.AutoSize = true;
+            this.lblTotalRounds.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalRounds.Location = new System.Drawing.Point(206, 34);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
             this.lblTotalRounds.TabIndex = 8;
             this.lblTotalRounds.Text = "Rounds: 0";
+            this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
             // 
             // lblTotalWins
             // 
@@ -160,6 +163,26 @@
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
+            // lblKudos
+            // 
+            this.lblKudos.AutoSize = true;
+            this.lblKudos.Location = new System.Drawing.Point(520, 34);
+            this.lblKudos.Name = "lblKudos";
+            this.lblKudos.Size = new System.Drawing.Size(49, 13);
+            this.lblKudos.TabIndex = 12;
+            this.lblKudos.Text = "Kudos: 0";
+            // 
+            // rdDay
+            // 
+            this.rdDay.AutoSize = true;
+            this.rdDay.Location = new System.Drawing.Point(207, 9);
+            this.rdDay.Name = "rdDay";
+            this.rdDay.Size = new System.Drawing.Size(44, 17);
+            this.rdDay.TabIndex = 3;
+            this.rdDay.Text = "Day";
+            this.rdDay.UseVisualStyleBackColor = true;
+            this.rdDay.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
@@ -202,26 +225,6 @@
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
-            // 
-            // lblKudos
-            // 
-            this.lblKudos.AutoSize = true;
-            this.lblKudos.Location = new System.Drawing.Point(520, 34);
-            this.lblKudos.Name = "lblKudos";
-            this.lblKudos.Size = new System.Drawing.Size(49, 13);
-            this.lblKudos.TabIndex = 12;
-            this.lblKudos.Text = "Kudos: 0";
-            // 
-            // rdDay
-            // 
-            this.rdDay.AutoSize = true;
-            this.rdDay.Location = new System.Drawing.Point(207, 9);
-            this.rdDay.Name = "rdDay";
-            this.rdDay.Size = new System.Drawing.Size(44, 17);
-            this.rdDay.TabIndex = 3;
-            this.rdDay.Text = "Day";
-            this.rdDay.UseVisualStyleBackColor = true;
-            this.rdDay.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
             // 
             // Stats
             // 
