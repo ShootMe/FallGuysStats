@@ -157,6 +157,7 @@ namespace FallGuysStats {
                                 stat = new RoundInfo();
                                 round.Add(stat);
                                 stat.Name = line.Line.Substring(index + 62);
+                                stat.Start = line.Date;
                                 countPlayers = true;
                             } else if (stat != null && countPlayers && line.Line.IndexOf("[ClientGameManager] Added player ") > 0 && (index = line.Line.IndexOf(" players in system.")) > 0) {
                                 int prevIndex = line.Line.LastIndexOf(' ', index - 1);
@@ -185,8 +186,20 @@ namespace FallGuysStats {
                                     if (detail.IndexOf("[Round ") == 0) {
                                         foundRound = true;
                                         int roundNum = (int)detail[7] - 0x30 + 1;
-                                        stat = round[roundNum - 1];
-                                        stat.Round = roundNum;
+                                        if (roundNum - 1 < round.Count) {
+                                            stat = round[roundNum - 1];
+                                            stat.Round = roundNum;
+                                            if (stat.End == DateTime.MinValue) {
+                                                stat.End = DateTime.Now;
+                                            }
+                                            if (stat.Start == DateTime.MinValue) {
+                                                stat.Start = stat.End.AddSeconds(-1);
+                                            }
+                                        } else {
+                                            stat = round[roundNum - 2];
+                                            stat = new RoundInfo() { Start = stat.End, End = stat.End.AddSeconds(1), Name = detail.Substring(11, detail.Length - 12), Round = roundNum };
+                                            round.Add(stat);
+                                        }
                                     } else if (foundRound) {
                                         if (detail.IndexOf("> Position: ") == 0) {
                                             stat.Position = int.Parse(detail.Substring(12));
