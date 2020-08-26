@@ -29,6 +29,7 @@ namespace FallGuysStats {
 
             int pos = 0;
             gridDetails.Columns["Tier"].Visible = false;
+            gridDetails.Columns["InParty"].Visible = false;
             gridDetails.Columns["Qualified"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
