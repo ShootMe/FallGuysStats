@@ -11,6 +11,7 @@ namespace FallGuysStats {
         public bool Qualified { get; set; }
         public int Kudos { get; set; }
         public int Players { get; set; }
+        public bool InParty { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
 

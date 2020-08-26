@@ -147,6 +147,7 @@ namespace FallGuysStats {
             List<RoundInfo> allStats = new List<RoundInfo>();
             int players;
             bool countPlayers = false;
+            bool currentlyInParty = false;
             while (!stop) {
                 try {
                     lock (lines) {
@@ -158,7 +159,10 @@ namespace FallGuysStats {
                                 round.Add(stat);
                                 stat.Name = line.Line.Substring(index + 62);
                                 stat.Start = line.Date;
+                                stat.InParty = currentlyInParty;
                                 countPlayers = true;
+                            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin matchmaking")) > 0) {
+                                currentlyInParty = !line.Line.Substring(index + 37).Equals("solo");
                             } else if (stat != null && countPlayers && line.Line.IndexOf("[ClientGameManager] Added player ") > 0 && (index = line.Line.IndexOf(" players in system.")) > 0) {
                                 int prevIndex = line.Line.LastIndexOf(' ', index - 1);
                                 if (int.TryParse(line.Line.Substring(prevIndex, index - prevIndex), out players)) {
@@ -189,6 +193,7 @@ namespace FallGuysStats {
                                         if (roundNum - 1 < round.Count) {
                                             stat = round[roundNum - 1];
                                             stat.Round = roundNum;
+                                            currentlyInParty = stat.InParty;
                                             if (stat.End == DateTime.MinValue) {
                                                 stat.End = DateTime.Now;
                                             }
@@ -197,7 +202,7 @@ namespace FallGuysStats {
                                             }
                                         } else {
                                             stat = round[roundNum - 2];
-                                            stat = new RoundInfo() { Start = stat.End, End = stat.End.AddSeconds(1), Name = detail.Substring(11, detail.Length - 12), Round = roundNum };
+                                            stat = new RoundInfo() { Start = stat.End, End = stat.End.AddSeconds(1), Name = detail.Substring(11, detail.Length - 12), Round = roundNum, InParty = currentlyInParty };
                                             round.Add(stat);
                                         }
                                     } else if (foundRound) {

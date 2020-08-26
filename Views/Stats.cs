@@ -432,6 +432,9 @@ namespace FallGuysStats {
             try {
                 RadioButton button = sender as RadioButton;
                 if (!button.Checked) { return; }
+                if (button == rdAllParty || button == rdSolo || button == rdParty) {
+                    button = rdAll.Checked ? rdAll : rdSeason.Checked ? rdSeason : rdWeek.Checked ? rdWeek : rdDay.Checked ? rdDay : rdSession;
+                }
 
                 for (int i = 0; i < details.Count; i++) {
                     LevelStats calculator = details[i];
@@ -440,15 +443,34 @@ namespace FallGuysStats {
 
                 ClearTotals();
 
+                bool soloOnly = rdSolo.Checked;
                 List<RoundInfo> rounds = new List<RoundInfo>();
                 if (button == rdAll) {
-                    rounds.AddRange(roundDetails.FindAll());
+                    if (!rdAllParty.Checked) {
+                        rounds.AddRange(roundDetails.Find(x => x.InParty == !soloOnly));
+                    } else {
+                        rounds.AddRange(roundDetails.FindAll());
+                    }
                 } else if (button == rdSeason) {
-                    rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart));
+                    if (!rdAllParty.Checked) {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart && x.InParty == !soloOnly));
+                    } else {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart));
+                    }
                 } else if (button == rdWeek) {
-                    rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart));
+                    if (!rdAllParty.Checked) {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart && x.InParty == !soloOnly));
+                    } else {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart));
+                    }
                 } else if (button == rdDay) {
-                    rounds.AddRange(roundDetails.Find(x => x.Start > DayStart));
+                    if (!rdAllParty.Checked) {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > DayStart && x.InParty == !soloOnly));
+                    } else {
+                        rounds.AddRange(roundDetails.Find(x => x.Start > DayStart));
+                    }
+                } else if (!rdAllParty.Checked) {
+                    rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart && x.InParty == !soloOnly));
                 } else {
                     rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart));
                 }
