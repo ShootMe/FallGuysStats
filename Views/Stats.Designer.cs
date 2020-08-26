@@ -40,7 +40,14 @@
             this.btnUpdate = new System.Windows.Forms.Button();
             this.lblKudos = new System.Windows.Forms.Label();
             this.rdDay = new System.Windows.Forms.RadioButton();
+            this.grpFilter = new System.Windows.Forms.GroupBox();
+            this.grpParty = new System.Windows.Forms.GroupBox();
+            this.rdParty = new System.Windows.Forms.RadioButton();
+            this.rdAllParty = new System.Windows.Forms.RadioButton();
+            this.rdSolo = new System.Windows.Forms.RadioButton();
             this.gridDetails = new FallGuysStats.Grid();
+            this.grpFilter.SuspendLayout();
+            this.grpParty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,7 +118,7 @@
             // 
             this.rdAll.AutoSize = true;
             this.rdAll.Checked = true;
-            this.rdAll.Location = new System.Drawing.Point(12, 9);
+            this.rdAll.Location = new System.Drawing.Point(5, 11);
             this.rdAll.Name = "rdAll";
             this.rdAll.Size = new System.Drawing.Size(63, 17);
             this.rdAll.TabIndex = 0;
@@ -123,7 +130,7 @@
             // rdSeason
             // 
             this.rdSeason.AutoSize = true;
-            this.rdSeason.Location = new System.Drawing.Point(81, 9);
+            this.rdSeason.Location = new System.Drawing.Point(74, 11);
             this.rdSeason.Name = "rdSeason";
             this.rdSeason.Size = new System.Drawing.Size(61, 17);
             this.rdSeason.TabIndex = 1;
@@ -134,7 +141,7 @@
             // rdWeek
             // 
             this.rdWeek.AutoSize = true;
-            this.rdWeek.Location = new System.Drawing.Point(147, 9);
+            this.rdWeek.Location = new System.Drawing.Point(140, 11);
             this.rdWeek.Name = "rdWeek";
             this.rdWeek.Size = new System.Drawing.Size(54, 17);
             this.rdWeek.TabIndex = 2;
@@ -145,7 +152,7 @@
             // rdSession
             // 
             this.rdSession.AutoSize = true;
-            this.rdSession.Location = new System.Drawing.Point(257, 9);
+            this.rdSession.Location = new System.Drawing.Point(250, 11);
             this.rdSession.Name = "rdSession";
             this.rdSession.Size = new System.Drawing.Size(62, 17);
             this.rdSession.TabIndex = 4;
@@ -175,13 +182,72 @@
             // rdDay
             // 
             this.rdDay.AutoSize = true;
-            this.rdDay.Location = new System.Drawing.Point(207, 9);
+            this.rdDay.Location = new System.Drawing.Point(200, 11);
             this.rdDay.Name = "rdDay";
             this.rdDay.Size = new System.Drawing.Size(44, 17);
             this.rdDay.TabIndex = 3;
             this.rdDay.Text = "Day";
             this.rdDay.UseVisualStyleBackColor = true;
             this.rdDay.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // grpFilter
+            // 
+            this.grpFilter.Controls.Add(this.rdAll);
+            this.grpFilter.Controls.Add(this.rdDay);
+            this.grpFilter.Controls.Add(this.rdSeason);
+            this.grpFilter.Controls.Add(this.rdWeek);
+            this.grpFilter.Controls.Add(this.rdSession);
+            this.grpFilter.Location = new System.Drawing.Point(5, -3);
+            this.grpFilter.Name = "grpFilter";
+            this.grpFilter.Size = new System.Drawing.Size(313, 34);
+            this.grpFilter.TabIndex = 14;
+            this.grpFilter.TabStop = false;
+            // 
+            // grpParty
+            // 
+            this.grpParty.Controls.Add(this.rdParty);
+            this.grpParty.Controls.Add(this.rdAllParty);
+            this.grpParty.Controls.Add(this.rdSolo);
+            this.grpParty.Location = new System.Drawing.Point(333, -3);
+            this.grpParty.Name = "grpParty";
+            this.grpParty.Size = new System.Drawing.Size(152, 34);
+            this.grpParty.TabIndex = 15;
+            this.grpParty.TabStop = false;
+            // 
+            // rdParty
+            // 
+            this.rdParty.AutoSize = true;
+            this.rdParty.Location = new System.Drawing.Point(99, 11);
+            this.rdParty.Name = "rdParty";
+            this.rdParty.Size = new System.Drawing.Size(49, 17);
+            this.rdParty.TabIndex = 2;
+            this.rdParty.Text = "Party";
+            this.rdParty.UseVisualStyleBackColor = true;
+            this.rdParty.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // rdAllParty
+            // 
+            this.rdAllParty.AutoSize = true;
+            this.rdAllParty.Checked = true;
+            this.rdAllParty.Location = new System.Drawing.Point(5, 11);
+            this.rdAllParty.Name = "rdAllParty";
+            this.rdAllParty.Size = new System.Drawing.Size(36, 17);
+            this.rdAllParty.TabIndex = 0;
+            this.rdAllParty.TabStop = true;
+            this.rdAllParty.Text = "All";
+            this.rdAllParty.UseVisualStyleBackColor = true;
+            this.rdAllParty.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
+            // 
+            // rdSolo
+            // 
+            this.rdSolo.AutoSize = true;
+            this.rdSolo.Location = new System.Drawing.Point(47, 11);
+            this.rdSolo.Name = "rdSolo";
+            this.rdSolo.Size = new System.Drawing.Size(46, 17);
+            this.rdSolo.TabIndex = 1;
+            this.rdSolo.Text = "Solo";
+            this.rdSolo.UseVisualStyleBackColor = true;
+            this.rdSolo.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
             // 
             // gridDetails
             // 
@@ -232,13 +298,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.ClientSize = new System.Drawing.Size(614, 623);
-            this.Controls.Add(this.rdDay);
+            this.Controls.Add(this.grpParty);
+            this.Controls.Add(this.grpFilter);
             this.Controls.Add(this.lblKudos);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.rdSession);
-            this.Controls.Add(this.rdWeek);
-            this.Controls.Add(this.rdSeason);
-            this.Controls.Add(this.rdAll);
             this.Controls.Add(this.lblWinChance);
             this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.lblFinalChance);
@@ -257,6 +320,10 @@
             this.Text = "Fall Guys Stats";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Shown += new System.EventHandler(this.Stats_Shown);
+            this.grpFilter.ResumeLayout(false);
+            this.grpFilter.PerformLayout();
+            this.grpParty.ResumeLayout(false);
+            this.grpParty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -278,6 +345,11 @@
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label lblKudos;
         private System.Windows.Forms.RadioButton rdDay;
+        private System.Windows.Forms.GroupBox grpFilter;
+        private System.Windows.Forms.GroupBox grpParty;
+        private System.Windows.Forms.RadioButton rdParty;
+        private System.Windows.Forms.RadioButton rdAllParty;
+        private System.Windows.Forms.RadioButton rdSolo;
     }
 }
 
