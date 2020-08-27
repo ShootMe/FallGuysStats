@@ -14,10 +14,14 @@ namespace FallGuysStats {
         public bool InParty { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
+        public DateTime? Finish { get; set; } = null;
 
         public void ToLocalTime() {
             Start = Start.Add(Start - Start.ToUniversalTime());
             End = End.Add(End - End.ToUniversalTime());
+            if (Finish.HasValue) {
+                Finish = Finish.Value.Add(Finish.Value - Finish.Value.ToUniversalTime());
+            }
         }
         public override string ToString() {
             return $"{Name}: Round={Round} Position={Position} Duration={End - Start} Kudos={Kudos}";
