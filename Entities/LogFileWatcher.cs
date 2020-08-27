@@ -148,6 +148,7 @@ namespace FallGuysStats {
             int players;
             bool countPlayers = false;
             bool currentlyInParty = false;
+            string currentPlayerID = string.Empty;
             while (!stop) {
                 try {
                     lock (lines) {
@@ -167,6 +168,15 @@ namespace FallGuysStats {
                                 int prevIndex = line.Line.LastIndexOf(' ', index - 1);
                                 if (int.TryParse(line.Line.Substring(prevIndex, index - prevIndex), out players)) {
                                     stat.Players = players;
+                                }
+                            } else if ((index = line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy [")) > 0) {
+                                int prevIndex = line.Line.IndexOf(']', index + 65);
+                                currentPlayerID = line.Line.Substring(index + 65, prevIndex - index - 65);
+                            } else if (stat != null && line.Line.IndexOf($"[ClientGameManager] Handling unspawn for player FallGuy [{currentPlayerID}]") > 0) {
+                                if (stat.End == DateTime.MinValue) {
+                                    stat.Finish = line.Date;
+                                } else {
+                                    stat.Finish = stat.End;
                                 }
                             } else if (stat != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing") > 0) {
                                 stat.Start = line.Date;
@@ -194,16 +204,20 @@ namespace FallGuysStats {
                                             stat = round[roundNum - 1];
                                             stat.Round = roundNum;
                                             currentlyInParty = stat.InParty;
-                                            if (stat.End == DateTime.MinValue) {
-                                                stat.End = DateTime.Now;
-                                            }
-                                            if (stat.Start == DateTime.MinValue) {
-                                                stat.Start = stat.End.AddSeconds(-1);
-                                            }
                                         } else {
                                             stat = round[roundNum - 2];
-                                            stat = new RoundInfo() { Start = stat.End, End = stat.End.AddSeconds(1), Name = detail.Substring(11, detail.Length - 12), Round = roundNum, InParty = currentlyInParty };
+                                            stat = new RoundInfo() { Start = stat.End, End = stat.End.AddSeconds(1), Finish = stat.End.AddSeconds(1), Name = detail.Substring(11, detail.Length - 12), Round = roundNum, InParty = currentlyInParty };
                                             round.Add(stat);
+                                        }
+
+                                        if (stat.End == DateTime.MinValue) {
+                                            stat.End = DateTime.Now;
+                                        }
+                                        if (stat.Start == DateTime.MinValue) {
+                                            stat.Start = stat.End.AddSeconds(-1);
+                                        }
+                                        if (!stat.Finish.HasValue) {
+                                            stat.Finish = stat.End;
                                         }
                                     } else if (foundRound) {
                                         if (detail.IndexOf("> Position: ") == 0) {
@@ -213,6 +227,7 @@ namespace FallGuysStats {
                                         } else if (detail.IndexOf("> Qualified: ") == 0) {
                                             char qualified = detail[13];
                                             stat.Qualified = qualified == 'T';
+                                            stat.Finish = stat.Qualified ? stat.Finish : null;
                                         } else if (detail.IndexOf("> Bonus Tier: ") == 0 && detail.Length == 15) {
                                             char tier = detail[14];
                                             stat.Tier = (int)tier - 0x30 + 1;
