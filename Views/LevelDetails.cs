@@ -74,7 +74,7 @@ namespace FallGuysStats {
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Finish.HasValue) {
-                    e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss");
+                    e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.ff");
                 }
             } else if (ShowStats == 2 && gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
