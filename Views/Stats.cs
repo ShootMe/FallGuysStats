@@ -170,7 +170,7 @@ namespace FallGuysStats {
                         LevelStats levelStats = lookup[stat.Name];
                         if (levelStats.Type == LevelType.Final) {
                             Finals++;
-                            if (stat.Position == 1) {
+                            if (stat.Qualified) {
                                 Wins++;
                             }
                         }
@@ -344,17 +344,20 @@ namespace FallGuysStats {
                     int roundCount = 0;
                     int kudosTotal = 0;
                     bool won = false;
+                    bool isFinal = false;
                     DateTime endDate = DateTime.MinValue;
                     for (int i = rounds.Count - 1; i >= 0; i--) {
                         RoundInfo info = rounds[i];
                         if (roundCount == 0) {
                             endDate = info.End;
                             won = info.Qualified;
+                            LevelStats levelStats = lookup[info.Name];
+                            isFinal = levelStats.Type == LevelType.Final;
                         }
                         roundCount++;
                         kudosTotal += info.Kudos;
                         if (info.Round == 1) {
-                            shows.Insert(0, new RoundInfo() { Name = string.Empty, End = endDate, Start = info.Start, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
+                            shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
                             roundCount = 0;
                             kudosTotal = 0;
                         }

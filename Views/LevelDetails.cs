@@ -13,7 +13,7 @@ namespace FallGuysStats {
             if (LevelName == "Shows") {
                 Text = $"Show Stats";
                 ShowStats = 2;
-                ClientSize = new System.Drawing.Size(Width - 240, Height);
+                ClientSize = new System.Drawing.Size(Width - 200, Height);
             } else if (LevelName == "Rounds") {
                 Text = $"Round Stats";
                 ShowStats = 1;
@@ -30,9 +30,13 @@ namespace FallGuysStats {
             int pos = 0;
             gridDetails.Columns["Tier"].Visible = false;
             gridDetails.Columns["InParty"].Visible = false;
-            gridDetails.Columns["Qualified"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
+            if (ShowStats == 2) {
+                gridDetails.Setup("Qualified", pos++, 40, "Final", DataGridViewContentAlignment.MiddleCenter);
+            } else {
+                gridDetails.Columns["Qualified"].Visible = false;
+            }
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Round", pos++, 50, ShowStats == 2 ? "Rounds" : "Round", DataGridViewContentAlignment.MiddleRight);
             if (ShowStats == 1) {
@@ -72,6 +76,9 @@ namespace FallGuysStats {
                 if (info.Finish.HasValue) {
                     e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss");
                 }
+            } else if (ShowStats == 2 && gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
+                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
+                e.Value = !string.IsNullOrEmpty(info.Name);
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Medal" && e.Value == null) {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Qualified) {
@@ -124,7 +131,7 @@ namespace FallGuysStats {
                     case "End": return (one.End - one.Start).CompareTo(two.End - two.Start);
                     case "Finish": return one.Finish.HasValue && two.Finish.HasValue ? (one.Finish.Value - one.Start).CompareTo(two.Finish.Value - two.Start) : one.Finish.HasValue ? -1 : 1;
                     case "Qualified":
-                        int qualifiedCompare = one.Qualified.CompareTo(two.Qualified);
+                        int qualifiedCompare = ShowStats == 2 ? string.IsNullOrEmpty(one.Name).CompareTo(string.IsNullOrEmpty(two.Name)) : one.Qualified.CompareTo(two.Qualified);
                         return qualifiedCompare != 0 ? qualifiedCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Position":
                         int positionCompare = one.Position.CompareTo(two.Position);
