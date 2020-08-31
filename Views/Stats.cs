@@ -41,20 +41,24 @@ namespace FallGuysStats {
         private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
         private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
 
-        private List<LevelStats> details = new List<LevelStats>();
-        private Dictionary<string, LevelStats> lookup = new Dictionary<string, LevelStats>();
+        public List<LevelStats> StatDetails = new List<LevelStats>();
+        public List<RoundInfo> CurrentRound = null;
+        public bool RoundChanged;
+        public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
-        private int Shows;
-        private int Rounds;
-        private TimeSpan Duration;
-        private int Wins;
-        private int Finals;
-        private int Kudos;
+        public int Shows;
+        public int Rounds;
+        public TimeSpan Duration;
+        public int Wins;
+        public int Finals;
+        public int Kudos;
         private string logPath;
         private int nextShowID;
         private bool loadingExisting;
         private LiteDatabase statsDB;
-        private ILiteCollection<RoundInfo> roundDetails;
+        public ILiteCollection<RoundInfo> RoundDetails;
+        private Overlay overlay;
+        private bool setOverlayPosition;
         public Stats() {
             InitializeComponent();
 
@@ -62,53 +66,58 @@ namespace FallGuysStats {
 
             logFile.OnParsedLogLines += LogFile_OnParsedLogLines;
             logFile.OnNewLogFileDate += LogFile_OnNewLogFileDate;
+            logFile.OnError += LogFile_OnError;
+            logFile.OnParsedLogLinesCurrent += LogFile_OnParsedLogLinesCurrent;
 
-            details.Add(new LevelStats("round_door_dash", LevelType.Race));
-            details.Add(new LevelStats("round_gauntlet_02", LevelType.Race));
-            details.Add(new LevelStats("round_dodge_fall", LevelType.Race));
-            details.Add(new LevelStats("round_chompchomp", LevelType.Race));
-            details.Add(new LevelStats("round_gauntlet_01", LevelType.Race));
-            details.Add(new LevelStats("round_see_saw", LevelType.Race));
-            details.Add(new LevelStats("round_lava", LevelType.Race));
-            details.Add(new LevelStats("round_tip_toe", LevelType.Race));
-            details.Add(new LevelStats("round_gauntlet_03", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_door_dash", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_gauntlet_02", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_dodge_fall", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_chompchomp", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_gauntlet_01", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_see_saw", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_lava", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_tip_toe", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_gauntlet_03", LevelType.Race));
 
-            details.Add(new LevelStats("round_block_party", LevelType.Survival));
-            details.Add(new LevelStats("round_jump_club", LevelType.Survival));
-            details.Add(new LevelStats("round_match_fall", LevelType.Survival));
-            details.Add(new LevelStats("round_tunnel", LevelType.Survival));
-            details.Add(new LevelStats("round_tail_tag", LevelType.Survival));
+            StatDetails.Add(new LevelStats("round_block_party", LevelType.Survival));
+            StatDetails.Add(new LevelStats("round_jump_club", LevelType.Survival));
+            StatDetails.Add(new LevelStats("round_match_fall", LevelType.Survival));
+            StatDetails.Add(new LevelStats("round_tunnel", LevelType.Survival));
+            StatDetails.Add(new LevelStats("round_tail_tag", LevelType.Survival));
 
-            details.Add(new LevelStats("round_egg_grab", LevelType.Team));
-            details.Add(new LevelStats("round_fall_ball_60_players", LevelType.Team));
-            details.Add(new LevelStats("round_ballhogs", LevelType.Team));
-            details.Add(new LevelStats("round_hoops", LevelType.Team));
-            details.Add(new LevelStats("round_jinxed", LevelType.Team));
-            details.Add(new LevelStats("round_rocknroll", LevelType.Team));
-            details.Add(new LevelStats("round_conveyor_arena", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_egg_grab", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_fall_ball_60_players", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_ballhogs", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_hoops", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_jinxed", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_rocknroll", LevelType.Team));
+            StatDetails.Add(new LevelStats("round_conveyor_arena", LevelType.Team));
 
-            details.Add(new LevelStats("round_fall_mountain_hub_complete", LevelType.Final));
-            details.Add(new LevelStats("round_floor_fall", LevelType.Final));
-            details.Add(new LevelStats("round_jump_showdown", LevelType.Final));
-            details.Add(new LevelStats("round_royal_rumble", LevelType.Final));
+            StatDetails.Add(new LevelStats("round_fall_mountain_hub_complete", LevelType.Final));
+            StatDetails.Add(new LevelStats("round_floor_fall", LevelType.Final));
+            StatDetails.Add(new LevelStats("round_jump_showdown", LevelType.Final));
+            StatDetails.Add(new LevelStats("round_royal_rumble", LevelType.Final));
 
-            for (int i = 0; i < details.Count; i++) {
-                LevelStats calculator = details[i];
-                lookup.Add(calculator.LevelName, calculator);
+            for (int i = 0; i < StatDetails.Count; i++) {
+                LevelStats calculator = StatDetails[i];
+                StatLookup.Add(calculator.LevelName, calculator);
             }
 
-            gridDetails.DataSource = details;
+            gridDetails.DataSource = StatDetails;
 
             statsDB = new LiteDatabase(@"data.db");
-            roundDetails = statsDB.GetCollection<RoundInfo>("RoundDetails");
+            RoundDetails = statsDB.GetCollection<RoundInfo>("RoundDetails");
             statsDB.BeginTrans();
-            roundDetails.EnsureIndex(x => x.Name);
-            roundDetails.EnsureIndex(x => x.ShowID);
-            roundDetails.EnsureIndex(x => x.Round);
-            roundDetails.EnsureIndex(x => x.Start);
+            RoundDetails.EnsureIndex(x => x.Name);
+            RoundDetails.EnsureIndex(x => x.ShowID);
+            RoundDetails.EnsureIndex(x => x.Round);
+            RoundDetails.EnsureIndex(x => x.Start);
+            RoundDetails.EnsureIndex(x => x.InParty);
             statsDB.Commit();
-        }
 
+            CurrentRound = new List<RoundInfo>();
+            overlay = new Overlay() { StatsForm = this };
+        }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
                 statsDB.Dispose();
@@ -116,10 +125,23 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
-                if (roundDetails.Count() > 0) {
-                    nextShowID = roundDetails.Max(x => x.ShowID);
+                if (RoundDetails.Count() > 0) {
+                    nextShowID = RoundDetails.Max(x => x.ShowID);
                     List<RoundInfo> rounds = new List<RoundInfo>();
-                    rounds.AddRange(roundDetails.FindAll());
+                    rounds.AddRange(RoundDetails.FindAll());
+                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                        int showCompare = one.ShowID.CompareTo(two.ShowID);
+                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                    });
+
+                    for (int i = rounds.Count - 1; i >= 0; i--) {
+                        RoundInfo info = rounds[i];
+                        CurrentRound.Insert(0, info);
+                        if (info.Round == 1) {
+                            break;
+                        }
+                    }
+                    RoundChanged = true;
                     loadingExisting = true;
                     LogFile_OnParsedLogLines(rounds);
                     loadingExisting = false;
@@ -131,11 +153,37 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void LogFile_OnError(string error) {
+            if (!this.Disposing && !this.IsDisposed) {
+                try {
+                    if (this.InvokeRequired) {
+                        this.Invoke((Action<string>)LogFile_OnError, error);
+                    } else {
+                        MessageBox.Show(this, error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                } catch { }
+            }
+        }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
                 SessionStart = newDate;
                 if (rdSession.Checked) {
                     rdAll_CheckedChanged(rdSession, null);
+                }
+            }
+        }
+        private void LogFile_OnParsedLogLinesCurrent(List<RoundInfo> round) {
+            if (CurrentRound == null || CurrentRound.Count != round.Count) {
+                CurrentRound = round;
+                RoundChanged = true;
+            } else {
+                for (int i = 0; i < CurrentRound.Count; i++) {
+                    RoundInfo info = CurrentRound[i];
+                    if (!info.Equals(round[i])) {
+                        CurrentRound = round;
+                        RoundChanged = true;
+                        break;
+                    }
                 }
             }
         }
@@ -145,14 +193,14 @@ namespace FallGuysStats {
 
                 foreach (RoundInfo stat in round) {
                     if (!loadingExisting) {
-                        RoundInfo info = roundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
+                        RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
                         if (info == null) {
                             if (stat.Round == 1) {
                                 nextShowID++;
                             }
                             stat.ShowID = nextShowID;
 
-                            roundDetails.Insert(stat);
+                            RoundDetails.Insert(stat);
                         } else {
                             continue;
                         }
@@ -165,9 +213,9 @@ namespace FallGuysStats {
                     Duration += stat.End - stat.Start;
                     Kudos += stat.Kudos;
 
-                    if (lookup.ContainsKey(stat.Name)) {
+                    if (StatLookup.ContainsKey(stat.Name)) {
                         stat.ToLocalTime();
-                        LevelStats levelStats = lookup[stat.Name];
+                        LevelStats levelStats = StatLookup[stat.Name];
                         if (levelStats.Type == LevelType.Final) {
                             Finals++;
                             if (stat.Qualified) {
@@ -177,6 +225,16 @@ namespace FallGuysStats {
                         levelStats.Add(stat);
                     }
                 }
+
+                CurrentRound.Clear();
+                for (int i = round.Count - 1; i >= 0; i--) {
+                    RoundInfo info = round[i];
+                    CurrentRound.Insert(0, info);
+                    if (info.Round == 1) {
+                        break;
+                    }
+                }
+                RoundChanged = true;
 
                 if (!loadingExisting) { statsDB.Commit(); }
 
@@ -188,6 +246,26 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public Tuple<float, TimeSpan?> GetLevelInfo(string name) {
+            TimeSpan? best = null;
+            LevelStats levelDetails = null;
+            int qualifyCount = 0;
+            float qualifyChance = 0;
+            if (StatLookup.TryGetValue(name, out levelDetails)) {
+                for (int i = 0; i < levelDetails.Stats.Count; i++) {
+                    RoundInfo info = levelDetails.Stats[i];
+                    TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
+                    if (info.Qualified) {
+                        if (!best.HasValue || best.Value > finishTime) {
+                            best = finishTime;
+                        }
+                        qualifyCount++;
+                    }
+                }
+                qualifyChance = (float)qualifyCount * 100 / (levelDetails.Stats.Count == 0 ? 1 : levelDetails.Stats.Count);
+            }
+            return new Tuple<float, TimeSpan?>(qualifyChance, best);
         }
         private void ClearTotals() {
             Rounds = 0;
@@ -293,7 +371,7 @@ namespace FallGuysStats {
             string columnName = gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
 
-            details.Sort(delegate (LevelStats one, LevelStats two) {
+            StatDetails.Sort(delegate (LevelStats one, LevelStats two) {
                 int typeCompare = ((int)one.Type).CompareTo((int)two.Type);
                 int nameCompare = one.Name.CompareTo(two.Name);
 
@@ -325,7 +403,7 @@ namespace FallGuysStats {
             });
 
             gridDetails.DataSource = null;
-            gridDetails.DataSource = details;
+            gridDetails.DataSource = StatDetails;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
         }
         private void lblTotalShows_Click(object sender, EventArgs e) {
@@ -333,8 +411,8 @@ namespace FallGuysStats {
                 using (LevelDetails levelDetails = new LevelDetails()) {
                     levelDetails.LevelName = "Shows";
                     List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < details.Count; i++) {
-                        rounds.AddRange(details[i].Stats);
+                    for (int i = 0; i < StatDetails.Count; i++) {
+                        rounds.AddRange(StatDetails[i].Stats);
                     }
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                         return one.Start.CompareTo(two.Start);
@@ -351,7 +429,7 @@ namespace FallGuysStats {
                         if (roundCount == 0) {
                             endDate = info.End;
                             won = info.Qualified;
-                            LevelStats levelStats = lookup[info.Name];
+                            LevelStats levelStats = StatLookup[info.Name];
                             isFinal = levelStats.Type == LevelType.Final;
                         }
                         roundCount++;
@@ -374,8 +452,8 @@ namespace FallGuysStats {
                 using (LevelDetails levelDetails = new LevelDetails()) {
                     levelDetails.LevelName = "Rounds";
                     List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < details.Count; i++) {
-                        rounds.AddRange(details[i].Stats);
+                    for (int i = 0; i < StatDetails.Count; i++) {
+                        rounds.AddRange(StatDetails[i].Stats);
                     }
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                         return one.Start.CompareTo(two.Start);
@@ -390,8 +468,8 @@ namespace FallGuysStats {
         private void lblTotalWins_Click(object sender, EventArgs e) {
             try {
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < details.Count; i++) {
-                    rounds.AddRange(details[i].Stats);
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
                 }
                 rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
                     return one.Start.CompareTo(two.Start);
@@ -408,7 +486,7 @@ namespace FallGuysStats {
                         for (int i = 0; i < rounds.Count; i++) {
                             RoundInfo info = rounds[i];
                             LevelStats levelStats = null;
-                            if (info.Qualified && lookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final) {
+                            if (info.Qualified && StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final) {
                                 currentWins++;
                             }
 
@@ -439,8 +517,8 @@ namespace FallGuysStats {
                     button = rdAll.Checked ? rdAll : rdSeason.Checked ? rdSeason : rdWeek.Checked ? rdWeek : rdDay.Checked ? rdDay : rdSession;
                 }
 
-                for (int i = 0; i < details.Count; i++) {
-                    LevelStats calculator = details[i];
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    LevelStats calculator = StatDetails[i];
                     calculator.Clear();
                 }
 
@@ -450,32 +528,32 @@ namespace FallGuysStats {
                 List<RoundInfo> rounds = new List<RoundInfo>();
                 if (button == rdAll) {
                     if (!rdAllParty.Checked) {
-                        rounds.AddRange(roundDetails.Find(x => x.InParty == !soloOnly));
+                        rounds.AddRange(RoundDetails.Find(x => x.InParty == !soloOnly));
                     } else {
-                        rounds.AddRange(roundDetails.FindAll());
+                        rounds.AddRange(RoundDetails.FindAll());
                     }
                 } else if (button == rdSeason) {
                     if (!rdAllParty.Checked) {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart && x.InParty == !soloOnly));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > SeasonStart && x.InParty == !soloOnly));
                     } else {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > SeasonStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > SeasonStart));
                     }
                 } else if (button == rdWeek) {
                     if (!rdAllParty.Checked) {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart && x.InParty == !soloOnly));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > WeekStart && x.InParty == !soloOnly));
                     } else {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > WeekStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > WeekStart));
                     }
                 } else if (button == rdDay) {
                     if (!rdAllParty.Checked) {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > DayStart && x.InParty == !soloOnly));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > DayStart && x.InParty == !soloOnly));
                     } else {
-                        rounds.AddRange(roundDetails.Find(x => x.Start > DayStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.Start > DayStart));
                     }
                 } else if (!rdAllParty.Checked) {
-                    rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart && x.InParty == !soloOnly));
+                    rounds.AddRange(RoundDetails.Find(x => x.Start > SessionStart && x.InParty == !soloOnly));
                 } else {
-                    rounds.AddRange(roundDetails.Find(x => x.Start > SessionStart));
+                    rounds.AddRange(RoundDetails.Find(x => x.Start > SessionStart));
                 }
 
                 rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
@@ -485,11 +563,11 @@ namespace FallGuysStats {
                 if (rounds.Count > 0 && (button == rdWeek || button == rdDay || button == rdSession)) {
                     int minShowID = rounds[0].ShowID;
                     if (button == rdWeek) {
-                        rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < WeekStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < WeekStart));
                     } else if (button == rdDay) {
-                        rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < DayStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < DayStart));
                     } else {
-                        rounds.AddRange(roundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
+                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
                     }
                 }
 
@@ -538,6 +616,17 @@ namespace FallGuysStats {
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void btnOverlay_Click(object sender, EventArgs e) {
+            if (overlay.Visible) {
+                overlay.Hide();
+            } else {
+                overlay.Show(this);
+                if (!setOverlayPosition) {
+                    setOverlayPosition = true;
+                    overlay.Location = this.Location;
+                }
             }
         }
     }
