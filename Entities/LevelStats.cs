@@ -15,6 +15,7 @@ namespace FallGuysStats {
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
         public DateTime? Finish { get; set; } = null;
+        public bool Playing;
 
         public void ToLocalTime() {
             Start = Start.Add(Start - Start.ToUniversalTime());
@@ -25,6 +26,25 @@ namespace FallGuysStats {
         }
         public override string ToString() {
             return $"{Name}: Round={Round} Position={Position} Duration={End - Start} Kudos={Kudos}";
+        }
+        public override bool Equals(object obj) {
+            return obj is RoundInfo info
+                && info.End == this.End
+                && info.Finish == this.Finish
+                && info.InParty == this.InParty
+                && info.Kudos == this.Kudos
+                && info.Players == this.Players
+                && info.Position == this.Position
+                && info.Qualified == this.Qualified
+                && info.Round == this.Round
+                && info.Score == this.Score
+                && info.ShowID == this.ShowID
+                && info.Start == this.Start
+                && info.Tier == this.Tier
+                && info.Name == this.Name;
+        }
+        public override int GetHashCode() {
+            return Name.GetHashCode() ^ ShowID ^ Round;
         }
     }
     public enum LevelType {
