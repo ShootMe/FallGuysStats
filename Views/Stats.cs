@@ -117,6 +117,7 @@ namespace FallGuysStats {
 
             CurrentRound = new List<RoundInfo>();
             overlay = new Overlay() { StatsForm = this };
+            overlay.StartTimer();
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
