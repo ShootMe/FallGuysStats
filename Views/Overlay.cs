@@ -38,7 +38,7 @@ namespace FallGuysStats {
             foreach (Control c in Controls) {
                 c.MouseDown += Overlay_MouseDown;
             }
-            
+
             SetFonts(this);
         }
         public void StartTimer() {
@@ -77,11 +77,10 @@ namespace FallGuysStats {
         private void UpdateInfo() {
             if (StatsForm == null) { return; }
 
-            lblWins.Text = $"{StatsForm.Wins}";
-            float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            lblFinalChance.Text = $"{finalChance:0.0}";
             float winChance = (float)StatsForm.Wins * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            lblWinChance.Text = $"{winChance:0.0}";
+            lblWins.Text = $"{StatsForm.Wins} - {winChance:0.0}%";
+            float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
+            lblFinalChance.Text = $"{StatsForm.Finals} - {finalChance:0.0}%";
 
             bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
             if (hasCurrentRound) {
@@ -93,9 +92,10 @@ namespace FallGuysStats {
                     LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
                     lblName.Text = displayName;
                     lblPlayers.Text = info.Players.ToString();
-                    Tuple<float, TimeSpan?> levelInfo = StatsForm.GetLevelInfo(info.Name);
-                    lblQualifyChance.Text = $"{levelInfo.Item1:0.0}";
-                    lblFastest.Text = levelInfo.Item2.HasValue ? $"{levelInfo.Item2:m\\:ss\\.ff}" : "-";
+                    Tuple<int, int, TimeSpan?> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
+                    lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
+                    lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
                 }
 
                 DateTime Start = DateTime.MinValue;
@@ -106,9 +106,13 @@ namespace FallGuysStats {
                 if (info.Finish.HasValue) { Finish = info.Finish.Value.Add(info.Finish.Value - info.Finish.Value.ToUniversalTime()); }
 
                 if (Finish.HasValue) {
-                    lblFinish.Text = (Finish.GetValueOrDefault(End) - Start).ToString("m\\:ss\\.ff");
+                    if (info.Position > 0) {
+                        lblFinish.Text = $"# {info.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                    } else {
+                        lblFinish.Text = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                    }
                 } else if (info.Playing) {
-                    lblFinish.Text = (DateTime.Now - Start).ToString("m\\:ss\\.ff");
+                    lblFinish.Text = $"{DateTime.Now - Start:m\\:ss\\.ff}";
                 } else {
                     lblFinish.Text = "-";
                 }
