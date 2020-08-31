@@ -16,22 +16,24 @@ namespace FallGuysStats {
         public static extern bool ReleaseCapture();
 
         public static PrivateFontCollection CustomFont;
+        public static Font GlobalFont;
         public Stats StatsForm { get; set; }
         private Thread timer;
-        public Overlay() {
-            InitializeComponent();
-
-            using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
-                byte[] fontdata = new byte[fontStream.Length];
-                fontStream.Read(fontdata, 0, (int)fontStream.Length);
-                CustomFont = new PrivateFontCollection();
-                unsafe {
-                    fixed (byte* pFontData = fontdata) {
-                        CustomFont.AddMemoryFont((IntPtr)pFontData, fontdata.Length);
-                    }
+        static Overlay() {
+            if (!File.Exists("TitanOne-Regular.ttf")) {
+                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
+                    byte[] fontdata = new byte[fontStream.Length];
+                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
+                    File.WriteAllBytes("TitanOne-Regular.ttf", fontdata);
                 }
             }
-            Font = new Font(CustomFont.Families[0], 10, FontStyle.Regular, GraphicsUnit.Point);
+
+            CustomFont = new PrivateFontCollection();
+            CustomFont.AddFontFile("TitanOne-Regular.ttf");
+            GlobalFont = new Font(CustomFont.Families[0], 10, FontStyle.Regular, GraphicsUnit.Point);
+        }
+        public Overlay() {
+            InitializeComponent();
 
             foreach (Control c in Controls) {
                 c.MouseDown += Overlay_MouseDown;
@@ -39,6 +41,20 @@ namespace FallGuysStats {
             timer = new Thread(UpdateTimer);
             timer.IsBackground = true;
             timer.Start();
+
+            SetFonts(this);
+        }
+        public static void SetFonts(Control control, float customSize = -1, Font font = null) {
+            if (font == null) {
+                font = customSize <= 0 ? GlobalFont : new Font(CustomFont.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Point);
+            }
+            control.Font = font;
+            foreach (Control ctr in control.Controls) {
+                ctr.Font = font;
+                if (ctr.HasChildren) {
+                    SetFonts(ctr, customSize, font);
+                }
+            }
         }
         private void Overlay_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
