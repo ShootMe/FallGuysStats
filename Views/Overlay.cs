@@ -38,11 +38,13 @@ namespace FallGuysStats {
             foreach (Control c in Controls) {
                 c.MouseDown += Overlay_MouseDown;
             }
+            
+            SetFonts(this);
+        }
+        public void StartTimer() {
             timer = new Thread(UpdateTimer);
             timer.IsBackground = true;
             timer.Start();
-
-            SetFonts(this);
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
             if (font == null) {
