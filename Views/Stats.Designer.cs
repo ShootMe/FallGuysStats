@@ -46,6 +46,7 @@
             this.rdAllParty = new System.Windows.Forms.RadioButton();
             this.rdSolo = new System.Windows.Forms.RadioButton();
             this.gridDetails = new FallGuysStats.Grid();
+            this.btnOverlay = new System.Windows.Forms.Button();
             this.grpFilter.SuspendLayout();
             this.grpParty.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
@@ -59,7 +60,7 @@
             this.lblTotalShows.Location = new System.Drawing.Point(128, 34);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
-            this.lblTotalShows.TabIndex = 7;
+            this.lblTotalShows.TabIndex = 5;
             this.lblTotalShows.Text = "Shows: 0";
             this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
             // 
@@ -69,7 +70,7 @@
             this.lblTotalTime.Location = new System.Drawing.Point(8, 34);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
-            this.lblTotalTime.TabIndex = 6;
+            this.lblTotalTime.TabIndex = 4;
             this.lblTotalTime.Text = "Time Played: 0:00:00";
             // 
             // lblTotalRounds
@@ -80,7 +81,7 @@
             this.lblTotalRounds.Location = new System.Drawing.Point(206, 34);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
-            this.lblTotalRounds.TabIndex = 8;
+            this.lblTotalRounds.TabIndex = 6;
             this.lblTotalRounds.Text = "Rounds: 0";
             this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
             // 
@@ -92,7 +93,7 @@
             this.lblTotalWins.Location = new System.Drawing.Point(296, 34);
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
-            this.lblTotalWins.TabIndex = 9;
+            this.lblTotalWins.TabIndex = 7;
             this.lblTotalWins.Text = "Wins: 0";
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             // 
@@ -102,7 +103,7 @@
             this.lblFinalChance.Location = new System.Drawing.Point(365, 34);
             this.lblFinalChance.Name = "lblFinalChance";
             this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
-            this.lblFinalChance.TabIndex = 10;
+            this.lblFinalChance.TabIndex = 8;
             this.lblFinalChance.Text = "Final %: 0.0";
             // 
             // lblWinChance
@@ -111,7 +112,7 @@
             this.lblWinChance.Location = new System.Drawing.Point(443, 34);
             this.lblWinChance.Name = "lblWinChance";
             this.lblWinChance.Size = new System.Drawing.Size(58, 13);
-            this.lblWinChance.TabIndex = 11;
+            this.lblWinChance.TabIndex = 9;
             this.lblWinChance.Text = "Win %: 0.0";
             // 
             // rdAll
@@ -162,11 +163,11 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(500, 6);
+            this.btnUpdate.Location = new System.Drawing.Point(551, 5);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(102, 23);
-            this.btnUpdate.TabIndex = 5;
-            this.btnUpdate.Text = "Check for Update";
+            this.btnUpdate.Size = new System.Drawing.Size(51, 23);
+            this.btnUpdate.TabIndex = 3;
+            this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
@@ -176,7 +177,7 @@
             this.lblKudos.Location = new System.Drawing.Point(520, 34);
             this.lblKudos.Name = "lblKudos";
             this.lblKudos.Size = new System.Drawing.Size(49, 13);
-            this.lblKudos.TabIndex = 12;
+            this.lblKudos.TabIndex = 10;
             this.lblKudos.Text = "Kudos: 0";
             // 
             // rdDay
@@ -200,7 +201,7 @@
             this.grpFilter.Location = new System.Drawing.Point(5, -3);
             this.grpFilter.Name = "grpFilter";
             this.grpFilter.Size = new System.Drawing.Size(313, 34);
-            this.grpFilter.TabIndex = 14;
+            this.grpFilter.TabIndex = 0;
             this.grpFilter.TabStop = false;
             // 
             // grpParty
@@ -211,7 +212,7 @@
             this.grpParty.Location = new System.Drawing.Point(333, -3);
             this.grpParty.Name = "grpParty";
             this.grpParty.Size = new System.Drawing.Size(152, 34);
-            this.grpParty.TabIndex = 15;
+            this.grpParty.TabIndex = 1;
             this.grpParty.TabStop = false;
             // 
             // rdParty
@@ -284,7 +285,7 @@
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.Size = new System.Drawing.Size(614, 570);
-            this.gridDetails.TabIndex = 13;
+            this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
@@ -292,12 +293,23 @@
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             // 
+            // btnOverlay
+            // 
+            this.btnOverlay.Location = new System.Drawing.Point(494, 5);
+            this.btnOverlay.Name = "btnOverlay";
+            this.btnOverlay.Size = new System.Drawing.Size(51, 23);
+            this.btnOverlay.TabIndex = 2;
+            this.btnOverlay.Text = "Overlay";
+            this.btnOverlay.UseVisualStyleBackColor = true;
+            this.btnOverlay.Click += new System.EventHandler(this.btnOverlay_Click);
+            // 
             // Stats
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.ClientSize = new System.Drawing.Size(614, 623);
+            this.Controls.Add(this.btnOverlay);
             this.Controls.Add(this.grpParty);
             this.Controls.Add(this.grpFilter);
             this.Controls.Add(this.lblKudos);
@@ -350,6 +362,7 @@
         private System.Windows.Forms.RadioButton rdParty;
         private System.Windows.Forms.RadioButton rdAllParty;
         private System.Windows.Forms.RadioButton rdSolo;
+        private System.Windows.Forms.Button btnOverlay;
     }
 }
 
