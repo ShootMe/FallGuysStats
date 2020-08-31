@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Text;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -12,10 +15,24 @@ namespace FallGuysStats {
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        public static PrivateFontCollection CustomFont;
         public Stats StatsForm { get; set; }
         private Thread timer;
         public Overlay() {
             InitializeComponent();
+
+            using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
+                byte[] fontdata = new byte[fontStream.Length];
+                fontStream.Read(fontdata, 0, (int)fontStream.Length);
+                CustomFont = new PrivateFontCollection();
+                unsafe {
+                    fixed (byte* pFontData = fontdata) {
+                        CustomFont.AddMemoryFont((IntPtr)pFontData, fontdata.Length);
+                    }
+                }
+            }
+            Font = new Font(CustomFont.Families[0], 10, FontStyle.Regular, GraphicsUnit.Point);
+
             foreach (Control c in Controls) {
                 c.MouseDown += Overlay_MouseDown;
             }
