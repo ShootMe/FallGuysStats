@@ -59,6 +59,9 @@
     <Compile Include="Controls\Grid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\TransparentLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,6 +126,7 @@
     <EmbeddedResource Include="Resources\TitanOne-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\background.png" />
     <Content Include="Resources\fall.ico" />
     <None Include="Resources\medal_silver.png" />
     <None Include="Resources\medal_pink.png" />
