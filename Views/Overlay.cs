@@ -158,7 +158,7 @@ namespace FallGuysStats {
                     BackgroundImage = Properties.Resources.backgroundFlip;
                     foreach (Control ctr in Controls) {
                         if (ctr is TransparentLabel label) {
-                            label.Location = new Point(label.Location.X - 22, label.Location.Y);
+                            label.Location = new Point(label.Location.X - 18, label.Location.Y);
                         }
                     }
                 } else {
@@ -166,7 +166,7 @@ namespace FallGuysStats {
                     BackgroundImage = Properties.Resources.background;
                     foreach (Control ctr in Controls) {
                         if (ctr is TransparentLabel label) {
-                            label.Location = new Point(label.Location.X + 22, label.Location.Y);
+                            label.Location = new Point(label.Location.X + 18, label.Location.Y);
                         }
                     }
                 }
