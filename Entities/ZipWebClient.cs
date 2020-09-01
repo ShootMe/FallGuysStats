@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Cache;
 using System.Text;
 namespace FallGuysStats {
     public class ZipWebClient : WebClient {
@@ -11,7 +12,10 @@ namespace FallGuysStats {
             this.Headers["Accept"] = "text/html, application/xhtml+xml, */*";
         }
         protected override WebRequest GetWebRequest(Uri address) {
+            HttpRequestCachePolicy requestPolicy = new HttpRequestCachePolicy(HttpCacheAgeControl.MaxAge, TimeSpan.FromSeconds(10));
+
             HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
+            request.CachePolicy = requestPolicy;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             return request;
         }
