@@ -193,6 +193,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Magenta;
             this.BackgroundImage = global::FallGuysStats.Properties.Resources.background;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(786, 99);
             this.Controls.Add(this.lblPlayersDesc);
             this.Controls.Add(this.lblFinalChance);
@@ -212,6 +213,7 @@
             this.Controls.Add(this.lblWins);
             this.Controls.Add(this.lblFinish);
             this.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
