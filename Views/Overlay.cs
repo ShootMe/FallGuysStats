@@ -19,6 +19,7 @@ namespace FallGuysStats {
         public static Font GlobalFont;
         public Stats StatsForm { get; set; }
         private Thread timer;
+        private bool flippedImage;
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
@@ -133,6 +134,41 @@ namespace FallGuysStats {
                     lblDuration.Text = (DateTime.Now - Start).ToString("m\\:ss");
                 } else {
                     lblDuration.Text = "-";
+                }
+            }
+        }
+        private void Overlay_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.T) {
+                if (BackColor == Color.Black) {
+                    BackColor = Color.Green;
+                } else if (BackColor == Color.Green) {
+                    BackColor = Color.Magenta;
+                } else if (BackColor == Color.Magenta) {
+                    BackColor = Color.Blue;
+                } else if (BackColor == Color.Blue) {
+                    BackColor = Color.Red;
+                } else if (BackColor == Color.Red) {
+                    BackColor = Color.FromArgb(224, 224, 224);
+                } else if (BackColor == Color.FromArgb(224, 224, 224)) {
+                    BackColor = Color.Black;
+                }
+            } else if (e.KeyCode == Keys.F) {
+                if (!flippedImage) {
+                    flippedImage = true;
+                    BackgroundImage = Properties.Resources.backgroundFlip;
+                    foreach (Control ctr in Controls) {
+                        if (ctr is TransparentLabel label) {
+                            label.Location = new Point(label.Location.X - 22, label.Location.Y);
+                        }
+                    }
+                } else {
+                    flippedImage = false;
+                    BackgroundImage = Properties.Resources.background;
+                    foreach (Control ctr in Controls) {
+                        if (ctr is TransparentLabel label) {
+                            label.Location = new Point(label.Location.X + 22, label.Location.Y);
+                        }
+                    }
                 }
             }
         }
