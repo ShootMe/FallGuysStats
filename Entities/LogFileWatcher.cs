@@ -149,6 +149,7 @@ namespace FallGuysStats {
                             LogLine line = tempLines[i];
                             ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat);
                         }
+
                         if (round.Count > 0) {
                             OnParsedLogLinesCurrent?.Invoke(round);
                         }
@@ -260,6 +261,7 @@ namespace FallGuysStats {
                             if (!temp.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {
                                 return false;
                             }
+                            temp.Playing = false;
                             temp.Round = roundNum;
                             currentlyInParty = temp.InParty;
                         } else {
