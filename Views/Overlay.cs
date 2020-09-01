@@ -31,7 +31,7 @@ namespace FallGuysStats {
 
             CustomFont = new PrivateFontCollection();
             CustomFont.AddFontFile("TitanOne-Regular.ttf");
-            GlobalFont = new Font(CustomFont.Families[0], 14, FontStyle.Regular, GraphicsUnit.Point);
+            GlobalFont = new Font(CustomFont.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public Overlay() {
             InitializeComponent();
