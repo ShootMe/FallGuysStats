@@ -265,7 +265,7 @@ namespace FallGuysStats {
                         }
                         qualifyCount++;
                     }
-                    if (info.Score.HasValue && (!bestScore.HasValue || info.Score.Value > bestScore.Value)) {
+                    if (levelDetails.Type == LevelType.Team && info.Score.HasValue && (!bestScore.HasValue || info.Score.Value > bestScore.Value)) {
                         bestScore = info.Score;
                     }
                 }

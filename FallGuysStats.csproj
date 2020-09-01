@@ -127,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\background.png" />
+    <None Include="Resources\backgroundFlip.png" />
     <Content Include="Resources\fall.ico" />
     <None Include="Resources\medal_silver.png" />
     <None Include="Resources\medal_pink.png" />
