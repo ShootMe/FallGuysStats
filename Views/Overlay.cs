@@ -30,12 +30,16 @@ namespace FallGuysStats {
 
             CustomFont = new PrivateFontCollection();
             CustomFont.AddFontFile("TitanOne-Regular.ttf");
-            GlobalFont = new Font(CustomFont.Families[0], 10, FontStyle.Regular, GraphicsUnit.Point);
+            GlobalFont = new Font(CustomFont.Families[0], 14, FontStyle.Regular, GraphicsUnit.Point);
         }
         public Overlay() {
             InitializeComponent();
 
             foreach (Control c in Controls) {
+                if (c is TransparentLabel label) {
+                    label.Parent = this;
+                    label.BackColor = Color.Transparent;
+                }
                 c.MouseDown += Overlay_MouseDown;
             }
 
@@ -48,7 +52,7 @@ namespace FallGuysStats {
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
             if (font == null) {
-                font = customSize <= 0 ? GlobalFont : new Font(CustomFont.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Point);
+                font = customSize <= 0 ? GlobalFont : new Font(CustomFont.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
             }
             control.Font = font;
             foreach (Control ctr in control.Controls) {
@@ -87,15 +91,21 @@ namespace FallGuysStats {
                 RoundInfo info = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
                 if (StatsForm.RoundChanged) {
                     StatsForm.RoundChanged = false;
-                    lblRound.Text = string.Concat((info.End != DateTime.MinValue ? "Last" : "Current"), $" Round {StatsForm.CurrentRound.Count}");
+                    lblRound.Text = string.Concat((info.End != DateTime.MinValue ? "LAST" : "CURRENT"), $" ROUND {StatsForm.CurrentRound.Count}");
                     string displayName = string.Empty;
                     LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
                     lblName.Text = displayName;
                     lblPlayers.Text = info.Players.ToString();
-                    Tuple<int, int, TimeSpan?> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    Tuple<int, int, TimeSpan?, int?> levelInfo = StatsForm.GetLevelInfo(info.Name);
                     float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
                     lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
-                    lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
+                    if (levelInfo.Item4.HasValue) {
+                        lblFastestDesc.Text = "H SCORE:";
+                        lblFastest.Text = levelInfo.Item4.Value.ToString();
+                    } else {
+                        lblFastestDesc.Text = "FASTEST:";
+                        lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
+                    }
                 }
 
                 DateTime Start = DateTime.MinValue;
