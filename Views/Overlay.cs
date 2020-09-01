@@ -123,7 +123,7 @@ namespace FallGuysStats {
                         lblFinish.Text = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
                     }
                 } else if (info.Playing) {
-                    lblFinish.Text = $"{DateTime.Now - Start:m\\:ss\\.ff}";
+                    lblFinish.Text = $"{DateTime.Now - Start:m\\:ss}";
                 } else {
                     lblFinish.Text = "-";
                 }
