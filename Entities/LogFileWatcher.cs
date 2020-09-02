@@ -261,16 +261,22 @@ namespace FallGuysStats {
                 StringReader sr = new StringReader(line.Line);
                 string detail;
                 bool foundRound = false;
+                int maxRound = 0;
                 while ((detail = sr.ReadLine()) != null) {
                     if (detail.IndexOf("[Round ", StringComparison.OrdinalIgnoreCase) == 0) {
                         foundRound = true;
                         int roundNum = (int)detail[7] - 0x30 + 1;
                         string roundName = detail.Substring(11, detail.Length - 12);
                         if (roundNum - 1 < round.Count) {
+                            if (roundNum > maxRound) {
+                                maxRound = roundNum;
+                            }
+
                             temp = round[roundNum - 1];
                             if (!temp.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {
                                 return false;
                             }
+
                             temp.Playing = false;
                             temp.Round = roundNum;
                             currentlyInParty = temp.InParty;
@@ -304,6 +310,14 @@ namespace FallGuysStats {
                         } else if (detail.IndexOf("> Bonus Kudos: ", StringComparison.OrdinalIgnoreCase) == 0) {
                             temp.Kudos += int.Parse(detail.Substring(15));
                         }
+                    }
+                }
+
+                if (round.Count > maxRound) {
+                    maxRound = maxRound - round.Count;
+                    while (maxRound > 0) {
+                        round.RemoveAt(round.Count - 1);
+                        maxRound--;
                     }
                 }
 

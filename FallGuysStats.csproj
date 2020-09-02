@@ -62,6 +62,8 @@
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Entities\StatSummary.cs" />
+    <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +75,12 @@
     </Compile>
     <Compile Include="Views\Overlay.Designer.cs">
       <DependentUpon>Overlay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings.Designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Stats.cs">
       <SubType>Form</SubType>
@@ -97,6 +105,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Overlay.resx">
       <DependentUpon>Overlay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Stats.resx">
       <DependentUpon>Stats.cs</DependentUpon>
