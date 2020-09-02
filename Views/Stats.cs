@@ -174,16 +174,20 @@ namespace FallGuysStats {
             }
         }
         private void LogFile_OnParsedLogLinesCurrent(List<RoundInfo> round) {
-            if (CurrentRound == null || CurrentRound.Count != round.Count) {
-                CurrentRound = round;
-                RoundChanged = true;
-            } else {
-                for (int i = 0; i < CurrentRound.Count; i++) {
-                    RoundInfo info = CurrentRound[i];
-                    if (!info.Equals(round[i])) {
-                        CurrentRound = round;
-                        RoundChanged = true;
-                        break;
+            if (RoundChanged) { return; }
+
+            lock (CurrentRound) {
+                if (CurrentRound == null || CurrentRound.Count != round.Count) {
+                    CurrentRound = round;
+                    RoundChanged = round.Count > 0;
+                } else {
+                    for (int i = 0; i < CurrentRound.Count; i++) {
+                        RoundInfo info = CurrentRound[i];
+                        if (!info.Equals(round[i])) {
+                            CurrentRound = round;
+                            RoundChanged = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -227,15 +231,17 @@ namespace FallGuysStats {
                     }
                 }
 
-                CurrentRound.Clear();
-                for (int i = round.Count - 1; i >= 0; i--) {
-                    RoundInfo info = round[i];
-                    CurrentRound.Insert(0, info);
-                    if (info.Round == 1) {
-                        break;
+                lock (CurrentRound) {
+                    CurrentRound.Clear();
+                    for (int i = round.Count - 1; i >= 0; i--) {
+                        RoundInfo info = round[i];
+                        CurrentRound.Insert(0, info);
+                        if (info.Round == 1) {
+                            break;
+                        }
                     }
+                    RoundChanged = true;
                 }
-                RoundChanged = true;
 
                 if (!loadingExisting) { statsDB.Commit(); }
 
