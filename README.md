@@ -12,3 +12,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
+
+## Overlay
+![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
+
+  - Hit 'T' to toggle background colors
+  - Hit 'F' to flip the Display

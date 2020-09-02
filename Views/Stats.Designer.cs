@@ -33,23 +33,26 @@
             this.lblTotalWins = new System.Windows.Forms.Label();
             this.lblFinalChance = new System.Windows.Forms.Label();
             this.lblWinChance = new System.Windows.Forms.Label();
-            this.rdAll = new System.Windows.Forms.RadioButton();
-            this.rdSeason = new System.Windows.Forms.RadioButton();
-            this.rdWeek = new System.Windows.Forms.RadioButton();
-            this.rdSession = new System.Windows.Forms.RadioButton();
-            this.btnUpdate = new System.Windows.Forms.Button();
             this.lblKudos = new System.Windows.Forms.Label();
-            this.rdDay = new System.Windows.Forms.RadioButton();
-            this.grpFilter = new System.Windows.Forms.GroupBox();
-            this.grpParty = new System.Windows.Forms.GroupBox();
-            this.rdParty = new System.Windows.Forms.RadioButton();
-            this.rdAllParty = new System.Windows.Forms.RadioButton();
-            this.rdSolo = new System.Windows.Forms.RadioButton();
             this.gridDetails = new FallGuysStats.Grid();
-            this.btnOverlay = new System.Windows.Forms.Button();
-            this.grpFilter.SuspendLayout();
-            this.grpParty.SuspendLayout();
+            this.menu = new System.Windows.Forms.MenuStrip();
+            this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStatsFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAllStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeasonStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuWeekStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuDayStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSessionStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuPartyFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAllPartyStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSoloStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuPartyStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
+            this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTotalShows
@@ -57,7 +60,7 @@
             this.lblTotalShows.AutoSize = true;
             this.lblTotalShows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalShows.Location = new System.Drawing.Point(128, 34);
+            this.lblTotalShows.Location = new System.Drawing.Point(128, 28);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
             this.lblTotalShows.TabIndex = 5;
@@ -67,7 +70,7 @@
             // lblTotalTime
             // 
             this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(8, 34);
+            this.lblTotalTime.Location = new System.Drawing.Point(8, 28);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
             this.lblTotalTime.TabIndex = 4;
@@ -78,7 +81,7 @@
             this.lblTotalRounds.AutoSize = true;
             this.lblTotalRounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalRounds.Location = new System.Drawing.Point(206, 34);
+            this.lblTotalRounds.Location = new System.Drawing.Point(206, 28);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
             this.lblTotalRounds.TabIndex = 6;
@@ -90,7 +93,7 @@
             this.lblTotalWins.AutoSize = true;
             this.lblTotalWins.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalWins.Location = new System.Drawing.Point(296, 34);
+            this.lblTotalWins.Location = new System.Drawing.Point(296, 28);
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
             this.lblTotalWins.TabIndex = 7;
@@ -100,7 +103,7 @@
             // lblFinalChance
             // 
             this.lblFinalChance.AutoSize = true;
-            this.lblFinalChance.Location = new System.Drawing.Point(365, 34);
+            this.lblFinalChance.Location = new System.Drawing.Point(365, 28);
             this.lblFinalChance.Name = "lblFinalChance";
             this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
             this.lblFinalChance.TabIndex = 8;
@@ -109,146 +112,20 @@
             // lblWinChance
             // 
             this.lblWinChance.AutoSize = true;
-            this.lblWinChance.Location = new System.Drawing.Point(443, 34);
+            this.lblWinChance.Location = new System.Drawing.Point(443, 28);
             this.lblWinChance.Name = "lblWinChance";
             this.lblWinChance.Size = new System.Drawing.Size(58, 13);
             this.lblWinChance.TabIndex = 9;
             this.lblWinChance.Text = "Win %: 0.0";
             // 
-            // rdAll
-            // 
-            this.rdAll.AutoSize = true;
-            this.rdAll.Checked = true;
-            this.rdAll.Location = new System.Drawing.Point(5, 11);
-            this.rdAll.Name = "rdAll";
-            this.rdAll.Size = new System.Drawing.Size(63, 17);
-            this.rdAll.TabIndex = 0;
-            this.rdAll.TabStop = true;
-            this.rdAll.Text = "All Stats";
-            this.rdAll.UseVisualStyleBackColor = true;
-            this.rdAll.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // rdSeason
-            // 
-            this.rdSeason.AutoSize = true;
-            this.rdSeason.Location = new System.Drawing.Point(74, 11);
-            this.rdSeason.Name = "rdSeason";
-            this.rdSeason.Size = new System.Drawing.Size(61, 17);
-            this.rdSeason.TabIndex = 1;
-            this.rdSeason.Text = "Season";
-            this.rdSeason.UseVisualStyleBackColor = true;
-            this.rdSeason.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // rdWeek
-            // 
-            this.rdWeek.AutoSize = true;
-            this.rdWeek.Location = new System.Drawing.Point(140, 11);
-            this.rdWeek.Name = "rdWeek";
-            this.rdWeek.Size = new System.Drawing.Size(54, 17);
-            this.rdWeek.TabIndex = 2;
-            this.rdWeek.Text = "Week";
-            this.rdWeek.UseVisualStyleBackColor = true;
-            this.rdWeek.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // rdSession
-            // 
-            this.rdSession.AutoSize = true;
-            this.rdSession.Location = new System.Drawing.Point(250, 11);
-            this.rdSession.Name = "rdSession";
-            this.rdSession.Size = new System.Drawing.Size(62, 17);
-            this.rdSession.TabIndex = 4;
-            this.rdSession.Text = "Session";
-            this.rdSession.UseVisualStyleBackColor = true;
-            this.rdSession.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(551, 5);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(51, 23);
-            this.btnUpdate.TabIndex = 3;
-            this.btnUpdate.Text = "Update";
-            this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
             // lblKudos
             // 
             this.lblKudos.AutoSize = true;
-            this.lblKudos.Location = new System.Drawing.Point(520, 34);
+            this.lblKudos.Location = new System.Drawing.Point(520, 28);
             this.lblKudos.Name = "lblKudos";
             this.lblKudos.Size = new System.Drawing.Size(49, 13);
             this.lblKudos.TabIndex = 10;
             this.lblKudos.Text = "Kudos: 0";
-            // 
-            // rdDay
-            // 
-            this.rdDay.AutoSize = true;
-            this.rdDay.Location = new System.Drawing.Point(200, 11);
-            this.rdDay.Name = "rdDay";
-            this.rdDay.Size = new System.Drawing.Size(44, 17);
-            this.rdDay.TabIndex = 3;
-            this.rdDay.Text = "Day";
-            this.rdDay.UseVisualStyleBackColor = true;
-            this.rdDay.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // grpFilter
-            // 
-            this.grpFilter.Controls.Add(this.rdAll);
-            this.grpFilter.Controls.Add(this.rdDay);
-            this.grpFilter.Controls.Add(this.rdSeason);
-            this.grpFilter.Controls.Add(this.rdWeek);
-            this.grpFilter.Controls.Add(this.rdSession);
-            this.grpFilter.Location = new System.Drawing.Point(5, -3);
-            this.grpFilter.Name = "grpFilter";
-            this.grpFilter.Size = new System.Drawing.Size(313, 34);
-            this.grpFilter.TabIndex = 0;
-            this.grpFilter.TabStop = false;
-            // 
-            // grpParty
-            // 
-            this.grpParty.Controls.Add(this.rdParty);
-            this.grpParty.Controls.Add(this.rdAllParty);
-            this.grpParty.Controls.Add(this.rdSolo);
-            this.grpParty.Location = new System.Drawing.Point(333, -3);
-            this.grpParty.Name = "grpParty";
-            this.grpParty.Size = new System.Drawing.Size(152, 34);
-            this.grpParty.TabIndex = 1;
-            this.grpParty.TabStop = false;
-            // 
-            // rdParty
-            // 
-            this.rdParty.AutoSize = true;
-            this.rdParty.Location = new System.Drawing.Point(99, 11);
-            this.rdParty.Name = "rdParty";
-            this.rdParty.Size = new System.Drawing.Size(49, 17);
-            this.rdParty.TabIndex = 2;
-            this.rdParty.Text = "Party";
-            this.rdParty.UseVisualStyleBackColor = true;
-            this.rdParty.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // rdAllParty
-            // 
-            this.rdAllParty.AutoSize = true;
-            this.rdAllParty.Checked = true;
-            this.rdAllParty.Location = new System.Drawing.Point(5, 11);
-            this.rdAllParty.Name = "rdAllParty";
-            this.rdAllParty.Size = new System.Drawing.Size(36, 17);
-            this.rdAllParty.TabIndex = 0;
-            this.rdAllParty.TabStop = true;
-            this.rdAllParty.Text = "All";
-            this.rdAllParty.UseVisualStyleBackColor = true;
-            this.rdAllParty.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
-            // 
-            // rdSolo
-            // 
-            this.rdSolo.AutoSize = true;
-            this.rdSolo.Location = new System.Drawing.Point(47, 11);
-            this.rdSolo.Name = "rdSolo";
-            this.rdSolo.Size = new System.Drawing.Size(46, 17);
-            this.rdSolo.TabIndex = 1;
-            this.rdSolo.Text = "Solo";
-            this.rdSolo.UseVisualStyleBackColor = true;
-            this.rdSolo.CheckedChanged += new System.EventHandler(this.rdAll_CheckedChanged);
             // 
             // gridDetails
             // 
@@ -280,7 +157,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridDetails.EnableHeadersVisualStyles = false;
-            this.gridDetails.Location = new System.Drawing.Point(0, 53);
+            this.gridDetails.Location = new System.Drawing.Point(0, 50);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
@@ -293,26 +170,173 @@
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             // 
-            // btnOverlay
+            // menu
             // 
-            this.btnOverlay.Location = new System.Drawing.Point(494, 5);
-            this.btnOverlay.Name = "btnOverlay";
-            this.btnOverlay.Size = new System.Drawing.Size(51, 23);
-            this.btnOverlay.TabIndex = 2;
-            this.btnOverlay.Text = "Overlay";
-            this.btnOverlay.UseVisualStyleBackColor = true;
-            this.btnOverlay.Click += new System.EventHandler(this.btnOverlay_Click);
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuSettings,
+            this.menuFilters,
+            this.menuOverlay,
+            this.menuUpdate,
+            this.menuHelp});
+            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.Name = "menu";
+            this.menu.Size = new System.Drawing.Size(614, 24);
+            this.menu.TabIndex = 12;
+            this.menu.Text = "menuStrip1";
+            // 
+            // menuSettings
+            // 
+            this.menuSettings.Name = "menuSettings";
+            this.menuSettings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.menuSettings.Size = new System.Drawing.Size(61, 20);
+            this.menuSettings.Text = "Settings";
+            this.menuSettings.Click += new System.EventHandler(this.menuSettings_Click);
+            // 
+            // menuFilters
+            // 
+            this.menuFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStatsFilter,
+            this.menuPartyFilter});
+            this.menuFilters.Name = "menuFilters";
+            this.menuFilters.Size = new System.Drawing.Size(50, 20);
+            this.menuFilters.Text = "Filters";
+            // 
+            // menuStatsFilter
+            // 
+            this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAllStats,
+            this.menuSeasonStats,
+            this.menuWeekStats,
+            this.menuDayStats,
+            this.menuSessionStats});
+            this.menuStatsFilter.Name = "menuStatsFilter";
+            this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuStatsFilter.Text = "Stats";
+            // 
+            // menuAllStats
+            // 
+            this.menuAllStats.Checked = true;
+            this.menuAllStats.CheckOnClick = true;
+            this.menuAllStats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.menuAllStats.Name = "menuAllStats";
+            this.menuAllStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.menuAllStats.Size = new System.Drawing.Size(187, 22);
+            this.menuAllStats.Text = "All";
+            this.menuAllStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuSeasonStats
+            // 
+            this.menuSeasonStats.CheckOnClick = true;
+            this.menuSeasonStats.Name = "menuSeasonStats";
+            this.menuSeasonStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.menuSeasonStats.Size = new System.Drawing.Size(187, 22);
+            this.menuSeasonStats.Text = "Season";
+            this.menuSeasonStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuWeekStats
+            // 
+            this.menuWeekStats.CheckOnClick = true;
+            this.menuWeekStats.Name = "menuWeekStats";
+            this.menuWeekStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.W)));
+            this.menuWeekStats.Size = new System.Drawing.Size(187, 22);
+            this.menuWeekStats.Text = "Week";
+            this.menuWeekStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuDayStats
+            // 
+            this.menuDayStats.CheckOnClick = true;
+            this.menuDayStats.Name = "menuDayStats";
+            this.menuDayStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.menuDayStats.Size = new System.Drawing.Size(187, 22);
+            this.menuDayStats.Text = "Day";
+            this.menuDayStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuSessionStats
+            // 
+            this.menuSessionStats.CheckOnClick = true;
+            this.menuSessionStats.Name = "menuSessionStats";
+            this.menuSessionStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.G)));
+            this.menuSessionStats.Size = new System.Drawing.Size(187, 22);
+            this.menuSessionStats.Text = "Session";
+            this.menuSessionStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuPartyFilter
+            // 
+            this.menuPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAllPartyStats,
+            this.menuSoloStats,
+            this.menuPartyStats});
+            this.menuPartyFilter.Name = "menuPartyFilter";
+            this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuPartyFilter.Text = "Party";
+            // 
+            // menuAllPartyStats
+            // 
+            this.menuAllPartyStats.Checked = true;
+            this.menuAllPartyStats.CheckOnClick = true;
+            this.menuAllPartyStats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.menuAllPartyStats.Name = "menuAllPartyStats";
+            this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.menuAllPartyStats.Size = new System.Drawing.Size(180, 22);
+            this.menuAllPartyStats.Text = "All";
+            this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuSoloStats
+            // 
+            this.menuSoloStats.CheckOnClick = true;
+            this.menuSoloStats.Name = "menuSoloStats";
+            this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.menuSoloStats.Size = new System.Drawing.Size(180, 22);
+            this.menuSoloStats.Text = "Solo";
+            this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuPartyStats
+            // 
+            this.menuPartyStats.CheckOnClick = true;
+            this.menuPartyStats.Name = "menuPartyStats";
+            this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.menuPartyStats.Size = new System.Drawing.Size(180, 22);
+            this.menuPartyStats.Text = "Party";
+            this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuOverlay
+            // 
+            this.menuOverlay.Name = "menuOverlay";
+            this.menuOverlay.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.menuOverlay.Size = new System.Drawing.Size(59, 20);
+            this.menuOverlay.Text = "Overlay";
+            this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
+            // 
+            // menuUpdate
+            // 
+            this.menuUpdate.Name = "menuUpdate";
+            this.menuUpdate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.menuUpdate.Size = new System.Drawing.Size(57, 20);
+            this.menuUpdate.Text = "Update";
+            this.menuUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
+            // 
+            // menuHelp
+            // 
+            this.menuHelp.Name = "menuHelp";
+            this.menuHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+            this.menuHelp.Size = new System.Drawing.Size(44, 20);
+            this.menuHelp.Text = "Help";
+            this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
             // 
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 623);
-            this.Controls.Add(this.btnOverlay);
-            this.Controls.Add(this.grpParty);
-            this.Controls.Add(this.grpFilter);
+            this.ClientSize = new System.Drawing.Size(614, 620);
             this.Controls.Add(this.lblKudos);
-            this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.lblWinChance);
             this.Controls.Add(this.lblTotalTime);
             this.Controls.Add(this.lblFinalChance);
@@ -320,10 +344,12 @@
             this.Controls.Add(this.lblTotalWins);
             this.Controls.Add(this.lblTotalRounds);
             this.Controls.Add(this.gridDetails);
+            this.Controls.Add(this.menu);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menu;
             this.MaximizeBox = false;
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
@@ -331,11 +357,9 @@
             this.Text = "Fall Guys Stats";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Shown += new System.EventHandler(this.Stats_Shown);
-            this.grpFilter.ResumeLayout(false);
-            this.grpFilter.PerformLayout();
-            this.grpParty.ResumeLayout(false);
-            this.grpParty.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
+            this.menu.ResumeLayout(false);
+            this.menu.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -349,19 +373,23 @@
         private System.Windows.Forms.Label lblTotalWins;
         private System.Windows.Forms.Label lblFinalChance;
         private System.Windows.Forms.Label lblWinChance;
-        private System.Windows.Forms.RadioButton rdAll;
-        private System.Windows.Forms.RadioButton rdSeason;
-        private System.Windows.Forms.RadioButton rdWeek;
-        private System.Windows.Forms.RadioButton rdSession;
-        private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label lblKudos;
-        private System.Windows.Forms.RadioButton rdDay;
-        private System.Windows.Forms.GroupBox grpFilter;
-        private System.Windows.Forms.GroupBox grpParty;
-        private System.Windows.Forms.RadioButton rdParty;
-        private System.Windows.Forms.RadioButton rdAllParty;
-        private System.Windows.Forms.RadioButton rdSolo;
-        private System.Windows.Forms.Button btnOverlay;
+        private System.Windows.Forms.MenuStrip menu;
+        private System.Windows.Forms.ToolStripMenuItem menuSettings;
+        private System.Windows.Forms.ToolStripMenuItem menuFilters;
+        private System.Windows.Forms.ToolStripMenuItem menuStatsFilter;
+        private System.Windows.Forms.ToolStripMenuItem menuAllStats;
+        private System.Windows.Forms.ToolStripMenuItem menuSeasonStats;
+        private System.Windows.Forms.ToolStripMenuItem menuWeekStats;
+        private System.Windows.Forms.ToolStripMenuItem menuDayStats;
+        private System.Windows.Forms.ToolStripMenuItem menuSessionStats;
+        private System.Windows.Forms.ToolStripMenuItem menuPartyFilter;
+        private System.Windows.Forms.ToolStripMenuItem menuAllPartyStats;
+        private System.Windows.Forms.ToolStripMenuItem menuSoloStats;
+        private System.Windows.Forms.ToolStripMenuItem menuPartyStats;
+        private System.Windows.Forms.ToolStripMenuItem menuOverlay;
+        private System.Windows.Forms.ToolStripMenuItem menuUpdate;
+        private System.Windows.Forms.ToolStripMenuItem menuHelp;
     }
 }
 
