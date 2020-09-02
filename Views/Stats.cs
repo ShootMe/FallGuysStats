@@ -262,7 +262,6 @@ namespace FallGuysStats {
             int? bestScore = null;
             int streak = 0;
             int maxStreak = 0;
-            bool wonFinal = false;
             List<RoundInfo> rounds = new List<RoundInfo>();
             for (int i = 0; i < StatDetails.Count; i++) {
                 rounds.AddRange(StatDetails[i].Stats);
@@ -274,20 +273,15 @@ namespace FallGuysStats {
             for (int i = 0; i < rounds.Count; i++) {
                 RoundInfo info = rounds[i];
                 if (StatLookup.TryGetValue(info.Name, out levelDetails)) {
-                    if (info.Qualified && levelDetails.Type == LevelType.Final) {
-                        wonFinal = true;
-                        streak++;
-                        if (streak > maxStreak) {
-                            maxStreak = streak;
+                    if (info.Qualified) {
+                        if (levelDetails.Type == LevelType.Final) {
+                            streak++;
+                            if (streak > maxStreak) {
+                                maxStreak = streak;
+                            }
                         }
-                    }
-
-                    if (info.Round == 1) {
-                        if (!wonFinal) {
-                            streak = 0;
-                        } else {
-                            wonFinal = false;
-                        }
+                    } else {
+                        streak = 0;
                     }
                 }
             }
