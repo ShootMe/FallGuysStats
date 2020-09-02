@@ -248,12 +248,13 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public Tuple<int, int, TimeSpan?, int?> GetLevelInfo(string name) {
+        public Tuple<int, int, TimeSpan?, int?, int> GetLevelInfo(string name) {
             TimeSpan? best = null;
             LevelStats levelDetails = null;
             int qualifyCount = 0;
             int totalCount = 0;
             int? bestScore = null;
+            int streak = 0;
             if (StatLookup.TryGetValue(name, out levelDetails)) {
                 totalCount = levelDetails.Stats.Count;
                 for (int i = 0; i < totalCount; i++) {
@@ -264,13 +265,20 @@ namespace FallGuysStats {
                             best = finishTime;
                         }
                         qualifyCount++;
+
+                        if (levelDetails.Type == LevelType.Final) {
+                            streak++;
+                        }
+                    } else if (levelDetails.Type == LevelType.Final) {
+                        streak = 0;
                     }
+
                     if (levelDetails.Type == LevelType.Team && info.Score.HasValue && (!bestScore.HasValue || info.Score.Value > bestScore.Value)) {
                         bestScore = info.Score;
                     }
                 }
             }
-            return new Tuple<int, int, TimeSpan?, int?>(totalCount, qualifyCount, best, bestScore);
+            return new Tuple<int, int, TimeSpan?, int?, int>(totalCount, qualifyCount, best, bestScore, streak);
         }
         private void ClearTotals() {
             Rounds = 0;
