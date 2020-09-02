@@ -97,8 +97,8 @@ namespace FallGuysStats {
                     LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
                     lblName.Text = displayName.ToUpper();
                     lblPlayers.Text = info.Players.ToString();
-                    Tuple<int, int, TimeSpan?, int?, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
-                    lblStreak.Text = levelInfo.Item5.ToString();
+                    Tuple<int, int, TimeSpan?, int?, int, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    lblStreak.Text = $"{levelInfo.Item5} (BEST {levelInfo.Item6})";
                     float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
                     lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
                     if (levelInfo.Item4.HasValue) {
