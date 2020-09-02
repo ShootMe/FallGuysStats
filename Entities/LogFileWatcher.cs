@@ -150,9 +150,7 @@ namespace FallGuysStats {
                             ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat);
                         }
 
-                        if (round.Count > 0) {
-                            OnParsedLogLinesCurrent?.Invoke(round);
-                        }
+                        OnParsedLogLinesCurrent?.Invoke(round);
                     }
                 } catch (Exception ex) {
                     OnError?.Invoke(ex.ToString());
@@ -205,6 +203,14 @@ namespace FallGuysStats {
                 countPlayers = true;
             } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase)) > 0) {
                 currentlyInParty = !line.Line.Substring(index + 37).Equals("solo", StringComparison.OrdinalIgnoreCase);
+                if (stat != null) {
+                    if (stat.End == DateTime.MinValue) {
+                        stat.End = line.Date;
+                    }
+                    stat.Playing = false;
+                }
+                round.Clear();
+                stat = null;
             } else if (stat != null && countPlayers && line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0 && (index = line.Line.IndexOf(" players in system.", StringComparison.OrdinalIgnoreCase)) > 0) {
                 int prevIndex = line.Line.LastIndexOf(' ', index - 1);
                 if (int.TryParse(line.Line.Substring(prevIndex, index - prevIndex), out players)) {
@@ -240,8 +246,12 @@ namespace FallGuysStats {
                 stat.Playing = false;
                 findPosition = false;
             } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0) {
-                round.Clear();
-                stat = null;
+                if (stat != null) {
+                    if (stat.End == DateTime.MinValue) {
+                        stat.End = line.Date;
+                    }
+                    stat.Playing = false;
+                }
                 findPosition = false;
                 countPlayers = false;
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {

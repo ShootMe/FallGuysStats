@@ -87,54 +87,56 @@ namespace FallGuysStats {
             float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
             lblFinalChance.Text = $"{StatsForm.Finals} - {finalChance:0.0}%";
 
-            bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
-            if (hasCurrentRound) {
-                RoundInfo info = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
-                if (StatsForm.RoundChanged) {
-                    StatsForm.RoundChanged = false;
-                    lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
-                    string displayName = string.Empty;
-                    LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
-                    lblName.Text = displayName.ToUpper();
-                    lblPlayers.Text = info.Players.ToString();
-                    Tuple<int, int, TimeSpan?, int?, int, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
-                    lblStreak.Text = $"{levelInfo.Item5} (BEST {levelInfo.Item6})";
-                    float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
-                    lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
-                    if (levelInfo.Item4.HasValue) {
-                        lblFastestDesc.Text = "H SCORE:";
-                        lblFastest.Text = levelInfo.Item4.Value.ToString();
-                    } else {
-                        lblFastestDesc.Text = "FASTEST:";
-                        lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
+            lock (StatsForm.CurrentRound) {
+                bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
+                if (hasCurrentRound) {
+                    RoundInfo info = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
+                    if (StatsForm.RoundChanged) {
+                        StatsForm.RoundChanged = false;
+                        lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
+                        string displayName = string.Empty;
+                        LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
+                        lblName.Text = displayName.ToUpper();
+                        lblPlayers.Text = info.Players.ToString();
+                        Tuple<int, int, TimeSpan?, int?, int, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                        lblStreak.Text = $"{levelInfo.Item5} (BEST {levelInfo.Item6})";
+                        float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
+                        lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
+                        if (levelInfo.Item4.HasValue) {
+                            lblFastestDesc.Text = "H SCORE:";
+                            lblFastest.Text = levelInfo.Item4.Value.ToString();
+                        } else {
+                            lblFastestDesc.Text = "FASTEST:";
+                            lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
+                        }
                     }
-                }
 
-                DateTime Start = DateTime.MinValue;
-                if (info.Start != DateTime.MinValue) { Start = info.Start.Add(info.Start - info.Start.ToUniversalTime()); }
-                DateTime End = DateTime.MinValue;
-                if (info.End != DateTime.MinValue) { End = info.End.Add(info.End - info.End.ToUniversalTime()); }
-                DateTime? Finish = null;
-                if (info.Finish.HasValue) { Finish = info.Finish.Value.Add(info.Finish.Value - info.Finish.Value.ToUniversalTime()); }
+                    DateTime Start = DateTime.MinValue;
+                    if (info.Start != DateTime.MinValue) { Start = info.Start.Add(info.Start - info.Start.ToUniversalTime()); }
+                    DateTime End = DateTime.MinValue;
+                    if (info.End != DateTime.MinValue) { End = info.End.Add(info.End - info.End.ToUniversalTime()); }
+                    DateTime? Finish = null;
+                    if (info.Finish.HasValue) { Finish = info.Finish.Value.Add(info.Finish.Value - info.Finish.Value.ToUniversalTime()); }
 
-                if (Finish.HasValue) {
-                    if (info.Position > 0) {
-                        lblFinish.Text = $"# {info.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                    if (Finish.HasValue) {
+                        if (info.Position > 0) {
+                            lblFinish.Text = $"# {info.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                        } else {
+                            lblFinish.Text = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                        }
+                    } else if (info.Playing) {
+                        lblFinish.Text = $"{DateTime.Now - Start:m\\:ss}";
                     } else {
-                        lblFinish.Text = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                        lblFinish.Text = "-";
                     }
-                } else if (info.Playing) {
-                    lblFinish.Text = $"{DateTime.Now - Start:m\\:ss}";
-                } else {
-                    lblFinish.Text = "-";
-                }
 
-                if (End != DateTime.MinValue) {
-                    lblDuration.Text = (End - Start).ToString("m\\:ss");
-                } else if (info.Playing) {
-                    lblDuration.Text = (DateTime.Now - Start).ToString("m\\:ss");
-                } else {
-                    lblDuration.Text = "-";
+                    if (End != DateTime.MinValue) {
+                        lblDuration.Text = (End - Start).ToString("m\\:ss");
+                    } else if (info.Playing) {
+                        lblDuration.Text = (DateTime.Now - Start).ToString("m\\:ss");
+                    } else {
+                        lblDuration.Text = "-";
+                    }
                 }
             }
         }
