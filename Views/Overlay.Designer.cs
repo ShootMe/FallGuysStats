@@ -200,7 +200,7 @@
             // Overlay
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.Magenta;
+            this.BackColor = System.Drawing.Color.LightGray;
             this.BackgroundImage = global::FallGuysStats.Properties.Resources.background;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(786, 99);
@@ -233,7 +233,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Overlay";
             this.TopMost = true;
-            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.TransparencyKey = System.Drawing.Color.LightGray;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
             this.ResumeLayout(false);
