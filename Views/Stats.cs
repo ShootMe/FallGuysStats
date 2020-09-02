@@ -119,13 +119,31 @@ namespace FallGuysStats {
                     FlippedDisplay = false,
                     LogPath = null,
                     OverlayColor = 0,
-                    OverlayLocation = null,
+                    OverlayLocationX = null,
+                    OverlayLocationY = null,
                     SwitchBetweenLongest = true,
                     OverlayVisible = false
                 };
                 UserSettings.Insert(CurrentSettings);
             } else {
-                CurrentSettings = UserSettings.FindAll().First();
+                try {
+                    CurrentSettings = UserSettings.FindAll().First();
+                } catch {
+                    UserSettings.DeleteAll();
+                    CurrentSettings = new UserSettings() {
+                        ID = 1,
+                        CycleTimeSeconds = 3,
+                        FilterType = 0,
+                        FlippedDisplay = false,
+                        LogPath = null,
+                        OverlayColor = 0,
+                        OverlayLocationX = null,
+                        OverlayLocationY = null,
+                        SwitchBetweenLongest = true,
+                        OverlayVisible = false
+                    };
+                    UserSettings.Insert(CurrentSettings);
+                }
             }
             RoundDetails.EnsureIndex(x => x.Name);
             RoundDetails.EnsureIndex(x => x.ShowID);
@@ -140,8 +158,10 @@ namespace FallGuysStats {
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
-                CurrentSettings.OverlayLocation = overlay.Location;
+                CurrentSettings.OverlayLocationX = overlay.Location.X;
+                CurrentSettings.OverlayLocationY = overlay.Location.Y;
                 CurrentSettings.OverlayVisible = overlay.Visible;
+                CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                 UserSettings.Update(CurrentSettings);
                 statsDB.Dispose();
             } catch { }
@@ -177,6 +197,15 @@ namespace FallGuysStats {
 
                 if (CurrentSettings.OverlayVisible) {
                     menuOverlay_Click(null, null);
+                }
+                if (CurrentSettings.FilterType != 0) {
+                    menuAllStats.Checked = false;
+                    switch (CurrentSettings.FilterType) {
+                        case 1: menuSeasonStats.Checked = true; menuStats_Click(menuSeasonStats, null); break;
+                        case 2: menuWeekStats.Checked = true; menuStats_Click(menuWeekStats, null); break;
+                        case 3: menuDayStats.Checked = true; menuStats_Click(menuDayStats, null); break;
+                        case 4: menuSessionStats.Checked = true; menuStats_Click(menuSessionStats, null); break;
+                    }
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -737,7 +766,8 @@ namespace FallGuysStats {
         private void menuOverlay_Click(object sender, EventArgs e) {
             if (overlay.Visible) {
                 overlay.Hide();
-                CurrentSettings.OverlayLocation = overlay.Location;
+                CurrentSettings.OverlayLocationX = overlay.Location.X;
+                CurrentSettings.OverlayLocationY = overlay.Location.Y;
                 UserSettings.Update(CurrentSettings);
             } else {
                 switch (CurrentSettings.OverlayColor) {
@@ -751,8 +781,8 @@ namespace FallGuysStats {
                 overlay.FlipDisplay(CurrentSettings.FlippedDisplay);
                 overlay.Show(this);
 
-                if (CurrentSettings.OverlayLocation.HasValue) {
-                    overlay.Location = CurrentSettings.OverlayLocation.Value;
+                if (CurrentSettings.OverlayLocationX.HasValue) {
+                    overlay.Location = new Point(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value);
                 } else {
                     overlay.Location = this.Location;
                 }
