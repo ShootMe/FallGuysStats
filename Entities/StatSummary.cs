@@ -1,0 +1,13 @@
+﻿using System;
+namespace FallGuysStats {
+    public class StatSummary {
+        public string CurrentFilter { get; set; }
+        public int CurrentStreak { get; set; }
+        public int BestStreak { get; set; }
+        public int TotalPlays { get; set; }
+        public int TotalQualify { get; set; }
+        public TimeSpan? BestFinish { get; set; }
+        public TimeSpan? LongestDuration { get; set; }
+        public int? BestScore { get; set; }
+    }
+}
