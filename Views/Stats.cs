@@ -298,7 +298,7 @@ namespace FallGuysStats {
                     RoundInfo info = levelDetails.Stats[i];
                     TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                     if (info.Qualified) {
-                        if (!best.HasValue || (finishTime.TotalSeconds > 1 && best.Value > finishTime)) {
+                        if (finishTime.TotalSeconds > 1.1 && (!best.HasValue || best.Value > finishTime)) {
                             best = finishTime;
                         }
                         qualifyCount++;
