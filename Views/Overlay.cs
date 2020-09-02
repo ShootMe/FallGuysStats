@@ -92,12 +92,13 @@ namespace FallGuysStats {
                 RoundInfo info = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
                 if (StatsForm.RoundChanged) {
                     StatsForm.RoundChanged = false;
-                    lblRound.Text = string.Concat((info.End != DateTime.MinValue ? "LAST" : "CURRENT"), $" ROUND {StatsForm.CurrentRound.Count}");
+                    lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
                     string displayName = string.Empty;
                     LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
-                    lblName.Text = displayName;
+                    lblName.Text = displayName.ToUpper();
                     lblPlayers.Text = info.Players.ToString();
-                    Tuple<int, int, TimeSpan?, int?> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    Tuple<int, int, TimeSpan?, int?, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    lblStreak.Text = levelInfo.Item5.ToString();
                     float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
                     lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
                     if (levelInfo.Item4.HasValue) {

@@ -107,7 +107,8 @@ namespace FallGuysStats {
             //Get bounds
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;
             CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
-
+            int mod = (int)ymax % 8;
+            ymax += mod == 0 ? 0 : 8 - mod;
             //Get inital values
             int closeInd = 0;
             int closeTemp = 0;
@@ -210,6 +211,8 @@ namespace FallGuysStats {
             //Draw labels
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;
             CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
+            int mod = (int)ymax % 8;
+            ymax += mod == 0 ? 0 : 8 - mod;
             float sz = DefaultFont.SizeInPoints;
             Graphics g = e.Graphics;
             decimal y8 = (ymax - ymin) / (decimal)8.0; decimal x8 = (xmax - xmin) / (decimal)8.0;
@@ -227,7 +230,7 @@ namespace FallGuysStats {
                 if (i > 0)
                     g.DrawLine(bp, tx, 0, tx, hmax - 1);
                 float ty = (float)(h - 3 * sz - h8 * i);
-                g.DrawString((y8 * i + ymin).ToString("0.00"), DefaultFont, Brushes.Black, (float)2, ty);
+                g.DrawString((y8 * i + ymin).ToString("0"), DefaultFont, Brushes.Black, (float)2, ty);
                 if (i > 0)
                     g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz);
             }
