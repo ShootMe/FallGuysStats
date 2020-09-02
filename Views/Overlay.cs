@@ -20,6 +20,8 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         private Thread timer;
         private bool flippedImage;
+        private int frameCount;
+        private int labelToShow;
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
@@ -73,6 +75,14 @@ namespace FallGuysStats {
             while (StatsForm != null && !StatsForm.IsDisposed && !StatsForm.Disposing) {
                 try {
                     if (this.Visible && this.IsHandleCreated && !this.Disposing && !this.IsDisposed) {
+                        frameCount++;
+                        if (StatsForm.CurrentSettings.SwitchBetweenLongest) {
+                            if ((frameCount % (StatsForm.CurrentSettings.CycleTimeSeconds * 20)) == 0) {
+                                labelToShow++;
+                            }
+                        } else {
+                            labelToShow = 0;
+                        }
                         this.Invoke((Action)UpdateInfo);
                     }
                     Thread.Sleep(50);
@@ -91,24 +101,27 @@ namespace FallGuysStats {
                 bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
                 if (hasCurrentRound) {
                     RoundInfo info = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
-                    if (StatsForm.RoundChanged) {
-                        StatsForm.RoundChanged = false;
-                        lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
-                        string displayName = string.Empty;
-                        LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
-                        lblName.Text = displayName.ToUpper();
-                        lblPlayers.Text = info.Players.ToString();
-                        Tuple<int, int, TimeSpan?, int?, int, int> levelInfo = StatsForm.GetLevelInfo(info.Name);
-                        lblStreak.Text = $"{levelInfo.Item5} (BEST {levelInfo.Item6})";
-                        float qualifyChance = (float)levelInfo.Item2 * 100 / (levelInfo.Item1 == 0 ? 1 : levelInfo.Item1);
-                        lblQualifyChance.Text = $"{levelInfo.Item2} / {levelInfo.Item1} - {qualifyChance:0.0}%";
-                        if (levelInfo.Item4.HasValue) {
-                            lblFastestDesc.Text = "H SCORE:";
-                            lblFastest.Text = levelInfo.Item4.Value.ToString();
-                        } else {
-                            lblFastestDesc.Text = "FASTEST:";
-                            lblFastest.Text = levelInfo.Item3.HasValue ? $"{levelInfo.Item3:m\\:ss\\.ff}" : "-";
-                        }
+                    lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
+
+                    string displayName = string.Empty;
+                    LevelStats.DisplayNameLookup.TryGetValue(info.Name, out displayName);
+                    lblName.Text = displayName.ToUpper();
+                    lblPlayers.Text = info.Players.ToString();
+
+                    StatSummary levelInfo = StatsForm.GetLevelInfo(info.Name);
+                    lblStreak.Text = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
+                    float qualifyChance = (float)levelInfo.TotalQualify * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                    lblQualifyChance.Text = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
+                    if ((labelToShow % modCount) == 1) {
+                        lblFastestDesc.Text = "LONGEST:";
+                        lblFastest.Text = levelInfo.LongestDuration.HasValue ? $"{levelInfo.LongestDuration:m\\:ss\\.ff}" : "-";
+                    } else if ((labelToShow % modCount) == 2) {
+                        lblFastestDesc.Text = "H SCORE:";
+                        lblFastest.Text = levelInfo.BestScore.Value.ToString();
+                    } else {
+                        lblFastestDesc.Text = "FASTEST:";
+                        lblFastest.Text = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     }
 
                     DateTime Start = DateTime.MinValue;
@@ -142,35 +155,52 @@ namespace FallGuysStats {
         }
         private void Overlay_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.T) {
-                if (BackColor == Color.Black) {
+                int colorOption = 0;
+                if (BackColor.ToArgb() == Color.Black.ToArgb()) {
+                    colorOption = 5;
                     BackColor = Color.Green;
-                } else if (BackColor == Color.Green) {
+                } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                    colorOption = 0;
                     BackColor = Color.Magenta;
-                } else if (BackColor == Color.Magenta) {
+                } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                    colorOption = 1;
                     BackColor = Color.Blue;
-                } else if (BackColor == Color.Blue) {
+                } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                    colorOption = 2;
                     BackColor = Color.Red;
-                } else if (BackColor == Color.Red) {
+                } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                    colorOption = 3;
                     BackColor = Color.FromArgb(224, 224, 224);
-                } else if (BackColor == Color.FromArgb(224, 224, 224)) {
+                } else if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                    colorOption = 4;
                     BackColor = Color.Black;
                 }
+                StatsForm.CurrentSettings.OverlayColor = colorOption;
+                StatsForm.UserSettings.Update(StatsForm.CurrentSettings);
             } else if (e.KeyCode == Keys.F) {
-                if (!flippedImage) {
-                    flippedImage = true;
-                    BackgroundImage = Properties.Resources.backgroundFlip;
-                    foreach (Control ctr in Controls) {
-                        if (ctr is TransparentLabel label) {
-                            label.Location = new Point(label.Location.X - 18, label.Location.Y);
-                        }
+                FlipDisplay(!flippedImage);
+
+                StatsForm.CurrentSettings.FlippedDisplay = flippedImage;
+                StatsForm.UserSettings.Update(StatsForm.CurrentSettings);
+            }
+        }
+        public void FlipDisplay(bool flipped) {
+            if (flipped == flippedImage) { return; }
+
+            if (flipped) {
+                flippedImage = true;
+                BackgroundImage = Properties.Resources.backgroundFlip;
+                foreach (Control ctr in Controls) {
+                    if (ctr is TransparentLabel label) {
+                        label.Location = new Point(label.Location.X - 18, label.Location.Y);
                     }
-                } else {
-                    flippedImage = false;
-                    BackgroundImage = Properties.Resources.background;
-                    foreach (Control ctr in Controls) {
-                        if (ctr is TransparentLabel label) {
-                            label.Location = new Point(label.Location.X + 18, label.Location.Y);
-                        }
+                }
+            } else {
+                flippedImage = false;
+                BackgroundImage = Properties.Resources.background;
+                foreach (Control ctr in Controls) {
+                    if (ctr is TransparentLabel label) {
+                        label.Location = new Point(label.Location.X + 18, label.Location.Y);
                     }
                 }
             }

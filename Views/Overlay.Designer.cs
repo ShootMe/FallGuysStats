@@ -54,7 +54,7 @@
             // 
             // lblPlayersDesc
             // 
-            this.lblPlayersDesc.Location = new System.Drawing.Point(260, 32);
+            this.lblPlayersDesc.Location = new System.Drawing.Point(558, 9);
             this.lblPlayersDesc.Name = "lblPlayersDesc";
             this.lblPlayersDesc.Size = new System.Drawing.Size(106, 22);
             this.lblPlayersDesc.TabIndex = 11;
@@ -87,7 +87,7 @@
             // 
             // lblQualifyChanceDesc
             // 
-            this.lblQualifyChanceDesc.Location = new System.Drawing.Point(260, 55);
+            this.lblQualifyChanceDesc.Location = new System.Drawing.Point(260, 32);
             this.lblQualifyChanceDesc.Name = "lblQualifyChanceDesc";
             this.lblQualifyChanceDesc.Size = new System.Drawing.Size(100, 22);
             this.lblQualifyChanceDesc.TabIndex = 13;
@@ -111,7 +111,7 @@
             // 
             // lblFastestDesc
             // 
-            this.lblFastestDesc.Location = new System.Drawing.Point(558, 9);
+            this.lblFastestDesc.Location = new System.Drawing.Point(260, 55);
             this.lblFastestDesc.Name = "lblFastestDesc";
             this.lblFastestDesc.Size = new System.Drawing.Size(103, 22);
             this.lblFastestDesc.TabIndex = 15;
@@ -135,7 +135,7 @@
             // 
             // lblQualifyChance
             // 
-            this.lblQualifyChance.Location = new System.Drawing.Point(354, 55);
+            this.lblQualifyChance.Location = new System.Drawing.Point(354, 32);
             this.lblQualifyChance.Name = "lblQualifyChance";
             this.lblQualifyChance.Size = new System.Drawing.Size(203, 22);
             this.lblQualifyChance.TabIndex = 14;
@@ -144,9 +144,9 @@
             // 
             // lblFastest
             // 
-            this.lblFastest.Location = new System.Drawing.Point(655, 9);
+            this.lblFastest.Location = new System.Drawing.Point(357, 55);
             this.lblFastest.Name = "lblFastest";
-            this.lblFastest.Size = new System.Drawing.Size(128, 22);
+            this.lblFastest.Size = new System.Drawing.Size(200, 22);
             this.lblFastest.TabIndex = 16;
             this.lblFastest.Text = "-";
             this.lblFastest.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -162,9 +162,9 @@
             // 
             // lblPlayers
             // 
-            this.lblPlayers.Location = new System.Drawing.Point(359, 32);
+            this.lblPlayers.Location = new System.Drawing.Point(657, 9);
             this.lblPlayers.Name = "lblPlayers";
-            this.lblPlayers.Size = new System.Drawing.Size(198, 22);
+            this.lblPlayers.Size = new System.Drawing.Size(126, 22);
             this.lblPlayers.TabIndex = 12;
             this.lblPlayers.Text = "0";
             this.lblPlayers.TextAlign = System.Drawing.ContentAlignment.TopRight;
