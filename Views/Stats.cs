@@ -132,6 +132,8 @@ namespace FallGuysStats {
 
             CurrentRound = new List<RoundInfo>();
             overlay = new Overlay() { StatsForm = this };
+            overlay.Show();
+            overlay.Visible = false;
             overlay.StartTimer();
         }
         private UserSettings GetDefaultSettings() {
@@ -146,6 +148,8 @@ namespace FallGuysStats {
                 OverlayLocationY = null,
                 SwitchBetweenLongest = true,
                 OverlayVisible = false,
+                OverlayNotOnTop = false,
+                UseNDI = false,
                 PreviousWins = 0
             };
         }
@@ -157,6 +161,7 @@ namespace FallGuysStats {
                 CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                 UserSettings.Update(CurrentSettings);
                 statsDB.Dispose();
+                overlay.Cleanup();
             } catch { }
         }
         private void Stats_Shown(object sender, EventArgs e) {
@@ -330,7 +335,7 @@ namespace FallGuysStats {
                         if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
                             summary.BestFinish = finishTime;
                         }
-                        if (finishTime.TotalSeconds > 1.1 && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
+                        if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
                             summary.LongestFinish = finishTime;
                         }
                     }
@@ -490,6 +495,11 @@ namespace FallGuysStats {
             gridDetails.DataSource = null;
             gridDetails.DataSource = StatDetails;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
+        }
+        private void gridDetails_SelectionChanged(object sender, EventArgs e) {
+            if (gridDetails.SelectedCells.Count > 0) {
+                gridDetails.ClearSelection();
+            }
         }
         private void lblTotalShows_Click(object sender, EventArgs e) {
             try {
@@ -766,6 +776,7 @@ namespace FallGuysStats {
                     case 4: overlay.BackColor = Color.Black; break;
                     case 5: overlay.BackColor = Color.Green; break;
                 }
+                overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
                 overlay.FlipDisplay(CurrentSettings.FlippedDisplay);
                 overlay.Show(this);
 

@@ -34,8 +34,6 @@
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
-            this.gridDetails.AllowUserToOrderColumns = false;
-            this.gridDetails.AllowUserToResizeColumns = false;
             this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
             this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
@@ -53,7 +51,7 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
@@ -61,12 +59,14 @@
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.Location = new System.Drawing.Point(0, 0);
             this.gridDetails.Name = "gridDetails";
+            this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.Size = new System.Drawing.Size(614, 504);
             this.gridDetails.TabIndex = 10;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
+            this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // LevelDetails
             // 

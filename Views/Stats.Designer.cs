@@ -130,8 +130,6 @@
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
-            this.gridDetails.AllowUserToOrderColumns = false;
-            this.gridDetails.AllowUserToResizeColumns = false;
             this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -152,11 +150,12 @@
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridDetails.EnableHeadersVisualStyles = false;
+            this.gridDetails.GridColor = System.Drawing.Color.Gray;
             this.gridDetails.Location = new System.Drawing.Point(0, 50);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
@@ -169,6 +168,7 @@
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
+            this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // menu
             // 
@@ -210,7 +210,7 @@
             this.menuDayStats,
             this.menuSessionStats});
             this.menuStatsFilter.Name = "menuStatsFilter";
-            this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
             this.menuStatsFilter.Text = "Stats";
             // 
             // menuAllStats
@@ -272,7 +272,7 @@
             this.menuSoloStats,
             this.menuPartyStats});
             this.menuPartyFilter.Name = "menuPartyFilter";
-            this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
             this.menuPartyFilter.Text = "Party";
             // 
             // menuAllPartyStats
@@ -283,7 +283,7 @@
             this.menuAllPartyStats.Name = "menuAllPartyStats";
             this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.F)));
-            this.menuAllPartyStats.Size = new System.Drawing.Size(180, 22);
+            this.menuAllPartyStats.Size = new System.Drawing.Size(174, 22);
             this.menuAllPartyStats.Text = "All";
             this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -293,7 +293,7 @@
             this.menuSoloStats.Name = "menuSoloStats";
             this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-            this.menuSoloStats.Size = new System.Drawing.Size(180, 22);
+            this.menuSoloStats.Size = new System.Drawing.Size(174, 22);
             this.menuSoloStats.Text = "Solo";
             this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -303,7 +303,7 @@
             this.menuPartyStats.Name = "menuPartyStats";
             this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-            this.menuPartyStats.Size = new System.Drawing.Size(180, 22);
+            this.menuPartyStats.Size = new System.Drawing.Size(174, 22);
             this.menuPartyStats.Text = "Party";
             this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
             // 

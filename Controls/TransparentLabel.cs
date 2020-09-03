@@ -7,14 +7,15 @@ namespace FallGuysStats {
         protected override CreateParams CreateParams {
             get {
                 CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x00000020; //WS_EX_TRANSPARENT
-
+                cp.ExStyle |= 0x00000020;
                 return cp;
             }
         }
         protected override void OnPaint(PaintEventArgs e) {
             Graphics g = e.Graphics;
-
+            Draw(g);
+        }
+        public void Draw(Graphics g) {
             using (SolidBrush brBack = new SolidBrush(BackColor)) {
                 using (SolidBrush brFore = new SolidBrush(ForeColor)) {
                     g.SmoothingMode = SmoothingMode.HighQuality;
@@ -61,10 +62,6 @@ namespace FallGuysStats {
                             break;
                     }
 
-                    //g.DrawString(text, label.Font, brBack, 0, 0);
-                    //g.DrawString(text, label.Font, brBack, 0, 2);
-                    //g.DrawString(text, label.Font, brBack, 2, 0);
-                    //g.DrawString(text, label.Font, brBack, 2, 2);
                     g.DrawString(Text, Font, brFore, ClientRectangle, stringFormat);
                 }
             }
