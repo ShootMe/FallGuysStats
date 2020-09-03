@@ -175,7 +175,6 @@ namespace FallGuysStats {
                             LogLine line = lines[i];
                             if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat)) {
                                 allStats.AddRange(round);
-                                round.Clear();
                             }
                         }
 

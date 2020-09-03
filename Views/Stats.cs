@@ -45,7 +45,6 @@ namespace FallGuysStats {
         public List<LevelStats> StatDetails = new List<LevelStats>();
         public List<RoundInfo> CurrentRound = null;
         public List<RoundInfo> AllStats = new List<RoundInfo>();
-        public bool RoundChanged;
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
         public int Shows;
@@ -176,7 +175,6 @@ namespace FallGuysStats {
                             break;
                         }
                     }
-                    RoundChanged = true;
                     loadingExisting = true;
                     LogFile_OnParsedLogLines(AllStats);
                     loadingExisting = false;
@@ -224,18 +222,14 @@ namespace FallGuysStats {
             }
         }
         private void LogFile_OnParsedLogLinesCurrent(List<RoundInfo> round) {
-            if (RoundChanged) { return; }
-
             lock (CurrentRound) {
                 if (CurrentRound == null || CurrentRound.Count != round.Count) {
                     CurrentRound = round;
-                    RoundChanged = round.Count > 0;
                 } else {
                     for (int i = 0; i < CurrentRound.Count; i++) {
                         RoundInfo info = CurrentRound[i];
                         if (!info.Equals(round[i])) {
                             CurrentRound = round;
-                            RoundChanged = true;
                             break;
                         }
                     }
@@ -291,7 +285,6 @@ namespace FallGuysStats {
                             break;
                         }
                     }
-                    RoundChanged = true;
                 }
 
                 if (!loadingExisting) { statsDB.Commit(); }
