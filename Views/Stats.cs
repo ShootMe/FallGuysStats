@@ -51,6 +51,7 @@ namespace FallGuysStats {
         public int Rounds;
         public TimeSpan Duration;
         public int Wins;
+        public int AllWins;
         public int Finals;
         public int Kudos;
         private int nextShowID;
@@ -303,6 +304,7 @@ namespace FallGuysStats {
             summary.CurrentFilter = menuAllStats.Checked ? "All" : menuSeasonStats.Checked ? "Season" : menuWeekStats.Checked ? "Week" : menuDayStats.Checked ? "Day" : "Session";
             LevelStats levelDetails = null;
 
+            AllWins = 0;
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
@@ -317,6 +319,7 @@ namespace FallGuysStats {
 
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.Type == LevelType.Final) {
+                        AllWins++;
                         summary.CurrentStreak++;
                         if (summary.CurrentStreak > summary.BestStreak) {
                             summary.BestStreak = summary.CurrentStreak;
