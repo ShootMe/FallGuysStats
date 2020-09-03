@@ -306,15 +306,10 @@ namespace FallGuysStats {
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
-                TimeSpan duration = info.End - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
                 bool isCurrentLevel = name.Equals(info.Name, StringComparison.OrdinalIgnoreCase);
 
                 if (isCurrentLevel) {
-                    if (duration.TotalSeconds > 1.1 && (!summary.LongestDuration.HasValue || summary.LongestDuration.Value < duration)) {
-                        summary.LongestDuration = duration;
-                    }
-
                     if ((!hasLevelDetails || levelDetails.Type == LevelType.Team) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                         summary.BestScore = info.Score;
                     }
@@ -331,6 +326,9 @@ namespace FallGuysStats {
                     if (isCurrentLevel) {
                         if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
                             summary.BestFinish = finishTime;
+                        }
+                        if (finishTime.TotalSeconds > 1.1 && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
+                            summary.LongestFinish = finishTime;
                         }
                     }
                 } else {
