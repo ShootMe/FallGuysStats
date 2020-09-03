@@ -7,7 +7,7 @@ namespace FallGuysStats {
         public int TotalPlays { get; set; }
         public int TotalQualify { get; set; }
         public TimeSpan? BestFinish { get; set; }
-        public TimeSpan? LongestDuration { get; set; }
+        public TimeSpan? LongestFinish { get; set; }
         public int? BestScore { get; set; }
     }
 }
