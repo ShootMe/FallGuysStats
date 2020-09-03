@@ -93,7 +93,12 @@ namespace FallGuysStats {
             if (StatsForm == null) { return; }
 
             float winChance = (float)StatsForm.Wins * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            lblWins.Text = $"{StatsForm.Wins} - {winChance:0.0}%";
+            if (StatsForm.CurrentSettings.PreviousWins > 0) {
+                lblWins.Text = $"{StatsForm.Wins} ({StatsForm.Wins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
+            } else {
+                lblWins.Text = $"{StatsForm.Wins} - {winChance:0.0}%";
+            }
+
             float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
             lblFinalChance.Text = $"{StatsForm.Finals} - {finalChance:0.0}%";
 

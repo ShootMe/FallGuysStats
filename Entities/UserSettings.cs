@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     public class UserSettings {
         public int ID { get; set; }
         public string LogPath { get; set; }
@@ -11,5 +10,6 @@ namespace FallGuysStats {
         public bool SwitchBetweenLongest { get; set; }
         public int CycleTimeSeconds { get; set; }
         public bool OverlayVisible { get; set; }
+        public int PreviousWins { get; set; }
     }
 }
