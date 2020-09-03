@@ -203,7 +203,11 @@ namespace FallGuysStats {
                                 if (col.ValueType == typeof(string)) {
                                     sb.Append("\"").Append(row.Cells[col.Name].Value.ToString()).Append("\",");
                                 } else if (col.ValueType != null) {
-                                    sb.Append(row.Cells[col.Name].Value.ToString()).Append(",");
+                                    if (row.Cells[col.Name].Value == null) {
+                                        sb.Append(",");
+                                    } else {
+                                        sb.Append(row.Cells[col.Name].Value.ToString()).Append(",");
+                                    }
                                 }
                             }
                             if (sb.Length > 0) { sb.Length = sb.Length - 1; }
