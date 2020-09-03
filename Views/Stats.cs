@@ -112,36 +112,14 @@ namespace FallGuysStats {
             UserSettings = statsDB.GetCollection<UserSettings>("UserSettings");
             statsDB.BeginTrans();
             if (UserSettings.Count() == 0) {
-                CurrentSettings = new UserSettings() {
-                    ID = 1,
-                    CycleTimeSeconds = 3,
-                    FilterType = 0,
-                    FlippedDisplay = false,
-                    LogPath = null,
-                    OverlayColor = 0,
-                    OverlayLocationX = null,
-                    OverlayLocationY = null,
-                    SwitchBetweenLongest = true,
-                    OverlayVisible = false
-                };
+                CurrentSettings = GetDefaultSettings();
                 UserSettings.Insert(CurrentSettings);
             } else {
                 try {
                     CurrentSettings = UserSettings.FindAll().First();
                 } catch {
                     UserSettings.DeleteAll();
-                    CurrentSettings = new UserSettings() {
-                        ID = 1,
-                        CycleTimeSeconds = 3,
-                        FilterType = 0,
-                        FlippedDisplay = false,
-                        LogPath = null,
-                        OverlayColor = 0,
-                        OverlayLocationX = null,
-                        OverlayLocationY = null,
-                        SwitchBetweenLongest = true,
-                        OverlayVisible = false
-                    };
+                    CurrentSettings = GetDefaultSettings();
                     UserSettings.Insert(CurrentSettings);
                 }
             }
@@ -155,6 +133,21 @@ namespace FallGuysStats {
             CurrentRound = new List<RoundInfo>();
             overlay = new Overlay() { StatsForm = this };
             overlay.StartTimer();
+        }
+        private UserSettings GetDefaultSettings() {
+            return new UserSettings() {
+                ID = 1,
+                CycleTimeSeconds = 3,
+                FilterType = 0,
+                FlippedDisplay = false,
+                LogPath = null,
+                OverlayColor = 0,
+                OverlayLocationX = null,
+                OverlayLocationY = null,
+                SwitchBetweenLongest = true,
+                OverlayVisible = false,
+                PreviousWins = 0
+            };
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
@@ -362,6 +355,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+
             return summary;
         }
         private void ClearTotals() {

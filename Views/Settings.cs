@@ -11,9 +11,11 @@ namespace FallGuysStats {
             txtLogPath.Text = CurrentSettings.LogPath;
             chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
+            txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
         }
         private void btnSave_Click(object sender, EventArgs e) {
             CurrentSettings.LogPath = txtLogPath.Text;
+
             if (string.IsNullOrEmpty(txtCycleTimeSeconds.Text)) {
                 CurrentSettings.CycleTimeSeconds = 3;
             } else {
@@ -22,7 +24,18 @@ namespace FallGuysStats {
                     CurrentSettings.CycleTimeSeconds = 3;
                 }
             }
+
+            if (string.IsNullOrEmpty(txtPreviousWins.Text)) {
+                CurrentSettings.PreviousWins = 0;
+            } else {
+                CurrentSettings.PreviousWins = int.Parse(txtPreviousWins.Text);
+                if (CurrentSettings.PreviousWins < 0) {
+                    CurrentSettings.PreviousWins = 0;
+                }
+            }
+
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -37,6 +50,12 @@ namespace FallGuysStats {
                     txtLogPath.Text = Path.GetDirectoryName(txtLogPath.Text);
                 }
             } catch { }
+        }
+
+        private void txtPreviousWins_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
+            if (!string.IsNullOrEmpty(txtPreviousWins.Text) && !int.TryParse(txtPreviousWins.Text, out _)) {
+                txtPreviousWins.Text = "0";
+            }
         }
     }
 }
