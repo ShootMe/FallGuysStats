@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\fall.ico</ApplicationIcon>
@@ -51,6 +53,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\Graph.cs">
@@ -64,6 +67,14 @@
     </Compile>
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
+    <Compile Include="NDI\AudioFrame.cs" />
+    <Compile Include="NDI\Pinvoke\Processing.NDI.Lib.Interop.cs" />
+    <Compile Include="NDI\Pinvoke\Processing.NDI.Send.Interop.cs" />
+    <Compile Include="NDI\Pinvoke\Processing.NDI.structs.Interop.cs" />
+    <Compile Include="NDI\Sender.cs" />
+    <Compile Include="NDI\Source.cs" />
+    <Compile Include="NDI\Utilities.cs" />
+    <Compile Include="NDI\VideoFrame.cs" />
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -30,6 +30,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.chkUseNDI = new System.Windows.Forms.CheckBox();
             this.lblCycleTimeSecondsTag = new System.Windows.Forms.Label();
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
@@ -37,6 +38,7 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
+            this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +76,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(269, 158);
+            this.btnSave.Location = new System.Drawing.Point(269, 204);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
@@ -85,51 +87,63 @@
             // chkCycleOverlayLongest
             // 
             this.chkCycleOverlayLongest.AutoSize = true;
-            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(17, 21);
+            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(17, 44);
             this.chkCycleOverlayLongest.Name = "chkCycleOverlayLongest";
-            this.chkCycleOverlayLongest.Size = new System.Drawing.Size(196, 17);
-            this.chkCycleOverlayLongest.TabIndex = 0;
-            this.chkCycleOverlayLongest.Text = "Cycle Between Fastest and Longest";
+            this.chkCycleOverlayLongest.Size = new System.Drawing.Size(221, 17);
+            this.chkCycleOverlayLongest.TabIndex = 1;
+            this.chkCycleOverlayLongest.Text = "Cycle Between Fastest and Longest stats";
             this.chkCycleOverlayLongest.UseVisualStyleBackColor = true;
             // 
             // grpOverlay
             // 
+            this.grpOverlay.Controls.Add(this.chkOverlayOnTop);
+            this.grpOverlay.Controls.Add(this.chkUseNDI);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSecondsTag);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
             this.grpOverlay.Location = new System.Drawing.Point(314, 70);
             this.grpOverlay.Name = "grpOverlay";
-            this.grpOverlay.Size = new System.Drawing.Size(241, 75);
+            this.grpOverlay.Size = new System.Drawing.Size(288, 119);
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
             // 
+            // chkUseNDI
+            // 
+            this.chkUseNDI.AutoSize = true;
+            this.chkUseNDI.Location = new System.Drawing.Point(17, 93);
+            this.chkUseNDI.Name = "chkUseNDI";
+            this.chkUseNDI.Size = new System.Drawing.Size(234, 17);
+            this.chkUseNDI.TabIndex = 5;
+            this.chkUseNDI.Text = "Use NDI to send Overlay over local network";
+            this.chkUseNDI.UseVisualStyleBackColor = true;
+            // 
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
-            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(140, 47);
+            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(140, 70);
             this.lblCycleTimeSecondsTag.Name = "lblCycleTimeSecondsTag";
             this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(24, 13);
-            this.lblCycleTimeSecondsTag.TabIndex = 3;
+            this.lblCycleTimeSecondsTag.TabIndex = 4;
             this.lblCycleTimeSecondsTag.Text = "sec";
             // 
             // lblCycleTimeSeconds
             // 
             this.lblCycleTimeSeconds.AutoSize = true;
-            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(36, 47);
+            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(36, 70);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
             this.lblCycleTimeSeconds.Size = new System.Drawing.Size(59, 13);
-            this.lblCycleTimeSeconds.TabIndex = 1;
+            this.lblCycleTimeSeconds.TabIndex = 2;
             this.lblCycleTimeSeconds.Text = "Cycle Time";
             // 
             // txtCycleTimeSeconds
             // 
-            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(101, 44);
+            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(101, 67);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
             this.txtCycleTimeSeconds.Size = new System.Drawing.Size(35, 20);
-            this.txtCycleTimeSeconds.TabIndex = 2;
+            this.txtCycleTimeSeconds.TabIndex = 3;
             this.txtCycleTimeSeconds.Text = "3";
             this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCycleTimeSeconds.Validating += new System.ComponentModel.CancelEventHandler(this.txtCycleTimeSeconds_Validating);
@@ -141,7 +155,7 @@
             this.grpStats.Controls.Add(this.txtPreviousWins);
             this.grpStats.Location = new System.Drawing.Point(50, 70);
             this.grpStats.Name = "grpStats";
-            this.grpStats.Size = new System.Drawing.Size(258, 75);
+            this.grpStats.Size = new System.Drawing.Size(258, 50);
             this.grpStats.TabIndex = 3;
             this.grpStats.TabStop = false;
             this.grpStats.Text = "Stats";
@@ -176,13 +190,23 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
+            // chkOverlayOnTop
+            // 
+            this.chkOverlayOnTop.AutoSize = true;
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(17, 21);
+            this.chkOverlayOnTop.Name = "chkOverlayOnTop";
+            this.chkOverlayOnTop.Size = new System.Drawing.Size(205, 17);
+            this.chkOverlayOnTop.TabIndex = 0;
+            this.chkOverlayOnTop.Text = "Always show on top of other programs";
+            this.chkOverlayOnTop.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 193);
+            this.ClientSize = new System.Drawing.Size(614, 239);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.btnSave);
@@ -223,5 +247,7 @@
         private System.Windows.Forms.Label lblPreviousWinsNote;
         private System.Windows.Forms.Label lblPreviousWins;
         private System.Windows.Forms.TextBox txtPreviousWins;
+        private System.Windows.Forms.CheckBox chkUseNDI;
+        private System.Windows.Forms.CheckBox chkOverlayOnTop;
     }
 }

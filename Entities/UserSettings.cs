@@ -10,6 +10,8 @@
         public bool SwitchBetweenLongest { get; set; }
         public int CycleTimeSeconds { get; set; }
         public bool OverlayVisible { get; set; }
+        public bool OverlayNotOnTop { get; set; }
         public int PreviousWins { get; set; }
+        public bool UseNDI { get; set; }
     }
 }
