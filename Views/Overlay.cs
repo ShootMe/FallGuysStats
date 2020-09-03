@@ -95,6 +95,8 @@ namespace FallGuysStats {
             float winChance = (float)StatsForm.Wins * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
             if (StatsForm.CurrentSettings.PreviousWins > 0) {
                 lblWins.Text = $"{StatsForm.Wins} ({StatsForm.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
+            } else if (StatsForm.CurrentSettings.FilterType != 0) {
+                lblWins.Text = $"{StatsForm.Wins} ({StatsForm.AllWins}) - {winChance:0.0}%";
             } else {
                 lblWins.Text = $"{StatsForm.Wins} - {winChance:0.0}%";
             }
