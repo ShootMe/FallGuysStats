@@ -154,5 +154,10 @@ namespace FallGuysStats {
             gridDetails.DataSource = RoundDetails;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
         }
+        private void gridDetails_SelectionChanged(object sender, System.EventArgs e) {
+            if (ShowStats != 2 && gridDetails.SelectedCells.Count > 0) {
+                gridDetails.ClearSelection();
+            }
+        }
     }
 }

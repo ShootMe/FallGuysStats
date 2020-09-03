@@ -12,6 +12,8 @@ namespace FallGuysStats {
             chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
+            chkUseNDI.Checked = CurrentSettings.UseNDI;
+            chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
         }
         private void btnSave_Click(object sender, EventArgs e) {
             CurrentSettings.LogPath = txtLogPath.Text;
@@ -35,6 +37,8 @@ namespace FallGuysStats {
             }
 
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
+            CurrentSettings.UseNDI = chkUseNDI.Checked;
+            CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
