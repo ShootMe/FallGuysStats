@@ -33,7 +33,12 @@
             this.lblCycleTimeSecondsTag = new System.Windows.Forms.Label();
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
+            this.grpStats = new System.Windows.Forms.GroupBox();
+            this.lblPreviousWinsNote = new System.Windows.Forms.Label();
+            this.lblPreviousWins = new System.Windows.Forms.Label();
+            this.txtPreviousWins = new System.Windows.Forms.TextBox();
             this.grpOverlay.SuspendLayout();
+            this.grpStats.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
@@ -69,10 +74,10 @@
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(269, 164);
+            this.btnSave.Location = new System.Drawing.Point(269, 158);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 4;
+            this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -93,10 +98,10 @@
             this.grpOverlay.Controls.Add(this.lblCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
-            this.grpOverlay.Location = new System.Drawing.Point(64, 74);
+            this.grpOverlay.Location = new System.Drawing.Point(314, 70);
             this.grpOverlay.Name = "grpOverlay";
             this.grpOverlay.Size = new System.Drawing.Size(241, 75);
-            this.grpOverlay.TabIndex = 3;
+            this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
             // 
@@ -126,7 +131,50 @@
             this.txtCycleTimeSeconds.Size = new System.Drawing.Size(35, 20);
             this.txtCycleTimeSeconds.TabIndex = 2;
             this.txtCycleTimeSeconds.Text = "3";
+            this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCycleTimeSeconds.Validating += new System.ComponentModel.CancelEventHandler(this.txtCycleTimeSeconds_Validating);
+            // 
+            // grpStats
+            // 
+            this.grpStats.Controls.Add(this.lblPreviousWinsNote);
+            this.grpStats.Controls.Add(this.lblPreviousWins);
+            this.grpStats.Controls.Add(this.txtPreviousWins);
+            this.grpStats.Location = new System.Drawing.Point(50, 70);
+            this.grpStats.Name = "grpStats";
+            this.grpStats.Size = new System.Drawing.Size(258, 75);
+            this.grpStats.TabIndex = 3;
+            this.grpStats.TabStop = false;
+            this.grpStats.Text = "Stats";
+            // 
+            // lblPreviousWinsNote
+            // 
+            this.lblPreviousWinsNote.AutoSize = true;
+            this.lblPreviousWinsNote.ForeColor = System.Drawing.Color.DimGray;
+            this.lblPreviousWinsNote.Location = new System.Drawing.Point(133, 22);
+            this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
+            this.lblPreviousWinsNote.Size = new System.Drawing.Size(108, 13);
+            this.lblPreviousWinsNote.TabIndex = 2;
+            this.lblPreviousWinsNote.Text = "(Before using tracker)";
+            // 
+            // lblPreviousWins
+            // 
+            this.lblPreviousWins.AutoSize = true;
+            this.lblPreviousWins.Location = new System.Drawing.Point(11, 22);
+            this.lblPreviousWins.Name = "lblPreviousWins";
+            this.lblPreviousWins.Size = new System.Drawing.Size(75, 13);
+            this.lblPreviousWins.TabIndex = 0;
+            this.lblPreviousWins.Text = "Previous Wins";
+            // 
+            // txtPreviousWins
+            // 
+            this.txtPreviousWins.Location = new System.Drawing.Point(92, 19);
+            this.txtPreviousWins.MaxLength = 4;
+            this.txtPreviousWins.Name = "txtPreviousWins";
+            this.txtPreviousWins.Size = new System.Drawing.Size(35, 20);
+            this.txtPreviousWins.TabIndex = 1;
+            this.txtPreviousWins.Text = "0";
+            this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
             // Settings
             // 
@@ -134,7 +182,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 199);
+            this.ClientSize = new System.Drawing.Size(614, 193);
+            this.Controls.Add(this.grpStats);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.txtLogPath);
@@ -152,6 +201,8 @@
             this.Load += new System.EventHandler(this.Settings_Load);
             this.grpOverlay.ResumeLayout(false);
             this.grpOverlay.PerformLayout();
+            this.grpStats.ResumeLayout(false);
+            this.grpStats.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,5 +219,9 @@
         private System.Windows.Forms.Label lblCycleTimeSecondsTag;
         private System.Windows.Forms.Label lblCycleTimeSeconds;
         private System.Windows.Forms.TextBox txtCycleTimeSeconds;
+        private System.Windows.Forms.GroupBox grpStats;
+        private System.Windows.Forms.Label lblPreviousWinsNote;
+        private System.Windows.Forms.Label lblPreviousWins;
+        private System.Windows.Forms.TextBox txtPreviousWins;
     }
 }
