@@ -120,7 +120,7 @@ namespace FallGuysStats {
                     int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
                     if ((labelToShow % modCount) == 1) {
                         lblFastestDesc.Text = "LONGEST:";
-                        lblFastest.Text = levelInfo.LongestDuration.HasValue ? $"{levelInfo.LongestDuration:m\\:ss\\.ff}" : "-";
+                        lblFastest.Text = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     } else if ((labelToShow % modCount) == 2) {
                         lblFastestDesc.Text = "H SCORE:";
                         lblFastest.Text = levelInfo.BestScore.Value.ToString();
