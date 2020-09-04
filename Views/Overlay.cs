@@ -140,14 +140,17 @@ namespace FallGuysStats {
 
             lock (StatsForm.CurrentRound) {
                 bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
-                if (hasCurrentRound) {
+                if (hasCurrentRound && (Stats.InShow || Stats.EndedShow)) {
+                    if (Stats.EndedShow) {
+                        Stats.EndedShow = false;
+                    }
                     lastRound = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
                 } else if (lastRound != null) {
                     lastRound.Playing = false;
                 }
 
                 if (lastRound != null) {
-                    lblNameDesc.Text = $"ROUND {StatsForm.CurrentRound.Count}:";
+                    lblNameDesc.Text = $"ROUND {lastRound.Round}:";
 
                     string displayName = string.Empty;
                     LevelStats.DisplayNameLookup.TryGetValue(lastRound.Name, out displayName);
