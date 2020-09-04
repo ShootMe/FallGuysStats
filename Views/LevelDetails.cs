@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class LevelDetails : Form {
         public string LevelName { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
+        public Stats StatsForm { get; set; }
         private int ShowStats = 0;
         public LevelDetails() {
             InitializeComponent();
@@ -154,9 +156,45 @@ namespace FallGuysStats {
             gridDetails.DataSource = RoundDetails;
             gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
         }
-        private void gridDetails_SelectionChanged(object sender, System.EventArgs e) {
+        private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (ShowStats != 2 && gridDetails.SelectedCells.Count > 0) {
                 gridDetails.ClearSelection();
+            }
+        }
+        private void LevelDetails_KeyDown(object sender, KeyEventArgs e) {
+            try {
+                int selectedCount = gridDetails.SelectedCells.Count;
+                if (e.KeyCode == Keys.Delete && selectedCount > 0) {
+                    HashSet<RoundInfo> rows = new HashSet<RoundInfo>();
+                    int minIndex = gridDetails.FirstDisplayedScrollingRowIndex;
+                    for (int i = 0; i < selectedCount; i++) {
+                        DataGridViewCell cell = gridDetails.SelectedCells[i];
+                        rows.Add((RoundInfo)gridDetails.Rows[cell.RowIndex].DataBoundItem);
+                    }
+
+                    if (MessageBox.Show(this, $"Are you sure you want to remove the selected ({rows.Count}) Shows?", "Remove Shows", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+                        lock (StatsForm.StatsDB) {
+                            StatsForm.StatsDB.BeginTrans();
+                            foreach (RoundInfo info in rows) {
+                                RoundDetails.Remove(info);
+                                StatsForm.RoundDetails.DeleteMany(x => x.ShowID == info.ShowID);
+                            }
+                            StatsForm.StatsDB.Commit();
+                        }
+
+                        gridDetails.DataSource = null;
+                        gridDetails.DataSource = RoundDetails;
+                        if (minIndex < RoundDetails.Count) {
+                            gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                        } else if (RoundDetails.Count > 0) {
+                            gridDetails.FirstDisplayedScrollingRowIndex = RoundDetails.Count - 1;
+                        }
+
+                        StatsForm.ResetStats();
+                    }
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

@@ -5,8 +5,10 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class Overlay : Form {
@@ -30,6 +32,7 @@ namespace FallGuysStats {
         private Bitmap NDIImage;
         private Graphics NDIGraphics;
         private RoundInfo lastRound;
+        private int triesToDownload;
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
@@ -234,6 +237,26 @@ namespace FallGuysStats {
                 if (ex.Message.IndexOf("Unable to load dll", StringComparison.OrdinalIgnoreCase) >= 0) {
                     StatsForm.CurrentSettings.UseNDI = false;
                     Cleanup();
+                    if (triesToDownload < 5) {
+                        triesToDownload++;
+                        Task.Run(delegate () {
+                            try {
+                                using (ZipWebClient web = new ZipWebClient()) {
+                                    byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/NDI.zip");
+                                    using (MemoryStream ms = new MemoryStream(data)) {
+                                        using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
+                                            foreach (var entry in zipFile.Entries) {
+                                                entry.ExtractToFile(entry.Name, true);
+                                            }
+                                        }
+                                    }
+                                }
+                                StatsForm.CurrentSettings.UseNDI = true;
+                            } catch {
+                                Thread.Sleep(10000);
+                            }
+                        });
+                    }
                 }
             }
         }
@@ -259,13 +282,14 @@ namespace FallGuysStats {
                     colorOption = 4;
                     BackColor = Color.Black;
                 }
+
                 StatsForm.CurrentSettings.OverlayColor = colorOption;
-                StatsForm.UserSettings.Update(StatsForm.CurrentSettings);
+                StatsForm.SaveUserSettings();
             } else if (e.KeyCode == Keys.F) {
                 FlipDisplay(!flippedImage);
 
                 StatsForm.CurrentSettings.FlippedDisplay = flippedImage;
-                StatsForm.UserSettings.Update(StatsForm.CurrentSettings);
+                StatsForm.SaveUserSettings();
             }
         }
         public void FlipDisplay(bool flipped) {
