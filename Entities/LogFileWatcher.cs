@@ -197,6 +197,7 @@ namespace FallGuysStats {
                 stat = new RoundInfo();
                 round.Add(stat);
                 stat.Name = line.Line.Substring(index + 62);
+                stat.Round = round.Count;
                 stat.Start = line.Date;
                 stat.InParty = currentlyInParty;
                 countPlayers = true;
@@ -208,6 +209,7 @@ namespace FallGuysStats {
                     }
                     stat.Playing = false;
                 }
+                Stats.InShow = true;
                 round.Clear();
                 stat = null;
             } else if (stat != null && countPlayers && line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0 && (index = line.Line.IndexOf(" players in system.", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -253,6 +255,7 @@ namespace FallGuysStats {
                 }
                 findPosition = false;
                 countPlayers = false;
+                Stats.InShow = false;
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (stat == null) { return false; }
 
@@ -321,6 +324,8 @@ namespace FallGuysStats {
                 }
 
                 stat = null;
+                Stats.InShow = false;
+                Stats.EndedShow = true;
                 return true;
             }
             return false;
