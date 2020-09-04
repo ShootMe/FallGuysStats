@@ -56,7 +56,7 @@ namespace FallGuysStats {
         public int Kudos;
         private int nextShowID;
         private bool loadingExisting;
-        private LiteDatabase statsDB;
+        public LiteDatabase StatsDB;
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
         public UserSettings CurrentSettings;
@@ -107,10 +107,10 @@ namespace FallGuysStats {
 
             gridDetails.DataSource = StatDetails;
 
-            statsDB = new LiteDatabase(@"data.db");
-            RoundDetails = statsDB.GetCollection<RoundInfo>("RoundDetails");
-            UserSettings = statsDB.GetCollection<UserSettings>("UserSettings");
-            statsDB.BeginTrans();
+            StatsDB = new LiteDatabase(@"data.db");
+            RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
+            UserSettings = StatsDB.GetCollection<UserSettings>("UserSettings");
+            StatsDB.BeginTrans();
             if (UserSettings.Count() == 0) {
                 CurrentSettings = GetDefaultSettings();
                 UserSettings.Insert(CurrentSettings);
@@ -128,7 +128,7 @@ namespace FallGuysStats {
             RoundDetails.EnsureIndex(x => x.Round);
             RoundDetails.EnsureIndex(x => x.Start);
             RoundDetails.EnsureIndex(x => x.InParty);
-            statsDB.Commit();
+            StatsDB.Commit();
 
             CurrentRound = new List<RoundInfo>();
             overlay = new Overlay() { StatsForm = this };
@@ -153,38 +153,56 @@ namespace FallGuysStats {
                 PreviousWins = 0
             };
         }
+        public void SaveUserSettings() {
+            lock (StatsDB) {
+                StatsDB.BeginTrans();
+                UserSettings.Update(CurrentSettings);
+                StatsDB.Commit();
+            }
+        }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
                 CurrentSettings.OverlayLocationX = overlay.Location.X;
                 CurrentSettings.OverlayLocationY = overlay.Location.Y;
                 CurrentSettings.OverlayVisible = overlay.Visible;
                 CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
-                UserSettings.Update(CurrentSettings);
-                statsDB.Dispose();
+                SaveUserSettings();
+                StatsDB.Dispose();
                 overlay.Cleanup();
             } catch { }
         }
+        public void ResetStats() {
+            for (int i = 0; i < StatDetails.Count; i++) {
+                LevelStats calculator = StatDetails[i];
+                calculator.Clear();
+            }
+
+            ClearTotals();
+
+            if (RoundDetails.Count() > 0) {
+                nextShowID = RoundDetails.Max(x => x.ShowID);
+                AllStats.Clear();
+                AllStats.AddRange(RoundDetails.FindAll());
+                AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    CurrentRound.Insert(0, info);
+                    if (info.Round == 1) {
+                        break;
+                    }
+                }
+                loadingExisting = true;
+                LogFile_OnParsedLogLines(AllStats);
+                loadingExisting = false;
+            }
+        }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
-                if (RoundDetails.Count() > 0) {
-                    nextShowID = RoundDetails.Max(x => x.ShowID);
-                    AllStats.AddRange(RoundDetails.FindAll());
-                    AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        int showCompare = one.ShowID.CompareTo(two.ShowID);
-                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                    });
-
-                    for (int i = AllStats.Count - 1; i >= 0; i--) {
-                        RoundInfo info = AllStats[i];
-                        CurrentRound.Insert(0, info);
-                        if (info.Round == 1) {
-                            break;
-                        }
-                    }
-                    loadingExisting = true;
-                    LogFile_OnParsedLogLines(AllStats);
-                    loadingExisting = false;
-                }
+                ResetStats();
 
                 string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                 if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
@@ -244,42 +262,46 @@ namespace FallGuysStats {
         }
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
             try {
-                if (!loadingExisting) { statsDB.BeginTrans(); }
+                lock (StatsDB) {
+                    if (!loadingExisting) { StatsDB.BeginTrans(); }
 
-                foreach (RoundInfo stat in round) {
-                    if (!loadingExisting) {
-                        RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
-                        if (info == null) {
-                            if (stat.Round == 1) {
-                                nextShowID++;
+                    foreach (RoundInfo stat in round) {
+                        if (!loadingExisting) {
+                            RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
+                            if (info == null) {
+                                if (stat.Round == 1) {
+                                    nextShowID++;
+                                }
+                                stat.ShowID = nextShowID;
+
+                                RoundDetails.Insert(stat);
+                                AllStats.Add(stat);
+                            } else {
+                                continue;
                             }
-                            stat.ShowID = nextShowID;
+                        }
 
-                            RoundDetails.Insert(stat);
-                            AllStats.Add(stat);
-                        } else {
-                            continue;
+                        if (stat.Round == 1) {
+                            Shows++;
+                        }
+                        Rounds++;
+                        Duration += stat.End - stat.Start;
+                        Kudos += stat.Kudos;
+
+                        if (StatLookup.ContainsKey(stat.Name)) {
+                            stat.ToLocalTime();
+                            LevelStats levelStats = StatLookup[stat.Name];
+                            if (levelStats.Type == LevelType.Final) {
+                                Finals++;
+                                if (stat.Qualified) {
+                                    Wins++;
+                                }
+                            }
+                            levelStats.Add(stat);
                         }
                     }
 
-                    if (stat.Round == 1) {
-                        Shows++;
-                    }
-                    Rounds++;
-                    Duration += stat.End - stat.Start;
-                    Kudos += stat.Kudos;
-
-                    if (StatLookup.ContainsKey(stat.Name)) {
-                        stat.ToLocalTime();
-                        LevelStats levelStats = StatLookup[stat.Name];
-                        if (levelStats.Type == LevelType.Final) {
-                            Finals++;
-                            if (stat.Qualified) {
-                                Wins++;
-                            }
-                        }
-                        levelStats.Add(stat);
-                    }
+                    if (!loadingExisting) { StatsDB.Commit(); }
                 }
 
                 lock (CurrentRound) {
@@ -292,8 +314,6 @@ namespace FallGuysStats {
                         }
                     }
                 }
-
-                if (!loadingExisting) { statsDB.Commit(); }
 
                 if (!this.Disposing && !this.IsDisposed) {
                     try {
@@ -450,6 +470,7 @@ namespace FallGuysStats {
                             return one.Start.CompareTo(two.Start);
                         });
                         levelDetails.RoundDetails = rounds;
+                        levelDetails.StatsForm = this;
                         levelDetails.ShowDialog(this);
                     }
                 }
@@ -536,6 +557,7 @@ namespace FallGuysStats {
                         }
                     }
                     levelDetails.RoundDetails = shows;
+                    levelDetails.StatsForm = this;
                     levelDetails.ShowDialog(this);
                 }
             } catch (Exception ex) {
@@ -554,6 +576,7 @@ namespace FallGuysStats {
                         return one.Start.CompareTo(two.Start);
                     });
                     levelDetails.RoundDetails = rounds;
+                    levelDetails.StatsForm = this;
                     levelDetails.ShowDialog(this);
                 }
             } catch (Exception ex) {
@@ -744,7 +767,7 @@ namespace FallGuysStats {
 
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         CurrentSettings = settings.CurrentSettings;
-                        UserSettings.Update(CurrentSettings);
+                        SaveUserSettings();
 
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await logFile.Stop();
@@ -766,7 +789,7 @@ namespace FallGuysStats {
                 overlay.Hide();
                 CurrentSettings.OverlayLocationX = overlay.Location.X;
                 CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                UserSettings.Update(CurrentSettings);
+                SaveUserSettings();
             } else {
                 switch (CurrentSettings.OverlayColor) {
                     case 0: overlay.BackColor = Color.Magenta; break;
