@@ -128,19 +128,19 @@ namespace FallGuysStats {
 
             float winChance = (float)StatsForm.Wins * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
             if (StatsForm.CurrentSettings.PreviousWins > 0) {
-                lblWins.Text = $"{StatsForm.Wins} ({StatsForm.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
+                lblWins.TextRight = $"{StatsForm.Wins} ({StatsForm.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
             } else if (StatsForm.CurrentSettings.FilterType != 0) {
-                lblWins.Text = $"{StatsForm.Wins} ({StatsForm.AllWins}) - {winChance:0.0}%";
+                lblWins.TextRight = $"{StatsForm.Wins} ({StatsForm.AllWins}) - {winChance:0.0}%";
             } else {
-                lblWins.Text = $"{StatsForm.Wins} - {winChance:0.0}%";
+                lblWins.TextRight = $"{StatsForm.Wins} - {winChance:0.0}%";
             }
 
             float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            lblFinalChance.Text = $"{StatsForm.Finals} - {finalChance:0.0}%";
+            lblFinalChance.TextRight = $"{StatsForm.Finals} - {finalChance:0.0}%";
 
             lock (StatsForm.CurrentRound) {
                 bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
-                if (hasCurrentRound && (Stats.InShow || Stats.EndedShow)) {
+                if (hasCurrentRound && (lastRound == null || Stats.InShow || Stats.EndedShow)) {
                     if (Stats.EndedShow) {
                         Stats.EndedShow = false;
                     }
@@ -150,27 +150,27 @@ namespace FallGuysStats {
                 }
 
                 if (lastRound != null) {
-                    lblNameDesc.Text = $"ROUND {lastRound.Round}:";
+                    lblName.Text = $"ROUND {lastRound.Round}:";
 
                     string displayName = string.Empty;
                     LevelStats.DisplayNameLookup.TryGetValue(lastRound.Name, out displayName);
-                    lblName.Text = displayName.ToUpper();
-                    lblPlayers.Text = lastRound.Players.ToString();
+                    lblName.TextRight = displayName.ToUpper();
+                    lblPlayers.TextRight = lastRound.Players.ToString();
 
                     StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound.Name);
-                    lblStreak.Text = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
+                    lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
                     float qualifyChance = (float)levelInfo.TotalQualify * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.Text = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
                     if ((labelToShow % modCount) == 1) {
-                        lblFastestDesc.Text = "LONGEST:";
-                        lblFastest.Text = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                        lblFastest.Text = "LONGEST:";
+                        lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     } else if ((labelToShow % modCount) == 2) {
-                        lblFastestDesc.Text = "H SCORE:";
-                        lblFastest.Text = levelInfo.BestScore.Value.ToString();
+                        lblFastest.Text = "H SCORE:";
+                        lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
                     } else {
-                        lblFastestDesc.Text = "FASTEST:";
-                        lblFastest.Text = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
+                        lblFastest.Text = "FASTEST:";
+                        lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     }
 
                     DateTime Start = DateTime.MinValue;
@@ -182,22 +182,22 @@ namespace FallGuysStats {
 
                     if (Finish.HasValue) {
                         if (lastRound.Position > 0) {
-                            lblFinish.Text = $"# {lastRound.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                            lblFinish.TextRight = $"# {lastRound.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
                         } else {
-                            lblFinish.Text = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                            lblFinish.TextRight = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
                         }
                     } else if (lastRound.Playing) {
-                        lblFinish.Text = $"{DateTime.Now - Start:m\\:ss}";
+                        lblFinish.TextRight = $"{DateTime.Now - Start:m\\:ss}";
                     } else {
-                        lblFinish.Text = "-";
+                        lblFinish.TextRight = "-";
                     }
 
                     if (End != DateTime.MinValue) {
-                        lblDuration.Text = (End - Start).ToString("m\\:ss");
+                        lblDuration.TextRight = (End - Start).ToString("m\\:ss");
                     } else if (lastRound.Playing) {
-                        lblDuration.Text = (DateTime.Now - Start).ToString("m\\:ss");
+                        lblDuration.TextRight = (DateTime.Now - Start).ToString("m\\:ss");
                     } else {
-                        lblDuration.Text = "-";
+                        lblDuration.TextRight = "-";
                     }
                 }
             }
