@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
@@ -11,6 +12,8 @@ namespace FallGuysStats {
                 return cp;
             }
         }
+        [DefaultValue(null)]
+        public string TextRight { get; set; }
         protected override void OnPaint(PaintEventArgs e) {
             Graphics g = e.Graphics;
             Draw(g);
@@ -23,46 +26,31 @@ namespace FallGuysStats {
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
                     StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Near;
                     switch (TextAlign) {
                         case ContentAlignment.BottomLeft:
-                            stringFormat.Alignment = StringAlignment.Near;
-                            stringFormat.LineAlignment = StringAlignment.Far;
-                            break;
                         case ContentAlignment.BottomCenter:
-                            stringFormat.Alignment = StringAlignment.Center;
-                            stringFormat.LineAlignment = StringAlignment.Far;
-                            break;
                         case ContentAlignment.BottomRight:
-                            stringFormat.Alignment = StringAlignment.Far;
                             stringFormat.LineAlignment = StringAlignment.Far;
                             break;
                         case ContentAlignment.MiddleLeft:
-                            stringFormat.Alignment = StringAlignment.Near;
-                            stringFormat.LineAlignment = StringAlignment.Center;
-                            break;
                         case ContentAlignment.MiddleCenter:
-                            stringFormat.Alignment = StringAlignment.Center;
-                            stringFormat.LineAlignment = StringAlignment.Center;
-                            break;
                         case ContentAlignment.MiddleRight:
-                            stringFormat.Alignment = StringAlignment.Far;
                             stringFormat.LineAlignment = StringAlignment.Center;
                             break;
                         case ContentAlignment.TopLeft:
-                            stringFormat.Alignment = StringAlignment.Near;
-                            stringFormat.LineAlignment = StringAlignment.Near;
-                            break;
                         case ContentAlignment.TopCenter:
-                            stringFormat.Alignment = StringAlignment.Center;
-                            stringFormat.LineAlignment = StringAlignment.Near;
-                            break;
                         case ContentAlignment.TopRight:
-                            stringFormat.Alignment = StringAlignment.Far;
                             stringFormat.LineAlignment = StringAlignment.Near;
                             break;
                     }
 
                     g.DrawString(Text, Font, brFore, ClientRectangle, stringFormat);
+
+                    if (!string.IsNullOrEmpty(TextRight)) {
+                        stringFormat.Alignment = StringAlignment.Far;
+                        g.DrawString(TextRight, Font, brFore, ClientRectangle, stringFormat);
+                    }
                 }
             }
         }
