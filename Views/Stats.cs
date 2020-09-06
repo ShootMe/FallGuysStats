@@ -356,7 +356,7 @@ namespace FallGuysStats {
                     }
 
                     if (isCurrentLevel) {
-                        if (info.Tier == 0) {
+                        if (info.Tier == (int)QualifyTier.Gold) {
                             summary.TotalGolds++;
                         }
                         summary.TotalQualify++;
