@@ -18,3 +18,19 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
   - Hit 'T' to toggle background colors
   - Hit 'F' to flip the Display
+
+## Changelog
+  - 1.49
+    - Add filter options to settings page for overlay display
+  - 1.48
+    - Fix Gold statistic on overlay, was using wrong medal type
+  - 1.47
+    - Added Gold statistic to overlay that rotates with Qualify
+  - 1.46
+    - Fixed overlay display not updating
+  - 1.45
+    - Cleaned up labels on overlay
+  - 1.44
+    - Fixed end of round numbers on overlay
+  - 1.43
+    - Added ability to delete Shows in Shows screen

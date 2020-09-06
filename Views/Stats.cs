@@ -36,7 +36,7 @@ namespace FallGuysStats {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        private static string LOGNAME = "All.log";
         private static DateTime SeasonStart = new DateTime(2020, 8, 2, 0, 0, 0, DateTimeKind.Local);
         private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
         private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
@@ -53,7 +53,6 @@ namespace FallGuysStats {
         public int Rounds;
         public TimeSpan Duration;
         public int Wins;
-        public int AllWins;
         public int Finals;
         public int Kudos;
         private int nextShowID;
@@ -152,7 +151,10 @@ namespace FallGuysStats {
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
-                PreviousWins = 0
+                PreviousWins = 0,
+                WinsFilter = 0,
+                QualifyFilter = 0,
+                FastestFilter = 0
             };
         }
         public void SaveUserSettings() {
@@ -210,7 +212,7 @@ namespace FallGuysStats {
                 if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                     logPath = CurrentSettings.LogPath;
                 }
-                logFile.Start(logPath, "Player.log");
+                logFile.Start(logPath, LOGNAME);
 
                 if (CurrentSettings.OverlayVisible) {
                     menuOverlay_Click(null, null);
@@ -326,29 +328,75 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private bool IsInStatsFilter(RoundInfo info) {
+            return menuAllStats.Checked ||
+                (menuSeasonStats.Checked && info.Start > SeasonStart) ||
+                (menuWeekStats.Checked && info.Start > WeekStart) ||
+                (menuDayStats.Checked && info.Start > DayStart) ||
+                (menuSessionStats.Checked && info.Start > SessionStart);
+        }
+        private bool IsInPartyFilter(RoundInfo info) {
+            return menuAllPartyStats.Checked ||
+                (menuSoloStats.Checked && !info.InParty) ||
+                (menuPartyStats.Checked && info.InParty);
+        }
         public StatSummary GetLevelInfo(string name) {
             StatSummary summary = new StatSummary();
             summary.CurrentFilter = menuAllStats.Checked ? "All" : menuSeasonStats.Checked ? "Season" : menuWeekStats.Checked ? "Week" : menuDayStats.Checked ? "Day" : "Session";
             LevelStats levelDetails = null;
 
-            AllWins = 0;
+            summary.AllWins = 0;
+            summary.TotalShows = 0;
             summary.TotalPlays = 0;
+            summary.TotalWins = 0;
+            summary.TotalFinals = 0;
+            int lastShow = -1;
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
                 bool isCurrentLevel = name.Equals(info.Name, StringComparison.OrdinalIgnoreCase);
+                bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
+                        (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 2 && IsInStatsFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 3 && IsInPartyFilter(info));
+                bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
+                        (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 2 && IsInStatsFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 3 && IsInPartyFilter(info));
+                bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
+                        (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 1 && IsInStatsFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 2 && IsInPartyFilter(info));
+
+                if (info.ShowID != lastShow) {
+                    lastShow = info.ShowID;
+                    if (isInWinsFilter) {
+                        summary.TotalShows++;
+                    }
+                }
 
                 if (isCurrentLevel) {
-                    summary.TotalPlays++;
-                    if ((!hasLevelDetails || levelDetails.Type == LevelType.Team) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
-                        summary.BestScore = info.Score;
+                    if (isInQualifyFilter) {
+                        summary.TotalPlays++;
+                    }
+
+                    if (isInFastestFilter) {
+                        if ((!hasLevelDetails || levelDetails.Type == LevelType.Team) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
+                            summary.BestScore = info.Score;
+                        }
                     }
                 }
 
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.Type == LevelType.Final) {
-                        AllWins++;
+                        summary.AllWins++;
+
+                        if (isInWinsFilter) {
+                            summary.TotalWins++;
+                            summary.TotalFinals++;
+                        }
+
                         summary.CurrentStreak++;
                         if (summary.CurrentStreak > summary.BestStreak) {
                             summary.BestStreak = summary.CurrentStreak;
@@ -356,19 +404,27 @@ namespace FallGuysStats {
                     }
 
                     if (isCurrentLevel) {
-                        if (info.Tier == (int)QualifyTier.Gold) {
-                            summary.TotalGolds++;
+                        if (isInQualifyFilter) {
+                            if (info.Tier == (int)QualifyTier.Gold) {
+                                summary.TotalGolds++;
+                            }
+                            summary.TotalQualify++;
                         }
-                        summary.TotalQualify++;
-                        if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
-                            summary.BestFinish = finishTime;
-                        }
-                        if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
-                            summary.LongestFinish = finishTime;
+
+                        if (isInFastestFilter) {
+                            if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
+                                summary.BestFinish = finishTime;
+                            }
+                            if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
+                                summary.LongestFinish = finishTime;
+                            }
                         }
                     }
                 } else {
                     summary.CurrentStreak = 0;
+                    if (isInWinsFilter && hasLevelDetails && levelDetails.Type == LevelType.Final) {
+                        summary.TotalFinals++;
+                    }
                 }
             }
 
@@ -773,7 +829,7 @@ namespace FallGuysStats {
                             if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                                 logPath = CurrentSettings.LogPath;
                             }
-                            logFile.Start(logPath, "Player.log");
+                            logFile.Start(logPath, LOGNAME);
                         }
                     }
                 }
