@@ -12,8 +12,17 @@ namespace FallGuysStats {
                 return cp;
             }
         }
+        private string textRight;
         [DefaultValue(null)]
-        public string TextRight { get; set; }
+        public string TextRight {
+            get { return textRight; }
+            set {
+                if (textRight != value) {
+                    textRight = value;
+                    Invalidate();
+                }
+            }
+        }
         protected override void OnPaint(PaintEventArgs e) {
             Graphics g = e.Graphics;
             Draw(g);
