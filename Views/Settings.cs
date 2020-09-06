@@ -14,6 +14,24 @@ namespace FallGuysStats {
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
             chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
+            switch (CurrentSettings.WinsFilter) {
+                case 0: cboWinsFilter.SelectedItem = "Stats and Party Filter"; break;
+                case 1: cboWinsFilter.SelectedItem = "Stats Filter Only"; break;
+                case 2: cboWinsFilter.SelectedItem = "Party Filter Only"; break;
+                case 3: cboWinsFilter.SelectedItem = "No Filter"; break;
+            }
+            switch (CurrentSettings.QualifyFilter) {
+                case 0: cboQualifyFilter.SelectedItem = "No Filter"; break;
+                case 1: cboQualifyFilter.SelectedItem = "Stats and Party Filter"; break;
+                case 2: cboQualifyFilter.SelectedItem = "Stats Filter Only"; break;
+                case 3: cboQualifyFilter.SelectedItem = "Party Filter Only"; break;
+            }
+            switch (CurrentSettings.FastestFilter) {
+                case 0: cboFastestFilter.SelectedItem = "No Filter"; break;
+                case 1: cboFastestFilter.SelectedItem = "Stats and Party Filter"; break;
+                case 2: cboFastestFilter.SelectedItem = "Stats Filter Only"; break;
+                case 3: cboFastestFilter.SelectedItem = "Party Filter Only"; break;
+            }
         }
         private void btnSave_Click(object sender, EventArgs e) {
             CurrentSettings.LogPath = txtLogPath.Text;
@@ -39,6 +57,25 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
+
+            switch ((string)cboWinsFilter.SelectedItem) {
+                case "Stats and Party Filter": CurrentSettings.WinsFilter = 0; break;
+                case "Stats Filter Only": CurrentSettings.WinsFilter = 1; break;
+                case "Party Filter Only": CurrentSettings.WinsFilter = 2; break;
+                case "No Filter": CurrentSettings.WinsFilter = 3; break;
+            }
+            switch ((string)cboQualifyFilter.SelectedItem) {
+                case "No Filter": CurrentSettings.QualifyFilter = 0; break;
+                case "Stats and Party Filter": CurrentSettings.QualifyFilter = 1; break;
+                case "Stats Filter Only": CurrentSettings.QualifyFilter = 2; break;
+                case "Party Filter Only": CurrentSettings.QualifyFilter = 3; break;
+            }
+            switch ((string)cboFastestFilter.SelectedItem) {
+                case "No Filter": CurrentSettings.FastestFilter = 0; break;
+                case "Stats and Party Filter": CurrentSettings.FastestFilter = 1; break;
+                case "Stats Filter Only": CurrentSettings.FastestFilter = 2; break;
+                case "Party Filter Only": CurrentSettings.FastestFilter = 3; break;
+            }
 
             this.DialogResult = DialogResult.OK;
             this.Close();
