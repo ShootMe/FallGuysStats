@@ -4,6 +4,10 @@ namespace FallGuysStats {
         public string CurrentFilter { get; set; }
         public int CurrentStreak { get; set; }
         public int BestStreak { get; set; }
+        public int AllWins { get; set; }
+        public int TotalWins { get; set; }
+        public int TotalShows { get; set; }
+        public int TotalFinals { get; set; }
         public int TotalPlays { get; set; }
         public int TotalQualify { get; set; }
         public int TotalGolds { get; set; }
