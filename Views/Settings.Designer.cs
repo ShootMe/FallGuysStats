@@ -30,6 +30,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
             this.chkUseNDI = new System.Windows.Forms.CheckBox();
             this.lblCycleTimeSecondsTag = new System.Windows.Forms.Label();
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
@@ -38,7 +39,6 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -89,9 +89,9 @@
             this.chkCycleOverlayLongest.AutoSize = true;
             this.chkCycleOverlayLongest.Location = new System.Drawing.Point(17, 44);
             this.chkCycleOverlayLongest.Name = "chkCycleOverlayLongest";
-            this.chkCycleOverlayLongest.Size = new System.Drawing.Size(221, 17);
+            this.chkCycleOverlayLongest.Size = new System.Drawing.Size(232, 17);
             this.chkCycleOverlayLongest.TabIndex = 1;
-            this.chkCycleOverlayLongest.Text = "Cycle Between Fastest and Longest stats";
+            this.chkCycleOverlayLongest.Text = "Cycle Fastest / Longest and Qualify / Golds";
             this.chkCycleOverlayLongest.UseVisualStyleBackColor = true;
             // 
             // grpOverlay
@@ -108,6 +108,16 @@
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
+            // 
+            // chkOverlayOnTop
+            // 
+            this.chkOverlayOnTop.AutoSize = true;
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(17, 21);
+            this.chkOverlayOnTop.Name = "chkOverlayOnTop";
+            this.chkOverlayOnTop.Size = new System.Drawing.Size(205, 17);
+            this.chkOverlayOnTop.TabIndex = 0;
+            this.chkOverlayOnTop.Text = "Always show on top of other programs";
+            this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
             // chkUseNDI
             // 
@@ -144,7 +154,7 @@
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
             this.txtCycleTimeSeconds.Size = new System.Drawing.Size(35, 20);
             this.txtCycleTimeSeconds.TabIndex = 3;
-            this.txtCycleTimeSeconds.Text = "3";
+            this.txtCycleTimeSeconds.Text = "5";
             this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCycleTimeSeconds.Validating += new System.ComponentModel.CancelEventHandler(this.txtCycleTimeSeconds_Validating);
             // 
@@ -189,16 +199,6 @@
             this.txtPreviousWins.Text = "0";
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
-            // 
-            // chkOverlayOnTop
-            // 
-            this.chkOverlayOnTop.AutoSize = true;
-            this.chkOverlayOnTop.Location = new System.Drawing.Point(17, 21);
-            this.chkOverlayOnTop.Name = "chkOverlayOnTop";
-            this.chkOverlayOnTop.Size = new System.Drawing.Size(205, 17);
-            this.chkOverlayOnTop.TabIndex = 0;
-            this.chkOverlayOnTop.Text = "Always show on top of other programs";
-            this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
