@@ -141,7 +141,7 @@ namespace FallGuysStats {
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
                 ID = 1,
-                CycleTimeSeconds = 3,
+                CycleTimeSeconds = 5,
                 FilterType = 0,
                 FlippedDisplay = false,
                 LogPath = null,
@@ -332,6 +332,7 @@ namespace FallGuysStats {
             LevelStats levelDetails = null;
 
             AllWins = 0;
+            summary.TotalPlays = 0;
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
@@ -339,6 +340,7 @@ namespace FallGuysStats {
                 bool isCurrentLevel = name.Equals(info.Name, StringComparison.OrdinalIgnoreCase);
 
                 if (isCurrentLevel) {
+                    summary.TotalPlays++;
                     if ((!hasLevelDetails || levelDetails.Type == LevelType.Team) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                         summary.BestScore = info.Score;
                     }
@@ -354,6 +356,10 @@ namespace FallGuysStats {
                     }
 
                     if (isCurrentLevel) {
+                        if (info.Tier == 0) {
+                            summary.TotalGolds++;
+                        }
+                        summary.TotalQualify++;
                         if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
                             summary.BestFinish = finishTime;
                         }
@@ -363,17 +369,6 @@ namespace FallGuysStats {
                     }
                 } else {
                     summary.CurrentStreak = 0;
-                }
-            }
-
-            if (StatLookup.TryGetValue(name, out levelDetails)) {
-                summary.TotalPlays = levelDetails.Stats.Count;
-                for (int i = 0; i < summary.TotalPlays; i++) {
-                    RoundInfo info = levelDetails.Stats[i];
-
-                    if (info.Qualified) {
-                        summary.TotalQualify++;
-                    }
                 }
             }
 
