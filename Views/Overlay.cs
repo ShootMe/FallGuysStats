@@ -159,8 +159,18 @@ namespace FallGuysStats {
 
                     StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound.Name);
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
-                    float qualifyChance = (float)levelInfo.TotalQualify * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+
+                    if ((labelToShow % 2) == 0) {
+                        lblQualifyChance.Text = "QUALIFY:";
+                        float qualifyChance = (float)levelInfo.TotalQualify * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    } else {
+                        lblQualifyChance.Text = "GOLD:";
+                        float qualifyChance = (float)levelInfo.TotalGolds * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    }
+
+
                     int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
                     if ((labelToShow % modCount) == 1) {
                         lblFastest.Text = "LONGEST:";
