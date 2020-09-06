@@ -53,6 +53,12 @@ namespace FallGuysStats {
         Team,
         Final
     }
+    public enum QualifyTier {
+        None,
+        Gold,
+        Silver,
+        Bronze
+    }
     public class LevelStats {
         public static Dictionary<string, string> DisplayNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "round_door_dash",                  "Door Dash" },
@@ -124,11 +130,11 @@ namespace FallGuysStats {
         public void Add(RoundInfo stat) {
             Stats.Add(stat);
             Played++;
-            if (stat.Tier == 1) {
+            if (stat.Tier == (int)QualifyTier.Gold) {
                 Gold++;
-            } else if (stat.Tier == 2) {
+            } else if (stat.Tier == (int)QualifyTier.Silver) {
                 Silver++;
-            } else if (stat.Tier == 3) {
+            } else if (stat.Tier == (int)QualifyTier.Bronze) {
                 Bronze++;
             }
             Kudos += stat.Kudos;
