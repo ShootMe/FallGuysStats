@@ -126,18 +126,6 @@ namespace FallGuysStats {
         private void UpdateInfo() {
             if (StatsForm == null) { return; }
 
-            float winChance = (float)StatsForm.Wins * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            if (StatsForm.CurrentSettings.PreviousWins > 0) {
-                lblWins.TextRight = $"{StatsForm.Wins} ({StatsForm.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
-            } else if (StatsForm.CurrentSettings.FilterType != 0) {
-                lblWins.TextRight = $"{StatsForm.Wins} ({StatsForm.AllWins}) - {winChance:0.0}%";
-            } else {
-                lblWins.TextRight = $"{StatsForm.Wins} - {winChance:0.0}%";
-            }
-
-            float finalChance = (float)StatsForm.Finals * 100 / (StatsForm.Shows == 0 ? 1 : StatsForm.Shows);
-            lblFinalChance.TextRight = $"{StatsForm.Finals} - {finalChance:0.0}%";
-
             lock (StatsForm.CurrentRound) {
                 bool hasCurrentRound = StatsForm.CurrentRound != null && StatsForm.CurrentRound.Count > 0;
                 if (hasCurrentRound && (lastRound == null || Stats.InShow || Stats.EndedShow)) {
@@ -158,6 +146,19 @@ namespace FallGuysStats {
                     lblPlayers.TextRight = lastRound.Players.ToString();
 
                     StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound.Name);
+
+                    float winChance = (float)levelInfo.TotalWins * 100 / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    if (StatsForm.CurrentSettings.PreviousWins > 0) {
+                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
+                    } else if (StatsForm.CurrentSettings.FilterType != 0) {
+                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}) - {winChance:0.0}%";
+                    } else {
+                        lblWins.TextRight = $"{levelInfo.TotalWins} - {winChance:0.0}%";
+                    }
+
+                    float finalChance = (float)levelInfo.TotalFinals * 100 / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    lblFinalChance.TextRight = $"{levelInfo.TotalFinals} - {finalChance:0.0}%";
+
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
                     if ((labelToShow % 2) == 0) {
@@ -176,7 +177,7 @@ namespace FallGuysStats {
                         lblFastest.Text = "LONGEST:";
                         lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     } else if ((labelToShow % modCount) == 2) {
-                        lblFastest.Text = "H SCORE:";
+                        lblFastest.Text = "HIGH SCORE:";
                         lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
                     } else {
                         lblFastest.Text = "FASTEST:";
