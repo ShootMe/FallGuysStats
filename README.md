@@ -20,12 +20,14 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.51
+    - Fixed an issue around results coming from a previous match
   - 1.50
-    - Fixed log reading
+    - Fixed accidental debug typo
   - 1.49
-    - Add filter options to settings page for overlay display
+    - Added filter options to settings page for overlay display
   - 1.48
-    - Fix Gold statistic on overlay, was using wrong medal type
+    - Fixed Gold statistic on overlay, was using wrong medal type
   - 1.47
     - Added Gold statistic to overlay that rotates with Qualify
   - 1.46
