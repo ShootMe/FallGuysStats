@@ -36,7 +36,7 @@
             // 
             // lblStreak
             // 
-            this.lblStreak.Location = new System.Drawing.Point(21, 55);
+            this.lblStreak.Location = new System.Drawing.Point(22, 55);
             this.lblStreak.Name = "lblStreak";
             this.lblStreak.Size = new System.Drawing.Size(238, 22);
             this.lblStreak.TabIndex = 21;
@@ -46,7 +46,7 @@
             // 
             // lblFinalChance
             // 
-            this.lblFinalChance.Location = new System.Drawing.Point(21, 32);
+            this.lblFinalChance.Location = new System.Drawing.Point(22, 32);
             this.lblFinalChance.Name = "lblFinalChance";
             this.lblFinalChance.Size = new System.Drawing.Size(238, 22);
             this.lblFinalChance.TabIndex = 5;
@@ -56,9 +56,9 @@
             // 
             // lblQualifyChance
             // 
-            this.lblQualifyChance.Location = new System.Drawing.Point(260, 32);
+            this.lblQualifyChance.Location = new System.Drawing.Point(268, 32);
             this.lblQualifyChance.Name = "lblQualifyChance";
-            this.lblQualifyChance.Size = new System.Drawing.Size(297, 22);
+            this.lblQualifyChance.Size = new System.Drawing.Size(281, 22);
             this.lblQualifyChance.TabIndex = 14;
             this.lblQualifyChance.Text = "QUALIFY:";
             this.lblQualifyChance.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -66,9 +66,9 @@
             // 
             // lblFastest
             // 
-            this.lblFastest.Location = new System.Drawing.Point(260, 55);
+            this.lblFastest.Location = new System.Drawing.Point(268, 55);
             this.lblFastest.Name = "lblFastest";
-            this.lblFastest.Size = new System.Drawing.Size(297, 22);
+            this.lblFastest.Size = new System.Drawing.Size(281, 22);
             this.lblFastest.TabIndex = 16;
             this.lblFastest.Text = "FASTEST:";
             this.lblFastest.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -76,7 +76,7 @@
             // 
             // lblDuration
             // 
-            this.lblDuration.Location = new System.Drawing.Point(558, 32);
+            this.lblDuration.Location = new System.Drawing.Point(557, 32);
             this.lblDuration.Name = "lblDuration";
             this.lblDuration.Size = new System.Drawing.Size(225, 22);
             this.lblDuration.TabIndex = 18;
@@ -86,7 +86,7 @@
             // 
             // lblPlayers
             // 
-            this.lblPlayers.Location = new System.Drawing.Point(558, 9);
+            this.lblPlayers.Location = new System.Drawing.Point(557, 9);
             this.lblPlayers.Name = "lblPlayers";
             this.lblPlayers.Size = new System.Drawing.Size(225, 22);
             this.lblPlayers.TabIndex = 12;
@@ -97,9 +97,9 @@
             // lblName
             // 
             this.lblName.AutoEllipsis = true;
-            this.lblName.Location = new System.Drawing.Point(260, 9);
+            this.lblName.Location = new System.Drawing.Point(268, 9);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(297, 22);
+            this.lblName.Size = new System.Drawing.Size(281, 22);
             this.lblName.TabIndex = 10;
             this.lblName.Text = "ROUND 1:";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -107,7 +107,7 @@
             // 
             // lblWins
             // 
-            this.lblWins.Location = new System.Drawing.Point(21, 9);
+            this.lblWins.Location = new System.Drawing.Point(22, 9);
             this.lblWins.Name = "lblWins";
             this.lblWins.Size = new System.Drawing.Size(238, 22);
             this.lblWins.TabIndex = 1;
@@ -117,7 +117,7 @@
             // 
             // lblFinish
             // 
-            this.lblFinish.Location = new System.Drawing.Point(558, 55);
+            this.lblFinish.Location = new System.Drawing.Point(557, 55);
             this.lblFinish.Name = "lblFinish";
             this.lblFinish.Size = new System.Drawing.Size(225, 22);
             this.lblFinish.TabIndex = 20;
