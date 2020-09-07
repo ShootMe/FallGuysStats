@@ -330,10 +330,10 @@ namespace FallGuysStats {
         }
         private bool IsInStatsFilter(RoundInfo info) {
             return menuAllStats.Checked ||
-                (menuSeasonStats.Checked && info.Start > SeasonStart) ||
-                (menuWeekStats.Checked && info.Start > WeekStart) ||
-                (menuDayStats.Checked && info.Start > DayStart) ||
-                (menuSessionStats.Checked && info.Start > SessionStart);
+                (menuSeasonStats.Checked && info.Start.ToUniversalTime() > SeasonStart) ||
+                (menuWeekStats.Checked && info.Start.ToUniversalTime() > WeekStart) ||
+                (menuDayStats.Checked && info.Start.ToUniversalTime() > DayStart) ||
+                (menuSessionStats.Checked && info.Start.ToUniversalTime() > SessionStart);
         }
         private bool IsInPartyFilter(RoundInfo info) {
             return menuAllPartyStats.Checked ||
