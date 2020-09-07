@@ -316,11 +316,7 @@ namespace FallGuysStats {
                 }
 
                 if (round.Count > maxRound) {
-                    maxRound = maxRound - round.Count;
-                    while (maxRound > 0) {
-                        round.RemoveAt(round.Count - 1);
-                        maxRound--;
-                    }
+                    return false;
                 }
 
                 stat = null;
