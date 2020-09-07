@@ -325,7 +325,7 @@ namespace FallGuysStats {
                     } catch { }
                 }
             } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool IsInStatsFilter(RoundInfo info) {

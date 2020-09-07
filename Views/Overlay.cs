@@ -133,8 +133,6 @@ namespace FallGuysStats {
                         Stats.EndedShow = false;
                     }
                     lastRound = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
-                } else if (lastRound != null) {
-                    lastRound.Playing = false;
                 }
 
                 if (lastRound != null) {
