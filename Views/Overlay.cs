@@ -145,7 +145,7 @@ namespace FallGuysStats {
 
                     StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound.Name);
 
-                    float winChance = (float)levelInfo.TotalWins * 100 / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     if (StatsForm.CurrentSettings.PreviousWins > 0) {
                         lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
                     } else if (StatsForm.CurrentSettings.FilterType != 0) {
@@ -154,18 +154,18 @@ namespace FallGuysStats {
                         lblWins.TextRight = $"{levelInfo.TotalWins} - {winChance:0.0}%";
                     }
 
-                    float finalChance = (float)levelInfo.TotalFinals * 100 / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    float finalChance = (float)levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     lblFinalChance.TextRight = $"{levelInfo.TotalFinals} - {finalChance:0.0}%";
 
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
                     if ((labelToShow % 2) == 0) {
                         lblQualifyChance.Text = "QUALIFY:";
-                        float qualifyChance = (float)levelInfo.TotalQualify * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        float qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                         lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     } else {
                         lblQualifyChance.Text = "GOLD:";
-                        float qualifyChance = (float)levelInfo.TotalGolds * 100 / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        float qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                         lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     }
 
