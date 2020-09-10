@@ -38,7 +38,7 @@ namespace FallGuysStats {
         }
         private static string LOGNAME = "Player.log";
         private static DateTime SeasonStart = new DateTime(2020, 8, 2, 0, 0, 0, DateTimeKind.Local);
-        private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
+        private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
         private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
         private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
         public static bool InShow = false;

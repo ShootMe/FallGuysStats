@@ -20,6 +20,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.55
+    - Fixed overlay getting out of wack if you change filters a lot
   - 1.54
     - Added mouse hover tool tip on Qualified / Gold / Silver / Bronze to show value as a %
   - 1.53

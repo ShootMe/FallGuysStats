@@ -16,8 +16,12 @@ namespace FallGuysStats {
         public DateTime End { get; set; } = DateTime.MinValue;
         public DateTime? Finish { get; set; } = null;
         public bool Playing;
+        public bool setLocalTime;
 
         public void ToLocalTime() {
+            if (setLocalTime) { return; }
+            setLocalTime = true;
+
             Start = Start.Add(Start - Start.ToUniversalTime());
             End = End.Add(End - End.ToUniversalTime());
             if (Finish.HasValue) {
