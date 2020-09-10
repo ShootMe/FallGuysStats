@@ -490,6 +490,18 @@ namespace FallGuysStats {
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Info" && e.Value == null) {
                     gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
                     e.Value = Properties.Resources.info;
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
+                    float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
+                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Gold") {
+                    float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
+                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Silver") {
+                    float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
+                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Bronze") {
+                    float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
+                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "AveDuration") {
                     e.Value = info.AveDuration.ToString("m\\:ss");
                 }
@@ -764,6 +776,9 @@ namespace FallGuysStats {
                         rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
                     }
                 }
+
+                CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                SaveUserSettings();
 
                 loadingExisting = true;
                 LogFile_OnParsedLogLines(rounds);
