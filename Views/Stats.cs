@@ -154,7 +154,9 @@ namespace FallGuysStats {
                 PreviousWins = 0,
                 WinsFilter = 0,
                 QualifyFilter = 0,
-                FastestFilter = 0
+                FastestFilter = 0,
+                HideRoundInfo = false,
+                HideTimeInfo = false
             };
         }
         public void SaveUserSettings() {
@@ -215,6 +217,7 @@ namespace FallGuysStats {
                 logFile.Start(logPath, LOGNAME);
 
                 if (CurrentSettings.OverlayVisible) {
+                    overlay.ArrangeDisplay(CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
                     menuOverlay_Click(null, null);
                 }
                 if (CurrentSettings.FilterType != 0) {
@@ -846,6 +849,8 @@ namespace FallGuysStats {
                             }
                             logFile.Start(logPath, LOGNAME);
                         }
+
+                        overlay.ArrangeDisplay(CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
                     }
                 }
             } catch (Exception ex) {
