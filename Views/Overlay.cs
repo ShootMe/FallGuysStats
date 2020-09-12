@@ -71,6 +71,12 @@ namespace FallGuysStats {
         public Overlay() {
             InitializeComponent();
 
+            Bitmap newImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(newImage)) {
+                g.DrawImage(Properties.Resources.background, 0, 0);
+            }
+            BackgroundImage = newImage;
+
             foreach (Control c in Controls) {
                 if (c is TransparentLabel label) {
                     label.Parent = this;
