@@ -139,7 +139,4 @@
   <data name="medal_silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\medal_silver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="backgroundFlip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\backgroundFlip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

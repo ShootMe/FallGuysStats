@@ -28,6 +28,8 @@ namespace FallGuysStats {
             Draw(g);
         }
         public void Draw(Graphics g) {
+            if (!Visible) { return; }
+
             using (SolidBrush brBack = new SolidBrush(BackColor)) {
                 using (SolidBrush brFore = new SolidBrush(ForeColor)) {
                     g.SmoothingMode = SmoothingMode.HighQuality;
