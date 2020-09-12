@@ -68,7 +68,7 @@ namespace FallGuysStats {
             gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= gridDetails.Rows.Count) { return; }
 
             if (gridDetails.Columns[e.ColumnIndex].Name == "End") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
@@ -173,6 +173,8 @@ namespace FallGuysStats {
                     }
 
                     if (MessageBox.Show(this, $"Are you sure you want to remove the selected ({rows.Count}) Shows?", "Remove Shows", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK) {
+                        gridDetails.DataSource = null;
+
                         lock (StatsForm.StatsDB) {
                             StatsForm.StatsDB.BeginTrans();
                             foreach (RoundInfo info in rows) {
@@ -182,7 +184,6 @@ namespace FallGuysStats {
                             StatsForm.StatsDB.Commit();
                         }
 
-                        gridDetails.DataSource = null;
                         gridDetails.DataSource = RoundDetails;
                         if (minIndex < RoundDetails.Count) {
                             gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
