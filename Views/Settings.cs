@@ -14,6 +14,9 @@ namespace FallGuysStats {
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
             chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
+            chkHideRoundInfo.Checked = CurrentSettings.HideRoundInfo;
+            chkHideTimeInfo.Checked = CurrentSettings.HideTimeInfo;
+
             switch (CurrentSettings.WinsFilter) {
                 case 0: cboWinsFilter.SelectedItem = "Stats and Party Filter"; break;
                 case 1: cboWinsFilter.SelectedItem = "Stats Filter Only"; break;
@@ -57,6 +60,8 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
+            CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
+            CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
 
             switch ((string)cboWinsFilter.SelectedItem) {
                 case "Stats and Party Filter": CurrentSettings.WinsFilter = 0; break;

@@ -304,12 +304,92 @@ namespace FallGuysStats {
                 StatsForm.SaveUserSettings();
             }
         }
+        public void ArrangeDisplay(bool hideRound, bool hideTime) {
+            bool shouldFlip = false;
+            if (flippedImage) {
+                shouldFlip = true;
+                FlipDisplay(false);
+            }
+
+            if (!hideRound && !hideTime) {
+                ClientSize = new Size(786, 99);
+
+                lblName.Visible = true;
+                lblQualifyChance.Location = new Point(268, 32);
+                lblQualifyChance.Visible = true;
+                lblFastest.Location = new Point(268, 55);
+                lblFastest.Visible = true;
+
+                lblPlayers.Location = new Point(557, 9);
+                lblPlayers.Size = new Size(225, 22);
+                lblPlayers.Visible = true;
+                lblDuration.Location = new Point(557, 32);
+                lblDuration.Size = new Size(225, 22);
+                lblDuration.Visible = true;
+                lblFinish.Location = new Point(557, 55);
+                lblFinish.Size = new Size(225, 22);
+                lblFinish.Visible = true;
+            } else if (!hideRound) {
+                ClientSize = new Size(555, 99);
+
+                lblFastest.Visible = false;
+                lblDuration.Visible = false;
+                lblFinish.Visible = false;
+
+                lblName.Visible = true;
+                lblPlayers.Location = new Point(268, 32);
+                lblPlayers.Size = new Size(281, 22);
+                lblPlayers.Visible = true;
+                lblQualifyChance.Location = new Point(268, 55);
+                lblQualifyChance.Visible = true;
+            } else if (!hideTime) {
+                ClientSize = new Size(555, 99);
+
+                lblName.Visible = false;
+                lblQualifyChance.Visible = false;
+                lblPlayers.Visible = false;
+
+                lblFastest.Location = new Point(268, 9);
+                lblFastest.Visible = true;
+                lblDuration.Location = new Point(268, 32);
+                lblDuration.Size = new Size(281, 22);
+                lblDuration.Visible = true;
+                lblFinish.Location = new Point(268, 55);
+                lblFinish.Size = new Size(281, 22);
+                lblFinish.Visible = true;
+            } else {
+                ClientSize = new Size(266, 99);
+
+                lblFastest.Visible = false;
+                lblDuration.Visible = false;
+                lblFinish.Visible = false;
+                lblName.Visible = false;
+                lblQualifyChance.Visible = false;
+                lblPlayers.Visible = false;
+            }
+
+            Cleanup();
+            if (shouldFlip) {
+                FlipDisplay(true);
+            }
+        }
         public void FlipDisplay(bool flipped) {
             if (flipped == flippedImage) { return; }
 
+            if (BackgroundImage != null) {
+                BackgroundImage.Dispose();
+            }
+
+            Bitmap newImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(newImage)) {
+                g.DrawImage(Properties.Resources.background, 0, 0);
+            }
+
             if (flipped) {
                 flippedImage = true;
-                BackgroundImage = Properties.Resources.backgroundFlip;
+
+                newImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                BackgroundImage = newImage;
                 foreach (Control ctr in Controls) {
                     if (ctr is TransparentLabel label) {
                         label.Location = new Point(label.Location.X - 18, label.Location.Y);
@@ -317,7 +397,8 @@ namespace FallGuysStats {
                 }
             } else {
                 flippedImage = false;
-                BackgroundImage = Properties.Resources.background;
+
+                BackgroundImage = newImage;
                 foreach (Control ctr in Controls) {
                     if (ctr is TransparentLabel label) {
                         label.Location = new Point(label.Location.X + 18, label.Location.Y);

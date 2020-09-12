@@ -129,8 +129,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.Magenta;
-            this.BackgroundImage = global::FallGuysStats.Properties.Resources.background;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(786, 99);
             this.Controls.Add(this.lblStreak);
             this.Controls.Add(this.lblFinalChance);
