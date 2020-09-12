@@ -185,9 +185,14 @@ namespace FallGuysStats {
 
             ClearTotals();
 
+            AllStats.Clear();
+            if (CurrentRound != null) {
+                CurrentRound.Clear();
+            }
+            nextShowID = 0;
             if (RoundDetails.Count() > 0) {
                 nextShowID = RoundDetails.Max(x => x.ShowID);
-                AllStats.Clear();
+
                 AllStats.AddRange(RoundDetails.FindAll());
                 AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
                     int showCompare = one.ShowID.CompareTo(two.ShowID);
@@ -201,10 +206,11 @@ namespace FallGuysStats {
                         break;
                     }
                 }
-                loadingExisting = true;
-                LogFile_OnParsedLogLines(AllStats);
-                loadingExisting = false;
             }
+
+            loadingExisting = true;
+            LogFile_OnParsedLogLines(AllStats);
+            loadingExisting = false;
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
