@@ -20,6 +20,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.57
+    - Fixed overlay missing image on startup
   - 1.56
     - Add ability to show / hide information on overlay
   - 1.55
