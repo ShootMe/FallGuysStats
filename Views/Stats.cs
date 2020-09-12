@@ -62,6 +62,7 @@ namespace FallGuysStats {
         public ILiteCollection<UserSettings> UserSettings;
         public UserSettings CurrentSettings;
         private Overlay overlay;
+        private DateTime lastAddedShow = DateTime.MinValue;
         public Stats() {
             InitializeComponent();
 
@@ -185,25 +186,38 @@ namespace FallGuysStats {
 
             ClearTotals();
 
-            AllStats.Clear();
-            if (CurrentRound != null) {
+            lock (CurrentRound) {
                 CurrentRound.Clear();
             }
-            nextShowID = 0;
-            if (RoundDetails.Count() > 0) {
-                nextShowID = RoundDetails.Max(x => x.ShowID);
 
-                AllStats.AddRange(RoundDetails.FindAll());
-                AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+            lock (StatsDB) {
+                AllStats.Clear();
+                nextShowID = 0;
+                lastAddedShow = DateTime.MinValue;
+                if (RoundDetails.Count() > 0) {
+                    AllStats.AddRange(RoundDetails.FindAll());
+                    AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
+                        int showCompare = one.ShowID.CompareTo(two.ShowID);
+                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                    });
 
-                for (int i = AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = AllStats[i];
-                    CurrentRound.Insert(0, info);
-                    if (info.Round == 1) {
-                        break;
+                    if (AllStats.Count > 0) {
+                        nextShowID = AllStats[AllStats.Count - 1].ShowID;
+
+                        for (int i = AllStats.Count - 1; i >= 0; i--) {
+                            RoundInfo info = AllStats[i];
+                            if (info.Start > lastAddedShow && info.Round == 1) {
+                                lastAddedShow = info.Start;
+                            }
+                        }
+                    }
+
+                    for (int i = AllStats.Count - 1; i >= 0; i--) {
+                        RoundInfo info = AllStats[i];
+                        CurrentRound.Insert(0, info);
+                        if (info.Round == 1) {
+                            break;
+                        }
                     }
                 }
             }
@@ -281,9 +295,10 @@ namespace FallGuysStats {
                     foreach (RoundInfo stat in round) {
                         if (!loadingExisting) {
                             RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
-                            if (info == null) {
+                            if (info == null && stat.Start > lastAddedShow) {
                                 if (stat.Round == 1) {
                                     nextShowID++;
+                                    lastAddedShow = stat.Start;
                                 }
                                 stat.ShowID = nextShowID;
 
