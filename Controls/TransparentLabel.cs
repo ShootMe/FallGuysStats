@@ -55,6 +55,15 @@ namespace FallGuysStats {
                             stringFormat.LineAlignment = StringAlignment.Near;
                             break;
                     }
+                    switch (TextAlign) {
+                        case ContentAlignment.TopCenter:
+                        case ContentAlignment.MiddleCenter:
+                        case ContentAlignment.BottomCenter:
+                            if (string.IsNullOrEmpty(TextRight)) {
+                                stringFormat.Alignment = StringAlignment.Center;
+                            }
+                            break;
+                    }
 
                     g.DrawString(Text, Font, brFore, ClientRectangle, stringFormat);
 

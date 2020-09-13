@@ -236,8 +236,8 @@ namespace FallGuysStats {
                 }
                 logFile.Start(logPath, LOGNAME);
 
+                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
                 if (CurrentSettings.OverlayVisible) {
-                    overlay.ArrangeDisplay(CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
                     menuOverlay_Click(null, null);
                 }
                 if (CurrentSettings.FilterType != 0) {
@@ -366,7 +366,7 @@ namespace FallGuysStats {
         }
         public StatSummary GetLevelInfo(string name) {
             StatSummary summary = new StatSummary();
-            summary.CurrentFilter = menuAllStats.Checked ? "All" : menuSeasonStats.Checked ? "Season" : menuWeekStats.Checked ? "Week" : menuDayStats.Checked ? "Day" : "Session";
+            summary.CurrentFilter = menuAllStats.Checked ? "ALL TIME" : menuSeasonStats.Checked ? "SEASON" : menuWeekStats.Checked ? "WEEK" : menuDayStats.Checked ? "DAY" : "SESSION";
             LevelStats levelDetails = null;
 
             summary.AllWins = 0;
@@ -871,7 +871,7 @@ namespace FallGuysStats {
                             logFile.Start(logPath, LOGNAME);
                         }
 
-                        overlay.ArrangeDisplay(CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
+                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
                     }
                 }
             } catch (Exception ex) {
@@ -894,7 +894,6 @@ namespace FallGuysStats {
                     case 5: overlay.BackColor = Color.Green; break;
                 }
                 overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
-                overlay.FlipDisplay(CurrentSettings.FlippedDisplay);
                 overlay.Show(this);
 
                 if (CurrentSettings.OverlayLocationX.HasValue) {

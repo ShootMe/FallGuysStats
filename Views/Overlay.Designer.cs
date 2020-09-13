@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.lblFilter = new FallGuysStats.TransparentLabel();
             this.lblStreak = new FallGuysStats.TransparentLabel();
             this.lblFinalChance = new FallGuysStats.TransparentLabel();
             this.lblQualifyChance = new FallGuysStats.TransparentLabel();
@@ -33,6 +34,17 @@
             this.lblWins = new FallGuysStats.TransparentLabel();
             this.lblFinish = new FallGuysStats.TransparentLabel();
             this.SuspendLayout();
+            // 
+            // lblFilter
+            // 
+            this.lblFilter.Location = new System.Drawing.Point(22, 77);
+            this.lblFilter.Name = "lblFilter";
+            this.lblFilter.Size = new System.Drawing.Size(110, 22);
+            this.lblFilter.TabIndex = 22;
+            this.lblFilter.Text = "SEASON";
+            this.lblFilter.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.lblFilter.TextRight = "";
+            this.lblFilter.Visible = false;
             // 
             // lblStreak
             // 
@@ -131,6 +143,7 @@
             this.BackColor = System.Drawing.Color.Magenta;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(786, 99);
+            this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.lblStreak);
             this.Controls.Add(this.lblFinalChance);
             this.Controls.Add(this.lblQualifyChance);
@@ -168,5 +181,6 @@
         private TransparentLabel lblFinalChance;
         private TransparentLabel lblPlayers;
         private TransparentLabel lblStreak;
+        private TransparentLabel lblFilter;
     }
 }
