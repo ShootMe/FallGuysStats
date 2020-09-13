@@ -16,6 +16,7 @@ namespace FallGuysStats {
             chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
             chkHideRoundInfo.Checked = CurrentSettings.HideRoundInfo;
             chkHideTimeInfo.Checked = CurrentSettings.HideTimeInfo;
+            chkShowTabs.Checked = CurrentSettings.ShowOverlayTabs;
 
             switch (CurrentSettings.WinsFilter) {
                 case 0: cboWinsFilter.SelectedItem = "Stats and Party Filter"; break;
@@ -62,6 +63,7 @@ namespace FallGuysStats {
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
             CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
+            CurrentSettings.ShowOverlayTabs = chkShowTabs.Checked;
 
             switch ((string)cboWinsFilter.SelectedItem) {
                 case "Stats and Party Filter": CurrentSettings.WinsFilter = 0; break;
