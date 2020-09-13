@@ -141,6 +141,9 @@ namespace FallGuysStats {
                     lastRound = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
                 }
 
+                StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound?.Name);
+                lblFilter.Text = levelInfo.CurrentFilter;
+
                 if (lastRound != null) {
                     lblName.Text = $"ROUND {lastRound.Round}:";
 
@@ -148,8 +151,6 @@ namespace FallGuysStats {
                     LevelStats.DisplayNameLookup.TryGetValue(lastRound.Name, out displayName);
                     lblName.TextRight = displayName.ToUpper();
                     lblPlayers.TextRight = lastRound.Players.ToString();
-
-                    StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound.Name);
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     if (StatsForm.CurrentSettings.PreviousWins > 0) {
@@ -305,66 +306,70 @@ namespace FallGuysStats {
                 StatsForm.SaveUserSettings();
             } else if (e.KeyCode == Keys.F) {
                 FlipDisplay(!flippedImage);
+                BackgroundImage = RecreateBackground();
 
                 StatsForm.CurrentSettings.FlippedDisplay = flippedImage;
                 StatsForm.SaveUserSettings();
             }
         }
-        public void ArrangeDisplay(bool hideRound, bool hideTime) {
-            bool shouldFlip = false;
-            if (flippedImage) {
-                shouldFlip = true;
-                FlipDisplay(false);
-            }
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideRound, bool hideTime) {
+            FlipDisplay(false);
+
+            int heightOffset = showTabs ? 35 : 0;
+            lblWins.Location = new Point(22, 9 + heightOffset);
+            lblFinalChance.Location = new Point(22, 32 + heightOffset);
+            lblStreak.Location = new Point(22, 55 + heightOffset);
 
             if (!hideRound && !hideTime) {
-                ClientSize = new Size(786, 99);
+                ClientSize = new Size(786, Height);
 
+                lblName.Location = new Point(268, 9 + heightOffset);
                 lblName.Visible = true;
-                lblQualifyChance.Location = new Point(268, 32);
+                lblQualifyChance.Location = new Point(268, 32 + heightOffset);
                 lblQualifyChance.Visible = true;
-                lblFastest.Location = new Point(268, 55);
+                lblFastest.Location = new Point(268, 55 + heightOffset);
                 lblFastest.Visible = true;
 
-                lblPlayers.Location = new Point(557, 9);
+                lblPlayers.Location = new Point(557, 9 + heightOffset);
                 lblPlayers.Size = new Size(225, 22);
                 lblPlayers.Visible = true;
-                lblDuration.Location = new Point(557, 32);
+                lblDuration.Location = new Point(557, 32 + heightOffset);
                 lblDuration.Size = new Size(225, 22);
                 lblDuration.Visible = true;
-                lblFinish.Location = new Point(557, 55);
+                lblFinish.Location = new Point(557, 55 + heightOffset);
                 lblFinish.Size = new Size(225, 22);
                 lblFinish.Visible = true;
             } else if (!hideRound) {
-                ClientSize = new Size(555, 99);
+                ClientSize = new Size(555, Height);
 
                 lblFastest.Visible = false;
                 lblDuration.Visible = false;
                 lblFinish.Visible = false;
 
+                lblName.Location = new Point(268, 9 + heightOffset);
                 lblName.Visible = true;
-                lblPlayers.Location = new Point(268, 32);
+                lblPlayers.Location = new Point(268, 32 + heightOffset);
                 lblPlayers.Size = new Size(281, 22);
                 lblPlayers.Visible = true;
-                lblQualifyChance.Location = new Point(268, 55);
+                lblQualifyChance.Location = new Point(268, 55 + heightOffset);
                 lblQualifyChance.Visible = true;
             } else if (!hideTime) {
-                ClientSize = new Size(555, 99);
+                ClientSize = new Size(555, Height);
 
                 lblName.Visible = false;
                 lblQualifyChance.Visible = false;
                 lblPlayers.Visible = false;
 
-                lblFastest.Location = new Point(268, 9);
+                lblFastest.Location = new Point(268, 9 + heightOffset);
                 lblFastest.Visible = true;
-                lblDuration.Location = new Point(268, 32);
+                lblDuration.Location = new Point(268, 32 + heightOffset);
                 lblDuration.Size = new Size(281, 22);
                 lblDuration.Visible = true;
-                lblFinish.Location = new Point(268, 55);
+                lblFinish.Location = new Point(268, 55 + heightOffset);
                 lblFinish.Size = new Size(281, 22);
                 lblFinish.Visible = true;
             } else {
-                ClientSize = new Size(266, 99);
+                ClientSize = new Size(266, Height);
 
                 lblFastest.Visible = false;
                 lblDuration.Visible = false;
@@ -374,42 +379,51 @@ namespace FallGuysStats {
                 lblPlayers.Visible = false;
             }
 
+            DisplayTabs(showTabs);
+            FlipDisplay(flipDisplay);
             Cleanup();
-            if (shouldFlip) {
-                FlipDisplay(true);
-            }
+            
+            BackgroundImage = RecreateBackground();
         }
         public void FlipDisplay(bool flipped) {
             if (flipped == flippedImage) { return; }
+            flippedImage = flipped;
 
+            foreach (Control ctr in Controls) {
+                if (ctr is TransparentLabel label && label != lblFilter) {
+                    label.Location = new Point(label.Location.X + (flippedImage ? -18 : 18), label.Location.Y);
+                }
+            }
+
+            DisplayTabs(Height > 99);
+        }
+        private Bitmap RecreateBackground() {
             if (BackgroundImage != null) {
                 BackgroundImage.Dispose();
             }
 
+            bool tabsDisplayed = Height > 99;
             Bitmap newImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(newImage)) {
-                g.DrawImage(Properties.Resources.background, 0, 0);
+                g.DrawImage(Properties.Resources.background, 0, tabsDisplayed ? 35 : 0);
+                if (tabsDisplayed) {
+                    g.DrawImage(Properties.Resources.tab_unselected, Width - 110, 0);
+                }
             }
 
-            if (flipped) {
-                flippedImage = true;
-
+            if (flippedImage) {
                 newImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
-                BackgroundImage = newImage;
-                foreach (Control ctr in Controls) {
-                    if (ctr is TransparentLabel label) {
-                        label.Location = new Point(label.Location.X - 18, label.Location.Y);
-                    }
-                }
+            }
+            return newImage;
+        }
+        public void DisplayTabs(bool showTabs) {
+            if (showTabs) {
+                ClientSize = new Size(Width, 134);
+                lblFilter.Location = new Point(flippedImage ? -5 : Width - 105, 11);
+                lblFilter.Visible = true;
             } else {
-                flippedImage = false;
-
-                BackgroundImage = newImage;
-                foreach (Control ctr in Controls) {
-                    if (ctr is TransparentLabel label) {
-                        label.Location = new Point(label.Location.X + 18, label.Location.Y);
-                    }
-                }
+                ClientSize = new Size(Width, 99);
+                lblFilter.Visible = false;
             }
         }
     }
