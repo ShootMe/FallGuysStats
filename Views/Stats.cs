@@ -896,7 +896,7 @@ namespace FallGuysStats {
                 overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
                 overlay.Show(this);
 
-                if (CurrentSettings.OverlayLocationX.HasValue) {
+                if (CurrentSettings.OverlayLocationX.HasValue && IsOnScreen(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
                     overlay.Location = new Point(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value);
                 } else {
                     overlay.Location = this.Location;
@@ -909,6 +909,16 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public bool IsOnScreen(int x, int y, int w) {
+            Screen[] screens = Screen.AllScreens;
+            foreach (Screen screen in screens) {
+                if (screen.WorkingArea.Contains(new Point(x, y)) || screen.WorkingArea.Contains(new Point(x + w, y))) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

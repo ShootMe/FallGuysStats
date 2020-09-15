@@ -20,6 +20,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.61
+    - Added logic to reset overlay position if it ended up off screen
+    - Tightened up the overlay when hiding the round info
   - 1.60
     - Added option to show tab on overlay for current filter
   - 1.59
