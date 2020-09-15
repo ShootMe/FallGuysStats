@@ -328,16 +328,15 @@ namespace FallGuysStats {
                 lblQualifyChance.Location = new Point(268, 32 + heightOffset);
                 lblQualifyChance.Visible = true;
                 lblFastest.Location = new Point(268, 55 + heightOffset);
+                lblFastest.Size = new Size(281, 22);
                 lblFastest.Visible = true;
 
                 lblPlayers.Location = new Point(557, 9 + heightOffset);
                 lblPlayers.Size = new Size(225, 22);
                 lblPlayers.Visible = true;
                 lblDuration.Location = new Point(557, 32 + heightOffset);
-                lblDuration.Size = new Size(225, 22);
                 lblDuration.Visible = true;
                 lblFinish.Location = new Point(557, 55 + heightOffset);
-                lblFinish.Size = new Size(225, 22);
                 lblFinish.Visible = true;
             } else if (!hideRound) {
                 ClientSize = new Size(555, Height);
@@ -354,19 +353,18 @@ namespace FallGuysStats {
                 lblQualifyChance.Location = new Point(268, 55 + heightOffset);
                 lblQualifyChance.Visible = true;
             } else if (!hideTime) {
-                ClientSize = new Size(555, Height);
+                ClientSize = new Size(499, Height);
 
                 lblName.Visible = false;
                 lblQualifyChance.Visible = false;
                 lblPlayers.Visible = false;
 
                 lblFastest.Location = new Point(268, 9 + heightOffset);
+                lblFastest.Size = new Size(225, 22);
                 lblFastest.Visible = true;
                 lblDuration.Location = new Point(268, 32 + heightOffset);
-                lblDuration.Size = new Size(281, 22);
                 lblDuration.Visible = true;
                 lblFinish.Location = new Point(268, 55 + heightOffset);
-                lblFinish.Size = new Size(281, 22);
                 lblFinish.Visible = true;
             } else {
                 ClientSize = new Size(266, Height);
