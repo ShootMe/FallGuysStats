@@ -122,6 +122,7 @@ namespace FallGuysStats {
                         } else {
                             labelToShow = 0;
                         }
+
                         this.Invoke((Action)UpdateInfo);
                     }
 
@@ -179,14 +180,14 @@ namespace FallGuysStats {
 
                     int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
                     if ((labelToShow % modCount) == 1) {
-                        lblFastest.Text = "LONGEST:";
-                        lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                        lblFastest.Text = "FASTEST:";
+                        lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     } else if ((labelToShow % modCount) == 2) {
                         lblFastest.Text = "HIGH SCORE:";
                         lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
                     } else {
-                        lblFastest.Text = "FASTEST:";
-                        lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
+                        lblFastest.Text = "LONGEST:";
+                        lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     }
 
                     DateTime Start = DateTime.MinValue;
@@ -380,7 +381,7 @@ namespace FallGuysStats {
             DisplayTabs(showTabs);
             FlipDisplay(flipDisplay);
             Cleanup();
-            
+
             BackgroundImage = RecreateBackground();
         }
         public void FlipDisplay(bool flipped) {
