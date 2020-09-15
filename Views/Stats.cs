@@ -186,9 +186,7 @@ namespace FallGuysStats {
 
             ClearTotals();
 
-            lock (CurrentRound) {
-                CurrentRound.Clear();
-            }
+            List<RoundInfo> rounds = new List<RoundInfo>();
 
             lock (StatsDB) {
                 AllStats.Clear();
@@ -204,26 +202,35 @@ namespace FallGuysStats {
                     if (AllStats.Count > 0) {
                         nextShowID = AllStats[AllStats.Count - 1].ShowID;
 
+                        int lastAddedShowID = -1;
                         for (int i = AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = AllStats[i];
+                            info.ToLocalTime();
+                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
+                                lastAddedShowID = info.ShowID;
+                                rounds.Add(info);
+                            }
                             if (info.Start > lastAddedShow && info.Round == 1) {
                                 lastAddedShow = info.Start;
                             }
                         }
                     }
+                }
+            }
 
-                    for (int i = AllStats.Count - 1; i >= 0; i--) {
-                        RoundInfo info = AllStats[i];
-                        CurrentRound.Insert(0, info);
-                        if (info.Round == 1) {
-                            break;
-                        }
+            lock (CurrentRound) {
+                CurrentRound.Clear();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    CurrentRound.Insert(0, info);
+                    if (info.Round == 1) {
+                        break;
                     }
                 }
             }
 
             loadingExisting = true;
-            LogFile_OnParsedLogLines(AllStats);
+            LogFile_OnParsedLogLines(rounds);
             loadingExisting = false;
         }
         private void Stats_Shown(object sender, EventArgs e) {
@@ -379,7 +386,7 @@ namespace FallGuysStats {
                 RoundInfo info = AllStats[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
-                bool isCurrentLevel = name.Equals(info.Name, StringComparison.OrdinalIgnoreCase);
+                bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
                 bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
                         (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
                         (CurrentSettings.QualifyFilter == 2 && IsInStatsFilter(info)) ||
