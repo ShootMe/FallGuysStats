@@ -148,6 +148,7 @@
     <EmbeddedResource Include="Resources\TitanOne-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\export.png" />
     <None Include="Resources\tab_unselected.png" />
     <None Include="Resources\tab_selected.png" />
     <None Include="Resources\background.png" />
