@@ -14,7 +14,7 @@ namespace FallGuysStats {
         private ContextMenuStrip cMenu;
         private IContainer components;
         private SaveFileDialog saveFile;
-        private ToolStripMenuItem exportItem;
+        private ToolStripMenuItem exportItemCSV, exportItemHTML, exportItemBBCODE;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
@@ -180,37 +180,43 @@ namespace FallGuysStats {
             }
             return false;
         }
-        private void exportItem_Click(object sender, EventArgs e) {
+        private void exportItemCSV_Click(object sender, EventArgs e) {
             try {
                 saveFile.Filter = "CSV files|*.csv";
                 if (saveFile.ShowDialog() == DialogResult.OK) {
                     Encoding enc = Encoding.GetEncoding("windows-1252");
                     using (FileStream fs = new FileStream(saveFile.FileName, FileMode.Create)) {
+                        List<DataGridViewColumn> columns = GetSortedColumns();
+
                         StringBuilder sb = new StringBuilder();
-                        foreach (DataGridViewColumn col in this.Columns) {
-                            if (col.ValueType != null && col.Visible) {
-                                sb.Append(col.Name).Append(",");
+                        foreach (DataGridViewColumn col in columns) {
+                            if (!col.Visible || col.ValueType == null) { continue; }
+
+                            string header = col.HeaderText;
+                            if (header.IndexOf(" ") >= 0) {
+                                header = $"\"{header}\"";
                             }
+                            sb.Append(header).Append(",");
                         }
                         if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+
                         sb.AppendLine();
                         byte[] bytes = enc.GetBytes(sb.ToString());
                         fs.Write(bytes, 0, bytes.Length);
+
                         foreach (DataGridViewRow row in this.Rows) {
                             sb.Length = 0;
-                            foreach (DataGridViewColumn col in this.Columns) {
-                                if (!col.Visible) { continue; }
-                                if (col.ValueType == typeof(string)) {
-                                    sb.Append("\"").Append(row.Cells[col.Name].Value.ToString()).Append("\",");
-                                } else if (col.ValueType != null) {
-                                    if (row.Cells[col.Name].Value == null) {
-                                        sb.Append(",");
-                                    } else {
-                                        sb.Append(row.Cells[col.Name].Value.ToString()).Append(",");
-                                    }
+                            foreach (DataGridViewColumn col in columns) {
+                                if (!col.Visible || col.ValueType == null) { continue; }
+
+                                if (row.Cells[col.Name].Value == null) {
+                                    sb.Append(",");
+                                } else {
+                                    sb.Append($"\"{row.Cells[col.Name].FormattedValue}\",");
                                 }
                             }
                             if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+
                             sb.AppendLine();
                             bytes = enc.GetBytes(sb.ToString());
                             fs.Write(bytes, 0, bytes.Length);
@@ -222,6 +228,76 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
             }
+        }
+        private void exportItemHTML_Click(object sender, EventArgs e) {
+            try {
+                List<DataGridViewColumn> columns = GetSortedColumns();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("<table><tr>");
+                foreach (DataGridViewColumn col in columns) {
+                    if (!col.Visible || col.ValueType == null) { continue; }
+
+                    sb.Append($"<td><b>{col.HeaderText}</b></td>");
+                }
+                sb.AppendLine("</tr>");
+
+                foreach (DataGridViewRow row in this.Rows) {
+                    sb.Append("<tr>");
+                    foreach (DataGridViewColumn col in columns) {
+                        if (!col.Visible || col.ValueType == null) { continue; }
+
+                        sb.Append($"<td>{row.Cells[col.Name].FormattedValue}</td>");
+                    }
+                    sb.AppendLine("</tr>");
+                }
+                sb.Append("</table>");
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+
+                MessageBox.Show(this, "Saved Html to clipboard.", "Export", MessageBoxButtons.OK);
+            } catch (Exception ex) {
+                ControlErrors.HandleException(this, ex, false);
+            }
+        }
+        private void exportItemBBCODE_Click(object sender, EventArgs e) {
+            try {
+                List<DataGridViewColumn> columns = GetSortedColumns();
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append("[table][tr]");
+                foreach (DataGridViewColumn col in columns) {
+                    if (!col.Visible || col.ValueType == null) { continue; }
+
+                    sb.Append($"[th]{col.HeaderText}[/th]");
+                }
+                sb.Append("[/tr]");
+
+                foreach (DataGridViewRow row in this.Rows) {
+                    sb.Append("[tr]");
+                    foreach (DataGridViewColumn col in columns) {
+                        if (!col.Visible || col.ValueType == null) { continue; }
+
+                        sb.Append($"[td]{row.Cells[col.Name].FormattedValue}[/td]");
+                    }
+                    sb.Append("[/tr]");
+                }
+                sb.Append("[/table]");
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+
+                MessageBox.Show(this, "Saved BBCode to clipboard.", "Export", MessageBoxButtons.OK);
+            } catch (Exception ex) {
+                ControlErrors.HandleException(this, ex, false);
+            }
+        }
+        private List<DataGridViewColumn> GetSortedColumns() {
+            List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
+            foreach (DataGridViewColumn col in this.Columns) {
+                columns.Add(col);
+            }
+            columns.Sort(delegate (DataGridViewColumn one, DataGridViewColumn two) {
+                return one.DisplayIndex.CompareTo(two.DisplayIndex);
+            });
+            return columns;
         }
         private void Grid_DataError(object sender, DataGridViewDataErrorEventArgs e) {
             e.ThrowException = false;
@@ -325,7 +401,9 @@ namespace FallGuysStats {
             this.components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(Grid));
             this.cMenu = new ContextMenuStrip(this.components);
-            this.exportItem = new ToolStripMenuItem();
+            this.exportItemCSV = new ToolStripMenuItem();
+            this.exportItemHTML = new ToolStripMenuItem();
+            this.exportItemBBCODE = new ToolStripMenuItem();
             this.saveFile = new SaveFileDialog();
             this.cMenu.SuspendLayout();
             ((ISupportInitialize)(this)).BeginInit();
@@ -333,18 +411,39 @@ namespace FallGuysStats {
             // 
             // cMenu
             // 
-            this.cMenu.Items.AddRange(new ToolStripItem[] { this.exportItem });
+            this.cMenu.Items.AddRange(new ToolStripItem[] { this.exportItemCSV, this.exportItemHTML, this.exportItemBBCODE });
             this.cMenu.Name = "contextMenu";
             this.cMenu.Size = new Size(135, 48);
             // 
-            // exportItem
+            // exportItemCSV
             // 
-            this.exportItem.Name = "exportItem";
-            this.exportItem.Size = new Size(134, 22);
-            this.exportItem.Text = "&Export to CSV";
-            this.exportItem.ShowShortcutKeys = true;
-            this.exportItem.ShortcutKeys = Keys.Control | Keys.S;
-            this.exportItem.Click += new EventHandler(this.exportItem_Click);
+            this.exportItemCSV.Name = "exportItemCSV";
+            this.exportItemCSV.Size = new Size(134, 22);
+            this.exportItemCSV.Text = "Export CSV";
+            this.exportItemCSV.ShowShortcutKeys = true;
+            this.exportItemCSV.Image = Properties.Resources.export;
+            this.exportItemCSV.ShortcutKeys = Keys.Control | Keys.S;
+            this.exportItemCSV.Click += new EventHandler(this.exportItemCSV_Click);
+            // 
+            // exportItemHTML
+            // 
+            this.exportItemHTML.Name = "exportItemHTML";
+            this.exportItemHTML.Size = new Size(134, 22);
+            this.exportItemHTML.Text = "Export HTML";
+            this.exportItemHTML.ShowShortcutKeys = true;
+            this.exportItemHTML.Image = Properties.Resources.export;
+            this.exportItemHTML.ShortcutKeys = Keys.Control | Keys.E;
+            this.exportItemHTML.Click += new EventHandler(this.exportItemHTML_Click);
+            // 
+            // exportItemBBCODE
+            // 
+            this.exportItemBBCODE.Name = "exportItemBBCODE";
+            this.exportItemBBCODE.Size = new Size(134, 22);
+            this.exportItemBBCODE.Text = "Export BBCode";
+            this.exportItemBBCODE.ShowShortcutKeys = true;
+            this.exportItemBBCODE.Image = Properties.Resources.export;
+            this.exportItemBBCODE.ShortcutKeys = Keys.Control | Keys.B;
+            this.exportItemBBCODE.Click += new EventHandler(this.exportItemBBCODE_Click);
             // 
             // saveFile
             // 

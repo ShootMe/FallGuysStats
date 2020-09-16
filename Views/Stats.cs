@@ -302,7 +302,7 @@ namespace FallGuysStats {
                     foreach (RoundInfo stat in round) {
                         if (!loadingExisting) {
                             RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
-                            if (info == null && stat.Start > lastAddedShow) {
+                            if (info == null && stat.Start > lastAddedShow.ToUniversalTime()) {
                                 if (stat.Round == 1) {
                                     nextShowID++;
                                     lastAddedShow = stat.Start;
