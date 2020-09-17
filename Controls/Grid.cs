@@ -14,7 +14,7 @@ namespace FallGuysStats {
         private ContextMenuStrip cMenu;
         private IContainer components;
         private SaveFileDialog saveFile;
-        private ToolStripMenuItem exportItemCSV, exportItemHTML, exportItemBBCODE;
+        private ToolStripMenuItem exportItemCSV, exportItemHTML, exportItemBBCODE, exportItemMD;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
@@ -180,6 +180,12 @@ namespace FallGuysStats {
             }
             return false;
         }
+        private string EscapeQuotes(string value, char escapeCharacter = ',') {
+            if (!string.IsNullOrEmpty(value) && value.IndexOf(escapeCharacter) >= 0) {
+                return $"\"{value}\"";
+            }
+            return value;
+        }
         private void exportItemCSV_Click(object sender, EventArgs e) {
             try {
                 saveFile.Filter = "CSV files|*.csv";
@@ -190,13 +196,8 @@ namespace FallGuysStats {
 
                         StringBuilder sb = new StringBuilder();
                         foreach (DataGridViewColumn col in columns) {
-                            if (!col.Visible || col.ValueType == null) { continue; }
-
-                            string header = col.HeaderText;
-                            if (header.IndexOf(" ") >= 0) {
-                                header = $"\"{header}\"";
-                            }
-                            sb.Append(header).Append(",");
+                            string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
+                            sb.Append(EscapeQuotes(header)).Append(",");
                         }
                         if (sb.Length > 0) { sb.Length = sb.Length - 1; }
 
@@ -207,12 +208,13 @@ namespace FallGuysStats {
                         foreach (DataGridViewRow row in this.Rows) {
                             sb.Length = 0;
                             foreach (DataGridViewColumn col in columns) {
-                                if (!col.Visible || col.ValueType == null) { continue; }
+                                string formattedValue = row.Cells[col.Name].FormattedValue?.ToString();
+                                string tooltip = row.Cells[col.Name].ToolTipText;
 
-                                if (row.Cells[col.Name].Value == null) {
-                                    sb.Append(",");
+                                if (string.IsNullOrEmpty(tooltip) || row.Cells[col.Name].FormattedValueType == typeof(string)) {
+                                    sb.Append($"{EscapeQuotes(formattedValue)},");
                                 } else {
-                                    sb.Append($"\"{row.Cells[col.Name].FormattedValue}\",");
+                                    sb.Append($"{EscapeQuotes(tooltip)},");
                                 }
                             }
                             if (sb.Length > 0) { sb.Length = sb.Length - 1; }
@@ -224,6 +226,8 @@ namespace FallGuysStats {
                         fs.Flush();
                         fs.Close();
                     }
+
+                    MessageBox.Show(this, $"Saved CSV to {saveFile.FileName}", "Export", MessageBoxButtons.OK);
                 }
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
@@ -236,18 +240,22 @@ namespace FallGuysStats {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<table><tr>");
                 foreach (DataGridViewColumn col in columns) {
-                    if (!col.Visible || col.ValueType == null) { continue; }
-
-                    sb.Append($"<td><b>{col.HeaderText}</b></td>");
+                    string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
+                    sb.Append($"<td><b>{header}</b></td>");
                 }
                 sb.AppendLine("</tr>");
 
                 foreach (DataGridViewRow row in this.Rows) {
                     sb.Append("<tr>");
                     foreach (DataGridViewColumn col in columns) {
-                        if (!col.Visible || col.ValueType == null) { continue; }
+                        string formattedValue = row.Cells[col.Name].FormattedValue?.ToString();
+                        string tooltip = row.Cells[col.Name].ToolTipText;
 
-                        sb.Append($"<td>{row.Cells[col.Name].FormattedValue}</td>");
+                        if (string.IsNullOrEmpty(tooltip) || row.Cells[col.Name].FormattedValueType == typeof(string)) {
+                            sb.Append($"<td>{formattedValue}</td>");
+                        } else {
+                            sb.Append($"<td>{tooltip}</td>");
+                        }
                     }
                     sb.AppendLine("</tr>");
                 }
@@ -266,18 +274,22 @@ namespace FallGuysStats {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("[table][tr]");
                 foreach (DataGridViewColumn col in columns) {
-                    if (!col.Visible || col.ValueType == null) { continue; }
-
-                    sb.Append($"[th]{col.HeaderText}[/th]");
+                    string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
+                    sb.Append($"[th]{header}[/th]");
                 }
                 sb.Append("[/tr]");
 
                 foreach (DataGridViewRow row in this.Rows) {
                     sb.Append("[tr]");
                     foreach (DataGridViewColumn col in columns) {
-                        if (!col.Visible || col.ValueType == null) { continue; }
+                        string formattedValue = row.Cells[col.Name].FormattedValue?.ToString();
+                        string tooltip = row.Cells[col.Name].ToolTipText;
 
-                        sb.Append($"[td]{row.Cells[col.Name].FormattedValue}[/td]");
+                        if (string.IsNullOrEmpty(tooltip) || row.Cells[col.Name].FormattedValueType == typeof(string)) {
+                            sb.Append($"[td]{formattedValue}[/td]");
+                        } else {
+                            sb.Append($"[td]{tooltip}[/td]");
+                        }
                     }
                     sb.Append("[/tr]");
                 }
@@ -289,9 +301,47 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
+        private void exportItemMD_Click(object sender, EventArgs e) {
+            try {
+                List<DataGridViewColumn> columns = GetSortedColumns();
+
+                StringBuilder sb = new StringBuilder();
+                foreach (DataGridViewColumn col in columns) {
+                    string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
+                    sb.Append($"|{header}");
+                }
+                sb.AppendLine();
+                foreach (DataGridViewColumn col in columns) {
+                    sb.Append($"|---");
+                }
+                sb.AppendLine();
+
+                foreach (DataGridViewRow row in this.Rows) {
+                    foreach (DataGridViewColumn col in columns) {
+                        string formattedValue = row.Cells[col.Name].FormattedValue?.ToString();
+                        string tooltip = row.Cells[col.Name].ToolTipText;
+
+                        if (string.IsNullOrEmpty(tooltip) || row.Cells[col.Name].FormattedValueType == typeof(string)) {
+                            sb.Append($"|{formattedValue}");
+                        } else {
+                            sb.Append($"|{tooltip}");
+                        }
+                    }
+                    sb.AppendLine();
+                }
+
+                Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+
+                MessageBox.Show(this, "Saved MarkDown to clipboard.", "Export", MessageBoxButtons.OK);
+            } catch (Exception ex) {
+                ControlErrors.HandleException(this, ex, false);
+            }
+        }
         private List<DataGridViewColumn> GetSortedColumns() {
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
             foreach (DataGridViewColumn col in this.Columns) {
+                if (!col.Visible || (string.IsNullOrEmpty(col.HeaderText) && string.IsNullOrEmpty(col.ToolTipText))) { continue; }
+
                 columns.Add(col);
             }
             columns.Sort(delegate (DataGridViewColumn one, DataGridViewColumn two) {
@@ -404,6 +454,7 @@ namespace FallGuysStats {
             this.exportItemCSV = new ToolStripMenuItem();
             this.exportItemHTML = new ToolStripMenuItem();
             this.exportItemBBCODE = new ToolStripMenuItem();
+            this.exportItemMD = new ToolStripMenuItem();
             this.saveFile = new SaveFileDialog();
             this.cMenu.SuspendLayout();
             ((ISupportInitialize)(this)).BeginInit();
@@ -411,7 +462,7 @@ namespace FallGuysStats {
             // 
             // cMenu
             // 
-            this.cMenu.Items.AddRange(new ToolStripItem[] { this.exportItemCSV, this.exportItemHTML, this.exportItemBBCODE });
+            this.cMenu.Items.AddRange(new ToolStripItem[] { this.exportItemCSV, this.exportItemHTML, this.exportItemBBCODE, this.exportItemMD });
             this.cMenu.Name = "contextMenu";
             this.cMenu.Size = new Size(135, 48);
             // 
@@ -444,6 +495,16 @@ namespace FallGuysStats {
             this.exportItemBBCODE.Image = Properties.Resources.export;
             this.exportItemBBCODE.ShortcutKeys = Keys.Control | Keys.B;
             this.exportItemBBCODE.Click += new EventHandler(this.exportItemBBCODE_Click);
+            // 
+            // exportItemMD
+            // 
+            this.exportItemMD.Name = "exportItemMD";
+            this.exportItemMD.Size = new Size(134, 22);
+            this.exportItemMD.Text = "Export MarkDown";
+            this.exportItemMD.ShowShortcutKeys = true;
+            this.exportItemMD.Image = Properties.Resources.export;
+            this.exportItemMD.ShortcutKeys = Keys.Control | Keys.M;
+            this.exportItemMD.Click += new EventHandler(this.exportItemMD_Click);
             // 
             // saveFile
             // 

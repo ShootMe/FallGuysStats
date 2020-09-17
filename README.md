@@ -20,6 +20,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.65
+    - Added export to MarkDown option
+    - Added ability to click on Win% label to toggle columns to show %s and back
   - 1.64
     - Fixed time issue when parsing log
   - 1.63

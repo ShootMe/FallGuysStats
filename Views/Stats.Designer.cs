@@ -112,11 +112,14 @@
             // lblWinChance
             // 
             this.lblWinChance.AutoSize = true;
+            this.lblWinChance.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblWinChance.ForeColor = System.Drawing.Color.Blue;
             this.lblWinChance.Location = new System.Drawing.Point(443, 28);
             this.lblWinChance.Name = "lblWinChance";
             this.lblWinChance.Size = new System.Drawing.Size(58, 13);
             this.lblWinChance.TabIndex = 9;
             this.lblWinChance.Text = "Win %: 0.0";
+            this.lblWinChance.Click += new System.EventHandler(this.lblWinChance_Click);
             // 
             // lblKudos
             // 
