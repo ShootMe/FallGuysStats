@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteDB;
 namespace FallGuysStats {
     public class RoundInfo {
+        public ObjectId ID { get; set; }
         public string Name { get; set; }
         public int ShowID { get; set; }
         public int Round { get; set; }
@@ -15,6 +17,9 @@ namespace FallGuysStats {
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
         public DateTime? Finish { get; set; } = null;
+        public DateTime StartLocal;
+        public DateTime EndLocal;
+        public DateTime? FinishLocal;
         public bool Playing;
         public bool setLocalTime;
 
@@ -22,10 +27,10 @@ namespace FallGuysStats {
             if (setLocalTime) { return; }
             setLocalTime = true;
 
-            Start = Start.Add(Start - Start.ToUniversalTime());
-            End = End.Add(End - End.ToUniversalTime());
+            StartLocal = Start.ToLocalTime();
+            EndLocal = End.ToLocalTime();
             if (Finish.HasValue) {
-                Finish = Finish.Value.Add(Finish.Value - Finish.Value.ToUniversalTime());
+                FinishLocal = Finish.Value.ToLocalTime();
             }
         }
         public override string ToString() {

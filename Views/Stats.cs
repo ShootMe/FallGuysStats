@@ -38,13 +38,13 @@ namespace FallGuysStats {
         }
         private static string LOGNAME = "Player.log";
         private static List<DateTime> Seasons = new List<DateTime> {
-            new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Local),
-            new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Local)
+            new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart;
-        private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
-        private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
-        private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
+        private static DateTime WeekStart = DateTime.UtcNow.Date.AddDays(-7);
+        private static DateTime DayStart = DateTime.UtcNow.Date;
+        private static DateTime SessionStart = DateTime.UtcNow;
         public static bool InShow = false;
         public static bool EndedShow = false;
 
@@ -120,6 +120,7 @@ namespace FallGuysStats {
             gridDetails.DataSource = StatDetails;
 
             StatsDB = new LiteDatabase(@"data.db");
+            StatsDB.Pragma("UTC_DATE", true);
             RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
             UserSettings = StatsDB.GetCollection<UserSettings>("UserSettings");
             StatsDB.BeginTrans();
@@ -135,6 +136,22 @@ namespace FallGuysStats {
                     UserSettings.Insert(CurrentSettings);
                 }
             }
+            if (!CurrentSettings.UpdatedDateFormat) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    info.Start = DateTime.SpecifyKind(info.Start.ToLocalTime(), DateTimeKind.Utc);
+                    info.End = DateTime.SpecifyKind(info.End.ToLocalTime(), DateTimeKind.Utc);
+                    info.Finish = info.Finish.HasValue ? DateTime.SpecifyKind(info.Finish.Value.ToLocalTime(), DateTimeKind.Utc) : (DateTime?)null;
+                    RoundDetails.Update(info);
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.UpdatedDateFormat = true;
+                SaveUserSettings();
+            }
+
             RoundDetails.EnsureIndex(x => x.Name);
             RoundDetails.EnsureIndex(x => x.ShowID);
             RoundDetails.EnsureIndex(x => x.Round);
@@ -229,7 +246,6 @@ namespace FallGuysStats {
                     }
                 }
             }
-            lastAddedShow = lastAddedShow.ToUniversalTime();
 
             lock (CurrentRound) {
                 CurrentRound.Clear();
@@ -314,7 +330,14 @@ namespace FallGuysStats {
 
                     foreach (RoundInfo stat in round) {
                         if (!loadingExisting) {
-                            RoundInfo info = RoundDetails.FindOne(x => x.Start == stat.Start && x.Name == stat.Name);
+                            RoundInfo info = null;
+                            for (int i = AllStats.Count - 1; i >= 0; i--) {
+                                RoundInfo temp = AllStats[i];
+                                if (temp.Start == stat.Start && temp.Name == stat.Name) {
+                                    info = temp;
+                                    break;
+                                }
+                            }
                             if (info == null && stat.Start > lastAddedShow) {
                                 if (stat.Round == 1) {
                                     nextShowID++;
@@ -374,10 +397,10 @@ namespace FallGuysStats {
         }
         private bool IsInStatsFilter(RoundInfo info) {
             return menuAllStats.Checked ||
-                (menuSeasonStats.Checked && info.Start.ToUniversalTime() > SeasonStart) ||
-                (menuWeekStats.Checked && info.Start.ToUniversalTime() > WeekStart) ||
-                (menuDayStats.Checked && info.Start.ToUniversalTime() > DayStart) ||
-                (menuSessionStats.Checked && info.Start.ToUniversalTime() > SessionStart);
+                (menuSeasonStats.Checked && info.Start > SeasonStart) ||
+                (menuWeekStats.Checked && info.Start > WeekStart) ||
+                (menuDayStats.Checked && info.Start > DayStart) ||
+                (menuSessionStats.Checked && info.Start > SessionStart);
         }
         private bool IsInPartyFilter(RoundInfo info) {
             return menuAllPartyStats.Checked ||
@@ -600,7 +623,8 @@ namespace FallGuysStats {
                         levelDetails.LevelName = stats.Name;
                         List<RoundInfo> rounds = stats.Stats;
                         rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                            return one.Start.CompareTo(two.Start);
+                            int showCompare = one.ShowID.CompareTo(two.ShowID);
+                            return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                         });
                         levelDetails.RoundDetails = rounds;
                         levelDetails.StatsForm = this;
@@ -673,7 +697,8 @@ namespace FallGuysStats {
                         rounds.AddRange(StatDetails[i].Stats);
                     }
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        return one.Start.CompareTo(two.Start);
+                        int showCompare = one.ShowID.CompareTo(two.ShowID);
+                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                     });
 
                     List<RoundInfo> shows = new List<RoundInfo>();
@@ -693,7 +718,7 @@ namespace FallGuysStats {
                         roundCount++;
                         kudosTotal += info.Kudos;
                         if (info.Round == 1) {
-                            shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
+                            shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
                             roundCount = 0;
                             kudosTotal = 0;
                         }
@@ -715,7 +740,8 @@ namespace FallGuysStats {
                         rounds.AddRange(StatDetails[i].Stats);
                     }
                     rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        return one.Start.CompareTo(two.Start);
+                        int showCompare = one.ShowID.CompareTo(two.ShowID);
+                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                     });
                     levelDetails.RoundDetails = rounds;
                     levelDetails.StatsForm = this;
@@ -732,7 +758,8 @@ namespace FallGuysStats {
                     rounds.AddRange(StatDetails[i].Stats);
                 }
                 rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    return one.Start.CompareTo(two.Start);
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                 });
 
                 using (StatsDisplay display = new StatsDisplay() { Text = "Wins Per Day" }) {
@@ -741,7 +768,7 @@ namespace FallGuysStats {
                     dt.Columns.Add("Wins", typeof(int));
 
                     if (rounds.Count > 0) {
-                        DateTime start = rounds[0].Start;
+                        DateTime start = rounds[0].StartLocal;
                         int currentWins = 0;
                         for (int i = 0; i < rounds.Count; i++) {
                             RoundInfo info = rounds[i];
@@ -750,10 +777,10 @@ namespace FallGuysStats {
                                 currentWins++;
                             }
 
-                            if (info.Start.Date != start.Date) {
+                            if (info.StartLocal.Date != start.Date) {
                                 dt.Rows.Add(start.Date, currentWins);
                                 currentWins = 0;
-                                start = info.Start;
+                                start = info.StartLocal;
                             }
                         }
 
@@ -840,7 +867,8 @@ namespace FallGuysStats {
                 }
 
                 rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    return one.Start.CompareTo(two.Start);
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                 });
 
                 if (rounds.Count > 0 && (button == menuWeekStats || button == menuDayStats || button == menuSessionStats)) {
