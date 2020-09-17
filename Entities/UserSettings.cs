@@ -20,5 +20,6 @@
         public bool HideTimeInfo { get; set; }
         public bool ShowOverlayTabs { get; set; }
         public bool ShowPercentages { get; set; }
+        public bool UpdatedDateFormat { get; set; }
     }
 }

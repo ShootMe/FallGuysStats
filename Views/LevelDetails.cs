@@ -31,6 +31,7 @@ namespace FallGuysStats {
 
             int pos = 0;
             gridDetails.Columns["Tier"].Visible = false;
+            gridDetails.Columns["ID"].Visible = false;
             gridDetails.Columns["InParty"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
@@ -73,6 +74,9 @@ namespace FallGuysStats {
             if (gridDetails.Columns[e.ColumnIndex].Name == "End") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
+            } else if (gridDetails.Columns[e.ColumnIndex].Name == "Start") {
+                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
+                e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Finish.HasValue) {

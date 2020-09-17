@@ -20,6 +20,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.67
+    - Fixed times in database to be stored correctly as utc
   - 1.66
     - Hopefully fixed an issue with times counting down on overlay in rare cases
   - 1.65
