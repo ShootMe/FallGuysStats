@@ -84,12 +84,12 @@ namespace FallGuysStats {
                                         if (logLine.Time != TimeSpan.Zero) {
                                             int index;
                                             if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
-                                                currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Local);
+                                                currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
                                                 OnNewLogFileDate?.Invoke(currentDate);
                                             }
 
                                             if (currentDate != DateTime.MinValue) {
-                                                if (currentDate.TimeOfDay > logLine.Time) {
+                                                if ((int)currentDate.TimeOfDay.TotalSeconds > (int)logLine.Time.TotalSeconds) {
                                                     currentDate = currentDate.AddDays(1);
                                                 }
                                                 currentDate = currentDate.AddSeconds(logLine.Time.TotalSeconds - currentDate.TimeOfDay.TotalSeconds);
