@@ -33,6 +33,8 @@ namespace FallGuysStats {
         private Graphics NDIGraphics;
         private RoundInfo lastRound;
         private int triesToDownload;
+        private bool startedPlaying;
+        private DateTime startTime;
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.TitanOne-Regular.ttf")) {
@@ -177,7 +179,6 @@ namespace FallGuysStats {
                         lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     }
 
-
                     int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
                     if ((labelToShow % modCount) == 1) {
                         lblFastest.Text = "FASTEST:";
@@ -190,12 +191,16 @@ namespace FallGuysStats {
                         lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     }
 
-                    DateTime Start = DateTime.MinValue;
-                    if (lastRound.Start != DateTime.MinValue) { Start = lastRound.Start.Add(lastRound.Start - lastRound.Start.ToUniversalTime()); }
-                    DateTime End = DateTime.MinValue;
-                    if (lastRound.End != DateTime.MinValue) { End = lastRound.End.Add(lastRound.End - lastRound.End.ToUniversalTime()); }
-                    DateTime? Finish = null;
-                    if (lastRound.Finish.HasValue) { Finish = lastRound.Finish.Value.Add(lastRound.Finish.Value - lastRound.Finish.Value.ToUniversalTime()); }
+                    DateTime Start = lastRound.Start;
+                    DateTime End = lastRound.End;
+                    DateTime? Finish = lastRound.Finish;
+
+                    if (lastRound.Playing != startedPlaying) {
+                        if (lastRound.Playing) {
+                            startTime = DateTime.UtcNow;
+                        }
+                        startedPlaying = lastRound.Playing;
+                    }
 
                     if (Finish.HasValue) {
                         if (lastRound.Position > 0) {
@@ -204,7 +209,11 @@ namespace FallGuysStats {
                             lblFinish.TextRight = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
                         }
                     } else if (lastRound.Playing) {
-                        lblFinish.TextRight = $"{DateTime.Now - Start:m\\:ss}";
+                        if (Start > DateTime.UtcNow) {
+                            lblFinish.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
+                        } else {
+                            lblFinish.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
+                        }
                     } else {
                         lblFinish.TextRight = "-";
                     }
@@ -212,7 +221,11 @@ namespace FallGuysStats {
                     if (End != DateTime.MinValue) {
                         lblDuration.TextRight = (End - Start).ToString("m\\:ss");
                     } else if (lastRound.Playing) {
-                        lblDuration.TextRight = (DateTime.Now - Start).ToString("m\\:ss");
+                        if (Start > DateTime.UtcNow) {
+                            lblDuration.TextRight = (DateTime.UtcNow - startTime).ToString("m\\:ss");
+                        } else {
+                            lblDuration.TextRight = (DateTime.UtcNow - Start).ToString("m\\:ss");
+                        }
                     } else {
                         lblDuration.TextRight = "-";
                     }
