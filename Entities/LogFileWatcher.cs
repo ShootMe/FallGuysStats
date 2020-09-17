@@ -84,7 +84,7 @@ namespace FallGuysStats {
                                         if (logLine.Time != TimeSpan.Zero) {
                                             int index;
                                             if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
-                                                currentDate = DateTime.Parse(line.Substring(index + 43, 19));
+                                                currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Local);
                                                 OnNewLogFileDate?.Invoke(currentDate);
                                             }
 
