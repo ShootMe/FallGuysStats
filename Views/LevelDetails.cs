@@ -85,12 +85,25 @@ namespace FallGuysStats {
                 RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Qualified) {
                     switch (info.Tier) {
-                        case 0: e.Value = Properties.Resources.medal_pink; break;
-                        case 1: e.Value = Properties.Resources.medal_gold; break;
-                        case 2: e.Value = Properties.Resources.medal_silver; break;
-                        case 3: e.Value = Properties.Resources.medal_bronze; break;
+                        case 0:
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Pink";
+                            e.Value = Properties.Resources.medal_pink;
+                            break;
+                        case 1:
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Gold";
+                            e.Value = Properties.Resources.medal_gold;
+                            break;
+                        case 2:
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Silver";
+                            e.Value = Properties.Resources.medal_silver;
+                            break;
+                        case 3:
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Bronze";
+                            e.Value = Properties.Resources.medal_bronze;
+                            break;
                     }
                 } else {
+                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Eliminated";
                     e.Value = Properties.Resources.medal_eliminated;
                 }
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
