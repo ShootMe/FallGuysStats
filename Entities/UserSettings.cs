@@ -19,5 +19,6 @@
         public bool HideRoundInfo { get; set; }
         public bool HideTimeInfo { get; set; }
         public bool ShowOverlayTabs { get; set; }
+        public bool ShowPercentages { get; set; }
     }
 }

@@ -37,7 +37,11 @@ namespace FallGuysStats {
             }
         }
         private static string LOGNAME = "Player.log";
-        private static DateTime SeasonStart = new DateTime(2020, 8, 2, 0, 0, 0, DateTimeKind.Local);
+        private static List<DateTime> Seasons = new List<DateTime> {
+            new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Local),
+            new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Local)
+        };
+        private static DateTime SeasonStart;
         private static DateTime WeekStart = DateTime.SpecifyKind(DateTime.Now.Date.AddDays(-7).ToUniversalTime(), DateTimeKind.Local);
         private static DateTime DayStart = DateTime.SpecifyKind(DateTime.Now.Date.ToUniversalTime(), DateTimeKind.Local);
         private static DateTime SessionStart = DateTime.SpecifyKind(DateTime.Now.ToUniversalTime(), DateTimeKind.Local);
@@ -66,6 +70,12 @@ namespace FallGuysStats {
         public Stats() {
             InitializeComponent();
 
+            DateTime currentUTC = DateTime.UtcNow;
+            for (int i = Seasons.Count - 1; i >= 0; i--) {
+                if (currentUTC > Seasons[i]) {
+                    SeasonStart = Seasons[i];
+                }
+            }
             Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
 
             logFile.OnParsedLogLines += LogFile_OnParsedLogLines;
@@ -157,7 +167,9 @@ namespace FallGuysStats {
                 QualifyFilter = 0,
                 FastestFilter = 0,
                 HideRoundInfo = false,
-                HideTimeInfo = false
+                HideTimeInfo = false,
+                ShowOverlayTabs = false,
+                ShowPercentages = false
             };
         }
         public void SaveUserSettings() {
@@ -491,7 +503,7 @@ namespace FallGuysStats {
                 if (gridDetails.Columns.Count == 0) { return; }
                 int pos = 0;
 
-                gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Info", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Level Info" });
+                gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Info", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 gridDetails.Setup("Name", pos++, 0, "Level Name", DataGridViewContentAlignment.MiddleLeft);
                 gridDetails.Setup("Info", pos++, 20, "", DataGridViewContentAlignment.MiddleCenter);
                 gridDetails.Setup("Played", pos++, 50, "Played", DataGridViewContentAlignment.MiddleRight);
@@ -524,16 +536,40 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.info;
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
                     float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
-                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    if (CurrentSettings.ShowPercentages) {
+                        e.Value = $"{qualifyChance:0.0}%";
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
+                    } else {
+                        e.Value = info.Qualified;
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Gold") {
                     float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
-                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    if (CurrentSettings.ShowPercentages) {
+                        e.Value = $"{qualifyChance:0.0}%";
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
+                    } else {
+                        e.Value = info.Gold;
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Silver") {
                     float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
-                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    if (CurrentSettings.ShowPercentages) {
+                        e.Value = $"{qualifyChance:0.0}%";
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
+                    } else {
+                        e.Value = info.Silver;
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Bronze") {
                     float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
-                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    if (CurrentSettings.ShowPercentages) {
+                        e.Value = $"{qualifyChance:0.0}%";
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
+                    } else {
+                        e.Value = info.Bronze;
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "AveDuration") {
                     e.Value = info.AveDuration.ToString("m\\:ss");
                 }
@@ -617,6 +653,15 @@ namespace FallGuysStats {
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (gridDetails.SelectedCells.Count > 0) {
                 gridDetails.ClearSelection();
+            }
+        }
+        private void lblWinChance_Click(object sender, EventArgs e) {
+            try {
+                CurrentSettings.ShowPercentages = !CurrentSettings.ShowPercentages;
+                SaveUserSettings();
+                gridDetails.Invalidate();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lblTotalShows_Click(object sender, EventArgs e) {
