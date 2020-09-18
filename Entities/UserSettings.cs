@@ -22,5 +22,7 @@
         public bool ShowPercentages { get; set; }
         public bool UpdatedDateFormat { get; set; }
         public bool AutoUpdate { get; set; }
+        public int? FormLocationX { get; set; }
+        public int? FormLocationY { get; set; }
     }
 }

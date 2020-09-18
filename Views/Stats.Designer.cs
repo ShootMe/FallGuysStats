@@ -359,6 +359,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fall Guys Stats";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
+            this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.menu.ResumeLayout(false);
