@@ -20,6 +20,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.70
+    - Cleaned up auto update feature a bit
   - 1.69
     - Program will save last location of main window now and restore it when opened again
   - 1.68
