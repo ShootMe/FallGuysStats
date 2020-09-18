@@ -30,6 +30,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.chkShowTabs = new System.Windows.Forms.CheckBox();
             this.chkHideTimeInfo = new System.Windows.Forms.CheckBox();
             this.chkHideRoundInfo = new System.Windows.Forms.CheckBox();
             this.cboFastestFilter = new System.Windows.Forms.ComboBox();
@@ -47,7 +48,7 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkShowTabs = new System.Windows.Forms.CheckBox();
+            this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +128,16 @@
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
             // 
+            // chkShowTabs
+            // 
+            this.chkShowTabs.AutoSize = true;
+            this.chkShowTabs.Location = new System.Drawing.Point(15, 96);
+            this.chkShowTabs.Name = "chkShowTabs";
+            this.chkShowTabs.Size = new System.Drawing.Size(147, 17);
+            this.chkShowTabs.TabIndex = 3;
+            this.chkShowTabs.Text = "Show tab for current Filter";
+            this.chkShowTabs.UseVisualStyleBackColor = true;
+            // 
             // chkHideTimeInfo
             // 
             this.chkHideTimeInfo.AutoSize = true;
@@ -152,10 +163,12 @@
             this.cboFastestFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboFastestFilter.FormattingEnabled = true;
             this.cboFastestFilter.Items.AddRange(new object[] {
-            "No Filter",
+            "All Time Stats",
             "Stats and Party Filter",
-            "Stats Filter Only",
-            "Party Filter Only"});
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboFastestFilter.Location = new System.Drawing.Point(396, 69);
             this.cboFastestFilter.Name = "cboFastestFilter";
             this.cboFastestFilter.Size = new System.Drawing.Size(183, 21);
@@ -175,10 +188,12 @@
             this.cboQualifyFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboQualifyFilter.FormattingEnabled = true;
             this.cboQualifyFilter.Items.AddRange(new object[] {
-            "No Filter",
+            "All Time Stats",
             "Stats and Party Filter",
-            "Stats Filter Only",
-            "Party Filter Only"});
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboQualifyFilter.Location = new System.Drawing.Point(396, 44);
             this.cboQualifyFilter.Name = "cboQualifyFilter";
             this.cboQualifyFilter.Size = new System.Drawing.Size(183, 21);
@@ -198,10 +213,12 @@
             this.cboWinsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboWinsFilter.FormattingEnabled = true;
             this.cboWinsFilter.Items.AddRange(new object[] {
-            "No Filter",
+            "All Time Stats",
             "Stats and Party Filter",
-            "Stats Filter Only",
-            "Party Filter Only"});
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboWinsFilter.Location = new System.Drawing.Point(396, 19);
             this.cboWinsFilter.Name = "cboWinsFilter";
             this.cboWinsFilter.Size = new System.Drawing.Size(183, 21);
@@ -267,6 +284,7 @@
             // 
             // grpStats
             // 
+            this.grpStats.Controls.Add(this.chkAutoUpdate);
             this.grpStats.Controls.Add(this.lblPreviousWinsNote);
             this.grpStats.Controls.Add(this.lblPreviousWins);
             this.grpStats.Controls.Add(this.txtPreviousWins);
@@ -307,15 +325,15 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
-            // chkShowTabs
+            // chkAutoUpdate
             // 
-            this.chkShowTabs.AutoSize = true;
-            this.chkShowTabs.Location = new System.Drawing.Point(15, 96);
-            this.chkShowTabs.Name = "chkShowTabs";
-            this.chkShowTabs.Size = new System.Drawing.Size(147, 17);
-            this.chkShowTabs.TabIndex = 3;
-            this.chkShowTabs.Text = "Show tab for current Filter";
-            this.chkShowTabs.UseVisualStyleBackColor = true;
+            this.chkAutoUpdate.AutoSize = true;
+            this.chkAutoUpdate.Location = new System.Drawing.Point(315, 22);
+            this.chkAutoUpdate.Name = "chkAutoUpdate";
+            this.chkAutoUpdate.Size = new System.Drawing.Size(128, 17);
+            this.chkAutoUpdate.TabIndex = 3;
+            this.chkAutoUpdate.Text = "Auto Update Program";
+            this.chkAutoUpdate.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -375,5 +393,6 @@
         private System.Windows.Forms.CheckBox chkHideTimeInfo;
         private System.Windows.Forms.CheckBox chkHideRoundInfo;
         private System.Windows.Forms.CheckBox chkShowTabs;
+        private System.Windows.Forms.CheckBox chkAutoUpdate;
     }
 }

@@ -17,6 +17,7 @@ namespace FallGuysStats {
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
         public DateTime? Finish { get; set; } = null;
+        public bool Crown { get; set; }
         public DateTime StartLocal;
         public DateTime EndLocal;
         public DateTime? FinishLocal;
@@ -60,7 +61,8 @@ namespace FallGuysStats {
         Race,
         Survival,
         Team,
-        Final
+        Final,
+        Unknown
     }
     public enum QualifyTier {
         None,

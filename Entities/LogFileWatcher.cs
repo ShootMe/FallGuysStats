@@ -319,6 +319,10 @@ namespace FallGuysStats {
                     return false;
                 }
 
+                stat = round[round.Count - 1];
+                if (stat.Qualified) {
+                    stat.Crown = true;
+                }
                 stat = null;
                 Stats.InShow = false;
                 Stats.EndedShow = true;

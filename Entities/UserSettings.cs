@@ -21,5 +21,6 @@
         public bool ShowOverlayTabs { get; set; }
         public bool ShowPercentages { get; set; }
         public bool UpdatedDateFormat { get; set; }
+        public bool AutoUpdate { get; set; }
     }
 }

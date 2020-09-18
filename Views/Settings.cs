@@ -17,35 +17,43 @@ namespace FallGuysStats {
             chkHideRoundInfo.Checked = CurrentSettings.HideRoundInfo;
             chkHideTimeInfo.Checked = CurrentSettings.HideTimeInfo;
             chkShowTabs.Checked = CurrentSettings.ShowOverlayTabs;
+            chkAutoUpdate.Checked = CurrentSettings.AutoUpdate;
 
             switch (CurrentSettings.WinsFilter) {
                 case 0: cboWinsFilter.SelectedItem = "Stats and Party Filter"; break;
-                case 1: cboWinsFilter.SelectedItem = "Stats Filter Only"; break;
-                case 2: cboWinsFilter.SelectedItem = "Party Filter Only"; break;
-                case 3: cboWinsFilter.SelectedItem = "No Filter"; break;
+                case 1: cboWinsFilter.SelectedItem = "Season Stats"; break;
+                case 2: cboWinsFilter.SelectedItem = "Week Stats"; break;
+                case 3: cboWinsFilter.SelectedItem = "All Time Stats"; break;
+                case 4: cboWinsFilter.SelectedItem = "Day Stats"; break;
+                case 5: cboWinsFilter.SelectedItem = "Session Stats"; break;
             }
             switch (CurrentSettings.QualifyFilter) {
-                case 0: cboQualifyFilter.SelectedItem = "No Filter"; break;
+                case 0: cboQualifyFilter.SelectedItem = "All Time Stats"; break;
                 case 1: cboQualifyFilter.SelectedItem = "Stats and Party Filter"; break;
-                case 2: cboQualifyFilter.SelectedItem = "Stats Filter Only"; break;
-                case 3: cboQualifyFilter.SelectedItem = "Party Filter Only"; break;
+                case 2: cboQualifyFilter.SelectedItem = "Season Stats"; break;
+                case 3: cboQualifyFilter.SelectedItem = "Week Stats"; break;
+                case 4: cboQualifyFilter.SelectedItem = "Day Stats"; break;
+                case 5: cboQualifyFilter.SelectedItem = "Session Stats"; break;
             }
             switch (CurrentSettings.FastestFilter) {
-                case 0: cboFastestFilter.SelectedItem = "No Filter"; break;
+                case 0: cboFastestFilter.SelectedItem = "All Time Stats"; break;
                 case 1: cboFastestFilter.SelectedItem = "Stats and Party Filter"; break;
-                case 2: cboFastestFilter.SelectedItem = "Stats Filter Only"; break;
-                case 3: cboFastestFilter.SelectedItem = "Party Filter Only"; break;
+                case 2: cboFastestFilter.SelectedItem = "Season Stats"; break;
+                case 3: cboFastestFilter.SelectedItem = "Week Stats"; break;
+                case 4: cboFastestFilter.SelectedItem = "Day Stats"; break;
+                case 5: cboFastestFilter.SelectedItem = "Session Stats"; break;
             }
         }
+
         private void btnSave_Click(object sender, EventArgs e) {
             CurrentSettings.LogPath = txtLogPath.Text;
 
             if (string.IsNullOrEmpty(txtCycleTimeSeconds.Text)) {
-                CurrentSettings.CycleTimeSeconds = 3;
+                CurrentSettings.CycleTimeSeconds = 5;
             } else {
                 CurrentSettings.CycleTimeSeconds = int.Parse(txtCycleTimeSeconds.Text);
                 if (CurrentSettings.CycleTimeSeconds <= 0) {
-                    CurrentSettings.CycleTimeSeconds = 3;
+                    CurrentSettings.CycleTimeSeconds = 5;
                 }
             }
 
@@ -64,24 +72,31 @@ namespace FallGuysStats {
             CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
             CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
             CurrentSettings.ShowOverlayTabs = chkShowTabs.Checked;
+            CurrentSettings.AutoUpdate = chkAutoUpdate.Checked;
 
             switch ((string)cboWinsFilter.SelectedItem) {
                 case "Stats and Party Filter": CurrentSettings.WinsFilter = 0; break;
-                case "Stats Filter Only": CurrentSettings.WinsFilter = 1; break;
-                case "Party Filter Only": CurrentSettings.WinsFilter = 2; break;
-                case "No Filter": CurrentSettings.WinsFilter = 3; break;
+                case "Season Stats": CurrentSettings.WinsFilter = 1; break;
+                case "Week Stats": CurrentSettings.WinsFilter = 2; break;
+                case "All Time Stats": CurrentSettings.WinsFilter = 3; break;
+                case "Day Stats": CurrentSettings.WinsFilter = 4; break;
+                case "Session Stats": CurrentSettings.WinsFilter = 5; break;
             }
             switch ((string)cboQualifyFilter.SelectedItem) {
-                case "No Filter": CurrentSettings.QualifyFilter = 0; break;
+                case "All Time Stats": CurrentSettings.QualifyFilter = 0; break;
                 case "Stats and Party Filter": CurrentSettings.QualifyFilter = 1; break;
-                case "Stats Filter Only": CurrentSettings.QualifyFilter = 2; break;
-                case "Party Filter Only": CurrentSettings.QualifyFilter = 3; break;
+                case "Season Stats": CurrentSettings.QualifyFilter = 2; break;
+                case "Week Stats": CurrentSettings.QualifyFilter = 3; break;
+                case "Day Stats": CurrentSettings.QualifyFilter = 4; break;
+                case "Session Stats": CurrentSettings.QualifyFilter = 5; break;
             }
             switch ((string)cboFastestFilter.SelectedItem) {
-                case "No Filter": CurrentSettings.FastestFilter = 0; break;
+                case "All Time Stats": CurrentSettings.FastestFilter = 0; break;
                 case "Stats and Party Filter": CurrentSettings.FastestFilter = 1; break;
-                case "Stats Filter Only": CurrentSettings.FastestFilter = 2; break;
-                case "Party Filter Only": CurrentSettings.FastestFilter = 3; break;
+                case "Season Stats": CurrentSettings.FastestFilter = 2; break;
+                case "Week Stats": CurrentSettings.FastestFilter = 3; break;
+                case "Day Stats": CurrentSettings.FastestFilter = 4; break;
+                case "Session Stats": CurrentSettings.FastestFilter = 5; break;
             }
 
             this.DialogResult = DialogResult.OK;
@@ -89,7 +104,7 @@ namespace FallGuysStats {
         }
         private void txtCycleTimeSeconds_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(txtCycleTimeSeconds.Text) && !int.TryParse(txtCycleTimeSeconds.Text, out _)) {
-                txtCycleTimeSeconds.Text = "3";
+                txtCycleTimeSeconds.Text = "5";
             }
         }
         private void txtLogPath_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
