@@ -42,8 +42,8 @@ namespace FallGuysStats {
             new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart;
-        private static DateTime WeekStart = DateTime.UtcNow.Date.AddDays(-7);
-        private static DateTime DayStart = DateTime.UtcNow.Date;
+        private static DateTime WeekStart = DateTime.Now.Date.AddDays(-7).ToUniversalTime();
+        private static DateTime DayStart = DateTime.Now.Date.ToUniversalTime();
         private static DateTime SessionStart = DateTime.UtcNow;
         public static bool InShow = false;
         public static bool EndedShow = false;
@@ -138,7 +138,6 @@ namespace FallGuysStats {
             }
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
-                StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
                     info.Start = DateTime.SpecifyKind(info.Start.ToLocalTime(), DateTimeKind.Utc);
@@ -146,7 +145,6 @@ namespace FallGuysStats {
                     info.Finish = info.Finish.HasValue ? DateTime.SpecifyKind(info.Finish.Value.ToLocalTime(), DateTimeKind.Utc) : (DateTime?)null;
                     RoundDetails.Update(info);
                 }
-                StatsDB.Commit();
                 AllStats.Clear();
                 CurrentSettings.UpdatedDateFormat = true;
                 SaveUserSettings();
@@ -160,6 +158,7 @@ namespace FallGuysStats {
             StatsDB.Commit();
 
             CurrentRound = new List<RoundInfo>();
+
             overlay = new Overlay() { StatsForm = this };
             overlay.Show();
             overlay.Visible = false;
@@ -186,7 +185,8 @@ namespace FallGuysStats {
                 HideRoundInfo = false,
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
-                ShowPercentages = false
+                ShowPercentages = false,
+                AutoUpdate = false
             };
         }
         public void SaveUserSettings() {
@@ -198,11 +198,15 @@ namespace FallGuysStats {
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             try {
-                CurrentSettings.OverlayLocationX = overlay.Location.X;
-                CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                CurrentSettings.OverlayVisible = overlay.Visible;
-                CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
-                SaveUserSettings();
+                if (!overlay.Disposing && !overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                    if (overlay.Visible) {
+                        CurrentSettings.OverlayLocationX = overlay.Location.X;
+                        CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                    }
+                    CurrentSettings.OverlayVisible = overlay.Visible;
+                    CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                    SaveUserSettings();
+                }
                 StatsDB.Dispose();
                 overlay.Cleanup();
             } catch { }
@@ -264,6 +268,13 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
+                if (CurrentSettings.AutoUpdate) {
+                    menuUpdate_Click(null, null);
+                    if (!Visible) {
+                        return;
+                    }
+                }
+
                 ResetStats();
 
                 string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
@@ -359,17 +370,19 @@ namespace FallGuysStats {
                         Duration += stat.End - stat.Start;
                         Kudos += stat.Kudos;
 
-                        if (StatLookup.ContainsKey(stat.Name)) {
-                            stat.ToLocalTime();
-                            LevelStats levelStats = StatLookup[stat.Name];
-                            if (levelStats.Type == LevelType.Final) {
-                                Finals++;
-                                if (stat.Qualified) {
-                                    Wins++;
-                                }
-                            }
-                            levelStats.Add(stat);
+                        if (!StatLookup.ContainsKey(stat.Name)) {
+                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown));
                         }
+
+                        stat.ToLocalTime();
+                        LevelStats levelStats = StatLookup[stat.Name];
+                        if (levelStats.Type == LevelType.Final || stat.Crown) {
+                            Finals++;
+                            if (stat.Qualified) {
+                                Wins++;
+                            }
+                        }
+                        levelStats.Add(stat);
                     }
 
                     if (!loadingExisting) { StatsDB.Commit(); }
@@ -425,16 +438,22 @@ namespace FallGuysStats {
                 bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
                 bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
                         (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 2 && IsInStatsFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 3 && IsInPartyFilter(info));
+                        (CurrentSettings.QualifyFilter == 2 && info.Start > SeasonStart) ||
+                        (CurrentSettings.QualifyFilter == 3 && info.Start > WeekStart) ||
+                        (CurrentSettings.QualifyFilter == 4 && info.Start > DayStart) ||
+                        (CurrentSettings.QualifyFilter == 5 && info.Start > SessionStart);
                 bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
                         (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 2 && IsInStatsFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 3 && IsInPartyFilter(info));
+                        (CurrentSettings.FastestFilter == 2 && info.Start > SeasonStart) ||
+                        (CurrentSettings.FastestFilter == 3 && info.Start > WeekStart) ||
+                        (CurrentSettings.FastestFilter == 4 && info.Start > DayStart) ||
+                        (CurrentSettings.FastestFilter == 5 && info.Start > SessionStart);
                 bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
                         (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 1 && IsInStatsFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 2 && IsInPartyFilter(info));
+                        (CurrentSettings.WinsFilter == 1 && info.Start > SeasonStart) ||
+                        (CurrentSettings.WinsFilter == 2 && info.Start > WeekStart) ||
+                        (CurrentSettings.WinsFilter == 4 && info.Start > DayStart) ||
+                        (CurrentSettings.WinsFilter == 5 && info.Start > SessionStart);
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
@@ -553,6 +572,7 @@ namespace FallGuysStats {
                         case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
                         case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
                         case LevelType.Final: e.CellStyle.BackColor = Color.Pink; break;
+                        case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                     }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "Info" && e.Value == null) {
                     gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
@@ -903,7 +923,7 @@ namespace FallGuysStats {
                         int indexEnd = assemblyInfo.IndexOf("\")", index);
                         Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                         if (newVersion > Assembly.GetEntryAssembly().GetName().Version) {
-                            if (MessageBox.Show(this, $"There is a new version of Fall Guy Stats available (v{newVersion.ToString(2)}). Do you wish to update now?", "Update Program", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                            if (sender == null || MessageBox.Show(this, $"There is a new version of Fall Guy Stats available (v{newVersion.ToString(2)}). Do you wish to update now?", "Update Program", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                                 byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStats.zip");
                                 string exeName = null;
                                 using (MemoryStream ms = new MemoryStream(data)) {
@@ -919,17 +939,20 @@ namespace FallGuysStats {
                                 }
 
                                 Process.Start(new ProcessStartInfo(exeName));
+                                Visible = false;
                                 this.Close();
                             }
-                        } else {
+                        } else if (sender != null) {
                             MessageBox.Show(this, "You are at the latest version.", "Updater", MessageBoxButtons.OK, MessageBoxIcon.None);
                         }
-                    } else {
+                    } else if (sender != null) {
                         MessageBox.Show(this, "Could not determine version.", "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (sender != null) {
+                    MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         private async void menuSettings_Click(object sender, EventArgs e) {

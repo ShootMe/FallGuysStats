@@ -20,6 +20,11 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.68
+    - Fixed Week / Day filters
+    - Added more filter options in settings
+    - Added logic to account for new levels that may come up in Season 2
+    - Added option to auto update program in settings
   - 1.67
     - Fixed times in database to be stored correctly as utc
   - 1.66
