@@ -210,7 +210,6 @@ namespace FallGuysStats {
                         CurrentSettings.OverlayLocationX = overlay.Location.X;
                         CurrentSettings.OverlayLocationY = overlay.Location.Y;
                     }
-                    CurrentSettings.OverlayVisible = overlay.Visible;
                     CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                     CurrentSettings.FormLocationX = this.Location.X;
                     CurrentSettings.FormLocationY = this.Location.Y;
@@ -996,6 +995,7 @@ namespace FallGuysStats {
                 overlay.Hide();
                 CurrentSettings.OverlayLocationX = overlay.Location.X;
                 CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                CurrentSettings.OverlayVisible = false;
                 SaveUserSettings();
             } else {
                 switch (CurrentSettings.OverlayColor) {
@@ -1008,6 +1008,9 @@ namespace FallGuysStats {
                 }
                 overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
                 overlay.Show(this);
+
+                CurrentSettings.OverlayVisible = true;
+                SaveUserSettings();
 
                 if (CurrentSettings.OverlayLocationX.HasValue && IsOnScreen(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
                     overlay.Location = new Point(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value);
