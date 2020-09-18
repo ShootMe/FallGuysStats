@@ -164,6 +164,11 @@ namespace FallGuysStats {
             overlay.Visible = false;
             overlay.StartTimer();
         }
+        private void Stats_Load(object sender, EventArgs e) {
+            if (CurrentSettings.FormLocationX.HasValue && IsOnScreen(CurrentSettings.FormLocationX.Value, CurrentSettings.FormLocationY.Value, this.Width)) {
+                this.Location = new Point(CurrentSettings.FormLocationX.Value, CurrentSettings.FormLocationY.Value);
+            }
+        }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
                 ID = 1,
@@ -186,7 +191,9 @@ namespace FallGuysStats {
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
                 ShowPercentages = false,
-                AutoUpdate = false
+                AutoUpdate = false,
+                FormLocationX = null,
+                FormLocationY = null
             };
         }
         public void SaveUserSettings() {
@@ -205,6 +212,8 @@ namespace FallGuysStats {
                     }
                     CurrentSettings.OverlayVisible = overlay.Visible;
                     CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                    CurrentSettings.FormLocationX = this.Location.X;
+                    CurrentSettings.FormLocationY = this.Location.Y;
                     SaveUserSettings();
                 }
                 StatsDB.Dispose();
