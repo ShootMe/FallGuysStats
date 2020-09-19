@@ -20,6 +20,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'F' to flip the Display
 
 ## Changelog
+  - 1.71
+    - Changed main screen to show Fastest / Longest qualifications for each level
+    - Fixed minor sorting issue in the grids
   - 1.70
     - Cleaned up auto update feature a bit
   - 1.69

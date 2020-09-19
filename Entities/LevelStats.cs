@@ -109,6 +109,8 @@ namespace FallGuysStats {
         public int Bronze { get; set; }
         public int Played { get; set; }
         public int Kudos { get; set; }
+        public TimeSpan Fastest { get; set; }
+        public TimeSpan Longest { get; set; }
         public int AveKudos { get { return Kudos / (Played == 0 ? 1 : Played); } }
         public LevelType Type;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
@@ -136,6 +138,8 @@ namespace FallGuysStats {
             Played = 0;
             Kudos = 0;
             Duration = TimeSpan.Zero;
+            Fastest = TimeSpan.Zero;
+            Longest = TimeSpan.Zero;
             Stats.Clear();
         }
         public void Add(RoundInfo stat) {
@@ -149,6 +153,15 @@ namespace FallGuysStats {
                 Bronze++;
             }
             Kudos += stat.Kudos;
+            TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
+            if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
+                if (Fastest == TimeSpan.Zero || Fastest > finishTime) {
+                    Fastest = finishTime;
+                }
+                if (Longest < finishTime) {
+                    Longest = finishTime;
+                }
+            }
             Duration += stat.End - stat.Start;
             Qualified += stat.Qualified ? 1 : 0;
         }
