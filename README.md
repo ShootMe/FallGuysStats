@@ -19,6 +19,12 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'T' to toggle background colors
   - Hit 'F' to flip the Display
 
+## Deleting Shows
+![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+  - Click the blue Shows label on the main screen
+  - Highlight any number of shows and hit the 'DEL' key
+
 ## Changelog
   - 1.71
     - Changed main screen to show Fastest / Longest qualifications for each level
