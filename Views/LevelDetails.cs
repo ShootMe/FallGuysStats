@@ -172,7 +172,7 @@ namespace FallGuysStats {
 
             gridDetails.DataSource = null;
             gridDetails.DataSource = RoundDetails;
-            gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
+            gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (ShowStats != 2 && gridDetails.SelectedCells.Count > 0) {

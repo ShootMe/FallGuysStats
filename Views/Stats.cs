@@ -83,8 +83,8 @@ namespace FallGuysStats {
             logFile.OnError += LogFile_OnError;
             logFile.OnParsedLogLinesCurrent += LogFile_OnParsedLogLinesCurrent;
 
-            StatDetails.Add(new LevelStats("round_door_dash", LevelType.Race));
             StatDetails.Add(new LevelStats("round_gauntlet_02", LevelType.Race));
+            StatDetails.Add(new LevelStats("round_door_dash", LevelType.Race));
             StatDetails.Add(new LevelStats("round_dodge_fall", LevelType.Race));
             StatDetails.Add(new LevelStats("round_chompchomp", LevelType.Race));
             StatDetails.Add(new LevelStats("round_gauntlet_01", LevelType.Race));
@@ -552,17 +552,19 @@ namespace FallGuysStats {
                 if (gridDetails.Columns.Count == 0) { return; }
                 int pos = 0;
 
+                gridDetails.Columns["AveKudos"].Visible = false;
+                gridDetails.Columns["AveDuration"].Visible = false;
                 gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Info", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 gridDetails.Setup("Name", pos++, 0, "Level Name", DataGridViewContentAlignment.MiddleLeft);
                 gridDetails.Setup("Info", pos++, 20, "", DataGridViewContentAlignment.MiddleCenter);
-                gridDetails.Setup("Played", pos++, 50, "Played", DataGridViewContentAlignment.MiddleRight);
-                gridDetails.Setup("Qualified", pos++, 60, "Qualified", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Played", pos++, 55, "Played", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Qualified", pos++, 65, "Qualified", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Gold", pos++, 50, "Gold", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Silver", pos++, 50, "Silver", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Bronze", pos++, 50, "Bronze", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
-                gridDetails.Setup("AveKudos", pos++, 70, "Avg Kudos", DataGridViewContentAlignment.MiddleRight);
-                gridDetails.Setup("AveDuration", pos++, 80, "Avg Duration", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Fastest", pos++, 60, "Fastest", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Longest", pos++, 60, "Longest", DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -622,6 +624,10 @@ namespace FallGuysStats {
                     }
                 } else if (gridDetails.Columns[e.ColumnIndex].Name == "AveDuration") {
                     e.Value = info.AveDuration.ToString("m\\:ss");
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Fastest") {
+                    e.Value = info.Fastest.ToString("m\\:ss\\.ff");
+                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Longest") {
+                    e.Value = info.Longest.ToString("m\\:ss\\.ff");
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -686,6 +692,8 @@ namespace FallGuysStats {
                         case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
                         case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
                         case "AveDuration": typeCompare = one.AveDuration.CompareTo(two.AveDuration); break;
+                        case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
+                        case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
                         default: typeCompare = one.Name.CompareTo(two.Name); break;
                     }
                 }
@@ -699,7 +707,7 @@ namespace FallGuysStats {
 
             gridDetails.DataSource = null;
             gridDetails.DataSource = StatDetails;
-            gridDetails.Columns[e.ColumnIndex].HeaderCell.SortGlyphDirection = sortOrder;
+            gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (gridDetails.SelectedCells.Count > 0) {
