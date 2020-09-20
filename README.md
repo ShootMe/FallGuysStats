@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.72
+    - Changed overlay so it stays visible when you minimize amin screen
   - 1.71
     - Changed main screen to show Fastest / Longest qualifications for each level
     - Fixed minor sorting issue in the grids
