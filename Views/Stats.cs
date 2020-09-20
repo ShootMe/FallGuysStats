@@ -445,22 +445,22 @@ namespace FallGuysStats {
                 bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
                 bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
                         (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 2 && info.Start > SeasonStart) ||
-                        (CurrentSettings.QualifyFilter == 3 && info.Start > WeekStart) ||
-                        (CurrentSettings.QualifyFilter == 4 && info.Start > DayStart) ||
-                        (CurrentSettings.QualifyFilter == 5 && info.Start > SessionStart);
+                        (CurrentSettings.QualifyFilter == 2 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 3 && info.Start > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
                 bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
                         (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 2 && info.Start > SeasonStart) ||
-                        (CurrentSettings.FastestFilter == 3 && info.Start > WeekStart) ||
-                        (CurrentSettings.FastestFilter == 4 && info.Start > DayStart) ||
-                        (CurrentSettings.FastestFilter == 5 && info.Start > SessionStart);
+                        (CurrentSettings.FastestFilter == 2 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 3 && info.Start > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
                 bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
                         (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 1 && info.Start > SeasonStart) ||
-                        (CurrentSettings.WinsFilter == 2 && info.Start > WeekStart) ||
-                        (CurrentSettings.WinsFilter == 4 && info.Start > DayStart) ||
-                        (CurrentSettings.WinsFilter == 5 && info.Start > SessionStart);
+                        (CurrentSettings.WinsFilter == 1 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 2 && info.Start > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
@@ -1017,7 +1017,7 @@ namespace FallGuysStats {
                     case 5: overlay.BackColor = Color.Green; break;
                 }
                 overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
-                overlay.Show(this);
+                overlay.Show();
 
                 CurrentSettings.OverlayVisible = true;
                 SaveUserSettings();
