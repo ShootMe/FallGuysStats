@@ -171,7 +171,7 @@ namespace FallGuysStats {
                 FilterType = 0,
                 FlippedDisplay = false,
                 LogPath = null,
-                OverlayColor = 0,
+                OverlayColor = 3,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
                 SwitchBetweenLongest = true,
@@ -188,7 +188,9 @@ namespace FallGuysStats {
                 ShowPercentages = false,
                 AutoUpdate = false,
                 FormLocationX = null,
-                FormLocationY = null
+                FormLocationY = null,
+                OverlayWidth = 786,
+                OverlayHeight = 99
             };
         }
         public void SaveUserSettings() {
@@ -204,6 +206,8 @@ namespace FallGuysStats {
                     if (overlay.Visible) {
                         CurrentSettings.OverlayLocationX = overlay.Location.X;
                         CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                        CurrentSettings.OverlayWidth = overlay.Width;
+                        CurrentSettings.OverlayHeight = overlay.Height;
                     }
                     CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                     CurrentSettings.FormLocationX = this.Location.X;
@@ -290,7 +294,7 @@ namespace FallGuysStats {
                 }
                 logFile.Start(logPath, LOGNAME);
 
-                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
+                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
                 if (CurrentSettings.OverlayVisible) {
                     menuOverlay_Click(null, null);
                 }
@@ -993,7 +997,7 @@ namespace FallGuysStats {
                             logFile.Start(logPath, LOGNAME);
                         }
 
-                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo);
+                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
                     }
                 }
             } catch (Exception ex) {
@@ -1005,17 +1009,11 @@ namespace FallGuysStats {
                 overlay.Hide();
                 CurrentSettings.OverlayLocationX = overlay.Location.X;
                 CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                CurrentSettings.OverlayWidth = overlay.Width;
+                CurrentSettings.OverlayHeight = overlay.Height;
                 CurrentSettings.OverlayVisible = false;
                 SaveUserSettings();
             } else {
-                switch (CurrentSettings.OverlayColor) {
-                    case 0: overlay.BackColor = Color.Magenta; break;
-                    case 1: overlay.BackColor = Color.Blue; break;
-                    case 2: overlay.BackColor = Color.Red; break;
-                    case 3: overlay.BackColor = Color.FromArgb(224, 224, 224); break;
-                    case 4: overlay.BackColor = Color.Black; break;
-                    case 5: overlay.BackColor = Color.Green; break;
-                }
                 overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
                 overlay.Show();
 

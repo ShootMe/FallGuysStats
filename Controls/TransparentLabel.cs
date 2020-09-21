@@ -12,23 +12,17 @@ namespace FallGuysStats {
                 return cp;
             }
         }
-        private string textRight;
+        public TransparentLabel() {
+            DrawVisible = true;
+            TextRight = null;
+            Visible = false;
+        }
         [DefaultValue(null)]
-        public string TextRight {
-            get { return textRight; }
-            set {
-                if (textRight != value) {
-                    textRight = value;
-                    Invalidate();
-                }
-            }
-        }
-        protected override void OnPaint(PaintEventArgs e) {
-            Graphics g = e.Graphics;
-            Draw(g);
-        }
+        public string TextRight { get; set; }
+        [DefaultValue(true)]
+        public bool DrawVisible { get; set; }
         public void Draw(Graphics g) {
-            if (!Visible) { return; }
+            if (!DrawVisible) { return; }
 
             using (SolidBrush brBack = new SolidBrush(BackColor)) {
                 using (SolidBrush brFore = new SolidBrush(ForeColor)) {
@@ -73,9 +67,6 @@ namespace FallGuysStats {
                     }
                 }
             }
-        }
-        protected override void OnPaintBackground(PaintEventArgs pevent) {
-            base.OnPaintBackground(pevent);
         }
     }
 }
