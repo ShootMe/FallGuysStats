@@ -29,10 +29,10 @@ namespace FallGuysStats {
         private int labelToShow;
         private Sender NDISender;
         private VideoFrame NDIFrame;
-        private Bitmap NDIImage;
-        private Graphics NDIGraphics;
+        private Bitmap NDIImage, DrawImage, Background;
+        private Graphics NDIGraphics, DrawGraphics;
         private RoundInfo lastRound;
-        private int triesToDownload;
+        private int triesToDownload, drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
         static Overlay() {
@@ -73,11 +73,17 @@ namespace FallGuysStats {
         public Overlay() {
             InitializeComponent();
 
-            Bitmap newImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
+            Bitmap background = Properties.Resources.background;
+            Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(newImage)) {
-                g.DrawImage(Properties.Resources.background, 0, 0);
+                g.DrawImage(background, 0, 0);
             }
-            BackgroundImage = newImage;
+            Background = newImage;
+
+            DrawImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
+            DrawGraphics = Graphics.FromImage(DrawImage);
+            drawWidth = background.Width;
+            drawHeight = background.Height;
 
             foreach (Control c in Controls) {
                 if (c is TransparentLabel label) {
@@ -88,6 +94,29 @@ namespace FallGuysStats {
             }
 
             SetFonts(this);
+
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+        }
+        protected override void WndProc(ref Message m) {
+            if (m.Msg == 0x84) {
+                Point pos = this.PointToClient(new Point(m.LParam.ToInt32()));
+                int hitSize = 16;
+                if (pos.X >= this.ClientSize.Width - hitSize && pos.Y >= this.ClientSize.Height - hitSize) {
+                    m.Result = (IntPtr)17;
+                    return;
+                } else if (pos.X <= hitSize && pos.Y >= this.ClientSize.Height - hitSize) {
+                    m.Result = (IntPtr)16;
+                    return;
+                } else if (pos.X <= hitSize && pos.Y <= hitSize) {
+                    m.Result = (IntPtr)13;
+                    return;
+                } else if (pos.X >= this.ClientSize.Width - hitSize && pos.Y <= hitSize) {
+                    m.Result = (IntPtr)14;
+                    return;
+                }
+            }
+            base.WndProc(ref m);
         }
         public void StartTimer() {
             timer = new Thread(UpdateTimer);
@@ -230,6 +259,7 @@ namespace FallGuysStats {
                         lblDuration.TextRight = "-";
                     }
                 }
+                this.Invalidate();
             }
 
             if (StatsForm.CurrentSettings.UseNDI) {
@@ -243,7 +273,7 @@ namespace FallGuysStats {
                         NDISender = new Sender("Fall Guys Stats Overlay", true, false, null, "Fall Guys Stats Overlay");
                     }
                     if (NDIFrame == null) {
-                        NDIFrame = new VideoFrame(ClientSize.Width, ClientSize.Height, (float)ClientSize.Width / ClientSize.Height, 20, 1);
+                        NDIFrame = new VideoFrame(Background.Width, Background.Height, (float)Background.Width / Background.Height, 20, 1);
                     }
                     if (NDIImage == null) {
                         NDIImage = new Bitmap(NDIFrame.Width, NDIFrame.Height, NDIFrame.Stride, PixelFormat.Format32bppPArgb, NDIFrame.BufferPtr);
@@ -254,7 +284,7 @@ namespace FallGuysStats {
                     }
 
                     NDIGraphics.Clear(Color.Transparent);
-                    NDIGraphics.DrawImage(BackgroundImage, 0, 0);
+                    NDIGraphics.DrawImage(Background, 0, 0);
 
                     foreach (Control control in Controls) {
                         if (control is TransparentLabel label) {
@@ -293,40 +323,64 @@ namespace FallGuysStats {
                 }
             }
         }
+        protected override void OnPaint(PaintEventArgs e) {
+            lock (GlobalFont) {
+                DrawGraphics.Clear(Color.Transparent);
+                DrawGraphics.DrawImage(Background, 0, 0);
+
+                foreach (Control control in Controls) {
+                    if (control is TransparentLabel label) {
+                        DrawGraphics.TranslateTransform(label.Location.X, label.Location.Y);
+                        label.Draw(DrawGraphics);
+                        DrawGraphics.TranslateTransform(-label.Location.X, -label.Location.Y);
+                    }
+                }
+
+                e.Graphics.InterpolationMode = InterpolationMode.Default;
+                e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
+                e.Graphics.SmoothingMode = SmoothingMode.None;
+                e.Graphics.DrawImage(DrawImage, new Rectangle(0, 0, ClientSize.Width, ClientSize.Height), new Rectangle(0, 0, DrawImage.Width, DrawImage.Height), GraphicsUnit.Pixel);
+            }
+        }
         private void Overlay_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.T) {
                 int colorOption = 0;
                 if (BackColor.ToArgb() == Color.Black.ToArgb()) {
                     colorOption = 5;
-                    BackColor = Color.Green;
                 } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
                     colorOption = 0;
-                    BackColor = Color.Magenta;
                 } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
                     colorOption = 1;
-                    BackColor = Color.Blue;
                 } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
                     colorOption = 2;
-                    BackColor = Color.Red;
                 } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
                     colorOption = 3;
-                    BackColor = Color.FromArgb(224, 224, 224);
                 } else if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
                     colorOption = 4;
-                    BackColor = Color.Black;
                 }
+                SetBackgroundColor(colorOption);
 
                 StatsForm.CurrentSettings.OverlayColor = colorOption;
                 StatsForm.SaveUserSettings();
             } else if (e.KeyCode == Keys.F) {
                 FlipDisplay(!flippedImage);
-                BackgroundImage = RecreateBackground();
+                Background = RecreateBackground();
 
                 StatsForm.CurrentSettings.FlippedDisplay = flippedImage;
                 StatsForm.SaveUserSettings();
             }
         }
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideRound, bool hideTime) {
+        public void SetBackgroundColor(int colorOption) {
+            switch (colorOption) {
+                case 0: BackColor = Color.Magenta; break;
+                case 1: BackColor = Color.Blue; break;
+                case 2: BackColor = Color.Red; break;
+                case 3: BackColor = Color.FromArgb(224, 224, 224); break;
+                case 4: BackColor = Color.Black; break;
+                case 5: BackColor = Color.Green; break;
+            }
+        }
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideRound, bool hideTime, int colorOption, int? width, int? height) {
             FlipDisplay(false);
 
             int heightOffset = showTabs ? 35 : 0;
@@ -335,67 +389,70 @@ namespace FallGuysStats {
             lblStreak.Location = new Point(22, 55 + heightOffset);
 
             if (!hideRound && !hideTime) {
-                ClientSize = new Size(786, Height);
-
+                drawWidth = 786;
                 lblName.Location = new Point(268, 9 + heightOffset);
-                lblName.Visible = true;
+                lblName.DrawVisible = true;
                 lblQualifyChance.Location = new Point(268, 32 + heightOffset);
-                lblQualifyChance.Visible = true;
+                lblQualifyChance.DrawVisible = true;
                 lblFastest.Location = new Point(268, 55 + heightOffset);
                 lblFastest.Size = new Size(281, 22);
-                lblFastest.Visible = true;
+                lblFastest.DrawVisible = true;
 
                 lblPlayers.Location = new Point(557, 9 + heightOffset);
                 lblPlayers.Size = new Size(225, 22);
-                lblPlayers.Visible = true;
+                lblPlayers.DrawVisible = true;
                 lblDuration.Location = new Point(557, 32 + heightOffset);
-                lblDuration.Visible = true;
+                lblDuration.DrawVisible = true;
                 lblFinish.Location = new Point(557, 55 + heightOffset);
-                lblFinish.Visible = true;
+                lblFinish.DrawVisible = true;
             } else if (!hideRound) {
-                ClientSize = new Size(555, Height);
-
-                lblFastest.Visible = false;
-                lblDuration.Visible = false;
-                lblFinish.Visible = false;
+                drawWidth = 555;
+                lblFastest.DrawVisible = false;
+                lblDuration.DrawVisible = false;
+                lblFinish.DrawVisible = false;
 
                 lblName.Location = new Point(268, 9 + heightOffset);
-                lblName.Visible = true;
+                lblName.DrawVisible = true;
                 lblPlayers.Location = new Point(268, 32 + heightOffset);
                 lblPlayers.Size = new Size(281, 22);
-                lblPlayers.Visible = true;
+                lblPlayers.DrawVisible = true;
                 lblQualifyChance.Location = new Point(268, 55 + heightOffset);
-                lblQualifyChance.Visible = true;
+                lblQualifyChance.DrawVisible = true;
             } else if (!hideTime) {
-                ClientSize = new Size(499, Height);
-
-                lblName.Visible = false;
-                lblQualifyChance.Visible = false;
-                lblPlayers.Visible = false;
+                drawWidth = 499;
+                lblName.DrawVisible = false;
+                lblQualifyChance.DrawVisible = false;
+                lblPlayers.DrawVisible = false;
 
                 lblFastest.Location = new Point(268, 9 + heightOffset);
                 lblFastest.Size = new Size(225, 22);
-                lblFastest.Visible = true;
+                lblFastest.DrawVisible = true;
                 lblDuration.Location = new Point(268, 32 + heightOffset);
-                lblDuration.Visible = true;
+                lblDuration.DrawVisible = true;
                 lblFinish.Location = new Point(268, 55 + heightOffset);
-                lblFinish.Visible = true;
+                lblFinish.DrawVisible = true;
             } else {
-                ClientSize = new Size(266, Height);
-
-                lblFastest.Visible = false;
-                lblDuration.Visible = false;
-                lblFinish.Visible = false;
-                lblName.Visible = false;
-                lblQualifyChance.Visible = false;
-                lblPlayers.Visible = false;
+                drawWidth = 266;
+                lblFastest.DrawVisible = false;
+                lblDuration.DrawVisible = false;
+                lblFinish.DrawVisible = false;
+                lblName.DrawVisible = false;
+                lblQualifyChance.DrawVisible = false;
+                lblPlayers.DrawVisible = false;
             }
 
             DisplayTabs(showTabs);
             FlipDisplay(flipDisplay);
+            SetBackgroundColor(colorOption);
             Cleanup();
 
-            BackgroundImage = RecreateBackground();
+            Background = RecreateBackground();
+            if (width.HasValue) {
+                Width = width.Value;
+            }
+            if (height.HasValue) {
+                Height = height.Value;
+            }
         }
         public void FlipDisplay(bool flipped) {
             if (flipped == flippedImage) { return; }
@@ -407,35 +464,43 @@ namespace FallGuysStats {
                 }
             }
 
-            DisplayTabs(Height > 99);
+            DisplayTabs(drawHeight > 99);
         }
         private Bitmap RecreateBackground() {
-            if (BackgroundImage != null) {
-                BackgroundImage.Dispose();
-            }
-
-            bool tabsDisplayed = Height > 99;
-            Bitmap newImage = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(newImage)) {
-                g.DrawImage(Properties.Resources.background, 0, tabsDisplayed ? 35 : 0);
-                if (tabsDisplayed) {
-                    g.DrawImage(Properties.Resources.tab_unselected, Width - 110, 0);
+            lock (GlobalFont) {
+                if (Background != null) {
+                    Background.Dispose();
                 }
-            }
 
-            if (flippedImage) {
-                newImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                bool tabsDisplayed = StatsForm.CurrentSettings.ShowOverlayTabs;
+                Bitmap newImage = new Bitmap(drawWidth, drawHeight, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(newImage)) {
+                    g.DrawImage(Properties.Resources.background, 0, tabsDisplayed ? 35 : 0);
+                    if (tabsDisplayed) {
+                        g.DrawImage(Properties.Resources.tab_unselected, drawWidth - 110, 0);
+                    }
+                }
+
+                if (flippedImage) {
+                    newImage.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                }
+
+                DrawGraphics.Dispose();
+                DrawImage.Dispose();
+                DrawImage = new Bitmap(newImage.Width, newImage.Height, PixelFormat.Format32bppArgb);
+                DrawGraphics = Graphics.FromImage(DrawImage);
+
+                return newImage;
             }
-            return newImage;
         }
         public void DisplayTabs(bool showTabs) {
             if (showTabs) {
-                ClientSize = new Size(Width, 134);
-                lblFilter.Location = new Point(flippedImage ? -5 : Width - 105, 11);
-                lblFilter.Visible = true;
+                drawHeight = 134;
+                lblFilter.Location = new Point(flippedImage ? -5 : drawWidth - 105, 11);
+                lblFilter.DrawVisible = true;
             } else {
-                ClientSize = new Size(Width, 99);
-                lblFilter.Visible = false;
+                drawHeight = 99;
+                lblFilter.DrawVisible = false;
             }
         }
     }

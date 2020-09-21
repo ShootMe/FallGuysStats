@@ -26,6 +26,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.73
+    - Added options to settings screen for overlay color and flip to make it more visible to the user
+    - Added ability to manually resize overlay from the corners
   - 1.72
     - Changed overlay so it stays visible when you minimize amin screen
   - 1.71
