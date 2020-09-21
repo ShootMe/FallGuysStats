@@ -45,10 +45,13 @@
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
             this.grpStats = new System.Windows.Forms.GroupBox();
+            this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
+            this.chkFlipped = new System.Windows.Forms.CheckBox();
+            this.cboOverlayColor = new System.Windows.Forms.ComboBox();
+            this.lblOverlayColor = new System.Windows.Forms.Label();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -106,6 +109,9 @@
             // 
             // grpOverlay
             // 
+            this.grpOverlay.Controls.Add(this.cboOverlayColor);
+            this.grpOverlay.Controls.Add(this.lblOverlayColor);
+            this.grpOverlay.Controls.Add(this.chkFlipped);
             this.grpOverlay.Controls.Add(this.chkShowTabs);
             this.grpOverlay.Controls.Add(this.chkHideTimeInfo);
             this.grpOverlay.Controls.Add(this.chkHideRoundInfo);
@@ -295,6 +301,16 @@
             this.grpStats.TabStop = false;
             this.grpStats.Text = "Stats";
             // 
+            // chkAutoUpdate
+            // 
+            this.chkAutoUpdate.AutoSize = true;
+            this.chkAutoUpdate.Location = new System.Drawing.Point(315, 22);
+            this.chkAutoUpdate.Name = "chkAutoUpdate";
+            this.chkAutoUpdate.Size = new System.Drawing.Size(128, 17);
+            this.chkAutoUpdate.TabIndex = 3;
+            this.chkAutoUpdate.Text = "Auto Update Program";
+            this.chkAutoUpdate.UseVisualStyleBackColor = true;
+            // 
             // lblPreviousWinsNote
             // 
             this.lblPreviousWinsNote.AutoSize = true;
@@ -325,15 +341,40 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
-            // chkAutoUpdate
+            // chkFlipped
             // 
-            this.chkAutoUpdate.AutoSize = true;
-            this.chkAutoUpdate.Location = new System.Drawing.Point(315, 22);
-            this.chkAutoUpdate.Name = "chkAutoUpdate";
-            this.chkAutoUpdate.Size = new System.Drawing.Size(128, 17);
-            this.chkAutoUpdate.TabIndex = 3;
-            this.chkAutoUpdate.Text = "Auto Update Program";
-            this.chkAutoUpdate.UseVisualStyleBackColor = true;
+            this.chkFlipped.AutoSize = true;
+            this.chkFlipped.Location = new System.Drawing.Point(396, 148);
+            this.chkFlipped.Name = "chkFlipped";
+            this.chkFlipped.Size = new System.Drawing.Size(136, 17);
+            this.chkFlipped.TabIndex = 17;
+            this.chkFlipped.Text = "Flip Display Horizontally";
+            this.chkFlipped.UseVisualStyleBackColor = true;
+            // 
+            // cboOverlayColor
+            // 
+            this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOverlayColor.FormattingEnabled = true;
+            this.cboOverlayColor.Items.AddRange(new object[] {
+            "Transparent",
+            "Magenta",
+            "Red",
+            "Green",
+            "Blue",
+            "Black"});
+            this.cboOverlayColor.Location = new System.Drawing.Point(396, 120);
+            this.cboOverlayColor.Name = "cboOverlayColor";
+            this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
+            this.cboOverlayColor.TabIndex = 16;
+            // 
+            // lblOverlayColor
+            // 
+            this.lblOverlayColor.AutoSize = true;
+            this.lblOverlayColor.Location = new System.Drawing.Point(298, 123);
+            this.lblOverlayColor.Name = "lblOverlayColor";
+            this.lblOverlayColor.Size = new System.Drawing.Size(92, 13);
+            this.lblOverlayColor.TabIndex = 15;
+            this.lblOverlayColor.Text = "Background Color";
             // 
             // Settings
             // 
@@ -394,5 +435,8 @@
         private System.Windows.Forms.CheckBox chkHideRoundInfo;
         private System.Windows.Forms.CheckBox chkShowTabs;
         private System.Windows.Forms.CheckBox chkAutoUpdate;
+        private System.Windows.Forms.ComboBox cboOverlayColor;
+        private System.Windows.Forms.Label lblOverlayColor;
+        private System.Windows.Forms.CheckBox chkFlipped;
     }
 }
