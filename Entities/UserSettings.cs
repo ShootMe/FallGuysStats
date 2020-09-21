@@ -24,5 +24,7 @@
         public bool AutoUpdate { get; set; }
         public int? FormLocationX { get; set; }
         public int? FormLocationY { get; set; }
+        public int? OverlayWidth { get; set; }
+        public int? OverlayHeight { get; set; }
     }
 }

@@ -18,7 +18,16 @@ namespace FallGuysStats {
             chkHideTimeInfo.Checked = CurrentSettings.HideTimeInfo;
             chkShowTabs.Checked = CurrentSettings.ShowOverlayTabs;
             chkAutoUpdate.Checked = CurrentSettings.AutoUpdate;
+            chkFlipped.Checked = CurrentSettings.FlippedDisplay;
 
+            switch (CurrentSettings.OverlayColor) {
+                case 0: cboOverlayColor.SelectedItem = "Magenta"; break;
+                case 1: cboOverlayColor.SelectedItem = "Blue"; break;
+                case 2: cboOverlayColor.SelectedItem = "Red"; break;
+                case 3: cboOverlayColor.SelectedItem = "Transparent"; break;
+                case 4: cboOverlayColor.SelectedItem = "Black"; break;
+                case 5: cboOverlayColor.SelectedItem = "Green"; break;
+            }
             switch (CurrentSettings.WinsFilter) {
                 case 0: cboWinsFilter.SelectedItem = "Stats and Party Filter"; break;
                 case 1: cboWinsFilter.SelectedItem = "Season Stats"; break;
@@ -69,11 +78,21 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
+            bool resizeOverlay = CurrentSettings.HideRoundInfo != chkHideRoundInfo.Checked || CurrentSettings.HideTimeInfo != chkHideTimeInfo.Checked || CurrentSettings.ShowOverlayTabs != chkShowTabs.Checked;
             CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
             CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
             CurrentSettings.ShowOverlayTabs = chkShowTabs.Checked;
             CurrentSettings.AutoUpdate = chkAutoUpdate.Checked;
+            CurrentSettings.FlippedDisplay = chkFlipped.Checked;
 
+            switch ((string)cboOverlayColor.SelectedItem) {
+                case "Magenta": CurrentSettings.OverlayColor = 0; break;
+                case "Blue": CurrentSettings.OverlayColor = 1; break;
+                case "Red": CurrentSettings.OverlayColor = 2; break;
+                case "Transparent": CurrentSettings.OverlayColor = 3; break;
+                case "Black": CurrentSettings.OverlayColor = 4; break;
+                case "Green": CurrentSettings.OverlayColor = 5; break;
+            }
             switch ((string)cboWinsFilter.SelectedItem) {
                 case "Stats and Party Filter": CurrentSettings.WinsFilter = 0; break;
                 case "Season Stats": CurrentSettings.WinsFilter = 1; break;
@@ -97,6 +116,24 @@ namespace FallGuysStats {
                 case "Week Stats": CurrentSettings.FastestFilter = 3; break;
                 case "Day Stats": CurrentSettings.FastestFilter = 4; break;
                 case "Session Stats": CurrentSettings.FastestFilter = 5; break;
+            }
+
+            if (resizeOverlay) {
+                if (!CurrentSettings.HideRoundInfo && !CurrentSettings.HideTimeInfo) {
+                    CurrentSettings.OverlayWidth = 786;
+                } else if (!CurrentSettings.HideRoundInfo) {
+                    CurrentSettings.OverlayWidth = 555;
+                } else if (!CurrentSettings.HideTimeInfo) {
+                    CurrentSettings.OverlayWidth = 499;
+                } else {
+                    CurrentSettings.OverlayWidth = 266;
+                }
+
+                if (CurrentSettings.ShowOverlayTabs) {
+                    CurrentSettings.OverlayHeight = 134;
+                } else {
+                    CurrentSettings.OverlayHeight = 99;
+                }
             }
 
             this.DialogResult = DialogResult.OK;
