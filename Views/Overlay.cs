@@ -157,6 +157,7 @@ namespace FallGuysStats {
                         this.Invoke((Action)UpdateInfo);
                     }
 
+                    StatsForm.UpdateDates();
                     Thread.Sleep(50);
                 } catch { }
             }
@@ -194,7 +195,7 @@ namespace FallGuysStats {
                     }
 
                     float finalChance = (float)levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    lblFinalChance.TextRight = $"{levelInfo.TotalFinals} - {finalChance:0.0}%";
+                    lblFinals.TextRight = $"{levelInfo.TotalFinals} - {finalChance:0.0}%";
 
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
@@ -380,65 +381,153 @@ namespace FallGuysStats {
                 case 5: BackColor = Color.Green; break;
             }
         }
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideRound, bool hideTime, int colorOption, int? width, int? height) {
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height) {
             FlipDisplay(false);
 
             int heightOffset = showTabs ? 35 : 0;
             lblWins.Location = new Point(22, 9 + heightOffset);
-            lblFinalChance.Location = new Point(22, 32 + heightOffset);
+            lblFinals.Location = new Point(22, 32 + heightOffset);
             lblStreak.Location = new Point(22, 55 + heightOffset);
 
-            if (!hideRound && !hideTime) {
-                drawWidth = 786;
-                lblName.Location = new Point(268, 9 + heightOffset);
-                lblName.DrawVisible = true;
-                lblQualifyChance.Location = new Point(268, 32 + heightOffset);
-                lblQualifyChance.DrawVisible = true;
-                lblFastest.Location = new Point(268, 55 + heightOffset);
-                lblFastest.Size = new Size(281, 22);
-                lblFastest.DrawVisible = true;
+            int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
+            switch (overlaySetting) {
+                case 0:
+                    drawWidth = 786;
 
-                lblPlayers.Location = new Point(557, 9 + heightOffset);
-                lblPlayers.Size = new Size(225, 22);
-                lblPlayers.DrawVisible = true;
-                lblDuration.Location = new Point(557, 32 + heightOffset);
-                lblDuration.DrawVisible = true;
-                lblFinish.Location = new Point(557, 55 + heightOffset);
-                lblFinish.DrawVisible = true;
-            } else if (!hideRound) {
-                drawWidth = 555;
-                lblFastest.DrawVisible = false;
-                lblDuration.DrawVisible = false;
-                lblFinish.DrawVisible = false;
+                    lblWins.DrawVisible = true;
+                    lblFinals.DrawVisible = true;
+                    lblStreak.DrawVisible = true;
 
-                lblName.Location = new Point(268, 9 + heightOffset);
-                lblName.DrawVisible = true;
-                lblPlayers.Location = new Point(268, 32 + heightOffset);
-                lblPlayers.Size = new Size(281, 22);
-                lblPlayers.DrawVisible = true;
-                lblQualifyChance.Location = new Point(268, 55 + heightOffset);
-                lblQualifyChance.DrawVisible = true;
-            } else if (!hideTime) {
-                drawWidth = 499;
-                lblName.DrawVisible = false;
-                lblQualifyChance.DrawVisible = false;
-                lblPlayers.DrawVisible = false;
+                    lblName.Location = new Point(268, 9 + heightOffset);
+                    lblName.DrawVisible = true;
+                    lblQualifyChance.Location = new Point(268, 32 + heightOffset);
+                    lblQualifyChance.DrawVisible = true;
+                    lblFastest.Location = new Point(268, 55 + heightOffset);
+                    lblFastest.Size = new Size(281, 22);
+                    lblFastest.DrawVisible = true;
 
-                lblFastest.Location = new Point(268, 9 + heightOffset);
-                lblFastest.Size = new Size(225, 22);
-                lblFastest.DrawVisible = true;
-                lblDuration.Location = new Point(268, 32 + heightOffset);
-                lblDuration.DrawVisible = true;
-                lblFinish.Location = new Point(268, 55 + heightOffset);
-                lblFinish.DrawVisible = true;
-            } else {
-                drawWidth = 266;
-                lblFastest.DrawVisible = false;
-                lblDuration.DrawVisible = false;
-                lblFinish.DrawVisible = false;
-                lblName.DrawVisible = false;
-                lblQualifyChance.DrawVisible = false;
-                lblPlayers.DrawVisible = false;
+                    lblPlayers.Location = new Point(557, 9 + heightOffset);
+                    lblPlayers.Size = new Size(225, 22);
+                    lblPlayers.DrawVisible = true;
+                    lblDuration.Location = new Point(557, 32 + heightOffset);
+                    lblDuration.DrawVisible = true;
+                    lblFinish.Location = new Point(557, 55 + heightOffset);
+                    lblFinish.DrawVisible = true;
+                    break;
+                case 1:
+                    drawWidth = 786 - 225 - 6;
+
+                    lblWins.DrawVisible = true;
+                    lblFinals.DrawVisible = true;
+                    lblStreak.DrawVisible = true;
+
+                    lblFastest.DrawVisible = false;
+                    lblDuration.DrawVisible = false;
+                    lblFinish.DrawVisible = false;
+
+                    lblName.Location = new Point(268, 9 + heightOffset);
+                    lblName.DrawVisible = true;
+                    lblPlayers.Location = new Point(268, 32 + heightOffset);
+                    lblPlayers.Size = new Size(281, 22);
+                    lblPlayers.DrawVisible = true;
+                    lblQualifyChance.Location = new Point(268, 55 + heightOffset);
+                    lblQualifyChance.DrawVisible = true;
+                    break;
+                case 2:
+                    drawWidth = 786 - 281 - 6;
+
+                    lblWins.DrawVisible = true;
+                    lblFinals.DrawVisible = true;
+                    lblStreak.DrawVisible = true;
+
+                    lblName.DrawVisible = false;
+                    lblQualifyChance.DrawVisible = false;
+                    lblPlayers.DrawVisible = false;
+
+                    lblFastest.Location = new Point(268, 9 + heightOffset);
+                    lblFastest.Size = new Size(225, 22);
+                    lblFastest.DrawVisible = true;
+                    lblDuration.Location = new Point(268, 32 + heightOffset);
+                    lblDuration.DrawVisible = true;
+                    lblFinish.Location = new Point(268, 55 + heightOffset);
+                    lblFinish.DrawVisible = true;
+                    break;
+                case 3:
+                    drawWidth = 786 - 281 - 225 - 12;
+
+                    lblWins.DrawVisible = true;
+                    lblFinals.DrawVisible = true;
+                    lblStreak.DrawVisible = true;
+
+                    lblName.DrawVisible = false;
+                    lblQualifyChance.DrawVisible = false;
+                    lblPlayers.DrawVisible = false;
+
+                    lblFastest.DrawVisible = false;
+                    lblDuration.DrawVisible = false;
+                    lblFinish.DrawVisible = false;
+                    break;
+                case 4:
+                    drawWidth = 786 - 238 - 6;
+
+                    lblWins.DrawVisible = false;
+                    lblFinals.DrawVisible = false;
+                    lblStreak.DrawVisible = false;
+
+                    lblName.Location = new Point(22, 9 + heightOffset);
+                    lblName.DrawVisible = true;
+                    lblQualifyChance.Location = new Point(22, 32 + heightOffset);
+                    lblQualifyChance.DrawVisible = true;
+                    lblFastest.Location = new Point(22, 55 + heightOffset);
+                    lblFastest.Size = new Size(281, 22);
+                    lblFastest.DrawVisible = true;
+
+                    lblPlayers.Location = new Point(311, 9 + heightOffset);
+                    lblPlayers.Size = new Size(225, 22);
+                    lblPlayers.DrawVisible = true;
+                    lblDuration.Location = new Point(311, 32 + heightOffset);
+                    lblDuration.DrawVisible = true;
+                    lblFinish.Location = new Point(311, 55 + heightOffset);
+                    lblFinish.DrawVisible = true;
+                    break;
+                case 5:
+                    drawWidth = 786 - 238 - 225 - 12;
+
+                    lblWins.DrawVisible = false;
+                    lblFinals.DrawVisible = false;
+                    lblStreak.DrawVisible = false;
+
+                    lblName.Location = new Point(22, 9 + heightOffset);
+                    lblName.DrawVisible = true;
+                    lblPlayers.Location = new Point(22, 32 + heightOffset);
+                    lblPlayers.Size = new Size(281, 22);
+                    lblPlayers.DrawVisible = true;
+                    lblQualifyChance.Location = new Point(22, 55 + heightOffset);
+                    lblQualifyChance.DrawVisible = true;
+
+                    lblFastest.DrawVisible = false;
+                    lblDuration.DrawVisible = false;
+                    lblFinish.DrawVisible = false;
+                    break;
+                case 6:
+                    drawWidth = 786 - 238 - 281 - 12;
+
+                    lblWins.DrawVisible = false;
+                    lblFinals.DrawVisible = false;
+                    lblStreak.DrawVisible = false;
+
+                    lblName.DrawVisible = false;
+                    lblQualifyChance.DrawVisible = false;
+                    lblPlayers.DrawVisible = false;
+
+                    lblFastest.Location = new Point(22, 9 + heightOffset);
+                    lblFastest.Size = new Size(225, 22);
+                    lblFastest.DrawVisible = true;
+                    lblDuration.Location = new Point(22, 32 + heightOffset);
+                    lblDuration.DrawVisible = true;
+                    lblFinish.Location = new Point(22, 55 + heightOffset);
+                    lblFinish.DrawVisible = true;
+                    break;
             }
 
             DisplayTabs(showTabs);

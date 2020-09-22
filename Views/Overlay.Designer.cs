@@ -25,7 +25,7 @@
         private void InitializeComponent() {
             this.lblFilter = new FallGuysStats.TransparentLabel();
             this.lblStreak = new FallGuysStats.TransparentLabel();
-            this.lblFinalChance = new FallGuysStats.TransparentLabel();
+            this.lblFinals = new FallGuysStats.TransparentLabel();
             this.lblQualifyChance = new FallGuysStats.TransparentLabel();
             this.lblFastest = new FallGuysStats.TransparentLabel();
             this.lblDuration = new FallGuysStats.TransparentLabel();
@@ -55,16 +55,18 @@
             this.lblStreak.Text = "STREAK:";
             this.lblStreak.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblStreak.TextRight = "0 (BEST 0)";
+            this.lblStreak.Visible = false;
             // 
-            // lblFinalChance
+            // lblFinals
             // 
-            this.lblFinalChance.Location = new System.Drawing.Point(22, 32);
-            this.lblFinalChance.Name = "lblFinalChance";
-            this.lblFinalChance.Size = new System.Drawing.Size(238, 22);
-            this.lblFinalChance.TabIndex = 5;
-            this.lblFinalChance.Text = "FINAL:";
-            this.lblFinalChance.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.lblFinalChance.TextRight = "0 - 0.0%";
+            this.lblFinals.Location = new System.Drawing.Point(22, 32);
+            this.lblFinals.Name = "lblFinals";
+            this.lblFinals.Size = new System.Drawing.Size(238, 22);
+            this.lblFinals.TabIndex = 5;
+            this.lblFinals.Text = "FINAL:";
+            this.lblFinals.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblFinals.TextRight = "0 - 0.0%";
+            this.lblFinals.Visible = false;
             // 
             // lblQualifyChance
             // 
@@ -75,6 +77,7 @@
             this.lblQualifyChance.Text = "QUALIFY:";
             this.lblQualifyChance.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblQualifyChance.TextRight = "0 / 0 - 0.0%";
+            this.lblQualifyChance.Visible = false;
             // 
             // lblFastest
             // 
@@ -85,6 +88,7 @@
             this.lblFastest.Text = "FASTEST:";
             this.lblFastest.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblFastest.TextRight = "-";
+            this.lblFastest.Visible = false;
             // 
             // lblDuration
             // 
@@ -95,6 +99,7 @@
             this.lblDuration.Text = "TIME:";
             this.lblDuration.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblDuration.TextRight = "-";
+            this.lblDuration.Visible = false;
             // 
             // lblPlayers
             // 
@@ -105,6 +110,7 @@
             this.lblPlayers.Text = "PLAYERS:";
             this.lblPlayers.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblPlayers.TextRight = "0";
+            this.lblPlayers.Visible = false;
             // 
             // lblName
             // 
@@ -116,6 +122,7 @@
             this.lblName.Text = "ROUND 1:";
             this.lblName.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblName.TextRight = "N/A";
+            this.lblName.Visible = false;
             // 
             // lblWins
             // 
@@ -126,6 +133,7 @@
             this.lblWins.Text = "WINS:";
             this.lblWins.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblWins.TextRight = "0 - 0.0%";
+            this.lblWins.Visible = false;
             // 
             // lblFinish
             // 
@@ -136,6 +144,7 @@
             this.lblFinish.Text = "FINISH:";
             this.lblFinish.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblFinish.TextRight = "-";
+            this.lblFinish.Visible = false;
             // 
             // Overlay
             // 
@@ -145,7 +154,7 @@
             this.ClientSize = new System.Drawing.Size(786, 99);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.lblStreak);
-            this.Controls.Add(this.lblFinalChance);
+            this.Controls.Add(this.lblFinals);
             this.Controls.Add(this.lblQualifyChance);
             this.Controls.Add(this.lblFastest);
             this.Controls.Add(this.lblDuration);
@@ -178,7 +187,7 @@
         private TransparentLabel lblFastest;
         private TransparentLabel lblQualifyChance;
         private TransparentLabel lblWins;
-        private TransparentLabel lblFinalChance;
+        private TransparentLabel lblFinals;
         private TransparentLabel lblPlayers;
         private TransparentLabel lblStreak;
         private TransparentLabel lblFilter;
