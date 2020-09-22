@@ -51,6 +51,7 @@ namespace FallGuysStats {
         private Pen[] pens;
         private int closeRowIndex, closeColumnIndex;
         private Point lastMousePosition;
+        private static Color[] Colors = new Color[] { Color.Black, Color.Red, Color.Green, Color.Blue };
 
         public Graph() {
             closeRowIndex = -1;
@@ -65,10 +66,8 @@ namespace FallGuysStats {
             if (dataSource == null) { return; }
             brushes = new Brush[dataSource.Columns.Count];
             pens = new Pen[dataSource.Columns.Count];
-            Random rnd = new Random();
             foreach (DataColumn col in dataSource.Columns) {
-                //brushes[col.Ordinal] = new SolidBrush(Color.FromArgb(rnd.Next() % 256, rnd.Next() % 256, rnd.Next() % 256));
-                brushes[col.Ordinal] = new SolidBrush(Color.Red);
+                brushes[col.Ordinal] = new SolidBrush(Colors[col.Ordinal]);
                 pens[col.Ordinal] = new Pen(brushes[col.Ordinal]);
             }
         }
