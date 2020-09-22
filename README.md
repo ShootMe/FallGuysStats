@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.75
+    - Fixed streak count on overlay
   - 1.74
     - Fixed stat calculations for shows crossing filter boundries
     - Added some extra stats to the Wins Per Day popup
