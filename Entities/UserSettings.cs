@@ -16,6 +16,7 @@
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }
         public int QualifyFilter { get; set; }
+        public bool HideWinsInfo { get; set; }
         public bool HideRoundInfo { get; set; }
         public bool HideTimeInfo { get; set; }
         public bool ShowOverlayTabs { get; set; }

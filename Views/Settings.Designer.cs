@@ -30,6 +30,9 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.cboOverlayColor = new System.Windows.Forms.ComboBox();
+            this.lblOverlayColor = new System.Windows.Forms.Label();
+            this.chkFlipped = new System.Windows.Forms.CheckBox();
             this.chkShowTabs = new System.Windows.Forms.CheckBox();
             this.chkHideTimeInfo = new System.Windows.Forms.CheckBox();
             this.chkHideRoundInfo = new System.Windows.Forms.CheckBox();
@@ -49,9 +52,7 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkFlipped = new System.Windows.Forms.CheckBox();
-            this.cboOverlayColor = new System.Windows.Forms.ComboBox();
-            this.lblOverlayColor = new System.Windows.Forms.Label();
+            this.chkHideWinsInfo = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -109,6 +110,7 @@
             // 
             // grpOverlay
             // 
+            this.grpOverlay.Controls.Add(this.chkHideWinsInfo);
             this.grpOverlay.Controls.Add(this.cboOverlayColor);
             this.grpOverlay.Controls.Add(this.lblOverlayColor);
             this.grpOverlay.Controls.Add(this.chkFlipped);
@@ -134,14 +136,49 @@
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
             // 
+            // cboOverlayColor
+            // 
+            this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOverlayColor.FormattingEnabled = true;
+            this.cboOverlayColor.Items.AddRange(new object[] {
+            "Transparent",
+            "Magenta",
+            "Red",
+            "Green",
+            "Blue",
+            "Black"});
+            this.cboOverlayColor.Location = new System.Drawing.Point(396, 120);
+            this.cboOverlayColor.Name = "cboOverlayColor";
+            this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
+            this.cboOverlayColor.TabIndex = 16;
+            // 
+            // lblOverlayColor
+            // 
+            this.lblOverlayColor.AutoSize = true;
+            this.lblOverlayColor.Location = new System.Drawing.Point(298, 123);
+            this.lblOverlayColor.Name = "lblOverlayColor";
+            this.lblOverlayColor.Size = new System.Drawing.Size(92, 13);
+            this.lblOverlayColor.TabIndex = 15;
+            this.lblOverlayColor.Text = "Background Color";
+            // 
+            // chkFlipped
+            // 
+            this.chkFlipped.AutoSize = true;
+            this.chkFlipped.Location = new System.Drawing.Point(396, 148);
+            this.chkFlipped.Name = "chkFlipped";
+            this.chkFlipped.Size = new System.Drawing.Size(132, 17);
+            this.chkFlipped.TabIndex = 17;
+            this.chkFlipped.Text = "Flip display horizontally";
+            this.chkFlipped.UseVisualStyleBackColor = true;
+            // 
             // chkShowTabs
             // 
             this.chkShowTabs.AutoSize = true;
             this.chkShowTabs.Location = new System.Drawing.Point(15, 96);
             this.chkShowTabs.Name = "chkShowTabs";
-            this.chkShowTabs.Size = new System.Drawing.Size(147, 17);
+            this.chkShowTabs.Size = new System.Drawing.Size(151, 17);
             this.chkShowTabs.TabIndex = 3;
-            this.chkShowTabs.Text = "Show tab for current Filter";
+            this.chkShowTabs.Text = "Show Tab for current Filter";
             this.chkShowTabs.UseVisualStyleBackColor = true;
             // 
             // chkHideTimeInfo
@@ -149,9 +186,9 @@
             this.chkHideTimeInfo.AutoSize = true;
             this.chkHideTimeInfo.Location = new System.Drawing.Point(15, 71);
             this.chkHideTimeInfo.Name = "chkHideTimeInfo";
-            this.chkHideTimeInfo.Size = new System.Drawing.Size(95, 17);
+            this.chkHideTimeInfo.Size = new System.Drawing.Size(94, 17);
             this.chkHideTimeInfo.TabIndex = 2;
-            this.chkHideTimeInfo.Text = "Hide Time Info";
+            this.chkHideTimeInfo.Text = "Hide Time info";
             this.chkHideTimeInfo.UseVisualStyleBackColor = true;
             // 
             // chkHideRoundInfo
@@ -159,9 +196,9 @@
             this.chkHideRoundInfo.AutoSize = true;
             this.chkHideRoundInfo.Location = new System.Drawing.Point(15, 46);
             this.chkHideRoundInfo.Name = "chkHideRoundInfo";
-            this.chkHideRoundInfo.Size = new System.Drawing.Size(104, 17);
+            this.chkHideRoundInfo.Size = new System.Drawing.Size(103, 17);
             this.chkHideRoundInfo.TabIndex = 1;
-            this.chkHideRoundInfo.Text = "Hide Round Info";
+            this.chkHideRoundInfo.Text = "Hide Round info";
             this.chkHideRoundInfo.UseVisualStyleBackColor = true;
             // 
             // cboFastestFilter
@@ -242,11 +279,11 @@
             // chkOverlayOnTop
             // 
             this.chkOverlayOnTop.AutoSize = true;
-            this.chkOverlayOnTop.Location = new System.Drawing.Point(15, 21);
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(396, 169);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
-            this.chkOverlayOnTop.Size = new System.Drawing.Size(205, 17);
-            this.chkOverlayOnTop.TabIndex = 0;
-            this.chkOverlayOnTop.Text = "Always show on top of other programs";
+            this.chkOverlayOnTop.Size = new System.Drawing.Size(120, 17);
+            this.chkOverlayOnTop.TabIndex = 18;
+            this.chkOverlayOnTop.Text = "Always show on top";
             this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
             // chkUseNDI
@@ -341,40 +378,15 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
-            // chkFlipped
+            // chkHideWinsInfo
             // 
-            this.chkFlipped.AutoSize = true;
-            this.chkFlipped.Location = new System.Drawing.Point(396, 148);
-            this.chkFlipped.Name = "chkFlipped";
-            this.chkFlipped.Size = new System.Drawing.Size(136, 17);
-            this.chkFlipped.TabIndex = 17;
-            this.chkFlipped.Text = "Flip Display Horizontally";
-            this.chkFlipped.UseVisualStyleBackColor = true;
-            // 
-            // cboOverlayColor
-            // 
-            this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboOverlayColor.FormattingEnabled = true;
-            this.cboOverlayColor.Items.AddRange(new object[] {
-            "Transparent",
-            "Magenta",
-            "Red",
-            "Green",
-            "Blue",
-            "Black"});
-            this.cboOverlayColor.Location = new System.Drawing.Point(396, 120);
-            this.cboOverlayColor.Name = "cboOverlayColor";
-            this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
-            this.cboOverlayColor.TabIndex = 16;
-            // 
-            // lblOverlayColor
-            // 
-            this.lblOverlayColor.AutoSize = true;
-            this.lblOverlayColor.Location = new System.Drawing.Point(298, 123);
-            this.lblOverlayColor.Name = "lblOverlayColor";
-            this.lblOverlayColor.Size = new System.Drawing.Size(92, 13);
-            this.lblOverlayColor.TabIndex = 15;
-            this.lblOverlayColor.Text = "Background Color";
+            this.chkHideWinsInfo.AutoSize = true;
+            this.chkHideWinsInfo.Location = new System.Drawing.Point(15, 21);
+            this.chkHideWinsInfo.Name = "chkHideWinsInfo";
+            this.chkHideWinsInfo.Size = new System.Drawing.Size(95, 17);
+            this.chkHideWinsInfo.TabIndex = 0;
+            this.chkHideWinsInfo.Text = "Hide Wins info";
+            this.chkHideWinsInfo.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
@@ -438,5 +450,6 @@
         private System.Windows.Forms.ComboBox cboOverlayColor;
         private System.Windows.Forms.Label lblOverlayColor;
         private System.Windows.Forms.CheckBox chkFlipped;
+        private System.Windows.Forms.CheckBox chkHideWinsInfo;
     }
 }
