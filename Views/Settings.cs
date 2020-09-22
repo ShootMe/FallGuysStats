@@ -14,6 +14,7 @@ namespace FallGuysStats {
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
             chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
+            chkHideWinsInfo.Checked = CurrentSettings.HideWinsInfo;
             chkHideRoundInfo.Checked = CurrentSettings.HideRoundInfo;
             chkHideTimeInfo.Checked = CurrentSettings.HideTimeInfo;
             chkShowTabs.Checked = CurrentSettings.ShowOverlayTabs;
@@ -78,7 +79,14 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
-            bool resizeOverlay = CurrentSettings.HideRoundInfo != chkHideRoundInfo.Checked || CurrentSettings.HideTimeInfo != chkHideTimeInfo.Checked || CurrentSettings.ShowOverlayTabs != chkShowTabs.Checked;
+            if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
+                chkHideWinsInfo.Checked = false;
+            }
+            bool resizeOverlay = CurrentSettings.HideWinsInfo != chkHideWinsInfo.Checked ||
+                CurrentSettings.HideRoundInfo != chkHideRoundInfo.Checked ||
+                CurrentSettings.HideTimeInfo != chkHideTimeInfo.Checked ||
+                CurrentSettings.ShowOverlayTabs != chkShowTabs.Checked;
+            CurrentSettings.HideWinsInfo = chkHideWinsInfo.Checked;
             CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
             CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
             CurrentSettings.ShowOverlayTabs = chkShowTabs.Checked;
@@ -119,16 +127,17 @@ namespace FallGuysStats {
             }
 
             if (resizeOverlay) {
-                if (!CurrentSettings.HideRoundInfo && !CurrentSettings.HideTimeInfo) {
-                    CurrentSettings.OverlayWidth = 786;
-                } else if (!CurrentSettings.HideRoundInfo) {
-                    CurrentSettings.OverlayWidth = 555;
-                } else if (!CurrentSettings.HideTimeInfo) {
-                    CurrentSettings.OverlayWidth = 499;
-                } else {
-                    CurrentSettings.OverlayWidth = 266;
+                int overlaySetting = (CurrentSettings.HideWinsInfo ? 4 : 0) + (CurrentSettings.HideRoundInfo ? 2 : 0) + (CurrentSettings.HideTimeInfo ? 1 : 0);
+                switch (overlaySetting) {
+                    case 0: CurrentSettings.OverlayWidth = 786; break;
+                    case 1: CurrentSettings.OverlayWidth = 786 - 225 - 6; break;
+                    case 2: CurrentSettings.OverlayWidth = 786 - 281 - 6; break;
+                    case 3: CurrentSettings.OverlayWidth = 786 - 281 - 225 - 12; break;
+                    case 4: CurrentSettings.OverlayWidth = 786 - 238 - 6; break;
+                    case 5: CurrentSettings.OverlayWidth = 786 - 238 - 225 - 12; break;
+                    case 6: CurrentSettings.OverlayWidth = 786 - 238 - 281 - 12; break;
                 }
-
+                
                 if (CurrentSettings.ShowOverlayTabs) {
                     CurrentSettings.OverlayHeight = 134;
                 } else {

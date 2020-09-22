@@ -41,9 +41,7 @@ namespace FallGuysStats {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Utc)
         };
-        private static DateTime SeasonStart;
-        private static DateTime WeekStart = DateTime.Now.Date.AddDays(-7).ToUniversalTime();
-        private static DateTime DayStart = DateTime.Now.Date.ToUniversalTime();
+        private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
         public static bool InShow = false;
         public static bool EndedShow = false;
@@ -70,12 +68,6 @@ namespace FallGuysStats {
         public Stats() {
             InitializeComponent();
 
-            DateTime currentUTC = DateTime.UtcNow;
-            for (int i = Seasons.Count - 1; i >= 0; i--) {
-                if (currentUTC > Seasons[i]) {
-                    SeasonStart = Seasons[i];
-                }
-            }
             Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
 
             logFile.OnParsedLogLines += LogFile_OnParsedLogLines;
@@ -182,6 +174,7 @@ namespace FallGuysStats {
                 WinsFilter = 0,
                 QualifyFilter = 0,
                 FastestFilter = 0,
+                HideWinsInfo = false,
                 HideRoundInfo = false,
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
@@ -192,6 +185,20 @@ namespace FallGuysStats {
                 OverlayWidth = 786,
                 OverlayHeight = 99
             };
+        }
+        public void UpdateDates() {
+            if (DateTime.Now.Date.ToUniversalTime() == DayStart) { return; }
+
+            DateTime currentUTC = DateTime.UtcNow;
+            for (int i = Seasons.Count - 1; i >= 0; i--) {
+                if (currentUTC > Seasons[i]) {
+                    SeasonStart = Seasons[i];
+                }
+            }
+            WeekStart = DateTime.Now.Date.AddDays(-7).ToUniversalTime();
+            DayStart = DateTime.Now.Date.ToUniversalTime();
+
+            ResetStats();
         }
         public void SaveUserSettings() {
             lock (StatsDB) {
@@ -246,7 +253,8 @@ namespace FallGuysStats {
                         for (int i = AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = AllStats[i];
                             info.ToLocalTime();
-                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
+
+                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info.Start) && IsInPartyFilter(info))) {
                                 lastAddedShowID = info.ShowID;
                                 rounds.Add(info);
                             }
@@ -283,7 +291,7 @@ namespace FallGuysStats {
                     return;
                 }
 
-                ResetStats();
+                UpdateDates();
             } catch { }
         }
         private void Stats_Shown(object sender, EventArgs e) {
@@ -294,7 +302,7 @@ namespace FallGuysStats {
                 }
                 logFile.Start(logPath, LOGNAME);
 
-                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
+                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
                 if (CurrentSettings.OverlayVisible) {
                     menuOverlay_Click(null, null);
                 }
@@ -419,12 +427,12 @@ namespace FallGuysStats {
                 MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private bool IsInStatsFilter(RoundInfo info) {
+        private bool IsInStatsFilter(DateTime showEnd) {
             return menuAllStats.Checked ||
-                (menuSeasonStats.Checked && info.Start > SeasonStart) ||
-                (menuWeekStats.Checked && info.Start > WeekStart) ||
-                (menuDayStats.Checked && info.Start > DayStart) ||
-                (menuSessionStats.Checked && info.Start > SessionStart);
+                (menuSeasonStats.Checked && showEnd > SeasonStart) ||
+                (menuWeekStats.Checked && showEnd > WeekStart) ||
+                (menuDayStats.Checked && showEnd > DayStart) ||
+                (menuSessionStats.Checked && showEnd > SessionStart);
         }
         private bool IsInPartyFilter(RoundInfo info) {
             return menuAllPartyStats.Checked ||
@@ -442,29 +450,36 @@ namespace FallGuysStats {
             summary.TotalWins = 0;
             summary.TotalFinals = 0;
             int lastShow = -1;
-            for (int i = 0; i < AllStats.Count; i++) {
+            DateTime showEnd = DateTime.MinValue;
+            for (int i = AllStats.Count - 1; i >= 0; i--) {
                 RoundInfo info = AllStats[i];
+
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
                 bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
+
+                if (info.Crown || (hasLevelDetails && levelDetails.Type == LevelType.Final)) {
+                    showEnd = info.Start;
+                }
+
                 bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
-                        (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 2 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 3 && info.Start > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
+                        (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 2 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 3 && showEnd > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.QualifyFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
                 bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
-                        (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 2 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 3 && info.Start > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
+                        (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 2 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 3 && showEnd > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.FastestFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
                 bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
-                        (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(info) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 1 && info.Start > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 2 && info.Start > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 4 && info.Start > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 5 && info.Start > SessionStart && IsInPartyFilter(info));
+                        (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 1 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 2 && showEnd > WeekStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
+                        (CurrentSettings.WinsFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
@@ -805,27 +820,47 @@ namespace FallGuysStats {
                     DataTable dt = new DataTable();
                     dt.Columns.Add("Date", typeof(DateTime));
                     dt.Columns.Add("Wins", typeof(int));
+                    dt.Columns.Add("Finals", typeof(int));
+                    dt.Columns.Add("Shows", typeof(int));
 
                     if (rounds.Count > 0) {
                         DateTime start = rounds[0].StartLocal;
                         int currentWins = 0;
+                        int currentFinals = 0;
+                        int currentShows = 0;
                         for (int i = 0; i < rounds.Count; i++) {
                             RoundInfo info = rounds[i];
                             LevelStats levelStats = null;
-                            if (info.Qualified && StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final) {
-                                currentWins++;
+                            if (info.Round == 1) {
+                                currentShows++;
+                            }
+                            if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final)) {
+                                currentFinals++;
+                                if (info.Qualified) {
+                                    currentWins++;
+                                }
                             }
 
                             if (info.StartLocal.Date != start.Date) {
-                                dt.Rows.Add(start.Date, currentWins);
+                                dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+
+                                int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
+                                while (missingCount > 1) {
+                                    missingCount--;
+                                    start = start.Date.AddDays(1);
+                                    dt.Rows.Add(start, 0, 0, 0);
+                                }
+
                                 currentWins = 0;
+                                currentFinals = 0;
+                                currentShows = 0;
                                 start = info.StartLocal;
                             }
                         }
 
-                        dt.Rows.Add(start.Date, currentWins);
+                        dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
                     } else {
-                        dt.Rows.Add(DateTime.Now.Date, 0);
+                        dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
                     }
 
                     display.Details = dt;
@@ -905,11 +940,6 @@ namespace FallGuysStats {
                     rounds.AddRange(RoundDetails.Find(x => x.Start > SessionStart));
                 }
 
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
-
                 if (rounds.Count > 0 && (button == menuWeekStats || button == menuDayStats || button == menuSessionStats)) {
                     int minShowID = rounds[0].ShowID;
                     if (button == menuWeekStats) {
@@ -920,6 +950,11 @@ namespace FallGuysStats {
                         rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
                     }
                 }
+
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
 
                 CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                 SaveUserSettings();
@@ -997,7 +1032,7 @@ namespace FallGuysStats {
                             logFile.Start(logPath, LOGNAME);
                         }
 
-                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
+                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
                     }
                 }
             } catch (Exception ex) {
