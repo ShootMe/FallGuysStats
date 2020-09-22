@@ -450,36 +450,40 @@ namespace FallGuysStats {
             summary.TotalWins = 0;
             summary.TotalFinals = 0;
             int lastShow = -1;
-            DateTime showEnd = DateTime.MinValue;
-            for (int i = AllStats.Count - 1; i >= 0; i--) {
+            for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
 
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
                 bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
 
-                if (info.Crown || (hasLevelDetails && levelDetails.Type == LevelType.Final)) {
-                    showEnd = info.Start;
+                int currentShow = info.ShowID;
+                RoundInfo endShow = info;
+                for (int j = i + 1; j < AllStats.Count; j++) {
+                    if (AllStats[j].ShowID != currentShow) {
+                        break;
+                    }
+                    endShow = AllStats[j];
                 }
 
                 bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
-                        (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 2 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 3 && showEnd > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.QualifyFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
+                    (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
+                    (CurrentSettings.QualifyFilter == 2 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.QualifyFilter == 3 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.QualifyFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.QualifyFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
                 bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
-                        (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 2 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 3 && showEnd > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.FastestFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
+                    (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
+                    (CurrentSettings.FastestFilter == 2 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.FastestFilter == 3 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.FastestFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.FastestFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
                 bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
-                        (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(showEnd) && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 1 && showEnd > SeasonStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 2 && showEnd > WeekStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 4 && showEnd > DayStart && IsInPartyFilter(info)) ||
-                        (CurrentSettings.WinsFilter == 5 && showEnd > SessionStart && IsInPartyFilter(info));
+                    (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
+                    (CurrentSettings.WinsFilter == 1 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.WinsFilter == 2 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
+                    (CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
