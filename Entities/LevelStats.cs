@@ -58,13 +58,6 @@ namespace FallGuysStats {
             return Name.GetHashCode() ^ ShowID ^ Round;
         }
     }
-    public enum LevelType {
-        Race,
-        Survival,
-        Team,
-        Final,
-        Unknown
-    }
     public enum QualifyTier {
         None,
         Gold,

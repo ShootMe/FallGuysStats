@@ -174,9 +174,9 @@ namespace FallGuysStats {
                     break;
             }
         }
-        private void SetFastestLabel(StatSummary levelInfo) {
+        private void SetFastestLabel(StatSummary levelInfo, LevelStats level) {
             if (!StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                return;
+                switchCount = level.Type.FastestLabel();
             }
             switch (switchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
                 case 0:
@@ -230,7 +230,7 @@ namespace FallGuysStats {
 
                     if (isTimeToSwitch) {
                         SetQualifyChanceLabel(levelInfo);
-                        SetFastestLabel(levelInfo);
+                        SetFastestLabel(levelInfo, level);
                         switchCount++;
                     }
 
