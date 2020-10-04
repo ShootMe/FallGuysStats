@@ -112,9 +112,8 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.medal_eliminated;
                 }
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
-                string name = null;
-                if (LevelStats.DisplayNameLookup.TryGetValue((string)e.Value, out name)) {
-                    e.Value = name;
+                if (LevelStats.ALL.TryGetValue((string)e.Value, out var level)) {
+                    e.Value = level.Name;
                 }
             }
         }
@@ -138,10 +137,8 @@ namespace FallGuysStats {
                         roundCompare = one.Round.CompareTo(two.Round);
                         return roundCompare == 0 ? showCompare : roundCompare;
                     case "Name":
-                        string nameOne = one.Name;
-                        LevelStats.DisplayNameLookup.TryGetValue(one.Name, out nameOne);
-                        string nameTwo = two.Name;
-                        LevelStats.DisplayNameLookup.TryGetValue(two.Name, out nameTwo);
+                        string nameOne = LevelStats.ALL.TryGetValue(one.Name, out var level1) ? level1.Name : one.Name;
+                        string nameTwo = LevelStats.ALL.TryGetValue(two.Name, out var level2) ? level2.Name : two.Name;
                         int nameCompare = nameOne.CompareTo(nameTwo);
                         return nameCompare != 0 ? nameCompare : roundCompare;
                     case "Players":

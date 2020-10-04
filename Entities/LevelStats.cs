@@ -72,35 +72,35 @@ namespace FallGuysStats {
         Bronze
     }
     public class LevelStats {
-        public static Dictionary<string, string> DisplayNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-            { "round_door_dash",                  "Door Dash" },
-            { "round_gauntlet_02",                "Dizzy Heights" },
-            { "round_dodge_fall",                 "Fruit Chute" },
-            { "round_chompchomp",                 "Gate Crash" },
-            { "round_gauntlet_01",                "Hit Parade" },
-            { "round_see_saw",                    "See Saw" },
-            { "round_lava",                       "Slime Climb" },
-            { "round_tip_toe",                    "Tip Toe" },
-            { "round_gauntlet_03",                "Whirlygig" },
+        public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
+            { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, 1) },
+            { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, 1) },
+            { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, 1) },
+            { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, 1) },
+            { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, 1) },
+            { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, 1) },
+            { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, 1) },
+            { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, 1) },
+            { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, 1) },
 
-            { "round_block_party",                "Block Party" },
-            { "round_jump_club",                  "Jump Club" },
-            { "round_match_fall",                 "Perfect Match" },
-            { "round_tunnel",                     "Roll Out" },
-            { "round_tail_tag",                   "Tail Tag" },
+            { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, 1) },
+            { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, 1) },
+            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, 1) },
+            { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, 1) },
+            { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, 1) },
 
-            { "round_egg_grab",                   "Egg Scramble" },
-            { "round_fall_ball_60_players",       "Fall Ball" },
-            { "round_ballhogs",                   "Hoarders" },
-            { "round_hoops",                      "Hoopsie Daisy" },
-            { "round_jinxed",                     "Jinxed" },
-            { "round_rocknroll",                  "Rock'N'Roll" },
-            { "round_conveyor_arena",             "Team Tail Tag" },
+            { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, 1) },
+            { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team, 1) },
+            { "round_ballhogs",                   new LevelStats("Hoarders", LevelType.Team, 1) },
+            { "round_hoops",                      new LevelStats("Hoopsie Daisy", LevelType.Team, 1) },
+            { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, 1) },
+            { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, 1) },
+            { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, 1) },
 
-            { "round_fall_mountain_hub_complete", "Fall Mountain" },
-            { "round_floor_fall",                 "Hex-A-Gone" },
-            { "round_jump_showdown",              "Jump Showdown" },
-            { "round_royal_rumble",               "Royal Fumble" },
+            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Final,1) },
+            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Final,1) },
+            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Final,1) },
+            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Final,1) },
         };
 
         public string Name { get; set; }
@@ -116,18 +116,13 @@ namespace FallGuysStats {
         public LevelType Type;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
         public TimeSpan Duration;
-        public string LevelName;
         public List<RoundInfo> Stats;
+        public int Season;
 
-        public LevelStats(string levelName, LevelType type) {
-            string name = null;
-            if (DisplayNameLookup.TryGetValue(levelName, out name)) {
-                Name = name;
-            } else {
-                Name = levelName;
-            }
-            LevelName = levelName;
+        public LevelStats(string levelName, LevelType type, int season) {
+            Name = levelName;
             Type = type;
+            Season = season;
             Stats = new List<RoundInfo>();
             Clear();
         }
@@ -146,12 +141,16 @@ namespace FallGuysStats {
         public void Add(RoundInfo stat) {
             Stats.Add(stat);
             Played++;
-            if (stat.Tier == (int)QualifyTier.Gold) {
-                Gold++;
-            } else if (stat.Tier == (int)QualifyTier.Silver) {
-                Silver++;
-            } else if (stat.Tier == (int)QualifyTier.Bronze) {
-                Bronze++;
+            switch (stat.Tier) {
+                case (int)QualifyTier.Gold:
+                    Gold++;
+                    break;
+                case (int)QualifyTier.Silver:
+                    Silver++;
+                    break;
+                case (int)QualifyTier.Bronze:
+                    Bronze++;
+                    break;
             }
             Kudos += stat.Kudos;
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
