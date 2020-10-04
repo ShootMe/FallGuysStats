@@ -264,6 +264,7 @@ namespace FallGuysStats {
                 string detail;
                 bool foundRound = false;
                 int maxRound = 0;
+                DateTime showStart = DateTime.MinValue;
                 while ((detail = sr.ReadLine()) != null) {
                     if (detail.IndexOf("[Round ", StringComparison.OrdinalIgnoreCase) == 0) {
                         foundRound = true;
@@ -279,6 +280,10 @@ namespace FallGuysStats {
                                 return false;
                             }
 
+                            if (roundNum == 1) {
+                                showStart = temp.Start;
+                            }
+                            temp.ShowStart = showStart;
                             temp.Playing = false;
                             temp.Round = roundNum;
                             currentlyInParty = temp.InParty;
