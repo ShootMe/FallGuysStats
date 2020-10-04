@@ -27,8 +27,6 @@ namespace FallGuysStats {
         private bool flippedImage;
         private int frameCount;
         private int labelToShow;
-        private int qualifyChanceLabel;
-        private int fastestLabel;
         private Sender NDISender;
         private VideoFrame NDIFrame;
         private Bitmap NDIImage, DrawImage, Background;
@@ -151,13 +149,9 @@ namespace FallGuysStats {
                         if (StatsForm.CurrentSettings.SwitchBetweenLongest) {
                             if ((frameCount % (StatsForm.CurrentSettings.CycleTimeSeconds * 20)) == 0) {
                                 labelToShow++;
-                                qualifyChanceLabel = ++qualifyChanceLabel % 2;
-                                fastestLabel = ++fastestLabel % (levelInfo.BestScore.HasValue ? 3 : 2);
                             }
                         } else {
                             labelToShow = 0;
-                            qualifyChanceLabel = 0;
-                            fastestLabel = 0;
                         }
 
                         this.Invoke((Action)UpdateInfo);
@@ -168,35 +162,6 @@ namespace FallGuysStats {
                 } catch { }
             }
         }
-
-        private void SetQualifyChanceLabel() {
-            switch (qualifyChanceLabel) {
-                case 0: 
-                    lblQualifyChance.Text = "QUALIFY:";
-                    float qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
-                case 1: 
-                    lblQualifyChance.Text = "GOLD:";
-                    float qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
-            }
-        }
-
-        private void SetFastestLabel() {
-            switch (qualifyChanceLabel) {
-                case 0: 
-                    lblFastest.Text = "FASTEST:";
-                    lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
-                case 1: 
-                    lblFastest.Text = "LONGEST:";
-                    lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
-                case 2: 
-                    lblFastest.Text = "HIGH SCORE:";
-                    lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
-            }
-
-        }
-
         private void UpdateInfo() {
             if (StatsForm == null) { return; }
 
@@ -234,9 +199,27 @@ namespace FallGuysStats {
 
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
-                    SetQualifyChanceLabel();
+                    if ((labelToShow % 2) == 0) {
+                        lblQualifyChance.Text = "QUALIFY:";
+                        float qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    } else {
+                        lblQualifyChance.Text = "GOLD:";
+                        float qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    }
 
-                    SetFastestLabel();
+                    int modCount = levelInfo.BestScore.HasValue ? 3 : 2;
+                    if ((labelToShow % modCount) == 1) {
+                        lblFastest.Text = "FASTEST:";
+                        lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
+                    } else if ((labelToShow % modCount) == 2) {
+                        lblFastest.Text = "HIGH SCORE:";
+                        lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
+                    } else {
+                        lblFastest.Text = "LONGEST:";
+                        lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                    }
 
                     DateTime Start = lastRound.Start;
                     DateTime End = lastRound.End;
