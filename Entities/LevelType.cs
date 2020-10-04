@@ -3,7 +3,6 @@
         Race,
         Survival,
         Team,
-        Final,
         Unknown
     }
     static class LevelTypeBehavior {
