@@ -72,35 +72,35 @@ namespace FallGuysStats {
         Bronze
     }
     public class LevelStats {
-        public static Dictionary<string, string> DisplayNameLookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-            { "round_door_dash",                  "Door Dash" },
-            { "round_gauntlet_02",                "Dizzy Heights" },
-            { "round_dodge_fall",                 "Fruit Chute" },
-            { "round_chompchomp",                 "Gate Crash" },
-            { "round_gauntlet_01",                "Hit Parade" },
-            { "round_see_saw",                    "See Saw" },
-            { "round_lava",                       "Slime Climb" },
-            { "round_tip_toe",                    "Tip Toe" },
-            { "round_gauntlet_03",                "Whirlygig" },
+        public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
+            { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race,false, 1) },
+            { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race,false, 1) },
+            { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race,false, 1) },
+            { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race,false, 1) },
+            { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race,false, 1) },
+            { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race,false, 1) },
+            { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race,false, 1) },
+            { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race,false, 1) },
+            { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race,false, 1) },
 
-            { "round_block_party",                "Block Party" },
-            { "round_jump_club",                  "Jump Club" },
-            { "round_match_fall",                 "Perfect Match" },
-            { "round_tunnel",                     "Roll Out" },
-            { "round_tail_tag",                   "Tail Tag" },
+            { "round_block_party",                new LevelStats("Block Party", LevelType.Survival,false, 1) },
+            { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival,false, 1) },
+            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival,false, 1) },
+            { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival,false, 1) },
+            { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival,false, 1) },
 
-            { "round_egg_grab",                   "Egg Scramble" },
-            { "round_fall_ball_60_players",       "Fall Ball" },
-            { "round_ballhogs",                   "Hoarders" },
-            { "round_hoops",                      "Hoopsie Daisy" },
-            { "round_jinxed",                     "Jinxed" },
-            { "round_rocknroll",                  "Rock'N'Roll" },
-            { "round_conveyor_arena",             "Team Tail Tag" },
+            { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team,false, 1) },
+            { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team,false, 1) },
+            { "round_ballhogs",                   new LevelStats("Hoarders", LevelType.Team,false, 1) },
+            { "round_hoops",                      new LevelStats("Hoopsie Daisy", LevelType.Team,false, 1) },
+            { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team,false, 1) },
+            { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team,false, 1) },
+            { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team,false, 1) },
 
-            { "round_fall_mountain_hub_complete", "Fall Mountain" },
-            { "round_floor_fall",                 "Hex-A-Gone" },
-            { "round_jump_showdown",              "Jump Showdown" },
-            { "round_royal_rumble",               "Royal Fumble" },
+            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race,true,1) },
+            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival,true,1) },
+            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival,true,1) },
+            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Unknown,true,1) },
         };
 
         public string Name { get; set; }
@@ -116,18 +116,13 @@ namespace FallGuysStats {
         public LevelType Type;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
         public TimeSpan Duration;
-        public string LevelName;
         public List<RoundInfo> Stats;
+        public int Season;
 
-        public LevelStats(string levelName, LevelType type) {
-            string name = null;
-            if (DisplayNameLookup.TryGetValue(levelName, out name)) {
-                Name = name;
-            } else {
-                Name = levelName;
-            }
-            LevelName = levelName;
+        public LevelStats(string levelName, LevelType type, int season) {
+            Name = levelName;
             Type = type;
+            Season = season;
             Stats = new List<RoundInfo>();
             Clear();
         }
