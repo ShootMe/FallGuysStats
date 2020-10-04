@@ -28,6 +28,7 @@
             this.lblLogPathNote = new System.Windows.Forms.Label();
             this.txtLogPath = new System.Windows.Forms.TextBox();
             this.btnSave = new System.Windows.Forms.Button();
+            this.chkCycleOverlayQualify = new System.Windows.Forms.CheckBox();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
             this.cboOverlayColor = new System.Windows.Forms.ComboBox();
@@ -90,7 +91,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(269, 326);
+            this.btnSave.Location = new System.Drawing.Point(269, 352);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
@@ -101,12 +102,22 @@
             // chkCycleOverlayLongest
             // 
             this.chkCycleOverlayLongest.AutoSize = true;
-            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(15, 122);
+            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(15, 148);
             this.chkCycleOverlayLongest.Name = "chkCycleOverlayLongest";
             this.chkCycleOverlayLongest.Size = new System.Drawing.Size(232, 17);
             this.chkCycleOverlayLongest.TabIndex = 4;
-            this.chkCycleOverlayLongest.Text = "Cycle Fastest / Longest and Qualify / Golds";
+            this.chkCycleOverlayLongest.Text = "Cycle Fastest / Longest";
             this.chkCycleOverlayLongest.UseVisualStyleBackColor = true;
+            // 
+            // chkCycleOverlayQualify
+            // 
+            this.chkCycleOverlayQualify.AutoSize = true;
+            this.chkCycleOverlayQualify.Location = new System.Drawing.Point(15, 122);
+            this.chkCycleOverlayQualify.Name = "chkCycleOverlayQualify";
+            this.chkCycleOverlayQualify.Size = new System.Drawing.Size(232, 17);
+            this.chkCycleOverlayQualify.TabIndex = 4;
+            this.chkCycleOverlayQualify.Text = "Cycle Qualify / Gold";
+            this.chkCycleOverlayQualify.UseVisualStyleBackColor = true;
             // 
             // grpOverlay
             // 
@@ -128,10 +139,11 @@
             this.grpOverlay.Controls.Add(this.lblCycleTimeSecondsTag);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
+            this.grpOverlay.Controls.Add(this.chkCycleOverlayQualify);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
             this.grpOverlay.Location = new System.Drawing.Point(12, 114);
             this.grpOverlay.Name = "grpOverlay";
-            this.grpOverlay.Size = new System.Drawing.Size(590, 199);
+            this.grpOverlay.Size = new System.Drawing.Size(590, 225);
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
@@ -289,7 +301,7 @@
             // chkUseNDI
             // 
             this.chkUseNDI.AutoSize = true;
-            this.chkUseNDI.Location = new System.Drawing.Point(15, 169);
+            this.chkUseNDI.Location = new System.Drawing.Point(15, 200);
             this.chkUseNDI.Name = "chkUseNDI";
             this.chkUseNDI.Size = new System.Drawing.Size(234, 17);
             this.chkUseNDI.TabIndex = 8;
@@ -299,7 +311,7 @@
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
-            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(140, 148);
+            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(140, 174);
             this.lblCycleTimeSecondsTag.Name = "lblCycleTimeSecondsTag";
             this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(24, 13);
             this.lblCycleTimeSecondsTag.TabIndex = 7;
@@ -308,7 +320,7 @@
             // lblCycleTimeSeconds
             // 
             this.lblCycleTimeSeconds.AutoSize = true;
-            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(34, 148);
+            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(34, 174);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
             this.lblCycleTimeSeconds.Size = new System.Drawing.Size(59, 13);
             this.lblCycleTimeSeconds.TabIndex = 5;
@@ -316,7 +328,7 @@
             // 
             // txtCycleTimeSeconds
             // 
-            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(99, 145);
+            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(99, 174);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
             this.txtCycleTimeSeconds.Size = new System.Drawing.Size(35, 20);
@@ -394,7 +406,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 361);
+            this.ClientSize = new System.Drawing.Size(614, 390);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.btnSave);
@@ -426,6 +438,7 @@
         private System.Windows.Forms.Label lblLogPathNote;
         private System.Windows.Forms.TextBox txtLogPath;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.CheckBox chkCycleOverlayQualify;
         private System.Windows.Forms.CheckBox chkCycleOverlayLongest;
         private System.Windows.Forms.GroupBox grpOverlay;
         private System.Windows.Forms.Label lblCycleTimeSecondsTag;
