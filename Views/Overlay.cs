@@ -210,10 +210,8 @@ namespace FallGuysStats {
 
                 if (lastRound != null) {
                     lblName.Text = $"ROUND {lastRound.Round}:";
-
-                    string displayName = string.Empty;
-                    LevelStats.DisplayNameLookup.TryGetValue(lastRound.Name, out displayName);
-                    lblName.TextRight = displayName.ToUpper();
+                    
+                    lblName.TextRight = LevelStats.ALL.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : String.Empty;
                     lblPlayers.TextRight = lastRound.Players.ToString();
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
