@@ -156,47 +156,43 @@ namespace FallGuysStats {
                 } catch { }
             }
         }
-
         private void SetQualifyChanceLabel(StatSummary levelInfo) {
             if (!StatsForm.CurrentSettings.SwitchBetweenQualify) {
                 return;
             }
             float qualifyChance;
             switch (switchCount % 2) {
-                case 0: 
+                case 0:
                     lblQualifyChance.Text = "QUALIFY:";
                     qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     break;
-                case 1: 
+                case 1:
                     lblQualifyChance.Text = "GOLD:";
                     qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
                     break;
             }
         }
-
         private void SetFastestLabel(StatSummary levelInfo) {
             if (!StatsForm.CurrentSettings.SwitchBetweenLongest) {
                 return;
             }
             switch (switchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
-                case 0: 
+                case 0:
                     lblFastest.Text = "FASTEST:";
                     lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     break;
-                case 1: 
+                case 1:
                     lblFastest.Text = "LONGEST:";
                     lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     break;
-                case 2: 
+                case 2:
                     lblFastest.Text = "HIGH SCORE:";
                     lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
                     break;
             }
-
         }
-
         private void UpdateInfo() {
             if (StatsForm == null) { return; }
 

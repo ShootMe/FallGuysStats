@@ -117,6 +117,7 @@ namespace FallGuysStats {
             StatsDB.Pragma("UTC_DATE", true);
             RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
             UserSettings = StatsDB.GetCollection<UserSettings>("UserSettings");
+
             StatsDB.BeginTrans();
             if (UserSettings.Count() == 0) {
                 CurrentSettings = GetDefaultSettings();
@@ -130,6 +131,14 @@ namespace FallGuysStats {
                     UserSettings.Insert(CurrentSettings);
                 }
             }
+
+            RoundDetails.EnsureIndex(x => x.Name);
+            RoundDetails.EnsureIndex(x => x.ShowID);
+            RoundDetails.EnsureIndex(x => x.Round);
+            RoundDetails.EnsureIndex(x => x.Start);
+            RoundDetails.EnsureIndex(x => x.InParty);
+            StatsDB.Commit();
+
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -144,12 +153,11 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            RoundDetails.EnsureIndex(x => x.Name);
-            RoundDetails.EnsureIndex(x => x.ShowID);
-            RoundDetails.EnsureIndex(x => x.Round);
-            RoundDetails.EnsureIndex(x => x.Start);
-            RoundDetails.EnsureIndex(x => x.InParty);
-            StatsDB.Commit();
+            if (CurrentSettings.Version == 0) {
+                CurrentSettings.SwitchBetweenQualify = CurrentSettings.SwitchBetweenLongest;
+                CurrentSettings.Version = 1;
+                SaveUserSettings();
+            }
 
             CurrentRound = new List<RoundInfo>();
 
@@ -186,7 +194,8 @@ namespace FallGuysStats {
                 FormLocationX = null,
                 FormLocationY = null,
                 OverlayWidth = 786,
-                OverlayHeight = 99
+                OverlayHeight = 99,
+                Version = 1
             };
         }
         public void UpdateDates() {
