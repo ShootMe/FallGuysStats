@@ -169,6 +169,7 @@ namespace FallGuysStats {
                 OverlayLocationX = null,
                 OverlayLocationY = null,
                 SwitchBetweenLongest = true,
+                SwitchBetweenQualify = true,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
