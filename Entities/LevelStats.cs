@@ -146,12 +146,16 @@ namespace FallGuysStats {
         public void Add(RoundInfo stat) {
             Stats.Add(stat);
             Played++;
-            if (stat.Tier == (int)QualifyTier.Gold) {
-                Gold++;
-            } else if (stat.Tier == (int)QualifyTier.Silver) {
-                Silver++;
-            } else if (stat.Tier == (int)QualifyTier.Bronze) {
-                Bronze++;
+            switch (stat.Tier) {
+                case (int)QualifyTier.Gold:
+                    Gold++;
+                    break;
+                case (int)QualifyTier.Silver:
+                    Silver++;
+                    break;
+                case (int)QualifyTier.Bronze:
+                    Bronze++;
+                    break;
             }
             Kudos += stat.Kudos;
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
