@@ -26,6 +26,11 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.77
+    - Added individual option for Cycle Qualify / Gold and Cycle Fastest / Longest to settings
+  - 1.76
+    - Moved Season 2 start date to Oct 8th
+    - Added ability to choose when starting program to include previous stats or not
   - 1.75
     - Fixed streak count on overlay
   - 1.74
