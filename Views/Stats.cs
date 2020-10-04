@@ -599,59 +599,82 @@ namespace FallGuysStats {
 
                 LevelStats info = gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
 
-                if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
-                    switch (info.Type) {
-                        case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
-                        case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
-                        case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
-                        case LevelType.Final: e.CellStyle.BackColor = Color.Pink; break;
-                        case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
+                switch (gridDetails.Columns[e.ColumnIndex].Name) {
+                    case "Name":
+                        switch (info.Type) {
+                            case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
+                            case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
+                            case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
+                            case LevelType.Final: e.CellStyle.BackColor = Color.Pink; break;
+                            case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
+                        }
+
+                        break;
+                    case "Info" when e.Value == null:
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
+                        e.Value = Properties.Resources.info;
+                        break;
+                    case "Qualified":
+                    {
+                        float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
+                        } else {
+                            e.Value = info.Qualified;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                        }
+
+                        break;
                     }
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Info" && e.Value == null) {
-                    gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
-                    e.Value = Properties.Resources.info;
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
-                    float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
-                    if (CurrentSettings.ShowPercentages) {
-                        e.Value = $"{qualifyChance:0.0}%";
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
-                    } else {
-                        e.Value = info.Qualified;
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    case "Gold":
+                    {
+                        float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
+                        } else {
+                            e.Value = info.Gold;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                        }
+
+                        break;
                     }
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Gold") {
-                    float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
-                    if (CurrentSettings.ShowPercentages) {
-                        e.Value = $"{qualifyChance:0.0}%";
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
-                    } else {
-                        e.Value = info.Gold;
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    case "Silver":
+                    {
+                        float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
+                        } else {
+                            e.Value = info.Silver;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                        }
+
+                        break;
                     }
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Silver") {
-                    float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
-                    if (CurrentSettings.ShowPercentages) {
-                        e.Value = $"{qualifyChance:0.0}%";
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
-                    } else {
-                        e.Value = info.Silver;
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                    case "Bronze":
+                    {
+                        float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
+                        } else {
+                            e.Value = info.Bronze;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                        }
+
+                        break;
                     }
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Bronze") {
-                    float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
-                    if (CurrentSettings.ShowPercentages) {
-                        e.Value = $"{qualifyChance:0.0}%";
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
-                    } else {
-                        e.Value = info.Bronze;
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
-                    }
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "AveDuration") {
-                    e.Value = info.AveDuration.ToString("m\\:ss");
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Fastest") {
-                    e.Value = info.Fastest.ToString("m\\:ss\\.ff");
-                } else if (gridDetails.Columns[e.ColumnIndex].Name == "Longest") {
-                    e.Value = info.Longest.ToString("m\\:ss\\.ff");
+                    case "AveDuration":
+                        e.Value = info.AveDuration.ToString("m\\:ss");
+                        break;
+                    case "Fastest":
+                        e.Value = info.Fastest.ToString("m\\:ss\\.ff");
+                        break;
+                    case "Longest":
+                        e.Value = info.Longest.ToString("m\\:ss\\.ff");
+                        break;
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
