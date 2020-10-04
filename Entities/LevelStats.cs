@@ -21,6 +21,7 @@ namespace FallGuysStats {
         public DateTime StartLocal;
         public DateTime EndLocal;
         public DateTime? FinishLocal;
+        public DateTime ShowStart = DateTime.MinValue;
         public bool Playing;
         public bool setLocalTime;
 

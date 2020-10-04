@@ -39,7 +39,7 @@ namespace FallGuysStats {
         private static string LOGNAME = "Player.log";
         private static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 10, 6, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -65,6 +65,8 @@ namespace FallGuysStats {
         public UserSettings CurrentSettings;
         private Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
+        private DateTime startupTime = DateTime.UtcNow;
+        private int askedPreviousShows = 0;
         public Stats() {
             InitializeComponent();
 
@@ -355,6 +357,11 @@ namespace FallGuysStats {
         }
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
             try {
+                if (this.InvokeRequired) {
+                    this.Invoke((Action<List<RoundInfo>>)LogFile_OnParsedLogLines, round);
+                    return;
+                }
+
                 lock (StatsDB) {
                     if (!loadingExisting) { StatsDB.BeginTrans(); }
 
@@ -368,7 +375,20 @@ namespace FallGuysStats {
                                     break;
                                 }
                             }
+
                             if (info == null && stat.Start > lastAddedShow) {
+                                if (stat.ShowStart < startupTime && askedPreviousShows == 0) {
+                                    if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                                        askedPreviousShows = 1;
+                                    } else {
+                                        askedPreviousShows = 2;
+                                    }
+                                }
+
+                                if (stat.ShowStart < startupTime && askedPreviousShows == 2) {
+                                    continue;
+                                }
+
                                 if (stat.Round == 1) {
                                     nextShowID++;
                                     lastAddedShow = stat.Start;
@@ -420,11 +440,11 @@ namespace FallGuysStats {
 
                 if (!this.Disposing && !this.IsDisposed) {
                     try {
-                        this.Invoke((Action)UpdateTotals);
+                        UpdateTotals();
                     } catch { }
                 }
             } catch (Exception ex) {
-                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool IsInStatsFilter(DateTime showEnd) {
