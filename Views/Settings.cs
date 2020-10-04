@@ -10,6 +10,7 @@ namespace FallGuysStats {
         private void Settings_Load(object sender, EventArgs e) {
             txtLogPath.Text = CurrentSettings.LogPath;
             chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
+            chkCycleOverlayQualify.Checked = CurrentSettings.SwitchBetweenQualify;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
@@ -77,6 +78,7 @@ namespace FallGuysStats {
             }
 
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
+            CurrentSettings.SwitchBetweenQualify = chkCycleOverlayQualify.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
