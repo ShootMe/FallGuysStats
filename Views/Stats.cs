@@ -391,12 +391,12 @@ namespace FallGuysStats {
                         Kudos += stat.Kudos;
 
                         if (!StatLookup.ContainsKey(stat.Name)) {
-                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown, 0));
+                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown, false, 0));
                         }
 
                         stat.ToLocalTime();
                         LevelStats levelStats = StatLookup[stat.Name];
-                        if (levelStats.Type == LevelType.Final || stat.Crown) {
+                        if (levelStats.IsFinal || stat.Crown) {
                             Finals++;
                             if (stat.Qualified) {
                                 Wins++;
@@ -506,7 +506,7 @@ namespace FallGuysStats {
                 }
 
                 if (info.Qualified) {
-                    if (hasLevelDetails && levelDetails.Type == LevelType.Final) {
+                    if (hasLevelDetails && levelDetails.IsFinal) {
                         summary.AllWins++;
 
                         if (isInWinsFilter) {
@@ -539,7 +539,7 @@ namespace FallGuysStats {
                     }
                 } else {
                     summary.CurrentStreak = 0;
-                    if (isInWinsFilter && hasLevelDetails && levelDetails.Type == LevelType.Final) {
+                    if (isInWinsFilter && hasLevelDetails && levelDetails.IsFinal) {
                         summary.TotalFinals++;
                     }
                 }
@@ -601,11 +601,14 @@ namespace FallGuysStats {
 
                 switch (gridDetails.Columns[e.ColumnIndex].Name) {
                     case "Name":
+                        if (info.IsFinal) {
+                            e.CellStyle.BackColor = Color.Pink;
+                            break;
+                        }
                         switch (info.Type) {
                             case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
                             case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
-                            case LevelType.Final: e.CellStyle.BackColor = Color.Pink; break;
                             case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                         }
 
@@ -795,7 +798,7 @@ namespace FallGuysStats {
                             endDate = info.End;
                             won = info.Qualified;
                             LevelStats levelStats = StatLookup[info.Name];
-                            isFinal = levelStats.Type == LevelType.Final;
+                            isFinal = levelStats.IsFinal;
                         }
                         roundCount++;
                         kudosTotal += info.Kudos;
@@ -862,7 +865,7 @@ namespace FallGuysStats {
                             if (info.Round == 1) {
                                 currentShows++;
                             }
-                            if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.Type == LevelType.Final)) {
+                            if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.IsFinal)) {
                                 currentFinals++;
                                 if (info.Qualified) {
                                     currentWins++;
