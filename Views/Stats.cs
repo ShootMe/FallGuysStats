@@ -77,38 +77,9 @@ namespace FallGuysStats {
             logFile.OnError += LogFile_OnError;
             logFile.OnParsedLogLinesCurrent += LogFile_OnParsedLogLinesCurrent;
 
-            StatDetails.Add(new LevelStats("round_gauntlet_02", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_door_dash", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_dodge_fall", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_chompchomp", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_gauntlet_01", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_see_saw", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_lava", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_tip_toe", LevelType.Race));
-            StatDetails.Add(new LevelStats("round_gauntlet_03", LevelType.Race));
-
-            StatDetails.Add(new LevelStats("round_block_party", LevelType.Survival));
-            StatDetails.Add(new LevelStats("round_jump_club", LevelType.Survival));
-            StatDetails.Add(new LevelStats("round_match_fall", LevelType.Survival));
-            StatDetails.Add(new LevelStats("round_tunnel", LevelType.Survival));
-            StatDetails.Add(new LevelStats("round_tail_tag", LevelType.Survival));
-
-            StatDetails.Add(new LevelStats("round_egg_grab", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_fall_ball_60_players", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_ballhogs", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_hoops", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_jinxed", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_rocknroll", LevelType.Team));
-            StatDetails.Add(new LevelStats("round_conveyor_arena", LevelType.Team));
-
-            StatDetails.Add(new LevelStats("round_fall_mountain_hub_complete", LevelType.Final));
-            StatDetails.Add(new LevelStats("round_floor_fall", LevelType.Final));
-            StatDetails.Add(new LevelStats("round_jump_showdown", LevelType.Final));
-            StatDetails.Add(new LevelStats("round_royal_rumble", LevelType.Final));
-
-            for (int i = 0; i < StatDetails.Count; i++) {
-                LevelStats calculator = StatDetails[i];
-                StatLookup.Add(calculator.LevelName, calculator);
+            foreach (var entry in LevelStats.ALL) {
+                StatDetails.Add(entry.Value);
+                StatLookup.Add(entry.Key, entry.Value);
             }
 
             gridDetails.DataSource = StatDetails;
@@ -420,7 +391,7 @@ namespace FallGuysStats {
                         Kudos += stat.Kudos;
 
                         if (!StatLookup.ContainsKey(stat.Name)) {
-                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown));
+                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown, 0));
                         }
 
                         stat.ToLocalTime();
