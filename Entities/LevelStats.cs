@@ -23,7 +23,8 @@ namespace FallGuysStats {
         public DateTime? FinishLocal;
         public DateTime ShowStart = DateTime.MinValue;
         public bool Playing;
-        public bool setLocalTime;
+        public int Ping;
+        private bool setLocalTime;
 
         public void ToLocalTime() {
             if (setLocalTime) { return; }

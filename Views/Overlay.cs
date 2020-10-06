@@ -157,12 +157,13 @@ namespace FallGuysStats {
             }
         }
         private void SetQualifyChanceLabel(StatSummary levelInfo) {
+            int qualifySwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenQualify) {
-                return;
+                qualifySwitchCount = 0;
             }
             float qualifyChance;
             string qualifyChanceDisplay;
-            switch (switchCount % 2) {
+            switch (qualifySwitchCount % 2) {
                 case 0:
                     lblQualifyChance.Text = "QUALIFY:";
                     qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
@@ -178,21 +179,38 @@ namespace FallGuysStats {
             }
         }
         private void SetFastestLabel(StatSummary levelInfo, LevelStats level) {
+            int fastestSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                switchCount = level.Type.FastestLabel();
+                fastestSwitchCount = level.Type.FastestLabel();
             }
-            switch (switchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
+            switch (fastestSwitchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
                 case 0:
-                    lblFastest.Text = "FASTEST:";
-                    lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
-                    break;
-                case 1:
                     lblFastest.Text = "LONGEST:";
                     lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                    break;
+                case 1:
+                    lblFastest.Text = "FASTEST:";
+                    lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     break;
                 case 2:
                     lblFastest.Text = "HIGH SCORE:";
                     lblFastest.TextRight = levelInfo.BestScore.Value.ToString();
+                    break;
+            }
+        }
+        private void SetPlayersLabel() {
+            int playersSwitchCount = switchCount;
+            if (!StatsForm.CurrentSettings.SwitchBetweenPlayers) {
+                playersSwitchCount = 0;
+            }
+            switch (playersSwitchCount % 2) {
+                case 0:
+                    lblPlayers.Text = "PLAYERS:";
+                    lblPlayers.TextRight = lastRound?.Players.ToString();
+                    break;
+                case 1:
+                    lblPlayers.Text = "PING:";
+                    lblPlayers.TextRight = $"{lastRound?.Ping} ms";
                     break;
             }
         }
@@ -215,7 +233,6 @@ namespace FallGuysStats {
                     lblName.Text = $"ROUND {lastRound.Round}:";
 
                     lblName.TextRight = LevelStats.ALL.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : string.Empty;
-                    lblPlayers.TextRight = lastRound.Players.ToString();
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
@@ -234,9 +251,10 @@ namespace FallGuysStats {
 
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
+                    SetQualifyChanceLabel(levelInfo);
+                    SetFastestLabel(levelInfo, level);
+                    SetPlayersLabel();
                     if (isTimeToSwitch) {
-                        SetQualifyChanceLabel(levelInfo);
-                        SetFastestLabel(levelInfo, level);
                         switchCount++;
                     }
 

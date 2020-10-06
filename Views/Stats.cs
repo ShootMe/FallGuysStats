@@ -130,6 +130,12 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
+            if (CurrentSettings.Version == 1) {
+                CurrentSettings.SwitchBetweenPlayers = CurrentSettings.SwitchBetweenLongest;
+                CurrentSettings.Version = 2;
+                SaveUserSettings();
+            }
+
             CurrentRound = new List<RoundInfo>();
 
             overlay = new Overlay() { StatsForm = this };
@@ -149,6 +155,7 @@ namespace FallGuysStats {
                 OverlayLocationY = null,
                 SwitchBetweenLongest = true,
                 SwitchBetweenQualify = true,
+                SwitchBetweenPlayers = true,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
@@ -166,7 +173,8 @@ namespace FallGuysStats {
                 FormLocationY = null,
                 OverlayWidth = 786,
                 OverlayHeight = 99,
-                Version = 1
+                HideOverlayPercentages = false,
+                Version = 2
             };
         }
         public void UpdateDates() {

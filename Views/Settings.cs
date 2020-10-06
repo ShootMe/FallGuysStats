@@ -11,6 +11,7 @@ namespace FallGuysStats {
             txtLogPath.Text = CurrentSettings.LogPath;
             chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
             chkCycleOverlayQualify.Checked = CurrentSettings.SwitchBetweenQualify;
+            chkCycleOverlayPlayers.Checked = CurrentSettings.SwitchBetweenPlayers;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
@@ -80,6 +81,7 @@ namespace FallGuysStats {
 
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.SwitchBetweenQualify = chkCycleOverlayQualify.Checked;
+            CurrentSettings.SwitchBetweenPlayers = chkCycleOverlayPlayers.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
@@ -97,7 +99,7 @@ namespace FallGuysStats {
             CurrentSettings.AutoUpdate = chkAutoUpdate.Checked;
             CurrentSettings.FlippedDisplay = chkFlipped.Checked;
             CurrentSettings.HideOverlayPercentages = chkHidePercentages.Checked;
-
+            
             switch ((string)cboOverlayColor.SelectedItem) {
                 case "Magenta": CurrentSettings.OverlayColor = 0; break;
                 case "Blue": CurrentSettings.OverlayColor = 1; break;
@@ -138,9 +140,9 @@ namespace FallGuysStats {
                     case 1: CurrentSettings.OverlayWidth = 786 - 225 - 6; break;
                     case 2: CurrentSettings.OverlayWidth = 786 - 281 - 6; break;
                     case 3: CurrentSettings.OverlayWidth = 786 - 281 - 225 - 12; break;
-                    case 4: CurrentSettings.OverlayWidth = 786 - 238 - 6; break;
-                    case 5: CurrentSettings.OverlayWidth = 786 - 238 - 225 - 12; break;
-                    case 6: CurrentSettings.OverlayWidth = 786 - 238 - 281 - 12; break;
+                    case 4: CurrentSettings.OverlayWidth = 786 - 242 - 6; break;
+                    case 5: CurrentSettings.OverlayWidth = 786 - 242 - 225 - 12; break;
+                    case 6: CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; break;
                 }
                 
                 if (CurrentSettings.ShowOverlayTabs) {
