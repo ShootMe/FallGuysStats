@@ -210,7 +210,7 @@ namespace FallGuysStats {
                     break;
                 case 1:
                     lblPlayers.Text = "PING:";
-                    lblPlayers.TextRight = $"{lastRound?.Ping} ms";
+                    lblPlayers.TextRight = Stats.InShow ? $"{Stats.LastServerPing} ms" : "-";
                     break;
             }
         }
