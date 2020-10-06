@@ -45,6 +45,7 @@ namespace FallGuysStats {
         private static DateTime SessionStart = DateTime.UtcNow;
         public static bool InShow = false;
         public static bool EndedShow = false;
+        public static int LastServerPing = 0;
 
         public List<LevelStats> StatDetails = new List<LevelStats>();
         public List<RoundInfo> CurrentRound = null;

@@ -241,7 +241,7 @@ namespace FallGuysStats {
                 index = line.Line.IndexOf("RTT: ");
                 if (index > 0) {
                     int msIndex = line.Line.IndexOf("ms", index);
-                    stat.Ping = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
+                    Stats.LastServerPing = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
                 }
             } else if (stat != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                 stat.Start = line.Date;
