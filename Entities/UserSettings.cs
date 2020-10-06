@@ -28,6 +28,7 @@
         public int? FormLocationY { get; set; }
         public int? OverlayWidth { get; set; }
         public int? OverlayHeight { get; set; }
+        public bool HideOverlayPercentages { get; set; }
         public int Version { get; set; }
     }
 }
