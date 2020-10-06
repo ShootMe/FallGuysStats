@@ -50,7 +50,7 @@
             // 
             this.lblStreak.Location = new System.Drawing.Point(22, 55);
             this.lblStreak.Name = "lblStreak";
-            this.lblStreak.Size = new System.Drawing.Size(238, 22);
+            this.lblStreak.Size = new System.Drawing.Size(242, 22);
             this.lblStreak.TabIndex = 21;
             this.lblStreak.Text = "STREAK:";
             this.lblStreak.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -61,16 +61,16 @@
             // 
             this.lblFinals.Location = new System.Drawing.Point(22, 32);
             this.lblFinals.Name = "lblFinals";
-            this.lblFinals.Size = new System.Drawing.Size(238, 22);
+            this.lblFinals.Size = new System.Drawing.Size(242, 22);
             this.lblFinals.TabIndex = 5;
-            this.lblFinals.Text = "FINAL:";
+            this.lblFinals.Text = "FINALS:";
             this.lblFinals.TextAlign = System.Drawing.ContentAlignment.TopRight;
             this.lblFinals.TextRight = "0 - 0.0%";
             this.lblFinals.Visible = false;
             // 
             // lblQualifyChance
             // 
-            this.lblQualifyChance.Location = new System.Drawing.Point(268, 32);
+            this.lblQualifyChance.Location = new System.Drawing.Point(270, 32);
             this.lblQualifyChance.Name = "lblQualifyChance";
             this.lblQualifyChance.Size = new System.Drawing.Size(281, 22);
             this.lblQualifyChance.TabIndex = 14;
@@ -81,7 +81,7 @@
             // 
             // lblFastest
             // 
-            this.lblFastest.Location = new System.Drawing.Point(268, 55);
+            this.lblFastest.Location = new System.Drawing.Point(270, 55);
             this.lblFastest.Name = "lblFastest";
             this.lblFastest.Size = new System.Drawing.Size(281, 22);
             this.lblFastest.TabIndex = 16;
@@ -115,7 +115,7 @@
             // lblName
             // 
             this.lblName.AutoEllipsis = true;
-            this.lblName.Location = new System.Drawing.Point(268, 9);
+            this.lblName.Location = new System.Drawing.Point(270, 9);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(281, 22);
             this.lblName.TabIndex = 10;
@@ -128,7 +128,7 @@
             // 
             this.lblWins.Location = new System.Drawing.Point(22, 9);
             this.lblWins.Name = "lblWins";
-            this.lblWins.Size = new System.Drawing.Size(238, 22);
+            this.lblWins.Size = new System.Drawing.Size(242, 22);
             this.lblWins.TabIndex = 1;
             this.lblWins.Text = "WINS:";
             this.lblWins.TextAlign = System.Drawing.ContentAlignment.TopRight;

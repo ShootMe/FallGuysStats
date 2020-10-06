@@ -21,6 +21,7 @@ namespace FallGuysStats {
             chkShowTabs.Checked = CurrentSettings.ShowOverlayTabs;
             chkAutoUpdate.Checked = CurrentSettings.AutoUpdate;
             chkFlipped.Checked = CurrentSettings.FlippedDisplay;
+            chkHidePercentages.Checked = CurrentSettings.HideOverlayPercentages;
 
             switch (CurrentSettings.OverlayColor) {
                 case 0: cboOverlayColor.SelectedItem = "Magenta"; break;
@@ -88,12 +89,14 @@ namespace FallGuysStats {
                 CurrentSettings.HideRoundInfo != chkHideRoundInfo.Checked ||
                 CurrentSettings.HideTimeInfo != chkHideTimeInfo.Checked ||
                 CurrentSettings.ShowOverlayTabs != chkShowTabs.Checked;
+
             CurrentSettings.HideWinsInfo = chkHideWinsInfo.Checked;
             CurrentSettings.HideRoundInfo = chkHideRoundInfo.Checked;
             CurrentSettings.HideTimeInfo = chkHideTimeInfo.Checked;
             CurrentSettings.ShowOverlayTabs = chkShowTabs.Checked;
             CurrentSettings.AutoUpdate = chkAutoUpdate.Checked;
             CurrentSettings.FlippedDisplay = chkFlipped.Checked;
+            CurrentSettings.HideOverlayPercentages = chkHidePercentages.Checked;
 
             switch ((string)cboOverlayColor.SelectedItem) {
                 case "Magenta": CurrentSettings.OverlayColor = 0; break;
