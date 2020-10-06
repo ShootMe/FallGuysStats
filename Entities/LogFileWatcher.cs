@@ -9,10 +9,12 @@ namespace FallGuysStats {
         public TimeSpan Time { get; } = TimeSpan.Zero;
         public DateTime Date { get; set; } = DateTime.MinValue;
         public string Line { get; set; }
+        public bool IsValid { get; set; }
 
         public LogLine(string line) {
             Line = line;
-            if (line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12) {
+            IsValid = line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12;
+            if (IsValid) {
                 Time = TimeSpan.Parse(line.Substring(0, 12));
             }
         }
@@ -81,7 +83,7 @@ namespace FallGuysStats {
                                     while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
                                         LogLine logLine = new LogLine(line);
 
-                                        if (logLine.Time != TimeSpan.Zero) {
+                                        if (logLine.IsValid) {
                                             int index;
                                             if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
                                                 currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
@@ -101,7 +103,7 @@ namespace FallGuysStats {
                                                 sb.AppendLine();
                                                 while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
                                                     LogLine temp = new LogLine(line);
-                                                    if (temp.Time != TimeSpan.Zero) {
+                                                    if (temp.IsValid) {
                                                         logLine.Line = sb.ToString();
                                                         currentLines.AddRange(tempLines);
                                                         currentLines.Add(logLine);
@@ -117,6 +119,8 @@ namespace FallGuysStats {
                                             } else {
                                                 tempLines.Add(logLine);
                                             }
+                                        } else if (logLine.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                                            tempLines.Add(logLine);
                                         }
                                     }
                                 }
@@ -232,6 +236,12 @@ namespace FallGuysStats {
                 if (position > 0) {
                     findPosition = false;
                     stat.Position = position;
+                }
+            } else if (stat != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                index = line.Line.IndexOf("RTT: ");
+                if (index > 0) {
+                    int msIndex = line.Line.IndexOf("ms", index);
+                    stat.Ping = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
                 }
             } else if (stat != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                 stat.Start = line.Date;

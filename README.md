@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.79
+    - Added option to cycle between Players and Server Ping on overlay
   - 1.78
     - Changed logic when not cycling stats on overlay to show the most interesting stat
     - Added option to show / hide percentages on overlay
