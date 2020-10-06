@@ -617,8 +617,7 @@ namespace FallGuysStats {
                         gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
                         e.Value = Properties.Resources.info;
                         break;
-                    case "Qualified":
-                    {
+                    case "Qualified": {
                         float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
                         if (CurrentSettings.ShowPercentages) {
                             e.Value = $"{qualifyChance:0.0}%";
@@ -630,8 +629,7 @@ namespace FallGuysStats {
 
                         break;
                     }
-                    case "Gold":
-                    {
+                    case "Gold": {
                         float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
                         if (CurrentSettings.ShowPercentages) {
                             e.Value = $"{qualifyChance:0.0}%";
@@ -643,8 +641,7 @@ namespace FallGuysStats {
 
                         break;
                     }
-                    case "Silver":
-                    {
+                    case "Silver": {
                         float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
                         if (CurrentSettings.ShowPercentages) {
                             e.Value = $"{qualifyChance:0.0}%";
@@ -656,8 +653,7 @@ namespace FallGuysStats {
 
                         break;
                     }
-                    case "Bronze":
-                    {
+                    case "Bronze": {
                         float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
                         if (CurrentSettings.ShowPercentages) {
                             e.Value = $"{qualifyChance:0.0}%";

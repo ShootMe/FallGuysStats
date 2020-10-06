@@ -90,10 +90,10 @@ namespace FallGuysStats {
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
 
-            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true,1) },
-            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true,1) },
-            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true,1) },
-            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Unknown, true,1) },
+            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
+            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
+            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1) },
+            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Unknown, true, 1) },
         };
 
         public string Name { get; set; }

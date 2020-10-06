@@ -161,16 +161,19 @@ namespace FallGuysStats {
                 return;
             }
             float qualifyChance;
+            string qualifyChanceDisplay;
             switch (switchCount % 2) {
                 case 0:
                     lblQualifyChance.Text = "QUALIFY:";
                     qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    qualifyChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
+                    lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays}{qualifyChanceDisplay}";
                     break;
                 case 1:
                     lblQualifyChance.Text = "GOLD:";
                     qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays} - {qualifyChance:0.0}%";
+                    qualifyChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
+                    lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays}{qualifyChanceDisplay}";
                     break;
             }
         }
@@ -210,21 +213,24 @@ namespace FallGuysStats {
 
                 if (lastRound != null) {
                     lblName.Text = $"ROUND {lastRound.Round}:";
-                    
-                    lblName.TextRight = LevelStats.ALL.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : String.Empty;
+
+                    lblName.TextRight = LevelStats.ALL.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : string.Empty;
                     lblPlayers.TextRight = lastRound.Players.ToString();
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
                     if (StatsForm.CurrentSettings.PreviousWins > 0) {
-                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}) - {winChance:0.0}%";
+                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
                     } else if (StatsForm.CurrentSettings.FilterType != 0) {
-                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}) - {winChance:0.0}%";
+                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}";
                     } else {
-                        lblWins.TextRight = $"{levelInfo.TotalWins} - {winChance:0.0}%";
+                        lblWins.TextRight = $"{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
                     float finalChance = (float)levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    lblFinals.TextRight = $"{levelInfo.TotalFinals} - {finalChance:0.0}%";
+                    string finalText = $"{levelInfo.TotalFinals} / {levelInfo.TotalShows}";
+                    string finalChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
+                    lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
 
                     lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
 
@@ -262,7 +268,7 @@ namespace FallGuysStats {
                     }
 
                     if (End != DateTime.MinValue) {
-                        lblDuration.TextRight = (End - Start).ToString("m\\:ss");
+                        lblDuration.TextRight = (End - Start).ToString("m\\:ss\\.ff");
                     } else if (lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
                             lblDuration.TextRight = (DateTime.UtcNow - startTime).ToString("m\\:ss");
@@ -401,75 +407,93 @@ namespace FallGuysStats {
             lblWins.Location = new Point(22, 9 + heightOffset);
             lblFinals.Location = new Point(22, 32 + heightOffset);
             lblStreak.Location = new Point(22, 55 + heightOffset);
+            int firstColumnX = 22;
+            int firstColumnWidth = 242;
+            int secondColumnX = firstColumnX + firstColumnWidth + 6;
+            int secondColumnWidth = 281;
+            int thirdColumnX = secondColumnX + secondColumnWidth + 6;
+            int thirdColumnWidth = 225;
 
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
                 case 0:
                     drawWidth = 786;
 
+                    lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
+                    lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblFinals.DrawVisible = true;
+                    lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblStreak.DrawVisible = true;
 
-                    lblName.Location = new Point(268, 9 + heightOffset);
+                    lblName.Location = new Point(secondColumnX, 9 + heightOffset);
                     lblName.DrawVisible = true;
-                    lblQualifyChance.Location = new Point(268, 32 + heightOffset);
+                    lblQualifyChance.Location = new Point(secondColumnX, 32 + heightOffset);
                     lblQualifyChance.DrawVisible = true;
-                    lblFastest.Location = new Point(268, 55 + heightOffset);
-                    lblFastest.Size = new Size(281, 22);
+                    lblFastest.Location = new Point(secondColumnX, 55 + heightOffset);
+                    lblFastest.Size = new Size(secondColumnWidth, 22);
                     lblFastest.DrawVisible = true;
 
-                    lblPlayers.Location = new Point(557, 9 + heightOffset);
-                    lblPlayers.Size = new Size(225, 22);
+                    lblPlayers.Location = new Point(thirdColumnX, 9 + heightOffset);
+                    lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     lblPlayers.DrawVisible = true;
-                    lblDuration.Location = new Point(557, 32 + heightOffset);
+                    lblDuration.Location = new Point(thirdColumnX, 32 + heightOffset);
                     lblDuration.DrawVisible = true;
-                    lblFinish.Location = new Point(557, 55 + heightOffset);
+                    lblFinish.Location = new Point(thirdColumnX, 55 + heightOffset);
                     lblFinish.DrawVisible = true;
                     break;
                 case 1:
-                    drawWidth = 786 - 225 - 6;
+                    drawWidth = 786 - thirdColumnWidth - 6;
 
+                    lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
+                    lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblFinals.DrawVisible = true;
+                    lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblStreak.DrawVisible = true;
 
                     lblFastest.DrawVisible = false;
                     lblDuration.DrawVisible = false;
                     lblFinish.DrawVisible = false;
 
-                    lblName.Location = new Point(268, 9 + heightOffset);
+                    lblName.Location = new Point(secondColumnX, 9 + heightOffset);
                     lblName.DrawVisible = true;
-                    lblPlayers.Location = new Point(268, 32 + heightOffset);
-                    lblPlayers.Size = new Size(281, 22);
+                    lblPlayers.Location = new Point(secondColumnX, 32 + heightOffset);
+                    lblPlayers.Size = new Size(secondColumnWidth, 22);
                     lblPlayers.DrawVisible = true;
-                    lblQualifyChance.Location = new Point(268, 55 + heightOffset);
+                    lblQualifyChance.Location = new Point(secondColumnX, 55 + heightOffset);
                     lblQualifyChance.DrawVisible = true;
                     break;
                 case 2:
-                    drawWidth = 786 - 281 - 6;
+                    drawWidth = 786 - secondColumnWidth - 6;
 
+                    lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
+                    lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblFinals.DrawVisible = true;
+                    lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblStreak.DrawVisible = true;
 
                     lblName.DrawVisible = false;
                     lblQualifyChance.DrawVisible = false;
                     lblPlayers.DrawVisible = false;
 
-                    lblFastest.Location = new Point(268, 9 + heightOffset);
-                    lblFastest.Size = new Size(225, 22);
+                    lblFastest.Location = new Point(secondColumnX, 9 + heightOffset);
+                    lblFastest.Size = new Size(thirdColumnWidth, 22);
                     lblFastest.DrawVisible = true;
-                    lblDuration.Location = new Point(268, 32 + heightOffset);
+                    lblDuration.Location = new Point(secondColumnX, 32 + heightOffset);
                     lblDuration.DrawVisible = true;
-                    lblFinish.Location = new Point(268, 55 + heightOffset);
+                    lblFinish.Location = new Point(secondColumnX, 55 + heightOffset);
                     lblFinish.DrawVisible = true;
                     break;
                 case 3:
-                    drawWidth = 786 - 281 - 225 - 12;
+                    drawWidth = 786 - secondColumnWidth - thirdColumnWidth - 12;
 
+                    lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
+                    lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblFinals.DrawVisible = true;
+                    lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblStreak.DrawVisible = true;
 
                     lblName.DrawVisible = false;
@@ -481,41 +505,41 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = false;
                     break;
                 case 4:
-                    drawWidth = 786 - 238 - 6;
+                    drawWidth = 786 - firstColumnWidth - 6;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;
                     lblStreak.DrawVisible = false;
 
-                    lblName.Location = new Point(22, 9 + heightOffset);
+                    lblName.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblName.DrawVisible = true;
-                    lblQualifyChance.Location = new Point(22, 32 + heightOffset);
+                    lblQualifyChance.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblQualifyChance.DrawVisible = true;
-                    lblFastest.Location = new Point(22, 55 + heightOffset);
-                    lblFastest.Size = new Size(281, 22);
+                    lblFastest.Location = new Point(firstColumnX, 55 + heightOffset);
+                    lblFastest.Size = new Size(secondColumnWidth, 22);
                     lblFastest.DrawVisible = true;
 
-                    lblPlayers.Location = new Point(311, 9 + heightOffset);
-                    lblPlayers.Size = new Size(225, 22);
+                    lblPlayers.Location = new Point(firstColumnX + secondColumnWidth + 6, 9 + heightOffset);
+                    lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     lblPlayers.DrawVisible = true;
-                    lblDuration.Location = new Point(311, 32 + heightOffset);
+                    lblDuration.Location = new Point(firstColumnX + secondColumnWidth + 6, 32 + heightOffset);
                     lblDuration.DrawVisible = true;
-                    lblFinish.Location = new Point(311, 55 + heightOffset);
+                    lblFinish.Location = new Point(firstColumnX + secondColumnWidth + 6, 55 + heightOffset);
                     lblFinish.DrawVisible = true;
                     break;
                 case 5:
-                    drawWidth = 786 - 238 - 225 - 12;
+                    drawWidth = 786 - firstColumnWidth - thirdColumnWidth - 12;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;
                     lblStreak.DrawVisible = false;
 
-                    lblName.Location = new Point(22, 9 + heightOffset);
+                    lblName.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblName.DrawVisible = true;
-                    lblPlayers.Location = new Point(22, 32 + heightOffset);
-                    lblPlayers.Size = new Size(281, 22);
+                    lblPlayers.Location = new Point(firstColumnX, 32 + heightOffset);
+                    lblPlayers.Size = new Size(secondColumnWidth, 22);
                     lblPlayers.DrawVisible = true;
-                    lblQualifyChance.Location = new Point(22, 55 + heightOffset);
+                    lblQualifyChance.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblQualifyChance.DrawVisible = true;
 
                     lblFastest.DrawVisible = false;
@@ -523,7 +547,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = false;
                     break;
                 case 6:
-                    drawWidth = 786 - 238 - 281 - 12;
+                    drawWidth = 786 - firstColumnWidth - secondColumnWidth - 12;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;
@@ -533,12 +557,12 @@ namespace FallGuysStats {
                     lblQualifyChance.DrawVisible = false;
                     lblPlayers.DrawVisible = false;
 
-                    lblFastest.Location = new Point(22, 9 + heightOffset);
-                    lblFastest.Size = new Size(225, 22);
+                    lblFastest.Location = new Point(firstColumnX, 9 + heightOffset);
+                    lblFastest.Size = new Size(thirdColumnWidth, 22);
                     lblFastest.DrawVisible = true;
-                    lblDuration.Location = new Point(22, 32 + heightOffset);
+                    lblDuration.Location = new Point(firstColumnX, 32 + heightOffset);
                     lblDuration.DrawVisible = true;
-                    lblFinish.Location = new Point(22, 55 + heightOffset);
+                    lblFinish.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblFinish.DrawVisible = true;
                     break;
             }
