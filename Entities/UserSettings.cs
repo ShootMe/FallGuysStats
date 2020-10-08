@@ -3,6 +3,7 @@
         public int ID { get; set; }
         public string LogPath { get; set; }
         public int FilterType { get; set; }
+        public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
         public int? OverlayLocationY { get; set; }
         public int OverlayColor { get; set; }

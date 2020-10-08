@@ -4,6 +4,7 @@ using LiteDB;
 namespace FallGuysStats {
     public class RoundInfo {
         public ObjectId ID { get; set; }
+        public int Profile { get; set; }
         public string Name { get; set; }
         public int ShowID { get; set; }
         public int Round { get; set; }
