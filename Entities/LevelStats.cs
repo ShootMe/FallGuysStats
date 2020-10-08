@@ -75,16 +75,16 @@ namespace FallGuysStats {
             { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
             { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1) },
             { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
-            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 1) },
-            { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 1) },
+            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
+            { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
+
+            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
 
             { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
             { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1) },
             { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, false, 1) },
             { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1) },
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
-
-            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 1) },
 
             { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1) },
             { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team, false, 1) },
@@ -93,13 +93,12 @@ namespace FallGuysStats {
             { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1) },
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
-            { "round_egg_grab_02",                 new LevelStats("Egg Siege", LevelType.Team, false, 1) },
-
+            { "round_egg_grab_02",                 new LevelStats("Egg Siege", LevelType.Team, false, 2) },
 
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
             { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
             { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1) },
-            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Unknown, true, 1) },
+            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1) },
         };
 
         public string Name { get; set; }
