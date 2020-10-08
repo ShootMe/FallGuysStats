@@ -248,7 +248,7 @@ namespace FallGuysStats {
                 if (lastRound != null) {
                     lblName.Text = $"ROUND {lastRound.Round}:";
 
-                    lblName.TextRight = LevelStats.ALL.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : string.Empty;
+                    lblName.TextRight = StatsForm.StatLookup.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : string.Empty;
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
