@@ -3,6 +3,7 @@
         Race,
         Survival,
         Team,
+        Hunt,
         Unknown
     }
     static class LevelTypeBehavior {
@@ -14,6 +15,8 @@
                     return 0; // LONGEST
                 case LevelType.Team:
                     return 2; // HIGH_SCORE
+                case LevelType.Hunt:
+                    return 1; // FASTEST
             }
             return 1;
         }
