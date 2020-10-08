@@ -214,20 +214,19 @@ namespace FallGuysStats {
                     break;
             }
         }
-
         private void SetStreakInfo(StatSummary levelInfo) {
-            int playersSwitchCount = switchCount;
+            int streakSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenStreaks) {
-                playersSwitchCount = 0;
+                streakSwitchCount = 0;
             }
-            switch (playersSwitchCount % 2) {
+            switch (streakSwitchCount % 2) {
                 case 0:
                     lblStreak.Text = "WIN STREAK:";
-                    lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
+                    lblStreak.TextRight = $"{levelInfo.CurrentStreak} ({levelInfo.BestStreak})";
                     break;
                 case 1:
                     lblStreak.Text = "FINAL STREAK:";
-                    lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak} (BEST {levelInfo.BestFinalStreak})";
+                    lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak} ({levelInfo.BestFinalStreak})";
                     break;
             }
         }
@@ -265,8 +264,6 @@ namespace FallGuysStats {
                     string finalText = $"{levelInfo.TotalFinals} / {levelInfo.TotalShows}";
                     string finalChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
-
-                    
 
                     SetQualifyChanceLabel(levelInfo);
                     SetFastestLabel(levelInfo, level);
@@ -443,9 +440,10 @@ namespace FallGuysStats {
             lblWins.Location = new Point(22, 9 + heightOffset);
             lblFinals.Location = new Point(22, 32 + heightOffset);
             lblStreak.Location = new Point(22, 55 + heightOffset);
+
             int spacerWidth = 6;
             int firstColumnX = 22;
-            int firstColumnWidth = 272;
+            int firstColumnWidth = 242;
             int secondColumnX = firstColumnX + firstColumnWidth + spacerWidth;
             int secondColumnWidth = 281;
             int thirdColumnX = secondColumnX + secondColumnWidth + spacerWidth;
@@ -455,7 +453,7 @@ namespace FallGuysStats {
             lblFinals.Size = new Size(firstColumnWidth, 22);
             lblStreak.Size = new Size(firstColumnWidth, 22);
 
-            drawWidth = firstColumnWidth + secondColumnWidth + thirdColumnWidth + spacerWidth * 3 + firstColumnX;
+            drawWidth = firstColumnWidth + secondColumnWidth + thirdColumnWidth + spacerWidth * 3 + firstColumnX - 2;
 
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
