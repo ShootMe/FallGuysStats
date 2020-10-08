@@ -81,6 +81,7 @@ namespace FallGuysStats {
             foreach (var entry in LevelStats.ALL) {
                 StatDetails.Add(entry.Value);
                 StatLookup.Add(entry.Key, entry.Value);
+                StatLookup.Add($"{entry.Key}_event_only_races", entry.Value);
             }
 
             gridDetails.DataSource = StatDetails;
@@ -111,6 +112,16 @@ namespace FallGuysStats {
             RoundDetails.EnsureIndex(x => x.InParty);
             StatsDB.Commit();
 
+            UpdateDatabaseVersion();
+
+            CurrentRound = new List<RoundInfo>();
+
+            overlay = new Overlay() { StatsForm = this };
+            overlay.Show();
+            overlay.Visible = false;
+            overlay.StartTimer();
+        }
+        private void UpdateDatabaseVersion() {
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -137,12 +148,11 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            CurrentRound = new List<RoundInfo>();
-
-            overlay = new Overlay() { StatsForm = this };
-            overlay.Show();
-            overlay.Visible = false;
-            overlay.StartTimer();
+            if (CurrentSettings.Version == 2) {
+                CurrentSettings.SwitchBetweenStreaks = CurrentSettings.SwitchBetweenLongest;
+                CurrentSettings.Version = 3;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -157,6 +167,7 @@ namespace FallGuysStats {
                 SwitchBetweenLongest = true,
                 SwitchBetweenQualify = true,
                 SwitchBetweenPlayers = true,
+                SwitchBetweenStreaks = true,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
@@ -400,7 +411,11 @@ namespace FallGuysStats {
                         Kudos += stat.Kudos;
 
                         if (!StatLookup.ContainsKey(stat.Name)) {
-                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown, false, 0));
+                            LevelStats newLevel = new LevelStats(stat.Name, LevelType.Unknown, false, 0);
+                            StatLookup.Add(stat.Name, newLevel);
+                            StatDetails.Add(newLevel);
+                            gridDetails.DataSource = null;
+                            gridDetails.DataSource = StatDetails;
                         }
 
                         stat.ToLocalTime();
@@ -628,7 +643,7 @@ namespace FallGuysStats {
                             case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
                             case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
-                            case LevelType.Hunt: e.CellStyle.BackColor = Color.LightSteelBlue; break;
+                            case LevelType.Hunt: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                         }
 
