@@ -338,6 +338,10 @@ namespace FallGuysStats {
                 }
 
                 stat = round[round.Count - 1];
+                DateTime showEnd = stat.End;
+                for (int i = 0; i < round.Count; i++) {
+                    round[i].ShowEnd = showEnd;
+                }
                 if (stat.Qualified) {
                     stat.Crown = true;
                 }
