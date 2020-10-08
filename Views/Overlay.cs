@@ -214,6 +214,23 @@ namespace FallGuysStats {
                     break;
             }
         }
+
+        private void SetStreakInfo(StatSummary levelInfo) {
+            int playersSwitchCount = switchCount;
+            if (!StatsForm.CurrentSettings.SwitchBetweenStreaks) {
+                playersSwitchCount = 0;
+            }
+            switch (playersSwitchCount % 2) {
+                case 0:
+                    lblStreak.Text = "WIN STREAK:";
+                    lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
+                    break;
+                case 1:
+                    lblStreak.Text = "FINAL STREAK:";
+                    lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak} (BEST {levelInfo.BestFinalStreak})";
+                    break;
+            }
+        }
         private void UpdateInfo() {
             if (StatsForm == null) { return; }
 
@@ -249,11 +266,12 @@ namespace FallGuysStats {
                     string finalChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
 
-                    lblStreak.TextRight = $"{levelInfo.CurrentStreak} (BEST {levelInfo.BestStreak})";
+                    
 
                     SetQualifyChanceLabel(levelInfo);
                     SetFastestLabel(levelInfo, level);
                     SetPlayersLabel();
+                    SetStreakInfo(levelInfo);
                     if (isTimeToSwitch) {
                         switchCount++;
                     }
@@ -425,18 +443,23 @@ namespace FallGuysStats {
             lblWins.Location = new Point(22, 9 + heightOffset);
             lblFinals.Location = new Point(22, 32 + heightOffset);
             lblStreak.Location = new Point(22, 55 + heightOffset);
+            int spacerWidth = 6;
             int firstColumnX = 22;
-            int firstColumnWidth = 242;
-            int secondColumnX = firstColumnX + firstColumnWidth + 6;
+            int firstColumnWidth = 272;
+            int secondColumnX = firstColumnX + firstColumnWidth + spacerWidth;
             int secondColumnWidth = 281;
-            int thirdColumnX = secondColumnX + secondColumnWidth + 6;
+            int thirdColumnX = secondColumnX + secondColumnWidth + spacerWidth;
             int thirdColumnWidth = 225;
+
+            lblWins.Size = new Size(firstColumnWidth, 22);
+            lblFinals.Size = new Size(firstColumnWidth, 22);
+            lblStreak.Size = new Size(firstColumnWidth, 22);
+
+            drawWidth = firstColumnWidth + secondColumnWidth + thirdColumnWidth + spacerWidth * 3 + firstColumnX;
 
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
                 case 0:
-                    drawWidth = 786;
-
                     lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
                     lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
@@ -461,7 +484,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = true;
                     break;
                 case 1:
-                    drawWidth = 786 - thirdColumnWidth - 6;
+                    drawWidth -= thirdColumnWidth + spacerWidth;
 
                     lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
@@ -483,7 +506,7 @@ namespace FallGuysStats {
                     lblQualifyChance.DrawVisible = true;
                     break;
                 case 2:
-                    drawWidth = 786 - secondColumnWidth - 6;
+                    drawWidth -= secondColumnWidth + spacerWidth;
 
                     lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
@@ -505,7 +528,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = true;
                     break;
                 case 3:
-                    drawWidth = 786 - secondColumnWidth - thirdColumnWidth - 12;
+                    drawWidth -= secondColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
                     lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     lblWins.DrawVisible = true;
@@ -523,7 +546,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = false;
                     break;
                 case 4:
-                    drawWidth = 786 - firstColumnWidth - 6;
+                    drawWidth -= firstColumnWidth + spacerWidth;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;
@@ -546,7 +569,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = true;
                     break;
                 case 5:
-                    drawWidth = 786 - firstColumnWidth - thirdColumnWidth - 12;
+                    drawWidth -= firstColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;
@@ -565,7 +588,7 @@ namespace FallGuysStats {
                     lblFinish.DrawVisible = false;
                     break;
                 case 6:
-                    drawWidth = 786 - firstColumnWidth - secondColumnWidth - 12;
+                    drawWidth -= firstColumnWidth + secondColumnWidth + spacerWidth * 2;
 
                     lblWins.DrawVisible = false;
                     lblFinals.DrawVisible = false;

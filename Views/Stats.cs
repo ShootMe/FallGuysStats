@@ -514,6 +514,13 @@ namespace FallGuysStats {
                     }
                 }
 
+                if (levelDetails.IsFinal) {
+                    summary.CurrentFinalStreak++;
+                    if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
+                        summary.BestFinalStreak = summary.CurrentFinalStreak;
+                    }
+                }
+
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.IsFinal) {
                         summary.AllWins++;
@@ -547,6 +554,9 @@ namespace FallGuysStats {
                         }
                     }
                 } else {
+                    if (!levelDetails.IsFinal) {
+                        summary.CurrentFinalStreak = 0;
+                    }
                     summary.CurrentStreak = 0;
                     if (isInWinsFilter && hasLevelDetails && levelDetails.IsFinal) {
                         summary.TotalFinals++;
