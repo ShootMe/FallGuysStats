@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.83
+    - Added ability to switch between a Main and Practice profile
   - 1.82
     - Fixed season filter dates
   - 1.81
