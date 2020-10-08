@@ -93,7 +93,7 @@ namespace FallGuysStats {
             { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1) },
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
-            { "round_egg_grab_2",                 new LevelStats("Egg Seige", LevelType.Team, false, 1) },
+            { "round_egg_grab_02",                 new LevelStats("Egg Siege", LevelType.Team, false, 1) },
 
 
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
