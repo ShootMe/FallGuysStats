@@ -270,10 +270,14 @@ namespace FallGuysStats {
                     }
 
                     if (Finish.HasValue) {
+                        TimeSpan Time = Finish.GetValueOrDefault(End) - Start;
                         if (lastRound.Position > 0) {
-                            lblFinish.TextRight = $"# {lastRound.Position} - {Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                            lblFinish.TextRight = $"# {lastRound.Position} - {Time:m\\:ss\\.ff}";
                         } else {
-                            lblFinish.TextRight = $"{Finish.GetValueOrDefault(End) - Start:m\\:ss\\.ff}";
+                            lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
+                        }
+                        if (Time < levelInfo.BestFinish) {
+                            lblFinish.ForeColor = Color.Gold;
                         }
                     } else if (lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
