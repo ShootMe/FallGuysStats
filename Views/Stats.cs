@@ -475,12 +475,16 @@ namespace FallGuysStats {
             summary.TotalWins = 0;
             summary.TotalFinals = 0;
             int lastShow = -1;
+            LevelStats currentLevel = null;
+            if (!StatLookup.TryGetValue(name, out currentLevel)) {
+                currentLevel = new LevelStats(name, LevelType.Unknown, false, 0);
+            }
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
 
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
-                bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
+                bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
 
                 int currentShow = info.ShowID;
                 RoundInfo endShow = info;
