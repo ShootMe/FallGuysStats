@@ -628,6 +628,7 @@ namespace FallGuysStats {
                             case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
                             case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
+                            case LevelType.Hunt: e.CellStyle.BackColor = Color.LightSteelBlue; break;
                             case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                         }
 
