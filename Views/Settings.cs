@@ -12,6 +12,7 @@ namespace FallGuysStats {
             chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
             chkCycleOverlayQualify.Checked = CurrentSettings.SwitchBetweenQualify;
             chkCycleOverlayPlayers.Checked = CurrentSettings.SwitchBetweenPlayers;
+            chkCycleOverlayStreak.Checked = CurrentSettings.SwitchBetweenStreaks;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
@@ -82,6 +83,7 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
             CurrentSettings.SwitchBetweenQualify = chkCycleOverlayQualify.Checked;
             CurrentSettings.SwitchBetweenPlayers = chkCycleOverlayPlayers.Checked;
+            CurrentSettings.SwitchBetweenStreaks = chkCycleOverlayStreak.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
@@ -172,6 +174,10 @@ namespace FallGuysStats {
             if (!string.IsNullOrEmpty(txtPreviousWins.Text) && !int.TryParse(txtPreviousWins.Text, out _)) {
                 txtPreviousWins.Text = "0";
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) {
+
         }
     }
 }

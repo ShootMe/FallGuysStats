@@ -31,6 +31,7 @@
             this.chkCycleOverlayQualify = new System.Windows.Forms.CheckBox();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.chkCycleOverlayPlayers = new System.Windows.Forms.CheckBox();
             this.chkHidePercentages = new System.Windows.Forms.CheckBox();
             this.chkHideWinsInfo = new System.Windows.Forms.CheckBox();
             this.cboOverlayColor = new System.Windows.Forms.ComboBox();
@@ -55,7 +56,7 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkCycleOverlayPlayers = new System.Windows.Forms.CheckBox();
+            this.chkCycleOverlayStreak = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -123,6 +124,7 @@
             // 
             // grpOverlay
             // 
+            this.grpOverlay.Controls.Add(this.chkCycleOverlayStreak);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayPlayers);
             this.grpOverlay.Controls.Add(this.chkHidePercentages);
             this.grpOverlay.Controls.Add(this.chkHideWinsInfo);
@@ -151,6 +153,16 @@
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
+            // 
+            // chkCycleOverlayPlayers
+            // 
+            this.chkCycleOverlayPlayers.AutoSize = true;
+            this.chkCycleOverlayPlayers.Location = new System.Drawing.Point(160, 174);
+            this.chkCycleOverlayPlayers.Name = "chkCycleOverlayPlayers";
+            this.chkCycleOverlayPlayers.Size = new System.Drawing.Size(121, 17);
+            this.chkCycleOverlayPlayers.TabIndex = 7;
+            this.chkCycleOverlayPlayers.Text = "Cycle Players / Ping";
+            this.chkCycleOverlayPlayers.UseVisualStyleBackColor = true;
             // 
             // chkHidePercentages
             // 
@@ -414,15 +426,16 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
-            // chkCyclePlayers
+            // chkCycleOverlayStreak
             // 
-            this.chkCycleOverlayPlayers.AutoSize = true;
-            this.chkCycleOverlayPlayers.Location = new System.Drawing.Point(160, 174);
-            this.chkCycleOverlayPlayers.Name = "chkCyclePlayers";
-            this.chkCycleOverlayPlayers.Size = new System.Drawing.Size(121, 17);
-            this.chkCycleOverlayPlayers.TabIndex = 7;
-            this.chkCycleOverlayPlayers.Text = "Cycle Players / Ping";
-            this.chkCycleOverlayPlayers.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayStreak.AutoSize = true;
+            this.chkCycleOverlayStreak.Location = new System.Drawing.Point(160, 151);
+            this.chkCycleOverlayStreak.Name = "chkCycleOverlayStreak";
+            this.chkCycleOverlayStreak.Size = new System.Drawing.Size(141, 17);
+            this.chkCycleOverlayStreak.TabIndex = 22;
+            this.chkCycleOverlayStreak.Text = "Cycle Win / Final Streak";
+            this.chkCycleOverlayStreak.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayStreak.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // Settings
             // 
@@ -490,5 +503,6 @@
         private System.Windows.Forms.CheckBox chkHideWinsInfo;
         private System.Windows.Forms.CheckBox chkHidePercentages;
         private System.Windows.Forms.CheckBox chkCycleOverlayPlayers;
+        private System.Windows.Forms.CheckBox chkCycleOverlayStreak;
     }
 }
