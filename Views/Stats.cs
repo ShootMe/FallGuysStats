@@ -378,7 +378,7 @@ namespace FallGuysStats {
                             }
 
                             if (info == null && stat.Start > lastAddedShow) {
-                                if (stat.ShowStart < startupTime && askedPreviousShows == 0) {
+                                if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
                                     if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                                         askedPreviousShows = 1;
                                     } else {
@@ -386,7 +386,7 @@ namespace FallGuysStats {
                                     }
                                 }
 
-                                if (stat.ShowStart < startupTime && askedPreviousShows == 2) {
+                                if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
                                     continue;
                                 }
 
