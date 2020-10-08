@@ -155,7 +155,9 @@ namespace FallGuysStats {
                             ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing);
                         }
 
-                        Stats.LastServerPing = lastPing;
+                        if (lastPing != 0) {
+                            Stats.LastServerPing = lastPing;
+                        }
                         OnParsedLogLinesCurrent?.Invoke(round);
                     }
                 } catch (Exception ex) {

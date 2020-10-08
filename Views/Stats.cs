@@ -196,6 +196,7 @@ namespace FallGuysStats {
             for (int i = Seasons.Count - 1; i >= 0; i--) {
                 if (currentUTC > Seasons[i]) {
                     SeasonStart = Seasons[i];
+                    break;
                 }
             }
             WeekStart = DateTime.Now.Date.AddDays(-7).ToUniversalTime();
