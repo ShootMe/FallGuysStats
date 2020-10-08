@@ -435,7 +435,6 @@
             this.chkCycleOverlayStreak.TabIndex = 22;
             this.chkCycleOverlayStreak.Text = "Cycle Win / Final Streak";
             this.chkCycleOverlayStreak.UseVisualStyleBackColor = true;
-            this.chkCycleOverlayStreak.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // Settings
             // 
