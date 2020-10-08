@@ -185,8 +185,6 @@ namespace FallGuysStats {
                             }
                         }
 
-                        Stats.LastServerPing = lastPing;
-
                         if (allStats.Count > 0) {
                             OnParsedLogLines?.Invoke(allStats);
                             allStats.Clear();
