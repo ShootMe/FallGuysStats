@@ -3,7 +3,9 @@ namespace FallGuysStats {
     public class StatSummary {
         public string CurrentFilter { get; set; }
         public int CurrentStreak { get; set; }
+        public int CurrentFinalStreak { get; set; }
         public int BestStreak { get; set; }
+        public int BestFinalStreak { get; set; }
         public int AllWins { get; set; }
         public int TotalWins { get; set; }
         public int TotalShows { get; set; }
