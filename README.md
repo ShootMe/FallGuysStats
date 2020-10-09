@@ -26,6 +26,17 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.84
+    - Fixed a filter issue with profiles
+  - 1.83
+    - Added ability to switch between a Main and Practice profile
+  - 1.82
+    - Fixed season filter dates
+  - 1.81
+    - Fixed guantlet levels not showing up on Overlay properly
+  - 1.80
+    - Added Final Streak to cycle with Win Streak
+    - Added new maps
   - 1.79
     - Added option to cycle between Players and Server Ping on overlay
   - 1.78

@@ -81,6 +81,7 @@ namespace FallGuysStats {
             foreach (var entry in LevelStats.ALL) {
                 StatDetails.Add(entry.Value);
                 StatLookup.Add(entry.Key, entry.Value);
+                StatLookup.Add($"{entry.Key}_event_only_races", entry.Value);
             }
 
             gridDetails.DataSource = StatDetails;
@@ -111,6 +112,16 @@ namespace FallGuysStats {
             RoundDetails.EnsureIndex(x => x.InParty);
             StatsDB.Commit();
 
+            UpdateDatabaseVersion();
+
+            CurrentRound = new List<RoundInfo>();
+
+            overlay = new Overlay() { StatsForm = this };
+            overlay.Show();
+            overlay.Visible = false;
+            overlay.StartTimer();
+        }
+        private void UpdateDatabaseVersion() {
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -137,18 +148,18 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            CurrentRound = new List<RoundInfo>();
-
-            overlay = new Overlay() { StatsForm = this };
-            overlay.Show();
-            overlay.Visible = false;
-            overlay.StartTimer();
+            if (CurrentSettings.Version == 2) {
+                CurrentSettings.SwitchBetweenStreaks = CurrentSettings.SwitchBetweenLongest;
+                CurrentSettings.Version = 3;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
                 ID = 1,
                 CycleTimeSeconds = 5,
                 FilterType = 0,
+                SelectedProfile = 0,
                 FlippedDisplay = false,
                 LogPath = null,
                 OverlayColor = 3,
@@ -157,6 +168,7 @@ namespace FallGuysStats {
                 SwitchBetweenLongest = true,
                 SwitchBetweenQualify = true,
                 SwitchBetweenPlayers = true,
+                SwitchBetweenStreaks = true,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
@@ -185,6 +197,7 @@ namespace FallGuysStats {
             for (int i = Seasons.Count - 1; i >= 0; i--) {
                 if (currentUTC > Seasons[i]) {
                     SeasonStart = Seasons[i];
+                    break;
                 }
             }
             WeekStart = DateTime.Now.Date.AddDays(-7).ToUniversalTime();
@@ -209,6 +222,7 @@ namespace FallGuysStats {
                         CurrentSettings.OverlayHeight = overlay.Height;
                     }
                     CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                    CurrentSettings.SelectedProfile = menuProfileMain.Checked ? 0 : 1;
                     CurrentSettings.FormLocationX = this.Location.X;
                     CurrentSettings.FormLocationY = this.Location.Y;
                     SaveUserSettings();
@@ -226,6 +240,7 @@ namespace FallGuysStats {
             ClearTotals();
 
             List<RoundInfo> rounds = new List<RoundInfo>();
+            int profile = menuProfileMain.Checked ? 0 : 1;
 
             lock (StatsDB) {
                 AllStats.Clear();
@@ -245,11 +260,13 @@ namespace FallGuysStats {
                         for (int i = AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = AllStats[i];
                             info.ToLocalTime();
+                            if (info.Profile != profile) { continue; }
 
                             if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info.Start) && IsInPartyFilter(info))) {
                                 lastAddedShowID = info.ShowID;
                                 rounds.Add(info);
                             }
+
                             if (info.Start > lastAddedShow && info.Round == 1) {
                                 lastAddedShow = info.Start;
                             }
@@ -262,6 +279,8 @@ namespace FallGuysStats {
                 CurrentRound.Clear();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
+                    if (info.Profile != profile) { continue; }
+
                     CurrentRound.Insert(0, info);
                     if (info.Round == 1) {
                         break;
@@ -283,6 +302,13 @@ namespace FallGuysStats {
                     return;
                 }
 
+                if (CurrentSettings.SelectedProfile != 0) {
+                    menuProfileMain.Checked = false;
+                    switch (CurrentSettings.SelectedProfile) {
+                        case 1: menuProfilePractice.Checked = true; break;
+                    }
+                }
+
                 UpdateDates();
             } catch { }
         }
@@ -298,14 +324,14 @@ namespace FallGuysStats {
                 if (CurrentSettings.OverlayVisible) {
                     menuOverlay_Click(null, null);
                 }
-                if (CurrentSettings.FilterType != 0) {
-                    menuAllStats.Checked = false;
-                    switch (CurrentSettings.FilterType) {
-                        case 1: menuSeasonStats.Checked = true; menuStats_Click(menuSeasonStats, null); break;
-                        case 2: menuWeekStats.Checked = true; menuStats_Click(menuWeekStats, null); break;
-                        case 3: menuDayStats.Checked = true; menuStats_Click(menuDayStats, null); break;
-                        case 4: menuSessionStats.Checked = true; menuStats_Click(menuSessionStats, null); break;
-                    }
+
+                menuAllStats.Checked = false;
+                switch (CurrentSettings.FilterType) {
+                    case 0: menuAllStats.Checked = true; menuStats_Click(menuAllStats, null); break;
+                    case 1: menuSeasonStats.Checked = true; menuStats_Click(menuSeasonStats, null); break;
+                    case 2: menuWeekStats.Checked = true; menuStats_Click(menuWeekStats, null); break;
+                    case 3: menuDayStats.Checked = true; menuStats_Click(menuDayStats, null); break;
+                    case 4: menuSessionStats.Checked = true; menuStats_Click(menuSessionStats, null); break;
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -355,6 +381,7 @@ namespace FallGuysStats {
                 lock (StatsDB) {
                     if (!loadingExisting) { StatsDB.BeginTrans(); }
 
+                    int profile = menuProfileMain.Checked ? 0 : 1;
                     foreach (RoundInfo stat in round) {
                         if (!loadingExisting) {
                             RoundInfo info = null;
@@ -367,7 +394,7 @@ namespace FallGuysStats {
                             }
 
                             if (info == null && stat.Start > lastAddedShow) {
-                                if (stat.ShowStart < startupTime && askedPreviousShows == 0) {
+                                if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
                                     if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                                         askedPreviousShows = 1;
                                     } else {
@@ -375,7 +402,7 @@ namespace FallGuysStats {
                                     }
                                 }
 
-                                if (stat.ShowStart < startupTime && askedPreviousShows == 2) {
+                                if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
                                     continue;
                                 }
 
@@ -384,7 +411,7 @@ namespace FallGuysStats {
                                     lastAddedShow = stat.Start;
                                 }
                                 stat.ShowID = nextShowID;
-
+                                stat.Profile = profile;
                                 RoundDetails.Insert(stat);
                                 AllStats.Add(stat);
                             } else {
@@ -400,7 +427,11 @@ namespace FallGuysStats {
                         Kudos += stat.Kudos;
 
                         if (!StatLookup.ContainsKey(stat.Name)) {
-                            StatLookup.Add(stat.Name, new LevelStats(stat.Name, LevelType.Unknown, false, 0));
+                            LevelStats newLevel = new LevelStats(stat.Name, LevelType.Unknown, false, 0);
+                            StatLookup.Add(stat.Name, newLevel);
+                            StatDetails.Add(newLevel);
+                            gridDetails.DataSource = null;
+                            gridDetails.DataSource = StatDetails;
                         }
 
                         stat.ToLocalTime();
@@ -460,12 +491,19 @@ namespace FallGuysStats {
             summary.TotalWins = 0;
             summary.TotalFinals = 0;
             int lastShow = -1;
+            LevelStats currentLevel = null;
+            if (!StatLookup.TryGetValue(name, out currentLevel)) {
+                currentLevel = new LevelStats(name, LevelType.Unknown, false, 0);
+            }
+            int profile = menuProfileMain.Checked ? 0 : 1;
+
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
+                if (info.Profile != profile) { continue; }
 
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                 bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out levelDetails);
-                bool isCurrentLevel = info.Name.Equals(name, StringComparison.OrdinalIgnoreCase);
+                bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
 
                 int currentShow = info.ShowID;
                 RoundInfo endShow = info;
@@ -514,6 +552,13 @@ namespace FallGuysStats {
                     }
                 }
 
+                if (levelDetails.IsFinal) {
+                    summary.CurrentFinalStreak++;
+                    if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
+                        summary.BestFinalStreak = summary.CurrentFinalStreak;
+                    }
+                }
+
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.IsFinal) {
                         summary.AllWins++;
@@ -547,6 +592,9 @@ namespace FallGuysStats {
                         }
                     }
                 } else {
+                    if (!levelDetails.IsFinal) {
+                        summary.CurrentFinalStreak = 0;
+                    }
                     summary.CurrentStreak = 0;
                     if (isInWinsFilter && hasLevelDetails && levelDetails.IsFinal) {
                         summary.TotalFinals++;
@@ -618,6 +666,7 @@ namespace FallGuysStats {
                             case LevelType.Race: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Survival: e.CellStyle.BackColor = Color.LightBlue; break;
                             case LevelType.Team: e.CellStyle.BackColor = Color.LightGreen; break;
+                            case LevelType.Hunt: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                         }
 
@@ -937,6 +986,21 @@ namespace FallGuysStats {
                     button = menuAllStats.Checked ? menuAllStats : menuSeasonStats.Checked ? menuSeasonStats : menuWeekStats.Checked ? menuWeekStats : menuDayStats.Checked ? menuDayStats : menuSessionStats;
                 }
 
+                if (button == menuProfileMain || button == menuProfilePractice) {
+                    if (!menuProfileMain.Checked && !menuProfilePractice.Checked) {
+                        button.Checked = true;
+                        return;
+                    }
+
+                    foreach (ToolStripItem item in menuProfile.DropDownItems) {
+                        if (item is ToolStripMenuItem menuItem && menuItem.Checked && menuItem != button) {
+                            menuItem.Checked = false;
+                        }
+                    }
+
+                    button = menuAllStats.Checked ? menuAllStats : menuSeasonStats.Checked ? menuSeasonStats : menuWeekStats.Checked ? menuWeekStats : menuDayStats.Checked ? menuDayStats : menuSessionStats;
+                }
+
                 for (int i = 0; i < StatDetails.Count; i++) {
                     LevelStats calculator = StatDetails[i];
                     calculator.Clear();
@@ -944,46 +1008,15 @@ namespace FallGuysStats {
 
                 ClearTotals();
 
+                int profile = menuProfileMain.Checked ? 0 : 1;
                 bool soloOnly = menuSoloStats.Checked;
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                if (button == menuAllStats) {
-                    if (!menuAllPartyStats.Checked) {
-                        rounds.AddRange(RoundDetails.Find(x => x.InParty == !soloOnly));
-                    } else {
-                        rounds.AddRange(AllStats);
-                    }
-                } else if (button == menuSeasonStats) {
-                    if (!menuAllPartyStats.Checked) {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > SeasonStart && x.InParty == !soloOnly));
-                    } else {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > SeasonStart));
-                    }
-                } else if (button == menuWeekStats) {
-                    if (!menuAllPartyStats.Checked) {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > WeekStart && x.InParty == !soloOnly));
-                    } else {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > WeekStart));
-                    }
-                } else if (button == menuDayStats) {
-                    if (!menuAllPartyStats.Checked) {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > DayStart && x.InParty == !soloOnly));
-                    } else {
-                        rounds.AddRange(RoundDetails.Find(x => x.Start > DayStart));
-                    }
-                } else if (!menuAllPartyStats.Checked) {
-                    rounds.AddRange(RoundDetails.Find(x => x.Start > SessionStart && x.InParty == !soloOnly));
-                } else {
-                    rounds.AddRange(RoundDetails.Find(x => x.Start > SessionStart));
-                }
 
-                if (rounds.Count > 0 && (button == menuWeekStats || button == menuDayStats || button == menuSessionStats)) {
-                    int minShowID = rounds[0].ShowID;
-                    if (button == menuWeekStats) {
-                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < WeekStart));
-                    } else if (button == menuDayStats) {
-                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < DayStart));
-                    } else {
-                        rounds.AddRange(RoundDetails.Find(x => x.ShowID == minShowID && x.Start < SessionStart));
+                DateTime compareDate = menuAllStats.Checked ? DateTime.MinValue : menuSeasonStats.Checked ? SeasonStart : menuWeekStats.Checked ? WeekStart : menuDayStats.Checked ? DayStart : SessionStart;
+                for (int i = 0; i < AllStats.Count; i++) {
+                    RoundInfo round = AllStats[i];
+                    if (round.Start > compareDate && round.Profile == profile && (menuAllPartyStats.Checked || round.InParty == !soloOnly)) {
+                        rounds.Add(round);
                     }
                 }
 
@@ -992,6 +1025,23 @@ namespace FallGuysStats {
                     return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                 });
 
+                if (rounds.Count > 0 && (button == menuWeekStats || button == menuDayStats || button == menuSessionStats)) {
+                    int minShowID = rounds[0].ShowID;
+
+                    for (int i = 0; i < AllStats.Count; i++) {
+                        RoundInfo round = AllStats[i];
+                        if (round.ShowID == minShowID && round.Start <= compareDate) {
+                            rounds.Add(round);
+                        }
+                    }
+                }
+
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+
+                CurrentSettings.SelectedProfile = profile;
                 CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
                 SaveUserSettings();
 
