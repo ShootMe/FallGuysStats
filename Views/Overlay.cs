@@ -302,6 +302,7 @@ namespace FallGuysStats {
                         }
                     } else {
                         lblFinish.TextRight = "-";
+                        lblFinish.ForeColor = Color.White;
                     }
 
                     if (End != DateTime.MinValue) {
