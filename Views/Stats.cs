@@ -240,6 +240,7 @@ namespace FallGuysStats {
             ClearTotals();
 
             List<RoundInfo> rounds = new List<RoundInfo>();
+            int profile = menuProfileMain.Checked ? 0 : 1;
 
             lock (StatsDB) {
                 AllStats.Clear();
@@ -259,11 +260,13 @@ namespace FallGuysStats {
                         for (int i = AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = AllStats[i];
                             info.ToLocalTime();
+                            if (info.Profile != profile) { continue; }
 
                             if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info.Start) && IsInPartyFilter(info))) {
                                 lastAddedShowID = info.ShowID;
                                 rounds.Add(info);
                             }
+
                             if (info.Start > lastAddedShow && info.Round == 1) {
                                 lastAddedShow = info.Start;
                             }
@@ -276,6 +279,8 @@ namespace FallGuysStats {
                 CurrentRound.Clear();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
+                    if (info.Profile != profile) { continue; }
+
                     CurrentRound.Insert(0, info);
                     if (info.Round == 1) {
                         break;
