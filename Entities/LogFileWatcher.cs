@@ -149,11 +149,15 @@ namespace FallGuysStats {
                         bool currentlyInParty = false;
                         bool findPosition = false;
                         string currentPlayerID = string.Empty;
+                        int lastPing = 0;
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
-                            ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat);
+                            ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing);
                         }
 
+                        if (lastPing != 0) {
+                            Stats.LastServerPing = lastPing;
+                        }
                         OnParsedLogLinesCurrent?.Invoke(round);
                     }
                 } catch (Exception ex) {
@@ -172,12 +176,13 @@ namespace FallGuysStats {
             bool currentlyInParty = false;
             bool findPosition = false;
             string currentPlayerID = string.Empty;
+            int lastPing = 0;
             while (!stop) {
                 try {
                     lock (lines) {
                         for (int i = 0; i < lines.Count; i++) {
                             LogLine line = lines[i];
-                            if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat)) {
+                            if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing)) {
                                 allStats.AddRange(round);
                             }
                         }
@@ -195,7 +200,7 @@ namespace FallGuysStats {
                 Thread.Sleep(UpdateDelay);
             }
         }
-        private bool ParseLine(LogLine line, List<RoundInfo> round, ref string currentPlayerID, ref bool countPlayers, ref bool currentlyInParty, ref bool findPosition, ref int players, ref RoundInfo stat) {
+        private bool ParseLine(LogLine line, List<RoundInfo> round, ref string currentPlayerID, ref bool countPlayers, ref bool currentlyInParty, ref bool findPosition, ref int players, ref RoundInfo stat, ref int lastPing) {
             int index;
             if ((index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
                 stat = new RoundInfo();
@@ -241,7 +246,7 @@ namespace FallGuysStats {
                 index = line.Line.IndexOf("RTT: ");
                 if (index > 0) {
                     int msIndex = line.Line.IndexOf("ms", index);
-                    Stats.LastServerPing = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
+                    lastPing = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
                 }
             } else if (stat != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                 stat.Start = line.Date;
@@ -335,6 +340,10 @@ namespace FallGuysStats {
                 }
 
                 stat = round[round.Count - 1];
+                DateTime showEnd = stat.End;
+                for (int i = 0; i < round.Count; i++) {
+                    round[i].ShowEnd = showEnd;
+                }
                 if (stat.Qualified) {
                     stat.Crown = true;
                 }

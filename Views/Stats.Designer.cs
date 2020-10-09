@@ -51,6 +51,9 @@
             this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuProfile = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuProfileMain = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuProfilePractice = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -178,6 +181,7 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuSettings,
             this.menuFilters,
+            this.menuProfile,
             this.menuOverlay,
             this.menuUpdate,
             this.menuHelp});
@@ -213,7 +217,7 @@
             this.menuDayStats,
             this.menuSessionStats});
             this.menuStatsFilter.Name = "menuStatsFilter";
-            this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
+            this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
             this.menuStatsFilter.Text = "Stats";
             // 
             // menuAllStats
@@ -275,7 +279,7 @@
             this.menuSoloStats,
             this.menuPartyStats});
             this.menuPartyFilter.Name = "menuPartyFilter";
-            this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
+            this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
             this.menuPartyFilter.Text = "Party";
             // 
             // menuAllPartyStats
@@ -333,6 +337,33 @@
             this.menuHelp.Size = new System.Drawing.Size(44, 20);
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
+            // 
+            // menuProfile
+            // 
+            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuProfileMain,
+            this.menuProfilePractice});
+            this.menuProfile.Name = "menuProfile";
+            this.menuProfile.Size = new System.Drawing.Size(53, 20);
+            this.menuProfile.Text = "Profile";
+            // 
+            // menuProfileMain
+            // 
+            this.menuProfileMain.Checked = true;
+            this.menuProfileMain.CheckOnClick = true;
+            this.menuProfileMain.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.menuProfileMain.Name = "menuProfileMain";
+            this.menuProfileMain.Size = new System.Drawing.Size(180, 22);
+            this.menuProfileMain.Text = "Main";
+            this.menuProfileMain.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuProfilePractice
+            // 
+            this.menuProfilePractice.CheckOnClick = true;
+            this.menuProfilePractice.Name = "menuProfilePractice";
+            this.menuProfilePractice.Size = new System.Drawing.Size(180, 22);
+            this.menuProfilePractice.Text = "Practice";
+            this.menuProfilePractice.Click += new System.EventHandler(this.menuStats_Click);
             // 
             // Stats
             // 
@@ -394,6 +425,9 @@
         private System.Windows.Forms.ToolStripMenuItem menuOverlay;
         private System.Windows.Forms.ToolStripMenuItem menuUpdate;
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
+        private System.Windows.Forms.ToolStripMenuItem menuProfile;
+        private System.Windows.Forms.ToolStripMenuItem menuProfileMain;
+        private System.Windows.Forms.ToolStripMenuItem menuProfilePractice;
     }
 }
 
