@@ -317,7 +317,7 @@ namespace FallGuysStats {
                     if (lastRound.GameDuration > 0) {
                         lblDuration.Text = $"TIME ({TimeSpan.FromSeconds(lastRound.GameDuration):m\\:ss}):";
                     } else {
-                        lblDuration.Text = "TIME";
+                        lblDuration.Text = "TIME:";
                     }
 
                     if (End != DateTime.MinValue) {
