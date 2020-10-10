@@ -45,7 +45,7 @@ namespace FallGuysStats {
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Round", pos++, 50, ShowStats == 2 ? "Rounds" : "Round", DataGridViewContentAlignment.MiddleRight);
             if (ShowStats == 1) {
-                gridDetails.Setup("Name", pos++, 95, "Level", DataGridViewContentAlignment.MiddleLeft);
+                gridDetails.Setup("Name", pos++, 105, "Level", DataGridViewContentAlignment.MiddleLeft);
             } else {
                 gridDetails.Columns["Name"].Visible = false;
             }
@@ -54,7 +54,7 @@ namespace FallGuysStats {
             } else {
                 gridDetails.Columns["Players"].Visible = false;
             }
-            gridDetails.Setup("Start", pos++, 115, "Start", DataGridViewContentAlignment.MiddleCenter);
+            gridDetails.Setup("Start", pos++, 105, "Start", DataGridViewContentAlignment.MiddleCenter);
             gridDetails.Setup("End", pos++, 60, "Duration", DataGridViewContentAlignment.MiddleCenter);
             if (ShowStats != 2) {
                 gridDetails.Setup("Finish", pos++, 60, "Finish", DataGridViewContentAlignment.MiddleCenter);
@@ -113,7 +113,7 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.medal_eliminated;
                 }
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
-                if (LevelStats.ALL.TryGetValue((string)e.Value, out var level)) {
+                if (StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
                     e.Value = level.Name;
                 }
             }
@@ -138,8 +138,8 @@ namespace FallGuysStats {
                         roundCompare = one.Round.CompareTo(two.Round);
                         return roundCompare == 0 ? showCompare : roundCompare;
                     case "Name":
-                        string nameOne = LevelStats.ALL.TryGetValue(one.Name, out var level1) ? level1.Name : one.Name;
-                        string nameTwo = LevelStats.ALL.TryGetValue(two.Name, out var level2) ? level2.Name : two.Name;
+                        string nameOne = StatsForm.StatLookup.TryGetValue(one.Name, out LevelStats level1) ? level1.Name : one.Name;
+                        string nameTwo = StatsForm.StatLookup.TryGetValue(two.Name, out LevelStats level2) ? level2.Name : two.Name;
                         int nameCompare = nameOne.CompareTo(nameTwo);
                         return nameCompare != 0 ? nameCompare : roundCompare;
                     case "Players":
