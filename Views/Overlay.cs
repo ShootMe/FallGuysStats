@@ -291,9 +291,20 @@ namespace FallGuysStats {
                         } else {
                             lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
                         }
-                        if (Time < levelInfo.BestFinish) {
+
+
+                        if (Time < levelInfo.BestFinish && Time > levelInfo.BestFinishOverall) {
+                            lblFinish.ForeColor = Color.Green;
+                            lblFinish.Text = $"{levelInfo.CurrentFilter} | FASTEST";
+                        } else if (Time < levelInfo.BestFinishOverall) {
+                            lblFinish.ForeColor = Color.Gold;
+                        } else if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
+                            lblFinish.ForeColor = Color.Green;
+                            lblFinish.Text = $"{levelInfo.CurrentFilter} | LONGEST";
+                        } else if (Time > levelInfo.LongestFinishOverall) {
                             lblFinish.ForeColor = Color.Gold;
                         }
+
                     } else if (lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
                             lblFinish.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
@@ -301,6 +312,7 @@ namespace FallGuysStats {
                             lblFinish.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
                         }
                     } else {
+                        lblFinish.Text = "FINISH";
                         lblFinish.TextRight = "-";
                         lblFinish.ForeColor = Color.White;
                     }
