@@ -26,6 +26,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.87
+    - Fixed level names in level details for gauntlet matches
+    - Allowed main window to be resizable
   - 1.86
     - Fixed Level stats grid columns
   - 1.85
