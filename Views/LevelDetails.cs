@@ -33,6 +33,7 @@ namespace FallGuysStats {
             gridDetails.Columns["Tier"].Visible = false;
             gridDetails.Columns["ID"].Visible = false;
             gridDetails.Columns["Crown"].Visible = false;
+            gridDetails.Columns["Profile"].Visible = false;
             gridDetails.Columns["InParty"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
