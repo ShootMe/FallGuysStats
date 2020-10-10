@@ -14,7 +14,9 @@ namespace FallGuysStats {
         public int TotalQualify { get; set; }
         public int TotalGolds { get; set; }
         public TimeSpan? BestFinish { get; set; }
+        public TimeSpan? BestFinishOverall { get; set; }
         public TimeSpan? LongestFinish { get; set; }
+        public TimeSpan? LongestFinishOverall { get; set; }
         public int? BestScore { get; set; }
     }
 }
