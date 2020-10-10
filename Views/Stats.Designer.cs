@@ -34,7 +34,6 @@
             this.lblFinalChance = new System.Windows.Forms.Label();
             this.lblWinChance = new System.Windows.Forms.Label();
             this.lblKudos = new System.Windows.Forms.Label();
-            this.gridDetails = new FallGuysStats.Grid();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,14 +47,15 @@
             this.menuAllPartyStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSoloStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPartyStats = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfileMain = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfilePractice = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
+            this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.gridDetails = new FallGuysStats.Grid();
             this.menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTotalShows
@@ -133,49 +133,6 @@
             this.lblKudos.TabIndex = 10;
             this.lblKudos.Text = "Kudos: 0";
             // 
-            // gridDetails
-            // 
-            this.gridDetails.AllowUserToDeleteRows = false;
-            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
-            this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridDetails.ColumnHeadersHeight = 20;
-            this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gridDetails.EnableHeadersVisualStyles = false;
-            this.gridDetails.GridColor = System.Drawing.Color.Gray;
-            this.gridDetails.Location = new System.Drawing.Point(0, 50);
-            this.gridDetails.Name = "gridDetails";
-            this.gridDetails.ReadOnly = true;
-            this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(614, 570);
-            this.gridDetails.TabIndex = 11;
-            this.gridDetails.TabStop = false;
-            this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
-            this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
-            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
-            this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
-            this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
-            this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
-            // 
             // menu
             // 
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -217,7 +174,7 @@
             this.menuDayStats,
             this.menuSessionStats});
             this.menuStatsFilter.Name = "menuStatsFilter";
-            this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
             this.menuStatsFilter.Text = "Stats";
             // 
             // menuAllStats
@@ -279,7 +236,7 @@
             this.menuSoloStats,
             this.menuPartyStats});
             this.menuPartyFilter.Name = "menuPartyFilter";
-            this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
+            this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
             this.menuPartyFilter.Text = "Party";
             // 
             // menuAllPartyStats
@@ -314,6 +271,33 @@
             this.menuPartyStats.Text = "Party";
             this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
+            // menuProfile
+            // 
+            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuProfileMain,
+            this.menuProfilePractice});
+            this.menuProfile.Name = "menuProfile";
+            this.menuProfile.Size = new System.Drawing.Size(53, 20);
+            this.menuProfile.Text = "Profile";
+            // 
+            // menuProfileMain
+            // 
+            this.menuProfileMain.Checked = true;
+            this.menuProfileMain.CheckOnClick = true;
+            this.menuProfileMain.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.menuProfileMain.Name = "menuProfileMain";
+            this.menuProfileMain.Size = new System.Drawing.Size(116, 22);
+            this.menuProfileMain.Text = "Main";
+            this.menuProfileMain.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // menuProfilePractice
+            // 
+            this.menuProfilePractice.CheckOnClick = true;
+            this.menuProfilePractice.Name = "menuProfilePractice";
+            this.menuProfilePractice.Size = new System.Drawing.Size(116, 22);
+            this.menuProfilePractice.Text = "Practice";
+            this.menuProfilePractice.Click += new System.EventHandler(this.menuStats_Click);
+            // 
             // menuOverlay
             // 
             this.menuOverlay.Name = "menuOverlay";
@@ -338,32 +322,48 @@
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
             // 
-            // menuProfile
+            // gridDetails
             // 
-            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuProfileMain,
-            this.menuProfilePractice});
-            this.menuProfile.Name = "menuProfile";
-            this.menuProfile.Size = new System.Drawing.Size(53, 20);
-            this.menuProfile.Text = "Profile";
-            // 
-            // menuProfileMain
-            // 
-            this.menuProfileMain.Checked = true;
-            this.menuProfileMain.CheckOnClick = true;
-            this.menuProfileMain.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.menuProfileMain.Name = "menuProfileMain";
-            this.menuProfileMain.Size = new System.Drawing.Size(180, 22);
-            this.menuProfileMain.Text = "Main";
-            this.menuProfileMain.Click += new System.EventHandler(this.menuStats_Click);
-            // 
-            // menuProfilePractice
-            // 
-            this.menuProfilePractice.CheckOnClick = true;
-            this.menuProfilePractice.Name = "menuProfilePractice";
-            this.menuProfilePractice.Size = new System.Drawing.Size(180, 22);
-            this.menuProfilePractice.Text = "Practice";
-            this.menuProfilePractice.Click += new System.EventHandler(this.menuStats_Click);
+            this.gridDetails.AllowUserToDeleteRows = false;
+            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
+            this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridDetails.ColumnHeadersHeight = 20;
+            this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridDetails.EnableHeadersVisualStyles = false;
+            this.gridDetails.GridColor = System.Drawing.Color.Gray;
+            this.gridDetails.Location = new System.Drawing.Point(0, 50);
+            this.gridDetails.Name = "gridDetails";
+            this.gridDetails.ReadOnly = true;
+            this.gridDetails.RowHeadersVisible = false;
+            this.gridDetails.Size = new System.Drawing.Size(614, 570);
+            this.gridDetails.TabIndex = 11;
+            this.gridDetails.TabStop = false;
+            this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
+            this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
+            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
+            this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
+            this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
+            this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // Stats
             // 
@@ -381,10 +381,9 @@
             this.Controls.Add(this.menu);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(630, 659);
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -392,9 +391,9 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
