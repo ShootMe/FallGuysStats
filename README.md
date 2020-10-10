@@ -26,6 +26,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.85
+    - Finish time on overlay will now become gold when you beat overall best time or green when you beat best time for current filter
+    - Time on overlay will now also show the timeout duration
   - 1.84
     - Fixed a filter issue with profiles
   - 1.83

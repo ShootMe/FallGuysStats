@@ -292,23 +292,17 @@ namespace FallGuysStats {
                             lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
                         }
 
-
                         if (level.Type == LevelType.Race || level.Type == LevelType.Hunt) {
                             if (Time < levelInfo.BestFinish && Time > levelInfo.BestFinishOverall) {
-                                lblFinish.ForeColor = Color.Green;
+                                lblFinish.ForeColor = Color.LightGreen;
                             } else if (Time < levelInfo.BestFinishOverall) {
                                 lblFinish.ForeColor = Color.Gold;
                             }
-                        } else {
-                            if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
-                                lblFinish.ForeColor = Color.Green;
-                            } else if (Time > levelInfo.LongestFinishOverall) {
-                                lblFinish.ForeColor = Color.Gold;
-                            }
+                        } else if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
+                            lblFinish.ForeColor = Color.LightGreen;
+                        } else if (Time > levelInfo.LongestFinishOverall) {
+                            lblFinish.ForeColor = Color.Gold;
                         }
-
-       
-
                     } else if (lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
                             lblFinish.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
@@ -320,13 +314,19 @@ namespace FallGuysStats {
                         lblFinish.ForeColor = Color.White;
                     }
 
+                    if (lastRound.GameDuration > 0) {
+                        lblDuration.Text = $"TIME ({TimeSpan.FromSeconds(lastRound.GameDuration):m\\:ss}):";
+                    } else {
+                        lblDuration.Text = "TIME";
+                    }
+
                     if (End != DateTime.MinValue) {
-                        lblDuration.TextRight = (End - Start).ToString("m\\:ss\\.ff");
+                        lblDuration.TextRight = $"{End - Start:m\\:ss\\.ff}";
                     } else if (lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
-                            lblDuration.TextRight = (DateTime.UtcNow - startTime).ToString("m\\:ss");
+                            lblDuration.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
                         } else {
-                            lblDuration.TextRight = (DateTime.UtcNow - Start).ToString("m\\:ss");
+                            lblDuration.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
                         }
                     } else {
                         lblDuration.TextRight = "-";

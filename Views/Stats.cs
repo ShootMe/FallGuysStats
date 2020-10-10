@@ -492,7 +492,7 @@ namespace FallGuysStats {
             summary.TotalFinals = 0;
             int lastShow = -1;
             LevelStats currentLevel = null;
-            if (!StatLookup.TryGetValue(name, out currentLevel)) {
+            if (!StatLookup.TryGetValue(name ?? string.Empty, out currentLevel)) {
                 currentLevel = new LevelStats(name, LevelType.Unknown, false, 0);
             }
             int profile = menuProfileMain.Checked ? 0 : 1;
