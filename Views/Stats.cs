@@ -590,6 +590,13 @@ namespace FallGuysStats {
                                 summary.LongestFinish = finishTime;
                             }
                         }
+
+                        if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
+                            summary.BestFinishOverall = finishTime;
+                        }
+                        if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
+                            summary.LongestFinishOverall = finishTime;
+                        }
                     }
                 } else {
                     if (!levelDetails.IsFinal) {
