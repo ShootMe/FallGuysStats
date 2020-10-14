@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.88
+    - Added more info to AssemblyInfo to possibly help with false positives in AV programs
   - 1.87
     - Fixed level names in level details for gauntlet matches
     - Allowed main window to be resizable
