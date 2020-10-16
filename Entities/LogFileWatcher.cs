@@ -301,6 +301,9 @@ namespace FallGuysStats {
                                 return false;
                             }
 
+                            if ((index = temp.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
+                                temp.Name = temp.Name.Substring(0, index);
+                            }
                             if (roundNum == 1) {
                                 showStart = temp.Start;
                             }
