@@ -208,6 +208,9 @@ namespace FallGuysStats {
                 stat = new RoundInfo();
                 round.Add(stat);
                 stat.Name = line.Line.Substring(index + 62);
+                if ((index = stat.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
+                    stat.Name = stat.Name.Substring(0, index);
+                }
                 stat.Round = round.Count;
                 stat.Start = line.Date;
                 stat.InParty = currentlyInParty;
@@ -291,6 +294,10 @@ namespace FallGuysStats {
                         foundRound = true;
                         int roundNum = (int)detail[7] - 0x30 + 1;
                         string roundName = detail.Substring(11, detail.Length - 12);
+                        if ((index = roundName.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
+                            roundName = roundName.Substring(0, index);
+                        }
+
                         if (roundNum - 1 < round.Count) {
                             if (roundNum > maxRound) {
                                 maxRound = roundNum;
@@ -301,9 +308,6 @@ namespace FallGuysStats {
                                 return false;
                             }
 
-                            if ((index = temp.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
-                                temp.Name = temp.Name.Substring(0, index);
-                            }
                             if (roundNum == 1) {
                                 showStart = temp.Start;
                             }
