@@ -81,7 +81,6 @@ namespace FallGuysStats {
             foreach (var entry in LevelStats.ALL) {
                 StatDetails.Add(entry.Value);
                 StatLookup.Add(entry.Key, entry.Value);
-                StatLookup.Add($"{entry.Key}_event_only_races", entry.Value);
             }
 
             gridDetails.DataSource = StatDetails;
@@ -124,6 +123,7 @@ namespace FallGuysStats {
         private void UpdateDatabaseVersion() {
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
                     info.Start = DateTime.SpecifyKind(info.Start.ToLocalTime(), DateTimeKind.Utc);
@@ -131,6 +131,7 @@ namespace FallGuysStats {
                     info.Finish = info.Finish.HasValue ? DateTime.SpecifyKind(info.Finish.Value.ToLocalTime(), DateTimeKind.Utc) : (DateTime?)null;
                     RoundDetails.Update(info);
                 }
+                StatsDB.Commit();
                 AllStats.Clear();
                 CurrentSettings.UpdatedDateFormat = true;
                 SaveUserSettings();
@@ -151,6 +152,23 @@ namespace FallGuysStats {
             if (CurrentSettings.Version == 2) {
                 CurrentSettings.SwitchBetweenStreaks = CurrentSettings.SwitchBetweenLongest;
                 CurrentSettings.Version = 3;
+                SaveUserSettings();
+            }
+
+            if (CurrentSettings.Version == 3) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 4;
                 SaveUserSettings();
             }
         }
