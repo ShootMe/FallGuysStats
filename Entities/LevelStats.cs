@@ -70,6 +70,7 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
+            { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
             { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, false, 1) },
             { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1) },
             { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1) },
@@ -97,7 +98,7 @@ namespace FallGuysStats {
             { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1) },
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
-            { "round_egg_grab_02",                 new LevelStats("Egg Siege", LevelType.Team, false, 2) },
+            { "round_egg_grab_02",                new LevelStats("Egg Siege", LevelType.Team, false, 2) },
 
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
             { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
