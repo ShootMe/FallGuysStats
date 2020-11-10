@@ -248,7 +248,17 @@ namespace FallGuysStats {
                 if (lastRound != null) {
                     lblName.Text = $"ROUND {lastRound.Round}:";
 
-                    lblName.TextRight = StatsForm.StatLookup.TryGetValue(lastRound.Name, out var level) ? level.Name.ToUpper() : string.Empty;
+                    string roundName;
+                    if (StatsForm.StatLookup.TryGetValue(lastRound.Name, out var level)) {
+                        roundName = level.Name.ToUpper();
+                    } else {
+                        roundName = lastRound.Name.ToUpper();
+                    }
+                    if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
+                        roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
+                    }
+                    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+                    lblName.TextRight = roundName;
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
