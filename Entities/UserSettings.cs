@@ -29,9 +29,12 @@
         public bool AutoUpdate { get; set; }
         public int? FormLocationX { get; set; }
         public int? FormLocationY { get; set; }
+        public int? FormWidth { get; set; }
+        public int? FormHeight { get; set; }
         public int? OverlayWidth { get; set; }
         public int? OverlayHeight { get; set; }
         public bool HideOverlayPercentages { get; set; }
+        public bool HoopsieHeros { get; set; }
         public int Version { get; set; }
     }
 }

@@ -107,6 +107,8 @@ namespace FallGuysStats {
                 }
             }
 
+            UpdateHoopsieLegends();
+
             RoundDetails.EnsureIndex(x => x.Name);
             RoundDetails.EnsureIndex(x => x.ShowID);
             RoundDetails.EnsureIndex(x => x.Round);
@@ -222,11 +224,22 @@ namespace FallGuysStats {
                 AutoUpdate = false,
                 FormLocationX = null,
                 FormLocationY = null,
+                FormWidth = null,
+                FormHeight = null,
                 OverlayWidth = 786,
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
+                HoopsieHeros = false,
                 Version = 2
             };
+        }
+        private void UpdateHoopsieLegends() {
+            LevelStats level = StatLookup["round_hoops_blockade_solo"];
+            string newName = CurrentSettings.HoopsieHeros ? "Hoopsie Heros" : "Hoopsie Legends";
+            if (level.Name != newName) {
+                level.Name = newName;
+                gridDetails.Invalidate();
+            }
         }
         public void UpdateDates() {
             if (DateTime.Now.Date.ToUniversalTime() == DayStart) { return; }
@@ -263,6 +276,8 @@ namespace FallGuysStats {
                     CurrentSettings.SelectedProfile = menuProfileMain.Checked ? 0 : 1;
                     CurrentSettings.FormLocationX = this.Location.X;
                     CurrentSettings.FormLocationY = this.Location.Y;
+                    CurrentSettings.FormWidth = this.ClientSize.Width;
+                    CurrentSettings.FormHeight = this.ClientSize.Height;
                     SaveUserSettings();
                 }
                 StatsDB.Dispose();
@@ -332,6 +347,9 @@ namespace FallGuysStats {
         }
         private void Stats_Load(object sender, EventArgs e) {
             try {
+                if (CurrentSettings.FormWidth.HasValue) {
+                    this.ClientSize = new Size(CurrentSettings.FormWidth.Value, CurrentSettings.FormHeight.Value);
+                }
                 if (CurrentSettings.FormLocationX.HasValue && IsOnScreen(CurrentSettings.FormLocationX.Value, CurrentSettings.FormLocationY.Value, this.Width)) {
                     this.Location = new Point(CurrentSettings.FormLocationX.Value, CurrentSettings.FormLocationY.Value);
                 }
@@ -1157,6 +1175,8 @@ namespace FallGuysStats {
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         CurrentSettings = settings.CurrentSettings;
                         SaveUserSettings();
+
+                        UpdateHoopsieLegends();
 
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await logFile.Stop();
