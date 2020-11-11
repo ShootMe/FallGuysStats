@@ -53,11 +53,11 @@
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
             this.grpStats = new System.Windows.Forms.GroupBox();
+            this.chkChangeHoopsieLegends = new System.Windows.Forms.CheckBox();
             this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkChangeHoopsieLegends = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -398,6 +398,16 @@
             this.grpStats.TabStop = false;
             this.grpStats.Text = "Stats";
             // 
+            // chkChangeHoopsieLegends
+            // 
+            this.chkChangeHoopsieLegends.AutoSize = true;
+            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(296, 44);
+            this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
+            this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(243, 17);
+            this.chkChangeHoopsieLegends.TabIndex = 4;
+            this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heroes";
+            this.chkChangeHoopsieLegends.UseVisualStyleBackColor = true;
+            // 
             // chkAutoUpdate
             // 
             this.chkAutoUpdate.AutoSize = true;
@@ -437,16 +447,6 @@
             this.txtPreviousWins.Text = "0";
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
-            // 
-            // chkChangeHoopsieLegends
-            // 
-            this.chkChangeHoopsieLegends.AutoSize = true;
-            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(296, 44);
-            this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
-            this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(237, 17);
-            this.chkChangeHoopsieLegends.TabIndex = 4;
-            this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heros";
-            this.chkChangeHoopsieLegends.UseVisualStyleBackColor = true;
             // 
             // Settings
             // 
