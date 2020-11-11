@@ -24,6 +24,7 @@ namespace FallGuysStats {
             chkAutoUpdate.Checked = CurrentSettings.AutoUpdate;
             chkFlipped.Checked = CurrentSettings.FlippedDisplay;
             chkHidePercentages.Checked = CurrentSettings.HideOverlayPercentages;
+            chkChangeHoopsieLegends.Checked = CurrentSettings.HoopsieHeros;
 
             switch (CurrentSettings.OverlayColor) {
                 case 0: cboOverlayColor.SelectedItem = "Magenta"; break;
@@ -101,7 +102,8 @@ namespace FallGuysStats {
             CurrentSettings.AutoUpdate = chkAutoUpdate.Checked;
             CurrentSettings.FlippedDisplay = chkFlipped.Checked;
             CurrentSettings.HideOverlayPercentages = chkHidePercentages.Checked;
-            
+            CurrentSettings.HoopsieHeros = chkChangeHoopsieLegends.Checked;
+
             switch ((string)cboOverlayColor.SelectedItem) {
                 case "Magenta": CurrentSettings.OverlayColor = 0; break;
                 case "Blue": CurrentSettings.OverlayColor = 1; break;
@@ -146,7 +148,7 @@ namespace FallGuysStats {
                     case 5: CurrentSettings.OverlayWidth = 786 - 242 - 225 - 12; break;
                     case 6: CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; break;
                 }
-                
+
                 if (CurrentSettings.ShowOverlayTabs) {
                     CurrentSettings.OverlayHeight = 134;
                 } else {

@@ -26,6 +26,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.93
+    - Added ability to rename Hoopsie Legends to Hoopsie Heros
+    - Added logic to save main window size
   - 1.92
     - Added code to handle levels with variations in their name
   - 1.91
