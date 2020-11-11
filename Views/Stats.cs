@@ -235,7 +235,7 @@ namespace FallGuysStats {
         }
         private void UpdateHoopsieLegends() {
             LevelStats level = StatLookup["round_hoops_blockade_solo"];
-            string newName = CurrentSettings.HoopsieHeros ? "Hoopsie Heros" : "Hoopsie Legends";
+            string newName = CurrentSettings.HoopsieHeros ? "Hoopsie Heroes" : "Hoopsie Legends";
             if (level.Name != newName) {
                 level.Name = newName;
                 gridDetails.Invalidate();
