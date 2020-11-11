@@ -174,6 +174,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 4;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 4) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 5;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {

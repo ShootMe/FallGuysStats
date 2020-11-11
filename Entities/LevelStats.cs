@@ -76,14 +76,13 @@ namespace FallGuysStats {
             { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1) },
             { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1) },
             { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1) },
+            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
+            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
             { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1) },
             { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
             { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1) },
             { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
-            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
             { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
-
-            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
 
             { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
             { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1) },

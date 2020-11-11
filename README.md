@@ -26,6 +26,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.92
+    - Added code to handle levels with variations in their name
   - 1.91
     - Added Big Fans Level
   - 1.90
