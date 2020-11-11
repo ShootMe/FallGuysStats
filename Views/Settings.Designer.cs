@@ -57,6 +57,7 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
+            this.chkChangeHoopsieLegends = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -94,7 +95,7 @@
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(269, 352);
+            this.btnSave.Location = new System.Drawing.Point(269, 369);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
@@ -147,7 +148,7 @@
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayQualify);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
-            this.grpOverlay.Location = new System.Drawing.Point(12, 114);
+            this.grpOverlay.Location = new System.Drawing.Point(12, 135);
             this.grpOverlay.Name = "grpOverlay";
             this.grpOverlay.Size = new System.Drawing.Size(590, 225);
             this.grpOverlay.TabIndex = 4;
@@ -385,13 +386,14 @@
             // 
             // grpStats
             // 
+            this.grpStats.Controls.Add(this.chkChangeHoopsieLegends);
             this.grpStats.Controls.Add(this.chkAutoUpdate);
             this.grpStats.Controls.Add(this.lblPreviousWinsNote);
             this.grpStats.Controls.Add(this.lblPreviousWins);
             this.grpStats.Controls.Add(this.txtPreviousWins);
             this.grpStats.Location = new System.Drawing.Point(12, 58);
             this.grpStats.Name = "grpStats";
-            this.grpStats.Size = new System.Drawing.Size(590, 50);
+            this.grpStats.Size = new System.Drawing.Size(590, 71);
             this.grpStats.TabIndex = 3;
             this.grpStats.TabStop = false;
             this.grpStats.Text = "Stats";
@@ -399,7 +401,7 @@
             // chkAutoUpdate
             // 
             this.chkAutoUpdate.AutoSize = true;
-            this.chkAutoUpdate.Location = new System.Drawing.Point(350, 22);
+            this.chkAutoUpdate.Location = new System.Drawing.Point(296, 21);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
             this.chkAutoUpdate.Size = new System.Drawing.Size(128, 17);
             this.chkAutoUpdate.TabIndex = 3;
@@ -436,13 +438,23 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
+            // chkChangeHoopsieLegends
+            // 
+            this.chkChangeHoopsieLegends.AutoSize = true;
+            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(296, 44);
+            this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
+            this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(237, 17);
+            this.chkChangeHoopsieLegends.TabIndex = 4;
+            this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heros";
+            this.chkChangeHoopsieLegends.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 390);
+            this.ClientSize = new System.Drawing.Size(614, 407);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.btnSave);
@@ -503,5 +515,6 @@
         private System.Windows.Forms.CheckBox chkHidePercentages;
         private System.Windows.Forms.CheckBox chkCycleOverlayPlayers;
         private System.Windows.Forms.CheckBox chkCycleOverlayStreak;
+        private System.Windows.Forms.CheckBox chkChangeHoopsieLegends;
     }
 }
