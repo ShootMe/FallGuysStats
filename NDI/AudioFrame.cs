@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 namespace NewTek.NDI {
+#if AllowUpdate
     public class AudioFrame : IDisposable {
         public AudioFrame(int maxSamples, int sampleRate, int numChannels) {
             // we have to know to free it later
@@ -125,4 +126,5 @@ namespace NewTek.NDI {
         internal NDIlib.audio_frame_v2_t _ndiAudioFrame;
         bool _memoryOwned = false;
     }
+#endif
 }

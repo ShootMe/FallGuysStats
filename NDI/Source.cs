@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 namespace NewTek.NDI {
+#if AllowUpdate
     public class Source {
         public string ComputerName { get; private set; }
         public string SourceName { get; private set; }
@@ -49,4 +50,5 @@ namespace NewTek.NDI {
             return Name;
         }
     }
+#endif
 }
