@@ -5,6 +5,7 @@ using System.Text;
 // Utility functions outside of the NDILib SDK itself,
 // but useful for working with NDI from managed languages.
 namespace NewTek.NDI {
+#if AllowUpdate
     [SuppressUnmanagedCodeSecurity]
     public static partial class UTF {
         // This REQUIRES you to use Marshal.FreeHGlobal() on the returned pointer!
@@ -63,5 +64,5 @@ namespace NewTek.NDI {
         }
 
     } // class NDILib
-
+#endif
 } // namespace NewTek.NDI

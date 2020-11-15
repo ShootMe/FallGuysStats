@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 namespace NewTek {
+#if AllowUpdate
     [SuppressUnmanagedCodeSecurity]
     public static partial class NDIlib {
         public static UInt32 NDILIB_CPP_DEFAULT_CONSTRUCTORS = 0;
@@ -73,4 +74,5 @@ namespace NewTek {
             internal static extern bool is_supported_CPU_32();
         } // UnsafeNativeMethods
     } // class NDIlib
+#endif
 } // namespace NewTek

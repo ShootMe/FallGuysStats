@@ -3,6 +3,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 namespace NewTek.NDI {
+#if AllowUpdate
     public class Sender : IDisposable {
         public Sender(String sourceName, bool clockVideo = true, bool clockAudio = false, String[] groups = null, String failoverName = null) {
             if (String.IsNullOrEmpty(sourceName)) {
@@ -158,4 +159,5 @@ namespace NewTek.NDI {
         private IntPtr _sendInstancePtr = IntPtr.Zero;
         private NDIlib.tally_t _ndiTally = new NDIlib.tally_t();
     }
+#endif
 }

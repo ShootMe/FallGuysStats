@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
 namespace NewTek {
+#if AllowUpdate
     [SuppressUnmanagedCodeSecurity]
     public static partial class NDIlib {
         // The creation structure that is used when you are creating a sender
@@ -232,5 +233,5 @@ namespace NewTek {
         } // UnsafeNativeMethods
 
     } // class NDIlib
-
+#endif
 } // namespace NewTek
