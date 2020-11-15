@@ -16,6 +16,7 @@ namespace FallGuysStats {
         [STAThread]
         static void Main(string[] args) {
             try {
+#if AllowUpdate
                 foreach (string file in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old")) {
                     int retries = 0;
                     while (retries < 20) {
@@ -29,6 +30,7 @@ namespace FallGuysStats {
                         Thread.Sleep(50);
                     }
                 }
+#endif
 
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -354,9 +356,11 @@ namespace FallGuysStats {
                     this.Location = new Point(CurrentSettings.FormLocationX.Value, CurrentSettings.FormLocationY.Value);
                 }
 
+#if AllowUpdate
                 if (CurrentSettings.AutoUpdate && CheckForUpdate(true)) {
                     return;
                 }
+#endif
 
                 if (CurrentSettings.SelectedProfile != 0) {
                     menuProfileMain.Checked = false;
@@ -1128,6 +1132,7 @@ namespace FallGuysStats {
             }
         }
         public bool CheckForUpdate(bool silent) {
+#if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
 
@@ -1163,7 +1168,13 @@ namespace FallGuysStats {
                     MessageBox.Show(this, "Could not determine version.", "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
+#else
+            try {
+                Process.Start(@"https://github.com/ShootMe/FallGuysStats");
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+#endif
             return false;
         }
         private async void menuSettings_Click(object sender, EventArgs e) {

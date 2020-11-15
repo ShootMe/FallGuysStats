@@ -28,10 +28,14 @@ namespace FallGuysStats {
         private int frameCount;
         private bool isTimeToSwitch;
         private int switchCount;
+        private Bitmap Background, DrawImage;
+        private Graphics DrawGraphics;
+#if AllowUpdate
         private Sender NDISender;
         private VideoFrame NDIFrame;
-        private Bitmap NDIImage, DrawImage, Background;
-        private Graphics NDIGraphics, DrawGraphics;
+        private Bitmap NDIImage;
+        private Graphics NDIGraphics;
+#endif
         private RoundInfo lastRound;
         private int triesToDownload, drawWidth, drawHeight;
         private bool startedPlaying;
@@ -50,6 +54,7 @@ namespace FallGuysStats {
             GlobalFont = new Font(CustomFont.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public void Cleanup() {
+#if AllowUpdate
             try {
                 lock (GlobalFont) {
                     if (NDIGraphics != null) {
@@ -70,6 +75,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch { }
+#endif
         }
         public Overlay() {
             InitializeComponent();
@@ -350,6 +356,7 @@ namespace FallGuysStats {
             }
         }
         private void SendNDI() {
+#if AllowUpdate
             try {
                 lock (GlobalFont) {
                     if (NDISender == null) {
@@ -405,6 +412,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+#endif
         }
         protected override void OnPaint(PaintEventArgs e) {
             lock (GlobalFont) {

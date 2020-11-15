@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 namespace NewTek.NDI {
+#if AllowUpdate
     public class VideoFrame : IDisposable {
         // the simple constructor only deals with BGRA. For other color formats you'll need to handle it manually.
         // Defaults to progressive but can be changed.
@@ -119,4 +120,5 @@ namespace NewTek.NDI {
         internal NDIlib.video_frame_v2_t _ndiVideoFrame;
         bool _memoryOwned = false;
     }
+#endif
 }
