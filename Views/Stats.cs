@@ -42,7 +42,8 @@ namespace FallGuysStats {
         private static string LOGNAME = "Player.log";
         private static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2020, 12, 6, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -195,6 +196,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 5;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 5) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_nothernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 6;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -232,7 +250,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 2
+                Version = 6
             };
         }
         private void UpdateHoopsieLegends() {
