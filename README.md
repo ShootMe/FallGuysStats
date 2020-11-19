@@ -28,8 +28,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.96
+    - Fixed existing levels for the northernlion game mode to show up correctly
   - 1.95
-    - Fixed new game mode adding levels that shouldn't be there'
+    - Fixed new game mode adding levels that shouldn't be there
   - 1.94
     - Fixed typo in level name
   - 1.93

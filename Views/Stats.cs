@@ -197,20 +197,20 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            if (CurrentSettings.Version == 5) {
+            if (CurrentSettings.Version == 5 || CurrentSettings.Version == 6) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = AllStats[i];
                     int index = 0;
-                    if ((index = info.Name.IndexOf("_nothernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
+                    if ((index = info.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
                         RoundDetails.Update(info);
                     }
                 }
                 StatsDB.Commit();
                 AllStats.Clear();
-                CurrentSettings.Version = 6;
+                CurrentSettings.Version = 7;
                 SaveUserSettings();
             }
         }
@@ -250,7 +250,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 6
+                Version = 7
             };
         }
         private void UpdateHoopsieLegends() {
