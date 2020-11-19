@@ -91,13 +91,13 @@ namespace FallGuysStats {
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
 
             { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1) },
+            { "round_egg_grab_02",                new LevelStats("Egg Siege", LevelType.Team, false, 2) },
             { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team, false, 1) },
             { "round_ballhogs",                   new LevelStats("Hoarders", LevelType.Team, false, 1) },
             { "round_hoops",                      new LevelStats("Hoopsie Daisy", LevelType.Team, false, 1) },
             { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1) },
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
-            { "round_egg_grab_02",                new LevelStats("Egg Siege", LevelType.Team, false, 2) },
 
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
             { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
