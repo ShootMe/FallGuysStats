@@ -210,7 +210,8 @@ namespace FallGuysStats {
                 stat.Name = line.Line.Substring(index + 62);
                 if ((index = stat.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0
                     || (index = stat.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0
-                    || (index = stat.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
+                    || (index = stat.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0
+                    || (index = stat.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
                     stat.Name = stat.Name.Substring(0, index);
                 }
                 stat.Round = round.Count;
@@ -298,7 +299,8 @@ namespace FallGuysStats {
                         string roundName = detail.Substring(11, detail.Length - 12);
                         if ((index = roundName.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0
                             || (index = roundName.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0
-                            || (index = roundName.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
+                            || (index = roundName.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0
+                            || (index = roundName.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
                             roundName = roundName.Substring(0, index);
                         }
 

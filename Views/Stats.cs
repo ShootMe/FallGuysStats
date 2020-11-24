@@ -213,6 +213,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 7;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 7) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 8;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -250,7 +267,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 7
+                Version = 8
             };
         }
         private void UpdateHoopsieLegends() {
