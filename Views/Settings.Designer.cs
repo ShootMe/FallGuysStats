@@ -58,6 +58,14 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
+            this.chkOnlyShowGold = new System.Windows.Forms.CheckBox();
+            this.lblOrGold = new System.Windows.Forms.Label();
+            this.lblOrLongest = new System.Windows.Forms.Label();
+            this.chkOnlyShowLongest = new System.Windows.Forms.CheckBox();
+            this.lblOrFinal = new System.Windows.Forms.Label();
+            this.chkOnlyShowFinalStreak = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.chkOnlyShowPing = new System.Windows.Forms.CheckBox();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
             this.SuspendLayout();
@@ -88,14 +96,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLogPath.Location = new System.Drawing.Point(64, 12);
             this.txtLogPath.Name = "txtLogPath";
-            this.txtLogPath.Size = new System.Drawing.Size(538, 20);
+            this.txtLogPath.Size = new System.Drawing.Size(593, 20);
             this.txtLogPath.TabIndex = 1;
             this.txtLogPath.Validating += new System.ComponentModel.CancelEventHandler(this.txtLogPath_Validating);
             // 
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(269, 369);
+            this.btnSave.Location = new System.Drawing.Point(296, 417);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 5;
@@ -106,25 +114,38 @@
             // chkCycleOverlayQualify
             // 
             this.chkCycleOverlayQualify.AutoSize = true;
-            this.chkCycleOverlayQualify.Location = new System.Drawing.Point(16, 151);
+            this.chkCycleOverlayQualify.Location = new System.Drawing.Point(16, 188);
             this.chkCycleOverlayQualify.Name = "chkCycleOverlayQualify";
             this.chkCycleOverlayQualify.Size = new System.Drawing.Size(120, 17);
-            this.chkCycleOverlayQualify.TabIndex = 5;
+            this.chkCycleOverlayQualify.TabIndex = 8;
             this.chkCycleOverlayQualify.Text = "Cycle Qualify / Gold";
             this.chkCycleOverlayQualify.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayQualify.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
             // 
             // chkCycleOverlayLongest
             // 
             this.chkCycleOverlayLongest.AutoSize = true;
-            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(16, 174);
+            this.chkCycleOverlayLongest.Location = new System.Drawing.Point(16, 211);
             this.chkCycleOverlayLongest.Name = "chkCycleOverlayLongest";
             this.chkCycleOverlayLongest.Size = new System.Drawing.Size(138, 17);
-            this.chkCycleOverlayLongest.TabIndex = 7;
+            this.chkCycleOverlayLongest.TabIndex = 11;
             this.chkCycleOverlayLongest.Text = "Cycle Fastest / Longest";
             this.chkCycleOverlayLongest.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayLongest.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
             // 
             // grpOverlay
             // 
+            this.grpOverlay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpOverlay.Controls.Add(this.label1);
+            this.grpOverlay.Controls.Add(this.chkOnlyShowPing);
+            this.grpOverlay.Controls.Add(this.lblOrFinal);
+            this.grpOverlay.Controls.Add(this.chkOnlyShowFinalStreak);
+            this.grpOverlay.Controls.Add(this.lblOrLongest);
+            this.grpOverlay.Controls.Add(this.chkOnlyShowLongest);
+            this.grpOverlay.Controls.Add(this.lblOrGold);
+            this.grpOverlay.Controls.Add(this.chkOnlyShowGold);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayStreak);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayPlayers);
             this.grpOverlay.Controls.Add(this.chkHidePercentages);
@@ -148,9 +169,9 @@
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayQualify);
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
-            this.grpOverlay.Location = new System.Drawing.Point(12, 135);
+            this.grpOverlay.Location = new System.Drawing.Point(12, 115);
             this.grpOverlay.Name = "grpOverlay";
-            this.grpOverlay.Size = new System.Drawing.Size(590, 225);
+            this.grpOverlay.Size = new System.Drawing.Size(645, 290);
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
@@ -158,22 +179,24 @@
             // chkCycleOverlayStreak
             // 
             this.chkCycleOverlayStreak.AutoSize = true;
-            this.chkCycleOverlayStreak.Location = new System.Drawing.Point(160, 151);
+            this.chkCycleOverlayStreak.Location = new System.Drawing.Point(16, 234);
             this.chkCycleOverlayStreak.Name = "chkCycleOverlayStreak";
             this.chkCycleOverlayStreak.Size = new System.Drawing.Size(141, 17);
-            this.chkCycleOverlayStreak.TabIndex = 6;
+            this.chkCycleOverlayStreak.TabIndex = 14;
             this.chkCycleOverlayStreak.Text = "Cycle Win / Final Streak";
             this.chkCycleOverlayStreak.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayStreak.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
             // 
             // chkCycleOverlayPlayers
             // 
             this.chkCycleOverlayPlayers.AutoSize = true;
-            this.chkCycleOverlayPlayers.Location = new System.Drawing.Point(160, 174);
+            this.chkCycleOverlayPlayers.Location = new System.Drawing.Point(16, 257);
             this.chkCycleOverlayPlayers.Name = "chkCycleOverlayPlayers";
             this.chkCycleOverlayPlayers.Size = new System.Drawing.Size(121, 17);
-            this.chkCycleOverlayPlayers.TabIndex = 8;
+            this.chkCycleOverlayPlayers.TabIndex = 17;
             this.chkCycleOverlayPlayers.Text = "Cycle Players / Ping";
             this.chkCycleOverlayPlayers.UseVisualStyleBackColor = true;
+            this.chkCycleOverlayPlayers.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
             // 
             // chkHidePercentages
             // 
@@ -206,27 +229,27 @@
             "Green",
             "Blue",
             "Black"});
-            this.cboOverlayColor.Location = new System.Drawing.Point(350, 120);
+            this.cboOverlayColor.Location = new System.Drawing.Point(447, 157);
             this.cboOverlayColor.Name = "cboOverlayColor";
             this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
-            this.cboOverlayColor.TabIndex = 19;
+            this.cboOverlayColor.TabIndex = 27;
             // 
             // lblOverlayColor
             // 
             this.lblOverlayColor.AutoSize = true;
-            this.lblOverlayColor.Location = new System.Drawing.Point(252, 123);
+            this.lblOverlayColor.Location = new System.Drawing.Point(376, 160);
             this.lblOverlayColor.Name = "lblOverlayColor";
-            this.lblOverlayColor.Size = new System.Drawing.Size(92, 13);
-            this.lblOverlayColor.TabIndex = 18;
-            this.lblOverlayColor.Text = "Background Color";
+            this.lblOverlayColor.Size = new System.Drawing.Size(65, 13);
+            this.lblOverlayColor.TabIndex = 26;
+            this.lblOverlayColor.Text = "Background";
             // 
             // chkFlipped
             // 
             this.chkFlipped.AutoSize = true;
-            this.chkFlipped.Location = new System.Drawing.Point(350, 151);
+            this.chkFlipped.Location = new System.Drawing.Point(447, 188);
             this.chkFlipped.Name = "chkFlipped";
             this.chkFlipped.Size = new System.Drawing.Size(132, 17);
-            this.chkFlipped.TabIndex = 20;
+            this.chkFlipped.TabIndex = 28;
             this.chkFlipped.Text = "Flip display horizontally";
             this.chkFlipped.UseVisualStyleBackColor = true;
             // 
@@ -271,18 +294,18 @@
             "Week Stats",
             "Day Stats",
             "Session Stats"});
-            this.cboFastestFilter.Location = new System.Drawing.Point(350, 69);
+            this.cboFastestFilter.Location = new System.Drawing.Point(447, 69);
             this.cboFastestFilter.Name = "cboFastestFilter";
             this.cboFastestFilter.Size = new System.Drawing.Size(183, 21);
-            this.cboFastestFilter.TabIndex = 17;
+            this.cboFastestFilter.TabIndex = 25;
             // 
             // lblFastestFilter
             // 
             this.lblFastestFilter.AutoSize = true;
-            this.lblFastestFilter.Location = new System.Drawing.Point(229, 72);
+            this.lblFastestFilter.Location = new System.Drawing.Point(326, 72);
             this.lblFastestFilter.Name = "lblFastestFilter";
             this.lblFastestFilter.Size = new System.Drawing.Size(115, 13);
-            this.lblFastestFilter.TabIndex = 16;
+            this.lblFastestFilter.TabIndex = 24;
             this.lblFastestFilter.Text = "Fastest / Longest Filter";
             // 
             // cboQualifyFilter
@@ -296,18 +319,18 @@
             "Week Stats",
             "Day Stats",
             "Session Stats"});
-            this.cboQualifyFilter.Location = new System.Drawing.Point(350, 44);
+            this.cboQualifyFilter.Location = new System.Drawing.Point(447, 44);
             this.cboQualifyFilter.Name = "cboQualifyFilter";
             this.cboQualifyFilter.Size = new System.Drawing.Size(183, 21);
-            this.cboQualifyFilter.TabIndex = 15;
+            this.cboQualifyFilter.TabIndex = 23;
             // 
             // lblQualifyFilter
             // 
             this.lblQualifyFilter.AutoSize = true;
-            this.lblQualifyFilter.Location = new System.Drawing.Point(247, 47);
+            this.lblQualifyFilter.Location = new System.Drawing.Point(344, 47);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
             this.lblQualifyFilter.Size = new System.Drawing.Size(97, 13);
-            this.lblQualifyFilter.TabIndex = 14;
+            this.lblQualifyFilter.TabIndex = 22;
             this.lblQualifyFilter.Text = "Qualify / Gold Filter";
             // 
             // cboWinsFilter
@@ -321,71 +344,73 @@
             "Week Stats",
             "Day Stats",
             "Session Stats"});
-            this.cboWinsFilter.Location = new System.Drawing.Point(350, 19);
+            this.cboWinsFilter.Location = new System.Drawing.Point(447, 19);
             this.cboWinsFilter.Name = "cboWinsFilter";
             this.cboWinsFilter.Size = new System.Drawing.Size(183, 21);
-            this.cboWinsFilter.TabIndex = 13;
+            this.cboWinsFilter.TabIndex = 21;
             // 
             // lblWinsFilter
             // 
             this.lblWinsFilter.AutoSize = true;
-            this.lblWinsFilter.Location = new System.Drawing.Point(255, 22);
+            this.lblWinsFilter.Location = new System.Drawing.Point(352, 22);
             this.lblWinsFilter.Name = "lblWinsFilter";
             this.lblWinsFilter.Size = new System.Drawing.Size(89, 13);
-            this.lblWinsFilter.TabIndex = 12;
+            this.lblWinsFilter.TabIndex = 20;
             this.lblWinsFilter.Text = "Wins / Final Filter";
             // 
             // chkOverlayOnTop
             // 
             this.chkOverlayOnTop.AutoSize = true;
-            this.chkOverlayOnTop.Location = new System.Drawing.Point(350, 174);
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(447, 211);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
             this.chkOverlayOnTop.Size = new System.Drawing.Size(120, 17);
-            this.chkOverlayOnTop.TabIndex = 21;
+            this.chkOverlayOnTop.TabIndex = 29;
             this.chkOverlayOnTop.Text = "Always show on top";
             this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
             // chkUseNDI
             // 
             this.chkUseNDI.AutoSize = true;
-            this.chkUseNDI.Location = new System.Drawing.Point(350, 197);
+            this.chkUseNDI.Location = new System.Drawing.Point(447, 234);
             this.chkUseNDI.Name = "chkUseNDI";
-            this.chkUseNDI.Size = new System.Drawing.Size(234, 17);
-            this.chkUseNDI.TabIndex = 22;
-            this.chkUseNDI.Text = "Use NDI to send Overlay over local network";
+            this.chkUseNDI.Size = new System.Drawing.Size(157, 17);
+            this.chkUseNDI.TabIndex = 30;
+            this.chkUseNDI.Text = "Use NDI to transmit Overlay";
             this.chkUseNDI.UseVisualStyleBackColor = true;
             // 
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
-            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(140, 200);
+            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(125, 160);
             this.lblCycleTimeSecondsTag.Name = "lblCycleTimeSecondsTag";
             this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(24, 13);
-            this.lblCycleTimeSecondsTag.TabIndex = 11;
+            this.lblCycleTimeSecondsTag.TabIndex = 7;
             this.lblCycleTimeSecondsTag.Text = "sec";
             // 
             // lblCycleTimeSeconds
             // 
             this.lblCycleTimeSeconds.AutoSize = true;
-            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(34, 200);
+            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(19, 160);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
             this.lblCycleTimeSeconds.Size = new System.Drawing.Size(59, 13);
-            this.lblCycleTimeSeconds.TabIndex = 9;
+            this.lblCycleTimeSeconds.TabIndex = 5;
             this.lblCycleTimeSeconds.Text = "Cycle Time";
             // 
             // txtCycleTimeSeconds
             // 
-            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(99, 197);
+            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(84, 157);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
             this.txtCycleTimeSeconds.Size = new System.Drawing.Size(35, 20);
-            this.txtCycleTimeSeconds.TabIndex = 10;
+            this.txtCycleTimeSeconds.TabIndex = 6;
             this.txtCycleTimeSeconds.Text = "5";
             this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCycleTimeSeconds.Validating += new System.ComponentModel.CancelEventHandler(this.txtCycleTimeSeconds_Validating);
             // 
             // grpStats
             // 
+            this.grpStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpStats.Controls.Add(this.chkChangeHoopsieLegends);
             this.grpStats.Controls.Add(this.chkAutoUpdate);
             this.grpStats.Controls.Add(this.lblPreviousWinsNote);
@@ -393,7 +418,7 @@
             this.grpStats.Controls.Add(this.txtPreviousWins);
             this.grpStats.Location = new System.Drawing.Point(12, 58);
             this.grpStats.Name = "grpStats";
-            this.grpStats.Size = new System.Drawing.Size(590, 71);
+            this.grpStats.Size = new System.Drawing.Size(645, 51);
             this.grpStats.TabIndex = 3;
             this.grpStats.TabStop = false;
             this.grpStats.Text = "Stats";
@@ -401,7 +426,7 @@
             // chkChangeHoopsieLegends
             // 
             this.chkChangeHoopsieLegends.AutoSize = true;
-            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(296, 44);
+            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(390, 21);
             this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
             this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(243, 17);
             this.chkChangeHoopsieLegends.TabIndex = 4;
@@ -411,7 +436,7 @@
             // chkAutoUpdate
             // 
             this.chkAutoUpdate.AutoSize = true;
-            this.chkAutoUpdate.Location = new System.Drawing.Point(296, 21);
+            this.chkAutoUpdate.Location = new System.Drawing.Point(254, 21);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
             this.chkAutoUpdate.Size = new System.Drawing.Size(128, 17);
             this.chkAutoUpdate.TabIndex = 3;
@@ -448,13 +473,97 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
+            // chkOnlyShowGold
+            // 
+            this.chkOnlyShowGold.AutoSize = true;
+            this.chkOnlyShowGold.Location = new System.Drawing.Point(193, 188);
+            this.chkOnlyShowGold.Name = "chkOnlyShowGold";
+            this.chkOnlyShowGold.Size = new System.Drawing.Size(102, 17);
+            this.chkOnlyShowGold.TabIndex = 10;
+            this.chkOnlyShowGold.Text = "Only Show Gold";
+            this.chkOnlyShowGold.UseVisualStyleBackColor = true;
+            this.chkOnlyShowGold.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // lblOrGold
+            // 
+            this.lblOrGold.AutoSize = true;
+            this.lblOrGold.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrGold.Location = new System.Drawing.Point(160, 189);
+            this.lblOrGold.Name = "lblOrGold";
+            this.lblOrGold.Size = new System.Drawing.Size(16, 13);
+            this.lblOrGold.TabIndex = 9;
+            this.lblOrGold.Text = "or";
+            // 
+            // lblOrLongest
+            // 
+            this.lblOrLongest.AutoSize = true;
+            this.lblOrLongest.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrLongest.Location = new System.Drawing.Point(160, 212);
+            this.lblOrLongest.Name = "lblOrLongest";
+            this.lblOrLongest.Size = new System.Drawing.Size(16, 13);
+            this.lblOrLongest.TabIndex = 12;
+            this.lblOrLongest.Text = "or";
+            // 
+            // chkOnlyShowLongest
+            // 
+            this.chkOnlyShowLongest.AutoSize = true;
+            this.chkOnlyShowLongest.Location = new System.Drawing.Point(193, 211);
+            this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
+            this.chkOnlyShowLongest.Size = new System.Drawing.Size(118, 17);
+            this.chkOnlyShowLongest.TabIndex = 13;
+            this.chkOnlyShowLongest.Text = "Only Show Longest";
+            this.chkOnlyShowLongest.UseVisualStyleBackColor = true;
+            this.chkOnlyShowLongest.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // lblOrFinal
+            // 
+            this.lblOrFinal.AutoSize = true;
+            this.lblOrFinal.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrFinal.Location = new System.Drawing.Point(160, 235);
+            this.lblOrFinal.Name = "lblOrFinal";
+            this.lblOrFinal.Size = new System.Drawing.Size(16, 13);
+            this.lblOrFinal.TabIndex = 15;
+            this.lblOrFinal.Text = "or";
+            // 
+            // chkOnlyShowFinalStreak
+            // 
+            this.chkOnlyShowFinalStreak.AutoSize = true;
+            this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(193, 234);
+            this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
+            this.chkOnlyShowFinalStreak.Size = new System.Drawing.Size(136, 17);
+            this.chkOnlyShowFinalStreak.TabIndex = 16;
+            this.chkOnlyShowFinalStreak.Text = "Only Show Final Streak";
+            this.chkOnlyShowFinalStreak.UseVisualStyleBackColor = true;
+            this.chkOnlyShowFinalStreak.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.DimGray;
+            this.label1.Location = new System.Drawing.Point(160, 258);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(16, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "or";
+            // 
+            // chkOnlyShowPing
+            // 
+            this.chkOnlyShowPing.AutoSize = true;
+            this.chkOnlyShowPing.Location = new System.Drawing.Point(193, 257);
+            this.chkOnlyShowPing.Name = "chkOnlyShowPing";
+            this.chkOnlyShowPing.Size = new System.Drawing.Size(101, 17);
+            this.chkOnlyShowPing.TabIndex = 19;
+            this.chkOnlyShowPing.Text = "Only Show Ping";
+            this.chkOnlyShowPing.UseVisualStyleBackColor = true;
+            this.chkOnlyShowPing.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
             // Settings
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 407);
+            this.ClientSize = new System.Drawing.Size(669, 455);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.btnSave);
@@ -516,5 +625,13 @@
         private System.Windows.Forms.CheckBox chkCycleOverlayPlayers;
         private System.Windows.Forms.CheckBox chkCycleOverlayStreak;
         private System.Windows.Forms.CheckBox chkChangeHoopsieLegends;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chkOnlyShowPing;
+        private System.Windows.Forms.Label lblOrFinal;
+        private System.Windows.Forms.CheckBox chkOnlyShowFinalStreak;
+        private System.Windows.Forms.Label lblOrLongest;
+        private System.Windows.Forms.CheckBox chkOnlyShowLongest;
+        private System.Windows.Forms.Label lblOrGold;
+        private System.Windows.Forms.CheckBox chkOnlyShowGold;
     }
 }
