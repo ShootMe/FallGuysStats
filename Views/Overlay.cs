@@ -165,7 +165,7 @@ namespace FallGuysStats {
         private void SetQualifyChanceLabel(StatSummary levelInfo) {
             int qualifySwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenQualify) {
-                qualifySwitchCount = 0;
+                qualifySwitchCount = StatsForm.CurrentSettings.OnlyShowGold ? 1 : 0;
             }
             float qualifyChance;
             string qualifyChanceDisplay;
@@ -187,7 +187,7 @@ namespace FallGuysStats {
         private void SetFastestLabel(StatSummary levelInfo, LevelStats level) {
             int fastestSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                fastestSwitchCount = level.Type.FastestLabel();
+                fastestSwitchCount = StatsForm.CurrentSettings.OnlyShowLongest ? 0 : level.Type.FastestLabel();
             }
             switch (fastestSwitchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
                 case 0:
@@ -207,7 +207,7 @@ namespace FallGuysStats {
         private void SetPlayersLabel() {
             int playersSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenPlayers) {
-                playersSwitchCount = 0;
+                playersSwitchCount = StatsForm.CurrentSettings.OnlyShowPing ? 1 : 0;
             }
             switch (playersSwitchCount % 2) {
                 case 0:
@@ -223,7 +223,7 @@ namespace FallGuysStats {
         private void SetStreakInfo(StatSummary levelInfo) {
             int streakSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenStreaks) {
-                streakSwitchCount = 0;
+                streakSwitchCount = StatsForm.CurrentSettings.OnlyShowFinalStreak ? 1 : 0;
             }
             switch (streakSwitchCount % 2) {
                 case 0:

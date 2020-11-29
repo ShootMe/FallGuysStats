@@ -12,6 +12,10 @@
         public bool SwitchBetweenQualify { get; set; }
         public bool SwitchBetweenPlayers { get; set; }
         public bool SwitchBetweenStreaks { get; set; }
+        public bool OnlyShowLongest { get; set; }
+        public bool OnlyShowGold { get; set; }
+        public bool OnlyShowPing { get; set; }
+        public bool OnlyShowFinalStreak { get; set; }
         public int CycleTimeSeconds { get; set; }
         public bool OverlayVisible { get; set; }
         public bool OverlayNotOnTop { get; set; }
