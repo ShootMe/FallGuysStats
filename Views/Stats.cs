@@ -163,23 +163,6 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            if (CurrentSettings.Version == 3) {
-                AllStats.AddRange(RoundDetails.FindAll());
-                StatsDB.BeginTrans();
-                for (int i = AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = AllStats[i];
-                    int index = 0;
-                    if ((index = info.Name.IndexOf("_event_only", StringComparison.OrdinalIgnoreCase)) > 0) {
-                        info.Name = info.Name.Substring(0, index);
-                        RoundDetails.Update(info);
-                    }
-                }
-                StatsDB.Commit();
-                AllStats.Clear();
-                CurrentSettings.Version = 4;
-                SaveUserSettings();
-            }
-
             if (CurrentSettings.Version == 4) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 StatsDB.BeginTrans();
@@ -230,6 +213,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 8;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 8) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 9;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -246,6 +246,10 @@ namespace FallGuysStats {
                 SwitchBetweenQualify = true,
                 SwitchBetweenPlayers = true,
                 SwitchBetweenStreaks = true,
+                OnlyShowLongest = false,
+                OnlyShowGold = false,
+                OnlyShowPing = false,
+                OnlyShowFinalStreak = false,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 UseNDI = false,
@@ -267,7 +271,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 8
+                Version = 9
             };
         }
         private void UpdateHoopsieLegends() {

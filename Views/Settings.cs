@@ -13,6 +13,10 @@ namespace FallGuysStats {
             chkCycleOverlayQualify.Checked = CurrentSettings.SwitchBetweenQualify;
             chkCycleOverlayPlayers.Checked = CurrentSettings.SwitchBetweenPlayers;
             chkCycleOverlayStreak.Checked = CurrentSettings.SwitchBetweenStreaks;
+            chkOnlyShowLongest.Checked = CurrentSettings.OnlyShowLongest;
+            chkOnlyShowGold.Checked = CurrentSettings.OnlyShowGold;
+            chkOnlyShowPing.Checked = CurrentSettings.OnlyShowPing;
+            chkOnlyShowFinalStreak.Checked = CurrentSettings.OnlyShowFinalStreak;
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
@@ -85,6 +89,10 @@ namespace FallGuysStats {
             CurrentSettings.SwitchBetweenQualify = chkCycleOverlayQualify.Checked;
             CurrentSettings.SwitchBetweenPlayers = chkCycleOverlayPlayers.Checked;
             CurrentSettings.SwitchBetweenStreaks = chkCycleOverlayStreak.Checked;
+            CurrentSettings.OnlyShowLongest = chkOnlyShowLongest.Checked;
+            CurrentSettings.OnlyShowGold = chkOnlyShowGold.Checked;
+            CurrentSettings.OnlyShowPing = chkOnlyShowPing.Checked;
+            CurrentSettings.OnlyShowFinalStreak = chkOnlyShowFinalStreak.Checked;
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
@@ -171,10 +179,28 @@ namespace FallGuysStats {
                 }
             } catch { }
         }
-
         private void txtPreviousWins_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(txtPreviousWins.Text) && !int.TryParse(txtPreviousWins.Text, out _)) {
                 txtPreviousWins.Text = "0";
+            }
+        }
+        private void chkCycleOnly_CheckedChanged(object sender, EventArgs e) {
+            if (sender == chkOnlyShowGold && chkOnlyShowGold.Checked && chkCycleOverlayQualify.Checked) {
+                chkCycleOverlayQualify.Checked = false;
+            } else if (sender == chkCycleOverlayQualify && chkCycleOverlayQualify.Checked && chkOnlyShowGold.Checked) {
+                chkOnlyShowGold.Checked = false;
+            } else if (sender == chkOnlyShowLongest && chkOnlyShowLongest.Checked && chkCycleOverlayLongest.Checked) {
+                chkCycleOverlayLongest.Checked = false;
+            } else if (sender == chkCycleOverlayLongest && chkCycleOverlayLongest.Checked && chkOnlyShowLongest.Checked) {
+                chkOnlyShowLongest.Checked = false;
+            } else if (sender == chkOnlyShowFinalStreak && chkOnlyShowFinalStreak.Checked && chkCycleOverlayStreak.Checked) {
+                chkCycleOverlayStreak.Checked = false;
+            } else if (sender == chkCycleOverlayStreak && chkCycleOverlayStreak.Checked && chkOnlyShowFinalStreak.Checked) {
+                chkOnlyShowFinalStreak.Checked = false;
+            } else if (sender == chkOnlyShowPing && chkOnlyShowPing.Checked && chkCycleOverlayPlayers.Checked) {
+                chkCycleOverlayPlayers.Checked = false;
+            } else if (sender == chkCycleOverlayPlayers && chkCycleOverlayPlayers.Checked && chkOnlyShowPing.Checked) {
+                chkOnlyShowPing.Checked = false;
             }
         }
     }

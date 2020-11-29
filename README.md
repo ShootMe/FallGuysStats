@@ -28,6 +28,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.98
+    - Logic to handle new game mode
+    - Added ability to only show certain stats on overlay instead of having to cycle them
   - 1.97
     - Logic to handle new game mode
   - 1.96
