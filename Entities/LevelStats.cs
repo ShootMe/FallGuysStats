@@ -25,7 +25,7 @@ namespace FallGuysStats {
         public DateTime ShowStart = DateTime.MinValue;
         public DateTime ShowEnd = DateTime.MinValue;
         public int GameDuration;
-
+        public string SceneName;
         public bool Playing;
         private bool setLocalTime;
 
@@ -37,6 +37,14 @@ namespace FallGuysStats {
             EndLocal = End.ToLocalTime();
             if (Finish.HasValue) {
                 FinishLocal = Finish.Value.ToLocalTime();
+            }
+        }
+        public void VerifyName() {
+            if (string.IsNullOrEmpty(SceneName)) { return; }
+
+            string roundName;
+            if (LevelStats.SceneToRound.TryGetValue(SceneName, out roundName)) {
+                Name = roundName;
             }
         }
         public override string ToString() {
@@ -103,6 +111,41 @@ namespace FallGuysStats {
             { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
             { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1) },
             { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1) },
+        };
+        public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "FallGuy_BiggestFan",                "round_biggestfan" },
+            { "FallGuy_DoorDash",                  "round_door_dash" },
+            { "FallGuy_Gauntlet_02_01",            "round_gauntlet_02" },
+            { "FallGuy_DodgeFall",                 "round_dodge_fall" },
+            { "FallGuy_ChompChomp_01",             "round_chompchomp" },
+            { "FallGuy_Gauntlet_01",               "round_gauntlet_01" },
+            { "FallGuy_Hoops_Blockade",            "round_hoops_blockade_solo" },
+            { "FallGuy_Gauntlet_04",               "round_gauntlet_04" },
+            { "FallGuy_SeeSaw_variant2",           "round_see_saw" },
+            { "FallGuy_Lava_02",                   "round_lava" },
+            { "FallGuy_TipToe",                    "round_tip_toe" },
+            { "FallGuy_Gauntlet_03",               "round_gauntlet_03" },
+            { "FallGuy_WallGuys",                  "round_wall_guys" },
+
+            { "FallGuy_Block_Party",               "round_block_party" },
+            { "FallGuy_JumpClub_01",               "round_jump_club" },
+            { "FallGuy_MatchFall",                 "round_match_fall" },
+            { "FallGuy_Tunnel_01",                 "round_tunnel" },
+            { "FallGuy_TailTag_2",                 "round_tail_tag" },
+
+            { "FallGuy_EggGrab",                   "round_egg_grab" },
+            { "FallGuy_EggGrab_02",                "round_egg_grab_02" },
+            { "FallGuy_FallBall_5",                "round_fall_ball_60_players" },
+            { "FallGuy_BallHogs_01",               "round_ballhogs" },
+            { "FallGuy_Hoops_01",                  "round_hoops" },
+            { "FallGuy_TeamInfected",              "round_jinxed" },
+            { "FallGuy_RocknRoll",                 "round_rocknroll" },
+            { "FallGuy_ConveyorArena_01",          "round_conveyor_arena" },
+
+            { "FallGuy_FallMountain_Hub_Complete", "round_fall_mountain_hub_complete" },
+            { "FallGuy_FloorFall",                 "round_floor_fall" },
+            { "FallGuy_JumpShowdown_01",           "round_jump_showdown" },
+            { "FallGuy_Arena_01",                  "round_royal_rumble" },
         };
 
         public string Name { get; set; }
