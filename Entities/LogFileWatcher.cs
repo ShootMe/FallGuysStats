@@ -204,16 +204,12 @@ namespace FallGuysStats {
         }
         private bool ParseLine(LogLine line, List<RoundInfo> round, ref string currentPlayerID, ref bool countPlayers, ref bool currentlyInParty, ref bool findPosition, ref int players, ref RoundInfo stat, ref int lastPing, ref int gameDuration) {
             int index;
-            if ((index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
+            if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
                 stat = new RoundInfo();
+                stat.SceneName = line.Line.Substring(index + 44);
                 round.Add(stat);
+            } else if (stat != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
                 stat.Name = line.Line.Substring(index + 62);
-                if ((index = stat.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
-                    || (index = stat.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0
-                    || (index = stat.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0
-                    || (index = stat.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
-                    stat.Name = stat.Name.Substring(0, index);
-                }
                 stat.Round = round.Count;
                 stat.Start = line.Date;
                 stat.InParty = currentlyInParty;
@@ -297,12 +293,6 @@ namespace FallGuysStats {
                         foundRound = true;
                         int roundNum = (int)detail[7] - 0x30 + 1;
                         string roundName = detail.Substring(11, detail.Length - 12);
-                        if ((index = roundName.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
-                            || (index = roundName.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0
-                            || (index = roundName.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0
-                            || (index = roundName.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
-                            roundName = roundName.Substring(0, index);
-                        }
 
                         if (roundNum - 1 < round.Count) {
                             if (roundNum > maxRound) {
@@ -314,6 +304,7 @@ namespace FallGuysStats {
                                 return false;
                             }
 
+                            temp.VerifyName();
                             if (roundNum == 1) {
                                 showStart = temp.Start;
                             }
