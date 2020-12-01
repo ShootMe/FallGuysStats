@@ -230,6 +230,22 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 9;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 9) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    if (info.Name.Equals("round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
+                        info.Name = "round_fall_mountain_hub_complete";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 10;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -271,7 +287,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 9
+                Version = 10
             };
         }
         private void UpdateHoopsieLegends() {
