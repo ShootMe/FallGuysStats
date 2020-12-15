@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class LevelDetails : Form {
@@ -35,6 +36,7 @@ namespace FallGuysStats {
             gridDetails.Columns["Crown"].Visible = false;
             gridDetails.Columns["Profile"].Visible = false;
             gridDetails.Columns["InParty"].Visible = false;
+            gridDetails.Columns["PrivateLobby"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
             if (ShowStats == 2) {
@@ -73,22 +75,19 @@ namespace FallGuysStats {
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= gridDetails.Rows.Count) { return; }
 
+            RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
+            if (info.PrivateLobby) { e.CellStyle.BackColor = Color.LightGray; }
             if (gridDetails.Columns[e.ColumnIndex].Name == "End") {
-                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Start") {
-                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
-                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Finish.HasValue) {
                     e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.ff");
                 }
             } else if (ShowStats == 2 && gridDetails.Columns[e.ColumnIndex].Name == "Qualified") {
-                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 e.Value = !string.IsNullOrEmpty(info.Name);
             } else if (gridDetails.Columns[e.ColumnIndex].Name == "Medal" && e.Value == null) {
-                RoundInfo info = gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.Qualified) {
                     switch (info.Tier) {
                         case 0:
