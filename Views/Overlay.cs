@@ -184,10 +184,10 @@ namespace FallGuysStats {
                     break;
             }
         }
-        private void SetFastestLabel(StatSummary levelInfo, LevelStats level) {
+        private void SetFastestLabel(StatSummary levelInfo, LevelType type) {
             int fastestSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                fastestSwitchCount = StatsForm.CurrentSettings.OnlyShowLongest ? 0 : level.Type.FastestLabel();
+                fastestSwitchCount = StatsForm.CurrentSettings.OnlyShowLongest ? 0 : type.FastestLabel();
             }
             switch (fastestSwitchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
                 case 0:
@@ -248,22 +248,22 @@ namespace FallGuysStats {
                     lastRound = StatsForm.CurrentRound[StatsForm.CurrentRound.Count - 1];
                 }
 
-                StatSummary levelInfo = StatsForm.GetLevelInfo(lastRound?.Name);
-                lblFilter.Text = levelInfo.CurrentFilter;
+                lblFilter.Text = StatsForm.GetCurrentFilter();
 
-                if (lastRound != null) {
+                if (lastRound != null && !string.IsNullOrEmpty(lastRound.Name)) {
+                    string roundName = lastRound.VerifiedName();
                     lblName.Text = $"ROUND {lastRound.Round}:";
 
-                    string roundName;
-                    if (StatsForm.StatLookup.TryGetValue(lastRound.Name, out var level)) {
+                    if (StatsForm.StatLookup.TryGetValue(roundName, out var level)) {
                         roundName = level.Name.ToUpper();
-                    } else {
-                        roundName = lastRound.Name.ToUpper();
                     }
+
                     if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+
+                    StatSummary levelInfo = StatsForm.GetLevelInfo(roundName);
                     lblName.TextRight = roundName;
 
                     float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
@@ -282,7 +282,8 @@ namespace FallGuysStats {
                     lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
 
                     SetQualifyChanceLabel(levelInfo);
-                    SetFastestLabel(levelInfo, level);
+                    LevelType levelType = (level?.Type).GetValueOrDefault();
+                    SetFastestLabel(levelInfo, levelType);
                     SetPlayersLabel();
                     SetStreakInfo(levelInfo);
                     if (isTimeToSwitch) {
@@ -308,15 +309,15 @@ namespace FallGuysStats {
                             lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
                         }
 
-                        if (level.Type == LevelType.Race || level.Type == LevelType.Hunt) {
-                            if (Time < levelInfo.BestFinish && Time > levelInfo.BestFinishOverall) {
+                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "round_rocknroll" || roundName == "round_snowy_scrap") {
+                            if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 lblFinish.ForeColor = Color.LightGreen;
-                            } else if (Time < levelInfo.BestFinishOverall) {
+                            } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 lblFinish.ForeColor = Color.Gold;
                             }
-                        } else if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
+                        } else if (Time > levelInfo.LongestFinish.GetValueOrDefault(TimeSpan.Zero) && Time < levelInfo.LongestFinishOverall.GetValueOrDefault(TimeSpan.Zero)) {
                             lblFinish.ForeColor = Color.LightGreen;
-                        } else if (Time > levelInfo.LongestFinishOverall) {
+                        } else if (Time > levelInfo.LongestFinishOverall.GetValueOrDefault(TimeSpan.Zero)) {
                             lblFinish.ForeColor = Color.Gold;
                         }
                     } else if (lastRound.Playing) {

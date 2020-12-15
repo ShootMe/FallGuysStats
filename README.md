@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.100
+    - Fixes and added levels for Season 3
   - 1.99
     - Hopefully made it so game modes wont affect levels anymore
   - 1.98
