@@ -623,7 +623,7 @@ namespace FallGuysStats {
         }
         public StatSummary GetLevelInfo(string name) {
             StatSummary summary = new StatSummary();
-            LevelStats levelDetails = null;
+            LevelStats levelDetails;
 
             summary.AllWins = 0;
             summary.TotalShows = 0;
@@ -654,24 +654,24 @@ namespace FallGuysStats {
                     endShow = AllStats[j];
                 }
 
-                bool isInQualifyFilter = CurrentSettings.QualifyFilter == 0 ||
+                bool isInQualifyFilter = !endShow.PrivateLobby && (CurrentSettings.QualifyFilter == 0 ||
                     (CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
                     (CurrentSettings.QualifyFilter == 2 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.QualifyFilter == 3 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.QualifyFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
-                    (CurrentSettings.QualifyFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
+                    (CurrentSettings.QualifyFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info)));
                 bool isInFastestFilter = CurrentSettings.FastestFilter == 0 ||
                     (CurrentSettings.FastestFilter == 1 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
                     (CurrentSettings.FastestFilter == 2 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.FastestFilter == 3 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.FastestFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.FastestFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
-                bool isInWinsFilter = CurrentSettings.WinsFilter == 3 ||
+                bool isInWinsFilter = !endShow.PrivateLobby && (CurrentSettings.WinsFilter == 3 ||
                     (CurrentSettings.WinsFilter == 0 && IsInStatsFilter(endShow.Start) && IsInPartyFilter(info)) ||
                     (CurrentSettings.WinsFilter == 1 && endShow.Start > SeasonStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.WinsFilter == 2 && endShow.Start > WeekStart && IsInPartyFilter(info)) ||
                     (CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart && IsInPartyFilter(info)) ||
-                    (CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info));
+                    (CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && IsInPartyFilter(info)));
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;

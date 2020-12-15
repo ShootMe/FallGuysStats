@@ -147,13 +147,14 @@ namespace FallGuysStats {
                         int players = 0;
                         bool countPlayers = false;
                         bool currentlyInParty = false;
+                        bool privateLobby = false;
                         bool findPosition = false;
                         string currentPlayerID = string.Empty;
                         int lastPing = 0;
                         int gameDuration = 0;
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
-                            ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration);
+                            ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration, ref privateLobby);
                         }
 
                         if (lastPing != 0) {
@@ -175,6 +176,7 @@ namespace FallGuysStats {
             int players = 0;
             bool countPlayers = false;
             bool currentlyInParty = false;
+            bool privateLobby = false;
             bool findPosition = false;
             string currentPlayerID = string.Empty;
             int lastPing = 0;
@@ -184,7 +186,7 @@ namespace FallGuysStats {
                     lock (lines) {
                         for (int i = 0; i < lines.Count; i++) {
                             LogLine line = lines[i];
-                            if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration)) {
+                            if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration, ref privateLobby)) {
                                 allStats.AddRange(round);
                             }
                         }
@@ -202,7 +204,7 @@ namespace FallGuysStats {
                 Thread.Sleep(UpdateDelay);
             }
         }
-        private bool ParseLine(LogLine line, List<RoundInfo> round, ref string currentPlayerID, ref bool countPlayers, ref bool currentlyInParty, ref bool findPosition, ref int players, ref RoundInfo stat, ref int lastPing, ref int gameDuration) {
+        private bool ParseLine(LogLine line, List<RoundInfo> round, ref string currentPlayerID, ref bool countPlayers, ref bool currentlyInParty, ref bool findPosition, ref int players, ref RoundInfo stat, ref int lastPing, ref int gameDuration, ref bool privateLobby) {
             int index;
             if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
                 stat = new RoundInfo();
@@ -219,10 +221,13 @@ namespace FallGuysStats {
                 stat.Round = round.Count;
                 stat.Start = line.Date;
                 stat.InParty = currentlyInParty;
+                stat.PrivateLobby = privateLobby;
                 stat.GameDuration = gameDuration;
                 countPlayers = true;
-            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase)) > 0) {
-                currentlyInParty = !line.Line.Substring(index + 37).Equals("solo", StringComparison.OrdinalIgnoreCase);
+            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase)) > 0 ||
+                (index = line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {
+                privateLobby = line.Line.IndexOf("StatePrivateLobby") > 0;
+                currentlyInParty = privateLobby || !line.Line.Substring(index + 37).Equals("solo", StringComparison.OrdinalIgnoreCase);
                 if (stat != null) {
                     if (stat.End == DateTime.MinValue) {
                         stat.End = line.Date;
@@ -269,7 +274,8 @@ namespace FallGuysStats {
             } else if (stat != null &&
                 (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) > 0
                 || line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) > 0
-                || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) > 0)) {
+                || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) > 0
+                || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0)) {
                 if (stat.End == DateTime.MinValue) {
                     stat.End = line.Date;
                 }
@@ -317,6 +323,7 @@ namespace FallGuysStats {
                             temp.ShowStart = showStart;
                             temp.Playing = false;
                             temp.Round = roundNum;
+                            privateLobby = temp.PrivateLobby;
                             currentlyInParty = temp.InParty;
                         } else {
                             return false;
