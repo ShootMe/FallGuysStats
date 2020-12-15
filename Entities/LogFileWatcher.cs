@@ -206,10 +206,16 @@ namespace FallGuysStats {
             int index;
             if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
                 stat = new RoundInfo();
-                stat.SceneName = line.Line.Substring(index + 44);
+                int index2 = line.Line.IndexOf(' ', index + 44);
+                if (index2 < 0) { index2 = line.Line.Length; }
+
+                stat.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
                 round.Add(stat);
             } else if (stat != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
-                stat.Name = line.Line.Substring(index + 62);
+                int index2 = line.Line.IndexOf(". ", index + 62);
+                if (index2 < 0) { index2 = line.Line.Length; }
+
+                stat.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 stat.Round = round.Count;
                 stat.Start = line.Date;
                 stat.InParty = currentlyInParty;
