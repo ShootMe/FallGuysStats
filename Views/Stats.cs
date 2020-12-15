@@ -43,7 +43,7 @@ namespace FallGuysStats {
         private static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 12, 6, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -246,6 +246,24 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 10;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 10) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+                    int index = 0;
+                    if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
+                        || (index = info.Name.IndexOf(". D", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        info.Name = info.Name.Substring(0, index);
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 11;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -287,7 +305,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 10
+                Version = 11
             };
         }
         private void UpdateHoopsieLegends() {
@@ -600,9 +618,11 @@ namespace FallGuysStats {
                 (menuSoloStats.Checked && !info.InParty) ||
                 (menuPartyStats.Checked && info.InParty);
         }
+        public string GetCurrentFilter() {
+            return menuAllStats.Checked ? "ALL TIME" : menuSeasonStats.Checked ? "SEASON" : menuWeekStats.Checked ? "WEEK" : menuDayStats.Checked ? "DAY" : "SESSION";
+        }
         public StatSummary GetLevelInfo(string name) {
             StatSummary summary = new StatSummary();
-            summary.CurrentFilter = menuAllStats.Checked ? "ALL TIME" : menuSeasonStats.Checked ? "SEASON" : menuWeekStats.Checked ? "WEEK" : menuDayStats.Checked ? "DAY" : "SESSION";
             LevelStats levelDetails = null;
 
             summary.AllWins = 0;
@@ -611,7 +631,7 @@ namespace FallGuysStats {
             summary.TotalWins = 0;
             summary.TotalFinals = 0;
             int lastShow = -1;
-            LevelStats currentLevel = null;
+            LevelStats currentLevel;
             if (!StatLookup.TryGetValue(name ?? string.Empty, out currentLevel)) {
                 currentLevel = new LevelStats(name, LevelType.Unknown, false, 0);
             }
