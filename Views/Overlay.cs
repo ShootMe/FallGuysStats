@@ -309,15 +309,15 @@ namespace FallGuysStats {
                             lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
                         }
 
-                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "round_rocknroll" || roundName == "round_snowy_scrap") {
+                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "ROCK'N'ROLL" || roundName == "SNOWY SCRAP") {
                             if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 lblFinish.ForeColor = Color.LightGreen;
                             } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 lblFinish.ForeColor = Color.Gold;
                             }
-                        } else if (Time > levelInfo.LongestFinish.GetValueOrDefault(TimeSpan.Zero) && Time < levelInfo.LongestFinishOverall.GetValueOrDefault(TimeSpan.Zero)) {
+                        } else if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
                             lblFinish.ForeColor = Color.LightGreen;
-                        } else if (Time > levelInfo.LongestFinishOverall.GetValueOrDefault(TimeSpan.Zero)) {
+                        } else if (Time > levelInfo.LongestFinishOverall) {
                             lblFinish.ForeColor = Color.Gold;
                         }
                     } else if (lastRound.Playing) {
