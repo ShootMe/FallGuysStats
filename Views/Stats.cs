@@ -552,10 +552,12 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (stat.Round == 1) {
-                            Shows++;
+                        if (!stat.PrivateLobby) {
+                            if (stat.Round == 1) {
+                                Shows++;
+                            }
+                            Rounds++;
                         }
-                        Rounds++;
                         Duration += stat.End - stat.Start;
                         Kudos += stat.Kudos;
 
@@ -574,10 +576,12 @@ namespace FallGuysStats {
 
                         stat.ToLocalTime();
                         LevelStats levelStats = StatLookup[stat.Name];
-                        if (levelStats.IsFinal || stat.Crown) {
-                            Finals++;
-                            if (stat.Qualified) {
-                                Wins++;
+                        if (!stat.PrivateLobby) {
+                            if (levelStats.IsFinal || stat.Crown) {
+                                Finals++;
+                                if (stat.Qualified) {
+                                    Wins++;
+                                }
                             }
                         }
                         levelStats.Add(stat);
@@ -1062,6 +1066,8 @@ namespace FallGuysStats {
                         int currentShows = 0;
                         for (int i = 0; i < rounds.Count; i++) {
                             RoundInfo info = rounds[i];
+                            if (info.PrivateLobby) { continue; }
+
                             LevelStats levelStats = null;
                             if (info.Round == 1) {
                                 currentShows++;

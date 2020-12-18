@@ -28,6 +28,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.102
+    - Fix issues reading log file in certain cases
+    - Made sure private lobbies stats dont show in main screen
   - 1.101
     - Add ability to track private lobbies
   - 1.100

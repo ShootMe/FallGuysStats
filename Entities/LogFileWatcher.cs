@@ -10,8 +10,10 @@ namespace FallGuysStats {
         public DateTime Date { get; set; } = DateTime.MinValue;
         public string Line { get; set; }
         public bool IsValid { get; set; }
+        public long Offset { get; set; }
 
-        public LogLine(string line) {
+        public LogLine(string line, long offset) {
+            Offset = offset;
             Line = line;
             IsValid = line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12;
             if (IsValid) {
@@ -62,7 +64,6 @@ namespace FallGuysStats {
 
         private void ReadLogFile() {
             running = true;
-            List<LogLine> currentLines = new List<LogLine>();
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
@@ -81,7 +82,7 @@ namespace FallGuysStats {
                                     string line;
                                     DateTime currentDate = lastDate;
                                     while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
-                                        LogLine logLine = new LogLine(line);
+                                        LogLine logLine = new LogLine(line, fs.Position);
 
                                         if (logLine.IsValid) {
                                             int index;
@@ -102,15 +103,12 @@ namespace FallGuysStats {
                                                 StringBuilder sb = new StringBuilder(line);
                                                 sb.AppendLine();
                                                 while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
-                                                    LogLine temp = new LogLine(line);
+                                                    LogLine temp = new LogLine(line, fs.Position);
                                                     if (temp.IsValid) {
                                                         logLine.Line = sb.ToString();
-                                                        currentLines.AddRange(tempLines);
-                                                        currentLines.Add(logLine);
-                                                        currentLines.Add(temp);
-                                                        lastDate = currentDate;
-                                                        offset = fs.Position;
-                                                        tempLines.Clear();
+                                                        logLine.Offset = fs.Position;
+                                                        tempLines.Add(logLine);
+                                                        tempLines.Add(temp);
                                                         break;
                                                     } else if (!string.IsNullOrEmpty(line)) {
                                                         sb.AppendLine(line);
@@ -136,12 +134,7 @@ namespace FallGuysStats {
                         currentFilePath = filePath;
                     }
 
-                    if (currentLines.Count > 0) {
-                        lock (lines) {
-                            lines.AddRange(currentLines);
-                            currentLines.Clear();
-                        }
-                    } else if (tempLines.Count > 0) {
+                    if (tempLines.Count > 0) {
                         RoundInfo stat = null;
                         List<RoundInfo> round = new List<RoundInfo>();
                         int players = 0;
@@ -154,7 +147,18 @@ namespace FallGuysStats {
                         int gameDuration = 0;
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
-                            ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration, ref privateLobby);
+                            if (ParseLine(line, round, ref currentPlayerID, ref countPlayers, ref currentlyInParty, ref findPosition, ref players, ref stat, ref lastPing, ref gameDuration, ref privateLobby)) {
+                                lastDate = line.Date;
+                                offset = line.Offset;
+                                lock (lines) {
+                                    lines.AddRange(tempLines);
+                                    tempLines.Clear();
+                                }
+                                break;
+                            } else if (line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase) > 0 ||
+                                line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
+                                offset = tempLines[i - 1].Offset;
+                            }
                         }
 
                         if (lastPing != 0) {
@@ -312,7 +316,7 @@ namespace FallGuysStats {
                             }
 
                             temp = round[roundNum - 1];
-                            if (!temp.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {
+                            if (string.IsNullOrEmpty(temp.Name) || !temp.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {
                                 return false;
                             }
 
