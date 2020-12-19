@@ -75,6 +75,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Entities\LevelType.cs" />
+    <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="NDI\AudioFrame.cs" />

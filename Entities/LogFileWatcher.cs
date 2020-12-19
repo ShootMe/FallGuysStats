@@ -22,7 +22,7 @@ namespace FallGuysStats {
         }
 
         public override string ToString() {
-            return $"{Time}: {Line}";
+            return $"{Time}: {Line} ({Offset})";
         }
     }
     public class LogFileWatcher {
@@ -78,60 +78,53 @@ namespace FallGuysStats {
                             if (fs.Length > offset) {
                                 fs.Seek(offset, SeekOrigin.Begin);
 
-                                using (StreamReader sr = new StreamReader(fs)) {
-                                    string line;
-                                    DateTime currentDate = lastDate;
-                                    while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
-                                        LogLine logLine = new LogLine(line, fs.Position);
+                                LineReader sr = new LineReader(fs);
+                                string line;
+                                DateTime currentDate = lastDate;
+                                while ((line = sr.ReadLine()) != null) {
+                                    LogLine logLine = new LogLine(line, sr.Position);
 
-                                        if (logLine.IsValid) {
-                                            int index;
-                                            if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
-                                                currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
-                                                OnNewLogFileDate?.Invoke(currentDate);
+                                    if (logLine.IsValid) {
+                                        int index;
+                                        if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
+                                            currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
+                                            OnNewLogFileDate?.Invoke(currentDate);
+                                        }
+
+                                        if (currentDate != DateTime.MinValue) {
+                                            if ((int)currentDate.TimeOfDay.TotalSeconds > (int)logLine.Time.TotalSeconds) {
+                                                currentDate = currentDate.AddDays(1);
                                             }
+                                            currentDate = currentDate.AddSeconds(logLine.Time.TotalSeconds - currentDate.TimeOfDay.TotalSeconds);
+                                            logLine.Date = currentDate;
+                                        }
 
-                                            if (currentDate != DateTime.MinValue) {
-                                                if ((int)currentDate.TimeOfDay.TotalSeconds > (int)logLine.Time.TotalSeconds) {
-                                                    currentDate = currentDate.AddDays(1);
+                                        if (line.IndexOf(" == [CompletedEpisodeDto] ==") > 0) {
+                                            StringBuilder sb = new StringBuilder(line);
+                                            sb.AppendLine();
+                                            while ((line = sr.ReadLine()) != null) {
+                                                LogLine temp = new LogLine(line, fs.Position);
+                                                if (temp.IsValid) {
+                                                    logLine.Line = sb.ToString();
+                                                    logLine.Offset = sr.Position;
+                                                    tempLines.Add(logLine);
+                                                    tempLines.Add(temp);
+                                                    break;
+                                                } else if (!string.IsNullOrEmpty(line)) {
+                                                    sb.AppendLine(line);
                                                 }
-                                                currentDate = currentDate.AddSeconds(logLine.Time.TotalSeconds - currentDate.TimeOfDay.TotalSeconds);
-                                                logLine.Date = currentDate;
                                             }
-
-                                            if (line.IndexOf(" == [CompletedEpisodeDto] ==") > 0) {
-                                                StringBuilder sb = new StringBuilder(line);
-                                                sb.AppendLine();
-                                                while (!sr.EndOfStream && (line = sr.ReadLine()) != null) {
-                                                    LogLine temp = new LogLine(line, fs.Position);
-                                                    if (temp.IsValid) {
-                                                        logLine.Line = sb.ToString();
-                                                        logLine.Offset = fs.Position;
-                                                        tempLines.Add(logLine);
-                                                        tempLines.Add(temp);
-                                                        break;
-                                                    } else if (!string.IsNullOrEmpty(line)) {
-                                                        sb.AppendLine(line);
-                                                    }
-                                                }
-                                            } else {
-                                                tempLines.Add(logLine);
-                                            }
-                                        } else if (logLine.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                                        } else {
                                             tempLines.Add(logLine);
                                         }
+                                    } else if (logLine.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                                        tempLines.Add(logLine);
                                     }
                                 }
                             } else if (offset > fs.Length) {
                                 offset = 0;
                             }
                         }
-                    }
-
-                    if (!completed) {
-                        completed = true;
-                        offset = 0;
-                        currentFilePath = filePath;
                     }
 
                     if (tempLines.Count > 0) {
@@ -157,7 +150,8 @@ namespace FallGuysStats {
                                 break;
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase) > 0 ||
                                 line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
-                                offset = tempLines[i - 1].Offset;
+                                offset = i > 0 ? tempLines[i - 1].Offset : offset;
+                                lastDate = line.Date;
                             }
                         }
 
@@ -165,6 +159,12 @@ namespace FallGuysStats {
                             Stats.LastServerPing = lastPing;
                         }
                         OnParsedLogLinesCurrent?.Invoke(round);
+                    }
+
+                    if (!completed) {
+                        completed = true;
+                        offset = 0;
+                        currentFilePath = filePath;
                     }
                 } catch (Exception ex) {
                     OnError?.Invoke(ex.ToString());
