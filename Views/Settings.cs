@@ -62,6 +62,11 @@ namespace FallGuysStats {
                 case 4: cboFastestFilter.SelectedItem = "Day Stats"; break;
                 case 5: cboFastestFilter.SelectedItem = "Session Stats"; break;
             }
+
+            txtGameExeLocation.Text = CurrentSettings.GameExeLocation;
+            chkAutoLaunchGameOnStart.Checked = CurrentSettings.AutoLaunchGameOnStartup;
+
+            chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -164,8 +169,13 @@ namespace FallGuysStats {
                 }
             }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            this.CurrentSettings.IgnoreLevelTypeWhenSorting = chkIgnoreLevelTypeWhenSorting.Checked;
+
+            CurrentSettings.GameExeLocation = txtGameExeLocation.Text;
+            CurrentSettings.AutoLaunchGameOnStartup = chkAutoLaunchGameOnStart.Checked;
+
+            DialogResult = DialogResult.OK;
+            Close();
         }
         private void txtCycleTimeSeconds_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(txtCycleTimeSeconds.Text) && !int.TryParse(txtCycleTimeSeconds.Text, out _)) {
@@ -201,6 +211,31 @@ namespace FallGuysStats {
                 chkCycleOverlayPlayers.Checked = false;
             } else if (sender == chkCycleOverlayPlayers && chkCycleOverlayPlayers.Checked && chkOnlyShowPing.Checked) {
                 chkOnlyShowPing.Checked = false;
+            }
+        }
+
+        private void btnGameExeLocationBrowse_Click(object sender, EventArgs e) {
+            try {
+            FileInfo currentExeLocation = new FileInfo(this.txtGameExeLocation.Text);
+            if(currentExeLocation.Directory.Exists) {
+                dlgGameExeBrowser.InitialDirectory = currentExeLocation.Directory.FullName;
+            }
+
+            dlgGameExeBrowser.Filter = "Exe files (*.exe)|*.exe";
+            dlgGameExeBrowser.FileName = "FallGuys_client.exe";
+
+            DialogResult result = dlgGameExeBrowser.ShowDialog();
+            if (result.Equals(DialogResult.OK)) {
+                if (txtGameExeLocation.Text.Contains("FallGuys_client.exe")) {
+                    txtGameExeLocation.Text = dlgGameExeBrowser.FileName;
+                } else {
+                    MessageBox.Show("Please select \"FallGuys_client.exe\" in the install folder.",
+                        "Wrong File Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                }
+            } catch (Exception ex) {
+                ControlErrors.HandleException(this, ex, false);
             }
         }
     }
