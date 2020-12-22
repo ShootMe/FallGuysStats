@@ -199,6 +199,26 @@
         TgDQASA1MVpwzwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="tsbtnCounts.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAIBJREFUOE+ljVEOgCAMQzkb9z8PvzMdlBQRJrrkmdK81GRmv6ifdsilFCOU7h3P
+        872AlHOeBrTjeaZE3gwoXVAoR90wAOGEaUChEHV9QFnJ+ldleACVle3ASo66YQDCCdOAQiHq+oCi8q4j
+        FJyWwwG4ALl+2lEmeD91PM+UvmHpAmam9SfNJB9EAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="tsbtnPercentages.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        xAAADsQBlSsOGwAAAXBJREFUOE+lk61uAlEQhXmEPsI+Qh+B4Elq1+PxKBSWrCdZubICDxqFwYMGgcPe
+        nu/sTFnSpqaTHJg7Z/7v3RHyeDzGwlkoAfQPkxLpb8I9OHAMyuT77XYr8/m8TCYTAx0bXPgst9utucvl
+        gn3sYESHz9VqZRKnruusY4MTquv1eq/rumw2G9sitBcZhgF74UgH0+mUM223BHKOrqoI7UUGJ4jsS2GN
+        jg2OlgmmO/gIe8ovCdocCQ6d9tEFOgKM5v04ARVoWzrb97yz2aycTicnOhwOLoAdX5KyFyfRj2fEcbFY
+        GOi73c5JQd4AXPrmkklQURUiAwgGOLIDuokxqHrMItJLjkGSVvAtQBDQNI2dcA4dn2V2AecEQ8GJtzC4
+        tmGC9Z8JZKgIIhgnnal4zqWiC3vmx0f6jwR7Kg3m5Rv4XjKd5UuNjp6vUocxC4NkgTr70ejfSyYADrxc
+        Y4oOL19jmC04Ciw4efQ+uJTyD5TRF3qthLI4vuRNAAAAAElFTkSuQmCC
+</value>
+  </data>
   <data name="tsbtnGridDisplayType.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
@@ -209,7 +229,7 @@
         QmCC
 </value>
   </data>
-  <data name="helpToolStripButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="tsbtnHelp.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAIVSURBVDhPtVJNaxNRFM1PyE+Yn1AUXLjK0uWgDWQZwUUX
@@ -222,26 +242,6 @@
         BQ49yaW50J7Fh0xJw3IxbM3hwo2x0ICRHZzFgveTunYERK5lgo5YMxx8WPFw5Li+U8wYm66jNz+Naov+
         Beqiao58N5NrPluoryJO0QeKU7sNGKPPazh9aRzGo/eYmVvEMk270fTlmzl2N3XW9xL/jv7iaxw7+wAH
         E9ew//AVxE8OItv/9O/Cf0ck8gud2vKswuxNZgAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="countsToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAACASURBVDhPpY1RDoAgDEM5G/c/D78zHZQUESa65JnSvNRk
-        Zr+on3bIpRQjlO4dz/O9gJRznga043mmRN4MKF1QKEfdMADhhGlAoRB1fUBZyfpXZXgAlZXtwEqOumEA
-        wgnTgEIh6vqAovKuIxSclsMBuAC5ftpRJng/dTzPlL5h6QJmpvUnzSQfRAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="percentagesToolStripMenuItem.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAFwSURBVDhPpZOtbgJREIV5hD7CPkIfgeBJatfj8SgUlqwn
-        WbmyAg8ahcGDBoHD3p7v7ExZ0qamkxyYO2f+790R8ng8xsJZKAH0D5MS6W/CPThwDMrk++12K/P5vEwm
-        EwMdG1z4LLfbrbnL5YJ97GBEh8/VamUSp67rrGODE6rr9Xqv67psNhvbIrQXGYYBe+FIB9PplDNttwRy
-        jq6qCO1FBieI7EthjY4NjpYJpjv4CHvKLwnaHAkOnfbRBToCjOb9OAEVaFs62/e8s9msnE4nJzocDi6A
-        HV+Sshcn0Y9nxHGxWBjou93OSUHeAFz65pJJUFEVIgMIBjiyA7qJMah6zCLSS45BklbwLUAQ0DSNnXAO
-        HZ9ldgHnBEPBibcwuLZhgvWfCWSoCCIYJ52peM6logt75sdH+o8EeyoN5uUb+F4yneVLjY6er1KHMQuD
-        ZIE6+9Ho30smAA68XGOKDi9fY5gtOAosOHn0PriU8g+U0Rd6rYSyOL7kTQAAAABJRU5ErkJggg==
 </value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
