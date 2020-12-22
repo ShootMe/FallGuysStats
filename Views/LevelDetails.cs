@@ -208,6 +208,8 @@ namespace FallGuysStats {
 
                         StatsForm.ResetStats();
                     }
+                } else if(e.KeyCode == Keys.Escape) {
+                    this.Close();
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
