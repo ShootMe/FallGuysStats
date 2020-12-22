@@ -494,6 +494,8 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        #region Log File event handlers
         private void LogFile_OnError(string error) {
             if (!Disposing && !IsDisposed) {
                 try {
@@ -635,6 +637,8 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
+
         private bool IsInStatsFilter(DateTime showEnd) {
             return menuAllStats.Checked ||
                 (menuSeasonStats.Checked && showEnd > SeasonStart) ||
@@ -818,6 +822,8 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        #region Data Grid event handlers
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             try {
                 if (gridDetails.Columns.Count == 0) { return; }
@@ -1017,7 +1023,8 @@ namespace FallGuysStats {
                 gridDetails.ClearSelection();
             }
         }
-        
+        #endregion
+
         private void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
@@ -1256,6 +1263,24 @@ namespace FallGuysStats {
 
         private void tsbtnLaunchGame_Click(object sender, EventArgs e) {
             LaunchGame();
+        }
+        #endregion
+
+        #region Export click handlers
+        private void menuExportCsv_Click(object sender, EventArgs e) {
+            gridDetails.ExportCsv();
+        }
+
+        private void menuExportHtml_Click(object sender, EventArgs e) {
+            gridDetails.ExportHtml();
+        }
+
+        private void menuExportBbCode_Click(object sender, EventArgs e) {
+            gridDetails.ExportBbCode();
+        }
+
+        private void menuExportMarkdown_Click(object sender, EventArgs e) {
+            gridDetails.ExportMarkdown();
         }
         #endregion
 

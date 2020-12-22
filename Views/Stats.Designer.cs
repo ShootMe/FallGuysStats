@@ -44,8 +44,13 @@
       this.menuProfileMain = new System.Windows.Forms.ToolStripMenuItem();
       this.menuProfilePractice = new System.Windows.Forms.ToolStripMenuItem();
       this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
-      this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuExport = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuExportCsv = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuExportHtml = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuExportBbCode = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuExportMarkdown = new System.Windows.Forms.ToolStripMenuItem();
       this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+      this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
       this.mainToolStrip = new System.Windows.Forms.ToolStrip();
       this.tsbtnLaunchGame = new System.Windows.Forms.ToolStripButton();
       this.tslblTimePlayed = new System.Windows.Forms.ToolStripLabel();
@@ -61,6 +66,7 @@
       this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
       this.tsbtnHelp = new System.Windows.Forms.ToolStripButton();
       this.gridDetails = new FallGuysStats.Grid();
+      this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.menu.SuspendLayout();
       this.mainToolStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
@@ -74,11 +80,11 @@
             this.menuFilters,
             this.menuProfile,
             this.menuOverlay,
-            this.menuUpdate,
+            this.menuExport,
             this.menuHelp});
       this.menu.Location = new System.Drawing.Point(0, 0);
       this.menu.Name = "menu";
-      this.menu.Size = new System.Drawing.Size(975, 33);
+      this.menu.Size = new System.Drawing.Size(975, 24);
       this.menu.TabIndex = 12;
       this.menu.Text = "menuStrip1";
       // 
@@ -86,7 +92,7 @@
       // 
       this.menuSettings.Name = "menuSettings";
       this.menuSettings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-      this.menuSettings.Size = new System.Drawing.Size(88, 29);
+      this.menuSettings.Size = new System.Drawing.Size(61, 20);
       this.menuSettings.Text = "Settings";
       this.menuSettings.Click += new System.EventHandler(this.menuSettings_Click);
       // 
@@ -96,7 +102,7 @@
             this.menuStatsFilter,
             this.menuPartyFilter});
       this.menuFilters.Name = "menuFilters";
-      this.menuFilters.Size = new System.Drawing.Size(70, 29);
+      this.menuFilters.Size = new System.Drawing.Size(50, 20);
       this.menuFilters.Text = "Filters";
       // 
       // menuStatsFilter
@@ -108,7 +114,7 @@
             this.menuDayStats,
             this.menuSessionStats});
       this.menuStatsFilter.Name = "menuStatsFilter";
-      this.menuStatsFilter.Size = new System.Drawing.Size(135, 30);
+      this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
       this.menuStatsFilter.Text = "Stats";
       // 
       // menuAllStats
@@ -120,7 +126,7 @@
       this.menuAllStats.Name = "menuAllStats";
       this.menuAllStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.A)));
-      this.menuAllStats.Size = new System.Drawing.Size(267, 30);
+      this.menuAllStats.Size = new System.Drawing.Size(187, 22);
       this.menuAllStats.Text = "All";
       this.menuAllStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -131,7 +137,7 @@
       this.menuSeasonStats.Name = "menuSeasonStats";
       this.menuSeasonStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.S)));
-      this.menuSeasonStats.Size = new System.Drawing.Size(267, 30);
+      this.menuSeasonStats.Size = new System.Drawing.Size(187, 22);
       this.menuSeasonStats.Text = "Season";
       this.menuSeasonStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -142,7 +148,7 @@
       this.menuWeekStats.Name = "menuWeekStats";
       this.menuWeekStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.W)));
-      this.menuWeekStats.Size = new System.Drawing.Size(267, 30);
+      this.menuWeekStats.Size = new System.Drawing.Size(187, 22);
       this.menuWeekStats.Text = "Week";
       this.menuWeekStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -153,7 +159,7 @@
       this.menuDayStats.Name = "menuDayStats";
       this.menuDayStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.D)));
-      this.menuDayStats.Size = new System.Drawing.Size(267, 30);
+      this.menuDayStats.Size = new System.Drawing.Size(187, 22);
       this.menuDayStats.Text = "Day";
       this.menuDayStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -164,7 +170,7 @@
       this.menuSessionStats.Name = "menuSessionStats";
       this.menuSessionStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.G)));
-      this.menuSessionStats.Size = new System.Drawing.Size(267, 30);
+      this.menuSessionStats.Size = new System.Drawing.Size(187, 22);
       this.menuSessionStats.Text = "Session";
       this.menuSessionStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -175,7 +181,7 @@
             this.menuSoloStats,
             this.menuPartyStats});
       this.menuPartyFilter.Name = "menuPartyFilter";
-      this.menuPartyFilter.Size = new System.Drawing.Size(135, 30);
+      this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
       this.menuPartyFilter.Text = "Party";
       // 
       // menuAllPartyStats
@@ -187,7 +193,7 @@
       this.menuAllPartyStats.Name = "menuAllPartyStats";
       this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.F)));
-      this.menuAllPartyStats.Size = new System.Drawing.Size(245, 30);
+      this.menuAllPartyStats.Size = new System.Drawing.Size(174, 22);
       this.menuAllPartyStats.Text = "All";
       this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -198,7 +204,7 @@
       this.menuSoloStats.Name = "menuSoloStats";
       this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-      this.menuSoloStats.Size = new System.Drawing.Size(245, 30);
+      this.menuSoloStats.Size = new System.Drawing.Size(174, 22);
       this.menuSoloStats.Text = "Solo";
       this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -209,7 +215,7 @@
       this.menuPartyStats.Name = "menuPartyStats";
       this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-      this.menuPartyStats.Size = new System.Drawing.Size(245, 30);
+      this.menuPartyStats.Size = new System.Drawing.Size(174, 22);
       this.menuPartyStats.Text = "Party";
       this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -219,7 +225,7 @@
             this.menuProfileMain,
             this.menuProfilePractice});
       this.menuProfile.Name = "menuProfile";
-      this.menuProfile.Size = new System.Drawing.Size(74, 29);
+      this.menuProfile.Size = new System.Drawing.Size(53, 20);
       this.menuProfile.Text = "Profile";
       // 
       // menuProfileMain
@@ -229,7 +235,7 @@
       this.menuProfileMain.CheckState = System.Windows.Forms.CheckState.Checked;
       this.menuProfileMain.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.menuProfileMain.Name = "menuProfileMain";
-      this.menuProfileMain.Size = new System.Drawing.Size(156, 30);
+      this.menuProfileMain.Size = new System.Drawing.Size(180, 22);
       this.menuProfileMain.Text = "Main";
       this.menuProfileMain.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -238,7 +244,7 @@
       this.menuProfilePractice.CheckOnClick = true;
       this.menuProfilePractice.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.menuProfilePractice.Name = "menuProfilePractice";
-      this.menuProfilePractice.Size = new System.Drawing.Size(156, 30);
+      this.menuProfilePractice.Size = new System.Drawing.Size(180, 22);
       this.menuProfilePractice.Text = "Practice";
       this.menuProfilePractice.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -246,25 +252,69 @@
       // 
       this.menuOverlay.Name = "menuOverlay";
       this.menuOverlay.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-      this.menuOverlay.Size = new System.Drawing.Size(84, 29);
+      this.menuOverlay.Size = new System.Drawing.Size(59, 20);
       this.menuOverlay.Text = "Overlay";
       this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
+      // 
+      // menuExport
+      // 
+      this.menuExport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuExportCsv,
+            this.menuExportHtml,
+            this.menuExportBbCode,
+            this.menuExportMarkdown});
+      this.menuExport.Name = "menuExport";
+      this.menuExport.Size = new System.Drawing.Size(53, 20);
+      this.menuExport.Text = "Export";
+      // 
+      // menuExportCsv
+      // 
+      this.menuExportCsv.Name = "menuExportCsv";
+      this.menuExportCsv.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+      this.menuExportCsv.Size = new System.Drawing.Size(213, 22);
+      this.menuExportCsv.Text = "Export CSV";
+      this.menuExportCsv.Click += new System.EventHandler(this.menuExportCsv_Click);
+      // 
+      // menuExportHtml
+      // 
+      this.menuExportHtml.Name = "menuExportHtml";
+      this.menuExportHtml.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
+      this.menuExportHtml.Size = new System.Drawing.Size(213, 22);
+      this.menuExportHtml.Text = "Export HTML";
+      this.menuExportHtml.Click += new System.EventHandler(this.menuExportHtml_Click);
+      // 
+      // menuExportBbCode
+      // 
+      this.menuExportBbCode.Name = "menuExportBbCode";
+      this.menuExportBbCode.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
+      this.menuExportBbCode.Size = new System.Drawing.Size(213, 22);
+      this.menuExportBbCode.Text = "Export BBCode";
+      this.menuExportBbCode.Click += new System.EventHandler(this.menuExportBbCode_Click);
+      // 
+      // menuExportMarkdown
+      // 
+      this.menuExportMarkdown.Name = "menuExportMarkdown";
+      this.menuExportMarkdown.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+      this.menuExportMarkdown.Size = new System.Drawing.Size(213, 22);
+      this.menuExportMarkdown.Text = "Export Markdown";
+      this.menuExportMarkdown.Click += new System.EventHandler(this.menuExportMarkdown_Click);
+      // 
+      // menuHelp
+      // 
+      this.menuHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.helpToolStripMenuItem,
+            this.menuUpdate});
+      this.menuHelp.Name = "menuHelp";
+      this.menuHelp.Size = new System.Drawing.Size(44, 20);
+      this.menuHelp.Text = "Help";
       // 
       // menuUpdate
       // 
       this.menuUpdate.Name = "menuUpdate";
       this.menuUpdate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-      this.menuUpdate.Size = new System.Drawing.Size(82, 29);
+      this.menuUpdate.Size = new System.Drawing.Size(180, 22);
       this.menuUpdate.Text = "Update";
       this.menuUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
-      // 
-      // menuHelp
-      // 
-      this.menuHelp.Name = "menuHelp";
-      this.menuHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-      this.menuHelp.Size = new System.Drawing.Size(61, 29);
-      this.menuHelp.Text = "Help";
-      this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
       // 
       // mainToolStrip
       // 
@@ -284,9 +334,9 @@
             this.tsbtnGridDisplayType,
             this.toolStripSeparator,
             this.tsbtnHelp});
-      this.mainToolStrip.Location = new System.Drawing.Point(0, 33);
+      this.mainToolStrip.Location = new System.Drawing.Point(0, 24);
       this.mainToolStrip.Name = "mainToolStrip";
-      this.mainToolStrip.Size = new System.Drawing.Size(975, 32);
+      this.mainToolStrip.Size = new System.Drawing.Size(975, 31);
       this.mainToolStrip.TabIndex = 13;
       this.mainToolStrip.Text = "toolStrip1";
       // 
@@ -296,7 +346,7 @@
       this.tsbtnLaunchGame.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnLaunchGame.Image")));
       this.tsbtnLaunchGame.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnLaunchGame.Name = "tsbtnLaunchGame";
-      this.tsbtnLaunchGame.Size = new System.Drawing.Size(145, 29);
+      this.tsbtnLaunchGame.Size = new System.Drawing.Size(100, 28);
       this.tsbtnLaunchGame.Text = "Launch Fall Guys";
       this.tsbtnLaunchGame.ToolTipText = "Launch Fall Guys";
       this.tsbtnLaunchGame.Click += new System.EventHandler(this.tsbtnLaunchGame_Click);
@@ -304,7 +354,7 @@
       // tslblTimePlayed
       // 
       this.tslblTimePlayed.Name = "tslblTimePlayed";
-      this.tslblTimePlayed.Size = new System.Drawing.Size(174, 29);
+      this.tslblTimePlayed.Size = new System.Drawing.Size(113, 28);
       this.tslblTimePlayed.Text = "Time Played: 0:00:00";
       // 
       // tsbtnShowCount
@@ -314,7 +364,7 @@
       this.tsbtnShowCount.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnShowCount.Image")));
       this.tsbtnShowCount.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnShowCount.Name = "tsbtnShowCount";
-      this.tsbtnShowCount.Size = new System.Drawing.Size(87, 29);
+      this.tsbtnShowCount.Size = new System.Drawing.Size(57, 28);
       this.tsbtnShowCount.Text = "Shows: 0";
       this.tsbtnShowCount.Click += new System.EventHandler(this.tsbtnShowCount_Click);
       // 
@@ -325,7 +375,7 @@
       this.tsbtnRoundCount.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnRoundCount.Image")));
       this.tsbtnRoundCount.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnRoundCount.Name = "tsbtnRoundCount";
-      this.tsbtnRoundCount.Size = new System.Drawing.Size(95, 29);
+      this.tsbtnRoundCount.Size = new System.Drawing.Size(63, 28);
       this.tsbtnRoundCount.Text = "Rounds: 0";
       this.tsbtnRoundCount.Click += new System.EventHandler(this.tsBtnRoundCount_Click);
       // 
@@ -336,14 +386,14 @@
       this.tsbtnWinCount.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnWinCount.Image")));
       this.tsbtnWinCount.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnWinCount.Name = "tsbtnWinCount";
-      this.tsbtnWinCount.Size = new System.Drawing.Size(74, 29);
+      this.tsbtnWinCount.Size = new System.Drawing.Size(49, 28);
       this.tsbtnWinCount.Text = "Wins: 0";
       this.tsbtnWinCount.Click += new System.EventHandler(this.tsbtnWinCount_Click);
       // 
       // tslblFinalPct
       // 
       this.tslblFinalPct.Name = "tslblFinalPct";
-      this.tslblFinalPct.Size = new System.Drawing.Size(68, 29);
+      this.tslblFinalPct.Size = new System.Drawing.Size(45, 28);
       this.tslblFinalPct.Text = "Final %";
       // 
       // tsbtnWinPct
@@ -353,14 +403,14 @@
       this.tsbtnWinPct.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnWinPct.Image")));
       this.tsbtnWinPct.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnWinPct.Name = "tsbtnWinPct";
-      this.tsbtnWinPct.Size = new System.Drawing.Size(71, 29);
+      this.tsbtnWinPct.Size = new System.Drawing.Size(48, 28);
       this.tsbtnWinPct.Text = "Win %:";
       this.tsbtnWinPct.Click += new System.EventHandler(this.tsbtnWinPct_Click);
       // 
       // tslblKudosCount
       // 
       this.tslblKudosCount.Name = "tslblKudosCount";
-      this.tslblKudosCount.Size = new System.Drawing.Size(62, 29);
+      this.tslblKudosCount.Size = new System.Drawing.Size(40, 28);
       this.tslblKudosCount.Text = "Kudos";
       // 
       // tsbtnGridDisplayType
@@ -371,7 +421,7 @@
       this.tsbtnGridDisplayType.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnGridDisplayType.Image")));
       this.tsbtnGridDisplayType.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.tsbtnGridDisplayType.Name = "tsbtnGridDisplayType";
-      this.tsbtnGridDisplayType.Size = new System.Drawing.Size(153, 29);
+      this.tsbtnGridDisplayType.Size = new System.Drawing.Size(110, 28);
       this.tsbtnGridDisplayType.Text = "Grid Display";
       this.tsbtnGridDisplayType.ToolTipText = "Switch between counts and percentages in the stats grid";
       this.tsbtnGridDisplayType.ButtonClick += new System.EventHandler(this.tsbtnGridDisplayType_ButtonClick);
@@ -380,7 +430,7 @@
       // 
       this.tsbtnCounts.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCounts.Image")));
       this.tsbtnCounts.Name = "tsbtnCounts";
-      this.tsbtnCounts.Size = new System.Drawing.Size(252, 30);
+      this.tsbtnCounts.Size = new System.Drawing.Size(138, 22);
       this.tsbtnCounts.Text = "Counts";
       this.tsbtnCounts.Click += new System.EventHandler(this.tsbtnCounts_Click);
       // 
@@ -388,14 +438,14 @@
       // 
       this.tsbtnPercentages.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnPercentages.Image")));
       this.tsbtnPercentages.Name = "tsbtnPercentages";
-      this.tsbtnPercentages.Size = new System.Drawing.Size(252, 30);
+      this.tsbtnPercentages.Size = new System.Drawing.Size(138, 22);
       this.tsbtnPercentages.Text = "Percentages";
       this.tsbtnPercentages.Click += new System.EventHandler(this.tsbtnPercentages_Click);
       // 
       // toolStripSeparator
       // 
       this.toolStripSeparator.Name = "toolStripSeparator";
-      this.toolStripSeparator.Size = new System.Drawing.Size(6, 32);
+      this.toolStripSeparator.Size = new System.Drawing.Size(6, 31);
       // 
       // tsbtnHelp
       // 
@@ -449,6 +499,14 @@
       this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
       this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
       this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
+      // 
+      // helpToolStripMenuItem
+      // 
+      this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+      this.helpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
+      this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+      this.helpToolStripMenuItem.Text = "Help";
+      this.helpToolStripMenuItem.Click += new System.EventHandler(this.menuHelp_Click);
       // 
       // Stats
       // 
@@ -515,6 +573,12 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripButton tsbtnHelp;
         private System.Windows.Forms.ToolStripButton tsbtnLaunchGame;
+        private System.Windows.Forms.ToolStripMenuItem menuExport;
+        private System.Windows.Forms.ToolStripMenuItem menuExportCsv;
+        private System.Windows.Forms.ToolStripMenuItem menuExportHtml;
+        private System.Windows.Forms.ToolStripMenuItem menuExportBbCode;
+        private System.Windows.Forms.ToolStripMenuItem menuExportMarkdown;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
     }
 }
 

@@ -186,7 +186,27 @@ namespace FallGuysStats {
             }
             return value;
         }
+
+        #region Export event handlers
         private void exportItemCSV_Click(object sender, EventArgs e) {
+            ExportCsv();
+        }
+
+        private void exportItemHTML_Click(object sender, EventArgs e) {
+            ExportHtml();
+        }
+
+        private void exportItemBBCODE_Click(object sender, EventArgs e) {
+            ExportBbCode();
+        }
+
+        private void exportItemMD_Click(object sender, EventArgs e) {
+            ExportMarkdown();
+        }
+        #endregion
+
+        #region Export methods
+        public void ExportCsv() {
             try {
                 saveFile.Filter = "CSV files|*.csv";
                 if (saveFile.ShowDialog() == DialogResult.OK) {
@@ -233,7 +253,8 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
-        private void exportItemHTML_Click(object sender, EventArgs e) {
+
+        public void ExportHtml() {
             try {
                 List<DataGridViewColumn> columns = GetSortedColumns();
 
@@ -267,7 +288,8 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
-        private void exportItemBBCODE_Click(object sender, EventArgs e) {
+
+        public void ExportBbCode() {
             try {
                 List<DataGridViewColumn> columns = GetSortedColumns();
 
@@ -301,7 +323,8 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
-        private void exportItemMD_Click(object sender, EventArgs e) {
+
+        public void ExportMarkdown() {
             try {
                 List<DataGridViewColumn> columns = GetSortedColumns();
 
@@ -337,6 +360,8 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
+        #endregion
+
         private List<DataGridViewColumn> GetSortedColumns() {
             List<DataGridViewColumn> columns = new List<DataGridViewColumn>();
             foreach (DataGridViewColumn col in this.Columns) {
