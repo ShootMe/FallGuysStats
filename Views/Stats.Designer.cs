@@ -24,9 +24,9 @@
         /// </summary>
         private void InitializeComponent() {
       this.components = new System.ComponentModel.Container();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Stats));
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+      System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
       this.menu = new System.Windows.Forms.MenuStrip();
       this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
       this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,20 +47,20 @@
       this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
       this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
       this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+      this.tsbtnLaunchGame = new System.Windows.Forms.ToolStripButton();
       this.tslblTimePlayed = new System.Windows.Forms.ToolStripLabel();
       this.tsbtnShowCount = new System.Windows.Forms.ToolStripButton();
       this.tsbtnRoundCount = new System.Windows.Forms.ToolStripButton();
       this.tsbtnWinCount = new System.Windows.Forms.ToolStripButton();
-      this.tsbtnWinPct = new System.Windows.Forms.ToolStripButton();
-      this.gridDetails = new FallGuysStats.Grid();
-      this.tslblKudosCount = new System.Windows.Forms.ToolStripLabel();
       this.tslblFinalPct = new System.Windows.Forms.ToolStripLabel();
+      this.tsbtnWinPct = new System.Windows.Forms.ToolStripButton();
+      this.tslblKudosCount = new System.Windows.Forms.ToolStripLabel();
       this.tsbtnGridDisplayType = new System.Windows.Forms.ToolStripSplitButton();
-      this.countsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-      this.percentagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      this.tsbtnCounts = new System.Windows.Forms.ToolStripMenuItem();
+      this.tsbtnPercentages = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
-      this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-      this.tsbtnLaunchGame = new System.Windows.Forms.ToolStripButton();
+      this.tsbtnHelp = new System.Windows.Forms.ToolStripButton();
+      this.gridDetails = new FallGuysStats.Grid();
       this.menu.SuspendLayout();
       this.mainToolStrip.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
@@ -108,7 +108,7 @@
             this.menuDayStats,
             this.menuSessionStats});
       this.menuStatsFilter.Name = "menuStatsFilter";
-      this.menuStatsFilter.Size = new System.Drawing.Size(252, 30);
+      this.menuStatsFilter.Size = new System.Drawing.Size(135, 30);
       this.menuStatsFilter.Text = "Stats";
       // 
       // menuAllStats
@@ -175,7 +175,7 @@
             this.menuSoloStats,
             this.menuPartyStats});
       this.menuPartyFilter.Name = "menuPartyFilter";
-      this.menuPartyFilter.Size = new System.Drawing.Size(252, 30);
+      this.menuPartyFilter.Size = new System.Drawing.Size(135, 30);
       this.menuPartyFilter.Text = "Party";
       // 
       // menuAllPartyStats
@@ -187,7 +187,7 @@
       this.menuAllPartyStats.Name = "menuAllPartyStats";
       this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.F)));
-      this.menuAllPartyStats.Size = new System.Drawing.Size(252, 30);
+      this.menuAllPartyStats.Size = new System.Drawing.Size(245, 30);
       this.menuAllPartyStats.Text = "All";
       this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -198,7 +198,7 @@
       this.menuSoloStats.Name = "menuSoloStats";
       this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
-      this.menuSoloStats.Size = new System.Drawing.Size(252, 30);
+      this.menuSoloStats.Size = new System.Drawing.Size(245, 30);
       this.menuSoloStats.Text = "Solo";
       this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -209,7 +209,7 @@
       this.menuPartyStats.Name = "menuPartyStats";
       this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.P)));
-      this.menuPartyStats.Size = new System.Drawing.Size(252, 30);
+      this.menuPartyStats.Size = new System.Drawing.Size(245, 30);
       this.menuPartyStats.Text = "Party";
       this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -229,7 +229,7 @@
       this.menuProfileMain.CheckState = System.Windows.Forms.CheckState.Checked;
       this.menuProfileMain.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.menuProfileMain.Name = "menuProfileMain";
-      this.menuProfileMain.Size = new System.Drawing.Size(252, 30);
+      this.menuProfileMain.Size = new System.Drawing.Size(156, 30);
       this.menuProfileMain.Text = "Main";
       this.menuProfileMain.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -238,7 +238,7 @@
       this.menuProfilePractice.CheckOnClick = true;
       this.menuProfilePractice.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
       this.menuProfilePractice.Name = "menuProfilePractice";
-      this.menuProfilePractice.Size = new System.Drawing.Size(252, 30);
+      this.menuProfilePractice.Size = new System.Drawing.Size(156, 30);
       this.menuProfilePractice.Text = "Practice";
       this.menuProfilePractice.Click += new System.EventHandler(this.menuStats_Click);
       // 
@@ -283,12 +283,23 @@
             this.tslblKudosCount,
             this.tsbtnGridDisplayType,
             this.toolStripSeparator,
-            this.helpToolStripButton});
+            this.tsbtnHelp});
       this.mainToolStrip.Location = new System.Drawing.Point(0, 33);
       this.mainToolStrip.Name = "mainToolStrip";
       this.mainToolStrip.Size = new System.Drawing.Size(975, 32);
       this.mainToolStrip.TabIndex = 13;
       this.mainToolStrip.Text = "toolStrip1";
+      // 
+      // tsbtnLaunchGame
+      // 
+      this.tsbtnLaunchGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.tsbtnLaunchGame.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnLaunchGame.Image")));
+      this.tsbtnLaunchGame.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.tsbtnLaunchGame.Name = "tsbtnLaunchGame";
+      this.tsbtnLaunchGame.Size = new System.Drawing.Size(145, 29);
+      this.tsbtnLaunchGame.Text = "Launch Fall Guys";
+      this.tsbtnLaunchGame.ToolTipText = "Launch Fall Guys";
+      this.tsbtnLaunchGame.Click += new System.EventHandler(this.tsbtnLaunchGame_Click);
       // 
       // tslblTimePlayed
       // 
@@ -305,7 +316,7 @@
       this.tsbtnShowCount.Name = "tsbtnShowCount";
       this.tsbtnShowCount.Size = new System.Drawing.Size(87, 29);
       this.tsbtnShowCount.Text = "Shows: 0";
-      this.tsbtnShowCount.Click += new System.EventHandler(this.tslblShowCount_Click);
+      this.tsbtnShowCount.Click += new System.EventHandler(this.tsbtnShowCount_Click);
       // 
       // tsbtnRoundCount
       // 
@@ -316,7 +327,7 @@
       this.tsbtnRoundCount.Name = "tsbtnRoundCount";
       this.tsbtnRoundCount.Size = new System.Drawing.Size(95, 29);
       this.tsbtnRoundCount.Text = "Rounds: 0";
-      this.tsbtnRoundCount.Click += new System.EventHandler(this.tslblRoundCount_Click);
+      this.tsbtnRoundCount.Click += new System.EventHandler(this.tsBtnRoundCount_Click);
       // 
       // tsbtnWinCount
       // 
@@ -327,7 +338,13 @@
       this.tsbtnWinCount.Name = "tsbtnWinCount";
       this.tsbtnWinCount.Size = new System.Drawing.Size(74, 29);
       this.tsbtnWinCount.Text = "Wins: 0";
-      this.tsbtnWinCount.Click += new System.EventHandler(this.tslblWinCount_Click);
+      this.tsbtnWinCount.Click += new System.EventHandler(this.tsbtnWinCount_Click);
+      // 
+      // tslblFinalPct
+      // 
+      this.tslblFinalPct.Name = "tslblFinalPct";
+      this.tslblFinalPct.Size = new System.Drawing.Size(68, 29);
+      this.tslblFinalPct.Text = "Final %";
       // 
       // tsbtnWinPct
       // 
@@ -338,7 +355,57 @@
       this.tsbtnWinPct.Name = "tsbtnWinPct";
       this.tsbtnWinPct.Size = new System.Drawing.Size(71, 29);
       this.tsbtnWinPct.Text = "Win %:";
-      this.tsbtnWinPct.Click += new System.EventHandler(this.tslblWinPct_Click);
+      this.tsbtnWinPct.Click += new System.EventHandler(this.tsbtnWinPct_Click);
+      // 
+      // tslblKudosCount
+      // 
+      this.tslblKudosCount.Name = "tslblKudosCount";
+      this.tslblKudosCount.Size = new System.Drawing.Size(62, 29);
+      this.tslblKudosCount.Text = "Kudos";
+      // 
+      // tsbtnGridDisplayType
+      // 
+      this.tsbtnGridDisplayType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbtnCounts,
+            this.tsbtnPercentages});
+      this.tsbtnGridDisplayType.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnGridDisplayType.Image")));
+      this.tsbtnGridDisplayType.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.tsbtnGridDisplayType.Name = "tsbtnGridDisplayType";
+      this.tsbtnGridDisplayType.Size = new System.Drawing.Size(153, 29);
+      this.tsbtnGridDisplayType.Text = "Grid Display";
+      this.tsbtnGridDisplayType.ToolTipText = "Switch between counts and percentages in the stats grid";
+      this.tsbtnGridDisplayType.ButtonClick += new System.EventHandler(this.tsbtnGridDisplayType_ButtonClick);
+      // 
+      // tsbtnCounts
+      // 
+      this.tsbtnCounts.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnCounts.Image")));
+      this.tsbtnCounts.Name = "tsbtnCounts";
+      this.tsbtnCounts.Size = new System.Drawing.Size(252, 30);
+      this.tsbtnCounts.Text = "Counts";
+      this.tsbtnCounts.Click += new System.EventHandler(this.tsbtnCounts_Click);
+      // 
+      // tsbtnPercentages
+      // 
+      this.tsbtnPercentages.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnPercentages.Image")));
+      this.tsbtnPercentages.Name = "tsbtnPercentages";
+      this.tsbtnPercentages.Size = new System.Drawing.Size(252, 30);
+      this.tsbtnPercentages.Text = "Percentages";
+      this.tsbtnPercentages.Click += new System.EventHandler(this.tsbtnPercentages_Click);
+      // 
+      // toolStripSeparator
+      // 
+      this.toolStripSeparator.Name = "toolStripSeparator";
+      this.toolStripSeparator.Size = new System.Drawing.Size(6, 32);
+      // 
+      // tsbtnHelp
+      // 
+      this.tsbtnHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+      this.tsbtnHelp.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnHelp.Image")));
+      this.tsbtnHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.tsbtnHelp.Name = "tsbtnHelp";
+      this.tsbtnHelp.Size = new System.Drawing.Size(28, 28);
+      this.tsbtnHelp.Text = "He&lp";
+      this.tsbtnHelp.Click += new System.EventHandler(this.tsbtlHelp_Click);
       // 
       // gridDetails
       // 
@@ -349,24 +416,24 @@
       this.gridDetails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
       this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
       this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-      dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-      dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-      dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
-      dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-      dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-      this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+      dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightGray;
+      dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+      dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.Cyan;
+      dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+      dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+      this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
       this.gridDetails.ColumnHeadersHeight = 20;
       this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-      dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-      dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-      dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-      dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-      dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-      dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-      this.gridDetails.DefaultCellStyle = dataGridViewCellStyle2;
+      dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+      dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+      dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+      dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
+      dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+      dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+      this.gridDetails.DefaultCellStyle = dataGridViewCellStyle4;
       this.gridDetails.EnableHeadersVisualStyles = false;
       this.gridDetails.GridColor = System.Drawing.Color.Gray;
       this.gridDetails.Location = new System.Drawing.Point(0, 55);
@@ -382,73 +449,6 @@
       this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
       this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
       this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
-      // 
-      // tslblKudosCount
-      // 
-      this.tslblKudosCount.Name = "tslblKudosCount";
-      this.tslblKudosCount.Size = new System.Drawing.Size(62, 29);
-      this.tslblKudosCount.Text = "Kudos";
-      // 
-      // tslblFinalPct
-      // 
-      this.tslblFinalPct.Name = "tslblFinalPct";
-      this.tslblFinalPct.Size = new System.Drawing.Size(68, 29);
-      this.tslblFinalPct.Text = "Final %";
-      // 
-      // tsbtnGridDisplayType
-      // 
-      this.tsbtnGridDisplayType.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.countsToolStripMenuItem,
-            this.percentagesToolStripMenuItem});
-      this.tsbtnGridDisplayType.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnGridDisplayType.Image")));
-      this.tsbtnGridDisplayType.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.tsbtnGridDisplayType.Name = "tsbtnGridDisplayType";
-      this.tsbtnGridDisplayType.Size = new System.Drawing.Size(153, 29);
-      this.tsbtnGridDisplayType.Text = "Grid Display";
-      this.tsbtnGridDisplayType.ToolTipText = "Switch between counts and percentages in the stats grid";
-      this.tsbtnGridDisplayType.ButtonClick += new System.EventHandler(this.tsbtnGridDisplayType_ButtonClick);
-      // 
-      // countsToolStripMenuItem
-      // 
-      this.countsToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("countsToolStripMenuItem.Image")));
-      this.countsToolStripMenuItem.Name = "countsToolStripMenuItem";
-      this.countsToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-      this.countsToolStripMenuItem.Text = "Counts";
-      this.countsToolStripMenuItem.Click += new System.EventHandler(this.countsToolStripMenuItem_Click);
-      // 
-      // percentagesToolStripMenuItem
-      // 
-      this.percentagesToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("percentagesToolStripMenuItem.Image")));
-      this.percentagesToolStripMenuItem.Name = "percentagesToolStripMenuItem";
-      this.percentagesToolStripMenuItem.Size = new System.Drawing.Size(252, 30);
-      this.percentagesToolStripMenuItem.Text = "Percentages";
-      this.percentagesToolStripMenuItem.Click += new System.EventHandler(this.percentagesToolStripMenuItem_Click);
-      // 
-      // toolStripSeparator
-      // 
-      this.toolStripSeparator.Name = "toolStripSeparator";
-      this.toolStripSeparator.Size = new System.Drawing.Size(6, 32);
-      // 
-      // helpToolStripButton
-      // 
-      this.helpToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-      this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
-      this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.helpToolStripButton.Name = "helpToolStripButton";
-      this.helpToolStripButton.Size = new System.Drawing.Size(28, 28);
-      this.helpToolStripButton.Text = "He&lp";
-      this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
-      // 
-      // tsbtnLaunchGame
-      // 
-      this.tsbtnLaunchGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-      this.tsbtnLaunchGame.Image = ((System.Drawing.Image)(resources.GetObject("tsbtnLaunchGame.Image")));
-      this.tsbtnLaunchGame.ImageTransparentColor = System.Drawing.Color.Magenta;
-      this.tsbtnLaunchGame.Name = "tsbtnLaunchGame";
-      this.tsbtnLaunchGame.Size = new System.Drawing.Size(145, 29);
-      this.tsbtnLaunchGame.Text = "Launch Fall Guys";
-      this.tsbtnLaunchGame.ToolTipText = "Launch Fall Guys";
-      this.tsbtnLaunchGame.Click += new System.EventHandler(this.tsbtnLaunchGame_Click);
       // 
       // Stats
       // 
@@ -510,10 +510,10 @@
         private System.Windows.Forms.ToolStripLabel tslblFinalPct;
         private System.Windows.Forms.ToolStripLabel tslblKudosCount;
         private System.Windows.Forms.ToolStripSplitButton tsbtnGridDisplayType;
-        private System.Windows.Forms.ToolStripMenuItem countsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem percentagesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsbtnCounts;
+        private System.Windows.Forms.ToolStripMenuItem tsbtnPercentages;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
-        private System.Windows.Forms.ToolStripButton helpToolStripButton;
+        private System.Windows.Forms.ToolStripButton tsbtnHelp;
         private System.Windows.Forms.ToolStripButton tsbtnLaunchGame;
     }
 }
