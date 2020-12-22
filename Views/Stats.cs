@@ -1017,22 +1017,7 @@ namespace FallGuysStats {
                 gridDetails.ClearSelection();
             }
         }
-        private void lblWinChance_Click(object sender, EventArgs e) {
-            ToggleWinPercentageDisplay();
-        }
-
-        private void lblTotalShows_Click(object sender, EventArgs e) {
-            ShowShows();
-        }
-
-        private void lblTotalRounds_Click(object sender, EventArgs e) {
-            ShowRounds();
-        }
-
-        private void lblTotalWins_Click(object sender, EventArgs e) {
-            ShowWinGraph();
-        }
-
+        
         private void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
@@ -1236,27 +1221,28 @@ namespace FallGuysStats {
             }
         }
 
-        private void tslblRoundCount_Click(object sender, EventArgs e) {
+        #region Tool Strip click handlers
+        private void tsBtnRoundCount_Click(object sender, EventArgs e) {
             ShowRounds();
         }
 
-        private void tslblShowCount_Click(object sender, EventArgs e) {
+        private void tsbtnShowCount_Click(object sender, EventArgs e) {
             ShowShows();
         }
 
-        private void tslblWinCount_Click(object sender, EventArgs e) {
+        private void tsbtnWinCount_Click(object sender, EventArgs e) {
             ShowWinGraph();
         }
 
-        private void tslblWinPct_Click(object sender, EventArgs e) {
+        private void tsbtnWinPct_Click(object sender, EventArgs e) {
             ToggleWinPercentageDisplay();
         }
 
-        private void countsToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void tsbtnCounts_Click(object sender, EventArgs e) {
             SetWinPercentageDisplay(false);
         }
 
-        private void percentagesToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void tsbtnPercentages_Click(object sender, EventArgs e) {
             SetWinPercentageDisplay(true);
         }
 
@@ -1264,23 +1250,17 @@ namespace FallGuysStats {
             ToggleWinPercentageDisplay();
         }
 
-        private void helpToolStripButton_Click(object sender, EventArgs e) {
-            LaunchHelpInBrowser();
-        }
-
-        private void menuHelp_Click(object sender, EventArgs e) {
+        private void tsbtlHelp_Click(object sender, EventArgs e) {
             LaunchHelpInBrowser();
         }
 
         private void tsbtnLaunchGame_Click(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                CurrentSettings.GameExeLocation = FindGameExeLocation();
-            }
-            if ((gameProcess == null) && !string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                gameProcess = Process.Start(CurrentSettings.GameExeLocation);
-            } else {
-                MessageBox.Show("Fall Guys is already running.", "Already Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            LaunchGame();
+        }
+        #endregion
+
+        private void menuHelp_Click(object sender, EventArgs e) {
+            LaunchHelpInBrowser();
         }
 
         private string FindGameExeLocation() {
@@ -1492,6 +1472,19 @@ namespace FallGuysStats {
                 Process.Start(@"https://github.com/ShootMe/FallGuysStats");
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LaunchGame() {
+            if (string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
+                CurrentSettings.GameExeLocation = FindGameExeLocation();
+            }
+
+            if (((gameProcess == null) || gameProcess.HasExited)
+                && !string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
+                gameProcess = Process.Start(CurrentSettings.GameExeLocation);
+            } else {
+                MessageBox.Show("Fall Guys is already running.", "Already Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
