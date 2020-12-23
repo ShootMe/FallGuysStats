@@ -216,6 +216,7 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
 
                 stat.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
+                findPosition = false;
                 round.Add(stat);
             } else if (stat != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
                 int index2 = line.Line.IndexOf(". ", index + 62);
@@ -238,6 +239,7 @@ namespace FallGuysStats {
                     }
                     stat.Playing = false;
                 }
+                findPosition = false;
                 Stats.InShow = true;
                 round.Clear();
                 stat = null;
@@ -284,7 +286,6 @@ namespace FallGuysStats {
                     stat.End = line.Date;
                 }
                 stat.Playing = false;
-                findPosition = false;
             } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (stat != null) {
                     if (stat.End == DateTime.MinValue) {

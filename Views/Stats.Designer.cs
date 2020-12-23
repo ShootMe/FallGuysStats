@@ -27,13 +27,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Stats));
-            this.lblTotalShows = new System.Windows.Forms.Label();
-            this.lblTotalTime = new System.Windows.Forms.Label();
-            this.lblTotalRounds = new System.Windows.Forms.Label();
-            this.lblTotalWins = new System.Windows.Forms.Label();
-            this.lblFinalChance = new System.Windows.Forms.Label();
-            this.lblWinChance = new System.Windows.Forms.Label();
-            this.lblKudos = new System.Windows.Forms.Label();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -53,85 +46,20 @@
             this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
             this.gridDetails = new FallGuysStats.Grid();
+            this.infoStrip = new System.Windows.Forms.ToolStrip();
+            this.lblTotalTime = new System.Windows.Forms.ToolStripLabel();
+            this.lblTotalShows = new System.Windows.Forms.ToolStripLabel();
+            this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
+            this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
+            this.lblFinalChance = new System.Windows.Forms.ToolStripLabel();
+            this.lblWinChance = new System.Windows.Forms.ToolStripLabel();
+            this.lblKudos = new System.Windows.Forms.ToolStripLabel();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
+            this.infoStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblTotalShows
-            // 
-            this.lblTotalShows.AutoSize = true;
-            this.lblTotalShows.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalShows.Location = new System.Drawing.Point(128, 28);
-            this.lblTotalShows.Name = "lblTotalShows";
-            this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
-            this.lblTotalShows.TabIndex = 5;
-            this.lblTotalShows.Text = "Shows: 0";
-            this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
-            // 
-            // lblTotalTime
-            // 
-            this.lblTotalTime.AutoSize = true;
-            this.lblTotalTime.Location = new System.Drawing.Point(8, 28);
-            this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
-            this.lblTotalTime.TabIndex = 4;
-            this.lblTotalTime.Text = "Time Played: 0:00:00";
-            // 
-            // lblTotalRounds
-            // 
-            this.lblTotalRounds.AutoSize = true;
-            this.lblTotalRounds.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalRounds.Location = new System.Drawing.Point(206, 28);
-            this.lblTotalRounds.Name = "lblTotalRounds";
-            this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
-            this.lblTotalRounds.TabIndex = 6;
-            this.lblTotalRounds.Text = "Rounds: 0";
-            this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
-            // 
-            // lblTotalWins
-            // 
-            this.lblTotalWins.AutoSize = true;
-            this.lblTotalWins.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalWins.Location = new System.Drawing.Point(296, 28);
-            this.lblTotalWins.Name = "lblTotalWins";
-            this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
-            this.lblTotalWins.TabIndex = 7;
-            this.lblTotalWins.Text = "Wins: 0";
-            this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
-            // 
-            // lblFinalChance
-            // 
-            this.lblFinalChance.AutoSize = true;
-            this.lblFinalChance.Location = new System.Drawing.Point(365, 28);
-            this.lblFinalChance.Name = "lblFinalChance";
-            this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
-            this.lblFinalChance.TabIndex = 8;
-            this.lblFinalChance.Text = "Final %: 0.0";
-            // 
-            // lblWinChance
-            // 
-            this.lblWinChance.AutoSize = true;
-            this.lblWinChance.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblWinChance.ForeColor = System.Drawing.Color.Blue;
-            this.lblWinChance.Location = new System.Drawing.Point(443, 28);
-            this.lblWinChance.Name = "lblWinChance";
-            this.lblWinChance.Size = new System.Drawing.Size(58, 13);
-            this.lblWinChance.TabIndex = 9;
-            this.lblWinChance.Text = "Win %: 0.0";
-            this.lblWinChance.Click += new System.EventHandler(this.lblWinChance_Click);
-            // 
-            // lblKudos
-            // 
-            this.lblKudos.AutoSize = true;
-            this.lblKudos.Location = new System.Drawing.Point(520, 28);
-            this.lblKudos.Name = "lblKudos";
-            this.lblKudos.Size = new System.Drawing.Size(49, 13);
-            this.lblKudos.TabIndex = 10;
-            this.lblKudos.Text = "Kudos: 0";
             // 
             // menu
             // 
@@ -141,7 +69,8 @@
             this.menuProfile,
             this.menuOverlay,
             this.menuUpdate,
-            this.menuHelp});
+            this.menuHelp,
+            this.menuLaunchFallGuys});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(614, 24);
@@ -322,6 +251,14 @@
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
             // 
+            // menuLaunchFallGuys
+            // 
+            this.menuLaunchFallGuys.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.menuLaunchFallGuys.Name = "menuLaunchFallGuys";
+            this.menuLaunchFallGuys.Size = new System.Drawing.Size(109, 20);
+            this.menuLaunchFallGuys.Text = "Launch Fall Guys";
+            this.menuLaunchFallGuys.Click += new System.EventHandler(this.menuLaunchFallGuys_Click);
+            // 
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
@@ -365,18 +302,96 @@
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
+            // infoStrip
+            // 
+            this.infoStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
+            this.infoStrip.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblTotalTime,
+            this.lblTotalShows,
+            this.lblTotalRounds,
+            this.lblTotalWins,
+            this.lblFinalChance,
+            this.lblWinChance,
+            this.lblKudos});
+            this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.infoStrip.Location = new System.Drawing.Point(0, 24);
+            this.infoStrip.Name = "infoStrip";
+            this.infoStrip.Padding = new System.Windows.Forms.Padding(4, 6, 1, 1);
+            this.infoStrip.Size = new System.Drawing.Size(614, 26);
+            this.infoStrip.TabIndex = 13;
+            // 
+            // lblTotalTime
+            // 
+            this.lblTotalTime.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
+            this.lblTotalTime.Name = "lblTotalTime";
+            this.lblTotalTime.Size = new System.Drawing.Size(107, 13);
+            this.lblTotalTime.Text = "Time Played: 0:00:00";
+            // 
+            // lblTotalShows
+            // 
+            this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
+            this.lblTotalShows.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalShows.Name = "lblTotalShows";
+            this.lblTotalShows.Size = new System.Drawing.Size(51, 13);
+            this.lblTotalShows.Text = "Shows: 0";
+            this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
+            this.lblTotalShows.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalShows.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
+            // lblTotalRounds
+            // 
+            this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
+            this.lblTotalRounds.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalRounds.Name = "lblTotalRounds";
+            this.lblTotalRounds.Size = new System.Drawing.Size(56, 13);
+            this.lblTotalRounds.Text = "Rounds: 0";
+            this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
+            this.lblTotalRounds.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalRounds.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
+            // lblTotalWins
+            // 
+            this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
+            this.lblTotalWins.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalWins.Name = "lblTotalWins";
+            this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
+            this.lblTotalWins.Text = "Wins: 0";
+            this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
+            this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
+            // lblFinalChance
+            // 
+            this.lblFinalChance.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblFinalChance.Name = "lblFinalChance";
+            this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
+            this.lblFinalChance.Text = "Final %: 0.0";
+            // 
+            // lblWinChance
+            // 
+            this.lblWinChance.ForeColor = System.Drawing.Color.Blue;
+            this.lblWinChance.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblWinChance.Name = "lblWinChance";
+            this.lblWinChance.Size = new System.Drawing.Size(58, 13);
+            this.lblWinChance.Text = "Win %: 0.0";
+            this.lblWinChance.Click += new System.EventHandler(this.lblWinChance_Click);
+            this.lblWinChance.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblWinChance.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
+            // lblKudos
+            // 
+            this.lblKudos.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblKudos.Name = "lblKudos";
+            this.lblKudos.Size = new System.Drawing.Size(49, 13);
+            this.lblKudos.Text = "Kudos: 0";
+            // 
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.ClientSize = new System.Drawing.Size(614, 620);
-            this.Controls.Add(this.lblKudos);
-            this.Controls.Add(this.lblWinChance);
-            this.Controls.Add(this.lblTotalTime);
-            this.Controls.Add(this.lblFinalChance);
-            this.Controls.Add(this.lblTotalShows);
-            this.Controls.Add(this.lblTotalWins);
-            this.Controls.Add(this.lblTotalRounds);
+            this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.gridDetails);
             this.Controls.Add(this.menu);
             this.DoubleBuffered = true;
@@ -394,6 +409,8 @@
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
+            this.infoStrip.ResumeLayout(false);
+            this.infoStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -401,13 +418,6 @@
 
         #endregion
         private Grid gridDetails;
-        private System.Windows.Forms.Label lblTotalShows;
-        private System.Windows.Forms.Label lblTotalTime;
-        private System.Windows.Forms.Label lblTotalRounds;
-        private System.Windows.Forms.Label lblTotalWins;
-        private System.Windows.Forms.Label lblFinalChance;
-        private System.Windows.Forms.Label lblWinChance;
-        private System.Windows.Forms.Label lblKudos;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;
         private System.Windows.Forms.ToolStripMenuItem menuFilters;
@@ -427,6 +437,15 @@
         private System.Windows.Forms.ToolStripMenuItem menuProfile;
         private System.Windows.Forms.ToolStripMenuItem menuProfileMain;
         private System.Windows.Forms.ToolStripMenuItem menuProfilePractice;
+        private System.Windows.Forms.ToolStrip infoStrip;
+        private System.Windows.Forms.ToolStripLabel lblTotalTime;
+        private System.Windows.Forms.ToolStripLabel lblTotalShows;
+        private System.Windows.Forms.ToolStripLabel lblTotalRounds;
+        private System.Windows.Forms.ToolStripLabel lblTotalWins;
+        private System.Windows.Forms.ToolStripLabel lblFinalChance;
+        private System.Windows.Forms.ToolStripLabel lblWinChance;
+        private System.Windows.Forms.ToolStripLabel lblKudos;
+        private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
     }
 }
 
