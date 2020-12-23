@@ -31,6 +31,14 @@
             this.chkCycleOverlayQualify = new System.Windows.Forms.CheckBox();
             this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
             this.grpOverlay = new System.Windows.Forms.GroupBox();
+            this.lblOrPing = new System.Windows.Forms.Label();
+            this.chkOnlyShowPing = new System.Windows.Forms.CheckBox();
+            this.lblOrFinal = new System.Windows.Forms.Label();
+            this.chkOnlyShowFinalStreak = new System.Windows.Forms.CheckBox();
+            this.lblOrLongest = new System.Windows.Forms.Label();
+            this.chkOnlyShowLongest = new System.Windows.Forms.CheckBox();
+            this.lblOrGold = new System.Windows.Forms.Label();
+            this.chkOnlyShowGold = new System.Windows.Forms.CheckBox();
             this.chkCycleOverlayStreak = new System.Windows.Forms.CheckBox();
             this.chkCycleOverlayPlayers = new System.Windows.Forms.CheckBox();
             this.chkHidePercentages = new System.Windows.Forms.CheckBox();
@@ -58,16 +66,18 @@
             this.lblPreviousWinsNote = new System.Windows.Forms.Label();
             this.lblPreviousWins = new System.Windows.Forms.Label();
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
-            this.chkOnlyShowGold = new System.Windows.Forms.CheckBox();
-            this.lblOrGold = new System.Windows.Forms.Label();
-            this.lblOrLongest = new System.Windows.Forms.Label();
-            this.chkOnlyShowLongest = new System.Windows.Forms.CheckBox();
-            this.lblOrFinal = new System.Windows.Forms.Label();
-            this.chkOnlyShowFinalStreak = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkOnlyShowPing = new System.Windows.Forms.CheckBox();
+            this.grpGameOptions = new System.Windows.Forms.GroupBox();
+            this.lblGameExeLocation = new System.Windows.Forms.Label();
+            this.txtGameExeLocation = new System.Windows.Forms.TextBox();
+            this.btnGameExeLocationBrowse = new System.Windows.Forms.Button();
+            this.chkAutoLaunchGameOnStart = new System.Windows.Forms.CheckBox();
+            this.grpSortingOptions = new System.Windows.Forms.GroupBox();
+            this.chkIgnoreLevelTypeWhenSorting = new System.Windows.Forms.CheckBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.grpOverlay.SuspendLayout();
             this.grpStats.SuspendLayout();
+            this.grpGameOptions.SuspendLayout();
+            this.grpSortingOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
@@ -102,11 +112,11 @@
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.btnSave.Location = new System.Drawing.Point(296, 417);
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(500, 528);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 5;
+            this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -135,10 +145,7 @@
             // 
             // grpOverlay
             // 
-            this.grpOverlay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpOverlay.Controls.Add(this.label1);
+            this.grpOverlay.Controls.Add(this.lblOrPing);
             this.grpOverlay.Controls.Add(this.chkOnlyShowPing);
             this.grpOverlay.Controls.Add(this.lblOrFinal);
             this.grpOverlay.Controls.Add(this.chkOnlyShowFinalStreak);
@@ -171,10 +178,94 @@
             this.grpOverlay.Controls.Add(this.chkCycleOverlayLongest);
             this.grpOverlay.Location = new System.Drawing.Point(12, 115);
             this.grpOverlay.Name = "grpOverlay";
-            this.grpOverlay.Size = new System.Drawing.Size(645, 290);
+            this.grpOverlay.Size = new System.Drawing.Size(645, 285);
             this.grpOverlay.TabIndex = 4;
             this.grpOverlay.TabStop = false;
             this.grpOverlay.Text = "Overlay";
+            // 
+            // lblOrPing
+            // 
+            this.lblOrPing.AutoSize = true;
+            this.lblOrPing.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrPing.Location = new System.Drawing.Point(160, 258);
+            this.lblOrPing.Name = "lblOrPing";
+            this.lblOrPing.Size = new System.Drawing.Size(16, 13);
+            this.lblOrPing.TabIndex = 18;
+            this.lblOrPing.Text = "or";
+            // 
+            // chkOnlyShowPing
+            // 
+            this.chkOnlyShowPing.AutoSize = true;
+            this.chkOnlyShowPing.Location = new System.Drawing.Point(193, 257);
+            this.chkOnlyShowPing.Name = "chkOnlyShowPing";
+            this.chkOnlyShowPing.Size = new System.Drawing.Size(101, 17);
+            this.chkOnlyShowPing.TabIndex = 19;
+            this.chkOnlyShowPing.Text = "Only Show Ping";
+            this.chkOnlyShowPing.UseVisualStyleBackColor = true;
+            this.chkOnlyShowPing.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // lblOrFinal
+            // 
+            this.lblOrFinal.AutoSize = true;
+            this.lblOrFinal.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrFinal.Location = new System.Drawing.Point(160, 235);
+            this.lblOrFinal.Name = "lblOrFinal";
+            this.lblOrFinal.Size = new System.Drawing.Size(16, 13);
+            this.lblOrFinal.TabIndex = 15;
+            this.lblOrFinal.Text = "or";
+            // 
+            // chkOnlyShowFinalStreak
+            // 
+            this.chkOnlyShowFinalStreak.AutoSize = true;
+            this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(193, 234);
+            this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
+            this.chkOnlyShowFinalStreak.Size = new System.Drawing.Size(136, 17);
+            this.chkOnlyShowFinalStreak.TabIndex = 16;
+            this.chkOnlyShowFinalStreak.Text = "Only Show Final Streak";
+            this.chkOnlyShowFinalStreak.UseVisualStyleBackColor = true;
+            this.chkOnlyShowFinalStreak.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // lblOrLongest
+            // 
+            this.lblOrLongest.AutoSize = true;
+            this.lblOrLongest.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrLongest.Location = new System.Drawing.Point(160, 212);
+            this.lblOrLongest.Name = "lblOrLongest";
+            this.lblOrLongest.Size = new System.Drawing.Size(16, 13);
+            this.lblOrLongest.TabIndex = 12;
+            this.lblOrLongest.Text = "or";
+            // 
+            // chkOnlyShowLongest
+            // 
+            this.chkOnlyShowLongest.AutoSize = true;
+            this.chkOnlyShowLongest.Location = new System.Drawing.Point(193, 211);
+            this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
+            this.chkOnlyShowLongest.Size = new System.Drawing.Size(118, 17);
+            this.chkOnlyShowLongest.TabIndex = 13;
+            this.chkOnlyShowLongest.Text = "Only Show Longest";
+            this.chkOnlyShowLongest.UseVisualStyleBackColor = true;
+            this.chkOnlyShowLongest.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            // 
+            // lblOrGold
+            // 
+            this.lblOrGold.AutoSize = true;
+            this.lblOrGold.ForeColor = System.Drawing.Color.DimGray;
+            this.lblOrGold.Location = new System.Drawing.Point(160, 189);
+            this.lblOrGold.Name = "lblOrGold";
+            this.lblOrGold.Size = new System.Drawing.Size(16, 13);
+            this.lblOrGold.TabIndex = 9;
+            this.lblOrGold.Text = "or";
+            // 
+            // chkOnlyShowGold
+            // 
+            this.chkOnlyShowGold.AutoSize = true;
+            this.chkOnlyShowGold.Location = new System.Drawing.Point(193, 188);
+            this.chkOnlyShowGold.Name = "chkOnlyShowGold";
+            this.chkOnlyShowGold.Size = new System.Drawing.Size(102, 17);
+            this.chkOnlyShowGold.TabIndex = 10;
+            this.chkOnlyShowGold.Text = "Only Show Gold";
+            this.chkOnlyShowGold.UseVisualStyleBackColor = true;
+            this.chkOnlyShowGold.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
             // 
             // chkCycleOverlayStreak
             // 
@@ -473,89 +564,95 @@
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
-            // chkOnlyShowGold
+            // grpGameOptions
             // 
-            this.chkOnlyShowGold.AutoSize = true;
-            this.chkOnlyShowGold.Location = new System.Drawing.Point(193, 188);
-            this.chkOnlyShowGold.Name = "chkOnlyShowGold";
-            this.chkOnlyShowGold.Size = new System.Drawing.Size(102, 17);
-            this.chkOnlyShowGold.TabIndex = 10;
-            this.chkOnlyShowGold.Text = "Only Show Gold";
-            this.chkOnlyShowGold.UseVisualStyleBackColor = true;
-            this.chkOnlyShowGold.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            this.grpGameOptions.Controls.Add(this.lblGameExeLocation);
+            this.grpGameOptions.Controls.Add(this.txtGameExeLocation);
+            this.grpGameOptions.Controls.Add(this.btnGameExeLocationBrowse);
+            this.grpGameOptions.Controls.Add(this.chkAutoLaunchGameOnStart);
+            this.grpGameOptions.Location = new System.Drawing.Point(11, 453);
+            this.grpGameOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.grpGameOptions.Name = "grpGameOptions";
+            this.grpGameOptions.Padding = new System.Windows.Forms.Padding(2);
+            this.grpGameOptions.Size = new System.Drawing.Size(644, 69);
+            this.grpGameOptions.TabIndex = 6;
+            this.grpGameOptions.TabStop = false;
+            this.grpGameOptions.Text = "Game Options";
             // 
-            // lblOrGold
+            // lblGameExeLocation
             // 
-            this.lblOrGold.AutoSize = true;
-            this.lblOrGold.ForeColor = System.Drawing.Color.DimGray;
-            this.lblOrGold.Location = new System.Drawing.Point(160, 189);
-            this.lblOrGold.Name = "lblOrGold";
-            this.lblOrGold.Size = new System.Drawing.Size(16, 13);
-            this.lblOrGold.TabIndex = 9;
-            this.lblOrGold.Text = "or";
+            this.lblGameExeLocation.AutoSize = true;
+            this.lblGameExeLocation.Location = new System.Drawing.Point(11, 21);
+            this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblGameExeLocation.Name = "lblGameExeLocation";
+            this.lblGameExeLocation.Size = new System.Drawing.Size(125, 13);
+            this.lblGameExeLocation.TabIndex = 0;
+            this.lblGameExeLocation.Text = "Fall Guys Game Location";
             // 
-            // lblOrLongest
+            // txtGameExeLocation
             // 
-            this.lblOrLongest.AutoSize = true;
-            this.lblOrLongest.ForeColor = System.Drawing.Color.DimGray;
-            this.lblOrLongest.Location = new System.Drawing.Point(160, 212);
-            this.lblOrLongest.Name = "lblOrLongest";
-            this.lblOrLongest.Size = new System.Drawing.Size(16, 13);
-            this.lblOrLongest.TabIndex = 12;
-            this.lblOrLongest.Text = "or";
+            this.txtGameExeLocation.Enabled = false;
+            this.txtGameExeLocation.Location = new System.Drawing.Point(140, 19);
+            this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGameExeLocation.Name = "txtGameExeLocation";
+            this.txtGameExeLocation.Size = new System.Drawing.Size(447, 20);
+            this.txtGameExeLocation.TabIndex = 1;
             // 
-            // chkOnlyShowLongest
+            // btnGameExeLocationBrowse
             // 
-            this.chkOnlyShowLongest.AutoSize = true;
-            this.chkOnlyShowLongest.Location = new System.Drawing.Point(193, 211);
-            this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
-            this.chkOnlyShowLongest.Size = new System.Drawing.Size(118, 17);
-            this.chkOnlyShowLongest.TabIndex = 13;
-            this.chkOnlyShowLongest.Text = "Only Show Longest";
-            this.chkOnlyShowLongest.UseVisualStyleBackColor = true;
-            this.chkOnlyShowLongest.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(590, 18);
+            this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(2);
+            this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
+            this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(50, 20);
+            this.btnGameExeLocationBrowse.TabIndex = 2;
+            this.btnGameExeLocationBrowse.Text = "Browse";
+            this.btnGameExeLocationBrowse.Click += new System.EventHandler(this.btnGameExeLocationBrowse_Click);
             // 
-            // lblOrFinal
+            // chkAutoLaunchGameOnStart
             // 
-            this.lblOrFinal.AutoSize = true;
-            this.lblOrFinal.ForeColor = System.Drawing.Color.DimGray;
-            this.lblOrFinal.Location = new System.Drawing.Point(160, 235);
-            this.lblOrFinal.Name = "lblOrFinal";
-            this.lblOrFinal.Size = new System.Drawing.Size(16, 13);
-            this.lblOrFinal.TabIndex = 15;
-            this.lblOrFinal.Text = "or";
+            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(13, 43);
+            this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
+            this.chkAutoLaunchGameOnStart.Name = "chkAutoLaunchGameOnStart";
+            this.chkAutoLaunchGameOnStart.Size = new System.Drawing.Size(204, 16);
+            this.chkAutoLaunchGameOnStart.TabIndex = 3;
+            this.chkAutoLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker start";
             // 
-            // chkOnlyShowFinalStreak
+            // grpSortingOptions
             // 
-            this.chkOnlyShowFinalStreak.AutoSize = true;
-            this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(193, 234);
-            this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
-            this.chkOnlyShowFinalStreak.Size = new System.Drawing.Size(136, 17);
-            this.chkOnlyShowFinalStreak.TabIndex = 16;
-            this.chkOnlyShowFinalStreak.Text = "Only Show Final Streak";
-            this.chkOnlyShowFinalStreak.UseVisualStyleBackColor = true;
-            this.chkOnlyShowFinalStreak.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            this.grpSortingOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpSortingOptions.Controls.Add(this.chkIgnoreLevelTypeWhenSorting);
+            this.grpSortingOptions.Location = new System.Drawing.Point(11, 405);
+            this.grpSortingOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.grpSortingOptions.Name = "grpSortingOptions";
+            this.grpSortingOptions.Padding = new System.Windows.Forms.Padding(2);
+            this.grpSortingOptions.Size = new System.Drawing.Size(645, 44);
+            this.grpSortingOptions.TabIndex = 5;
+            this.grpSortingOptions.TabStop = false;
+            this.grpSortingOptions.Text = "Sorting Options";
             // 
-            // label1
+            // chkIgnoreLevelTypeWhenSorting
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.DimGray;
-            this.label1.Location = new System.Drawing.Point(160, 258);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(16, 13);
-            this.label1.TabIndex = 18;
-            this.label1.Text = "or";
+            this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
+            this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(16, 19);
+            this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
+            this.chkIgnoreLevelTypeWhenSorting.Name = "chkIgnoreLevelTypeWhenSorting";
+            this.chkIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(175, 17);
+            this.chkIgnoreLevelTypeWhenSorting.TabIndex = 0;
+            this.chkIgnoreLevelTypeWhenSorting.Text = "Ignore Level Type when sorting";
+            this.chkIgnoreLevelTypeWhenSorting.UseVisualStyleBackColor = true;
             // 
-            // chkOnlyShowPing
+            // btnCancel
             // 
-            this.chkOnlyShowPing.AutoSize = true;
-            this.chkOnlyShowPing.Location = new System.Drawing.Point(193, 257);
-            this.chkOnlyShowPing.Name = "chkOnlyShowPing";
-            this.chkOnlyShowPing.Size = new System.Drawing.Size(101, 17);
-            this.chkOnlyShowPing.TabIndex = 19;
-            this.chkOnlyShowPing.Text = "Only Show Ping";
-            this.chkOnlyShowPing.UseVisualStyleBackColor = true;
-            this.chkOnlyShowPing.CheckedChanged += new System.EventHandler(this.chkCycleOnly_CheckedChanged);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCancel.Location = new System.Drawing.Point(581, 528);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 8;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // Settings
             // 
@@ -563,7 +660,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(669, 455);
+            this.CancelButton = this.btnCancel;
+            this.ClientSize = new System.Drawing.Size(669, 561);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.grpGameOptions);
+            this.Controls.Add(this.grpSortingOptions);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.btnSave);
@@ -584,6 +685,10 @@
             this.grpOverlay.PerformLayout();
             this.grpStats.ResumeLayout(false);
             this.grpStats.PerformLayout();
+            this.grpGameOptions.ResumeLayout(false);
+            this.grpGameOptions.PerformLayout();
+            this.grpSortingOptions.ResumeLayout(false);
+            this.grpSortingOptions.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -625,7 +730,7 @@
         private System.Windows.Forms.CheckBox chkCycleOverlayPlayers;
         private System.Windows.Forms.CheckBox chkCycleOverlayStreak;
         private System.Windows.Forms.CheckBox chkChangeHoopsieLegends;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblOrPing;
         private System.Windows.Forms.CheckBox chkOnlyShowPing;
         private System.Windows.Forms.Label lblOrFinal;
         private System.Windows.Forms.CheckBox chkOnlyShowFinalStreak;
@@ -633,5 +738,13 @@
         private System.Windows.Forms.CheckBox chkOnlyShowLongest;
         private System.Windows.Forms.Label lblOrGold;
         private System.Windows.Forms.CheckBox chkOnlyShowGold;
+        private System.Windows.Forms.GroupBox grpGameOptions;
+        private System.Windows.Forms.Label lblGameExeLocation;
+        private System.Windows.Forms.TextBox txtGameExeLocation;
+        private System.Windows.Forms.Button btnGameExeLocationBrowse;
+        private System.Windows.Forms.CheckBox chkAutoLaunchGameOnStart;
+        private System.Windows.Forms.GroupBox grpSortingOptions;
+        private System.Windows.Forms.CheckBox chkIgnoreLevelTypeWhenSorting;
+        private System.Windows.Forms.Button btnCancel;
     }
 }
