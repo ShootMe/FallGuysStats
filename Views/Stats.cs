@@ -707,7 +707,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                if (levelDetails.IsFinal) {
+                if (levelDetails.IsFinal && !endShow.PrivateLobby) {
                     summary.CurrentFinalStreak++;
                     if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
                         summary.BestFinalStreak = summary.CurrentFinalStreak;
@@ -716,16 +716,20 @@ namespace FallGuysStats {
 
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.IsFinal) {
-                        summary.AllWins++;
+                        if (!info.PrivateLobby) {
+                            summary.AllWins++;
+                        }
 
                         if (isInWinsFilter) {
                             summary.TotalWins++;
                             summary.TotalFinals++;
                         }
 
-                        summary.CurrentStreak++;
-                        if (summary.CurrentStreak > summary.BestStreak) {
-                            summary.BestStreak = summary.CurrentStreak;
+                        if (!info.PrivateLobby) {
+                            summary.CurrentStreak++;
+                            if (summary.CurrentStreak > summary.BestStreak) {
+                                summary.BestStreak = summary.CurrentStreak;
+                            }
                         }
                     }
 
@@ -753,7 +757,7 @@ namespace FallGuysStats {
                             summary.LongestFinishOverall = finishTime;
                         }
                     }
-                } else {
+                } else if (!info.PrivateLobby) {
                     if (!levelDetails.IsFinal) {
                         summary.CurrentFinalStreak = 0;
                     }
@@ -891,9 +895,7 @@ namespace FallGuysStats {
         }
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             try {
-                if (e.RowIndex < 0) { return; }
-
-                if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
+                if (e.RowIndex >= 0 && gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                     gridDetails.Cursor = Cursors.Hand;
                 } else {
                     gridDetails.Cursor = Cursors.Default;
@@ -934,8 +936,7 @@ namespace FallGuysStats {
                 LevelType oneType = one.IsFinal ? LevelType.Hunt : one.Type == LevelType.Hunt ? LevelType.Race : one.Type;
                 LevelType twoType = two.IsFinal ? LevelType.Hunt : two.Type == LevelType.Hunt ? LevelType.Race : two.Type;
 
-                int typeCompare = CurrentSettings.IgnoreLevelTypeWhenSorting ? 0 : ((int)oneType).CompareTo((int)twoType);
-                int nameCompare = one.Name.CompareTo(two.Name);
+                int typeCompare = CurrentSettings.IgnoreLevelTypeWhenSorting && sortOrder != SortOrder.None ? 0 : ((int)oneType).CompareTo((int)twoType);
 
                 if (sortOrder == SortOrder.Descending) {
                     LevelStats temp = one;
@@ -943,19 +944,21 @@ namespace FallGuysStats {
                     two = temp;
                 }
 
-                if (typeCompare == 0) {
+                int nameCompare = one.Name.CompareTo(two.Name);
+                bool percents = CurrentSettings.ShowPercentages;
+                if (typeCompare == 0 && sortOrder != SortOrder.None) {
                     switch (columnName) {
-                        case "Gold": typeCompare = one.Gold.CompareTo(two.Gold); break;
-                        case "Silver": typeCompare = one.Silver.CompareTo(two.Silver); break;
-                        case "Bronze": typeCompare = one.Bronze.CompareTo(two.Bronze); break;
+                        case "Gold": typeCompare = ((double)one.Gold / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Gold / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Silver": typeCompare = ((double)one.Silver / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Silver / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Bronze": typeCompare = ((double)one.Bronze / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Bronze / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
-                        case "Qualified": typeCompare = one.Qualified.CompareTo(two.Qualified); break;
+                        case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
                         case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
                         case "AveDuration": typeCompare = one.AveDuration.CompareTo(two.AveDuration); break;
                         case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
                         case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
-                        default: typeCompare = one.Name.CompareTo(two.Name); break;
+                        default: typeCompare = nameCompare; break;
                     }
                 }
 
