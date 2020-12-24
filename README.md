@@ -28,6 +28,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.105
+    - Grid sorting improvements
+    - Display issue with private lobby stats on overlay
   - 1.104
     - Implemented a number of improvements from hunterpankey
   - 1.103
