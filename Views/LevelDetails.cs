@@ -120,6 +120,7 @@ namespace FallGuysStats {
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             string columnName = gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
+            if (sortOrder != SortOrder.None) { columnName = "Name"; }
 
             RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 int roundCompare = one.Round.CompareTo(two.Round);
@@ -129,6 +130,7 @@ namespace FallGuysStats {
                     one = two;
                     two = temp;
                 }
+
                 switch (columnName) {
                     case "ShowID":
                         showCompare = one.ShowID.CompareTo(two.ShowID);
