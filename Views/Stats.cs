@@ -124,7 +124,7 @@ namespace FallGuysStats {
 
             CurrentRound = new List<RoundInfo>();
 
-            overlay = new Overlay() { StatsForm = this };
+            overlay = new Overlay() { StatsForm = this, Icon = Icon, ShowIcon = true };
             overlay.Show();
             overlay.Visible = false;
             overlay.StartTimer();
@@ -783,11 +783,10 @@ namespace FallGuysStats {
                 lblTotalRounds.Text = $"Rounds: {Rounds}";
                 lblTotalShows.Text = $"Shows: {Shows}";
                 lblTotalTime.Text = $"Time Played: {(int)Duration.TotalHours}:{Duration:mm\\:ss}";
-                lblTotalWins.Text = $"Wins: {Wins}";
-                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
-                lblFinalChance.Text = $"Final %: {finalChance:0.0}";
                 float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
-                lblWinChance.Text = $"Win %: {winChance:0.0}";
+                lblTotalWins.Text = $"Wins: {Wins} ({winChance:0.0} %)";
+                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
+                lblTotalFinals.Text = $"Finals: {Finals} ({finalChance:0.0} %)";
                 lblKudos.Text = $"Kudos: {Kudos}";
                 gridDetails.Refresh();
             } catch (Exception ex) {
@@ -810,6 +809,7 @@ namespace FallGuysStats {
                 gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Fastest", pos++, 60, "Fastest", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Longest", pos++, 60, "Longest", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("AveFinish", pos++, 60, "Average", DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -879,8 +879,8 @@ namespace FallGuysStats {
                             }
                             break;
                         }
-                    case "AveDuration":
-                        e.Value = info.AveDuration.ToString("m\\:ss");
+                    case "AveFinish":
+                        e.Value = info.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
                         e.Value = info.Fastest.ToString("m\\:ss\\.ff");
@@ -955,7 +955,7 @@ namespace FallGuysStats {
                         case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
                         case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
-                        case "AveDuration": typeCompare = one.AveDuration.CompareTo(two.AveDuration); break;
+                        case "AveFinish": typeCompare = one.AveFinish.CompareTo(two.AveFinish); break;
                         case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
                         case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
                         default: typeCompare = nameCompare; break;
@@ -1033,6 +1033,32 @@ namespace FallGuysStats {
                     int showCompare = one.ShowID.CompareTo(two.ShowID);
                     return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
                 });
+                levelDetails.RoundDetails = rounds;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowFinals() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Finals";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+
+                int keepShow = -1;
+                for (int i = rounds.Count - 1; i >= 0; i--) {
+                    RoundInfo info = rounds[i];
+                    if (info.ShowID != keepShow && (info.Crown || (StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsFinal))) {
+                        keepShow = info.ShowID;
+                    } else if (info.ShowID != keepShow) {
+                        rounds.RemoveAt(i);
+                    }
+                }
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
                 levelDetails.ShowDialog(this);
@@ -1181,9 +1207,9 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
-        private void lblWinChance_Click(object sender, EventArgs e) {
+        private void lblTotalFinals_Click(object sender, EventArgs e) {
             try {
-                ToggleWinPercentageDisplay();
+                ShowFinals();
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
