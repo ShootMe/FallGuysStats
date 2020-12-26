@@ -16,7 +16,11 @@ namespace FallGuysStats {
             }
             chkWins.Checked = true;
         }
-
+        private void StatsDisplay_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Escape) {
+                Close();
+            }
+        }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             graph.YColumns[1] = chkWins.Checked;
             graph.Invalidate();
