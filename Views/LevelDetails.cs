@@ -16,11 +16,11 @@ namespace FallGuysStats {
             if (LevelName == "Shows") {
                 Text = $"Show Stats";
                 ShowStats = 2;
-                ClientSize = new System.Drawing.Size(Width - 200, Height);
+                ClientSize = new Size(Width - 200, Height);
             } else if (LevelName == "Rounds") {
                 Text = $"Round Stats";
                 ShowStats = 1;
-                ClientSize = new System.Drawing.Size(Width + 85, Height);
+                ClientSize = new Size(Width + 85, Height);
             } else {
                 Text = $"Level Stats - {LevelName}";
             }
@@ -120,6 +120,7 @@ namespace FallGuysStats {
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             string columnName = gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
+            if (sortOrder != SortOrder.None) { columnName = "Name"; }
 
             RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 int roundCompare = one.Round.CompareTo(two.Round);
@@ -129,6 +130,7 @@ namespace FallGuysStats {
                     one = two;
                     two = temp;
                 }
+
                 switch (columnName) {
                     case "ShowID":
                         showCompare = one.ShowID.CompareTo(two.ShowID);
@@ -208,8 +210,8 @@ namespace FallGuysStats {
 
                         StatsForm.ResetStats();
                     }
-                } else if(e.KeyCode == Keys.Escape) {
-                    this.Close();
+                } else if (e.KeyCode == Keys.Escape) {
+                    Close();
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
