@@ -53,8 +53,7 @@
             this.lblTotalShows = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
-            this.lblFinalChance = new System.Windows.Forms.ToolStripLabel();
-            this.lblWinChance = new System.Windows.Forms.ToolStripLabel();
+            this.lblTotalFinals = new System.Windows.Forms.ToolStripLabel();
             this.lblKudos = new System.Windows.Forms.ToolStripLabel();
             this.menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
@@ -73,7 +72,7 @@
             this.menuLaunchFallGuys});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(614, 24);
+            this.menu.Size = new System.Drawing.Size(634, 24);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
             // 
@@ -292,7 +291,7 @@
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(614, 570);
+            this.gridDetails.Size = new System.Drawing.Size(634, 570);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
@@ -311,14 +310,13 @@
             this.lblTotalShows,
             this.lblTotalRounds,
             this.lblTotalWins,
-            this.lblFinalChance,
-            this.lblWinChance,
+            this.lblTotalFinals,
             this.lblKudos});
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 24);
             this.infoStrip.Name = "infoStrip";
             this.infoStrip.Padding = new System.Windows.Forms.Padding(4, 6, 1, 1);
-            this.infoStrip.Size = new System.Drawing.Size(614, 26);
+            this.infoStrip.Size = new System.Drawing.Size(634, 26);
             this.infoStrip.TabIndex = 13;
             // 
             // lblTotalTime
@@ -355,29 +353,22 @@
             this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalWins.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblTotalWins.Name = "lblTotalWins";
-            this.lblTotalWins.Size = new System.Drawing.Size(43, 13);
-            this.lblTotalWins.Text = "Wins: 0";
+            this.lblTotalWins.Size = new System.Drawing.Size(78, 13);
+            this.lblTotalWins.Text = "Wins: 0 (0.0 %)";
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
-            // lblFinalChance
+            // lblTotalFinals
             // 
-            this.lblFinalChance.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
-            this.lblFinalChance.Name = "lblFinalChance";
-            this.lblFinalChance.Size = new System.Drawing.Size(61, 13);
-            this.lblFinalChance.Text = "Final %: 0.0";
-            // 
-            // lblWinChance
-            // 
-            this.lblWinChance.ForeColor = System.Drawing.Color.Blue;
-            this.lblWinChance.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
-            this.lblWinChance.Name = "lblWinChance";
-            this.lblWinChance.Size = new System.Drawing.Size(58, 13);
-            this.lblWinChance.Text = "Win %: 0.0";
-            this.lblWinChance.Click += new System.EventHandler(this.lblWinChance_Click);
-            this.lblWinChance.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
-            this.lblWinChance.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            this.lblTotalFinals.ForeColor = System.Drawing.Color.Blue;
+            this.lblTotalFinals.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalFinals.Name = "lblTotalFinals";
+            this.lblTotalFinals.Size = new System.Drawing.Size(81, 13);
+            this.lblTotalFinals.Text = "Finals: 0 (0.0 %)";
+            this.lblTotalFinals.Click += new System.EventHandler(this.lblTotalFinals_Click);
+            this.lblTotalFinals.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalFinals.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
             // lblKudos
             // 
@@ -390,7 +381,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(614, 620);
+            this.ClientSize = new System.Drawing.Size(634, 620);
             this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.gridDetails);
             this.Controls.Add(this.menu);
@@ -398,7 +389,7 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
-            this.MinimumSize = new System.Drawing.Size(630, 300);
+            this.MinimumSize = new System.Drawing.Size(650, 300);
             this.Name = "Stats";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -442,8 +433,7 @@
         private System.Windows.Forms.ToolStripLabel lblTotalShows;
         private System.Windows.Forms.ToolStripLabel lblTotalRounds;
         private System.Windows.Forms.ToolStripLabel lblTotalWins;
-        private System.Windows.Forms.ToolStripLabel lblFinalChance;
-        private System.Windows.Forms.ToolStripLabel lblWinChance;
+        private System.Windows.Forms.ToolStripLabel lblTotalFinals;
         private System.Windows.Forms.ToolStripLabel lblKudos;
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
     }
