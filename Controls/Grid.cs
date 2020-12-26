@@ -39,17 +39,21 @@ namespace FallGuysStats {
             ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
         public SortOrder GetSortOrder(string columnName) {
-            SortOrder sortOrder = SortOrder.None;
+            SortOrder sortOrder;
             Orders.TryGetValue(columnName, out sortOrder);
 
-            if (sortOrder == SortOrder.None || sortOrder == SortOrder.Descending) {
+            if (sortOrder == SortOrder.None) {
                 Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                 Orders[columnName] = SortOrder.Ascending;
                 return SortOrder.Ascending;
-            } else {
+            } else if(sortOrder == SortOrder.Ascending){
                 Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Descending;
                 Orders[columnName] = SortOrder.Descending;
                 return SortOrder.Descending;
+            } else {
+                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.None;
+                Orders[columnName] = SortOrder.None;
+                return SortOrder.None;
             }
         }
         public DataGridViewRow CloneWithValues(DataGridViewRow row) {
