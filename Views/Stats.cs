@@ -1,17 +1,16 @@
-﻿using LiteDB;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using LiteDB;
+using Microsoft.Win32;
 namespace FallGuysStats {
     public partial class Stats : Form {
         [STAThread]
@@ -348,27 +347,6 @@ namespace FallGuysStats {
                 StatsDB.Commit();
             }
         }
-        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
-            try {
-                if (!overlay.Disposing && !overlay.IsDisposed && !IsDisposed && !Disposing) {
-                    if (overlay.Visible) {
-                        CurrentSettings.OverlayLocationX = overlay.Location.X;
-                        CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                        CurrentSettings.OverlayWidth = overlay.Width;
-                        CurrentSettings.OverlayHeight = overlay.Height;
-                    }
-                    CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
-                    CurrentSettings.SelectedProfile = menuProfileMain.Checked ? 0 : 1;
-                    CurrentSettings.FormLocationX = Location.X;
-                    CurrentSettings.FormLocationY = Location.Y;
-                    CurrentSettings.FormWidth = ClientSize.Width;
-                    CurrentSettings.FormHeight = ClientSize.Height;
-                    SaveUserSettings();
-                }
-                StatsDB.Dispose();
-                overlay.Cleanup();
-            } catch { }
-        }
         public void ResetStats() {
             for (int i = 0; i < StatDetails.Count; i++) {
                 LevelStats calculator = StatDetails[i];
@@ -430,6 +408,30 @@ namespace FallGuysStats {
             LogFile_OnParsedLogLines(rounds);
             loadingExisting = false;
         }
+        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
+            try {
+                if (!overlay.Disposing && !overlay.IsDisposed && !IsDisposed && !Disposing) {
+                    if (overlay.Visible) {
+                        CurrentSettings.OverlayLocationX = overlay.Location.X;
+                        CurrentSettings.OverlayLocationY = overlay.Location.Y;
+
+                        CurrentSettings.OverlayWidth = overlay.Width;
+                        CurrentSettings.OverlayHeight = overlay.Height;
+                    }
+                    CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                    CurrentSettings.SelectedProfile = menuProfileMain.Checked ? 0 : 1;
+
+                    CurrentSettings.FormLocationX = Location.X;
+                    CurrentSettings.FormLocationY = Location.Y;
+                    CurrentSettings.FormWidth = ClientSize.Width;
+                    CurrentSettings.FormHeight = ClientSize.Height;
+                    SaveUserSettings();
+                }
+                StatsDB.Dispose();
+                overlay.Cleanup();
+                //secondOverlay.Cleanup();
+            } catch { }
+        }
         private void Stats_Load(object sender, EventArgs e) {
             try {
                 if (CurrentSettings.FormWidth.HasValue) {
@@ -463,9 +465,9 @@ namespace FallGuysStats {
                 }
                 logFile.Start(logPath, LOGNAME);
 
-                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
+                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
                 if (CurrentSettings.OverlayVisible) {
-                    menuOverlay_Click(null, null);
+                    ToggleOverlay(overlay);
                 }
 
                 menuAllStats.Checked = false;
@@ -836,49 +838,49 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Qualified": {
-                            float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
-                            if (CurrentSettings.ShowPercentages) {
-                                e.Value = $"{qualifyChance:0.0}%";
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
-                            } else {
-                                e.Value = info.Qualified;
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
-                            }
-                            break;
+                        float qualifyChance = info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
+                        } else {
+                            e.Value = info.Qualified;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
                         }
+                        break;
+                    }
                     case "Gold": {
-                            float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
-                            if (CurrentSettings.ShowPercentages) {
-                                e.Value = $"{qualifyChance:0.0}%";
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
-                            } else {
-                                e.Value = info.Gold;
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
-                            }
-                            break;
+                        float qualifyChance = info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
+                        } else {
+                            e.Value = info.Gold;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
                         }
+                        break;
+                    }
                     case "Silver": {
-                            float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
-                            if (CurrentSettings.ShowPercentages) {
-                                e.Value = $"{qualifyChance:0.0}%";
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
-                            } else {
-                                e.Value = info.Silver;
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
-                            }
-                            break;
+                        float qualifyChance = info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
+                        } else {
+                            e.Value = info.Silver;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
                         }
+                        break;
+                    }
                     case "Bronze": {
-                            float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
-                            if (CurrentSettings.ShowPercentages) {
-                                e.Value = $"{qualifyChance:0.0}%";
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
-                            } else {
-                                e.Value = info.Bronze;
-                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
-                            }
-                            break;
+                        float qualifyChance = info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
+                        if (CurrentSettings.ShowPercentages) {
+                            e.Value = $"{qualifyChance:0.0}%";
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
+                        } else {
+                            e.Value = info.Bronze;
+                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
                         }
+                        break;
+                    }
                     case "AveDuration":
                         e.Value = info.AveDuration.ToString("m\\:ss");
                         break;
@@ -1377,7 +1379,7 @@ namespace FallGuysStats {
                             logFile.Start(logPath, LOGNAME);
                         }
 
-                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight);
+                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
                     }
                 }
             } catch (Exception ex) {
@@ -1385,6 +1387,9 @@ namespace FallGuysStats {
             }
         }
         private void menuOverlay_Click(object sender, EventArgs e) {
+            ToggleOverlay(overlay);
+        }
+        private void ToggleOverlay(Overlay overlay) {
             if (overlay.Visible) {
                 overlay.Hide();
                 CurrentSettings.OverlayLocationX = overlay.Location.X;

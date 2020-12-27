@@ -43,5 +43,6 @@
         public bool IgnoreLevelTypeWhenSorting { get; set; }
         public string GameExeLocation { get; set; }
         public bool AutoLaunchGameOnStartup { get; set; }
+        public string OverlayFontSerialized { get; set; }
     }
 }
