@@ -185,7 +185,9 @@ namespace FallGuysStats {
         public LevelType Type;
         public bool IsFinal;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
+        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)FinishTime.TotalSeconds / (Played == 0 ? 1 : Played)); } }
         public TimeSpan Duration;
+        public TimeSpan FinishTime;
         public List<RoundInfo> Stats;
         public int Season;
 
@@ -205,27 +207,38 @@ namespace FallGuysStats {
             Played = 0;
             Kudos = 0;
             Duration = TimeSpan.Zero;
+            FinishTime = TimeSpan.Zero;
             Fastest = TimeSpan.Zero;
             Longest = TimeSpan.Zero;
             Stats.Clear();
         }
         public void Add(RoundInfo stat) {
             Stats.Add(stat);
-            Played++;
-            switch (stat.Tier) {
-                case (int)QualifyTier.Gold:
-                    Gold++;
-                    break;
-                case (int)QualifyTier.Silver:
-                    Silver++;
-                    break;
-                case (int)QualifyTier.Bronze:
-                    Bronze++;
-                    break;
+            if (!stat.PrivateLobby) {
+                Played++;
+
+                switch (stat.Tier) {
+                    case (int)QualifyTier.Gold:
+                        Gold++;
+                        break;
+                    case (int)QualifyTier.Silver:
+                        Silver++;
+                        break;
+                    case (int)QualifyTier.Bronze:
+                        Bronze++;
+                        break;
+                }
+
+                Kudos += stat.Kudos;
+                Duration += stat.End - stat.Start;
+                Qualified += stat.Qualified ? 1 : 0;
             }
-            Kudos += stat.Kudos;
+
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
             if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
+                if (!stat.PrivateLobby) {
+                    FinishTime += finishTime;
+                }
                 if (Fastest == TimeSpan.Zero || Fastest > finishTime) {
                     Fastest = finishTime;
                 }
@@ -233,8 +246,6 @@ namespace FallGuysStats {
                     Longest = finishTime;
                 }
             }
-            Duration += stat.End - stat.Start;
-            Qualified += stat.Qualified ? 1 : 0;
         }
 
         public override string ToString() {
