@@ -1,18 +1,17 @@
-﻿using System;
+﻿using LiteDB;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using LiteDB;
-using Microsoft.Win32;
-
 namespace FallGuysStats {
     public partial class Stats : Form {
         [STAThread]
@@ -58,8 +57,6 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
-        private Process gameProcess = null;
-
         public int Shows;
         public int Rounds;
         public TimeSpan Duration;
@@ -68,20 +65,15 @@ namespace FallGuysStats {
         public int Kudos;
         private int nextShowID;
         private bool loadingExisting;
-
-        #region LiteDB objects
         public LiteDatabase StatsDB;
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
-        #endregion
-
         public UserSettings CurrentSettings;
         private Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         private DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
-
         public Stats() {
             InitializeComponent();
 
@@ -119,10 +111,6 @@ namespace FallGuysStats {
                 }
             }
 
-            if (string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                CurrentSettings.GameExeLocation = FindGameExeLocation();
-            }
-
             UpdateHoopsieLegends();
 
             RoundDetails.EnsureIndex(x => x.Name);
@@ -136,22 +124,16 @@ namespace FallGuysStats {
 
             CurrentRound = new List<RoundInfo>();
 
-            overlay = new Overlay() { StatsForm = this };
+            overlay = new Overlay() { StatsForm = this, Icon = Icon, ShowIcon = true };
             overlay.Show();
             overlay.Visible = false;
             overlay.StartTimer();
 
+            UpdateGameExeLocation();
             if (CurrentSettings.AutoLaunchGameOnStartup) {
-                if (!string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                    FileInfo gameExe = new FileInfo(CurrentSettings.GameExeLocation);
-
-                    if (gameExe.Exists) {
-                        Process.Start(gameExe.FullName);
-                    }
-                }
+                LaunchGame(true);
             }
         }
-
         private void UpdateDatabaseVersion() {
             if (!CurrentSettings.UpdatedDateFormat) {
                 AllStats.AddRange(RoundDetails.FindAll());
@@ -329,7 +311,11 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 11
+                Version = 11,
+                AutoLaunchGameOnStartup = false,
+                GameExeLocation = string.Empty,
+                IgnoreLevelTypeWhenSorting = false,
+                UpdatedDateFormat = true
             };
         }
         private void UpdateHoopsieLegends() {
@@ -721,7 +707,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                if (levelDetails.IsFinal) {
+                if (levelDetails.IsFinal && !endShow.PrivateLobby) {
                     summary.CurrentFinalStreak++;
                     if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
                         summary.BestFinalStreak = summary.CurrentFinalStreak;
@@ -730,16 +716,20 @@ namespace FallGuysStats {
 
                 if (info.Qualified) {
                     if (hasLevelDetails && levelDetails.IsFinal) {
-                        summary.AllWins++;
+                        if (!info.PrivateLobby) {
+                            summary.AllWins++;
+                        }
 
                         if (isInWinsFilter) {
                             summary.TotalWins++;
                             summary.TotalFinals++;
                         }
 
-                        summary.CurrentStreak++;
-                        if (summary.CurrentStreak > summary.BestStreak) {
-                            summary.BestStreak = summary.CurrentStreak;
+                        if (!info.PrivateLobby) {
+                            summary.CurrentStreak++;
+                            if (summary.CurrentStreak > summary.BestStreak) {
+                                summary.BestStreak = summary.CurrentStreak;
+                            }
                         }
                     }
 
@@ -767,7 +757,7 @@ namespace FallGuysStats {
                             summary.LongestFinishOverall = finishTime;
                         }
                     }
-                } else {
+                } else if (!info.PrivateLobby) {
                     if (!levelDetails.IsFinal) {
                         summary.CurrentFinalStreak = 0;
                     }
@@ -790,29 +780,14 @@ namespace FallGuysStats {
         }
         private void UpdateTotals() {
             try {
-                //lblTotalRounds.Text = $"Rounds: {Rounds}";
-                tsbtnRoundCount.Text = $"Rounds: {Rounds}";
-
-                //lblTotalShows.Text = $"Shows: {Shows}";
-                tsbtnShowCount.Text = $"Shows: {Shows}";
-
-                //lblTotalTime.Text = $"Time Played: {(int)Duration.TotalHours}:{Duration:mm\\:ss}";
-                tslblTimePlayed.Text = $"Time Played: {(int)Duration.TotalHours}:{Duration:mm\\:ss}";
-
-                //lblTotalWins.Text = $"Wins: {Wins}";
-                tsbtnWinCount.Text = $"Wins: {Wins}";
-
-                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
-                //lblFinalChance.Text = $"Final %: {finalChance:0.0}";
-                tslblFinalPct.Text = $"Final %: {finalChance:0.0}";
-
+                lblTotalRounds.Text = $"Rounds: {Rounds}";
+                lblTotalShows.Text = $"Shows: {Shows}";
+                lblTotalTime.Text = $"Time Played: {(int)Duration.TotalHours}:{Duration:mm\\:ss}";
                 float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
-                //lblWinChance.Text = $"Win %: {winChance:0.0}";
-                tsbtnWinPct.Text = $"Win %: {winChance:0.0}";
-
-                //lblKudos.Text = $"Kudos: {Kudos}";
-                tslblKudosCount.Text = $"Kudos: {Kudos}";
-
+                lblTotalWins.Text = $"Wins: {Wins} ({winChance:0.0} %)";
+                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
+                lblTotalFinals.Text = $"Finals: {Finals} ({finalChance:0.0} %)";
+                lblKudos.Text = $"Kudos: {Kudos}";
                 gridDetails.Refresh();
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -825,10 +800,7 @@ namespace FallGuysStats {
 
                 gridDetails.Columns["AveKudos"].Visible = false;
                 gridDetails.Columns["AveDuration"].Visible = false;
-                gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Info", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 gridDetails.Setup("Name", pos++, 0, "Level Name", DataGridViewContentAlignment.MiddleLeft);
-                gridDetails.Setup("Info", pos++, 20, "", DataGridViewContentAlignment.MiddleCenter);
-                gridDetails.Columns["Info"].Visible = false;
                 gridDetails.Setup("Played", pos++, 55, "Played", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Qualified", pos++, 65, "Qualified", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Gold", pos++, 50, "Gold", DataGridViewContentAlignment.MiddleRight);
@@ -837,6 +809,7 @@ namespace FallGuysStats {
                 gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Fastest", pos++, 60, "Fastest", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Longest", pos++, 60, "Longest", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("AveFinish", pos++, 60, "Average", DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -849,6 +822,7 @@ namespace FallGuysStats {
 
                 switch (gridDetails.Columns[e.ColumnIndex].Name) {
                     case "Name":
+                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
                         if (info.IsFinal) {
                             e.CellStyle.BackColor = Color.Pink;
                             break;
@@ -860,62 +834,53 @@ namespace FallGuysStats {
                             case LevelType.Hunt: e.CellStyle.BackColor = Color.LightGoldenrodYellow; break;
                             case LevelType.Unknown: e.CellStyle.BackColor = Color.LightGray; break;
                         }
-
-                        break;
-                    case "Info" when e.Value == null:
-                        gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Click to view level stats";
-                        e.Value = Properties.Resources.info;
                         break;
                     case "Qualified": {
-                        float qualifyChance = info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
-                        } else {
-                            e.Value = info.Qualified;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = (float)info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
+                            } else {
+                                e.Value = info.Qualified;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-
-                        break;
-                    }
                     case "Gold": {
-                        float qualifyChance = info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
-                        } else {
-                            e.Value = info.Gold;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = (float)info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
+                            } else {
+                                e.Value = info.Gold;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-
-                        break;
-                    }
                     case "Silver": {
-                        float qualifyChance = info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
-                        } else {
-                            e.Value = info.Silver;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = (float)info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
+                            } else {
+                                e.Value = info.Silver;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-
-                        break;
-                    }
                     case "Bronze": {
-                        float qualifyChance = info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
-                        } else {
-                            e.Value = info.Bronze;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
+                            } else {
+                                e.Value = info.Bronze;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-
-                        break;
-                    }
-                    case "AveDuration":
-                        e.Value = info.AveDuration.ToString("m\\:ss");
+                    case "AveFinish":
+                        e.Value = info.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
                         e.Value = info.Fastest.ToString("m\\:ss\\.ff");
@@ -930,9 +895,7 @@ namespace FallGuysStats {
         }
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             try {
-                if (e.RowIndex < 0) { return; }
-
-                if (gridDetails.Columns[e.ColumnIndex].Name == "Info") {
+                if (e.RowIndex >= 0 && gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                     gridDetails.Cursor = Cursors.Hand;
                 } else {
                     gridDetails.Cursor = Cursors.Default;
@@ -945,8 +908,7 @@ namespace FallGuysStats {
             try {
                 if (e.RowIndex < 0) { return; }
 
-                if (gridDetails.Columns[e.ColumnIndex].Name == "Info"
-                    || gridDetails.Columns[e.ColumnIndex].Name.Equals("Name")) {
+                if (gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                     using (LevelDetails levelDetails = new LevelDetails()) {
                         LevelStats stats = gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
                         levelDetails.LevelName = stats.Name;
@@ -971,7 +933,10 @@ namespace FallGuysStats {
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
 
             StatDetails.Sort(delegate (LevelStats one, LevelStats two) {
-                int typeCompare = ((int)one.Type).CompareTo((int)two.Type);
+                LevelType oneType = one.IsFinal ? LevelType.Hunt : one.Type == LevelType.Hunt ? LevelType.Race : one.Type;
+                LevelType twoType = two.IsFinal ? LevelType.Hunt : two.Type == LevelType.Hunt ? LevelType.Race : two.Type;
+
+                int typeCompare = CurrentSettings.IgnoreLevelTypeWhenSorting && sortOrder != SortOrder.None ? 0 : ((int)oneType).CompareTo((int)twoType);
 
                 if (sortOrder == SortOrder.Descending) {
                     LevelStats temp = one;
@@ -980,32 +945,28 @@ namespace FallGuysStats {
                 }
 
                 int nameCompare = one.Name.CompareTo(two.Name);
-
-                if (this.CurrentSettings.IgnoreLevelTypeWhenSorting) {
-                    return nameCompare;
-                } else {
-                    if (typeCompare == 0) {
-                        switch (columnName) {
-                            case "Gold": typeCompare = one.Gold.CompareTo(two.Gold); break;
-                            case "Silver": typeCompare = one.Silver.CompareTo(two.Silver); break;
-                            case "Bronze": typeCompare = one.Bronze.CompareTo(two.Bronze); break;
-                            case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
-                            case "Qualified": typeCompare = one.Qualified.CompareTo(two.Qualified); break;
-                            case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
-                            case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
-                            case "AveDuration": typeCompare = one.AveDuration.CompareTo(two.AveDuration); break;
-                            case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
-                            case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
-                            default: typeCompare = one.Name.CompareTo(two.Name); break;
-                        }
+                bool percents = CurrentSettings.ShowPercentages;
+                if (typeCompare == 0 && sortOrder != SortOrder.None) {
+                    switch (columnName) {
+                        case "Gold": typeCompare = ((double)one.Gold / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Gold / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Silver": typeCompare = ((double)one.Silver / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Silver / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Bronze": typeCompare = ((double)one.Bronze / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Bronze / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
+                        case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
+                        case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
+                        case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
+                        case "AveFinish": typeCompare = one.AveFinish.CompareTo(two.AveFinish); break;
+                        case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
+                        case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
+                        default: typeCompare = nameCompare; break;
                     }
-
-                    if (typeCompare == 0) {
-                        typeCompare = nameCompare;
-                    }
-
-                    return typeCompare;
                 }
+
+                if (typeCompare == 0) {
+                    typeCompare = nameCompare;
+                }
+
+                return typeCompare;
             });
 
             gridDetails.DataSource = null;
@@ -1017,7 +978,263 @@ namespace FallGuysStats {
                 gridDetails.ClearSelection();
             }
         }
-        
+        private void ToggleWinPercentageDisplay() {
+            CurrentSettings.ShowPercentages = !CurrentSettings.ShowPercentages;
+            SaveUserSettings();
+            gridDetails.Invalidate();
+        }
+        private void ShowShows() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Shows";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+
+                List<RoundInfo> shows = new List<RoundInfo>();
+                int roundCount = 0;
+                int kudosTotal = 0;
+                bool won = false;
+                bool isFinal = false;
+                DateTime endDate = DateTime.MinValue;
+                for (int i = rounds.Count - 1; i >= 0; i--) {
+                    RoundInfo info = rounds[i];
+                    if (roundCount == 0) {
+                        endDate = info.End;
+                        won = info.Qualified;
+                        LevelStats levelStats = StatLookup[info.Name];
+                        isFinal = levelStats.IsFinal;
+                    }
+                    roundCount++;
+                    kudosTotal += info.Kudos;
+                    if (info.Round == 1) {
+                        shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
+                        roundCount = 0;
+                        kudosTotal = 0;
+                    }
+                }
+                levelDetails.RoundDetails = shows;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowRounds() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Rounds";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+                levelDetails.RoundDetails = rounds;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowFinals() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Finals";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
+                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                    int showCompare = one.ShowID.CompareTo(two.ShowID);
+                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+                });
+
+                int keepShow = -1;
+                for (int i = rounds.Count - 1; i >= 0; i--) {
+                    RoundInfo info = rounds[i];
+                    if (info.ShowID != keepShow && (info.Crown || (StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsFinal))) {
+                        keepShow = info.ShowID;
+                    } else if (info.ShowID != keepShow) {
+                        rounds.RemoveAt(i);
+                    }
+                }
+                levelDetails.RoundDetails = rounds;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowWinGraph() {
+            List<RoundInfo> rounds = new List<RoundInfo>();
+            for (int i = 0; i < StatDetails.Count; i++) {
+                rounds.AddRange(StatDetails[i].Stats);
+            }
+            rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
+                int showCompare = one.ShowID.CompareTo(two.ShowID);
+                return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
+            });
+
+            using (StatsDisplay display = new StatsDisplay() { Text = "Wins Per Day" }) {
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Date", typeof(DateTime));
+                dt.Columns.Add("Wins", typeof(int));
+                dt.Columns.Add("Finals", typeof(int));
+                dt.Columns.Add("Shows", typeof(int));
+
+                if (rounds.Count > 0) {
+                    DateTime start = rounds[0].StartLocal;
+                    int currentWins = 0;
+                    int currentFinals = 0;
+                    int currentShows = 0;
+                    for (int i = 0; i < rounds.Count; i++) {
+                        RoundInfo info = rounds[i];
+                        if (info.PrivateLobby) { continue; }
+
+                        LevelStats levelStats = null;
+                        if (info.Round == 1) {
+                            currentShows++;
+                        }
+                        if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.IsFinal)) {
+                            currentFinals++;
+                            if (info.Qualified) {
+                                currentWins++;
+                            }
+                        }
+
+                        if (info.StartLocal.Date != start.Date) {
+                            dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+
+                            int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
+                            while (missingCount > 1) {
+                                missingCount--;
+                                start = start.Date.AddDays(1);
+                                dt.Rows.Add(start, 0, 0, 0);
+                            }
+
+                            currentWins = 0;
+                            currentFinals = 0;
+                            currentShows = 0;
+                            start = info.StartLocal;
+                        }
+                    }
+
+                    dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+                } else {
+                    dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
+                }
+
+                display.Details = dt;
+                display.ShowDialog(this);
+            }
+        }
+        private void LaunchHelpInBrowser() {
+            try {
+                Process.Start(@"https://github.com/ShootMe/FallGuysStats");
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void UpdateGameExeLocation() {
+            if (string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
+                string fallGuys = FindGameExeLocation();
+                if (!string.IsNullOrEmpty(fallGuys)) {
+                    CurrentSettings.GameExeLocation = fallGuys;
+                    SaveUserSettings();
+                }
+            }
+        }
+        private void LaunchGame(bool ignoreExisting) {
+            try {
+                UpdateGameExeLocation();
+
+                if (!string.IsNullOrEmpty(CurrentSettings.GameExeLocation) && File.Exists(CurrentSettings.GameExeLocation)) {
+                    Process[] processes = Process.GetProcesses();
+                    string fallGuys = Path.GetFileNameWithoutExtension(CurrentSettings.GameExeLocation);
+                    for (int i = 0; i < processes.Length; i++) {
+                        string name = processes[i].ProcessName;
+                        if (name.IndexOf(fallGuys, StringComparison.OrdinalIgnoreCase) >= 0) {
+                            if (!ignoreExisting) {
+                                MessageBox.Show(this, "Fall Guys is already running.", "Already Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            return;
+                        }
+                    }
+
+                    Process.Start(CurrentSettings.GameExeLocation);
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private string FindGameExeLocation() {
+            try {
+                // get steam install folder
+                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
+                string steamPath = (string)regValue;
+
+                string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client.exe");
+                if (File.Exists(fallGuys)) {
+                    return fallGuys;
+                }
+                // read libraryfolders.vdf from install folder to get games installation folder
+                // note: this parsing is terrible, but does technically work fine. There's a better way by specifying a schema and
+                // fully parsing the file or something like that. This is quick and dirty, for sure.
+                FileInfo libraryFoldersFile = new FileInfo(Path.Combine(steamPath, "steamapps", "libraryfolders.vdf"));
+                if (libraryFoldersFile.Exists) {
+                    string[] libraryFoldersLines = File.ReadAllLines(libraryFoldersFile.FullName);
+
+                    // match strings against "drive letter-colon-double backslash-some path characters-final quote-end of line"
+                    // see libraryfolders.vdf file in the Steam install folder's steamapps subfolder for example
+                    foreach (string line in libraryFoldersLines) {
+                        int indexStart = line.IndexOf("\t\t\"");
+                        int indexRoot = line.IndexOf(":\\\\");
+                        if (indexStart < 0 || indexRoot < 0) { continue; }
+
+                        indexRoot = line.LastIndexOf('"');
+                        string libraryPath = line.Substring(indexStart + 3, indexRoot - indexStart - 3);
+                        if (!string.IsNullOrEmpty(libraryPath)) {
+                            // look for exe in standard location under library
+                            fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client.exe");
+                            if (File.Exists(fallGuys)) {
+                                return fallGuys;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return string.Empty;
+        }
+        private void lblTotalFinals_Click(object sender, EventArgs e) {
+            try {
+                ShowFinals();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lblTotalShows_Click(object sender, EventArgs e) {
+            try {
+                ShowShows();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lblTotalRounds_Click(object sender, EventArgs e) {
+            try {
+                ShowRounds();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void lblTotalWins_Click(object sender, EventArgs e) {
+            try {
+                ShowWinGraph();
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
@@ -1149,7 +1366,7 @@ namespace FallGuysStats {
 
                             Process.Start(new ProcessStartInfo(exeName));
                             Visible = false;
-                            this.Close();
+                            Close();
                             return true;
                         }
                     } else if (!silent) {
@@ -1160,11 +1377,7 @@ namespace FallGuysStats {
                 }
             }
 #else
-            try {
-                Process.Start(@"https://github.com/ShootMe/FallGuysStats");
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            LaunchHelpInBrowser();
 #endif
             return false;
         }
@@ -1220,95 +1433,22 @@ namespace FallGuysStats {
                 }
             }
         }
-
-        #region Tool Strip click handlers
-        private void tsBtnRoundCount_Click(object sender, EventArgs e) {
-            ShowRounds();
-        }
-
-        private void tsbtnShowCount_Click(object sender, EventArgs e) {
-            ShowShows();
-        }
-
-        private void tsbtnWinCount_Click(object sender, EventArgs e) {
-            ShowWinGraph();
-        }
-
-        private void tsbtnWinPct_Click(object sender, EventArgs e) {
-            ToggleWinPercentageDisplay();
-        }
-
-        private void tsbtnCounts_Click(object sender, EventArgs e) {
-            SetWinPercentageDisplay(false);
-        }
-
-        private void tsbtnPercentages_Click(object sender, EventArgs e) {
-            SetWinPercentageDisplay(true);
-        }
-
-        private void tsbtnGridDisplayType_ButtonClick(object sender, EventArgs e) {
-            ToggleWinPercentageDisplay();
-        }
-
-        private void tsbtlHelp_Click(object sender, EventArgs e) {
-            LaunchHelpInBrowser();
-        }
-
-        private void tsbtnLaunchGame_Click(object sender, EventArgs e) {
-            LaunchGame();
-        }
-        #endregion
-
         private void menuHelp_Click(object sender, EventArgs e) {
             LaunchHelpInBrowser();
         }
-
-        private string FindGameExeLocation() {
-            string toReturn = string.Empty;
-
-            try {
-                // get steam install folder
-                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
-                string steamPath = (string)regValue;
-
-                // read libraryfolders.vdf from install folder to get games installation folder
-                // note: this parsing is terrible, but does technically work fine. There's a better way by specifying a schema and
-                // fully parsing the file or something like that. This is quick and dirty, for sure.
-                FileInfo libraryFoldersFile = new FileInfo(Path.Combine(steamPath, "steamapps", "libraryfolders.vdf"));
-                if (libraryFoldersFile.Exists) {
-                    string[] libraryFoldersLines = File.ReadAllLines(libraryFoldersFile.FullName);
-                    List<string> libraryPaths = new List<string>();
-
-                    // match strings against "drive letter-colon-double backslash-some path characters-final quote-end of line"
-                    // see libraryfolders.vdf file in the Steam install folder's steamapps subfolder for example
-                    Regex regex = new Regex("[c-zC-Z]?:\\\\.+\"$");
-
-                    foreach (string line in libraryFoldersLines) {
-                        Match m = regex.Match(line);
-                        if (m.Success) {
-                            libraryPaths.Add(m.Value.Substring(0, m.Value.Length - 1));
-                        }
-                    }
-
-                    foreach (string libraryPath in libraryPaths) {
-                        if (!string.IsNullOrEmpty(libraryPath)) {
-                            // look for exe in standard location under library
-                            FileInfo fi2 = new FileInfo(Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client.exe"));
-
-                            if (fi2.Exists) {
-                                toReturn = fi2.FullName;
-                                break;
-                            }
-                        }
-                    }
-                }
-            } catch (Exception ex) {
-                ControlErrors.HandleException(this, ex, false);
-            }
-
-            return toReturn;
+        private void infoStrip_MouseEnter(object sender, EventArgs e) {
+            Cursor = Cursors.Hand;
         }
-
+        private void infoStrip_MouseLeave(object sender, EventArgs e) {
+            Cursor = Cursors.Default;
+        }
+        private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
+            try {
+                LaunchGame(false);
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public bool IsOnScreen(int x, int y, int w) {
             Screen[] screens = Screen.AllScreens;
             foreach (Screen screen in screens) {
@@ -1318,174 +1458,6 @@ namespace FallGuysStats {
             }
 
             return false;
-        }
-
-        private void ShowShows() {
-            try {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Shows";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < StatDetails.Count; i++) {
-                        rounds.AddRange(StatDetails[i].Stats);
-                    }
-                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        int showCompare = one.ShowID.CompareTo(two.ShowID);
-                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                    });
-
-                    List<RoundInfo> shows = new List<RoundInfo>();
-                    int roundCount = 0;
-                    int kudosTotal = 0;
-                    bool won = false;
-                    bool isFinal = false;
-                    DateTime endDate = DateTime.MinValue;
-                    for (int i = rounds.Count - 1; i >= 0; i--) {
-                        RoundInfo info = rounds[i];
-                        if (roundCount == 0) {
-                            endDate = info.End;
-                            won = info.Qualified;
-                            LevelStats levelStats = StatLookup[info.Name];
-                            isFinal = levelStats.IsFinal;
-                        }
-                        roundCount++;
-                        kudosTotal += info.Kudos;
-                        if (info.Round == 1) {
-                            shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
-                            roundCount = 0;
-                            kudosTotal = 0;
-                        }
-                    }
-                    levelDetails.RoundDetails = shows;
-                    levelDetails.StatsForm = this;
-                    levelDetails.ShowDialog(this);
-                }
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ShowRounds() {
-            try {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Rounds";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < StatDetails.Count; i++) {
-                        rounds.AddRange(StatDetails[i].Stats);
-                    }
-                    rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        int showCompare = one.ShowID.CompareTo(two.ShowID);
-                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                    });
-                    levelDetails.RoundDetails = rounds;
-                    levelDetails.StatsForm = this;
-                    levelDetails.ShowDialog(this);
-                }
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ToggleWinPercentageDisplay() {
-            SetWinPercentageDisplay(!CurrentSettings.ShowPercentages);
-        }
-
-        private void SetWinPercentageDisplay(bool shouldShowPercentages) {
-            try {
-                CurrentSettings.ShowPercentages = shouldShowPercentages;
-                SaveUserSettings();
-                gridDetails.Invalidate();
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void ShowWinGraph() {
-            try {
-                List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < StatDetails.Count; i++) {
-                    rounds.AddRange(StatDetails[i].Stats);
-                }
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
-
-                using (StatsDisplay display = new StatsDisplay() { Text = "Wins Per Day" }) {
-                    DataTable dt = new DataTable();
-                    dt.Columns.Add("Date", typeof(DateTime));
-                    dt.Columns.Add("Wins", typeof(int));
-                    dt.Columns.Add("Finals", typeof(int));
-                    dt.Columns.Add("Shows", typeof(int));
-
-                    if (rounds.Count > 0) {
-                        DateTime start = rounds[0].StartLocal;
-                        int currentWins = 0;
-                        int currentFinals = 0;
-                        int currentShows = 0;
-                        for (int i = 0; i < rounds.Count; i++) {
-                            RoundInfo info = rounds[i];
-                            if (info.PrivateLobby) { continue; }
-
-                            LevelStats levelStats = null;
-                            if (info.Round == 1) {
-                                currentShows++;
-                            }
-                            if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.IsFinal)) {
-                                currentFinals++;
-                                if (info.Qualified) {
-                                    currentWins++;
-                                }
-                            }
-
-                            if (info.StartLocal.Date != start.Date) {
-                                dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
-
-                                int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
-                                while (missingCount > 1) {
-                                    missingCount--;
-                                    start = start.Date.AddDays(1);
-                                    dt.Rows.Add(start, 0, 0, 0);
-                                }
-
-                                currentWins = 0;
-                                currentFinals = 0;
-                                currentShows = 0;
-                                start = info.StartLocal;
-                            }
-                        }
-
-                        dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
-                    } else {
-                        dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
-                    }
-
-                    display.Details = dt;
-                    display.ShowDialog(this);
-                }
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error Updating", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void LaunchHelpInBrowser() {
-            try {
-                Process.Start(@"https://github.com/ShootMe/FallGuysStats");
-            } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void LaunchGame() {
-            if (string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                CurrentSettings.GameExeLocation = FindGameExeLocation();
-            }
-
-            if (((gameProcess == null) || gameProcess.HasExited)
-                && !string.IsNullOrEmpty(CurrentSettings.GameExeLocation)) {
-                gameProcess = Process.Start(CurrentSettings.GameExeLocation);
-            } else {
-                MessageBox.Show("Fall Guys is already running.", "Already Running", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
     }
 }

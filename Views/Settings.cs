@@ -9,14 +9,36 @@ namespace FallGuysStats {
         }
         private void Settings_Load(object sender, EventArgs e) {
             txtLogPath.Text = CurrentSettings.LogPath;
-            chkCycleOverlayLongest.Checked = CurrentSettings.SwitchBetweenLongest;
-            chkCycleOverlayQualify.Checked = CurrentSettings.SwitchBetweenQualify;
-            chkCycleOverlayPlayers.Checked = CurrentSettings.SwitchBetweenPlayers;
-            chkCycleOverlayStreak.Checked = CurrentSettings.SwitchBetweenStreaks;
-            chkOnlyShowLongest.Checked = CurrentSettings.OnlyShowLongest;
-            chkOnlyShowGold.Checked = CurrentSettings.OnlyShowGold;
-            chkOnlyShowPing.Checked = CurrentSettings.OnlyShowPing;
-            chkOnlyShowFinalStreak.Checked = CurrentSettings.OnlyShowFinalStreak;
+
+            if (CurrentSettings.SwitchBetweenLongest) {
+                chkCycleFastestLongest.Checked = true;
+            } else if (CurrentSettings.OnlyShowLongest) {
+                chkOnlyShowLongest.Checked = true;
+            } else {
+                chkOnlyShowFastest.Checked = true;
+            }
+            if (CurrentSettings.SwitchBetweenQualify) {
+                chkCycleQualifyGold.Checked = true;
+            } else if (CurrentSettings.OnlyShowGold) {
+                chkOnlyShowGold.Checked = true;
+            } else {
+                chkOnlyShowQualify.Checked = true;
+            }
+            if (CurrentSettings.SwitchBetweenPlayers) {
+                chkCyclePlayersPing.Checked = true;
+            } else if (CurrentSettings.OnlyShowPing) {
+                chkOnlyShowPing.Checked = true;
+            } else {
+                chkOnlyShowPlayers.Checked = true;
+            }
+            if (CurrentSettings.SwitchBetweenStreaks) {
+                chkCycleWinFinalStreak.Checked = true;
+            } else if (CurrentSettings.OnlyShowFinalStreak) {
+                chkOnlyShowFinalStreak.Checked = true;
+            } else {
+                chkOnlyShowWinStreak.Checked = true;
+            }
+
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
             chkUseNDI.Checked = CurrentSettings.UseNDI;
@@ -65,8 +87,7 @@ namespace FallGuysStats {
 
             txtGameExeLocation.Text = CurrentSettings.GameExeLocation;
             chkAutoLaunchGameOnStart.Checked = CurrentSettings.AutoLaunchGameOnStartup;
-
-            chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
+            chkIgnoreLevelTypeWhenSorting.Checked = CurrentSettings.IgnoreLevelTypeWhenSorting;
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -90,14 +111,47 @@ namespace FallGuysStats {
                 }
             }
 
-            CurrentSettings.SwitchBetweenLongest = chkCycleOverlayLongest.Checked;
-            CurrentSettings.SwitchBetweenQualify = chkCycleOverlayQualify.Checked;
-            CurrentSettings.SwitchBetweenPlayers = chkCycleOverlayPlayers.Checked;
-            CurrentSettings.SwitchBetweenStreaks = chkCycleOverlayStreak.Checked;
-            CurrentSettings.OnlyShowLongest = chkOnlyShowLongest.Checked;
-            CurrentSettings.OnlyShowGold = chkOnlyShowGold.Checked;
-            CurrentSettings.OnlyShowPing = chkOnlyShowPing.Checked;
-            CurrentSettings.OnlyShowFinalStreak = chkOnlyShowFinalStreak.Checked;
+            if (chkCycleFastestLongest.Checked) {
+                CurrentSettings.SwitchBetweenLongest = true;
+                CurrentSettings.OnlyShowLongest = false;
+            } else if (chkOnlyShowLongest.Checked) {
+                CurrentSettings.SwitchBetweenLongest = false;
+                CurrentSettings.OnlyShowLongest = true;
+            } else {
+                CurrentSettings.SwitchBetweenLongest = false;
+                CurrentSettings.OnlyShowLongest = false;
+            }
+            if (chkCycleQualifyGold.Checked) {
+                CurrentSettings.SwitchBetweenQualify = true;
+                CurrentSettings.OnlyShowGold = false;
+            } else if (chkOnlyShowGold.Checked) {
+                CurrentSettings.SwitchBetweenQualify = false;
+                CurrentSettings.OnlyShowGold = true;
+            } else {
+                CurrentSettings.SwitchBetweenQualify = false;
+                CurrentSettings.OnlyShowGold = false;
+            }
+            if (chkCyclePlayersPing.Checked) {
+                CurrentSettings.SwitchBetweenPlayers = true;
+                CurrentSettings.OnlyShowPing = false;
+            } else if (chkOnlyShowPing.Checked) {
+                CurrentSettings.SwitchBetweenPlayers = false;
+                CurrentSettings.OnlyShowPing = true;
+            } else {
+                CurrentSettings.SwitchBetweenPlayers = false;
+                CurrentSettings.OnlyShowPing = false;
+            }
+            if (chkCycleWinFinalStreak.Checked) {
+                CurrentSettings.SwitchBetweenStreaks = true;
+                CurrentSettings.OnlyShowFinalStreak = false;
+            } else if (chkOnlyShowFinalStreak.Checked) {
+                CurrentSettings.SwitchBetweenStreaks = false;
+                CurrentSettings.OnlyShowFinalStreak = true;
+            } else {
+                CurrentSettings.SwitchBetweenStreaks = false;
+                CurrentSettings.OnlyShowFinalStreak = false;
+            }
+
             CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
@@ -169,8 +223,7 @@ namespace FallGuysStats {
                 }
             }
 
-            this.CurrentSettings.IgnoreLevelTypeWhenSorting = chkIgnoreLevelTypeWhenSorting.Checked;
-
+            CurrentSettings.IgnoreLevelTypeWhenSorting = chkIgnoreLevelTypeWhenSorting.Checked;
             CurrentSettings.GameExeLocation = txtGameExeLocation.Text;
             CurrentSettings.AutoLaunchGameOnStartup = chkAutoLaunchGameOnStart.Checked;
 
@@ -194,53 +247,34 @@ namespace FallGuysStats {
                 txtPreviousWins.Text = "0";
             }
         }
-        private void chkCycleOnly_CheckedChanged(object sender, EventArgs e) {
-            if (sender == chkOnlyShowGold && chkOnlyShowGold.Checked && chkCycleOverlayQualify.Checked) {
-                chkCycleOverlayQualify.Checked = false;
-            } else if (sender == chkCycleOverlayQualify && chkCycleOverlayQualify.Checked && chkOnlyShowGold.Checked) {
-                chkOnlyShowGold.Checked = false;
-            } else if (sender == chkOnlyShowLongest && chkOnlyShowLongest.Checked && chkCycleOverlayLongest.Checked) {
-                chkCycleOverlayLongest.Checked = false;
-            } else if (sender == chkCycleOverlayLongest && chkCycleOverlayLongest.Checked && chkOnlyShowLongest.Checked) {
-                chkOnlyShowLongest.Checked = false;
-            } else if (sender == chkOnlyShowFinalStreak && chkOnlyShowFinalStreak.Checked && chkCycleOverlayStreak.Checked) {
-                chkCycleOverlayStreak.Checked = false;
-            } else if (sender == chkCycleOverlayStreak && chkCycleOverlayStreak.Checked && chkOnlyShowFinalStreak.Checked) {
-                chkOnlyShowFinalStreak.Checked = false;
-            } else if (sender == chkOnlyShowPing && chkOnlyShowPing.Checked && chkCycleOverlayPlayers.Checked) {
-                chkCycleOverlayPlayers.Checked = false;
-            } else if (sender == chkCycleOverlayPlayers && chkCycleOverlayPlayers.Checked && chkOnlyShowPing.Checked) {
-                chkOnlyShowPing.Checked = false;
-            }
-        }
-
         private void btnGameExeLocationBrowse_Click(object sender, EventArgs e) {
             try {
-            FileInfo currentExeLocation = new FileInfo(this.txtGameExeLocation.Text);
-            if(currentExeLocation.Directory.Exists) {
-                dlgGameExeBrowser.InitialDirectory = currentExeLocation.Directory.FullName;
-            }
+                using (OpenFileDialog openFile = new OpenFileDialog()) {
+                    FileInfo currentExeLocation = new FileInfo(txtGameExeLocation.Text);
+                    if (currentExeLocation.Directory.Exists) {
+                        openFile.InitialDirectory = currentExeLocation.Directory.FullName;
+                    }
 
-            dlgGameExeBrowser.Filter = "Exe files (*.exe)|*.exe";
-            dlgGameExeBrowser.FileName = "FallGuys_client.exe";
+                    openFile.Filter = "Exe files (*.exe)|*.exe";
+                    openFile.FileName = "FallGuys_client.exe";
+                    openFile.Title = "Locate Fall Guys";
 
-            DialogResult result = dlgGameExeBrowser.ShowDialog();
-            if (result.Equals(DialogResult.OK)) {
-                if (txtGameExeLocation.Text.Contains("FallGuys_client.exe")) {
-                    txtGameExeLocation.Text = dlgGameExeBrowser.FileName;
-                } else {
-                    MessageBox.Show("Please select \"FallGuys_client.exe\" in the install folder.",
-                        "Wrong File Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
+                    DialogResult result = openFile.ShowDialog(this);
+                    if (result.Equals(DialogResult.OK)) {
+                        if (openFile.FileName.IndexOf("FallGuys_client.exe", StringComparison.OrdinalIgnoreCase) >= 0) {
+                            txtGameExeLocation.Text = openFile.FileName;
+                        } else {
+                            MessageBox.Show("Please select \"FallGuys_client.exe\" in the install folder.", "Wrong File Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
                 }
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
-
         private void btnCancel_Click(object sender, EventArgs e) {
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }

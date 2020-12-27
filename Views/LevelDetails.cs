@@ -16,11 +16,15 @@ namespace FallGuysStats {
             if (LevelName == "Shows") {
                 Text = $"Show Stats";
                 ShowStats = 2;
-                ClientSize = new System.Drawing.Size(Width - 200, Height);
+                ClientSize = new Size(Width - 200, Height);
             } else if (LevelName == "Rounds") {
                 Text = $"Round Stats";
                 ShowStats = 1;
-                ClientSize = new System.Drawing.Size(Width + 85, Height);
+                ClientSize = new Size(Width + 85, Height);
+            } else if (LevelName == "Finals") {
+                Text = $"Final Stats";
+                ShowStats = 1;
+                ClientSize = new Size(Width + 85, Height);
             } else {
                 Text = $"Level Stats - {LevelName}";
             }
@@ -71,6 +75,20 @@ namespace FallGuysStats {
                 gridDetails.Columns["Score"].Visible = false;
             }
             gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
+
+            bool colorSwitch = true;
+            int lastShow = -1;
+            for (int i = 0; i < gridDetails.RowCount; i++) {
+                int showID = (int)gridDetails.Rows[i].Cells["ShowID"].Value;
+                if (showID != lastShow) {
+                    colorSwitch = !colorSwitch;
+                    lastShow = showID;
+                }
+
+                if (colorSwitch) {
+                    gridDetails.Rows[i].DefaultCellStyle.BackColor = Color.FromArgb(225, 235, 255);
+                }
+            }
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= gridDetails.Rows.Count) { return; }
@@ -120,6 +138,7 @@ namespace FallGuysStats {
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             string columnName = gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = gridDetails.GetSortOrder(columnName);
+            if (sortOrder == SortOrder.None) { columnName = "ShowID"; }
 
             RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 int roundCompare = one.Round.CompareTo(two.Round);
@@ -129,6 +148,7 @@ namespace FallGuysStats {
                     one = two;
                     two = temp;
                 }
+
                 switch (columnName) {
                     case "ShowID":
                         showCompare = one.ShowID.CompareTo(two.ShowID);
@@ -208,8 +228,8 @@ namespace FallGuysStats {
 
                         StatsForm.ResetStats();
                     }
-                } else if(e.KeyCode == Keys.Escape) {
-                    this.Close();
+                } else if (e.KeyCode == Keys.Escape) {
+                    Close();
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
