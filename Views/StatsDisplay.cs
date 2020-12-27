@@ -33,11 +33,5 @@ namespace FallGuysStats {
             graph.YColumns[3] = chkShows.Checked;
             graph.Invalidate();
         }
-
-        private void StatsDisplay_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode.Equals(Keys.Escape)) {
-                Close();
-            }
-        }
     }
 }
