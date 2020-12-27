@@ -1,11 +1,22 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
+
 namespace FallGuysStats {
     public partial class Settings : Form {
+        private PrivateFontCollection CustomFonts;
+        private FontConverter fc;
+        private string overlayFontSerialized = string.Empty;
+
         public UserSettings CurrentSettings { get; set; }
         public Settings() {
             InitializeComponent();
+
+            fc = new FontConverter();
+            CustomFonts = new PrivateFontCollection();
+            CustomFonts.AddFontFile("TitanOne-Regular.ttf");
         }
         private void Settings_Load(object sender, EventArgs e) {
             txtLogPath.Text = CurrentSettings.LogPath;
@@ -66,6 +77,14 @@ namespace FallGuysStats {
             txtGameExeLocation.Text = CurrentSettings.GameExeLocation;
             chkAutoLaunchGameOnStart.Checked = CurrentSettings.AutoLaunchGameOnStartup;
             chkIgnoreLevelTypeWhenSorting.Checked = CurrentSettings.IgnoreLevelTypeWhenSorting;
+
+            if (!string.IsNullOrEmpty(CurrentSettings.OverlayFontSerialized)) {
+                FontConverter fc = new FontConverter();
+                Font exampleFont = fc.ConvertFromString(CurrentSettings.OverlayFontSerialized) as Font;
+                lblOverlayFontExample.Font = exampleFont;
+            } else if (CustomFonts != null) {
+                lblOverlayFontExample.Font = new Font(CustomFonts.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            }
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -172,6 +191,12 @@ namespace FallGuysStats {
             CurrentSettings.GameExeLocation = txtGameExeLocation.Text;
             CurrentSettings.AutoLaunchGameOnStartup = chkAutoLaunchGameOnStart.Checked;
 
+            if (!string.IsNullOrEmpty(overlayFontSerialized)) {
+                CurrentSettings.OverlayFontSerialized = fc.ConvertToString(lblOverlayFontExample.Font);
+            } else {
+                CurrentSettings.OverlayFontSerialized = string.Empty;
+            }
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -239,6 +264,22 @@ namespace FallGuysStats {
         private void btnCancel_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void btnSelectFont_Click(object sender, EventArgs e) {
+            dlgOverlayFont.Font = lblOverlayFont.Font;
+            DialogResult result = dlgOverlayFont.ShowDialog();
+
+            if (result.Equals(DialogResult.OK)) {
+                lblOverlayFontExample.Font = dlgOverlayFont.Font;
+                overlayFontSerialized = fc.ConvertToString(dlgOverlayFont.Font);
+            }
+        }
+
+        private void btnResetOverlayFont_Click(object sender, EventArgs e) {
+            Font defaultFont = new Font(CustomFonts.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            lblOverlayFontExample.Font = defaultFont;
+            overlayFontSerialized = string.Empty;
         }
     }
 }
