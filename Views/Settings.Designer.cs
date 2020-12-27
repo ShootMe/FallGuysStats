@@ -32,7 +32,7 @@
       this.chkCycleOverlayLongest = new System.Windows.Forms.CheckBox();
       this.grpOverlay = new System.Windows.Forms.GroupBox();
       this.btnResetOverlayFont = new System.Windows.Forms.Button();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.grpOverlayFontExample = new System.Windows.Forms.GroupBox();
       this.lblOverlayFontExample = new System.Windows.Forms.Label();
       this.btnSelectFont = new System.Windows.Forms.Button();
       this.lblOverlayFont = new System.Windows.Forms.Label();
@@ -81,7 +81,7 @@
       this.btnCancel = new System.Windows.Forms.Button();
       this.dlgOverlayFont = new System.Windows.Forms.FontDialog();
       this.grpOverlay.SuspendLayout();
-      this.groupBox1.SuspendLayout();
+      this.grpOverlayFontExample.SuspendLayout();
       this.grpStats.SuspendLayout();
       this.grpGameOptions.SuspendLayout();
       this.grpSortingOptions.SuspendLayout();
@@ -159,7 +159,7 @@
       // grpOverlay
       // 
       this.grpOverlay.Controls.Add(this.btnResetOverlayFont);
-      this.grpOverlay.Controls.Add(this.groupBox1);
+      this.grpOverlay.Controls.Add(this.grpOverlayFontExample);
       this.grpOverlay.Controls.Add(this.btnSelectFont);
       this.grpOverlay.Controls.Add(this.lblOverlayFont);
       this.grpOverlay.Controls.Add(this.lblOrPing);
@@ -212,15 +212,15 @@
       this.btnResetOverlayFont.UseVisualStyleBackColor = true;
       this.btnResetOverlayFont.Click += new System.EventHandler(this.btnResetOverlayFont_Click);
       // 
-      // groupBox1
+      // grpOverlayFontExample
       // 
-      this.groupBox1.Controls.Add(this.lblOverlayFontExample);
-      this.groupBox1.Location = new System.Drawing.Point(183, 443);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(775, 117);
-      this.groupBox1.TabIndex = 35;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "Example";
+      this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
+      this.grpOverlayFontExample.Location = new System.Drawing.Point(183, 443);
+      this.grpOverlayFontExample.Name = "grpOverlayFontExample";
+      this.grpOverlayFontExample.Size = new System.Drawing.Size(775, 117);
+      this.grpOverlayFontExample.TabIndex = 35;
+      this.grpOverlayFontExample.TabStop = false;
+      this.grpOverlayFontExample.Text = "Example";
       // 
       // lblOverlayFontExample
       // 
@@ -779,7 +779,7 @@
       this.Load += new System.EventHandler(this.Settings_Load);
       this.grpOverlay.ResumeLayout(false);
       this.grpOverlay.PerformLayout();
-      this.groupBox1.ResumeLayout(false);
+      this.grpOverlayFontExample.ResumeLayout(false);
       this.grpStats.ResumeLayout(false);
       this.grpStats.PerformLayout();
       this.grpGameOptions.ResumeLayout(false);
@@ -847,7 +847,7 @@
         private System.Windows.Forms.Button btnSelectFont;
         private System.Windows.Forms.FontDialog dlgOverlayFont;
         private System.Windows.Forms.Label lblOverlayFontExample;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox grpOverlayFontExample;
         private System.Windows.Forms.Button btnResetOverlayFont;
     }
 }
