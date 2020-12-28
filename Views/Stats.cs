@@ -92,7 +92,7 @@ namespace FallGuysStats {
 
             gridDetails.DataSource = StatDetails;
 
-            StatsDB = new LiteDatabase(@"data.db");
+            StatsDB = new LiteDatabase(@"FileName=data.db;connection=shared");
             StatsDB.Pragma("UTC_DATE", true);
             RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
             UserSettings = StatsDB.GetCollection<UserSettings>("UserSettings");
