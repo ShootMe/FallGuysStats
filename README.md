@@ -28,6 +28,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.107
+    - Add Font Chooser for overlay
+    - Fix Average times on main grid
   - 1.106
     - Added better options for the cycle stats on overlay in settings
     - Added average finish time to main grid
