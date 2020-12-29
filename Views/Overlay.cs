@@ -4,9 +4,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using NewTek.NDI;
 namespace FallGuysStats {
     public partial class Overlay : Form {
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -643,7 +646,8 @@ namespace FallGuysStats {
             }
 
             if (!string.IsNullOrEmpty(serializedFont)) {
-                SetFonts(this, -1,new FontConverter().ConvertFromString(serializedFont) as Font);
+                FontConverter fontConverter = new FontConverter();
+                SetFonts(this, -1, fontConverter.ConvertFromString(serializedFont) as Font);
             } else {
                 SetFonts(this);
             }
