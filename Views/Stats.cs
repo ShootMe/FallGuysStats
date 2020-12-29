@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -429,7 +430,6 @@ namespace FallGuysStats {
                 }
                 StatsDB.Dispose();
                 overlay.Cleanup();
-                //secondOverlay.Cleanup();
             } catch { }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -838,38 +838,38 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Qualified": {
-                        float qualifyChance = info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
-                        } else {
-                            e.Value = info.Qualified;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = info.Qualified * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Qualified}";
+                            } else {
+                                e.Value = info.Qualified;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case "Gold": {
-                        float qualifyChance = info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
-                        } else {
-                            e.Value = info.Gold;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = info.Gold * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Gold}";
+                            } else {
+                                e.Value = info.Gold;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case "Silver": {
-                        float qualifyChance = info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
-                        if (CurrentSettings.ShowPercentages) {
-                            e.Value = $"{qualifyChance:0.0}%";
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
-                        } else {
-                            e.Value = info.Silver;
-                            gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            float qualifyChance = info.Silver * 100f / (info.Played == 0 ? 1 : info.Played);
+                            if (CurrentSettings.ShowPercentages) {
+                                e.Value = $"{qualifyChance:0.0}%";
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Silver}";
+                            } else {
+                                e.Value = info.Silver;
+                                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{qualifyChance:0.0}%";
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case "Bronze": {
                             float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
                             if (CurrentSettings.ShowPercentages) {
@@ -1386,6 +1386,7 @@ namespace FallGuysStats {
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
+                    settings.Icon = Icon;
                     settings.CurrentSettings = CurrentSettings;
                     string lastLogPath = CurrentSettings.LogPath;
 
