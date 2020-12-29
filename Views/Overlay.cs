@@ -1,14 +1,11 @@
-﻿using NewTek.NDI;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class Overlay : Form {
@@ -102,23 +99,23 @@ namespace FallGuysStats {
 
             SetFonts(this);
 
-            this.DoubleBuffered = true;
-            this.SetStyle(ControlStyles.ResizeRedraw, true);
+            DoubleBuffered = true;
+            SetStyle(ControlStyles.ResizeRedraw, true);
         }
         protected override void WndProc(ref Message m) {
             if (m.Msg == 0x84) {
-                Point pos = this.PointToClient(new Point(m.LParam.ToInt32()));
+                Point pos = PointToClient(new Point(m.LParam.ToInt32()));
                 int hitSize = 16;
-                if (pos.X >= this.ClientSize.Width - hitSize && pos.Y >= this.ClientSize.Height - hitSize) {
+                if (pos.X >= ClientSize.Width - hitSize && pos.Y >= ClientSize.Height - hitSize) {
                     m.Result = (IntPtr)17;
                     return;
-                } else if (pos.X <= hitSize && pos.Y >= this.ClientSize.Height - hitSize) {
+                } else if (pos.X <= hitSize && pos.Y >= ClientSize.Height - hitSize) {
                     m.Result = (IntPtr)16;
                     return;
                 } else if (pos.X <= hitSize && pos.Y <= hitSize) {
                     m.Result = (IntPtr)13;
                     return;
-                } else if (pos.X >= this.ClientSize.Width - hitSize && pos.Y <= hitSize) {
+                } else if (pos.X >= ClientSize.Width - hitSize && pos.Y <= hitSize) {
                     m.Result = (IntPtr)14;
                     return;
                 }
@@ -151,10 +148,10 @@ namespace FallGuysStats {
         private void UpdateTimer() {
             while (StatsForm != null && !StatsForm.IsDisposed && !StatsForm.Disposing) {
                 try {
-                    if (this.IsHandleCreated && !this.Disposing && !this.IsDisposed) {
+                    if (IsHandleCreated && !Disposing && !IsDisposed) {
                         frameCount++;
                         isTimeToSwitch = frameCount % (StatsForm.CurrentSettings.CycleTimeSeconds * 20) == 0;
-                        this.Invoke((Action)UpdateInfo);
+                        Invoke((Action)UpdateInfo);
                     }
 
                     StatsForm.UpdateDates();
@@ -172,13 +169,13 @@ namespace FallGuysStats {
             switch (qualifySwitchCount % 2) {
                 case 0:
                     lblQualifyChance.Text = "QUALIFY:";
-                    qualifyChance = (float)levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                    qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
                     lblQualifyChance.TextRight = $"{levelInfo.TotalQualify} / {levelInfo.TotalPlays}{qualifyChanceDisplay}";
                     break;
                 case 1:
                     lblQualifyChance.Text = "GOLD:";
-                    qualifyChance = (float)levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                    qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
                     lblQualifyChance.TextRight = $"{levelInfo.TotalGolds} / {levelInfo.TotalPlays}{qualifyChanceDisplay}";
                     break;
@@ -266,7 +263,7 @@ namespace FallGuysStats {
                     StatSummary levelInfo = StatsForm.GetLevelInfo(roundName);
                     lblName.TextRight = roundName;
 
-                    float winChance = (float)levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
                     if (StatsForm.CurrentSettings.PreviousWins > 0) {
                         lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
@@ -276,7 +273,7 @@ namespace FallGuysStats {
                         lblWins.TextRight = $"{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
-                    float finalChance = (float)levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                    float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string finalText = $"{levelInfo.TotalFinals} / {levelInfo.TotalShows}";
                     string finalChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
@@ -349,7 +346,7 @@ namespace FallGuysStats {
                         lblDuration.TextRight = "-";
                     }
                 }
-                this.Invalidate();
+                Invalidate();
             }
 
             if (StatsForm.CurrentSettings.UseNDI) {
@@ -472,7 +469,7 @@ namespace FallGuysStats {
                 case 5: BackColor = Color.Green; break;
             }
         }
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height) {
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont) {
             FlipDisplay(false);
 
             int heightOffset = showTabs ? 35 : 0;
@@ -643,6 +640,12 @@ namespace FallGuysStats {
                     lblFinish.Location = new Point(firstColumnX, 55 + heightOffset);
                     lblFinish.DrawVisible = true;
                     break;
+            }
+
+            if (!string.IsNullOrEmpty(serializedFont)) {
+                SetFonts(this, -1,new FontConverter().ConvertFromString(serializedFont) as Font);
+            } else {
+                SetFonts(this);
             }
 
             DisplayTabs(showTabs);
