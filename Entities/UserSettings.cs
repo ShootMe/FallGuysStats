@@ -37,6 +37,7 @@
         public int? FormHeight { get; set; }
         public int? OverlayWidth { get; set; }
         public int? OverlayHeight { get; set; }
+        public double OverlayScale { get; set; }
         public bool HideOverlayPercentages { get; set; }
         public bool HoopsieHeros { get; set; }
         public int Version { get; set; }

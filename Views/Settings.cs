@@ -96,6 +96,13 @@ namespace FallGuysStats {
             txtGameExeLocation.Text = CurrentSettings.GameExeLocation;
             chkAutoLaunchGameOnStart.Checked = CurrentSettings.AutoLaunchGameOnStartup;
             chkIgnoreLevelTypeWhenSorting.Checked = CurrentSettings.IgnoreLevelTypeWhenSorting;
+            
+            if((CurrentSettings.OverlayScale < (trkOverlayScale.Minimum / 10.0)) || (CurrentSettings.OverlayScale > (trkOverlayScale.Maximum / 10.0))) {
+                CurrentSettings.OverlayScale = 1.0;
+            }
+
+            this.trkOverlayScale.Value = (int)(CurrentSettings.OverlayScale * 10);
+            this.lblOverlayScale.Text = (CurrentSettings.OverlayScale * 100) + "%";
 
             if (!string.IsNullOrEmpty(CurrentSettings.OverlayFontSerialized)) {
                 FontConverter fontConverter = new FontConverter();
@@ -243,7 +250,9 @@ namespace FallGuysStats {
             CurrentSettings.GameExeLocation = txtGameExeLocation.Text;
             CurrentSettings.AutoLaunchGameOnStartup = chkAutoLaunchGameOnStart.Checked;
 
-            if (!string.IsNullOrEmpty(overlayFontSerialized)) {
+            CurrentSettings.OverlayScale = trkOverlayScale.Value / 10.0;
+
+            if (!string.IsNullOrEmpty(CurrentSettings.OverlayFontSerialized)) {
                 FontConverter fontConverter = new FontConverter();
                 CurrentSettings.OverlayFontSerialized = fontConverter.ConvertToString(lblOverlayFontExample.Font);
             } else {
@@ -298,6 +307,14 @@ namespace FallGuysStats {
         private void btnCancel_Click(object sender, EventArgs e) {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void btnOverlayScaleReset_Click(object sender, EventArgs e) {
+            trkOverlayScale.Value = 10;
+        }
+
+        private void trkOverlayScale_ValueChanged(object sender, EventArgs e) {
+            this.lblOverlayScale.Text = (trkOverlayScale.Value * 10) + "%";
         }
         private void btnSelectFont_Click(object sender, EventArgs e) {
             dlgOverlayFont.Font = lblOverlayFont.Font;

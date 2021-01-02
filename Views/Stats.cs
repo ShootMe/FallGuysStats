@@ -465,7 +465,8 @@ namespace FallGuysStats {
                 }
                 logFile.Start(logPath, LOGNAME);
 
-                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
+                overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, 
+                    (int)(CurrentSettings.OverlayWidth * CurrentSettings.OverlayScale), (int)(CurrentSettings.OverlayHeight * CurrentSettings.OverlayScale), CurrentSettings.OverlayFontSerialized);
                 if (CurrentSettings.OverlayVisible) {
                     ToggleOverlay(overlay);
                 }
@@ -717,7 +718,7 @@ namespace FallGuysStats {
                 }
 
                 if (info.Qualified) {
-                    if (hasLevelDetails && levelDetails.IsFinal) {
+                    if ((hasLevelDetails && levelDetails.IsFinal) || info.Crown) {
                         if (!info.PrivateLobby) {
                             summary.AllWins++;
                         }
@@ -1406,7 +1407,8 @@ namespace FallGuysStats {
                             logFile.Start(logPath, LOGNAME);
                         }
 
-                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
+                        overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, 
+                            (int)(CurrentSettings.OverlayWidth * CurrentSettings.OverlayScale), (int)(CurrentSettings.OverlayHeight * CurrentSettings.OverlayScale), CurrentSettings.OverlayFontSerialized);
                     }
                 }
             } catch (Exception ex) {
