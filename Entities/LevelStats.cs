@@ -185,11 +185,12 @@ namespace FallGuysStats {
         public LevelType Type;
         public bool IsFinal;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
-        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)FinishTime.TotalSeconds / (Played == 0 ? 1 : Played)); } }
+        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)FinishTime.TotalSeconds / (FinishedCount == 0 ? 1 : FinishedCount)); } }
         public TimeSpan Duration;
         public TimeSpan FinishTime;
         public List<RoundInfo> Stats;
         public int Season;
+        public int FinishedCount;
 
         public LevelStats(string levelName, LevelType type, bool isFinal, int season) {
             Name = levelName;
@@ -206,6 +207,7 @@ namespace FallGuysStats {
             Bronze = 0;
             Played = 0;
             Kudos = 0;
+            FinishedCount = 0;
             Duration = TimeSpan.Zero;
             FinishTime = TimeSpan.Zero;
             Fastest = TimeSpan.Zero;
@@ -237,6 +239,7 @@ namespace FallGuysStats {
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
             if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
                 if (!stat.PrivateLobby) {
+                    FinishedCount++;
                     FinishTime += finishTime;
                 }
                 if (Fastest == TimeSpan.Zero || Fastest > finishTime) {
