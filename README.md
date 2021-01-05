@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.109
+    - Add ability to track if a final is actually a final
   - 1.108
     - Fix Hex a gone game mode from showing all wins/finals
     - Fix font selector not remembering font
