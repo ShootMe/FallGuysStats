@@ -44,7 +44,8 @@ namespace FallGuysStats {
         private static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2021, 2, 23, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -365,10 +366,7 @@ namespace FallGuysStats {
                 lastAddedShow = DateTime.MinValue;
                 if (RoundDetails.Count() > 0) {
                     AllStats.AddRange(RoundDetails.FindAll());
-                    AllStats.Sort(delegate (RoundInfo one, RoundInfo two) {
-                        int showCompare = one.ShowID.CompareTo(two.ShowID);
-                        return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                    });
+                    AllStats.Sort();
 
                     if (AllStats.Count > 0) {
                         nextShowID = AllStats[AllStats.Count - 1].ShowID;
@@ -405,6 +403,7 @@ namespace FallGuysStats {
                 }
             }
 
+            rounds.Sort();
             loadingExisting = true;
             LogFile_OnParsedLogLines(rounds);
             loadingExisting = false;
@@ -527,7 +526,9 @@ namespace FallGuysStats {
                     if (!loadingExisting) { StatsDB.BeginTrans(); }
 
                     int profile = menuProfileMain.Checked ? 0 : 1;
-                    foreach (RoundInfo stat in round) {
+                    for (int k = 0; k < round.Count; k++) {
+                        RoundInfo stat = round[k];
+
                         if (!loadingExisting) {
                             RoundInfo info = null;
                             for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -589,8 +590,9 @@ namespace FallGuysStats {
 
                         stat.ToLocalTime();
                         LevelStats levelStats = StatLookup[stat.Name];
+
                         if (!stat.PrivateLobby) {
-                            if (levelStats.IsFinal || stat.Crown) {
+                            if ((k + 1 >= round.Count || (loadingExisting && round[k + 1].ShowID != stat.ShowID)) && (levelStats.IsFinal || stat.Crown)) {
                                 Finals++;
                                 if (stat.Qualified) {
                                     Wins++;
@@ -709,7 +711,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                if (levelDetails.IsFinal && !endShow.PrivateLobby) {
+                if (info == endShow && levelDetails.IsFinal && !endShow.PrivateLobby) {
                     summary.CurrentFinalStreak++;
                     if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
                         summary.BestFinalStreak = summary.CurrentFinalStreak;
@@ -717,7 +719,7 @@ namespace FallGuysStats {
                 }
 
                 if (info.Qualified) {
-                    if (hasLevelDetails && levelDetails.IsFinal) {
+                    if (hasLevelDetails && info == endShow && levelDetails.IsFinal) {
                         if (!info.PrivateLobby) {
                             summary.AllWins++;
                         }
@@ -760,11 +762,11 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (!info.PrivateLobby) {
-                    if (!levelDetails.IsFinal) {
+                    if (info != endShow || !levelDetails.IsFinal) {
                         summary.CurrentFinalStreak = 0;
                     }
                     summary.CurrentStreak = 0;
-                    if (isInWinsFilter && hasLevelDetails && levelDetails.IsFinal) {
+                    if (isInWinsFilter && hasLevelDetails && info == endShow && levelDetails.IsFinal) {
                         summary.TotalFinals++;
                     }
                 }
@@ -915,10 +917,7 @@ namespace FallGuysStats {
                         LevelStats stats = gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
                         levelDetails.LevelName = stats.Name;
                         List<RoundInfo> rounds = stats.Stats;
-                        rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                            int showCompare = one.ShowID.CompareTo(two.ShowID);
-                            return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                        });
+                        rounds.Sort();
                         levelDetails.RoundDetails = rounds;
                         levelDetails.StatsForm = this;
                         levelDetails.ShowDialog(this);
@@ -992,10 +991,7 @@ namespace FallGuysStats {
                 for (int i = 0; i < StatDetails.Count; i++) {
                     rounds.AddRange(StatDetails[i].Stats);
                 }
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+                rounds.Sort();
 
                 List<RoundInfo> shows = new List<RoundInfo>();
                 int roundCount = 0;
@@ -1031,10 +1027,7 @@ namespace FallGuysStats {
                 for (int i = 0; i < StatDetails.Count; i++) {
                     rounds.AddRange(StatDetails[i].Stats);
                 }
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+                rounds.Sort();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
                 levelDetails.ShowDialog(this);
@@ -1047,10 +1040,7 @@ namespace FallGuysStats {
                 for (int i = 0; i < StatDetails.Count; i++) {
                     rounds.AddRange(StatDetails[i].Stats);
                 }
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+                rounds.Sort();
 
                 int keepShow = -1;
                 for (int i = rounds.Count - 1; i >= 0; i--) {
@@ -1071,10 +1061,7 @@ namespace FallGuysStats {
             for (int i = 0; i < StatDetails.Count; i++) {
                 rounds.AddRange(StatDetails[i].Stats);
             }
-            rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                int showCompare = one.ShowID.CompareTo(two.ShowID);
-                return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-            });
+            rounds.Sort();
 
             using (StatsDisplay display = new StatsDisplay() { Text = "Wins Per Day" }) {
                 DataTable dt = new DataTable();
@@ -1096,7 +1083,7 @@ namespace FallGuysStats {
                         if (info.Round == 1) {
                             currentShows++;
                         }
-                        if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && levelStats.IsFinal)) {
+                        if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && (i + 1 >= rounds.Count || rounds[i + 1].ShowID != info.ShowID) && levelStats.IsFinal)) {
                             currentFinals++;
                             if (info.Qualified) {
                                 currentWins++;
@@ -1174,7 +1161,7 @@ namespace FallGuysStats {
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
                 string steamPath = (string)regValue;
 
-                string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client.exe");
+                string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
                 if (File.Exists(fallGuys)) {
                     return fallGuys;
                 }
@@ -1196,7 +1183,7 @@ namespace FallGuysStats {
                         string libraryPath = line.Substring(indexStart + 3, indexRoot - indexStart - 3);
                         if (!string.IsNullOrEmpty(libraryPath)) {
                             // look for exe in standard location under library
-                            fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client.exe");
+                            fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
                             if (File.Exists(fallGuys)) {
                                 return fallGuys;
                             }
@@ -1302,10 +1289,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+                rounds.Sort();
 
                 if (rounds.Count > 0 && (button == menuWeekStats || button == menuDayStats || button == menuSessionStats)) {
                     int minShowID = rounds[0].ShowID;
@@ -1318,10 +1302,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                rounds.Sort(delegate (RoundInfo one, RoundInfo two) {
-                    int showCompare = one.ShowID.CompareTo(two.ShowID);
-                    return showCompare != 0 ? showCompare : one.Round.CompareTo(two.Round);
-                });
+                rounds.Sort();
 
                 CurrentSettings.SelectedProfile = profile;
                 CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;

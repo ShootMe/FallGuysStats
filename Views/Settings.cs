@@ -279,15 +279,15 @@ namespace FallGuysStats {
                     }
 
                     openFile.Filter = "Exe files (*.exe)|*.exe";
-                    openFile.FileName = "FallGuys_client.exe";
+                    openFile.FileName = "FallGuys_client_game.exe";
                     openFile.Title = "Locate Fall Guys";
 
                     DialogResult result = openFile.ShowDialog(this);
                     if (result.Equals(DialogResult.OK)) {
-                        if (openFile.FileName.IndexOf("FallGuys_client.exe", StringComparison.OrdinalIgnoreCase) >= 0) {
+                        if (openFile.FileName.IndexOf("FallGuys_client", StringComparison.OrdinalIgnoreCase) >= 0) {
                             txtGameExeLocation.Text = openFile.FileName;
                         } else {
-                            MessageBox.Show("Please select \"FallGuys_client.exe\" in the install folder.", "Wrong File Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Please select \"FallGuys_client_game.exe\" in the install folder.", "Wrong File Selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
@@ -300,7 +300,7 @@ namespace FallGuysStats {
             Close();
         }
         private void btnSelectFont_Click(object sender, EventArgs e) {
-            dlgOverlayFont.Font = lblOverlayFont.Font;
+            dlgOverlayFont.Font = lblOverlayFontExample.Font;
             DialogResult result = dlgOverlayFont.ShowDialog(this);
 
             if (result.Equals(DialogResult.OK)) {
