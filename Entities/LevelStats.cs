@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LiteDB;
 namespace FallGuysStats {
-    public class RoundInfo {
+    public class RoundInfo : IComparable<RoundInfo> {
         public ObjectId ID { get; set; }
         public int Profile { get; set; }
         public string Name { get; set; }
@@ -78,6 +78,10 @@ namespace FallGuysStats {
         }
         public override int GetHashCode() {
             return Name.GetHashCode() ^ ShowID ^ Round;
+        }
+        public int CompareTo(RoundInfo other) {
+            int showCompare = ShowID.CompareTo(other.ShowID);
+            return showCompare != 0 ? showCompare : Round.CompareTo(other.Round);
         }
     }
     public enum QualifyTier {
