@@ -41,12 +41,13 @@ namespace FallGuysStats {
             gridDetails.Columns["Profile"].Visible = false;
             gridDetails.Columns["InParty"].Visible = false;
             gridDetails.Columns["PrivateLobby"].Visible = false;
+            gridDetails.Columns["Qualified"].Visible = false;
             gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
             gridDetails.Setup("Medal", pos++, 24, "", DataGridViewContentAlignment.MiddleCenter);
             if (ShowStats == 2) {
-                gridDetails.Setup("Qualified", pos++, 40, "Final", DataGridViewContentAlignment.MiddleCenter);
+                gridDetails.Setup("IsFinal", pos++, 40, "Final", DataGridViewContentAlignment.MiddleCenter);
             } else {
-                gridDetails.Columns["Qualified"].Visible = false;
+                gridDetails.Columns["IsFinal"].Visible = false;
             }
             gridDetails.Setup("ShowID", pos++, 0, "Show", DataGridViewContentAlignment.MiddleRight);
             gridDetails.Setup("Round", pos++, 50, ShowStats == 2 ? "Rounds" : "Round", DataGridViewContentAlignment.MiddleRight);

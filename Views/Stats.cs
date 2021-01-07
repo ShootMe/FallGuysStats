@@ -271,6 +271,34 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 11;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 11) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                AllStats.Sort();
+                StatsDB.BeginTrans();
+                int lastShow = -1;
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (lastShow != info.ShowID) {
+                        lastShow = info.ShowID;
+
+                        if (StatLookup.TryGetValue(info.Name, out LevelStats stats)) {
+                            info.IsFinal = stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && AllStats[i - 1].Name != "round_floor_fall"));
+                        } else {
+                            info.IsFinal = false;
+                        }
+                    } else {
+                        info.IsFinal = false;
+                    }
+
+                    RoundDetails.Update(info);
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 12;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -312,7 +340,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 11,
+                Version = 12,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
@@ -592,7 +620,7 @@ namespace FallGuysStats {
                         LevelStats levelStats = StatLookup[stat.Name];
 
                         if (!stat.PrivateLobby) {
-                            if ((k + 1 >= round.Count || (loadingExisting && round[k + 1].ShowID != stat.ShowID)) && (levelStats.IsFinal || stat.Crown)) {
+                            if (stat.IsFinal || stat.Crown) {
                                 Finals++;
                                 if (stat.Qualified) {
                                     Wins++;
@@ -719,7 +747,7 @@ namespace FallGuysStats {
                 }
 
                 if (info.Qualified) {
-                    if (hasLevelDetails && info == endShow && levelDetails.IsFinal) {
+                    if (hasLevelDetails && info.IsFinal) {
                         if (!info.PrivateLobby) {
                             summary.AllWins++;
                         }
@@ -762,11 +790,11 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (!info.PrivateLobby) {
-                    if (info != endShow || !levelDetails.IsFinal) {
+                    if (!info.IsFinal) {
                         summary.CurrentFinalStreak = 0;
                     }
                     summary.CurrentStreak = 0;
-                    if (isInWinsFilter && hasLevelDetails && info == endShow && levelDetails.IsFinal) {
+                    if (isInWinsFilter && hasLevelDetails && info.IsFinal) {
                         summary.TotalFinals++;
                     }
                 }
@@ -999,18 +1027,18 @@ namespace FallGuysStats {
                 bool won = false;
                 bool isFinal = false;
                 DateTime endDate = DateTime.MinValue;
+
                 for (int i = rounds.Count - 1; i >= 0; i--) {
                     RoundInfo info = rounds[i];
                     if (roundCount == 0) {
                         endDate = info.End;
                         won = info.Qualified;
-                        LevelStats levelStats = StatLookup[info.Name];
-                        isFinal = levelStats.IsFinal;
+                        isFinal = info.IsFinal;
                     }
                     roundCount++;
                     kudosTotal += info.Kudos;
                     if (info.Round == 1) {
-                        shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, End = endDate, Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
+                        shows.Insert(0, new RoundInfo() { Name = isFinal ? "Final" : string.Empty, IsFinal = isFinal, End = endDate, Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal, Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0 });
                         roundCount = 0;
                         kudosTotal = 0;
                     }
@@ -1045,7 +1073,7 @@ namespace FallGuysStats {
                 int keepShow = -1;
                 for (int i = rounds.Count - 1; i >= 0; i--) {
                     RoundInfo info = rounds[i];
-                    if (info.ShowID != keepShow && (info.Crown || (StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsFinal))) {
+                    if (info.ShowID != keepShow && (info.Crown || info.IsFinal)) {
                         keepShow = info.ShowID;
                     } else if (info.ShowID != keepShow) {
                         rounds.RemoveAt(i);
@@ -1079,11 +1107,11 @@ namespace FallGuysStats {
                         RoundInfo info = rounds[i];
                         if (info.PrivateLobby) { continue; }
 
-                        LevelStats levelStats = null;
                         if (info.Round == 1) {
                             currentShows++;
                         }
-                        if (info.Crown || (StatLookup.TryGetValue(info.Name, out levelStats) && (i + 1 >= rounds.Count || rounds[i + 1].ShowID != info.ShowID) && levelStats.IsFinal)) {
+
+                        if (info.Crown || info.IsFinal) {
                             currentFinals++;
                             if (info.Qualified) {
                                 currentWins++;
