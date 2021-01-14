@@ -105,7 +105,7 @@ namespace FallGuysStats {
                                         }
 
                                         if (currentDate != DateTime.MinValue) {
-                                            if ((int)currentDate.TimeOfDay.TotalSeconds > (int)logLine.Time.TotalSeconds) {
+                                            if (currentDate.TimeOfDay.TotalSeconds - logLine.Time.TotalSeconds > 60000) {
                                                 currentDate = currentDate.AddDays(1);
                                             }
                                             currentDate = currentDate.AddSeconds(logLine.Time.TotalSeconds - currentDate.TimeOfDay.TotalSeconds);
@@ -143,17 +143,18 @@ namespace FallGuysStats {
                     if (tempLines.Count > 0) {
                         List<RoundInfo> round = new List<RoundInfo>();
                         LogRound logRound = new LogRound();
+                        List<LogLine> currentLines = new List<LogLine>();
 
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
+                            currentLines.Add(line);
                             if (ParseLine(line, round, logRound)) {
                                 lastDate = line.Date;
                                 offset = line.Offset;
                                 lock (lines) {
-                                    lines.AddRange(tempLines);
-                                    tempLines.Clear();
+                                    lines.AddRange(currentLines);
+                                    currentLines.Clear();
                                 }
-                                break;
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase) > 0 ||
                                 line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
