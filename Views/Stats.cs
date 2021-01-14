@@ -170,7 +170,7 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            if (CurrentSettings.Version == 4) {
+            if (CurrentSettings.Version == 3 || CurrentSettings.Version == 4) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
