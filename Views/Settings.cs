@@ -49,7 +49,6 @@ namespace FallGuysStats {
 
             txtCycleTimeSeconds.Text = CurrentSettings.CycleTimeSeconds.ToString();
             txtPreviousWins.Text = CurrentSettings.PreviousWins.ToString();
-            chkUseNDI.Checked = CurrentSettings.UseNDI;
             chkOverlayOnTop.Checked = !CurrentSettings.OverlayNotOnTop;
             chkHideWinsInfo.Checked = CurrentSettings.HideWinsInfo;
             chkHideRoundInfo.Checked = CurrentSettings.HideRoundInfo;
@@ -168,7 +167,6 @@ namespace FallGuysStats {
                 CurrentSettings.OnlyShowFinalStreak = false;
             }
 
-            CurrentSettings.UseNDI = chkUseNDI.Checked;
             CurrentSettings.OverlayNotOnTop = !chkOverlayOnTop.Checked;
             if (chkHideRoundInfo.Checked && chkHideTimeInfo.Checked && chkHideWinsInfo.Checked) {
                 chkHideWinsInfo.Checked = false;
