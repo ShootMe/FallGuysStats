@@ -78,14 +78,6 @@
     <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
-    <Compile Include="NDI\AudioFrame.cs" />
-    <Compile Include="NDI\Pinvoke\Processing.NDI.Lib.Interop.cs" />
-    <Compile Include="NDI\Pinvoke\Processing.NDI.Send.Interop.cs" />
-    <Compile Include="NDI\Pinvoke\Processing.NDI.structs.Interop.cs" />
-    <Compile Include="NDI\Sender.cs" />
-    <Compile Include="NDI\Source.cs" />
-    <Compile Include="NDI\Utilities.cs" />
-    <Compile Include="NDI\VideoFrame.cs" />
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>
