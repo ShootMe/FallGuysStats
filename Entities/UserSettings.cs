@@ -20,7 +20,6 @@
         public bool OverlayVisible { get; set; }
         public bool OverlayNotOnTop { get; set; }
         public int PreviousWins { get; set; }
-        public bool UseNDI { get; set; }
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }
         public int QualifyFilter { get; set; }

@@ -17,22 +17,6 @@ namespace FallGuysStats {
         [STAThread]
         static void Main(string[] args) {
             try {
-#if AllowUpdate
-                foreach (string file in Directory.EnumerateFiles(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "*.old")) {
-                    int retries = 0;
-                    while (retries < 20) {
-                        try {
-                            File.SetAttributes(file, FileAttributes.Normal);
-                            File.Delete(file);
-                            break;
-                        } catch {
-                            retries++;
-                        }
-                        Thread.Sleep(50);
-                    }
-                }
-#endif
-
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Stats());
@@ -134,6 +118,19 @@ namespace FallGuysStats {
             if (CurrentSettings.AutoLaunchGameOnStartup) {
                 LaunchGame(true);
             }
+
+            RemoveUpdateFiles();
+        }
+        private void RemoveUpdateFiles() {
+#if AllowUpdate
+            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            foreach (string file in Directory.EnumerateFiles(filePath, "*.bak")) {
+                try {
+                    File.SetAttributes(file, FileAttributes.Normal);
+                    File.Delete(file);
+                } catch { }
+            }
+#endif
         }
         private void UpdateDatabaseVersion() {
             if (!CurrentSettings.UpdatedDateFormat) {
@@ -170,7 +167,7 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            if (CurrentSettings.Version == 4) {
+            if (CurrentSettings.Version == 3 || CurrentSettings.Version == 4) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -321,7 +318,6 @@ namespace FallGuysStats {
                 OnlyShowFinalStreak = false,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
-                UseNDI = false,
                 PreviousWins = 0,
                 WinsFilter = 0,
                 QualifyFilter = 0,
@@ -456,7 +452,6 @@ namespace FallGuysStats {
                     SaveUserSettings();
                 }
                 StatsDB.Dispose();
-                overlay.Cleanup();
             } catch { }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -1369,7 +1364,7 @@ namespace FallGuysStats {
                                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
                                             exeName = entry.Name;
                                         }
-                                        File.Move(entry.Name, $"{entry.Name}.old");
+                                        File.Move(entry.Name, $"{entry.Name}.bak");
                                         entry.ExtractToFile(entry.Name, true);
                                     }
                                 }

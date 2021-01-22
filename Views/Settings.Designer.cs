@@ -51,7 +51,6 @@
             this.cboWinsFilter = new System.Windows.Forms.ComboBox();
             this.lblWinsFilter = new System.Windows.Forms.Label();
             this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
-            this.chkUseNDI = new System.Windows.Forms.CheckBox();
             this.lblCycleTimeSecondsTag = new System.Windows.Forms.Label();
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
@@ -116,7 +115,7 @@
             // 
             // txtLogPath
             // 
-            this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLogPath.Location = new System.Drawing.Point(64, 12);
             this.txtLogPath.Name = "txtLogPath";
@@ -154,7 +153,6 @@
             this.grpOverlay.Controls.Add(this.cboWinsFilter);
             this.grpOverlay.Controls.Add(this.lblWinsFilter);
             this.grpOverlay.Controls.Add(this.chkOverlayOnTop);
-            this.grpOverlay.Controls.Add(this.chkUseNDI);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSecondsTag);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
@@ -173,7 +171,7 @@
             // 
             // grpCycleQualifyGold
             // 
-            this.grpCycleQualifyGold.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.grpCycleQualifyGold.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpCycleQualifyGold.Controls.Add(this.chkOnlyShowGold);
             this.grpCycleQualifyGold.Controls.Add(this.chkOnlyShowQualify);
@@ -181,7 +179,7 @@
             this.grpCycleQualifyGold.Location = new System.Drawing.Point(12, 171);
             this.grpCycleQualifyGold.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleQualifyGold.Name = "grpCycleQualifyGold";
-            this.grpCycleQualifyGold.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpCycleQualifyGold.Padding = new System.Windows.Forms.Padding(2);
             this.grpCycleQualifyGold.Size = new System.Drawing.Size(369, 32);
             this.grpCycleQualifyGold.TabIndex = 8;
             this.grpCycleQualifyGold.TabStop = false;
@@ -220,7 +218,7 @@
             // 
             // grpCycleFastestLongest
             // 
-            this.grpCycleFastestLongest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.grpCycleFastestLongest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpCycleFastestLongest.Controls.Add(this.chkOnlyShowLongest);
             this.grpCycleFastestLongest.Controls.Add(this.chkOnlyShowFastest);
@@ -228,7 +226,7 @@
             this.grpCycleFastestLongest.Location = new System.Drawing.Point(12, 196);
             this.grpCycleFastestLongest.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleFastestLongest.Name = "grpCycleFastestLongest";
-            this.grpCycleFastestLongest.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpCycleFastestLongest.Padding = new System.Windows.Forms.Padding(2);
             this.grpCycleFastestLongest.Size = new System.Drawing.Size(369, 32);
             this.grpCycleFastestLongest.TabIndex = 9;
             this.grpCycleFastestLongest.TabStop = false;
@@ -435,16 +433,6 @@
             this.chkOverlayOnTop.Text = "Always show on top";
             this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
-            // chkUseNDI
-            // 
-            this.chkUseNDI.AutoSize = true;
-            this.chkUseNDI.Location = new System.Drawing.Point(447, 227);
-            this.chkUseNDI.Name = "chkUseNDI";
-            this.chkUseNDI.Size = new System.Drawing.Size(157, 17);
-            this.chkUseNDI.TabIndex = 22;
-            this.chkUseNDI.Text = "Use NDI to transmit Overlay";
-            this.chkUseNDI.UseVisualStyleBackColor = true;
-            // 
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
@@ -476,7 +464,7 @@
             // 
             // grpCycleWinFinalStreak
             // 
-            this.grpCycleWinFinalStreak.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.grpCycleWinFinalStreak.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpCycleWinFinalStreak.Controls.Add(this.chkOnlyShowFinalStreak);
             this.grpCycleWinFinalStreak.Controls.Add(this.chkOnlyShowWinStreak);
@@ -484,7 +472,7 @@
             this.grpCycleWinFinalStreak.Location = new System.Drawing.Point(12, 221);
             this.grpCycleWinFinalStreak.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleWinFinalStreak.Name = "grpCycleWinFinalStreak";
-            this.grpCycleWinFinalStreak.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpCycleWinFinalStreak.Padding = new System.Windows.Forms.Padding(2);
             this.grpCycleWinFinalStreak.Size = new System.Drawing.Size(369, 32);
             this.grpCycleWinFinalStreak.TabIndex = 10;
             this.grpCycleWinFinalStreak.TabStop = false;
@@ -523,7 +511,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.chkOnlyShowPing);
             this.groupBox1.Controls.Add(this.chkOnlyShowPlayers);
@@ -531,7 +519,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 246);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(369, 32);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
@@ -580,7 +568,7 @@
             // btnSelectFont
             // 
             this.btnSelectFont.Location = new System.Drawing.Point(27, 299);
-            this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(70, 20);
             this.btnSelectFont.TabIndex = 24;
@@ -591,7 +579,7 @@
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Location = new System.Drawing.Point(27, 323);
-            this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(70, 20);
             this.btnResetOverlayFont.TabIndex = 25;
@@ -603,9 +591,9 @@
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
             this.grpOverlayFontExample.Location = new System.Drawing.Point(119, 284);
-            this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
-            this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Size = new System.Drawing.Size(517, 59);
             this.grpOverlayFontExample.TabIndex = 35;
             this.grpOverlayFontExample.TabStop = false;
@@ -623,7 +611,7 @@
             // 
             // grpStats
             // 
-            this.grpStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.grpStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpStats.Controls.Add(this.chkChangeHoopsieLegends);
             this.grpStats.Controls.Add(this.chkAutoUpdate);
@@ -694,9 +682,9 @@
             this.grpGameOptions.Controls.Add(this.btnGameExeLocationBrowse);
             this.grpGameOptions.Controls.Add(this.chkAutoLaunchGameOnStart);
             this.grpGameOptions.Location = new System.Drawing.Point(12, 521);
-            this.grpGameOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpGameOptions.Margin = new System.Windows.Forms.Padding(2);
             this.grpGameOptions.Name = "grpGameOptions";
-            this.grpGameOptions.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpGameOptions.Padding = new System.Windows.Forms.Padding(2);
             this.grpGameOptions.Size = new System.Drawing.Size(644, 69);
             this.grpGameOptions.TabIndex = 6;
             this.grpGameOptions.TabStop = false;
@@ -716,7 +704,7 @@
             // 
             this.txtGameExeLocation.Enabled = false;
             this.txtGameExeLocation.Location = new System.Drawing.Point(140, 19);
-            this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameExeLocation.Name = "txtGameExeLocation";
             this.txtGameExeLocation.Size = new System.Drawing.Size(447, 20);
             this.txtGameExeLocation.TabIndex = 1;
@@ -724,7 +712,7 @@
             // btnGameExeLocationBrowse
             // 
             this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(589, 18);
-            this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(2);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
             this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(50, 22);
             this.btnGameExeLocationBrowse.TabIndex = 2;
@@ -735,7 +723,7 @@
             // chkAutoLaunchGameOnStart
             // 
             this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(13, 43);
-            this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
             this.chkAutoLaunchGameOnStart.Name = "chkAutoLaunchGameOnStart";
             this.chkAutoLaunchGameOnStart.Size = new System.Drawing.Size(204, 16);
             this.chkAutoLaunchGameOnStart.TabIndex = 3;
@@ -743,13 +731,13 @@
             // 
             // grpSortingOptions
             // 
-            this.grpSortingOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.grpSortingOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpSortingOptions.Controls.Add(this.chkIgnoreLevelTypeWhenSorting);
             this.grpSortingOptions.Location = new System.Drawing.Point(12, 473);
-            this.grpSortingOptions.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpSortingOptions.Margin = new System.Windows.Forms.Padding(2);
             this.grpSortingOptions.Name = "grpSortingOptions";
-            this.grpSortingOptions.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpSortingOptions.Padding = new System.Windows.Forms.Padding(2);
             this.grpSortingOptions.Size = new System.Drawing.Size(645, 44);
             this.grpSortingOptions.TabIndex = 5;
             this.grpSortingOptions.TabStop = false;
@@ -759,7 +747,7 @@
             // 
             this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
             this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(16, 19);
-            this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
             this.chkIgnoreLevelTypeWhenSorting.Name = "chkIgnoreLevelTypeWhenSorting";
             this.chkIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(175, 17);
             this.chkIgnoreLevelTypeWhenSorting.TabIndex = 0;
@@ -840,7 +828,6 @@
         private System.Windows.Forms.Label lblPreviousWinsNote;
         private System.Windows.Forms.Label lblPreviousWins;
         private System.Windows.Forms.TextBox txtPreviousWins;
-        private System.Windows.Forms.CheckBox chkUseNDI;
         private System.Windows.Forms.CheckBox chkOverlayOnTop;
         private System.Windows.Forms.ComboBox cboFastestFilter;
         private System.Windows.Forms.Label lblFastestFilter;

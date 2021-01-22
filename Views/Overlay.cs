@@ -4,12 +4,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using NewTek.NDI;
 namespace FallGuysStats {
     public partial class Overlay : Form {
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -30,14 +27,8 @@ namespace FallGuysStats {
         private int switchCount;
         private Bitmap Background, DrawImage;
         private Graphics DrawGraphics;
-#if AllowUpdate
-        private Sender NDISender;
-        private VideoFrame NDIFrame;
-        private Bitmap NDIImage;
-        private Graphics NDIGraphics;
-#endif
         private RoundInfo lastRound;
-        private int triesToDownload, drawWidth, drawHeight;
+        private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
         static Overlay() {
@@ -52,30 +43,6 @@ namespace FallGuysStats {
             CustomFont = new PrivateFontCollection();
             CustomFont.AddFontFile("TitanOne-Regular.ttf");
             GlobalFont = new Font(CustomFont.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
-        }
-        public void Cleanup() {
-#if AllowUpdate
-            try {
-                lock (GlobalFont) {
-                    if (NDIGraphics != null) {
-                        NDIGraphics.Dispose();
-                        NDIGraphics = null;
-                    }
-                    if (NDIImage != null) {
-                        NDIImage.Dispose();
-                        NDIImage = null;
-                    }
-                    if (NDIFrame != null) {
-                        NDIFrame.Dispose();
-                        NDIFrame = null;
-                    }
-                    if (NDISender != null) {
-                        NDISender.Dispose();
-                        NDISender = null;
-                    }
-                }
-            } catch { }
-#endif
         }
         public Overlay() {
             InitializeComponent();
@@ -351,69 +318,6 @@ namespace FallGuysStats {
                 }
                 Invalidate();
             }
-
-            if (StatsForm.CurrentSettings.UseNDI) {
-                SendNDI();
-            }
-        }
-        private void SendNDI() {
-#if AllowUpdate
-            try {
-                lock (GlobalFont) {
-                    if (NDISender == null) {
-                        NDISender = new Sender("Fall Guys Stats Overlay", true, false, null, "Fall Guys Stats Overlay");
-                    }
-                    if (NDIFrame == null) {
-                        NDIFrame = new VideoFrame(Background.Width, Background.Height, (float)Background.Width / Background.Height, 20, 1);
-                    }
-                    if (NDIImage == null) {
-                        NDIImage = new Bitmap(NDIFrame.Width, NDIFrame.Height, NDIFrame.Stride, PixelFormat.Format32bppPArgb, NDIFrame.BufferPtr);
-                    }
-                    if (NDIGraphics == null) {
-                        NDIGraphics = Graphics.FromImage(NDIImage);
-                        NDIGraphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    }
-
-                    NDIGraphics.Clear(Color.Transparent);
-                    NDIGraphics.DrawImage(Background, 0, 0);
-
-                    foreach (Control control in Controls) {
-                        if (control is TransparentLabel label) {
-                            NDIGraphics.TranslateTransform(label.Location.X, label.Location.Y);
-                            label.Draw(NDIGraphics);
-                            NDIGraphics.TranslateTransform(-label.Location.X, -label.Location.Y);
-                        }
-                    }
-
-                    NDISender.Send(NDIFrame);
-                }
-            } catch (Exception ex) {
-                if (ex.Message.IndexOf("Unable to load dll", StringComparison.OrdinalIgnoreCase) >= 0) {
-                    StatsForm.CurrentSettings.UseNDI = false;
-                    Cleanup();
-                    if (triesToDownload < 5) {
-                        triesToDownload++;
-                        Task.Run(delegate () {
-                            try {
-                                using (ZipWebClient web = new ZipWebClient()) {
-                                    byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/NDI.zip");
-                                    using (MemoryStream ms = new MemoryStream(data)) {
-                                        using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
-                                            foreach (var entry in zipFile.Entries) {
-                                                entry.ExtractToFile(entry.Name, true);
-                                            }
-                                        }
-                                    }
-                                }
-                                StatsForm.CurrentSettings.UseNDI = true;
-                            } catch {
-                                Thread.Sleep(10000);
-                            }
-                        });
-                    }
-                }
-            }
-#endif
         }
         protected override void OnPaint(PaintEventArgs e) {
             lock (GlobalFont) {
@@ -655,7 +559,6 @@ namespace FallGuysStats {
             DisplayTabs(showTabs);
             FlipDisplay(flipDisplay);
             SetBackgroundColor(colorOption);
-            Cleanup();
 
             Background = RecreateBackground();
             if (width.HasValue) {
