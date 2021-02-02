@@ -251,11 +251,8 @@ namespace FallGuysStats {
                 logRound.HasIsFinal = index > 0;
                 index = line.Line.IndexOf("isFinalRound=True", StringComparison.OrdinalIgnoreCase);
                 logRound.IsFinal = index > 0;
-            } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0 && (index = line.Line.IndexOf(" players in system.", StringComparison.OrdinalIgnoreCase)) > 0) {
-                int prevIndex = line.Line.LastIndexOf(' ', index - 1);
-                if (int.TryParse(line.Line.Substring(prevIndex, index - prevIndex), out logRound.Players)) {
-                    logRound.Info.Players = logRound.Players;
-                }
+            } else if (logRound.Info != null && logRound.CountingPlayers && (line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) > 0 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0)) {
+                logRound.Info.Players++;
             } else if ((index = line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy [", StringComparison.OrdinalIgnoreCase)) > 0) {
                 int prevIndex = line.Line.IndexOf(']', index + 65);
                 logRound.CurrentPlayerID = line.Line.Substring(index + 65, prevIndex - index - 65);
