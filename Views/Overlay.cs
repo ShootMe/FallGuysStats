@@ -228,7 +228,7 @@ namespace FallGuysStats {
                     if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
-                    if (roundName.Length > 20) { roundName = roundName.Substring(0, 20); }
+                    if (roundName.Length > 14) { roundName = roundName.Substring(0, 14); }
 
                     StatSummary levelInfo = StatsForm.GetLevelInfo(roundName);
                     lblName.TextRight = roundName;
