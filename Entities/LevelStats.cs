@@ -114,7 +114,7 @@ namespace FallGuysStats {
             { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1) },
             { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, false, 1) },
             { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1) },
-            { "round_turntables",                 new LevelStats("Snowball Survival", LevelType.Survival, false, 3) },
+            { "round_snowballsurvival",           new LevelStats("Snowball Survival", LevelType.Survival, false, 3) },
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
 
             { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1) },
@@ -157,7 +157,7 @@ namespace FallGuysStats {
             { "FallGuy_JumpClub_01",               "round_jump_club" },
             { "FallGuy_MatchFall",                 "round_match_fall" },
             { "FallGuy_Tunnel_01",                 "round_tunnel" },
-            { "FallGuy_Turntables",                "round_turntables" },
+            { "FallGuy_SnowballSurvival",          "round_snowballsurvival" },
             { "FallGuy_TailTag_2",                 "round_tail_tag" },
 
             { "FallGuy_EggGrab",                   "round_egg_grab" },
