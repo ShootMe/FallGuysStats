@@ -187,6 +187,32 @@ namespace FallGuysStats {
                     break;
             }
         }
+        private void SetWinInfo(StatSummary levelInfo) {
+            int winSwitchCount = switchCount;
+
+            float winChance;
+            string winChanceDisplay;
+            string allWinsDisplay;
+
+            if (StatsForm.CurrentSettings.PreviousWins > 0) {
+                allWinsDisplay = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins})";
+            } else if (StatsForm.CurrentSettings.FilterType != 0) {
+                allWinsDisplay = $"{levelInfo.TotalWins} ({levelInfo.AllWins})";
+            } else {
+                allWinsDisplay = $"{levelInfo.TotalWins}";
+            }
+
+            if (winSwitchCount % 2 == 0) {
+                winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalFinals == 0 ? 1 : levelInfo.TotalFinals);
+                winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{levelInfo.TotalFinals} - {winChance:0.0}%";
+            }
+            else {
+                winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{levelInfo.TotalShows} - {winChance:0.0}%";
+            }
+
+            lblWins.TextRight = $"{allWinsDisplay} / {winChanceDisplay}";
+        }
         private void SetStreakInfo(StatSummary levelInfo) {
             int streakSwitchCount = switchCount;
             if (!StatsForm.CurrentSettings.SwitchBetweenStreaks) {
@@ -233,15 +259,7 @@ namespace FallGuysStats {
                     if (roundName.Length > 14) { roundName = roundName.Substring(0, 14); }
                     lblName.TextRight = roundName;
 
-                    float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    string winChanceDisplay = StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {winChance:0.0}%";
-                    if (StatsForm.CurrentSettings.PreviousWins > 0) {
-                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
-                    } else if (StatsForm.CurrentSettings.FilterType != 0) {
-                        lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}";
-                    } else {
-                        lblWins.TextRight = $"{levelInfo.TotalWins}{winChanceDisplay}";
-                    }
+                    SetWinInfo(levelInfo);
 
                     float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string finalText = $"{levelInfo.TotalFinals} / {levelInfo.TotalShows}";
