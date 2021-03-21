@@ -48,6 +48,7 @@ namespace FallGuysStats {
         public int Wins;
         public int Finals;
         public int Kudos;
+        public int Fame;
         private int nextShowID;
         private bool loadingExisting;
         public LiteDatabase StatsDB;
@@ -596,6 +597,7 @@ namespace FallGuysStats {
                         }
                         Duration += stat.End - stat.Start;
                         Kudos += stat.Kudos;
+                        Fame += stat.Fame;
 
                         // add new type of round to the rounds lookup
                         if (!StatLookup.ContainsKey(stat.Name)) {
@@ -804,6 +806,7 @@ namespace FallGuysStats {
             Shows = 0;
             Finals = 0;
             Kudos = 0;
+            Fame = 0;
         }
         private void UpdateTotals() {
             try {
@@ -834,6 +837,7 @@ namespace FallGuysStats {
                 gridDetails.Setup("Silver", pos++, 50, "Silver", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Bronze", pos++, 50, "Bronze", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Kudos", pos++, 60, "Kudos", DataGridViewContentAlignment.MiddleRight);
+                gridDetails.Setup("Fame", pos++, 60, "Fame", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Fastest", pos++, 60, "Fastest", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("Longest", pos++, 60, "Longest", DataGridViewContentAlignment.MiddleRight);
                 gridDetails.Setup("AveFinish", pos++, 60, "Average", DataGridViewContentAlignment.MiddleRight);
@@ -978,6 +982,7 @@ namespace FallGuysStats {
                         case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
                         case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
+                        case "Fame": typeCompare = one.Fame.CompareTo(two.Fame); break;
                         case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
                         case "AveFinish": typeCompare = one.AveFinish.CompareTo(two.AveFinish); break;
                         case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;

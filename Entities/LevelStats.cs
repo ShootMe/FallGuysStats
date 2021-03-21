@@ -13,6 +13,7 @@ namespace FallGuysStats {
         public int Tier { get; set; }
         public bool Qualified { get; set; }
         public int Kudos { get; set; }
+        public int Fame { get; set; }
         public int Players { get; set; }
         public bool InParty { get; set; }
         public bool IsFinal { get; set; }
@@ -67,6 +68,7 @@ namespace FallGuysStats {
                 && info.Finish == this.Finish
                 && info.InParty == this.InParty
                 && info.Kudos == this.Kudos
+                && info.Fame == this.Fame
                 && info.Players == this.Players
                 && info.Position == this.Position
                 && info.Qualified == this.Qualified
@@ -186,6 +188,7 @@ namespace FallGuysStats {
         public int Bronze { get; set; }
         public int Played { get; set; }
         public int Kudos { get; set; }
+        public int Fame { get; set; }
         public TimeSpan Fastest { get; set; }
         public TimeSpan Longest { get; set; }
         public int AveKudos { get { return Kudos / (Played == 0 ? 1 : Played); } }
@@ -214,6 +217,7 @@ namespace FallGuysStats {
             Bronze = 0;
             Played = 0;
             Kudos = 0;
+            Fame = 0;
             FinishedCount = 0;
             Duration = TimeSpan.Zero;
             FinishTime = TimeSpan.Zero;
@@ -239,6 +243,7 @@ namespace FallGuysStats {
                 }
 
                 Kudos += stat.Kudos;
+                Fame += stat.Fame;
                 Duration += stat.End - stat.Start;
                 Qualified += stat.Qualified ? 1 : 0;
             }

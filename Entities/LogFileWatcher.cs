@@ -361,6 +361,10 @@ namespace FallGuysStats {
                             temp.Kudos += int.Parse(detail.Substring(9));
                         } else if (detail.IndexOf("> Bonus Kudos: ", StringComparison.OrdinalIgnoreCase) == 0) {
                             temp.Kudos += int.Parse(detail.Substring(15));
+                        } else if (detail.IndexOf("> Fame: ", StringComparison.OrdinalIgnoreCase) == 0) {
+                            temp.Fame += int.Parse(detail.Substring(8));
+                        } else if (detail.IndexOf("> Bonus Fame: ", StringComparison.OrdinalIgnoreCase) == 0) {
+                            temp.Fame += int.Parse(detail.Substring(14));
                         }
                     }
                 }
