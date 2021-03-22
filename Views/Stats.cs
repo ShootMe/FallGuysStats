@@ -296,6 +296,41 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 12;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 12) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_fruitpunch", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_fruitpunch_s4_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_hoverboardsurvival", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_hoverboardsurvival_s4_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_basketfall_s4_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_territory", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_territory_control_s4_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_shortcircuit", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_shortcircuit";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_gauntlet_06", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_gauntlet_06";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_tunnel_race", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_tunnel_race";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 13;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -336,7 +371,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 12,
+                Version = 13,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
