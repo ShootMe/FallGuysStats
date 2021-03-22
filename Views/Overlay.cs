@@ -230,7 +230,7 @@ namespace FallGuysStats {
                     }
                     
                     StatSummary levelInfo = StatsForm.GetLevelInfo(roundName);
-                    if (roundName.Length > 14) { roundName = roundName.Substring(0, 14); }
+                    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
                     lblName.TextRight = roundName;
 
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
