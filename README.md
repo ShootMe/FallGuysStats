@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.115
+    - Season 4 update
   - 1.114
     - Fix overlay not showing correct stats for Snowball Survivor
   - 1.113
