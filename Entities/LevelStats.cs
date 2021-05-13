@@ -94,6 +94,7 @@ namespace FallGuysStats {
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
             { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
+            { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4) },
             { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, false, 1) },
             { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1) },
             { "round_iceclimb",                   new LevelStats("Freezy Peak", LevelType.Race, false, 3) },
@@ -108,6 +109,7 @@ namespace FallGuysStats {
             { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, 3) },
             { "round_gauntlet_06",                new LevelStats("Skyline Stumble", LevelType.Race, false, 4) },
             { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
+            { "round_slimeclimb_2",               new LevelStats("Slimescraper", LevelType.Race, false, 4) },
             { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1) },
             { "round_gauntlet_05",                new LevelStats("Tundra Run", LevelType.Race, false, 3) },
             { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
@@ -144,6 +146,7 @@ namespace FallGuysStats {
         };
         public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_BiggestFan",                "round_biggestfan" },
+            { "FallGuy_1v1_ButtonBasher",          "round_1v1_button_basher" },
             { "FallGuy_DoorDash",                  "round_door_dash" },
             { "FallGuy_Gauntlet_02_01",            "round_gauntlet_02" },
             { "FallGuy_IceClimb_01",               "round_iceclimb" },
@@ -158,6 +161,7 @@ namespace FallGuysStats {
             { "FallGuy_SkeeFall",                  "round_skeefall" },
             { "FallGuy_Gauntlet_06",               "round_gauntlet_06" },
             { "FallGuy_Lava_02",                   "round_lava" },
+            { "FallGuy_SlimeClimb_2",              "round_slimeclimb_2" },
             { "FallGuy_TipToe",                    "round_tip_toe" },
             { "FallGuy_Gauntlet_05",               "round_gauntlet_05" },
             { "FallGuy_Gauntlet_03",               "round_gauntlet_03" },

@@ -297,7 +297,7 @@ namespace FallGuysStats {
                 SaveUserSettings();
             }
 
-            if (CurrentSettings.Version == 12) {
+            if (CurrentSettings.Version == 12 || CurrentSettings.Version == 13) {
                 AllStats.AddRange(RoundDetails.FindAll());
                 StatsDB.BeginTrans();
                 for (int i = AllStats.Count - 1; i >= 0; i--) {
@@ -324,11 +324,17 @@ namespace FallGuysStats {
                     } else if (info.Name.IndexOf("round_tunnel_race", StringComparison.OrdinalIgnoreCase) == 0) {
                         info.Name = "round_tunnel_race";
                         RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_1v1_button", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_1v1_button_basher";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_slimeclimb", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_slimeclimb_2";
+                        RoundDetails.Update(info);
                     }
                 }
                 StatsDB.Commit();
                 AllStats.Clear();
-                CurrentSettings.Version = 13;
+                CurrentSettings.Version = 14;
                 SaveUserSettings();
             }
         }
