@@ -29,7 +29,8 @@ namespace FallGuysStats {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -775,7 +776,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                if (info == endShow && levelDetails.IsFinal && !endShow.PrivateLobby) {
+                if (info == endShow && (levelDetails.IsFinal || info.Crown) && !endShow.PrivateLobby) {
                     summary.CurrentFinalStreak++;
                     if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
                         summary.BestFinalStreak = summary.CurrentFinalStreak;
@@ -783,7 +784,7 @@ namespace FallGuysStats {
                 }
 
                 if (info.Qualified) {
-                    if (hasLevelDetails && info.IsFinal) {
+                    if (hasLevelDetails && (info.IsFinal || info.Crown)) {
                         if (!info.PrivateLobby) {
                             summary.AllWins++;
                         }
@@ -826,11 +827,11 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (!info.PrivateLobby) {
-                    if (!info.IsFinal) {
+                    if (!info.IsFinal && !info.Crown) {
                         summary.CurrentFinalStreak = 0;
                     }
                     summary.CurrentStreak = 0;
-                    if (isInWinsFilter && hasLevelDetails && info.IsFinal) {
+                    if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
                         summary.TotalFinals++;
                     }
                 }
@@ -1069,7 +1070,7 @@ namespace FallGuysStats {
                     if (roundCount == 0) {
                         endDate = info.End;
                         won = info.Qualified;
-                        isFinal = info.IsFinal;
+                        isFinal = info.IsFinal || info.Crown;
                     }
                     roundCount++;
                     kudosTotal += info.Kudos;
