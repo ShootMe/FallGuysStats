@@ -132,6 +132,7 @@ namespace FallGuysStats {
             { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1) },
             { "round_snowballsurvival",           new LevelStats("Snowball Survival", LevelType.Survival, false, 3) },
             { "round_robotrampage_arena_2",       new LevelStats("Stompin' Ground", LevelType.Survival, false, 5) },
+            { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Survival, false, 5) },
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
 
             { "round_basketfall_s4_show",         new LevelStats("Basketfall", LevelType.Team, false, 4) },
@@ -195,6 +196,7 @@ namespace FallGuysStats {
             { "FallGuy_Tunnel_01",                 "round_tunnel" },
             { "FallGuy_SnowballSurvival",          "round_snowballsurvival" },
             { "FallGuy_RobotRampage_Arena2",       "round_robotrampage_arena_2" },
+            { "FallGuy_FruitBowl",                 "round_fruit_bowl" },
             { "FallGuy_TailTag_2",                 "round_tail_tag" },
 
             { "FallGuy_Basketfall_01",             "round_basketfall_s4_show" },
