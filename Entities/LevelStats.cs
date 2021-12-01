@@ -93,6 +93,7 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
+            { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6) },
             { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
             { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5) },
             { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4) },
@@ -100,12 +101,16 @@ namespace FallGuysStats {
             { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1) },
             { "round_iceclimb",                   new LevelStats("Freezy Peak", LevelType.Race, false, 3) },
             { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1) },
+            { "round_see_saw_360",                new LevelStats("Full Tilt", LevelType.Race, false, 6) },
             { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1) },
             { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1) },
             { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
             { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
+            { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6) },
             { "round_drumtop",                    new LevelStats("Lily Leapers", LevelType.Race, false, 5) },
+            { "round_gauntlet_08",                new LevelStats("Party Promenade", LevelType.Race, false, 6) },
             { "round_penguin_solos",              new LevelStats("Pegwin Party", LevelType.Hunt, false, 5) },
+            { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, 6) },
             { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, 4) },
             { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1) },
             { "round_shortcircuit",               new LevelStats("Short Circuit", LevelType.Race, false, 4) },
@@ -151,6 +156,7 @@ namespace FallGuysStats {
             { "round_thin_ice",                   new LevelStats("Thin Ice", LevelType.Survival, true, 3) }
         };
         public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "FallGuy_Airtime",                   "round_airtime" },
             { "FallGuy_BiggestFan",                "round_biggestfan" },
             { "FallGuy_KingOfTheHill2",            "round_king_of_the_hill" },
             { "FallGuy_1v1_ButtonBasher",          "round_1v1_button_basher" },
@@ -158,12 +164,16 @@ namespace FallGuysStats {
             { "FallGuy_Gauntlet_02_01",            "round_gauntlet_02" },
             { "FallGuy_IceClimb_01",               "round_iceclimb" },
             { "FallGuy_DodgeFall",                 "round_dodge_fall" },
+            { "FallGuy_SeeSaw360",                 "round_see_saw_360" },
             { "FallGuy_ChompChomp_01",             "round_chompchomp" },
             { "FallGuy_Gauntlet_01",               "round_gauntlet_01" },
             { "FallGuy_Hoops_Blockade",            "round_hoops_blockade_solo" },
             { "FallGuy_Gauntlet_04",               "round_gauntlet_04" },
+            { "FallGuy_FollowTheLeader",           "round_follow-the-leader_s6_launch" },
             { "FallGuy_DrumTop",                   "round_drumtop" },
+            { "FallGuy_Gauntlet_08",               "round_gauntlet_08" },
             { "FallGuy_Penguin_Solos",             "round_penguin_solos" },
+            { "FallGuy_PipedUp",                   "round_pipedup_s6_launch" },
             { "FallGuy_Tunnel_Race_01",            "round_tunnel_race" },
             { "FallGuy_SeeSaw_variant2",           "round_see_saw" },
             { "FallGuy_ShortCircuit",              "round_shortcircuit" },
