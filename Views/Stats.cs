@@ -30,7 +30,8 @@ namespace FallGuysStats {
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -368,6 +369,35 @@ namespace FallGuysStats {
                 StatsDB.Commit();
                 AllStats.Clear();
                 CurrentSettings.Version = 15;
+                SaveUserSettings();
+            }
+
+            if (CurrentSettings.Version == 15) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_gauntlet_08", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_gauntlet_08";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_airtime", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_airtime";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_follow-", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_follow-the-leader_s6_launch";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_pipedup", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_pipedup_s6_launch";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_see_saw_360", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_see_saw_360";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 16;
                 SaveUserSettings();
             }
         }
@@ -1267,22 +1297,16 @@ namespace FallGuysStats {
                 // fully parsing the file or something like that. This is quick and dirty, for sure.
                 FileInfo libraryFoldersFile = new FileInfo(Path.Combine(steamPath, "steamapps", "libraryfolders.vdf"));
                 if (libraryFoldersFile.Exists) {
-                    string[] libraryFoldersLines = File.ReadAllLines(libraryFoldersFile.FullName);
-
-                    // match strings against "drive letter-colon-double backslash-some path characters-final quote-end of line"
-                    // see libraryfolders.vdf file in the Steam install folder's steamapps subfolder for example
-                    foreach (string line in libraryFoldersLines) {
-                        int indexStart = line.IndexOf("\t\t\"");
-                        int indexRoot = line.IndexOf(":\\\\");
-                        if (indexStart < 0 || indexRoot < 0) { continue; }
-
-                        indexRoot = line.LastIndexOf('"');
-                        string libraryPath = line.Substring(indexStart + 3, indexRoot - indexStart - 3);
-                        if (!string.IsNullOrEmpty(libraryPath)) {
-                            // look for exe in standard location under library
-                            fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
-                            if (File.Exists(fallGuys)) {
-                                return fallGuys;
+                    JsonClass json = Json.Read(File.ReadAllText(libraryFoldersFile.FullName)) as JsonClass;
+                    foreach (JsonObject obj in json) {
+                        if (obj is JsonClass library) {
+                            string libraryPath = library["path"].AsString();
+                            if (!string.IsNullOrEmpty(libraryPath)) {
+                                // look for exe in standard location under library
+                                fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
+                                if (File.Exists(fallGuys)) {
+                                    return fallGuys;
+                                }
                             }
                         }
                     }
