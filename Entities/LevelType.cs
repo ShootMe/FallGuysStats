@@ -4,6 +4,7 @@
         Survival,
         Team,
         Hunt,
+        Invisibeans,
         Unknown
     }
     static class LevelTypeBehavior {
@@ -15,6 +16,7 @@
                 case LevelType.Survival:
                     return 0; // LONGEST
                 case LevelType.Team:
+                case LevelType.Invisibeans:
                     return 2; // HIGH_SCORE
             }
             return 1;
