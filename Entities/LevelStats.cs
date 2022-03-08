@@ -146,6 +146,7 @@ namespace FallGuysStats {
             { "round_territory_control_s4_show",  new LevelStats("Power Trip", LevelType.Team, false, 4) },
             { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
             { "round_snowy_scrap",                new LevelStats("Snowy Scrap", LevelType.Team, false, 3) },
+            { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
 
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
@@ -210,6 +211,7 @@ namespace FallGuysStats {
             { "FallGuy_TerritoryControl_v2",       "round_territory_control_s4_show" },
             { "FallGuy_RocknRoll",                 "round_rocknroll" },
             { "FallGuy_Snowy_Scrap",               "round_snowy_scrap" },
+            { "FallGuy_Invisibeans",               "round_invisibeans" },
             { "FallGuy_ConveyorArena_01",          "round_conveyor_arena" },
 
             { "FallGuy_FallMountain_Hub_Complete", "round_fall_mountain_hub_complete" },
