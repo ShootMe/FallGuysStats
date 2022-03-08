@@ -417,6 +417,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 17;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 17) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_invisibeans", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_invisibeans";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 18;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -457,7 +474,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 17,
+                Version = 18,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
