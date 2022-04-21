@@ -230,10 +230,10 @@ namespace FallGuysStats {
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
                 logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats stats) && stats.IsFinal);
-            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase)) > 0 ||
+            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase)) > 0 ||
                 (index = line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby") > 0;
-                logRound.CurrentlyInParty = logRound.PrivateLobby || !line.Line.Substring(index + 37).Equals("solo", StringComparison.OrdinalIgnoreCase);
+                logRound.CurrentlyInParty = logRound.PrivateLobby || (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) > 0);
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
