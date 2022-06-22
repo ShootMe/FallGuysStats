@@ -31,7 +31,8 @@ namespace FallGuysStats {
             new DateTime(2020, 12, 15, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
@@ -434,6 +435,41 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 18;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 18) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_1v1_volleyfall_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_gauntlet_09", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_gauntlet_09_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_short_circuit_2", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_short_circuit_2_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_hoops_revenge", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_hoops_revenge_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_hexaring", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_hexaring_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_spin_ring", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_spin_ring_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_blastball", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_blastball_arenasurvival_symphony_launch_show";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 19;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -474,7 +510,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 18,
+                Version = 19,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
