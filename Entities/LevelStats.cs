@@ -128,7 +128,6 @@ namespace FallGuysStats {
             { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
 
             { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4) },
-            { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, false, 7) },
             { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
             { "round_hoverboardsurvival_s4_show", new LevelStats("Hoverboard Heroes", LevelType.Survival, false, 4) },
             { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1) },
@@ -155,6 +154,7 @@ namespace FallGuysStats {
             { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
 
+            { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, true, 7) },
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
             { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
             { "round_hexaring_symphony_launch_show", new LevelStats("Hex-A-Ring", LevelType.Survival, true, 7) },
