@@ -15,9 +15,11 @@ namespace FallGuysStats {
         public LogLine(string line, long offset) {
             Offset = offset;
             Line = line;
-            IsValid = line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12;
+            bool isValidSemiColon = (line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12);
+            bool isValidDot = (line.IndexOf('.') == 2 && line.IndexOf('.', 3) == 5 && line.IndexOf(':', 6) == 12);
+            IsValid = isValidSemiColon || isValidDot;
             if (IsValid) {
-                Time = TimeSpan.Parse(line.Substring(0, 12));
+                Time = TimeSpan.ParseExact(line.Substring(0, 12), isValidSemiColon ? "hh\\:mm\\:ss\\.fff" : "hh\\.mm\\.ss\\.fff", null);
             }
         }
 
@@ -155,7 +157,7 @@ namespace FallGuysStats {
                                     lines.AddRange(currentLines);
                                     currentLines.Clear();
                                 }
-                            } else if (line.Line.IndexOf("[StateMatchmaking] Begin matchmaking", StringComparison.OrdinalIgnoreCase) > 0 ||
+                            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0 ||
                                 line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
