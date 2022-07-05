@@ -15,9 +15,11 @@ namespace FallGuysStats {
         public LogLine(string line, long offset) {
             Offset = offset;
             Line = line;
-            IsValid = line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12;
+            bool isValidSemiColon = (line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12);
+            bool isValidDot = (line.IndexOf('.') == 2 && line.IndexOf('.', 3) == 5 && line.IndexOf(':', 6) == 12);
+            IsValid = isValidSemiColon || isValidDot;
             if (IsValid) {
-                Time = TimeSpan.Parse(line.Substring(0, 12));
+                Time = TimeSpan.ParseExact(line.Substring(0, 12), isValidSemiColon ? "hh\\:mm\\:ss\\.fff" : "hh\\.mm\\.ss\\.fff", null);
             }
         }
 
