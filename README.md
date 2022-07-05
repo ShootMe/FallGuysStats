@@ -28,6 +28,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.125
+    - Move Blast Ball to final category
+  - 1.124
+    - Season 7
   - 1.123
     - Fix group play stats
   - 1.122
