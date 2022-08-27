@@ -1355,10 +1355,7 @@ namespace FallGuysStats {
         private string FindGameExeLocation() {
             try {
                 // get steam install folder
-                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
-                string steamPath = (string)regValue;
-
-                string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
+                string fallGuys = "/home/nick/.local/share/Steam/steamapps/common/Fall Guys/FallGuys_client.exe";
                 if (File.Exists(fallGuys)) {
                     return fallGuys;
                 }
