@@ -26,9 +26,9 @@ namespace FallGuysStats {
             EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
             RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             BackgroundColor = Color.FromArgb(234, 242, 251);
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
             BorderStyle = BorderStyle.None;
-            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             RowHeadersWidth = 20;
             ContextMenuStrip = cMenu;
             readOnly = false;
@@ -142,7 +142,7 @@ namespace FallGuysStats {
             get { return base.RowHeadersWidth; }
             set { base.RowHeadersWidth = value; }
         }
-        [DefaultValue(DataGridViewAutoSizeColumnsMode.AllCells)]
+        [DefaultValue(DataGridViewAutoSizeColumnsMode.None)]
         public new DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode {
             get { return base.AutoSizeColumnsMode; }
             set { base.AutoSizeColumnsMode = value; }

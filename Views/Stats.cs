@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using LiteDB;
@@ -470,6 +471,44 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 19;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 19) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_satellitehoppers", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_satellitehoppers_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_ffa_button_bashers", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_ffa_button_bashers_squads_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_hoverboardsurvival2", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_hoverboardsurvival2_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_gauntlet_10", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_gauntlet_10_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_starlink", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_starlink_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_tiptoefinale", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_tiptoefinale_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_pixelperfect_almond";
+                        RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_hexsnake", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_hexsnake_almond";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 20;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -510,7 +549,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 19,
+                Version = 20,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
@@ -1357,6 +1396,11 @@ namespace FallGuysStats {
                 // get steam install folder
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
                 string steamPath = (string)regValue;
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                    string userName = Environment.UserName;
+                    steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
+                }
 
                 string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
                 if (File.Exists(fallGuys)) {
