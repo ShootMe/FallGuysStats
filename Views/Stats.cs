@@ -33,7 +33,8 @@ namespace FallGuysStats {
             new DateTime(2021, 3, 22, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2021, 7, 20, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2021, 11, 30, 0, 0, 0, DateTimeKind.Utc),
-            new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc)
+            new DateTime(2022, 6, 21, 0, 0, 0, DateTimeKind.Utc),
+            new DateTime(2022, 9, 15, 0, 0, 0, DateTimeKind.Utc)
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
