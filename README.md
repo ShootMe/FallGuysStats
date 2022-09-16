@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.128
+    - Update Season filter
   - 1.127
     - Season 8 (aka Season 2)
   - 1.126
