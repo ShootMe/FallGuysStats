@@ -210,6 +210,8 @@ namespace FallGuysStats {
                 Thread.Sleep(UpdateDelay);
             }
         }
+        private readonly Dictionary<string, string> RoundNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "round_follow-the-leader_ss2_launch", "round_follow-the-leader_s6_launch" } };
+        private readonly Dictionary<string, string> SceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" } };
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -218,6 +220,9 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
 
                 logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
+                if (SceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
+                    logRound.Info.SceneName = newName;
+                }
                 logRound.FindingPosition = false;
                 round.Add(logRound.Info);
             } else if (logRound.Info != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -225,6 +230,9 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
 
                 logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
+                if (RoundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
+                    logRound.Info.Name = newName;
+                }
                 logRound.Info.Round = round.Count;
                 logRound.Info.Start = line.Date;
                 logRound.Info.InParty = logRound.CurrentlyInParty;
@@ -314,6 +322,9 @@ namespace FallGuysStats {
                         foundRound = true;
                         int roundNum = (int)detail[7] - 0x30 + 1;
                         string roundName = detail.Substring(11, detail.Length - 12);
+                        if (RoundNameReplacer.TryGetValue(roundName, out string newName)) {
+                            roundName = newName;
+                        }
 
                         if (roundNum - 1 < round.Count) {
                             if (roundNum > maxRound) {
