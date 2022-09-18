@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.129
+    - Try and fix Leading Light
   - 1.128
     - Update Season filter
   - 1.127

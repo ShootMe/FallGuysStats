@@ -510,6 +510,23 @@ namespace FallGuysStats {
                 CurrentSettings.Version = 20;
                 SaveUserSettings();
             }
+
+            if (CurrentSettings.Version == 20) {
+                AllStats.AddRange(RoundDetails.FindAll());
+                StatsDB.BeginTrans();
+                for (int i = AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = AllStats[i];
+
+                    if (info.Name.IndexOf("round_follow-the-leader", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_follow-the-leader_s6_launch";
+                        RoundDetails.Update(info);
+                    }
+                }
+                StatsDB.Commit();
+                AllStats.Clear();
+                CurrentSettings.Version = 21;
+                SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -550,7 +567,7 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 20,
+                Version = 21,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
