@@ -83,21 +83,6 @@ namespace FallGuysStats {
 
             gridDetails.DataSource = StatDetails;
 
-            if (!File.Exists("data-pre8_2_0-backup.db") || !File.Exists("data.db")) {
-                
-                string initial8_2Message = "As of Fall Guys 8.2.0, essential timing info has been removed from the logs. This version of the stat tracker reconstructs the timestamps. Round completion times should be close to correct (within ~0.1 seconds)" + Environment.NewLine + Environment.NewLine + "Please make sure the stat tracker is running BEFORE starting a show!";
-
-                if (File.Exists("data.db")) {
-                    File.Copy("data.db", "data-pre8_2_0-backup.db");
-                    initial8_2Message += Environment.NewLine + Environment.NewLine + "A backup of the existing database has been written to data-pre8_2_0-backup.db";
-                } else {
-                    // Create blank data-pre8_2_0-backup.db to prevent additional messages
-                    File.Create("data-pre8_2_0-backup.db").Dispose();
-                }
-
-                MessageBox.Show(this, initial8_2Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
             StatsDB = new LiteDatabase(@"data.db");
             StatsDB.Pragma("UTC_DATE", true);
             RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
@@ -812,21 +797,6 @@ namespace FallGuysStats {
 
                             if (info == null && stat.Start > lastAddedShow) {
                                 
-                                // Commenting out because with new log only using logs read at realtime,
-                                // We always want the data to import
-
-                                //if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
-                                //    if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                                //        askedPreviousShows = 1;
-                                //    } else {
-                                //        askedPreviousShows = 2;
-                                //    }
-                                //}
-
-                                //if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
-                                //    continue;
-                                //}
-
                                 if (stat.Round == 1) {
                                     nextShowID++;
                                     lastAddedShow = stat.Start;

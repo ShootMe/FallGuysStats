@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace FallGuysStats {
     public class RewriteLogLine {
-        //public TimeSpan Time { get; } = TimeSpan.Zero;
         public DateTime Date { get; set; } = DateTime.MinValue;
         public string Line { get; set; }
         public bool IsValid { get; set; }
@@ -40,7 +39,6 @@ namespace FallGuysStats {
                 // Modify line to remove leading date
                 Line = Line.Substring(Line.IndexOf(":"));
                 Line = timeStampString + Line;
-                
             }
         }
 
