@@ -47,6 +47,7 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
+        private LogFileRewriter logFileRewriter = new LogFileRewriter();
         public int Shows;
         public int Rounds;
         public TimeSpan Duration;
@@ -716,6 +717,7 @@ namespace FallGuysStats {
                 if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                     logPath = CurrentSettings.LogPath;
                 }
+                logFileRewriter.Start(logPath, LOGNAME);
                 logFile.Start(logPath, LOGNAME);
 
                 overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
@@ -794,18 +796,7 @@ namespace FallGuysStats {
                             }
 
                             if (info == null && stat.Start > lastAddedShow) {
-                                if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
-                                    if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                                        askedPreviousShows = 1;
-                                    } else {
-                                        askedPreviousShows = 2;
-                                    }
-                                }
-
-                                if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
-                                    continue;
-                                }
-
+                                
                                 if (stat.Round == 1) {
                                     nextShowID++;
                                     lastAddedShow = stat.Start;
@@ -1631,12 +1622,14 @@ namespace FallGuysStats {
                         UpdateHoopsieLegends();
 
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
+                            await logFileRewriter.Stop();
                             await logFile.Stop();
 
                             string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                             if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                                 logPath = CurrentSettings.LogPath;
                             }
+                            logFileRewriter.Start(logPath, LOGNAME);
                             logFile.Start(logPath, LOGNAME);
                         }
 
