@@ -47,6 +47,7 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
+        private LogFileRewriter logFileRewriter = new LogFileRewriter();
         public int Shows;
         public int Rounds;
         public TimeSpan Duration;
@@ -81,6 +82,21 @@ namespace FallGuysStats {
             }
 
             gridDetails.DataSource = StatDetails;
+
+            if (!File.Exists("data-pre8_2_0-backup.db") || !File.Exists("data.db")) {
+                
+                string initial8_2Message = "As of Fall Guys 8.2.0, essential timing info has been removed from the logs. This version of the stat tracker reconstructs the timestamps. Round completion times should be close to correct (within ~0.1 seconds)" + Environment.NewLine + Environment.NewLine + "Please make sure the stat tracker is running BEFORE starting a show!";
+
+                if (File.Exists("data.db")) {
+                    File.Copy("data.db", "data-pre8_2_0-backup.db");
+                    initial8_2Message += Environment.NewLine + Environment.NewLine + "A backup of the existing database has been written to data-pre8_2_0-backup.db";
+                } else {
+                    // Create blank data-pre8_2_0-backup.db to prevent additional messages
+                    File.Create("data-pre8_2_0-backup.db").Dispose();
+                }
+
+                MessageBox.Show(this, initial8_2Message, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
 
             StatsDB = new LiteDatabase(@"data.db");
             StatsDB.Pragma("UTC_DATE", true);
@@ -716,6 +732,7 @@ namespace FallGuysStats {
                 if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                     logPath = CurrentSettings.LogPath;
                 }
+                logFileRewriter.Start(logPath, LOGNAME);
                 logFile.Start(logPath, LOGNAME);
 
                 overlay.ArrangeDisplay(CurrentSettings.FlippedDisplay, CurrentSettings.ShowOverlayTabs, CurrentSettings.HideWinsInfo, CurrentSettings.HideRoundInfo, CurrentSettings.HideTimeInfo, CurrentSettings.OverlayColor, CurrentSettings.OverlayWidth, CurrentSettings.OverlayHeight, CurrentSettings.OverlayFontSerialized);
@@ -794,17 +811,21 @@ namespace FallGuysStats {
                             }
 
                             if (info == null && stat.Start > lastAddedShow) {
-                                if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
-                                    if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                                        askedPreviousShows = 1;
-                                    } else {
-                                        askedPreviousShows = 2;
-                                    }
-                                }
+                                
+                                // Commenting out because with new log only using logs read at realtime,
+                                // We always want the data to import
 
-                                if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
-                                    continue;
-                                }
+                                //if (stat.ShowEnd < startupTime && askedPreviousShows == 0) {
+                                //    if (MessageBox.Show(this, "There are previous shows not in your current stats. Do you wish to add these to your stats?", "Previous Shows", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                                //        askedPreviousShows = 1;
+                                //    } else {
+                                //        askedPreviousShows = 2;
+                                //    }
+                                //}
+
+                                //if (stat.ShowEnd < startupTime && askedPreviousShows == 2) {
+                                //    continue;
+                                //}
 
                                 if (stat.Round == 1) {
                                     nextShowID++;
@@ -1631,12 +1652,14 @@ namespace FallGuysStats {
                         UpdateHoopsieLegends();
 
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
+                            await logFileRewriter.Stop();
                             await logFile.Stop();
 
                             string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                             if (!string.IsNullOrEmpty(CurrentSettings.LogPath)) {
                                 logPath = CurrentSettings.LogPath;
                             }
+                            logFileRewriter.Start(logPath, LOGNAME);
                             logFile.Start(logPath, LOGNAME);
                         }
 

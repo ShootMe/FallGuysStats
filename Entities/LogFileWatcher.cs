@@ -50,6 +50,9 @@ namespace FallGuysStats {
         private bool stop;
         private Thread watcher, parser;
 
+        //TODO Dynamically determine if (real) logs have timestamps
+        public bool LogHasTimestamps = false;
+
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
@@ -59,6 +62,9 @@ namespace FallGuysStats {
             if (running) { return; }
 
             filePath = Path.Combine(logDirectory, fileName);
+            if (!LogHasTimestamps) {
+                filePath = Path.Combine(logDirectory, "player-withtime.log");
+            }
             prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
             stop = false;
             watcher = new Thread(ReadLogFile) { IsBackground = true };
@@ -82,7 +88,12 @@ namespace FallGuysStats {
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
+            
             string currentFilePath = prevFilePath;
+            if (LogHasTimestamps) {
+                currentFilePath = filePath;
+            }
+            
             long offset = 0;
             while (!stop) {
                 try {
