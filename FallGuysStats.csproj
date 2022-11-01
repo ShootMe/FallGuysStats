@@ -77,6 +77,7 @@
     <Compile Include="Entities\Json.cs" />
     <Compile Include="Entities\LevelType.cs" />
     <Compile Include="Entities\LineReader.cs" />
+    <Compile Include="Entities\LogFileRewriter.cs" />
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Views\LevelDetails.cs">
