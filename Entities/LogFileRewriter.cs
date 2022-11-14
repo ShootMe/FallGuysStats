@@ -21,6 +21,9 @@ namespace FallGuysStats {
             try {
                 var colonIndex = line.IndexOf(':');
                 isValidDate = !string.IsNullOrWhiteSpace(line) && colonIndex > 0 && DateTime.TryParse(line.Substring(0, colonIndex), out dateStamp);
+                if (!isValidDate) {
+                    isValidDate = !string.IsNullOrWhiteSpace(line) && colonIndex > 0 && DateTime.TryParseExact(line.Substring(0, colonIndex), "MM/dd/yyyy", new System.Globalization.CultureInfo("en-US"), System.Globalization.DateTimeStyles.None, out dateStamp);
+                }
             } catch { }
 
             if (isValidDate) {
