@@ -107,6 +107,7 @@ namespace FallGuysStats {
             { "round_see_saw_360",                new LevelStats("Full Tilt", LevelType.Race, false, 6) },
             { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1) },
             { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1) },
+            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9) },
             { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
             { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
             { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6) },
@@ -115,6 +116,7 @@ namespace FallGuysStats {
             { "round_penguin_solos",              new LevelStats("Pegwin Party", LevelType.Hunt, false, 5) },
             { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, 6) },
             { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Race, false, 8) },
+            { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, 9) },
             { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, 4) },
             { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1) },
             { "round_shortcircuit",               new LevelStats("Short Circuit", LevelType.Race, false, 4) },
@@ -123,6 +125,7 @@ namespace FallGuysStats {
             { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
             { "round_slimeclimb_2",               new LevelStats("Slimescraper", LevelType.Race, false, 4) },
             { "round_gauntlet_10_almond",         new LevelStats("Space Race", LevelType.Race, false, 8) },
+            { "round_slide_chute",                new LevelStats("Speed Slider", LevelType.Race, false, 9) },
             { "round_short_circuit_2_symphony_launch_show", new LevelStats("Speed Circuit", LevelType.Race, false, 7) },
             { "round_starlink_almond",            new LevelStats("Starchart", LevelType.Race, false, 8) },
             { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1) },
@@ -133,6 +136,7 @@ namespace FallGuysStats {
             { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
 
             { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4) },
+            { "round_blastballruins",             new LevelStats("Blastlantis", LevelType.Survival, false, 9) },
             { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
             { "round_hoverboardsurvival_s4_show", new LevelStats("Hoverboard Heroes", LevelType.Survival, false, 4) },
             { "round_hoverboardsurvival2_almond", new LevelStats("Hyperdrive Heroes", LevelType.Survival, false, 8) },
@@ -166,6 +170,7 @@ namespace FallGuysStats {
             { "round_hexaring_symphony_launch_show", new LevelStats("Hex-A-Ring", LevelType.Survival, true, 7) },
             { "round_hexsnake_almond",            new LevelStats("Hex-A-Terrestrial", LevelType.Survival, true, 8) },
             { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1) },
+            { "round_kraken_attack",              new LevelStats("Kraken Slam", LevelType.Survival, true, 9) },
             { "round_crown_maze",                 new LevelStats("Lost Temple", LevelType.Race, true, 5) },
             { "round_tunnel_final",               new LevelStats("Roll Off", LevelType.Survival, true, 3) },
             { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1) },
@@ -254,7 +259,13 @@ namespace FallGuysStats {
             { "FallGuy_Gauntlet_10",               "round_gauntlet_10_almond" },
             { "FallGuy_Starlink",                  "round_starlink_almond" },
             { "FallGuy_HexSnake",                  "round_hexsnake_almond" },
-            { "FallGuy_Tip_Toe_Finale",            "round_tiptoefinale_almond" }
+            { "FallGuy_Tip_Toe_Finale",            "round_tiptoefinale_almond" },
+
+            { "FallGuy_BlastBallRuins",            "round_blastballruins" },
+            { "FallGuy_FollowTheLine",             "round_follow_the_line" },
+            { "FallGuy_Kraken_Attack",             "round_kraken_attack" },
+            { "FallGuy_SlippySlide",               "round_slippy_slide" },
+            { "FallGuy_SlideChute",                "round_slide_chute" }
         };
 
         public string Name { get; set; }
