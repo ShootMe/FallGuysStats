@@ -94,6 +94,7 @@ namespace FallGuysStats {
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
             { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6) },
+            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Hunt, false, 7) },
             { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
             { "round_hoops_revenge_symphony_launch_show", new LevelStats("Bounce Party", LevelType.Hunt, false, 7) },
             { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5) },
@@ -244,6 +245,7 @@ namespace FallGuysStats {
             { "FallGuy_PipedUp",                   "round_pipedup_s6_launch" },
             { "FallGuy_Invisibeans",               "round_invisibeans" },
 
+            { "FallGuy_BlueJay_UNPACKED",          "round_bluejay" },
             { "FallGuy_HoopsRevenge",              "round_hoops_revenge_symphony_launch_show" },
             { "FallGuy_ShortCircuit2",             "round_short_circuit_2_symphony_launch_show" },
             { "FallGuy_Gauntlet_09",               "round_gauntlet_09_symphony_launch_show" },
