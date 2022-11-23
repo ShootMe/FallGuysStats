@@ -550,6 +550,9 @@ namespace FallGuysStats {
                     } else if (info.Name.IndexOf("round_kraken_attack", StringComparison.OrdinalIgnoreCase) == 0) {
                         info.Name = "round_kraken_attack";
                         RoundDetails.Update(info);
+                    } else if (info.Name.IndexOf("round_bluejay", StringComparison.OrdinalIgnoreCase) == 0) {
+                        info.Name = "round_bluejay";
+                        RoundDetails.Update(info);
                     }
                 }
                 StatsDB.Commit();
