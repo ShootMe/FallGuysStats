@@ -44,6 +44,7 @@ namespace FallGuysStats {
         const int UpdateDelay = 500;
 
         private string filePath;
+        private string prevFilePath;
         private List<LogLine> lines = new List<LogLine>();
         private bool running;
         private bool stop;
@@ -57,8 +58,8 @@ namespace FallGuysStats {
         public void Start(string logDirectory, string fileName) {
             if (running) { return; }
 
-            filePath = Path.Combine(logDirectory, "player-withtime.log");
-            
+            filePath = Path.Combine(logDirectory, fileName);
+            prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
             stop = false;
             watcher = new Thread(ReadLogFile) { IsBackground = true };
             watcher.Start();
@@ -81,9 +82,7 @@ namespace FallGuysStats {
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
-            
-            string currentFilePath = filePath;
-            
+            string currentFilePath = prevFilePath;
             long offset = 0;
             while (!stop) {
                 try {
