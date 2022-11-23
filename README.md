@@ -28,6 +28,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key
 
 ## Changelog
+  - 1.133
+    - Add Bean Hill Zone and fix names (Thanks to iku55 & Foolyfish)
   - 1.132
     - Season 9 (aka Season 3)
   - 1.131
