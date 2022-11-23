@@ -131,6 +131,10 @@ namespace FallGuysStats {
             { "round_gauntlet_05",                new LevelStats("Tundra Run", LevelType.Race, false, 3) },
             { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
             { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
+            { "round_slide_chute",                new LevelStats("Speed Slider", LevelType.Race, false, 9) },
+            { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, 9) },
+            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9) },
+            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Race, false, 7) },
 
             { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4) },
             { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
@@ -145,6 +149,7 @@ namespace FallGuysStats {
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
             { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, 7) },
             { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, 7) },
+            { "round_blastballruins",        new LevelStats("Blastlantis", LevelType.Survival, false, 9) },
 
             { "round_basketfall_s4_show",         new LevelStats("Basketfall", LevelType.Team, false, 4) },
             { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1) },
@@ -171,6 +176,8 @@ namespace FallGuysStats {
             { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1) },
             { "round_thin_ice",                   new LevelStats("Thin Ice", LevelType.Survival, true, 3) },
             { "round_tiptoefinale_almond",        new LevelStats("Tip Toe Finale", LevelType.Survival, true, 8) },
+            { "round_kraken_attack",              new LevelStats("Kraken Slam", LevelType.Survival, true, 9) }
+            
         };
         public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_DoorDash",                  "round_door_dash" },
@@ -246,7 +253,8 @@ namespace FallGuysStats {
             { "FallGuy_1v1_Volleyfall",            "round_1v1_volleyfall_symphony_launch_show" },
             { "FallGuy_BlastBall_ArenaSurvival",   "round_blastball_arenasurvival_symphony_launch_show" },
             { "FallGuy_HexARing",                  "round_hexaring_symphony_launch_show" },
-                        
+            { "FallGuy_BlueJay_UNPACKED",          "round_bluejay"},
+
             { "FallGuy_SatelliteHoppers",          "round_satellitehoppers_almond" },
             { "FallGuy_FFA_Button_Bashers",        "round_ffa_button_bashers_squads_almond" },
             { "FallGuy_Hoverboard_Survival_2",     "round_hoverboardsurvival2_almond" },
@@ -254,7 +262,13 @@ namespace FallGuysStats {
             { "FallGuy_Gauntlet_10",               "round_gauntlet_10_almond" },
             { "FallGuy_Starlink",                  "round_starlink_almond" },
             { "FallGuy_HexSnake",                  "round_hexsnake_almond" },
-            { "FallGuy_Tip_Toe_Finale",            "round_tiptoefinale_almond" }
+            { "FallGuy_Tip_Toe_Finale",            "round_tiptoefinale_almond" },
+
+            { "FallGuy_FollowTheLine",             "round_follow_the_line"},
+            { "FallGuy_SlideChute",                "round_slide_chute"},
+            { "FallGuy_SlippySlide",               "round_slippy_slide"},
+            { "FallGuy_BlastBallRuins",            "round_blastballruins"},
+            { "FallGuy_Kraken_Attack",             "round_kraken_attack"}
         };
 
         public string Name { get; set; }
