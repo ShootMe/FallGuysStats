@@ -59,12 +59,16 @@ namespace FallGuysStats {
         public LiteDatabase StatsDB;
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
+        public ILiteCollection<Profiles> Profiles;
+        public List<Profiles> AllProfiles = new List<Profiles>();
+        public List<System.Windows.Forms.ToolStripMenuItem> ProfileMenuItems = new List<System.Windows.Forms.ToolStripMenuItem>();
         public UserSettings CurrentSettings;
         private Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         private DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
+        private int currentProfile;
         public Stats() {
             InitializeComponent();
 
@@ -87,6 +91,7 @@ namespace FallGuysStats {
             StatsDB.Pragma("UTC_DATE", true);
             RoundDetails = StatsDB.GetCollection<RoundInfo>("RoundDetails");
             UserSettings = StatsDB.GetCollection<UserSettings>("UserSettings");
+            Profiles = StatsDB.GetCollection<Profiles>("Profiles");
 
             StatsDB.BeginTrans();
             if (UserSettings.Count() == 0) {
@@ -102,6 +107,11 @@ namespace FallGuysStats {
                 }
             }
 
+            if (Profiles.Count() == 0) {
+                Profiles.Insert(new Profiles() { ProfileID = 0, ProfileName = "Main" });
+                Profiles.Insert(new Profiles() { ProfileID = 1, ProfileName = "Practice" });
+            }
+
             UpdateHoopsieLegends();
 
             RoundDetails.EnsureIndex(x => x.Name);
@@ -111,7 +121,22 @@ namespace FallGuysStats {
             RoundDetails.EnsureIndex(x => x.InParty);
             StatsDB.Commit();
 
-            UpdateDatabaseVersion();
+            AllProfiles.AddRange(Profiles.FindAll());
+            for (int i = AllProfiles.Count - 1; i >= 0; i--) {
+                Profiles profile = AllProfiles[i];
+                var menuItem = new System.Windows.Forms.ToolStripMenuItem();
+                menuItem.Checked = true;
+                menuItem.CheckOnClick = true;
+                menuItem.CheckState = CurrentSettings.SelectedProfile == profile.ProfileID ? System.Windows.Forms.CheckState.Checked : System.Windows.Forms.CheckState.Unchecked;
+                menuItem.Name = "menuProfile"+profile.ProfileID;
+                menuItem.Size = new System.Drawing.Size(180, 22);
+                menuItem.Text = profile.ProfileName + "("+profile.ProfileID+")";
+                menuItem.Click += new System.EventHandler(this.menuStats_Click);
+                this.menuProfile.DropDownItems.Add(menuItem);
+                ProfileMenuItems.Add(menuItem);
+            }
+
+                UpdateDatabaseVersion();
 
             CurrentRound = new List<RoundInfo>();
 
@@ -646,7 +671,7 @@ namespace FallGuysStats {
             ClearTotals();
 
             List<RoundInfo> rounds = new List<RoundInfo>();
-            int profile = menuProfileMain.Checked ? 0 : 1;
+            int profile = currentProfile;
 
             lock (StatsDB) {
                 AllStats.Clear();
@@ -707,7 +732,7 @@ namespace FallGuysStats {
                         CurrentSettings.OverlayHeight = overlay.Height;
                     }
                     CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
-                    CurrentSettings.SelectedProfile = menuProfileMain.Checked ? 0 : 1;
+                    CurrentSettings.SelectedProfile = currentProfile;
 
                     CurrentSettings.FormLocationX = Location.X;
                     CurrentSettings.FormLocationY = Location.Y;
@@ -732,13 +757,6 @@ namespace FallGuysStats {
                     return;
                 }
 #endif
-
-                if (CurrentSettings.SelectedProfile != 0) {
-                    menuProfileMain.Checked = false;
-                    switch (CurrentSettings.SelectedProfile) {
-                        case 1: menuProfilePractice.Checked = true; break;
-                    }
-                }
 
                 UpdateDates();
             } catch { }
@@ -812,7 +830,7 @@ namespace FallGuysStats {
                 lock (StatsDB) {
                     if (!loadingExisting) { StatsDB.BeginTrans(); }
 
-                    int profile = menuProfileMain.Checked ? 0 : 1;
+                    int profile = currentProfile;
                     for (int k = 0; k < round.Count; k++) {
                         RoundInfo stat = round[k];
 
@@ -941,7 +959,7 @@ namespace FallGuysStats {
             if (!StatLookup.TryGetValue(name ?? string.Empty, out currentLevel)) {
                 currentLevel = new LevelStats(name, LevelType.Unknown, false, 0);
             }
-            int profile = menuProfileMain.Checked ? 0 : 1;
+            int profile = currentProfile;
 
             for (int i = 0; i < AllStats.Count; i++) {
                 RoundInfo info = AllStats[i];
@@ -1541,19 +1559,16 @@ namespace FallGuysStats {
                     button = menuAllStats.Checked ? menuAllStats : menuSeasonStats.Checked ? menuSeasonStats : menuWeekStats.Checked ? menuWeekStats : menuDayStats.Checked ? menuDayStats : menuSessionStats;
                 }
 
-                if (button == menuProfileMain || button == menuProfilePractice) {
-                    if (!menuProfileMain.Checked && !menuProfilePractice.Checked) {
-                        button.Checked = true;
-                        return;
+                if(ProfileMenuItems.Contains(button)) {
+                    for (int i = ProfileMenuItems.Count - 1; i >= 0; i--) {
+                        ProfileMenuItems[i].Checked = ProfileMenuItems[i] == button ? true : false;
                     }
-
-                    foreach (ToolStripItem item in menuProfile.DropDownItems) {
-                        if (item is ToolStripMenuItem menuItem && menuItem.Checked && menuItem != button) {
-                            menuItem.Checked = false;
-                        }
-                    }
-
+                    currentProfile = Int32.Parse(button.Name.Substring(11));
                     button = menuAllStats.Checked ? menuAllStats : menuSeasonStats.Checked ? menuSeasonStats : menuWeekStats.Checked ? menuWeekStats : menuDayStats.Checked ? menuDayStats : menuSessionStats;
+                }
+
+                if (button == menuEditProfiles) {
+
                 }
 
                 for (int i = 0; i < StatDetails.Count; i++) {
@@ -1563,7 +1578,7 @@ namespace FallGuysStats {
 
                 ClearTotals();
 
-                int profile = menuProfileMain.Checked ? 0 : 1;
+                int profile = currentProfile;
                 bool soloOnly = menuSoloStats.Checked;
                 List<RoundInfo> rounds = new List<RoundInfo>();
 
@@ -1715,6 +1730,7 @@ namespace FallGuysStats {
         private void infoStrip_MouseLeave(object sender, EventArgs e) {
             Cursor = Cursors.Default;
         }
+
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
             try {
                 LaunchGame(false);
