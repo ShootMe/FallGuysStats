@@ -108,8 +108,8 @@ namespace FallGuysStats {
             }
 
             if (Profiles.Count() == 0) {
-                Profiles.Insert(new Profiles() { ProfileID = 0, ProfileName = "Main" });
                 Profiles.Insert(new Profiles() { ProfileID = 1, ProfileName = "Practice" });
+                Profiles.Insert(new Profiles() { ProfileID = 0, ProfileName = "Main" });
             }
 
             UpdateHoopsieLegends();
@@ -121,22 +121,9 @@ namespace FallGuysStats {
             RoundDetails.EnsureIndex(x => x.InParty);
             StatsDB.Commit();
 
-            AllProfiles.AddRange(Profiles.FindAll());
-            for (int i = AllProfiles.Count - 1; i >= 0; i--) {
-                Profiles profile = AllProfiles[i];
-                var menuItem = new System.Windows.Forms.ToolStripMenuItem();
-                menuItem.Checked = true;
-                menuItem.CheckOnClick = true;
-                menuItem.CheckState = CurrentSettings.SelectedProfile == profile.ProfileID ? System.Windows.Forms.CheckState.Checked : System.Windows.Forms.CheckState.Unchecked;
-                menuItem.Name = "menuProfile"+profile.ProfileID;
-                menuItem.Size = new System.Drawing.Size(180, 22);
-                menuItem.Text = profile.ProfileName + "("+profile.ProfileID+")";
-                menuItem.Click += new System.EventHandler(this.menuStats_Click);
-                this.menuProfile.DropDownItems.Add(menuItem);
-                ProfileMenuItems.Add(menuItem);
-            }
+            ReloadProfileMenuItems();
 
-                UpdateDatabaseVersion();
+            UpdateDatabaseVersion();
 
             CurrentRound = new List<RoundInfo>();
 
@@ -151,6 +138,26 @@ namespace FallGuysStats {
             }
 
             RemoveUpdateFiles();
+        }
+        private void ReloadProfileMenuItems() {
+            ProfileMenuItems.Clear();
+            menuProfile.DropDownItems.Clear();
+            menuProfile.DropDownItems.Add(menuEditProfiles);
+            AllProfiles.Clear();
+            AllProfiles = Profiles.FindAll().ToList();
+            for (int i = AllProfiles.Count - 1; i >= 0; i--) {
+                Profiles profile = AllProfiles[i];
+                var menuItem = new ToolStripMenuItem();
+                menuItem.Checked = true;
+                menuItem.CheckOnClick = true;
+                menuItem.CheckState = CurrentSettings.SelectedProfile == profile.ProfileID ? CheckState.Checked : CheckState.Unchecked;
+                menuItem.Name = "menuProfile" + profile.ProfileID;
+                menuItem.Size = new Size(180, 22);
+                menuItem.Text = profile.ProfileName;
+                menuItem.Click += new EventHandler(this.menuStats_Click);
+                menuProfile.DropDownItems.Add(menuItem);
+                ProfileMenuItems.Add(menuItem);
+            }
         }
         private void RemoveUpdateFiles() {
 #if AllowUpdate
@@ -1561,14 +1568,10 @@ namespace FallGuysStats {
 
                 if(ProfileMenuItems.Contains(button)) {
                     for (int i = ProfileMenuItems.Count - 1; i >= 0; i--) {
-                        ProfileMenuItems[i].Checked = ProfileMenuItems[i] == button ? true : false;
+                        ProfileMenuItems[i].Checked = ProfileMenuItems[i].Name == button.Name ? true : false;
                     }
                     currentProfile = Int32.Parse(button.Name.Substring(11));
                     button = menuAllStats.Checked ? menuAllStats : menuSeasonStats.Checked ? menuSeasonStats : menuWeekStats.Checked ? menuWeekStats : menuDayStats.Checked ? menuDayStats : menuSessionStats;
-                }
-
-                if (button == menuEditProfiles) {
-
                 }
 
                 for (int i = 0; i < StatDetails.Count; i++) {
@@ -1729,6 +1732,29 @@ namespace FallGuysStats {
         }
         private void infoStrip_MouseLeave(object sender, EventArgs e) {
             Cursor = Cursors.Default;
+        }
+
+        private void menuEditProfiles_Click(object sender, EventArgs e) {
+            try {
+                using (EditProfilesForm editProfiles = new EditProfilesForm()) {
+                    editProfiles.Icon = Icon;
+                    editProfiles.Profiles = AllProfiles;
+                    editProfiles.AllStats = RoundDetails.FindAll().ToList();
+                    string lastLogPath = CurrentSettings.LogPath;
+                    editProfiles.ShowDialog(this);
+                    StatsDB.BeginTrans();
+                    AllProfiles = editProfiles.Profiles;
+                    Profiles.DeleteAll();
+                    Profiles.InsertBulk(AllProfiles);
+                    AllStats = editProfiles.AllStats;
+                    RoundDetails.DeleteAll();
+                    RoundDetails.InsertBulk(AllStats);
+                    StatsDB.Commit();
+                    ReloadProfileMenuItems();
+                }
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {

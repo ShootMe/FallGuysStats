@@ -211,7 +211,7 @@
             this.menuEditProfiles.Name = "menuEditProfiles";
             this.menuEditProfiles.Size = new System.Drawing.Size(180, 22);
             this.menuEditProfiles.Text = "Edit profiles...";
-            this.menuEditProfiles.Click += new System.EventHandler(this.menuStats_Click);
+            this.menuEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
             // 
             // menuOverlay
             // 
