@@ -698,7 +698,6 @@ namespace FallGuysStats {
                 HideRoundInfo = false,
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
-                //ShowOverlayProfile = false,
                 ShowPercentages = false,
                 AutoUpdate = false,
                 FormLocationX = null,
@@ -1213,21 +1212,20 @@ namespace FallGuysStats {
         }
         private void UpdateTotals() {
             try {
-                //this.lblCurrentProfile.Text = $"{Multilingual.GetWord("main_profile")} : {GetCurrentProfile()}";
                 this.lblCurrentProfile.Text = $"{GetCurrentProfile()}";
                 this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
-                this.lblTotalRounds.Text = $"{Multilingual.GetWord("main_rounds")} : {Rounds}{Multilingual.GetWord("main_round")}";
+                this.lblTotalRounds.Text = $"{Multilingual.GetWord("main_rounds")} : {this.Rounds}{Multilingual.GetWord("main_round")}";
                 this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
-                this.lblTotalShows.Text = $"{Multilingual.GetWord("main_shows")} : {Shows}{Multilingual.GetWord("main_inning")}";
+                this.lblTotalShows.Text = $"{Multilingual.GetWord("main_shows")} : {this.Shows}{Multilingual.GetWord("main_inning")}";
                 this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
-                this.lblTotalTime.Text = $"{(int)Duration.TotalHours}{Multilingual.GetWord("main_hour")}{Duration:mm}{Multilingual.GetWord("main_min")}{Duration:ss}{Multilingual.GetWord("main_sec")}";
-                float winChance = (float)Wins * 100 / (Shows == 0 ? 1 : Shows);
-                this.lblTotalWins.Text = $"{Wins}{Multilingual.GetWord("main_win")} ({winChance:0.0} %)";
+                this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
+                float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
+                this.lblTotalWins.Text = $"{this.Wins}{Multilingual.GetWord("main_win")} ({winChance:0.0} %)";
                 this.lblTotalWins.ToolTipText = $"{Multilingual.GetWord("wins_detail_tooltiptext")}";
-                float finalChance = (float)Finals * 100 / (Shows == 0 ? 1 : Shows);
-                this.lblTotalFinals.Text = $"{Finals}{Multilingual.GetWord("main_inning")} ({finalChance:0.0} %)";
+                float finalChance = (float)this.Finals * 100 / (this.Shows == 0 ? 1 : this.Shows);
+                this.lblTotalFinals.Text = $"{this.Finals}{Multilingual.GetWord("main_inning")} ({finalChance:0.0} %)";
                 this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
-                this.lblKudos.Text = $"{Kudos}";
+                this.lblKudos.Text = $"{this.Kudos}";
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1262,7 +1260,6 @@ namespace FallGuysStats {
                 switch (this.gridDetails.Columns[e.ColumnIndex].Name) {
                     case "Name":
                         this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
-                        //e.CellStyle.ForeColor = info.Type.LevelColor(info.IsFinal, 255);
                         if (info.IsFinal) {
                             e.CellStyle.BackColor = Color.FromArgb(255,230,138);
                             break;
@@ -1309,7 +1306,7 @@ namespace FallGuysStats {
                             break;
                         }
                     case "Bronze": {
-                            float qualifyChance = (float)info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
+                            float qualifyChance = info.Bronze * 100f / (info.Played == 0 ? 1 : info.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{qualifyChance:0.0}%";
                                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{info.Bronze}";
@@ -1349,15 +1346,13 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
                 if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                     LevelStats stats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                    if (stats.Played > 0) {
-                        using (LevelDetails levelDetails = new LevelDetails()) {
-                            levelDetails.LevelName = stats.Name;
-                            List<RoundInfo> rounds = stats.Stats;
-                            rounds.Sort();
-                            levelDetails.RoundDetails = rounds;
-                            levelDetails.StatsForm = this;
-                            levelDetails.ShowDialog(this);
-                        }
+                    using (LevelDetails levelDetails = new LevelDetails()) {
+                        levelDetails.LevelName = stats.Name;
+                        List<RoundInfo> rounds = stats.Stats;
+                        rounds.Sort();
+                        levelDetails.RoundDetails = rounds;
+                        levelDetails.StatsForm = this;
+                        levelDetails.ShowDialog(this);
                     }
                 } else {
                     ToggleWinPercentageDisplay();
@@ -1371,8 +1366,8 @@ namespace FallGuysStats {
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
 
             this.StatDetails.Sort(delegate (LevelStats one, LevelStats two) {
-                LevelType oneType = one.IsFinal ? LevelType.Hunt : one.Type == LevelType.Hunt ? LevelType.Race : one.Type;
-                LevelType twoType = two.IsFinal ? LevelType.Hunt : two.Type == LevelType.Hunt ? LevelType.Race : two.Type;
+                LevelType oneType = one.IsFinal ? LevelType.Final : one.Type;
+                LevelType twoType = two.IsFinal ? LevelType.Final : two.Type;
 
                 int typeCompare = this.CurrentSettings.IgnoreLevelTypeWhenSorting && sortOrder != SortOrder.None ? 0 : ((int)oneType).CompareTo((int)twoType);
 
@@ -1422,95 +1417,8 @@ namespace FallGuysStats {
             this.gridDetails.Invalidate();
         }
         private void ShowShows() {
-            if (this.Shows > 0) {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Shows";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < StatDetails.Count; i++) {
-                        rounds.AddRange(StatDetails[i].Stats);
-                    }
-
-                    rounds.Sort();
-
-                    List<RoundInfo> shows = new List<RoundInfo>();
-                    int roundCount = 0;
-                    int kudosTotal = 0;
-                    bool won = false;
-                    bool isFinal = false;
-                    DateTime endDate = DateTime.MinValue;
-
-                    for (int i = rounds.Count - 1; i >= 0; i--) {
-                        RoundInfo info = rounds[i];
-                        if (roundCount == 0) {
-                            endDate = info.End;
-                            won = info.Qualified;
-                            isFinal = info.IsFinal || info.Crown;
-                        }
-
-                        roundCount++;
-                        kudosTotal += info.Kudos;
-                        if (info.Round == 1) {
-                            shows.Insert(0,
-                                new RoundInfo() {
-                                    Name = isFinal ? "Final" : string.Empty, ShowNameId = info.ShowNameId, IsFinal = isFinal, End = endDate,
-                                    Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal,
-                                    Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0
-                                });
-                            roundCount = 0;
-                            kudosTotal = 0;
-                        }
-                    }
-
-                    levelDetails.RoundDetails = shows;
-                    levelDetails.StatsForm = this;
-                    levelDetails.ShowDialog(this);
-                }
-            }
-        }
-        private void ShowRounds() {
-            if (this.Rounds > 0) {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Rounds";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < StatDetails.Count; i++) {
-                        rounds.AddRange(StatDetails[i].Stats);
-                    }
-                    rounds.Sort();
-                    levelDetails.RoundDetails = rounds;
-                    levelDetails.StatsForm = this;
-                    levelDetails.ShowDialog(this);
-                }
-            }
-        }
-        private void ShowFinals() {
-            if (this.Finals > 0) {
-                using (LevelDetails levelDetails = new LevelDetails()) {
-                    levelDetails.LevelName = "Finals";
-                    List<RoundInfo> rounds = new List<RoundInfo>();
-                    for (int i = 0; i < StatDetails.Count; i++) {
-                        rounds.AddRange(StatDetails[i].Stats);
-                    }
-
-                    rounds.Sort();
-
-                    int keepShow = -1;
-                    for (int i = rounds.Count - 1; i >= 0; i--) {
-                        RoundInfo info = rounds[i];
-                        if (info.ShowID != keepShow && (info.Crown || info.IsFinal)) {
-                            keepShow = info.ShowID;
-                        } else if (info.ShowID != keepShow) {
-                            rounds.RemoveAt(i);
-                        }
-                    }
-
-                    levelDetails.RoundDetails = rounds;
-                    levelDetails.StatsForm = this;
-                    levelDetails.ShowDialog(this);
-                }
-            }
-        }
-        private void ShowWinGraph() {
-            if (this.Wins > 0 || this.Finals > 0 || this.Shows > 0) {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Shows";
                 List<RoundInfo> rounds = new List<RoundInfo>();
                 for (int i = 0; i < StatDetails.Count; i++) {
                     rounds.AddRange(StatDetails[i].Stats);
@@ -1518,59 +1426,138 @@ namespace FallGuysStats {
 
                 rounds.Sort();
 
-                using (StatsDisplay display = new StatsDisplay()
-                           { Text = Multilingual.GetWord("level_detail_wins_per_day") }) {
-                    DataTable dt = new DataTable();
-                    dt.Columns.Add(Multilingual.GetWord("level_detail_date"), typeof(DateTime));
-                    dt.Columns.Add(Multilingual.GetWord("level_detail_wins"), typeof(int));
-                    dt.Columns.Add(Multilingual.GetWord("level_detail_finals"), typeof(int));
-                    dt.Columns.Add(Multilingual.GetWord("level_detail_shows"), typeof(int));
+                List<RoundInfo> shows = new List<RoundInfo>();
+                int roundCount = 0;
+                int kudosTotal = 0;
+                bool won = false;
+                bool isFinal = false;
+                DateTime endDate = DateTime.MinValue;
 
-                    if (rounds.Count > 0) {
-                        DateTime start = rounds[0].StartLocal;
-                        int currentWins = 0;
-                        int currentFinals = 0;
-                        int currentShows = 0;
-                        for (int i = 0; i < rounds.Count; i++) {
-                            RoundInfo info = rounds[i];
-                            if (info.PrivateLobby) { continue; }
+                for (int i = rounds.Count - 1; i >= 0; i--) {
+                    RoundInfo info = rounds[i];
+                    if (roundCount == 0) {
+                        endDate = info.End;
+                        won = info.Qualified;
+                        isFinal = info.IsFinal || info.Crown;
+                    }
 
-                            if (info.Round == 1) {
-                                currentShows++;
-                            }
+                    roundCount++;
+                    kudosTotal += info.Kudos;
+                    if (info.Round == 1) {
+                        shows.Insert(0,
+                            new RoundInfo {
+                                Name = isFinal ? "Final" : string.Empty, ShowNameId = info.ShowNameId, IsFinal = isFinal, End = endDate,
+                                Start = info.Start, StartLocal = info.StartLocal, Kudos = kudosTotal,
+                                Qualified = won, Round = roundCount, ShowID = info.ShowID, Tier = won ? 1 : 0
+                            });
+                        roundCount = 0;
+                        kudosTotal = 0;
+                    }
+                }
 
-                            if (info.Crown || info.IsFinal) {
-                                currentFinals++;
-                                if (info.Qualified) {
-                                    currentWins++;
-                                }
-                            }
+                levelDetails.RoundDetails = shows;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowRounds() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Rounds";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
+                rounds.Sort();
+                levelDetails.RoundDetails = rounds;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowFinals() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.LevelName = "Finals";
+                List<RoundInfo> rounds = new List<RoundInfo>();
+                for (int i = 0; i < StatDetails.Count; i++) {
+                    rounds.AddRange(StatDetails[i].Stats);
+                }
 
-                            if (info.StartLocal.Date != start.Date) {
-                                dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+                rounds.Sort();
 
-                                int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
-                                while (missingCount > 1) {
-                                    missingCount--;
-                                    start = start.Date.AddDays(1);
-                                    dt.Rows.Add(start, 0, 0, 0);
-                                }
+                int keepShow = -1;
+                for (int i = rounds.Count - 1; i >= 0; i--) {
+                    RoundInfo info = rounds[i];
+                    if (info.ShowID != keepShow && (info.Crown || info.IsFinal)) {
+                        keepShow = info.ShowID;
+                    } else if (info.ShowID != keepShow) {
+                        rounds.RemoveAt(i);
+                    }
+                }
 
-                                currentWins = 0;
-                                currentFinals = 0;
-                                currentShows = 0;
-                                start = info.StartLocal;
+                levelDetails.RoundDetails = rounds;
+                levelDetails.StatsForm = this;
+                levelDetails.ShowDialog(this);
+            }
+        }
+        private void ShowWinGraph() {
+            List<RoundInfo> rounds = new List<RoundInfo>();
+            for (int i = 0; i < StatDetails.Count; i++) {
+                rounds.AddRange(StatDetails[i].Stats);
+            }
+
+            rounds.Sort();
+
+            using (StatsDisplay display = new StatsDisplay()
+                       { Text = Multilingual.GetWord("level_detail_wins_per_day") }) {
+                DataTable dt = new DataTable();
+                dt.Columns.Add(Multilingual.GetWord("level_detail_date"), typeof(DateTime));
+                dt.Columns.Add(Multilingual.GetWord("level_detail_wins"), typeof(int));
+                dt.Columns.Add(Multilingual.GetWord("level_detail_finals"), typeof(int));
+                dt.Columns.Add(Multilingual.GetWord("level_detail_shows"), typeof(int));
+
+                if (rounds.Count > 0) {
+                    DateTime start = rounds[0].StartLocal;
+                    int currentWins = 0;
+                    int currentFinals = 0;
+                    int currentShows = 0;
+                    for (int i = 0; i < rounds.Count; i++) {
+                        RoundInfo info = rounds[i];
+                        if (info.PrivateLobby) { continue; }
+
+                        if (info.Round == 1) {
+                            currentShows++;
+                        }
+
+                        if (info.Crown || info.IsFinal) {
+                            currentFinals++;
+                            if (info.Qualified) {
+                                currentWins++;
                             }
                         }
 
-                        dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
-                    } else {
-                        dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
+                        if (info.StartLocal.Date != start.Date) {
+                            dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+
+                            int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
+                            while (missingCount > 1) {
+                                missingCount--;
+                                start = start.Date.AddDays(1);
+                                dt.Rows.Add(start, 0, 0, 0);
+                            }
+
+                            currentWins = 0;
+                            currentFinals = 0;
+                            currentShows = 0;
+                            start = info.StartLocal;
+                        }
                     }
 
-                    display.Details = dt;
-                    display.ShowDialog(this);
+                    dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+                } else {
+                    dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
                 }
+
+                display.Details = dt;
+                display.ShowDialog(this);
             }
         }
         private void LaunchHelpInBrowser() {
@@ -1965,7 +1952,6 @@ namespace FallGuysStats {
             return false;
         }
         private void ChangeMainLanguage() {
-            //this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.menu.Font = new Font(Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.menuLaunchFallGuys.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Bold, GraphicsUnit.Pixel, ((byte)(0)));
             this.infoStrip.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
@@ -2018,10 +2004,8 @@ namespace FallGuysStats {
             this.menuProfile.Text = $"{Multilingual.GetWord("main_profile")}";
             this.menuEditProfiles.Text = $"{Multilingual.GetWord("main_profile_setting")}";
             if (!CurrentSettings.OverlayVisible) {
-                //this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
             } else {
-                //this.menuOverlay.Image = Properties.Resources.stat_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
             }
             this.menuUpdate.Text = $"{Multilingual.GetWord("main_update")}";

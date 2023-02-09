@@ -7,6 +7,7 @@ namespace FallGuysStats {
         Team,
         Hunt,
         Unknown,
+        Final,
     }
     static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
