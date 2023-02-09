@@ -11,48 +11,49 @@ using System.Threading;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public sealed class Grid : DataGridView {
-        private ContextMenuStrip cMenu;
+        public ContextMenuStrip CMenu;
         private IContainer components;
-        private SaveFileDialog saveFile;
-        private ToolStripMenuItem exportItemCSV, exportItemHTML, exportItemBBCODE, exportItemMD;
+        private SaveFileDialog _saveFile;
+        private ToolStripMenuItem ExportItemCsv, ExportItemHtml, ExportItemBbcode, ExportItemMd;
+        public ToolStripMenuItem DeleteShows, MoveShows;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
         public Grid() {
-            InitializeComponent();
-            AllowUserToAddRows = false;
-            AllowUserToOrderColumns = true;
-            AllowUserToResizeRows = false;
-            EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
-            RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            BackgroundColor = Color.FromArgb(234, 242, 251);
-            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            BorderStyle = BorderStyle.None;
-            ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            RowHeadersWidth = 20;
-            ContextMenuStrip = cMenu;
-            readOnly = false;
-            EnableHeadersVisualStyles = false;
-            ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
-            ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
-            ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
-            ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
+            SetContextMenu();
+            this.AllowUserToAddRows = false;
+            this.AllowUserToOrderColumns = true;
+            this.AllowUserToResizeRows = false;
+            this.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+            this.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.BackgroundColor = Color.FromArgb(234, 242, 251);
+            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            this.BorderStyle = BorderStyle.None;
+            this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.RowHeadersWidth = 20;
+            this.ContextMenuStrip = CMenu;
+            this.readOnly = false;
+            this.EnableHeadersVisualStyles = false;
+            this.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
+            this.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
+            this.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
+            this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
         public SortOrder GetSortOrder(string columnName) {
             SortOrder sortOrder;
-            Orders.TryGetValue(columnName, out sortOrder);
+            this.Orders.TryGetValue(columnName, out sortOrder);
 
             if (sortOrder == SortOrder.None) {
-                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
-                Orders[columnName] = SortOrder.Ascending;
+                this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
+                this.Orders[columnName] = SortOrder.Ascending;
                 return SortOrder.Ascending;
             } else if(sortOrder == SortOrder.Ascending){
-                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Descending;
-                Orders[columnName] = SortOrder.Descending;
+                this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Descending;
+                this.Orders[columnName] = SortOrder.Descending;
                 return SortOrder.Descending;
             } else {
-                Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.None;
-                Orders[columnName] = SortOrder.None;
+                this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.None;
+                this.Orders[columnName] = SortOrder.None;
                 return SortOrder.None;
             }
         }
@@ -65,12 +66,12 @@ namespace FallGuysStats {
             return clonedRow;
         }
         protected override void OnDataSourceChanged(EventArgs e) {
-            Columns.Clear();
-            IsEditOnEnter = EditMode == DataGridViewEditMode.EditOnEnter;
+            this.Columns.Clear();
+            this.IsEditOnEnter = this.EditMode == DataGridViewEditMode.EditOnEnter;
             base.OnDataSourceChanged(e);
         }
         protected override void OnPaint(PaintEventArgs e) {
-            if (DesignMode) {
+            if (this.DesignMode) {
                 Graphics g = e.Graphics;
                 g.Clear(BackgroundColor);
                 Pen bp = new Pen(Color.DarkGray, 1);
@@ -98,37 +99,37 @@ namespace FallGuysStats {
         }
         protected override void OnCellClick(DataGridViewCellEventArgs e) {
             base.OnCellClick(e);
-            if (!IsEditOnEnter) { return; }
+            if (!this.IsEditOnEnter) { return; }
             if (e.ColumnIndex == -1) {
-                EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
+                this.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
                 EndEdit();
-            } else if (EditMode != DataGridViewEditMode.EditOnEnter) {
-                EditMode = DataGridViewEditMode.EditOnEnter;
+            } else if (this.EditMode != DataGridViewEditMode.EditOnEnter) {
+                this.EditMode = DataGridViewEditMode.EditOnEnter;
                 BeginEdit(false);
             }
         }
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool Disabled {
-            get { return readOnly; }
+            get { return this.readOnly; }
             set {
-                readOnly = value;
-                if (readOnly) {
-                    allowDelete = AllowUserToDeleteRows;
-                    allowNew = AllowUserToAddRows;
-                    allowUpdate = ReadOnly;
-                    AllowUserToAddRows = false;
-                    AllowUserToDeleteRows = false;
-                    ReadOnly = true;
-                } else if (allowNew.HasValue) {
-                    AllowUserToAddRows = allowNew.Value;
-                    AllowUserToDeleteRows = allowDelete.Value;
-                    ReadOnly = allowUpdate.Value;
+                this.readOnly = value;
+                if (this.readOnly) {
+                    this.allowDelete = AllowUserToDeleteRows;
+                    this.allowNew = AllowUserToAddRows;
+                    this.allowUpdate = ReadOnly;
+                    this.AllowUserToAddRows = false;
+                    this.AllowUserToDeleteRows = false;
+                    this.ReadOnly = true;
+                } else if (this.allowNew.HasValue) {
+                    this.AllowUserToAddRows = this.allowNew.Value;
+                    this.AllowUserToDeleteRows = this.allowDelete.Value;
+                    this.ReadOnly = this.allowUpdate.Value;
                 }
             }
         }
         protected override void OnLeave(EventArgs e) {
-            if (IsEditOnEnter) {
-                EditMode = DataGridViewEditMode.EditOnEnter;
+            if (this.IsEditOnEnter) {
+                this.EditMode = DataGridViewEditMode.EditOnEnter;
             }
             base.OnLeave(e);
         }
@@ -212,11 +213,24 @@ namespace FallGuysStats {
         #region Export methods
         public void ExportCsv() {
             try {
-                saveFile.Filter = "CSV files|*.csv";
-                if (saveFile.ShowDialog() == DialogResult.OK) {
-                    Encoding enc = Encoding.GetEncoding("windows-1252");
-                    using (FileStream fs = new FileStream(saveFile.FileName, FileMode.Create)) {
-                        List<DataGridViewColumn> columns = GetSortedColumns();
+                this._saveFile.Title = Multilingual.GetWord("message_save_csv_file_caption");
+                this._saveFile.Filter = "CSV files|*.csv";
+                if (this.Name.Equals("gridRoundsSummryList")) {
+                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                } else if (this.Name.Equals("gridShowsStats")) {
+                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                } else if (this.Name.Equals("gridRoundsStats")) {
+                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                } else if (this.Name.Equals("gridFinalsStats")) {
+                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                } else if (this.Name.Equals("gridRoundStats")) {
+                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                }
+                
+                if (this._saveFile.ShowDialog() == DialogResult.OK) {
+                    Encoding enc = Encoding.GetEncoding("utf-8");
+                    using (FileStream fs = new FileStream(this._saveFile.FileName, FileMode.Create)) {
+                        List<DataGridViewColumn> columns = this.GetSortedColumns();
 
                         StringBuilder sb = new StringBuilder();
                         foreach (DataGridViewColumn col in columns) {
@@ -251,7 +265,7 @@ namespace FallGuysStats {
                         fs.Close();
                     }
 
-                    MessageBox.Show(this, $"Saved CSV to {saveFile.FileName}", "Export", MessageBoxButtons.OK);
+                    MessageBox.Show(this, $"{Multilingual.GetWord("message_save_csv")}{Environment.NewLine}({this._saveFile.FileName})", Multilingual.GetWord("message_save_csv_caption"), MessageBoxButtons.OK);
                 }
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
@@ -260,7 +274,7 @@ namespace FallGuysStats {
 
         public void ExportHtml() {
             try {
-                List<DataGridViewColumn> columns = GetSortedColumns();
+                List<DataGridViewColumn> columns = this.GetSortedColumns();
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<table><tr>");
@@ -287,7 +301,7 @@ namespace FallGuysStats {
                 sb.Append("</table>");
                 Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
 
-                MessageBox.Show(this, "Saved Html to clipboard.", "Export", MessageBoxButtons.OK);
+                MessageBox.Show(this, Multilingual.GetWord("message_save_html"), Multilingual.GetWord("message_save_html_caption"), MessageBoxButtons.OK);
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
             }
@@ -295,7 +309,7 @@ namespace FallGuysStats {
 
         public void ExportBbCode() {
             try {
-                List<DataGridViewColumn> columns = GetSortedColumns();
+                List<DataGridViewColumn> columns = this.GetSortedColumns();
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("[table][tr]");
@@ -322,7 +336,7 @@ namespace FallGuysStats {
                 sb.Append("[/table]");
                 Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
 
-                MessageBox.Show(this, "Saved BBCode to clipboard.", "Export", MessageBoxButtons.OK);
+                MessageBox.Show(this, Multilingual.GetWord("message_save_bbcode"), Multilingual.GetWord("message_save_bbcode_caption"), MessageBoxButtons.OK);
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
             }
@@ -330,7 +344,7 @@ namespace FallGuysStats {
 
         public void ExportMarkdown() {
             try {
-                List<DataGridViewColumn> columns = GetSortedColumns();
+                List<DataGridViewColumn> columns = this.GetSortedColumns();
 
                 StringBuilder sb = new StringBuilder();
                 foreach (DataGridViewColumn col in columns) {
@@ -359,7 +373,7 @@ namespace FallGuysStats {
 
                 Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
 
-                MessageBox.Show(this, "Saved MarkDown to clipboard.", "Export", MessageBoxButtons.OK);
+                MessageBox.Show(this, Multilingual.GetWord("message_save_markdown"), Multilingual.GetWord("message_save_markdown_caption"), MessageBoxButtons.OK);
             } catch (Exception ex) {
                 ControlErrors.HandleException(this, ex, false);
             }
@@ -382,22 +396,22 @@ namespace FallGuysStats {
             e.ThrowException = false;
         }
         protected override bool ProcessDialogKey(Keys keyData) {
-            if (ProcessKeyStroke(keyData)) {
+            /*if (ProcessKeyStroke(keyData)) {
                 return true;
-            }
+            }*/
 
             return base.ProcessDialogKey(keyData);
         }
         protected override bool ProcessDataGridViewKey(KeyEventArgs e) {
-            if (ProcessKeyStroke(e.KeyData)) {
+            /*if (ProcessKeyStroke(e.KeyData)) {
                 return true;
-            }
+            }*/
 
             return base.ProcessDataGridViewKey(e);
         }
         private bool ProcessKeyStroke(Keys keyData) {
             if (keyData == Keys.Tab) {
-                int iCol = CurrentCell.ColumnIndex + 1;
+                int iCol = this.CurrentCell.ColumnIndex + 1;
                 while (iCol < Columns.Count) {
                     DataGridViewColumn col = Columns[iCol];
                     if (!col.ReadOnly && col.Visible) {
@@ -407,26 +421,26 @@ namespace FallGuysStats {
                 }
 
                 if (iCol < Columns.Count) {
-                    CurrentCell = Rows[CurrentCell.RowIndex].Cells[iCol];
+                    this.CurrentCell = Rows[this.CurrentCell.RowIndex].Cells[iCol];
                 } else {
-                    for (iCol = 0; iCol <= CurrentCell.ColumnIndex; iCol++) {
+                    for (iCol = 0; iCol <= this.CurrentCell.ColumnIndex; iCol++) {
                         DataGridViewColumn col = Columns[iCol];
                         if (!col.ReadOnly && col.Visible) {
                             break;
                         }
                     }
 
-                    if (iCol <= CurrentCell.ColumnIndex) {
-                        if (CurrentCell.RowIndex + 1 < Rows.Count) {
-                            CurrentCell = Rows[CurrentCell.RowIndex + 1].Cells[iCol];
+                    if (iCol <= this.CurrentCell.ColumnIndex) {
+                        if (this.CurrentCell.RowIndex + 1 < Rows.Count) {
+                            this.CurrentCell = Rows[this.CurrentCell.RowIndex + 1].Cells[iCol];
                         } else {
-                            CurrentCell = Rows[0].Cells[iCol];
+                            this.CurrentCell = Rows[0].Cells[iCol];
                         }
                     }
                 }
                 return true;
             } else if ((keyData & Keys.Shift) != 0 && (keyData & Keys.Tab) != 0) {
-                int iCol = CurrentCell.ColumnIndex - 1;
+                int iCol = this.CurrentCell.ColumnIndex - 1;
                 while (iCol >= 0) {
                     DataGridViewColumn col = Columns[iCol];
                     if (!col.ReadOnly && col.Visible) {
@@ -436,20 +450,20 @@ namespace FallGuysStats {
                 }
 
                 if (iCol >= 0) {
-                    CurrentCell = Rows[CurrentCell.RowIndex].Cells[iCol];
+                    this.CurrentCell = Rows[this.CurrentCell.RowIndex].Cells[iCol];
                 } else {
-                    for (iCol = Columns.Count - 1; iCol >= CurrentCell.ColumnIndex; iCol--) {
+                    for (iCol = Columns.Count - 1; iCol >= this.CurrentCell.ColumnIndex; iCol--) {
                         DataGridViewColumn col = Columns[iCol];
                         if (!col.ReadOnly && col.Visible) {
                             break;
                         }
                     }
 
-                    if (iCol >= CurrentCell.ColumnIndex) {
-                        if (CurrentCell.RowIndex - 1 >= 0) {
-                            CurrentCell = Rows[CurrentCell.RowIndex - 1].Cells[iCol];
+                    if (iCol >= this.CurrentCell.ColumnIndex) {
+                        if (this.CurrentCell.RowIndex - 1 >= 0) {
+                            this.CurrentCell = Rows[this.CurrentCell.RowIndex - 1].Cells[iCol];
                         } else {
-                            CurrentCell = Rows[0].Cells[iCol];
+                            this.CurrentCell = Rows[0].Cells[iCol];
                         }
                     }
                 }
@@ -458,92 +472,95 @@ namespace FallGuysStats {
             return false;
         }
         public void Setup(string column, int index, int width = -1, string header = null, DataGridViewContentAlignment align = DataGridViewContentAlignment.MiddleCenter) {
-            if (Columns == null || Columns[column] == null) { return; }
-            Columns[column].Visible = true;
-            Columns[column].DisplayIndex = index;
-            Columns[column].SortMode = DataGridViewColumnSortMode.Automatic;
-            Columns[column].DefaultCellStyle.Alignment = align;
+            if (this.Columns == null || this.Columns[column] == null) { return; }
+            this.Columns[column].Visible = true;
+            this.Columns[column].DisplayIndex = index;
+            this.Columns[column].SortMode = DataGridViewColumnSortMode.Automatic;
+            this.Columns[column].DefaultCellStyle.Alignment = align;
             if (width > 0) {
-                Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                Columns[column].Width = width;
+                this.Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                this.Columns[column].Width = width;
             } else if (width == 0) {
-                Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                this.Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             } else if (width < 0) {
-                Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                this.Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
-            Columns[column].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            this.Columns[column].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             if (header != null) {
-                Columns[column].HeaderText = header;
+                this.Columns[column].HeaderText = header;
             }
         }
-        private void InitializeComponent() {
+        public void DeallocContextMenu() {
+            this.ContextMenuStrip = null;
+        }
+        private void SetContextMenu() {
             this.components = new Container();
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(Grid));
-            this.cMenu = new ContextMenuStrip(this.components);
-            this.exportItemCSV = new ToolStripMenuItem();
-            this.exportItemHTML = new ToolStripMenuItem();
-            this.exportItemBBCODE = new ToolStripMenuItem();
-            this.exportItemMD = new ToolStripMenuItem();
-            this.saveFile = new SaveFileDialog();
-            this.cMenu.SuspendLayout();
+            //ComponentResourceManager resources = new ComponentResourceManager(typeof(Grid));
+            this.CMenu = new ContextMenuStrip(this.components);
+            this.ExportItemCsv = new ToolStripMenuItem();
+            this.ExportItemHtml = new ToolStripMenuItem();
+            this.ExportItemBbcode = new ToolStripMenuItem();
+            this.ExportItemMd = new ToolStripMenuItem();
+            this._saveFile = new SaveFileDialog();
+            this.CMenu.SuspendLayout();
             ((ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
             // cMenu
             // 
-            this.cMenu.Items.AddRange(new ToolStripItem[] { this.exportItemCSV, this.exportItemHTML, this.exportItemBBCODE, this.exportItemMD });
-            this.cMenu.Name = "contextMenu";
-            this.cMenu.Size = new Size(135, 48);
+            this.CMenu.Items.AddRange(new ToolStripItem[] { this.ExportItemCsv, this.ExportItemHtml, this.ExportItemBbcode, this.ExportItemMd });
+            this.CMenu.Name = "contextMenu";
+            this.CMenu.Size = new Size(135, 48);
             // 
             // exportItemCSV
             // 
-            this.exportItemCSV.Name = "exportItemCSV";
-            this.exportItemCSV.Size = new Size(134, 22);
-            this.exportItemCSV.Text = "Export CSV";
-            this.exportItemCSV.ShowShortcutKeys = true;
-            this.exportItemCSV.Image = Properties.Resources.export;
-            this.exportItemCSV.ShortcutKeys = Keys.Control | Keys.S;
-            this.exportItemCSV.Click += new EventHandler(this.exportItemCSV_Click);
+            this.ExportItemCsv.Name = "exportItemCSV";
+            this.ExportItemCsv.Size = new Size(134, 22);
+            this.ExportItemCsv.Text = Multilingual.GetWord("main_export_csv");
+            this.ExportItemCsv.ShowShortcutKeys = true;
+            this.ExportItemCsv.Image = Properties.Resources.export;
+            this.ExportItemCsv.ShortcutKeys = Keys.Control | Keys.S;
+            this.ExportItemCsv.Click += new EventHandler(this.exportItemCSV_Click);
             // 
             // exportItemHTML
             // 
-            this.exportItemHTML.Name = "exportItemHTML";
-            this.exportItemHTML.Size = new Size(134, 22);
-            this.exportItemHTML.Text = "Export HTML";
-            this.exportItemHTML.ShowShortcutKeys = true;
-            this.exportItemHTML.Image = Properties.Resources.export;
-            this.exportItemHTML.ShortcutKeys = Keys.Control | Keys.E;
-            this.exportItemHTML.Click += new EventHandler(this.exportItemHTML_Click);
+            this.ExportItemHtml.Name = "exportItemHTML";
+            this.ExportItemHtml.Size = new Size(134, 22);
+            this.ExportItemHtml.Text = Multilingual.GetWord("main_export_html");
+            this.ExportItemHtml.ShowShortcutKeys = true;
+            this.ExportItemHtml.Image = Properties.Resources.export;
+            this.ExportItemHtml.ShortcutKeys = Keys.Control | Keys.E;
+            this.ExportItemHtml.Click += new EventHandler(this.exportItemHTML_Click);
             // 
             // exportItemBBCODE
             // 
-            this.exportItemBBCODE.Name = "exportItemBBCODE";
-            this.exportItemBBCODE.Size = new Size(134, 22);
-            this.exportItemBBCODE.Text = "Export BBCode";
-            this.exportItemBBCODE.ShowShortcutKeys = true;
-            this.exportItemBBCODE.Image = Properties.Resources.export;
-            this.exportItemBBCODE.ShortcutKeys = Keys.Control | Keys.B;
-            this.exportItemBBCODE.Click += new EventHandler(this.exportItemBBCODE_Click);
+            this.ExportItemBbcode.Name = "exportItemBBCODE";
+            this.ExportItemBbcode.Size = new Size(134, 22);
+            this.ExportItemBbcode.Text = Multilingual.GetWord("main_export_bbcode");
+            this.ExportItemBbcode.ShowShortcutKeys = true;
+            this.ExportItemBbcode.Image = Properties.Resources.export;
+            this.ExportItemBbcode.ShortcutKeys = Keys.Control | Keys.B;
+            this.ExportItemBbcode.Click += new EventHandler(this.exportItemBBCODE_Click);
             // 
             // exportItemMD
             // 
-            this.exportItemMD.Name = "exportItemMD";
-            this.exportItemMD.Size = new Size(134, 22);
-            this.exportItemMD.Text = "Export MarkDown";
-            this.exportItemMD.ShowShortcutKeys = true;
-            this.exportItemMD.Image = Properties.Resources.export;
-            this.exportItemMD.ShortcutKeys = Keys.Control | Keys.M;
-            this.exportItemMD.Click += new EventHandler(this.exportItemMD_Click);
+            this.ExportItemMd.Name = "exportItemMD";
+            this.ExportItemMd.Size = new Size(134, 22);
+            this.ExportItemMd.Text = Multilingual.GetWord("main_export_markdown");
+            this.ExportItemMd.ShowShortcutKeys = true;
+            this.ExportItemMd.Image = Properties.Resources.export;
+            this.ExportItemMd.ShortcutKeys = Keys.Control | Keys.M;
+            this.ExportItemMd.Click += new EventHandler(this.exportItemMD_Click);
             // 
             // saveFile
             // 
-            this.saveFile.Filter = "CSV files|*.csv";
-            this.saveFile.Title = "Save Results";
+            this._saveFile.Filter = "CSV files|*.csv";
+            this._saveFile.Title = "Save as CSV file";
             // 
             // Grid
             // 
             this.DataError += new DataGridViewDataErrorEventHandler(this.Grid_DataError);
-            this.cMenu.ResumeLayout(false);
+            this.CMenu.ResumeLayout(false);
             ((ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
         }
@@ -585,6 +602,12 @@ namespace FallGuysStats {
                 dt.Rows.Add(dr);
             }
             return dt;
+        }
+        public void ChangeContextMenuLanguage() {
+            this.ExportItemCsv.Text = Multilingual.GetWord("main_export_csv");
+            this.ExportItemHtml.Text = Multilingual.GetWord("main_export_html");
+            this.ExportItemBbcode.Text = Multilingual.GetWord("main_export_bbcode");
+            this.ExportItemMd.Text = Multilingual.GetWord("main_export_markdown");
         }
     }
     public static class ControlErrors {
