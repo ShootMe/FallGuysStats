@@ -1,37 +1,46 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class StatsDisplay : Form {
         public DataTable Details { get; set; }
         public StatsDisplay() {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void StatsDisplay_Load(object sender, EventArgs e) {
-            graph.DataSource = Details;
-            graph.YColumns[1] = true;
-            for (int i = 2; i < graph.YColumns.Length; i++) {
-                graph.YColumns[i] = false;
+            this.ClientSize = new Size(720, 360);
+            this.ChangeLanguage();
+            this.graph.DataSource = this.Details;
+            this.graph.YColumns[1] = true;
+            for (int i = 2; i < this.graph.YColumns.Length; i++) {
+                this.graph.YColumns[i] = false;
             }
-            chkWins.Checked = true;
+            this.chkWins.Checked = true;
         }
         private void StatsDisplay_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Escape) {
-                Close();
+                this.Close();
             }
         }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
-            graph.YColumns[1] = chkWins.Checked;
-            graph.Invalidate();
+            this.graph.YColumns[1] = chkWins.Checked;
+            this.graph.Invalidate();
         }
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
-            graph.YColumns[2] = chkFinals.Checked;
-            graph.Invalidate();
+            this.graph.YColumns[2] = chkFinals.Checked;
+            this.graph.Invalidate();
         }
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
-            graph.YColumns[3] = chkShows.Checked;
-            graph.Invalidate();
+            this.graph.YColumns[3] = chkShows.Checked;
+            this.graph.Invalidate();
+        }
+        private void ChangeLanguage() {
+            this.Font = new Font(Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.chkWins.Text = Multilingual.GetWord("level_detail_streak_wins");
+            this.chkFinals.Text = Multilingual.GetWord("level_detail_streak_finals");
+            this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
         }
     }
 }

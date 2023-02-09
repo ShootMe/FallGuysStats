@@ -77,8 +77,22 @@
     <Compile Include="Entities\Json.cs" />
     <Compile Include="Entities\LevelType.cs" />
     <Compile Include="Entities\LineReader.cs" />
+    <Compile Include="Entities\Multilingual.cs" />
+    <Compile Include="Entities\Profiles.cs" />
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
+    <Compile Include="Views\EditShows.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditShows.Designer.cs">
+      <DependentUpon>EditShows.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditProfiles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EditProfiles.Designer.cs">
+      <DependentUpon>EditProfiles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +129,12 @@
     <Compile Include="Views\StatsDisplay.Designer.cs">
       <DependentUpon>StatsDisplay.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Views\EditShows.resx">
+      <DependentUpon>EditShows.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditProfiles.resx">
+      <DependentUpon>EditProfiles.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LevelDetails.resx">
       <DependentUpon>LevelDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -150,19 +170,54 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Resources\TitanOne-Regular.ttf" />
+
+    <EmbeddedResource Include="Resources\font\NotoSans-Regular.ttf" />
+    <EmbeddedResource Include="Resources\font\TitanOne-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\player_icon.png" />
+    <None Include="Resources\pc_icon.png" />
+    <None Include="Resources\ps_icon.png" />
+    <None Include="Resources\xbox_icon.png" />
+    <None Include="Resources\switch_icon.png" />
+    <None Include="Resources\stat_icon.png" />
+    <None Include="Resources\stat_gray_icon.png" />
+    <None Include="Resources\fallguys_icon.png" />
     <None Include="Resources\export.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\move.png" />
     <None Include="Resources\tab_unselected.png" />
     <None Include="Resources\tab_selected.png" />
     <None Include="Resources\background.png" />
-    <Content Include="Resources\fall.ico" />
+    <None Include="Resources\fall.ico" />
     <None Include="Resources\medal_silver.png" />
     <None Include="Resources\medal_pink.png" />
     <None Include="Resources\medal_gold.png" />
     <None Include="Resources\medal_eliminated.png" />
     <None Include="Resources\medal_bronze.png" />
+    <None Include="Resources\number_0.png" />
+    <None Include="Resources\number_1.png" />
+    <None Include="Resources\number_2.png" />
+    <None Include="Resources\number_3.png" />
+    <None Include="Resources\number_4.png" />
+    <None Include="Resources\number_5.png" />
+    <None Include="Resources\number_6.png" />
+    <None Include="Resources\number_7.png" />
+    <None Include="Resources\number_8.png" />
+    <None Include="Resources\number_9.png" />
+    <None Include="Resources\number_10.png" />
+    <None Include="Resources\github_icon.png" />
+    <None Include="Resources\profile_icon.png" />
+    <None Include="Resources\profile2_icon.png" />
+    <None Include="Resources\filter_icon.png" />
+    <None Include="Resources\final_icon.png" />
+    <None Include="Resources\setting_icon.png" />
+    <None Include="Resources\crown_icon.png" />
+    <None Include="Resources\kudos_icon.png" />
+    <None Include="Resources\clock_icon.png" />
+    <None Include="Resources\language_icon.png" />
+    <None Include="Resources\checkmark_icon.png" />
+    <None Include="Resources\uncheckmark_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
