@@ -7,6 +7,7 @@ namespace FallGuysStats {
         public int Profile { get; set; }
         public string Name { get; set; }
         public int ShowID { get; set; }
+        public string ShowNameId { get; set; }
         public int Round { get; set; }
         public int Position { get; set; }
         public int? Score { get; set; }
@@ -14,6 +15,14 @@ namespace FallGuysStats {
         public bool Qualified { get; set; }
         public int Kudos { get; set; }
         public int Players { get; set; }
+        public int PlayersPs4 { get; set; }
+        public int PlayersPs5 { get; set; }
+        public int PlayersXb1 { get; set; }
+        public int PlayersXsx { get; set; }
+        public int PlayersSw { get; set; }
+        public int PlayersPc { get; set; }
+        public int PlayersBots { get; set; }
+        public int PlayersEtc { get; set; }
         public bool InParty { get; set; }
         public bool IsFinal { get; set; }
         public bool PrivateLobby { get; set; }
@@ -68,6 +77,12 @@ namespace FallGuysStats {
                 && info.InParty == this.InParty
                 && info.Kudos == this.Kudos
                 && info.Players == this.Players
+                && info.PlayersPs4 == this.PlayersPs4
+                && info.PlayersPs5 == this.PlayersPs5
+                && info.PlayersXb1 == this.PlayersXb1
+                && info.PlayersXsx == this.PlayersXsx
+                && info.PlayersSw == this.PlayersSw
+                && info.PlayersPc == this.PlayersPc
                 && info.Position == this.Position
                 && info.Qualified == this.Qualified
                 && info.Round == this.Round
@@ -93,35 +108,24 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
-            { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6) },
-            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Hunt, false, 7) },
             { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
-            { "round_hoops_revenge_symphony_launch_show", new LevelStats("Bounce Party", LevelType.Hunt, false, 7) },
-            { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5) },
-            { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4) },
             { "round_satellitehoppers_almond",    new LevelStats("Cosmic Highway", LevelType.Race, false, 8) },
             { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, false, 1) },
             { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1) },
-            { "round_ffa_button_bashers_squads_almond", new LevelStats("Frantic Factory", LevelType.Hunt, false, 8) },
             { "round_iceclimb",                   new LevelStats("Freezy Peak", LevelType.Race, false, 3) },
             { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1) },
             { "round_see_saw_360",                new LevelStats("Full Tilt", LevelType.Race, false, 6) },
             { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1) },
             { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1) },
-            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9) },
-            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
             { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
-            { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6) },
             { "round_drumtop",                    new LevelStats("Lily Leapers", LevelType.Race, false, 5) },
             { "round_gauntlet_08",                new LevelStats("Party Promenade", LevelType.Race, false, 6) },
-            { "round_penguin_solos",              new LevelStats("Pegwin Party", LevelType.Hunt, false, 5) },
             { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, 6) },
             { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Race, false, 8) },
             { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, 9) },
             { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, 4) },
             { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1) },
             { "round_shortcircuit",               new LevelStats("Short Circuit", LevelType.Race, false, 4) },
-            { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, 3) },
             { "round_gauntlet_06",                new LevelStats("Skyline Stumble", LevelType.Race, false, 4) },
             { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
             { "round_slimeclimb_2",               new LevelStats("Slimescraper", LevelType.Race, false, 4) },
@@ -135,6 +139,19 @@ namespace FallGuysStats {
             { "round_gauntlet_05",                new LevelStats("Tundra Run", LevelType.Race, false, 3) },
             { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
             { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
+            
+            { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6) },
+            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Hunt, false, 7) },
+            { "round_hoops_revenge_symphony_launch_show", new LevelStats("Bounce Party", LevelType.Hunt, false, 7) },
+            { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5) },
+            { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4) },
+            { "round_ffa_button_bashers_squads_almond", new LevelStats("Frantic Factory", LevelType.Hunt, false, 8) },
+            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9) },
+            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
+            { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6) },
+            { "round_penguin_solos",              new LevelStats("Pegwin Party", LevelType.Hunt, false, 5) },
+            { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, 3) },
+            
 
             { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4) },
             { "round_blastballruins",             new LevelStats("Blastlantis", LevelType.Survival, false, 9) },
