@@ -1,4 +1,6 @@
-﻿namespace FallGuysStats {
+﻿using System.Drawing;
+
+namespace FallGuysStats {
     partial class StatsDisplay {
         /// <summary>
         /// Required designer variable.
@@ -50,33 +52,36 @@
             // chkWins
             // 
             this.chkWins.AutoSize = true;
-            this.chkWins.Location = new System.Drawing.Point(12, 13);
+            this.chkWins.Location = new System.Drawing.Point(35, 13);
             this.chkWins.Name = "chkWins";
             this.chkWins.Size = new System.Drawing.Size(50, 17);
             this.chkWins.TabIndex = 1;
-            this.chkWins.Text = "Wins";
+            this.chkWins.Text = "Streak Wins";
+            this.chkWins.ForeColor = Color.Red;
             this.chkWins.UseVisualStyleBackColor = true;
             this.chkWins.CheckedChanged += new System.EventHandler(this.chkWins_CheckedChanged);
             // 
             // chkFinals
             // 
             this.chkFinals.AutoSize = true;
-            this.chkFinals.Location = new System.Drawing.Point(68, 13);
+            this.chkFinals.Location = new System.Drawing.Point(121, 13);
             this.chkFinals.Name = "chkFinals";
             this.chkFinals.Size = new System.Drawing.Size(53, 17);
             this.chkFinals.TabIndex = 2;
-            this.chkFinals.Text = "Finals";
+            this.chkFinals.Text = "Streak Finals";
+            this.chkFinals.ForeColor = Color.Green;
             this.chkFinals.UseVisualStyleBackColor = true;
             this.chkFinals.CheckedChanged += new System.EventHandler(this.chkFinals_CheckedChanged);
             // 
             // chkShows
             // 
             this.chkShows.AutoSize = true;
-            this.chkShows.Location = new System.Drawing.Point(127, 13);
+            this.chkShows.Location = new System.Drawing.Point(218, 13);
             this.chkShows.Name = "chkShows";
             this.chkShows.Size = new System.Drawing.Size(58, 17);
             this.chkShows.TabIndex = 3;
             this.chkShows.Text = "Shows";
+            this.chkShows.ForeColor = Color.Blue;
             this.chkShows.UseVisualStyleBackColor = true;
             this.chkShows.CheckedChanged += new System.EventHandler(this.chkShows_CheckedChanged);
             // 
