@@ -774,7 +774,7 @@ namespace FallGuysStats {
                             {"settings_select_font", "フォント選択"},
                             {"settings_reset_font", "リセット"},
                             {"settings_font_example", "フォントの例"},
-                            {"settings_round_example", "3 ラウンド : ロールオフ"},
+                            {"settings_round_example", "ラウンド 3 : ロールオフ"},
                             {"settings_sorting_options", "統計表の並べ替えオプション"},
                             {"settings_ignore_level_type_when_sorting", "ラウンドタイプに関係なく並べ替える"},
                             {"settings_game_oprions", "実行オプション"},

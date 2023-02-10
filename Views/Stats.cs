@@ -1840,13 +1840,13 @@ namespace FallGuysStats {
                         this.UpdateHoopsieLegends();
 
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
-                            await logFile.Stop();
+                            await this.logFile.Stop();
 
                             string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                             if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
                                 logPath = this.CurrentSettings.LogPath;
                             }
-                            logFile.Start(logPath, LOGNAME);
+                            this.logFile.Start(logPath, LOGNAME);
                         }
                         
                         overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs, this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized);
@@ -1864,24 +1864,24 @@ namespace FallGuysStats {
                 overlay.Hide();
                 this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
-                CurrentSettings.OverlayLocationX = overlay.Location.X;
-                CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                CurrentSettings.OverlayWidth = overlay.Width;
-                CurrentSettings.OverlayHeight = overlay.Height;
-                CurrentSettings.OverlayVisible = false;
-                SaveUserSettings();
+                this.CurrentSettings.OverlayLocationX = overlay.Location.X;
+                this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                this.CurrentSettings.OverlayWidth = overlay.Width;
+                this.CurrentSettings.OverlayHeight = overlay.Height;
+                this.CurrentSettings.OverlayVisible = false;
+                this.SaveUserSettings();
             } else {
-                overlay.TopMost = !CurrentSettings.OverlayNotOnTop;
+                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
                 overlay.Show();
                 this.menuOverlay.Image = Properties.Resources.stat_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
-                CurrentSettings.OverlayVisible = true;
-                SaveUserSettings();
+                this.CurrentSettings.OverlayVisible = true;
+                this.SaveUserSettings();
 
-                if (CurrentSettings.OverlayLocationX.HasValue && IsOnScreen(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
-                    overlay.Location = new Point(CurrentSettings.OverlayLocationX.Value, CurrentSettings.OverlayLocationY.Value);
+                if (this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
+                    overlay.Location = new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value);
                 } else {
-                    overlay.Location = Location;
+                    overlay.Location = this.Location;
                 }
             }
         }

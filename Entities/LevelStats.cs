@@ -83,6 +83,8 @@ namespace FallGuysStats {
                 && info.PlayersXsx == this.PlayersXsx
                 && info.PlayersSw == this.PlayersSw
                 && info.PlayersPc == this.PlayersPc
+                && info.PlayersBots == this.PlayersBots
+                && info.PlayersEtc == this.PlayersEtc
                 && info.Position == this.Position
                 && info.Qualified == this.Qualified
                 && info.Round == this.Round

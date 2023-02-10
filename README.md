@@ -15,17 +15,26 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
+## Multilingual Support
+  - FallGuysStats is available in multiple languages. (Currently available in English, Korean, and Japanese)
+
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
-  - Hit 'T' to toggle background colors
-  - Hit 'F' to flip the Display
+  - Hit 'T' to toggle background colors.
+  - Hit 'F' to flip the Display.
+  - Hit 'P' to change the profile order.
+  - Hit Keys '1' through '9' to select profiles 1 through 9.
+  - Hit Shift + mouse wheel up and down to select a profile up or down.
+  - Hit Shift + up and down arrow keys to select a profile up or down.
+  - Hit 'C' to shows the number of users by platform.
+  - Hit 'R' the round name shows the colored badge for the round type.
 
-## Deleting Shows
+## Deleting shows or moving shows to another profile
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
   - Click the blue Shows label on the main screen
-  - Highlight any number of shows and hit the 'DEL' key
+  - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
 ## Changelog
   - 1.134
