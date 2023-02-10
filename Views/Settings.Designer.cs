@@ -735,7 +735,8 @@ namespace FallGuysStats {
             this.cboMultilingual.Items.AddRange(new object[] {
                 "English",
                 "한국어",
-                "日本語"});
+                "日本語",
+                "简体中文"});
             this.cboMultilingual.Location = new System.Drawing.Point(40, 60);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(60, 19);
