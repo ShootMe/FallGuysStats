@@ -37,6 +37,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
 ## Changelog
+  - 1.135
+    - Bug fixes and multilanguage updates
   - 1.134
     - Many updates from the community. Multilanguage / Profile Editing / Various Fixes
   - 1.133
