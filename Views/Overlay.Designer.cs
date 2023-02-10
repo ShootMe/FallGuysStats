@@ -137,50 +137,50 @@ namespace FallGuysStats {
             // 
             // lblPlayersPs
             // 
-            this.lblPlayersPs.Location = new System.Drawing.Point(607, 0);
+            this.lblPlayersPs.Location = new System.Drawing.Point(609, 12);
             this.lblPlayersPs.Name = "lblPlayersPs";
             this.lblPlayersPs.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersPs.IsIcon = true;
             this.lblPlayersPs.Image = Properties.Resources.ps_icon;
-            this.lblPlayersPs.ImageWidth = 12;
-            this.lblPlayersPs.ImageHeight = 12;
-            this.lblPlayersPs.TextRight = "　-";
+            this.lblPlayersPs.ImageWidth = 13;
+            this.lblPlayersPs.ImageHeight = 13;
+            this.lblPlayersPs.TextRight = "-";
             this.lblPlayersPs.DrawVisible = false;
             // 
             // lblPlayersXbox
             // 
-            this.lblPlayersXbox.Location = new System.Drawing.Point(638, 0);
+            this.lblPlayersXbox.Location = new System.Drawing.Point(647, 12);
             this.lblPlayersXbox.Name = "lblPlayersXbox";
             this.lblPlayersXbox.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersXbox.IsIcon = true;
             this.lblPlayersXbox.Image = Properties.Resources.xbox_icon;
-            this.lblPlayersXbox.ImageWidth = 12;
-            this.lblPlayersXbox.ImageHeight = 12;
-            this.lblPlayersXbox.TextRight = "　-";
+            this.lblPlayersXbox.ImageWidth = 13;
+            this.lblPlayersXbox.ImageHeight = 13;
+            this.lblPlayersXbox.TextRight = "-";
             this.lblPlayersXbox.DrawVisible = false;
             // 
             // lblPlayersSwitch
             // 
-            this.lblPlayersSwitch.Location = new System.Drawing.Point(669, 0);
+            this.lblPlayersSwitch.Location = new System.Drawing.Point(685, 12);
             this.lblPlayersSwitch.Name = "lblPlayersSwitch";
             this.lblPlayersSwitch.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersSwitch.IsIcon = true;
             this.lblPlayersSwitch.Image = Properties.Resources.switch_icon;
-            this.lblPlayersSwitch.ImageWidth = 12;
-            this.lblPlayersSwitch.ImageHeight = 12;
-            this.lblPlayersSwitch.TextRight = "　-";
+            this.lblPlayersSwitch.ImageWidth = 13;
+            this.lblPlayersSwitch.ImageHeight = 13;
+            this.lblPlayersSwitch.TextRight = "-";
             this.lblPlayersSwitch.DrawVisible = false;
             // 
             // lblPlayersPc
             // 
-            this.lblPlayersPc.Location = new System.Drawing.Point(700, 0);
+            this.lblPlayersPc.Location = new System.Drawing.Point(723, 12);
             this.lblPlayersPc.Name = "lblPlayersPc";
             this.lblPlayersPc.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersPc.IsIcon = true;
             this.lblPlayersPc.Image = Properties.Resources.pc_icon;
-            this.lblPlayersPc.ImageWidth = 12;
-            this.lblPlayersPc.ImageHeight = 12;
-            this.lblPlayersPc.TextRight = "　-";
+            this.lblPlayersPc.ImageWidth = 13;
+            this.lblPlayersPc.ImageHeight = 13;
+            this.lblPlayersPc.TextRight = "-";
             this.lblPlayersPc.DrawVisible = false;
             // 
             // lblName
