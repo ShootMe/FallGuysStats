@@ -17,6 +17,7 @@ namespace FallGuysStats {
                 case 0: this.cboMultilingual.SelectedItem = "English"; break;
                 case 1: this.cboMultilingual.SelectedItem = "한국어"; break;
                 case 2: this.cboMultilingual.SelectedItem = "日本語"; break;
+                case 3: this.cboMultilingual.SelectedItem = "简体中文"; break;
             }
             this.txtLogPath.Text = CurrentSettings.LogPath;
 
@@ -125,6 +126,10 @@ namespace FallGuysStats {
                 case "日本語":
                     Stats.CurrentLanguage = 2;
                     this.CurrentSettings.Multilingual = 2;
+                    break;
+                case "简体中文":
+                    Stats.CurrentLanguage = 3;
+                    this.CurrentSettings.Multilingual = 3;
                     break;
                 default:
                     Stats.CurrentLanguage = 0;
@@ -465,6 +470,33 @@ namespace FallGuysStats {
 
                 this.txtGameExeLocation.Location = new Point(163, 22);
                 this.txtGameExeLocation.Size = new Size(518, 20);
+            } else if (lang == 3) { // Simplified Chinese
+                this.txtLogPath.Location = new Point(123, 15);
+                this.txtLogPath.Size = new Size(644, 17);
+                this.lblLogPathNote.Location = new Point(73, 41);
+
+                this.grpStats.Font = new Font(Font.FontFamily, 10.25F, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+                this.txtPreviousWins.Location = new Point(98, 23);
+                this.lblPreviousWinsNote.Location = new Point(140, 23);
+                this.chkAutoUpdate.Location = new Point(275, 23);
+                this.chkChangeHoopsieLegends.Location = new Point(387, 23);
+
+                // Disabled following settings due to not applicable.
+                this.chkChangeHoopsieLegends.Visible = false;
+                this.chkChangeHoopsieLegends.Checked = false;
+
+
+                this.lblWinsFilter.Location = new Point(420, 32);
+                this.lblQualifyFilter.Location = new Point(420, 67);
+                this.lblFastestFilter.Location = new Point(420, 102);
+
+                this.lblOverlayColor.Location = new Point(480, 173);
+
+                this.txtCycleTimeSeconds.Location = new Point(85, 170);
+                this.lblCycleTimeSecondsTag.Location = new Point(115, 172);
+
+                this.txtGameExeLocation.Location = new Point(110, 22);
+                this.txtGameExeLocation.Size = new Size(571, 20);
             }
 
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
