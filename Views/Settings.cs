@@ -471,32 +471,33 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Location = new Point(163, 22);
                 this.txtGameExeLocation.Size = new Size(518, 20);
             } else if (lang == 3) { // Simplified Chinese
-                this.txtLogPath.Location = new Point(123, 15);
-                this.txtLogPath.Size = new Size(644, 17);
-                this.lblLogPathNote.Location = new Point(73, 41);
+                this.txtLogPath.Location = new Point(123, 5);
+                this.txtLogPath.Size = new Size(500, 17);
+                this.lblLogPathNote.Location = new Point(120, 30);
 
                 this.grpStats.Font = new Font(Font.FontFamily, 10.25F, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.txtPreviousWins.Location = new Point(98, 23);
-                this.lblPreviousWinsNote.Location = new Point(140, 23);
-                this.chkAutoUpdate.Location = new Point(275, 23);
-                this.chkChangeHoopsieLegends.Location = new Point(387, 23);
+                this.txtPreviousWins.Location = new Point(90, 12);
+                this.lblPreviousWinsNote.Location = new Point(130, 15);
+                this.chkAutoUpdate.Location = new Point(275, 15);
+                this.chkChangeHoopsieLegends.Location = new Point(387, 15);
 
                 // Disabled following settings due to not applicable.
                 this.chkChangeHoopsieLegends.Visible = false;
                 this.chkChangeHoopsieLegends.Checked = false;
 
 
-                this.lblWinsFilter.Location = new Point(420, 32);
-                this.lblQualifyFilter.Location = new Point(420, 67);
-                this.lblFastestFilter.Location = new Point(420, 102);
+                this.lblWinsFilter.Location = new Point(355, 18);
+                this.lblQualifyFilter.Location = new Point(355, 33);
+                this.lblFastestFilter.Location = new Point(355, 48);
 
-                this.lblOverlayColor.Location = new Point(480, 173);
+                this.lblOverlayColor.Location = new Point(359, 116);
 
-                this.txtCycleTimeSeconds.Location = new Point(85, 170);
-                this.lblCycleTimeSecondsTag.Location = new Point(115, 172);
+                this.txtCycleTimeSeconds.Location = new Point(70, 110);
+                this.lblCycleTimeSecondsTag.Location = new Point(90, 113);
 
-                this.txtGameExeLocation.Location = new Point(110, 22);
-                this.txtGameExeLocation.Size = new Size(571, 20);
+                this.txtGameExeLocation.Location = new Point(163, 22);
+                this.txtGameExeLocation.Size = new Size(400, 20);
+                this.btnGameExeLocationBrowse.Location = new Point(575, 24);
             }
 
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
