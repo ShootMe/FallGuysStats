@@ -44,8 +44,9 @@
         public bool HoopsieHeros { get; set; }
         public int Version { get; set; }
         public bool IgnoreLevelTypeWhenSorting { get; set; }
+        public int LaunchPlatform { get; set; }
         public string GameExeLocation { get; set; }
-        public string GameFileLocation { get; set; }
+        public string GameShortcutLocation { get; set; }
         public bool AutoLaunchGameOnStartup { get; set; }
         public string OverlayFontSerialized { get; set; }
     }
