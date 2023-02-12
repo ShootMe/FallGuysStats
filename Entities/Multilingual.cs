@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 namespace FallGuysStats {
     public static class Multilingual {
@@ -56,7 +56,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "Export MarkDown"},
                             {"main_delete_shows", "Delete"},
                             {"main_move_shows", "Move show data"},
-                            
+
                             {"level_detail_medal", ""},
                             {"level_detail_is_final", "Final"},
                             {"level_detail_show_id", "Show No."},
@@ -105,7 +105,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "Wins"},
                             {"level_detail_date", "Date"},
                             {"level_detail_tooltiptext", "Click to view level stats."},
-                            
+
                             {"profile_change_tooltiptext", "Click to change your current profile."},
                             {"shows_detail_tooltiptext", "Click to view shows stats."},
                             {"rounds_detail_tooltiptext", "Click to view rounds stats."},
@@ -164,13 +164,13 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "Save as CSV file"},
                             {"message_update_error_caption", "Error Updating"},
                             {"message_program_error_caption", "Program Error"},
-                            
+
                             {"numeric_suffix", ""},
                             {"message_question_mark", "?"},
                             {"message_full_stop", "."},
                             {"message_exclamation_mark", "!"},
                             {"message_comma", ","},
-                    
+
                             {"settings_title", "Settings"},
                             {"settings_log_path", "Log File Path"},
                             {"settings_log_path_description", "* You should not need to set this. Only use when the program is not reading the correct location."},
@@ -241,7 +241,7 @@ namespace FallGuysStats {
                             {"settings_language", "language"},
                             {"settings_save", "Save"},
                             {"settings_cancel", "Cancel"},
-                            
+
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
                             {"overlay_streak_finals", "FINAL STREAK"},
@@ -261,7 +261,7 @@ namespace FallGuysStats {
                             {"overlay_ping", "PING"},
                             {"overlay_best", ""},
                             {"overlay_inning", ""},
-                            
+
                             {"profile_title", "Profile Settings"},
                             {"profile_list", "Profile List"},
                             {"profile_add_tab", "Add"},
@@ -347,7 +347,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "클립보드로 내보내기 (MarkDown)"},
                             {"main_delete_shows", "삭제"},
                             {"main_move_shows", "쇼 데이터 이동"},
-                            
+
                             {"level_detail_medal", ""},
                             {"level_detail_is_final", "결승"},
                             {"level_detail_show_id", "쇼 번호"},
@@ -455,7 +455,7 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "CSV 파일로 저장"},
                             {"message_update_error_caption", "업데이트 오류"},
                             {"message_program_error_caption", "프로그램 오류"},
-                            
+
                             {"numeric_suffix", "개"},
                             {"message_question_mark", ""},
                             {"message_full_stop", ""},
@@ -532,7 +532,7 @@ namespace FallGuysStats {
                             {"settings_language", "표시 언어"},
                             {"settings_save", "저장"},
                             {"settings_cancel", "취소"},
-                            
+
                             {"overlay_streak", "연승"},
                             {"overlay_streak_suffix", "연승"},
                             {"overlay_streak_finals", "연속결승"},
@@ -552,7 +552,7 @@ namespace FallGuysStats {
                             {"overlay_ping", "Ping"},
                             {"overlay_best", "최대 "},
                             {"overlay_inning", "회"},
-                            
+
                             {"profile_title", "프로필 설정"},
                             {"profile_list", "프로필 목록"},
                             {"profile_add_tab", "등록"},
@@ -638,7 +638,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "クリップボードにコピー (MarkDown)"},
                             {"main_delete_shows", "削除"},
                             {"main_move_shows", "ショーデータの移動"},
-                            
+
                             {"level_detail_medal", ""},
                             {"level_detail_is_final", "決勝"},
                             {"level_detail_show_id", "ショー番号"},
@@ -687,13 +687,13 @@ namespace FallGuysStats {
                             {"level_detail_wins", "優勝"},
                             {"level_detail_date", "日付"},
                             {"level_detail_tooltiptext", "レベル統計を表示するにはクリックしてください。"},
-                            
+
                             {"profile_change_tooltiptext", "現在のプロファイルを変更するにはクリックしてください。"},
                             {"shows_detail_tooltiptext", "ショーの統計情報を見るにはクリックしてください。"},
                             {"rounds_detail_tooltiptext", "ラウンド統計を見るにはクリックしてください。"},
                             {"wins_detail_tooltiptext", "勝利統計を見るにはクリックしてください。"},
                             {"finals_detail_tooltiptext", "決勝戦の統計を見るにはクリックしてください。"},
-                            
+
                             {"message_previous_show_caption", "前のショーを追加"},
                             {"message_previous_show", "現在、統計にない前のショーのデータがあります。 現在の統計に追加しますか？"},
                             {"message_already_running_caption", "既に実行中"},
@@ -746,13 +746,13 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "CSVファイルとして保存"},
                             {"message_update_error_caption", "アップデートエラー"},
                             {"message_program_error_caption", "プログラムエラー"},
-                            
+
                             {"numeric_suffix", "つ"},
                             {"message_question_mark", ""},
                             {"message_full_stop", ""},
                             {"message_exclamation_mark", ""},
                             {"message_comma", ""},
-                    
+
                             {"settings_title", "設定"},
                             {"settings_log_path", "ログファイルパス"},
                             {"settings_log_path_description", "* Statsがログファイルパスを見つけられない場合は、ここにFallGuysクライアントのログファイルパスを直接入力してください。"},
@@ -823,7 +823,7 @@ namespace FallGuysStats {
                             {"settings_language", "表示言語"},
                             {"settings_save", "保存"},
                             {"settings_cancel", "キャンセル"},
-                            
+
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", "勝"},
                             {"overlay_streak_finals", "連続決勝"},
@@ -843,7 +843,7 @@ namespace FallGuysStats {
                             {"overlay_ping", "Ping"},
                             {"overlay_best", "最大 "},
                             {"overlay_inning", "回"},
-                            
+
                             {"profile_title", "プロファイル設定"},
                             {"profile_list", "プロファイル一覧"},
                             {"profile_add_tab", "追加"},
@@ -1168,7 +1168,7 @@ namespace FallGuysStats {
                         }
             },
         };
-        
+
         public static readonly Dictionary<string, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
             { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "Airtime"},
@@ -1507,7 +1507,7 @@ namespace FallGuysStats {
                         }
             },
         };
-        
+
         public static readonly Dictionary<string, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
             { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                      { "collectables_ss2_batch_01", "Collectables Batch 01" },
@@ -2853,8 +2853,8 @@ namespace FallGuysStats {
             }
             return lang;
         }
-        public static string GetWord (string keyWord) {
-            string word = String.Empty;
+        public static string GetWord(string keyWord) {
+            string word = string.Empty;
             MultilingualDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyWord, out word);
             return word;
@@ -2890,7 +2890,7 @@ namespace FallGuysStats {
             showsDictionary?.TryGetValue(keyWord, out name);
             return name;
         }
-        public static Dictionary<string, string> GetRoundsDictionary () {
+        public static Dictionary<string, string> GetRoundsDictionary() {
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundsDictionary);
             return roundsDictionary;
         }

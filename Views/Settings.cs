@@ -596,8 +596,7 @@ namespace FallGuysStats {
                 // Disabled following settings due to not applicable.
                 this.chkChangeHoopsieLegends.Visible = false;
                 this.chkChangeHoopsieLegends.Checked = false;
-
-
+                
                 this.lblWinsFilter.Location = new Point(410, 28);
                 this.lblQualifyFilter.Location = new Point(410, 64);
                 this.lblFastestFilter.Location = new Point(410, 100);
