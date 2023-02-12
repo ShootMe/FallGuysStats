@@ -218,6 +218,10 @@
     <None Include="Resources\language_icon.png" />
     <None Include="Resources\checkmark_icon.png" />
     <None Include="Resources\uncheckmark_icon.png" />
+    <None Include="Resources\epic_icon.png" />
+    <None Include="Resources\steam_icon.png" />
+    <None Include="Resources\epic_main_icon.png" />
+    <None Include="Resources\steam_main_icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
