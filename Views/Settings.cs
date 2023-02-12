@@ -422,8 +422,8 @@ namespace FallGuysStats {
                     this.txtGameShortcutLocation.Size = new Size(438, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "kor");
                 } else if (this.DisplayLang == 2) {
-                    this.txtGameShortcutLocation.Location = new Point(261, 22);
-                    this.txtGameShortcutLocation.Size = new Size(412, 20);
+                    this.txtGameShortcutLocation.Location = new Point(311, 22);
+                    this.txtGameShortcutLocation.Size = new Size(362, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "jpn");
                 } else if (this.DisplayLang == 3) {
                     this.txtGameShortcutLocation.Location = new Point(227, 22);
@@ -449,8 +449,8 @@ namespace FallGuysStats {
                     this.txtGameExeLocation.Size = new Size(459, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "kor");
                 } else if (this.DisplayLang == 2) {
-                    this.txtGameExeLocation.Location = new Point(250, 22);
-                    this.txtGameExeLocation.Size = new Size(424, 20);
+                    this.txtGameExeLocation.Location = new Point(300, 22);
+                    this.txtGameExeLocation.Size = new Size(374, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "jpn");
                 } else if (this.DisplayLang == 3) {
                     this.txtGameExeLocation.Location = new Point(203, 22);
@@ -520,6 +520,9 @@ namespace FallGuysStats {
                 
                 this.txtCycleTimeSeconds.Location = new Point(96, 171);
                 this.lblCycleTimeSecondsTag.Location = new Point(127, 170);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(254, 22);
                     this.txtGameShortcutLocation.Size = new Size(420, 20);
@@ -548,6 +551,9 @@ namespace FallGuysStats {
                 
                 this.txtCycleTimeSeconds.Location = new Point(83, 171);
                 this.lblCycleTimeSecondsTag.Location = new Point(114, 170);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(236, 22);
                     this.txtGameShortcutLocation.Size = new Size(438, 20);
@@ -576,13 +582,16 @@ namespace FallGuysStats {
                 
                 this.txtCycleTimeSeconds.Location = new Point(105, 171);
                 this.lblCycleTimeSecondsTag.Location = new Point(135, 170);
+                this.grpLaunchPlatform.Size = new Size(125, 56);
+                this.lblGameExeLocation.Location = new Point(147, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(150, 54);
                 if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(261, 22);
-                    this.txtGameShortcutLocation.Size = new Size(412, 20);
+                    this.txtGameShortcutLocation.Location = new Point(311, 22);
+                    this.txtGameShortcutLocation.Size = new Size(362, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
-                    this.txtGameExeLocation.Location = new Point(250, 22);
-                    this.txtGameExeLocation.Size = new Size(424, 20);
+                    this.txtGameExeLocation.Location = new Point(300, 22);
+                    this.txtGameExeLocation.Size = new Size(374, 20);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
             } else if (lang == 3) { // Simplified Chinese
@@ -608,6 +617,9 @@ namespace FallGuysStats {
 
                 this.txtCycleTimeSeconds.Location = new Point(85, 170);
                 this.lblCycleTimeSecondsTag.Location = new Point(115, 172);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(227, 22);
                     this.txtGameShortcutLocation.Size = new Size(447, 20);
@@ -724,8 +736,8 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
-            this.grpGameOptions.Text = Multilingual.GetWord("settings_game_oprions");
-            this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_oprions_platform");
+            this.grpGameOptions.Text = Multilingual.GetWord("settings_game_options");
+            this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
             //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
             this.chkAutoLaunchGameOnStart.Text = Multilingual.GetWord("settings_auto_launch_fall_guys_on_tracker");
