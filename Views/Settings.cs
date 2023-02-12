@@ -7,6 +7,7 @@ namespace FallGuysStats {
     public partial class Settings : Form {
         private string overlayFontSerialized = string.Empty;
         public UserSettings CurrentSettings { get; set; }
+        public Stats StatsForm { get; set; }
         private int LaunchPlatform;
         private int DisplayLang;
         public Settings() {
@@ -432,6 +433,8 @@ namespace FallGuysStats {
 
                 this.LaunchPlatform = 0;
             } else if (((PictureBox)sender).Name.Equals("picSteam")) { // Steam
+                this.StatsForm.UpdateGameExeLocation();
+                this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
                 this.picPlatformCheck.Parent = this.picSteam;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Steam");
                 this.txtGameShortcutLocation.Visible = false;
