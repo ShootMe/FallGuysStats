@@ -668,6 +668,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 23;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 23) {
+                this.CurrentSettings.GameExeLocation = string.Empty;
+                this.CurrentSettings.Version = 24;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings() {
@@ -712,7 +718,7 @@ namespace FallGuysStats {
                 Version = 23,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
-                GameFileLocation = string.Empty,
+                GameShortcutLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
                 UpdatedDateFormat = true
             };
@@ -1568,43 +1574,69 @@ namespace FallGuysStats {
                 MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void UpdateGameExeLocation() {
-            if (string.IsNullOrEmpty(this.CurrentSettings.GameExeLocation)) {
-                string fallGuys = FindGameExeLocation();
-                if (!string.IsNullOrEmpty(fallGuys)) {
-                    this.CurrentSettings.GameExeLocation = fallGuys;
-                    this.SaveUserSettings();
-                }
-            }
-        }
         private void LaunchGame(bool ignoreExisting) {
             try {
-                //UpdateGameExeLocation();
-                if (!string.IsNullOrEmpty(this.CurrentSettings.GameExeLocation) && File.Exists(this.CurrentSettings.GameFileLocation)) {
-                    Process[] processes = Process.GetProcesses();
-                    //string fallGuys = Path.GetFileNameWithoutExtension(CurrentSettings.GameExeLocation);
-                    string fallGuysProcessName = "FallGuys_client_game";
-                    for (int i = 0; i < processes.Length; i++) {
-                        string name = processes[i].ProcessName;
-                        if (name.IndexOf(fallGuysProcessName, StringComparison.OrdinalIgnoreCase) >= 0) {
-                            if (!ignoreExisting) {
-                                MessageBox.Show(this, Multilingual.GetWord("message_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (CurrentSettings.LaunchPlatform == 0) {
+                    if (!string.IsNullOrEmpty(this.CurrentSettings.GameShortcutLocation)) {
+                        Process[] processes = Process.GetProcesses();
+                        string fallGuysProcessName = "FallGuys_client_game";
+                        for (int i = 0; i < processes.Length; i++) {
+                            string name = processes[i].ProcessName;
+                            if (name.IndexOf(fallGuysProcessName, StringComparison.OrdinalIgnoreCase) >= 0) {
+                                if (!ignoreExisting) {
+                                    MessageBox.Show(this, Multilingual.GetWord("message_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                return;
                             }
-                            return;
                         }
-                    }
 
-                    if (MessageBox.Show(this, $"{Multilingual.GetWord("message_execution_question")}", Multilingual.GetWord("message_execution_caption"),
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                    {
-                        Process.Start(this.CurrentSettings.GameExeLocation);
-                        this.WindowState = FormWindowState.Minimized;
+                        if (MessageBox.Show(this, $"{Multilingual.GetWord("message_execution_question")}", Multilingual.GetWord("message_execution_caption"),
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        {
+                            Process.Start(this.CurrentSettings.GameShortcutLocation);
+                            this.WindowState = FormWindowState.Minimized;
+                        }
+                    } else {
+                        MessageBox.Show(this, Multilingual.GetWord("message_register_shortcut"), Multilingual.GetWord("message_register_shortcut_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 } else {
-                    MessageBox.Show(this, Multilingual.GetWord("message_register_shortcut"), Multilingual.GetWord("message_register_shortcut_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.UpdateGameExeLocation();
+                    if (!string.IsNullOrEmpty(CurrentSettings.GameExeLocation) && File.Exists(CurrentSettings.GameExeLocation)) {
+                        Process[] processes = Process.GetProcesses();
+                        string fallGuysProcessName = Path.GetFileNameWithoutExtension(CurrentSettings.GameExeLocation);
+                        for (int i = 0; i < processes.Length; i++) {
+                            string name = processes[i].ProcessName;
+                            if (name.IndexOf(fallGuysProcessName, StringComparison.OrdinalIgnoreCase) >= 0) {
+                                if (!ignoreExisting) {
+                                    MessageBox.Show(this, Multilingual.GetWord("message_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                return;
+                            }
+                        }
+
+                        if (MessageBox.Show(this, $"{Multilingual.GetWord("message_execution_question")}", Multilingual.GetWord("message_execution_caption"),
+                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                        {
+                            Process.Start(this.CurrentSettings.GameExeLocation);
+                            this.WindowState = FormWindowState.Minimized;
+                        }
+                    } else {
+                        MessageBox.Show(this, Multilingual.GetWord("message_register_exe"), Multilingual.GetWord("message_register_exe_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        public void UpdateGameExeLocation() {
+            if (string.IsNullOrEmpty(this.CurrentSettings.GameExeLocation)) {
+                string fallGuysExeLocation = this.FindGameExeLocation();
+                if (!string.IsNullOrEmpty(fallGuysExeLocation)) {
+                    this.menuLaunchFallGuys.Image = Properties.Resources.steam_main_icon;
+                    this.CurrentSettings.LaunchPlatform = 1;
+                    this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
+                    this.SaveUserSettings();
+                }
             }
         }
         private string FindGameExeLocation() {
@@ -1828,7 +1860,6 @@ namespace FallGuysStats {
                     settings.Icon = this.Icon;
                     settings.CurrentSettings = this.CurrentSettings;
                     string lastLogPath = this.CurrentSettings.LogPath;
-
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
                         this.SaveUserSettings();
@@ -2012,6 +2043,8 @@ namespace FallGuysStats {
             this.menuUpdate.Text = $"{Multilingual.GetWord("main_update")}";
             this.menuHelp.Text = $"{Multilingual.GetWord("main_help")}";
             this.menuLaunchFallGuys.Text = $"{Multilingual.GetWord("main_launch_fall_guys")}";
+            //this.menuLaunchFallGuys.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            this.menuLaunchFallGuys.Image = this.CurrentSettings.LaunchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
         }
     }
 }
