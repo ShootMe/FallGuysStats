@@ -16,7 +16,11 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
 ## Multilingual Support
-  - FallGuysStats is available in multiple languages. (Currently available in English, Korean, and Japanese)
+  - FallGuysStats supports the following languages.
+    - English
+    - Korean
+    - Japanese
+    - Simplified Chinese
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)

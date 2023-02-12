@@ -216,15 +216,15 @@ namespace FallGuysStats {
                 this._saveFile.Title = Multilingual.GetWord("message_save_csv_file_caption");
                 this._saveFile.Filter = "CSV files|*.csv";
                 if (this.Name.Equals("gridRoundsSummryList")) {
-                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
                 } else if (this.Name.Equals("gridShowsStats")) {
-                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
                 } else if (this.Name.Equals("gridRoundsStats")) {
-                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
                 } else if (this.Name.Equals("gridFinalsStats")) {
-                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
                 } else if (this.Name.Equals("gridRoundStats")) {
-                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")}";
+                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
                 }
                 
                 if (this._saveFile.ShowDialog() == DialogResult.OK) {
