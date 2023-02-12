@@ -112,6 +112,26 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap epic_icon {
+            get {
+                object obj = ResourceManager.GetObject("epic_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap epic_main_icon {
+            get {
+                object obj = ResourceManager.GetObject("epic_main_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap export {
             get {
                 object obj = ResourceManager.GetObject("export", resourceCulture);
@@ -425,6 +445,26 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap stat_icon {
             get {
                 object obj = ResourceManager.GetObject("stat_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap steam_icon {
+            get {
+                object obj = ResourceManager.GetObject("steam_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap steam_main_icon {
+            get {
+                object obj = ResourceManager.GetObject("steam_main_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

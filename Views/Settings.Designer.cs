@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace FallGuysStats {
     partial class Settings {
@@ -80,15 +81,20 @@ namespace FallGuysStats {
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
             this.grpGameOptions = new System.Windows.Forms.GroupBox();
             this.lblGameExeLocation = new System.Windows.Forms.Label();
-            this.picLanguageSelection = new PictureBox();
+            this.picLanguageSelection = new System.Windows.Forms.PictureBox();
+            this.grpLaunchPlatform = new System.Windows.Forms.GroupBox();
+            this.picSteam = new System.Windows.Forms.PictureBox();
+            this.picEpicGames = new System.Windows.Forms.PictureBox();
+            this.picPlatformCheck = new System.Windows.Forms.PictureBox();
             this.txtGameExeLocation = new System.Windows.Forms.TextBox();
-            this.txtGameFileLocation = new System.Windows.Forms.TextBox();
+            this.txtGameShortcutLocation = new System.Windows.Forms.TextBox();
             this.btnGameExeLocationBrowse = new System.Windows.Forms.Button();
             this.chkAutoLaunchGameOnStart = new System.Windows.Forms.CheckBox();
             this.grpSortingOptions = new System.Windows.Forms.GroupBox();
             this.chkIgnoreLevelTypeWhenSorting = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dlgOverlayFont = new System.Windows.Forms.FontDialog();
+            this.platformToolTip = new System.Windows.Forms.ToolTip();
             this.grpOverlay.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
@@ -98,6 +104,7 @@ namespace FallGuysStats {
             this.grpStats.SuspendLayout();
             this.grpGameOptions.SuspendLayout();
             this.grpSortingOptions.SuspendLayout();
+            this.grpLaunchPlatform.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
@@ -117,7 +124,7 @@ namespace FallGuysStats {
             this.lblLogPathNote.Name = "lblLogPathNote";
             this.lblLogPathNote.Size = new System.Drawing.Size(458, 13);
             this.lblLogPathNote.TabIndex = 2;
-            this.lblLogPathNote.Text = "* You Should not need to set this. Only use when the program is not reading the correct location.";
+            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the correct location.";
             // 
             // txtLogPath
             // 
@@ -159,6 +166,7 @@ namespace FallGuysStats {
             this.grpOverlay.Controls.Add(this.btnSelectFont);
             this.grpOverlay.Controls.Add(this.btnResetOverlayFont);
             this.grpOverlay.Controls.Add(this.grpOverlayFontExample);
+            this.grpOverlay.Controls.Add(this.grpLaunchPlatform);
             this.grpOverlay.Location = new System.Drawing.Point(12, 95);
             this.grpOverlay.Name = "grpOverlay";
             this.grpOverlay.Size = new System.Drawing.Size(645, 306);
@@ -694,9 +702,10 @@ namespace FallGuysStats {
             // 
             // grpGameOptions
             // 
+            this.grpGameOptions.Controls.Add(this.grpLaunchPlatform);
             this.grpGameOptions.Controls.Add(this.lblGameExeLocation);
             this.grpGameOptions.Controls.Add(this.txtGameExeLocation);
-            this.grpGameOptions.Controls.Add(this.txtGameFileLocation);
+            this.grpGameOptions.Controls.Add(this.txtGameShortcutLocation);
             this.grpGameOptions.Controls.Add(this.btnGameExeLocationBrowse);
             this.grpGameOptions.Controls.Add(this.chkAutoLaunchGameOnStart);
             this.grpGameOptions.Controls.Add(this.picLanguageSelection);
@@ -710,22 +719,12 @@ namespace FallGuysStats {
             this.grpGameOptions.TabStop = false;
             this.grpGameOptions.Text = "Game Oprions";
             // 
-            // lblGameExeLocation
-            // 
-            this.lblGameExeLocation.AutoSize = true;
-            this.lblGameExeLocation.Location = new System.Drawing.Point(11, 16);
-            this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblGameExeLocation.Name = "lblGameExeLocation";
-            this.lblGameExeLocation.Size = new System.Drawing.Size(125, 13);
-            this.lblGameExeLocation.TabIndex = 0;
-            this.lblGameExeLocation.Text = "Fall Guys Shortcut Location";
-            // 
             // picLanguageSelection
             // 
-            this.picLanguageSelection.Location = new System.Drawing.Point(11, 59);
+            this.picLanguageSelection.Location = new System.Drawing.Point(12, 60);
             this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Width = 21;
-            this.picLanguageSelection.Height = 21;
+            this.picLanguageSelection.Width = 22;
+            this.picLanguageSelection.Height = 22;
             this.picLanguageSelection.Image = Properties.Resources.language_icon;
             this.picLanguageSelection.SizeMode = PictureBoxSizeMode.Zoom;
             // 
@@ -737,11 +736,21 @@ namespace FallGuysStats {
                 "한국어",
                 "日本語",
                 "简体中文"});
-            this.cboMultilingual.Location = new System.Drawing.Point(40, 60);
+            this.cboMultilingual.Location = new System.Drawing.Point(41, 61);
             this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(60, 19);
+            this.cboMultilingual.Size = new System.Drawing.Size(65, 19);
             this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
             this.cboMultilingual.TabIndex = 99;
+            // 
+            // lblGameExeLocation
+            // 
+            this.lblGameExeLocation.AutoSize = true;
+            this.lblGameExeLocation.Location = new System.Drawing.Point(92, 17);
+            this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblGameExeLocation.Name = "lblGameExeLocation";
+            this.lblGameExeLocation.Size = new System.Drawing.Size(125, 13);
+            this.lblGameExeLocation.TabIndex = 0;
+            this.lblGameExeLocation.Text = "Fall Guys Shortcut Location";
             // 
             // txtGameExeLocation
             // 
@@ -749,18 +758,21 @@ namespace FallGuysStats {
             this.txtGameExeLocation.Location = new System.Drawing.Point(155, 15);
             this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameExeLocation.Name = "txtGameExeLocation";
-            this.txtGameExeLocation.Size = new System.Drawing.Size(425, 20);
-            this.txtGameExeLocation.TabIndex = 1;
+            this.txtGameExeLocation.Size = new System.Drawing.Size(420, 20);
+            //this.txtGameExeLocation.TabIndex = 1;
             // 
-            // txtGameFileLocation
+            // txtGameShortcutLocation
             // 
-            this.txtGameFileLocation.Visible = false;
-            this.txtGameFileLocation.Enabled = false;
-            this.txtGameFileLocation.Name = "txtGameFileLocation";
+            this.txtGameShortcutLocation.Enabled = false;
+            this.txtGameShortcutLocation.Location = new System.Drawing.Point(155, 15);
+            this.txtGameShortcutLocation.Margin = new System.Windows.Forms.Padding(2);
+            this.txtGameShortcutLocation.Name = "txtGameShortcutLocation";
+            this.txtGameShortcutLocation.Size = new System.Drawing.Size(420, 20);
+            //this.txtGameShortcutLocation.TabIndex = 1;
             // 
             // btnGameExeLocationBrowse
             // 
-            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(586, 15);
+            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(581, 15);
             this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(12);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
             this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(53, 18);
@@ -769,9 +781,63 @@ namespace FallGuysStats {
             this.btnGameExeLocationBrowse.UseVisualStyleBackColor = true;
             this.btnGameExeLocationBrowse.Click += new System.EventHandler(this.btnGameExeLocationBrowse_Click);
             // 
+            // grpLaunchPlatform
+            // 
+            this.grpLaunchPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpLaunchPlatform.Controls.Add(this.picPlatformCheck);
+            this.grpLaunchPlatform.Controls.Add(this.picEpicGames);
+            this.grpLaunchPlatform.Controls.Add(this.picSteam);
+            this.grpLaunchPlatform.Location = new System.Drawing.Point(12, 13);
+            this.grpLaunchPlatform.Margin = new System.Windows.Forms.Padding(0);
+            this.grpLaunchPlatform.Name = "grpLaunchPlatform";
+            this.grpLaunchPlatform.Padding = new System.Windows.Forms.Padding(2);
+            this.grpLaunchPlatform.Size = new System.Drawing.Size(75, 40);
+            this.grpLaunchPlatform.Text = "Platform";
+            //this.grpLaunchPlatform.TabIndex = 8;
+            this.grpLaunchPlatform.TabStop = false;
+            // 
+            // picPlatformCheck
+            // 
+            this.picPlatformCheck.Location = new System.Drawing.Point(3, -1);
+            this.picPlatformCheck.Name = "picPlatformCheck";
+            this.picPlatformCheck.Width = 22;
+            this.picPlatformCheck.Height = 22;
+            this.picPlatformCheck.Image = Properties.Resources.checkmark_icon;
+            this.picPlatformCheck.SizeMode = PictureBoxSizeMode.Zoom;
+            this.picPlatformCheck.BackColor = Color.Transparent;
+            this.picPlatformCheck.Parent = this.picSteam;
+            // 
+            // picEpicGames
+            // 
+            this.picEpicGames.Location = new System.Drawing.Point(8, 12);
+            this.picEpicGames.Size = new System.Drawing.Size(100, 100);
+            this.picEpicGames.Name = "picEpicGames";
+            this.picEpicGames.Cursor = Cursors.Hand;
+            this.picEpicGames.Width = 27;
+            this.picEpicGames.Height = 27;
+            this.picEpicGames.Image = Properties.Resources.epic_icon;
+            this.platformToolTip.SetToolTip(this.picEpicGames, "Epic Games");
+            this.picEpicGames.BackColor = Color.Transparent;
+            this.picEpicGames.SizeMode = PictureBoxSizeMode.Zoom;
+            this.picEpicGames.Click += new System.EventHandler(this.launchPlatform_Click);
+            // 
+            // picSteam
+            // 
+            this.picSteam.Location = new System.Drawing.Point(41, 12);
+            this.picSteam.Name = "picSteam";
+            this.picSteam.Cursor = Cursors.Hand;
+            this.picSteam.Width = 26;
+            this.picSteam.Height = 26;
+            this.picSteam.Image = Properties.Resources.steam_icon;
+            this.platformToolTip.SetToolTip(this.picSteam, "Steam");
+            this.picSteam.BackColor = Color.Transparent;
+            this.picSteam.SizeMode = PictureBoxSizeMode.Zoom;
+            this.picSteam.Click += new System.EventHandler(this.launchPlatform_Click);
+            // 
             // chkAutoLaunchGameOnStart
             // 
-            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(13, 36);
+            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(94, 39);
             this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
             this.chkAutoLaunchGameOnStart.Name = "chkAutoLaunchGameOnStart";
             this.chkAutoLaunchGameOnStart.Size = new System.Drawing.Size(350, 16);
@@ -787,7 +853,7 @@ namespace FallGuysStats {
             this.grpSortingOptions.Margin = new System.Windows.Forms.Padding(2);
             this.grpSortingOptions.Name = "grpSortingOptions";
             this.grpSortingOptions.Padding = new System.Windows.Forms.Padding(2);
-            this.grpSortingOptions.Size = new System.Drawing.Size(645, 44);
+            this.grpSortingOptions.Size = new System.Drawing.Size(644, 44);
             this.grpSortingOptions.TabIndex = 5;
             this.grpSortingOptions.TabStop = false;
             this.grpSortingOptions.Text = "Sorting Options";
@@ -870,6 +936,8 @@ namespace FallGuysStats {
             this.grpGameOptions.PerformLayout();
             this.grpSortingOptions.ResumeLayout(false);
             this.grpSortingOptions.PerformLayout();
+            this.grpLaunchPlatform.ResumeLayout(false);
+            this.grpLaunchPlatform.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -911,9 +979,9 @@ namespace FallGuysStats {
         private System.Windows.Forms.CheckBox chkChangeHoopsieLegends;
         private System.Windows.Forms.GroupBox grpGameOptions;
         private System.Windows.Forms.Label lblGameExeLocation;
-        private PictureBox picLanguageSelection;
+        private System.Windows.Forms.PictureBox picLanguageSelection;
         private System.Windows.Forms.TextBox txtGameExeLocation;
-        private System.Windows.Forms.TextBox txtGameFileLocation;
+        private System.Windows.Forms.TextBox txtGameShortcutLocation;
         private System.Windows.Forms.Button btnGameExeLocationBrowse;
         private System.Windows.Forms.CheckBox chkAutoLaunchGameOnStart;
         private System.Windows.Forms.GroupBox grpSortingOptions;
@@ -940,6 +1008,11 @@ namespace FallGuysStats {
         private System.Windows.Forms.FontDialog dlgOverlayFont;
         private System.Windows.Forms.Label lblOverlayFontExample;
         private System.Windows.Forms.GroupBox grpOverlayFontExample;
+        private System.Windows.Forms.GroupBox grpLaunchPlatform;
+        private System.Windows.Forms.PictureBox picSteam;
+        private System.Windows.Forms.PictureBox picEpicGames;
+        private System.Windows.Forms.PictureBox picPlatformCheck;
         private System.Windows.Forms.Button btnResetOverlayFont;
+        private System.Windows.Forms.ToolTip platformToolTip;
     }
 }

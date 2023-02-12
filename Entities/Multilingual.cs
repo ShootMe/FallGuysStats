@@ -118,8 +118,13 @@ namespace FallGuysStats {
                             {"message_already_running", "Fall Guys is already running."},
                             {"message_register_shortcut_caption", "Need to set shortcut file path"},
                             {"message_register_shortcut", "Please set the shortcut file path of the Fall Guys."},
-                            {"message_wrong_file_selected_caption", "Wrong File Selected"},
-                            {"message_wrong_file_selected", "Please select the Fall Guys client's shortcut file."},
+                            {"message_register_exe_caption", "Need to set exe file path"},
+                            {"message_register_exe", "Please set the exe file path of the Fall Guys."},
+                            {"message_wrong_selected_file_caption", "Wrong File Selected"},
+                            {"message_wrong_selected_file_epicgames", "Please select the Fall Guys client's shortcut file."},
+                            {"message_wrong_selected_file_steam", "Please select \"FallGuys_client_game.exe\" in the install folder."},
+                            {"message_not_installed_steam_caption", "Not Installed"},
+                            {"message_not_installed_steam", "The Steam version of Fall Guys is not installed."},
                             {"message_save_csv_caption", "Export as CSV File"},
                             {"message_save_csv", "Saved CSV to file."},
                             {"message_save_html_caption", "Export as HTML"},
@@ -168,7 +173,7 @@ namespace FallGuysStats {
 
                             {"settings_title", "Settings"},
                             {"settings_log_path", "Log File Path"},
-                            {"settings_log_path_description", "* You Should not need to set this. Only use when the program is not reading the correct location."},
+                            {"settings_log_path_description", "* You should not need to set this. Only use when the program is not reading the correct location."},
                             {"settings_stats", "Stats"},
                             {"settings_previous_win", "Previous Win"},
                             {"settings_before_using_tracker", "Before using tracker"},
@@ -222,7 +227,15 @@ namespace FallGuysStats {
                             {"settings_sorting_options", "Sorting Options"},
                             {"settings_ignore_level_type_when_sorting", "Ignore Level Type when sorting"},
                             {"settings_game_oprions", "Game Oprions"},
-                            {"settings_fall_guys_shortcut_location", "Fall Guys Shortcut Location"},
+                            {"settings_game_oprions_platform", "Platform"},
+                            {"settings_fall_guys_exe_location", "Game exe Location"},
+                            {"settings_fall_guys_exe_openfile_title", "Select the Fall Guys Client exe file"},
+                            {"settings_fall_guys_exe_openfile_name", "FallGuys_client_game.exe"},
+                            {"settings_fall_guys_exe_openfile_filter", "Exe files (*.exe)|*.exe"},
+                            {"settings_fall_guys_shortcut_location", "Game Shortcut Location"},
+                            {"settings_fall_guys_shortcut_openfile_title", "Select the Fall Guys Client shortcut file"},
+                            {"settings_fall_guys_shortcut_openfile_name", ""},
+                            {"settings_fall_guys_shortcut_openfile_filter", "URL files (*.url)|*.url"},
                             {"settings_browse", "Browse"},
                             {"settings_auto_launch_fall_guys_on_tracker", "Auto-launch Fall Guys on tracker"},
                             {"settings_language", "language"},
@@ -396,8 +409,13 @@ namespace FallGuysStats {
                             {"message_already_running", "폴 가이즈 클라이언트가 이미 실행 중입니다."},
                             {"message_register_shortcut_caption", "바로가기 파일 경로 설정 필요"},
                             {"message_register_shortcut", "폴 가이즈 게임의 바로가기 파일 경로를 설정해 주세요."},
-                            {"message_wrong_file_selected_caption", "잘못된 파일 선택"},
-                            {"message_wrong_file_selected", "폴 가이즈 클라이언트의 바로가기 파일을 선택하세요."},
+                            {"message_register_exe_caption", "실행 파일 경로 설정 필요"},
+                            {"message_register_exe", "폴 가이즈 게임의 실행 파일 경로를 설정해 주세요."},
+                            {"message_wrong_selected_file_caption", "잘못된 파일 선택"},
+                            {"message_wrong_selected_file_epicgames", "폴 가이즈 클라이언트의 바로가기 파일을 선택해 주세요."},
+                            {"message_wrong_selected_file_steam", "설치 폴더에서 \"FallGuys_client_game.exe\"를 선택해 주세요."},
+                            {"message_not_installed_steam_caption", "설치되지 않음"},
+                            {"message_not_installed_steam", "스팀 버전 폴 가이즈가 설치되어 있지 않습니다."},
                             {"message_save_csv_caption", "CSV 파일로 내보내기"},
                             {"message_save_csv", "CSV 파일로 저장했습니다."},
                             {"message_save_html_caption", "HTML 형식으로 내보내기"},
@@ -500,7 +518,15 @@ namespace FallGuysStats {
                             {"settings_sorting_options", "통계표 정렬 옵션"},
                             {"settings_ignore_level_type_when_sorting", "라운드 유형 상관 없이 정렬하기"},
                             {"settings_game_oprions", "실행 옵션"},
-                            {"settings_fall_guys_shortcut_location", "게임 바로가기 경로"},
+                            {"settings_game_oprions_platform", "플랫폼"},
+                            {"settings_fall_guys_exe_location", "게임 실행 파일 경로"},
+                            {"settings_fall_guys_exe_openfile_title", "게임 실행 파일 선택"},
+                            {"settings_fall_guys_exe_openfile_name", "FallGuys_client_game.exe"},
+                            {"settings_fall_guys_exe_openfile_filter", "Exe files (*.exe)|*.exe"},
+                            {"settings_fall_guys_shortcut_location", "게임 바로가기 파일 경로"},
+                            {"settings_fall_guys_shortcut_openfile_title", "게임 바로가기 파일 선택"},
+                            {"settings_fall_guys_shortcut_openfile_name", ""},
+                            {"settings_fall_guys_shortcut_openfile_filter", "URL files (*.url)|*.url"},
                             {"settings_browse", "찾아보기"},
                             {"settings_auto_launch_fall_guys_on_tracker", "스탯츠 실행할 때 폴 가이즈 클라이언트도 같이 실행하기"},
                             {"settings_language", "표시 언어"},
@@ -674,8 +700,13 @@ namespace FallGuysStats {
                             {"message_already_running", "Fall Guysはすでに実行中です。"},
                             {"message_register_shortcut_caption", "ショートカットファイルパスの設定が必要"},
                             {"message_register_shortcut", "Fall Guysのショートカットファイルパスを設定してください。"},
-                            {"message_wrong_file_selected_caption", "無効なファイルを選択"},
-                            {"message_wrong_file_selected", "Fall Guysのショートカットファイルを選択してください。"},
+                            {"message_register_exe_caption", "実行可能ファイルのパス設定が必要"},
+                            {"message_register_exe", "Fall Guysの実行可能ファイルのパスを設定します。"},
+                            {"message_wrong_selected_file_caption", "無効なファイルを選択"},
+                            {"message_wrong_selected_file_epicgames", "Fall Guysのショートカットファイルを選択してください。"},
+                            {"message_wrong_selected_file_steam", "インストールフォルダから \"FallGuys_client_game.exe\" を選択してください。"},
+                            {"message_not_installed_steam_caption", "インストールされていない"},
+                            {"message_not_installed_steam", "Steam 版 Fall Guys がインストールされていません。"},
                             {"message_save_csv_caption", "CSVファイルにエクスポート"},
                             {"message_save_csv", "CSVファイルとして保存しました。"},
                             {"message_save_html_caption", "HTMLにエクスポート"},
@@ -778,7 +809,15 @@ namespace FallGuysStats {
                             {"settings_sorting_options", "統計表の並べ替えオプション"},
                             {"settings_ignore_level_type_when_sorting", "ラウンドタイプに関係なく並べ替える"},
                             {"settings_game_oprions", "実行オプション"},
+                            {"settings_game_oprions_platform", "演壇"},
+                            {"settings_fall_guys_exe_location", "ゲーム実行ファイルパス"},
+                            {"settings_fall_guys_exe_openfile_title", "ゲーム実行ファイルを選択"},
+                            {"settings_fall_guys_exe_openfile_name", "FallGuys_client_game.exe"},
+                            {"settings_fall_guys_exe_openfile_filter", "Exe files (*.exe)|*.exe"},
                             {"settings_fall_guys_shortcut_location", "ゲームショートカットパス"},
+                            {"settings_fall_guys_shortcut_openfile_title", "ゲームのショートカットファイルを選択"},
+                            {"settings_fall_guys_shortcut_openfile_name", ""},
+                            {"settings_fall_guys_shortcut_openfile_filter", "URL files (*.url)|*.url"},
                             {"settings_browse", "閲覧"},
                             {"settings_auto_launch_fall_guys_on_tracker", "Statsを実行するときにFallGuysも一緒に実行する"},
                             {"settings_language", "表示言語"},
@@ -952,8 +991,13 @@ namespace FallGuysStats {
                             {"message_already_running", "糖豆人已在运行。"},
                             {"message_register_shortcut_caption", "需要设置快捷方式路径"},
                             {"message_register_shortcut", "请设置糖豆人的快捷方式路径。"},
-                            {"message_wrong_file_selected_caption", "错误文件"},
-                            {"message_wrong_file_selected", "请选择糖豆人客户端的快捷方式。"},
+                            {"message_register_exe_caption", "需要设置exe路径"},
+                            {"message_register_exe", "请为糖豆人设置一个exe路径。"},
+                            {"message_wrong_selected_file_caption", "错误文件"},
+                            {"message_wrong_selected_file_epicgames", "请选择糖豆人客户端的快捷方式。"},
+                            {"message_wrong_selected_file_steam", "请选择安装文件夹中的 \"FallGuys_client_game.exe\"。"},
+                            {"message_not_installed_steam_caption", "未安装"},
+                            {"message_not_installed_steam", "你没有安装Steam版的《Fall Guys》。"},
                             {"message_save_csv_caption", "导出 CSV"},
                             {"message_save_csv", "CSV 文件已保存。"},
                             {"message_save_html_caption", "导出 HTML"},
@@ -1056,7 +1100,15 @@ namespace FallGuysStats {
                             {"settings_sorting_options", "排序选项"},
                             {"settings_ignore_level_type_when_sorting", "排序时忽略关卡类型"},
                             {"settings_game_oprions", "游戏选项"},
-                            {"settings_fall_guys_shortcut_location", "糖豆人安装路径"},
+                            {"settings_game_oprions_platform", "平台"},
+                            {"settings_fall_guys_exe_location", "游戏可执行路径"},
+                            {"settings_fall_guys_exe_openfile_title", "选择游戏可执行文件"},
+                            {"settings_fall_guys_exe_openfile_name", "FallGuys_client_game.exe"},
+                            {"settings_fall_guys_exe_openfile_filter", "Exe files (*.exe)|*.exe"},
+                            {"settings_fall_guys_shortcut_location", "游戏快捷键文件路径"},
+                            {"settings_fall_guys_shortcut_openfile_title", "选择一个游戏快捷方式文件"},
+                            {"settings_fall_guys_shortcut_openfile_name", ""},
+                            {"settings_fall_guys_shortcut_openfile_filter", "URL files (*.url)|*.url"},
                             {"settings_browse", "浏览"},
                             {"settings_auto_launch_fall_guys_on_tracker", "启动统计器时自动启动游戏"},
                             {"settings_language", "语言"},
@@ -1114,7 +1166,7 @@ namespace FallGuysStats {
                             {"profile_move_select_question_suffix", "个人资料？"},
                             {"profile_move_select_button", "移动"},
                         }
-            }
+            },
         };
 
         public static readonly Dictionary<string, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
@@ -1369,7 +1421,8 @@ namespace FallGuysStats {
                             {"round_thin_ice", "パキパキアイス"},
                             {"round_tiptoefinale_almond", "ヒヤヒヤロードファイナル"},
                         }
-            },{ "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            },
+            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "空中竞赛"},
                             {"round_bluejay", "糖豆山世界"},
                             {"round_biggestfan", "大风车转转转"},
@@ -1452,8 +1505,7 @@ namespace FallGuysStats {
                             {"round_thin_ice", "如履薄冰"},
                             {"round_tiptoefinale_almond", "决胜之踮"},
                         }
-            }
-
+            },
         };
 
         public static readonly Dictionary<string, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
@@ -2455,7 +2507,8 @@ namespace FallGuysStats {
                     { "toms_main_show_5_2", "メインショー" },
                     { "toms_show2", "Toms Show 2" },
                 }
-            },{ "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            },
+            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                      { "collectables_ss2_batch_01", "Collectables Batch 01" },
                      { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                      { "collectables_ss2_batch_01_model2", "Debug Lobbies Show" },
@@ -2787,31 +2840,41 @@ namespace FallGuysStats {
                      { "toms_main_show_5_2", "主要节目" },
                      { "toms_show2", "Toms Show 2" },
                 }
-            }
+            },
         };
 
         public static string GetCurrentLanguage() {
             string lang = string.Empty;
             switch (Stats.CurrentLanguage) {
-                case 0:
-                    lang = "eng";
-                    break;
-                case 1:
-                    lang = "kor";
-                    break;
-                case 2:
-                    lang = "jpn";
-                    break;
-                case 3:
-                    lang = "chs";
-                    break;
+                case 0: lang = "eng"; break;
+                case 1: lang = "kor"; break;
+                case 2: lang = "jpn"; break;
+                case 3: lang = "chs"; break;
             }
-
             return lang;
         }
         public static string GetWord(string keyWord) {
-            string word = String.Empty;
+            string word = string.Empty;
             MultilingualDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> wordsDictionary);
+            wordsDictionary?.TryGetValue(keyWord, out word);
+            return word;
+        }
+        public static string GetWordWithLang (string keyWord, int lang) {
+            string word = string.Empty;
+            string nation = string.Empty;
+            switch (lang) {
+                case 0: nation = "eng"; break;
+                case 1: nation = "kor"; break;
+                case 2: nation = "jpn"; break;
+                case 3: nation = "chs"; break;
+            }
+            MultilingualDictionary.TryGetValue(nation, out Dictionary<string, string> wordsDictionary);
+            wordsDictionary?.TryGetValue(keyWord, out word);
+            return word;
+        }
+        public static string GetWordWithLang (string keyWord, string lang) {
+            string word = string.Empty;
+            MultilingualDictionary.TryGetValue(lang, out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyWord, out word);
             return word;
         }
@@ -2821,8 +2884,8 @@ namespace FallGuysStats {
             roundDictionary?.TryGetValue(keyWord, out name);
             return name;
         }*/
-        public static string GetShowName(string keyWord) {
-            string name = String.Empty;
+        public static string GetShowName (string keyWord) {
+            string name = string.Empty;
             MultilingualShowsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> showsDictionary);
             showsDictionary?.TryGetValue(keyWord, out name);
             return name;
