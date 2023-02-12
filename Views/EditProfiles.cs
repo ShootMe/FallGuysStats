@@ -220,6 +220,8 @@ namespace FallGuysStats {
                 this.MoveFromCombobox.Location =      new Point(81, 10);
                 this.MoveToCombobox.Location =        new Point(81, 44);
                 this.RemoveProfileCombobox.Location = new Point(95, 10);
+            } else if (Stats.CurrentLanguage == 3) { // Simplified Chinese
+                this.RemoveProfileCombobox.Location = new Point(95, 10);
             }
         }
     }
