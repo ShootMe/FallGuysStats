@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -1986,13 +1985,13 @@ namespace FallGuysStats {
             return false;
         }
         private void ChangeMainLanguage() {
-            this.menu.Font = new Font(Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.menuLaunchFallGuys.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Bold, GraphicsUnit.Pixel, ((byte)(0)));
-            this.infoStrip.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.menu.Font = new Font(CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.menuLaunchFallGuys.Font = new Font(CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Bold, GraphicsUnit.Pixel, ((byte)(0)));
+            this.infoStrip.Font = new Font(CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle1.BackColor = Color.LightGray;
-            this.dataGridViewCellStyle1.Font = new Font(Overlay.DefaultFontCollection.Families[0], 10, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.dataGridViewCellStyle1.Font = new Font(CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 10, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             this.dataGridViewCellStyle1.ForeColor = Color.Black;
             this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
             this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
@@ -2001,7 +2000,7 @@ namespace FallGuysStats {
             
             this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle2.BackColor = Color.White;
-            this.dataGridViewCellStyle2.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.dataGridViewCellStyle2.Font = new Font(CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             this.dataGridViewCellStyle2.ForeColor = Color.Black;
             this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
             this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;

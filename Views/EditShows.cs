@@ -62,7 +62,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.Font = new Font(Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new Font(Stats.CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.lblEditShowslabel.Text = Multilingual.GetWord("profile_list");
             if (Stats.CurrentLanguage == 0) { // English
                 this.ClientSize = new Size(405, 194);
