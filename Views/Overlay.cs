@@ -486,11 +486,13 @@ namespace FallGuysStats {
                 case Keys.C:
                     this.StatsForm.CurrentSettings.PlayerByConsoleType =
                         !this.StatsForm.CurrentSettings.PlayerByConsoleType;
+                    this.StatsForm.SaveUserSettings();
                     this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
                     return;
                 case Keys.R:
                     this.StatsForm.CurrentSettings.ColorByRoundType =
                         !this.StatsForm.CurrentSettings.ColorByRoundType;
+                    this.StatsForm.SaveUserSettings();
                     this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
                     return;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
