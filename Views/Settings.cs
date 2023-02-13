@@ -504,6 +504,8 @@ namespace FallGuysStats {
                 this.cboMultilingual.SelectedIndex == 0 ? Overlay.DefaultFontCollection.Families[2] :
                 this.cboMultilingual.SelectedIndex == 3 ? Overlay.DefaultFontCollection.Families[1] :
                 Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.chkChangeHoopsieLegends.Visible = true;
+            this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
             if (lang == 0) { // English
                 this.txtLogPath.Location = new Point(98, 15);
                 this.txtLogPath.Size = new Size(667, 17);
@@ -602,7 +604,7 @@ namespace FallGuysStats {
                 this.txtLogPath.Size = new Size(668, 17);
                 this.lblLogPathNote.Location = new Point(95, 40);
 
-                this.grpStats.Font = new Font(Font.FontFamily, 10.25F, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+                this.grpStats.Font = new Font(Font.FontFamily, 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
                 this.txtPreviousWins.Location = new Point(98, 23);
                 this.lblPreviousWinsNote.Location = new Point(140, 23);
                 this.chkAutoUpdate.Location = new Point(275, 23);
