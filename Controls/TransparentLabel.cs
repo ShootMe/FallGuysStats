@@ -92,7 +92,7 @@ namespace FallGuysStats {
                                     int sizeOfText = TextRenderer.MeasureText(this.TextRight, this.GetFontForLongText()).Width;
                                     Pen pen = new Pen(this.LevelColor, 0);
                                     pen.Alignment = PenAlignment.Right;
-                                    this.FillRoundedRectangle(g, pen, new SolidBrush(this.LevelColor), (ClientRectangle.Width - sizeOfText), ClientRectangle.Y-1, sizeOfText, 22, 10);
+                                    this.FillRoundedRectangle(g, pen, new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - sizeOfText), this.ClientRectangle.Y-1, sizeOfText, 22, 10);
                                 }
                                 g.DrawString(this.TextRight, this.GetFontForLongText(), brFore, this.ClientRectangle, stringFormat);
                             } else {

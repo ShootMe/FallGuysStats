@@ -670,6 +670,8 @@ namespace FallGuysStats {
 
             if (this.CurrentSettings.Version == 23) {
                 this.CurrentSettings.GameExeLocation = string.Empty;
+                this.CurrentSettings.GameShortcutLocation = string.Empty;
+                this.CurrentSettings.AutoLaunchGameOnStartup = false;
                 this.CurrentSettings.Version = 24;
                 this.SaveUserSettings();
             }
