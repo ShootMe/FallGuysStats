@@ -972,15 +972,18 @@ namespace FallGuysStats {
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
-            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) {
+            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng
                 offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
                          (int)(this.GetCountKorAlphabet(s) * (6.7F)) - 
                          (int)(this.GetCountJpnAlphabet(s) * (0.8F)) - 
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)
-                       || this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) {
+            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
                 offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
+                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
+            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
+                offset = 22 - (this.GetCountKorAlphabet(s) * 2) - 
+                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else {
                 offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
