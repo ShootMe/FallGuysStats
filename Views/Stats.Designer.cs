@@ -70,7 +70,6 @@
             this.menuUpdate,
             this.menuHelp,
             this.menuLaunchFallGuys});
-            //this.menu.Font = new System.Drawing.Font("NotoSans-Regular", 9, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(634, 24);
@@ -249,7 +248,6 @@
             // 
             // menuLaunchFallGuys
             // 
-            //this.menuLaunchFallGuys.Font = new System.Drawing.Font("Segoe UI", 12, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.menuLaunchFallGuys.Name = "menuLaunchFallGuys";
             this.menuLaunchFallGuys.Size = new System.Drawing.Size(109, 20);
             this.menuLaunchFallGuys.Text = "Launch Fall Guys";
@@ -259,7 +257,6 @@
             // infoStrip
             // 
             this.infoStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            //this.infoStrip.Font = new System.Drawing.Font("NotoSans-Regular", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblCurrentProfile,
             this.lblTotalTime,

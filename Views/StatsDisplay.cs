@@ -37,7 +37,7 @@ namespace FallGuysStats {
             this.graph.Invalidate();
         }
         private void ChangeLanguage() {
-            this.Font = new Font(Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new Font(Stats.CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.chkWins.Text = Multilingual.GetWord("level_detail_streak_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_streak_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
