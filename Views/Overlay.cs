@@ -50,13 +50,25 @@ namespace FallGuysStats {
                     File.WriteAllBytes("NotoSans-Regular.ttf", fontdata);
                 }
             }
+            
+            if (!File.Exists("NotoSansSC-Regular.otf") ) {
+                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSansSC-Regular.otf")) {
+                    byte[] fontdata = new byte[fontStream.Length];
+                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
+                    File.WriteAllBytes("NotoSansSC-Regular.otf", fontdata);
+                }
+            }
 
             DefaultFontCollection = new PrivateFontCollection();
-            DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
-            if (Stats.CurrentLanguage == 0) {
+            DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
+            DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
+
+            if (Stats.CurrentLanguage == 0) { // eng
+                DefaultFont = new Font(DefaultFontCollection.Families[2], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            } else if (Stats.CurrentLanguage == 3) { // sc
                 DefaultFont = new Font(DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel);
-            } else {
+            } else { // kor, jpn
                 DefaultFont = new Font(DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
             }
         }
@@ -117,7 +129,7 @@ namespace FallGuysStats {
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
             if (font == null) {
-                font = customSize <= 0 ? DefaultFont : new Font(Stats.CurrentLanguage == 0 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
+                font = customSize <= 0 ? DefaultFont : new Font(Stats.CurrentLanguage == 0 ? DefaultFontCollection.Families[2] : Stats.CurrentLanguage == 3 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
             }
             control.Font = font;
             foreach (Control ctr in control.Controls) {
@@ -960,13 +972,14 @@ namespace FallGuysStats {
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
-            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) {
+            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) {
                 offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
                          (int)(this.GetCountKorAlphabet(s) * (6.7F)) - 
                          (int)(this.GetCountJpnAlphabet(s) * (0.8F)) - 
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) {
+            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)
+                       || this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) {
                 offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else {

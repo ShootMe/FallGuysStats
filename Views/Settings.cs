@@ -321,9 +321,10 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = fontConverter.ConvertToString(this.lblOverlayFontExample.Font);
             } else {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
-                Overlay.DefaultFont = Stats.CurrentLanguage == 0 
-                    ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                    : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+                Overlay.DefaultFont = new Font(
+                    Stats.CurrentLanguage == 0 ? Overlay.DefaultFontCollection.Families[2] :
+                    Stats.CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] :
+                    Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
             }
             
             this.DialogResult = DialogResult.OK;
@@ -473,9 +474,10 @@ namespace FallGuysStats {
             }
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
-            this.lblOverlayFontExample.Font = this.cboMultilingual.SelectedIndex == 0
-                ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblOverlayFontExample.Font = new Font(
+                this.cboMultilingual.SelectedIndex == 0 ? Overlay.DefaultFontCollection.Families[2] :
+                this.cboMultilingual.SelectedIndex == 3 ? Overlay.DefaultFontCollection.Families[1] :
+                Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
             this.overlayFontSerialized = string.Empty;
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
@@ -495,12 +497,13 @@ namespace FallGuysStats {
         }
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
-            this.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.Font = new Font(this.DisplayLang == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
-            this.lblOverlayFontExample.Font = this.cboMultilingual.SelectedIndex == 0
-                ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblOverlayFontExample.Font = new Font(
+                this.cboMultilingual.SelectedIndex == 0 ? Overlay.DefaultFontCollection.Families[2] :
+                this.cboMultilingual.SelectedIndex == 3 ? Overlay.DefaultFontCollection.Families[1] :
+                Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
             if (lang == 0) { // English
                 this.txtLogPath.Location = new Point(98, 15);
                 this.txtLogPath.Size = new Size(667, 17);
