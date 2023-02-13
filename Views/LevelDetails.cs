@@ -40,22 +40,22 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridShowsStats";
                 this.Text = Multilingual.GetWord("level_detail_show_stats");
                 this._showStats = 2;
-                this.ClientSize = new Size(Width - (Stats.CurrentLanguage == 0 ? 82 : Stats.CurrentLanguage == 1 ? 99 : 60), Height);
+                this.ClientSize = new Size(Width - (Stats.CurrentLanguage <= 1 ? 82 : Stats.CurrentLanguage == 2 ? 99 : 60), Height);
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
                 this.Text = Multilingual.GetWord("level_detail_round_stats");
                 this._showStats = 1;
-                this.ClientSize = new Size(Width + (Stats.CurrentLanguage == 0 ? 700 : Stats.CurrentLanguage == 1 ? 626 : 677), Height);
+                this.ClientSize = new Size(Width + (Stats.CurrentLanguage <= 1 ? 700 : Stats.CurrentLanguage == 2 ? 626 : 677), Height);
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
                 this.Text = Multilingual.GetWord("level_detail_final_stats");
                 this._showStats = 1;
-                this.ClientSize = new Size(Width + (Stats.CurrentLanguage == 0 ? 700 : Stats.CurrentLanguage == 1 ? 626 : 677), Height);
+                this.ClientSize = new Size(Width + (Stats.CurrentLanguage <= 1 ? 700 : Stats.CurrentLanguage == 2 ? 626 : 677), Height);
             } else {
                 this.gridDetails.Name = "gridRoundStats";
                 this._showStats = 0;
                 this.Text = $@"{Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName}";
-                this.ClientSize = new Size(Width + (Stats.CurrentLanguage == 0 ? 550 : Stats.CurrentLanguage == 1 ? 477 : 528), Height + 86);
+                this.ClientSize = new Size(Width + (Stats.CurrentLanguage <= 1 ? 550 : Stats.CurrentLanguage == 2 ? 477 : 528), Height + 86);
             }
 
             this.gridDetails.DataSource = RoundDetails;
@@ -105,18 +105,18 @@ namespace FallGuysStats {
             this.gridDetails.Columns["PrivateLobby"].Visible = false;
             this.gridDetails.Columns["Qualified"].Visible = false;
             this.gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
-            this.gridDetails.Setup("Medal", pos++, 40, $"{Multilingual.GetWord("level_detail_medal")}", DataGridViewContentAlignment.MiddleCenter);
+            this.gridDetails.Setup("Medal", pos++, Stats.CurrentLanguage == 1 ? 46 : 40, $"{Multilingual.GetWord("level_detail_medal")}", DataGridViewContentAlignment.MiddleCenter);
             if (this._showStats == 2) { // Shows
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn() { Name = "IsFinalIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "IsFinalIcon" });
-                this.gridDetails.Setup("IsFinalIcon", pos++, Stats.CurrentLanguage == 0 ? 53 : Stats.CurrentLanguage == 1 ? 49 : 51, $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
-                //this.gridDetails.Setup("IsFinal", pos++, Stats.CurrentLanguage == 0 ? 53 : Stats.CurrentLanguage == 1 ? 49 : 51, $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
+                this.gridDetails.Setup("IsFinalIcon", pos++, Stats.CurrentLanguage <= 1 ? 53 : Stats.CurrentLanguage == 2 ? 49 : 51, $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
+                //this.gridDetails.Setup("IsFinal", pos++, Stats.CurrentLanguage <= 1 ? 53 : Stats.CurrentLanguage == 2 ? 49 : 51, $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
                 this.gridDetails.Columns["IsFinal"].Visible = false;
             } else {
                 this.gridDetails.Columns["IsFinal"].Visible = false;
             }
-            this.gridDetails.Setup("ShowID", pos++, Stats.CurrentLanguage == 0 ? 75 : Stats.CurrentLanguage == 1 ? 61 : 81, $"{Multilingual.GetWord("level_detail_show_id")}", DataGridViewContentAlignment.MiddleRight);
+            this.gridDetails.Setup("ShowID", pos++, Stats.CurrentLanguage <= 1 ? 75 : Stats.CurrentLanguage == 2 ? 61 : 81, $"{Multilingual.GetWord("level_detail_show_id")}", DataGridViewContentAlignment.MiddleRight);
             this.gridDetails.Setup("ShowNameId", pos++, 150, $"{Multilingual.GetWord("level_detail_show_name_id")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridDetails.Setup("Round", pos++, Stats.CurrentLanguage == 0 ? 61 : Stats.CurrentLanguage == 1 ? (_showStats == 2 ? 70 : 58) : (_showStats == 2 ? 81 : 71), $"{Multilingual.GetWord("level_detail_round")}{(_showStats == 2 ? Multilingual.GetWord("level_detail_round_suffix") : "")}", DataGridViewContentAlignment.MiddleRight);
+            this.gridDetails.Setup("Round", pos++, Stats.CurrentLanguage <= 1 ? 61 : Stats.CurrentLanguage == 2 ? (_showStats == 2 ? 70 : 58) : (_showStats == 2 ? 81 : 71), $"{Multilingual.GetWord("level_detail_round")}{(_showStats == 2 ? Multilingual.GetWord("level_detail_round_suffix") : "")}", DataGridViewContentAlignment.MiddleRight);
             if (this._showStats == 1) { // Rounds
                 this.gridDetails.Setup("Name", pos++, 150, $"{Multilingual.GetWord("level_detail_name")}", DataGridViewContentAlignment.MiddleLeft);
             } else {
@@ -133,7 +133,7 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["PlayersBots"].Visible = false;
                 this.gridDetails.Columns["PlayersEtc"].Visible = false;
             } else {
-                this.gridDetails.Setup("Players", pos++,     Stats.CurrentLanguage == 0 ? 67 : Stats.CurrentLanguage == 1 ? 49 : 51, $"{Multilingual.GetWord("level_detail_players")}", DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Players", pos++,     Stats.CurrentLanguage <= 1 ? 67 : Stats.CurrentLanguage == 2 ? 49 : 51, $"{Multilingual.GetWord("level_detail_players")}", DataGridViewContentAlignment.MiddleRight);
                 this.gridDetails.Setup("PlayersPs4", pos++,  48, $"{Multilingual.GetWord("level_detail_playersPs4")}", DataGridViewContentAlignment.MiddleCenter);
                 this.gridDetails.Setup("PlayersPs5", pos++,  48, $"{Multilingual.GetWord("level_detail_playersPs5")}", DataGridViewContentAlignment.MiddleCenter);
                 this.gridDetails.Setup("PlayersXb1", pos++,  75, $"{Multilingual.GetWord("level_detail_playersXb1")}", DataGridViewContentAlignment.MiddleCenter);
@@ -144,7 +144,7 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["PlayersEtc"].Visible = false;
             }
             this.gridDetails.Setup("Start", pos++, 120, $"{Multilingual.GetWord("level_detail_start")}", DataGridViewContentAlignment.MiddleCenter);
-            this.gridDetails.Setup("End", pos++, Stats.CurrentLanguage == 0 ? 73 : Stats.CurrentLanguage == 1 ? 67 : 71, $"{Multilingual.GetWord("level_detail_end")}", DataGridViewContentAlignment.MiddleCenter);
+            this.gridDetails.Setup("End", pos++, Stats.CurrentLanguage <= 1 ? 73 : Stats.CurrentLanguage == 2 ? 67 : 71, $"{Multilingual.GetWord("level_detail_end")}", DataGridViewContentAlignment.MiddleCenter);
             if (this._showStats == 2) { // Shows
                 this.gridDetails.Columns["Finish"].Visible = false;
             } else {
@@ -154,10 +154,10 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["Position"].Visible = false;
                 this.gridDetails.Columns["Score"].Visible = false;
             } else {
-                this.gridDetails.Setup("Position", pos++, Stats.CurrentLanguage == 0 ? 73 : Stats.CurrentLanguage == 1 ? 51 : 51, $"{Multilingual.GetWord("level_detail_position")}", DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Score", pos++, Stats.CurrentLanguage == 0 ? 60 : Stats.CurrentLanguage == 1 ? 51 : 61, $"{Multilingual.GetWord("level_detail_score")}", DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Position", pos++, Stats.CurrentLanguage <= 1 ? 73 : Stats.CurrentLanguage == 2 ? 51 : 51, $"{Multilingual.GetWord("level_detail_position")}", DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Score", pos++, Stats.CurrentLanguage <= 1 ? 60 : Stats.CurrentLanguage == 2 ? 51 : 61, $"{Multilingual.GetWord("level_detail_score")}", DataGridViewContentAlignment.MiddleRight);
             }
-            this.gridDetails.Setup("Kudos", pos++, Stats.CurrentLanguage == 0 ? 60 : Stats.CurrentLanguage == 1 ? 58 : 60, $"{Multilingual.GetWord("level_detail_kudos")}", DataGridViewContentAlignment.MiddleRight);
+            this.gridDetails.Setup("Kudos", pos++, Stats.CurrentLanguage <= 1 ? 60 : Stats.CurrentLanguage == 2 ? 58 : 60, $"{Multilingual.GetWord("level_detail_kudos")}", DataGridViewContentAlignment.MiddleRight);
 
             bool colorSwitch = true;
             int lastShow = -1;

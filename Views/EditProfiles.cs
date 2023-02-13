@@ -198,7 +198,7 @@ namespace FallGuysStats {
             this.RenameButton.Text = Multilingual.GetWord("profile_rename_tab_button");
             //this.ApplyChangeButton.Text = Multilingual.GetWord("profile_apply_change_button");
             //this.UndoChangeButton.Text = Multilingual.GetWord("profile_undo_change_button");
-            
+
             if (Stats.CurrentLanguage == 0) { // English
                 this.AddPageTextbox.Location =        new Point(100, 10);
                 this.RenamePageCombobox.Location =    new Point(100, 10);
@@ -206,21 +206,28 @@ namespace FallGuysStats {
                 this.MoveFromCombobox.Location =      new Point(71, 10);
                 this.MoveToCombobox.Location =        new Point(71, 44);
                 this.RemoveProfileCombobox.Location = new Point(65, 10);
-            } else if (Stats.CurrentLanguage == 1) { // Korean
+            } else if (Stats.CurrentLanguage == 1) { // French
+                this.AddPageTextbox.Location =        new Point(100, 10);
+                this.RenamePageCombobox.Location =    new Point(100, 10);
+                this.RenamePageTextbox.Location =     new Point(100, 44);
+                this.MoveFromCombobox.Location =      new Point(71, 10);
+                this.MoveToCombobox.Location =        new Point(71, 44);
+                this.RemoveProfileCombobox.Location = new Point(65, 10);
+            } else if (Stats.CurrentLanguage == 2) { // Korean
                 this.AddPageTextbox.Location =        new Point(76, 7);
                 this.RenamePageCombobox.Location =    new Point(76, 7);
                 this.RenamePageTextbox.Location =     new Point(76, 41);
                 this.MoveFromCombobox.Location =      new Point(76, 7);
                 this.MoveToCombobox.Location =        new Point(76, 41);
                 this.RemoveProfileCombobox.Location = new Point(76, 7);
-            } else if (Stats.CurrentLanguage == 2) { // Japanese
+            } else if (Stats.CurrentLanguage == 3) { // Japanese
                 this.AddPageTextbox.Location =        new Point(110, 8);
                 this.RenamePageCombobox.Location =    new Point(110, 8);
                 this.RenamePageTextbox.Location =     new Point(110, 44);
                 this.MoveFromCombobox.Location =      new Point(81, 10);
                 this.MoveToCombobox.Location =        new Point(81, 44);
                 this.RemoveProfileCombobox.Location = new Point(95, 10);
-            } else if (Stats.CurrentLanguage == 3) { // Simplified Chinese
+            } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
                 this.RemoveProfileCombobox.Location = new Point(95, 10);
             }
         }

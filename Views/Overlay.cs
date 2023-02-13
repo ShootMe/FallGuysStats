@@ -54,7 +54,7 @@ namespace FallGuysStats {
             DefaultFontCollection = new PrivateFontCollection();
             DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
-            if (Stats.CurrentLanguage == 0) {
+            if (Stats.CurrentLanguage <= 1) {
                 DefaultFont = new Font(DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel);
             } else {
                 DefaultFont = new Font(DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
@@ -117,7 +117,7 @@ namespace FallGuysStats {
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
             if (font == null) {
-                font = customSize <= 0 ? DefaultFont : new Font(Stats.CurrentLanguage == 0 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
+                font = customSize <= 0 ? DefaultFont : new Font(Stats.CurrentLanguage <= 1 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
             }
             control.Font = font;
             foreach (Control ctr in control.Controls) {
@@ -447,18 +447,18 @@ namespace FallGuysStats {
                     break;
                 case Keys.T: {
                     int colorOption = 0;
-                    if (BackColor.ToArgb() == Color.Black.ToArgb()) {
-                        colorOption = 5;
-                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
-                        colorOption = 0;
-                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                    if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
                         colorOption = 1;
-                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
                         colorOption = 2;
-                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
                         colorOption = 3;
-                    } else if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
                         colorOption = 4;
+                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                        colorOption = 5;
+                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                        colorOption = 0;
                     }
                     SetBackgroundColor(colorOption);
                     this.StatsForm.CurrentSettings.OverlayColor = colorOption;
@@ -548,12 +548,12 @@ namespace FallGuysStats {
         }
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
-                case 0: BackColor = Color.Magenta; break;
-                case 1: BackColor = Color.Blue; break;
-                case 2: BackColor = Color.Red; break;
-                case 3: BackColor = Color.FromArgb(224, 224, 224); break;
-                case 4: BackColor = Color.Black; break;
-                case 5: BackColor = Color.Green; break;
+                case 0: BackColor = Color.FromArgb(224, 224, 224); break;
+                case 1: BackColor = Color.Black; break;
+                case 2: BackColor = Color.Magenta; break;
+                case 3: BackColor = Color.Red; break;
+                case 4: BackColor = Color.Green; break;
+                case 5: BackColor = Color.Blue; break;
             }
         }
         public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont) {

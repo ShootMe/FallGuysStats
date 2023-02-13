@@ -143,6 +143,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Stats.resx">
       <DependentUpon>Stats.cs</DependentUpon>
@@ -170,7 +171,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-
     <EmbeddedResource Include="Resources\font\NotoSans-Regular.ttf" />
     <EmbeddedResource Include="Resources\font\TitanOne-Regular.ttf" />
   </ItemGroup>

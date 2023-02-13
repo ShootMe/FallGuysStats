@@ -26,6 +26,7 @@ namespace FallGuysStats {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.lblLogPath = new System.Windows.Forms.Label();
             this.lblLogPathNote = new System.Windows.Forms.Label();
             this.txtLogPath = new System.Windows.Forms.TextBox();
@@ -52,7 +53,6 @@ namespace FallGuysStats {
             this.cboQualifyFilter = new System.Windows.Forms.ComboBox();
             this.lblQualifyFilter = new System.Windows.Forms.Label();
             this.cboWinsFilter = new System.Windows.Forms.ComboBox();
-            this.cboMultilingual = new System.Windows.Forms.ComboBox();
             this.lblWinsFilter = new System.Windows.Forms.Label();
             this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
             this.chkPlayerByConsoleType = new System.Windows.Forms.CheckBox();
@@ -73,6 +73,11 @@ namespace FallGuysStats {
             this.btnResetOverlayFont = new System.Windows.Forms.Button();
             this.grpOverlayFontExample = new System.Windows.Forms.GroupBox();
             this.lblOverlayFontExample = new System.Windows.Forms.Label();
+            this.grpLaunchPlatform = new System.Windows.Forms.GroupBox();
+            this.picPlatformCheck = new System.Windows.Forms.PictureBox();
+            this.picEpicGames = new System.Windows.Forms.PictureBox();
+            this.picSteam = new System.Windows.Forms.PictureBox();
+            this.cboMultilingual = new System.Windows.Forms.ComboBox();
             this.grpStats = new System.Windows.Forms.GroupBox();
             this.chkChangeHoopsieLegends = new System.Windows.Forms.CheckBox();
             this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
@@ -81,40 +86,40 @@ namespace FallGuysStats {
             this.txtPreviousWins = new System.Windows.Forms.TextBox();
             this.grpGameOptions = new System.Windows.Forms.GroupBox();
             this.lblGameExeLocation = new System.Windows.Forms.Label();
-            this.picLanguageSelection = new System.Windows.Forms.PictureBox();
-            this.grpLaunchPlatform = new System.Windows.Forms.GroupBox();
-            this.picSteam = new System.Windows.Forms.PictureBox();
-            this.picEpicGames = new System.Windows.Forms.PictureBox();
-            this.picPlatformCheck = new System.Windows.Forms.PictureBox();
             this.txtGameExeLocation = new System.Windows.Forms.TextBox();
             this.txtGameShortcutLocation = new System.Windows.Forms.TextBox();
             this.btnGameExeLocationBrowse = new System.Windows.Forms.Button();
             this.chkAutoLaunchGameOnStart = new System.Windows.Forms.CheckBox();
+            this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.grpSortingOptions = new System.Windows.Forms.GroupBox();
             this.chkIgnoreLevelTypeWhenSorting = new System.Windows.Forms.CheckBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.dlgOverlayFont = new System.Windows.Forms.FontDialog();
-            this.platformToolTip = new System.Windows.Forms.ToolTip();
+            this.platformToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.grpOverlay.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
             this.grpCycleWinFinalStreak.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.grpOverlayFontExample.SuspendLayout();
+            this.grpLaunchPlatform.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picPlatformCheck)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEpicGames)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSteam)).BeginInit();
             this.grpStats.SuspendLayout();
             this.grpGameOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).BeginInit();
             this.grpSortingOptions.SuspendLayout();
-            this.grpLaunchPlatform.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
             // 
             this.lblLogPath.AutoSize = true;
-            this.lblLogPath.Location = new System.Drawing.Point(10, 12);
+            this.lblLogPath.Location = new System.Drawing.Point(9, 15);
             this.lblLogPath.Name = "lblLogPath";
-            this.lblLogPath.Size = new System.Drawing.Size(50, 13);
+            this.lblLogPath.Size = new System.Drawing.Size(69, 13);
             this.lblLogPath.TabIndex = 0;
-            this.lblLogPath.Text = "Log File Path";
+            this.lblLogPath.Text = "Log File Path:";
             // 
             // lblLogPathNote
             // 
@@ -132,9 +137,20 @@ namespace FallGuysStats {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLogPath.Location = new System.Drawing.Point(82, 12);
             this.txtLogPath.Name = "txtLogPath";
-            this.txtLogPath.Size = new System.Drawing.Size(575, 17);
+            this.txtLogPath.Size = new System.Drawing.Size(575, 20);
             this.txtLogPath.TabIndex = 1;
             this.txtLogPath.Validating += new System.ComponentModel.CancelEventHandler(this.txtLogPath_Validating);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(500, 530);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 19);
+            this.btnSave.TabIndex = 7;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // grpOverlay
             // 
@@ -166,7 +182,6 @@ namespace FallGuysStats {
             this.grpOverlay.Controls.Add(this.btnSelectFont);
             this.grpOverlay.Controls.Add(this.btnResetOverlayFont);
             this.grpOverlay.Controls.Add(this.grpOverlayFontExample);
-            this.grpOverlay.Controls.Add(this.grpLaunchPlatform);
             this.grpOverlay.Location = new System.Drawing.Point(12, 95);
             this.grpOverlay.Name = "grpOverlay";
             this.grpOverlay.Size = new System.Drawing.Size(645, 306);
@@ -288,31 +303,6 @@ namespace FallGuysStats {
             this.chkHideWinsInfo.Text = "Hide Wins info";
             this.chkHideWinsInfo.UseVisualStyleBackColor = true;
             // 
-            // cboOverlayColor
-            // 
-            this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboOverlayColor.FormattingEnabled = true;
-            this.cboOverlayColor.Items.AddRange(new object[] {
-                "Transparent",
-                "Magenta",
-                "Red",
-                "Greed",
-                "Blue",
-                "Black"});
-            this.cboOverlayColor.Location = new System.Drawing.Point(447, 123);
-            this.cboOverlayColor.Name = "cboOverlayColor";
-            this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
-            this.cboOverlayColor.TabIndex = 19;
-            // 
-            // lblOverlayColor
-            // 
-            this.lblOverlayColor.AutoSize = true;
-            this.lblOverlayColor.Location = new System.Drawing.Point(357, 125);
-            this.lblOverlayColor.Name = "lblOverlayColor";
-            this.lblOverlayColor.Size = new System.Drawing.Size(65, 13);
-            this.lblOverlayColor.TabIndex = 18;
-            this.lblOverlayColor.Text = "Background";
-            // 
             // chkFlipped
             // 
             this.chkFlipped.AutoSize = true;
@@ -328,7 +318,7 @@ namespace FallGuysStats {
             this.chkShowTabs.AutoSize = true;
             this.chkShowTabs.Location = new System.Drawing.Point(16, 93);
             this.chkShowTabs.Name = "chkShowTabs";
-            this.chkShowTabs.Size = new System.Drawing.Size(148, 17);
+            this.chkShowTabs.Size = new System.Drawing.Size(187, 17);
             this.chkShowTabs.TabIndex = 4;
             this.chkShowTabs.Text = "Show Tab for currnet filter / profile";
             this.chkShowTabs.UseVisualStyleBackColor = true;
@@ -353,30 +343,30 @@ namespace FallGuysStats {
             this.chkHideRoundInfo.Text = "Hide Round info";
             this.chkHideRoundInfo.UseVisualStyleBackColor = true;
             // 
-            // cboFastestFilter
+            // cboWinsFilter
             // 
-            this.cboFastestFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFastestFilter.FormattingEnabled = true;
-            this.cboFastestFilter.Items.AddRange(new object[] {
+            this.cboWinsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboWinsFilter.FormattingEnabled = true;
+            this.cboWinsFilter.Items.AddRange(new object[] {
                 "All Time Stats",
                 "Stats and Party Filter",
                 "Season Stats",
                 "Week Stats",
                 "Day Stats",
                 "Session Stats"});
-            this.cboFastestFilter.Location = new System.Drawing.Point(447, 70);
-            this.cboFastestFilter.Name = "cboFastestFilter";
-            this.cboFastestFilter.Size = new System.Drawing.Size(183, 17);
-            this.cboFastestFilter.TabIndex = 17;
+            this.cboWinsFilter.Location = new System.Drawing.Point(447, 20);
+            this.cboWinsFilter.Name = "cboWinsFilter";
+            this.cboWinsFilter.Size = new System.Drawing.Size(183, 21);
+            this.cboWinsFilter.TabIndex = 13;
             // 
-            // lblFastestFilter
+            // lblWinsFilter
             // 
-            this.lblFastestFilter.AutoSize = true;
-            this.lblFastestFilter.Location = new System.Drawing.Point(306, 70);
-            this.lblFastestFilter.Name = "lblFastestFilter";
-            this.lblFastestFilter.Size = new System.Drawing.Size(115, 13);
-            this.lblFastestFilter.TabIndex = 16;
-            this.lblFastestFilter.Text = "Fastest / Longest Filter";
+            this.lblWinsFilter.AutoSize = true;
+            this.lblWinsFilter.Location = new System.Drawing.Point(352, 23);
+            this.lblWinsFilter.Name = "lblWinsFilter";
+            this.lblWinsFilter.Size = new System.Drawing.Size(89, 13);
+            this.lblWinsFilter.TabIndex = 12;
+            this.lblWinsFilter.Text = "Wins / Final Filter";
             // 
             // cboQualifyFilter
             // 
@@ -391,42 +381,67 @@ namespace FallGuysStats {
                 "Session Stats"});
             this.cboQualifyFilter.Location = new System.Drawing.Point(447, 45);
             this.cboQualifyFilter.Name = "cboQualifyFilter";
-            this.cboQualifyFilter.Size = new System.Drawing.Size(183, 17);
+            this.cboQualifyFilter.Size = new System.Drawing.Size(183, 21);
             this.cboQualifyFilter.TabIndex = 15;
             // 
             // lblQualifyFilter
             // 
             this.lblQualifyFilter.AutoSize = true;
-            this.lblQualifyFilter.Location = new System.Drawing.Point(327, 45);
+            this.lblQualifyFilter.Location = new System.Drawing.Point(344, 48);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
             this.lblQualifyFilter.Size = new System.Drawing.Size(97, 13);
             this.lblQualifyFilter.TabIndex = 14;
             this.lblQualifyFilter.Text = "Qualify / Gold Filter";
             // 
-            // cboWinsFilter
+            // cboFastestFilter
             // 
-            this.cboWinsFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboWinsFilter.FormattingEnabled = true;
-            this.cboWinsFilter.Items.AddRange(new object[] {
+            this.cboFastestFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFastestFilter.FormattingEnabled = true;
+            this.cboFastestFilter.Items.AddRange(new object[] {
                 "All Time Stats",
                 "Stats and Party Filter",
                 "Season Stats",
                 "Week Stats",
                 "Day Stats",
                 "Session Stats"});
-            this.cboWinsFilter.Location = new System.Drawing.Point(447, 20);
-            this.cboWinsFilter.Name = "cboWinsFilter";
-            this.cboWinsFilter.Size = new System.Drawing.Size(183, 17);
-            this.cboWinsFilter.TabIndex = 13;
+            this.cboFastestFilter.Location = new System.Drawing.Point(447, 70);
+            this.cboFastestFilter.Name = "cboFastestFilter";
+            this.cboFastestFilter.Size = new System.Drawing.Size(183, 21);
+            this.cboFastestFilter.TabIndex = 17;
             // 
-            // lblWinsFilter
+            // lblFastestFilter
             // 
-            this.lblWinsFilter.AutoSize = true;
-            this.lblWinsFilter.Location = new System.Drawing.Point(335, 20);
-            this.lblWinsFilter.Name = "lblWinsFilter";
-            this.lblWinsFilter.Size = new System.Drawing.Size(89, 13);
-            this.lblWinsFilter.TabIndex = 12;
-            this.lblWinsFilter.Text = "Wins / Final Filter";
+            this.lblFastestFilter.AutoSize = true;
+            this.lblFastestFilter.Location = new System.Drawing.Point(326, 73);
+            this.lblFastestFilter.Name = "lblFastestFilter";
+            this.lblFastestFilter.Size = new System.Drawing.Size(115, 13);
+            this.lblFastestFilter.TabIndex = 16;
+            this.lblFastestFilter.Text = "Fastest / Longest Filter";
+            // 
+            // cboOverlayColor
+            // 
+            this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOverlayColor.FormattingEnabled = true;
+            this.cboOverlayColor.Items.AddRange(new object[] {
+                "Transparent",
+                "Black",
+                "Magenta",
+                "Red",
+                "Green",
+                "Blue"});
+            this.cboOverlayColor.Location = new System.Drawing.Point(447, 123);
+            this.cboOverlayColor.Name = "cboOverlayColor";
+            this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
+            this.cboOverlayColor.TabIndex = 19;
+            // 
+            // lblOverlayColor
+            // 
+            this.lblOverlayColor.AutoSize = true;
+            this.lblOverlayColor.Location = new System.Drawing.Point(376, 126);
+            this.lblOverlayColor.Name = "lblOverlayColor";
+            this.lblOverlayColor.Size = new System.Drawing.Size(65, 13);
+            this.lblOverlayColor.TabIndex = 18;
+            this.lblOverlayColor.Text = "Background";
             // 
             // chkOverlayOnTop
             // 
@@ -443,7 +458,7 @@ namespace FallGuysStats {
             this.chkPlayerByConsoleType.AutoSize = true;
             this.chkPlayerByConsoleType.Location = new System.Drawing.Point(447, 189);
             this.chkPlayerByConsoleType.Name = "chkPlayerByConsoleType";
-            this.chkPlayerByConsoleType.Size = new System.Drawing.Size(120, 17);
+            this.chkPlayerByConsoleType.Size = new System.Drawing.Size(187, 17);
             this.chkPlayerByConsoleType.TabIndex = 22;
             this.chkPlayerByConsoleType.Text = "Display the Player by console type";
             this.chkPlayerByConsoleType.UseVisualStyleBackColor = true;
@@ -453,7 +468,7 @@ namespace FallGuysStats {
             this.chkColorByRoundType.AutoSize = true;
             this.chkColorByRoundType.Location = new System.Drawing.Point(447, 208);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
-            this.chkColorByRoundType.Size = new System.Drawing.Size(120, 17);
+            this.chkColorByRoundType.Size = new System.Drawing.Size(172, 17);
             this.chkColorByRoundType.TabIndex = 23;
             this.chkColorByRoundType.Text = "Display the Color by round type";
             this.chkColorByRoundType.UseVisualStyleBackColor = true;
@@ -461,27 +476,27 @@ namespace FallGuysStats {
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
-            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(95, 124);
+            this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(111, 124);
             this.lblCycleTimeSecondsTag.Name = "lblCycleTimeSecondsTag";
-            this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(24, 13);
+            this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(26, 13);
             this.lblCycleTimeSecondsTag.TabIndex = 7;
             this.lblCycleTimeSecondsTag.Text = "Sec";
             // 
             // lblCycleTimeSeconds
             // 
             this.lblCycleTimeSeconds.AutoSize = true;
-            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(19, 124);
+            this.lblCycleTimeSeconds.Location = new System.Drawing.Point(28, 124);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
             this.lblCycleTimeSeconds.Size = new System.Drawing.Size(59, 13);
             this.lblCycleTimeSeconds.TabIndex = 5;
-            this.lblCycleTimeSeconds.Text = "Cycle Time";
+            this.lblCycleTimeSeconds.Text = "Cycle Time:";
             // 
             // txtCycleTimeSeconds
             // 
-            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(71, 123);
+            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(89, 121);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
-            this.txtCycleTimeSeconds.Size = new System.Drawing.Size(21, 17);
+            this.txtCycleTimeSeconds.Size = new System.Drawing.Size(21, 20);
             this.txtCycleTimeSeconds.TabIndex = 6;
             this.txtCycleTimeSeconds.Text = "5";
             this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -634,6 +649,76 @@ namespace FallGuysStats {
             this.lblOverlayFontExample.Text = "Round 3 : Freezy Peak";
             this.lblOverlayFontExample.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // grpLaunchPlatform
+            // 
+            this.grpLaunchPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpLaunchPlatform.Controls.Add(this.picPlatformCheck);
+            this.grpLaunchPlatform.Controls.Add(this.picEpicGames);
+            this.grpLaunchPlatform.Controls.Add(this.picSteam);
+            this.grpLaunchPlatform.Location = new System.Drawing.Point(12, 13);
+            this.grpLaunchPlatform.Margin = new System.Windows.Forms.Padding(0);
+            this.grpLaunchPlatform.Name = "grpLaunchPlatform";
+            this.grpLaunchPlatform.Padding = new System.Windows.Forms.Padding(2);
+            this.grpLaunchPlatform.Size = new System.Drawing.Size(75, 40);
+            this.grpLaunchPlatform.TabIndex = 36;
+            this.grpLaunchPlatform.TabStop = false;
+            this.grpLaunchPlatform.Text = "Platform";
+            // 
+            // picPlatformCheck
+            // 
+            this.picPlatformCheck.BackColor = System.Drawing.Color.Transparent;
+            this.picPlatformCheck.Image = global::FallGuysStats.Properties.Resources.checkmark_icon;
+            this.picPlatformCheck.Location = new System.Drawing.Point(3, -1);
+            this.picPlatformCheck.Name = "picPlatformCheck";
+            this.picPlatformCheck.Size = new System.Drawing.Size(22, 22);
+            this.picPlatformCheck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPlatformCheck.TabIndex = 0;
+            this.picPlatformCheck.TabStop = false;
+            // 
+            // picEpicGames
+            // 
+            this.picEpicGames.BackColor = System.Drawing.Color.Transparent;
+            this.picEpicGames.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picEpicGames.Image = global::FallGuysStats.Properties.Resources.epic_icon;
+            this.picEpicGames.Location = new System.Drawing.Point(8, 12);
+            this.picEpicGames.Name = "picEpicGames";
+            this.picEpicGames.Size = new System.Drawing.Size(27, 27);
+            this.picEpicGames.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picEpicGames.TabIndex = 1;
+            this.picEpicGames.TabStop = false;
+            this.platformToolTip.SetToolTip(this.picEpicGames, "Epic Games");
+            this.picEpicGames.Click += new System.EventHandler(this.launchPlatform_Click);
+            // 
+            // picSteam
+            // 
+            this.picSteam.BackColor = System.Drawing.Color.Transparent;
+            this.picSteam.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picSteam.Image = global::FallGuysStats.Properties.Resources.steam_icon;
+            this.picSteam.Location = new System.Drawing.Point(41, 12);
+            this.picSteam.Name = "picSteam";
+            this.picSteam.Size = new System.Drawing.Size(26, 26);
+            this.picSteam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picSteam.TabIndex = 2;
+            this.picSteam.TabStop = false;
+            this.platformToolTip.SetToolTip(this.picSteam, "Steam");
+            this.picSteam.Click += new System.EventHandler(this.launchPlatform_Click);
+            // 
+            // cboMultilingual
+            // 
+            this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMultilingual.Items.AddRange(new object[] {
+                "English",
+                "Français",
+                "한국어",
+                "日本語",
+                "简体中文"});
+            this.cboMultilingual.Location = new System.Drawing.Point(37, 527);
+            this.cboMultilingual.Name = "cboMultilingual";
+            this.cboMultilingual.Size = new System.Drawing.Size(65, 21);
+            this.cboMultilingual.TabIndex = 99;
+            this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
+            // 
             // grpStats
             // 
             this.grpStats.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -655,7 +740,7 @@ namespace FallGuysStats {
             this.chkChangeHoopsieLegends.AutoSize = true;
             this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(386, 17);
             this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
-            this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(250, 17);
+            this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(243, 17);
             this.chkChangeHoopsieLegends.TabIndex = 4;
             this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heroes";
             this.chkChangeHoopsieLegends.UseVisualStyleBackColor = true;
@@ -674,27 +759,27 @@ namespace FallGuysStats {
             // 
             this.lblPreviousWinsNote.AutoSize = true;
             this.lblPreviousWinsNote.ForeColor = System.Drawing.Color.DimGray;
-            this.lblPreviousWinsNote.Location = new System.Drawing.Point(122, 17);
+            this.lblPreviousWinsNote.Location = new System.Drawing.Point(113, 17);
             this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
-            this.lblPreviousWinsNote.Size = new System.Drawing.Size(108, 13);
+            this.lblPreviousWinsNote.Size = new System.Drawing.Size(107, 13);
             this.lblPreviousWinsNote.TabIndex = 2;
-            this.lblPreviousWinsNote.Text = "Before using tracker";
+            this.lblPreviousWinsNote.Text = "(before using tracker)";
             // 
             // lblPreviousWins
             // 
             this.lblPreviousWins.AutoSize = true;
             this.lblPreviousWins.Location = new System.Drawing.Point(9, 17);
             this.lblPreviousWins.Name = "lblPreviousWins";
-            this.lblPreviousWins.Size = new System.Drawing.Size(75, 13);
+            this.lblPreviousWins.Size = new System.Drawing.Size(81, 13);
             this.lblPreviousWins.TabIndex = 0;
-            this.lblPreviousWins.Text = "Previous Win";
+            this.lblPreviousWins.Text = "Previous Win(s):";
             // 
             // txtPreviousWins
             // 
-            this.txtPreviousWins.Location = new System.Drawing.Point(81, 17);
+            this.txtPreviousWins.Location = new System.Drawing.Point(91, 14);
             this.txtPreviousWins.MaxLength = 5;
             this.txtPreviousWins.Name = "txtPreviousWins";
-            this.txtPreviousWins.Size = new System.Drawing.Size(35, 20);
+            this.txtPreviousWins.Size = new System.Drawing.Size(21, 20);
             this.txtPreviousWins.TabIndex = 1;
             this.txtPreviousWins.Text = "0";
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -708,141 +793,72 @@ namespace FallGuysStats {
             this.grpGameOptions.Controls.Add(this.txtGameShortcutLocation);
             this.grpGameOptions.Controls.Add(this.btnGameExeLocationBrowse);
             this.grpGameOptions.Controls.Add(this.chkAutoLaunchGameOnStart);
-            this.grpGameOptions.Controls.Add(this.picLanguageSelection);
-            this.grpGameOptions.Controls.Add(this.cboMultilingual);
             this.grpGameOptions.Location = new System.Drawing.Point(12, 454);
             this.grpGameOptions.Margin = new System.Windows.Forms.Padding(2);
             this.grpGameOptions.Name = "grpGameOptions";
             this.grpGameOptions.Padding = new System.Windows.Forms.Padding(2);
-            this.grpGameOptions.Size = new System.Drawing.Size(645, 89);
+            this.grpGameOptions.Size = new System.Drawing.Size(645, 70);
             this.grpGameOptions.TabIndex = 6;
             this.grpGameOptions.TabStop = false;
-            this.grpGameOptions.Text = "Game Oprions";
-            // 
-            // picLanguageSelection
-            // 
-            this.picLanguageSelection.Location = new System.Drawing.Point(12, 60);
-            this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Width = 22;
-            this.picLanguageSelection.Height = 22;
-            this.picLanguageSelection.Image = Properties.Resources.language_icon;
-            this.picLanguageSelection.SizeMode = PictureBoxSizeMode.Zoom;
-            // 
-            // cboMultilingual
-            // 
-            this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboMultilingual.Items.AddRange(new object[] {
-                "English",
-                "한국어",
-                "日本語",
-                "简体中文"});
-            this.cboMultilingual.Location = new System.Drawing.Point(41, 61);
-            this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(65, 19);
-            this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
-            this.cboMultilingual.TabIndex = 99;
+            this.grpGameOptions.Text = "Game Options";
             // 
             // lblGameExeLocation
             // 
             this.lblGameExeLocation.AutoSize = true;
-            this.lblGameExeLocation.Location = new System.Drawing.Point(92, 17);
+            this.lblGameExeLocation.Location = new System.Drawing.Point(92, 18);
             this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGameExeLocation.Name = "lblGameExeLocation";
-            this.lblGameExeLocation.Size = new System.Drawing.Size(125, 13);
+            this.lblGameExeLocation.Size = new System.Drawing.Size(137, 13);
             this.lblGameExeLocation.TabIndex = 0;
-            this.lblGameExeLocation.Text = "Fall Guys Shortcut Location";
+            this.lblGameExeLocation.Text = "Fall Guys Shortcut Location:";
             // 
             // txtGameExeLocation
             // 
             this.txtGameExeLocation.Enabled = false;
-            this.txtGameExeLocation.Location = new System.Drawing.Point(155, 15);
+            this.txtGameExeLocation.Location = new System.Drawing.Point(233, 15);
             this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameExeLocation.Name = "txtGameExeLocation";
-            this.txtGameExeLocation.Size = new System.Drawing.Size(420, 20);
-            //this.txtGameExeLocation.TabIndex = 1;
+            this.txtGameExeLocation.Size = new System.Drawing.Size(334, 20);
+            this.txtGameExeLocation.TabIndex = 37;
             // 
             // txtGameShortcutLocation
             // 
             this.txtGameShortcutLocation.Enabled = false;
-            this.txtGameShortcutLocation.Location = new System.Drawing.Point(155, 15);
+            this.txtGameShortcutLocation.Location = new System.Drawing.Point(233, 15);
             this.txtGameShortcutLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameShortcutLocation.Name = "txtGameShortcutLocation";
-            this.txtGameShortcutLocation.Size = new System.Drawing.Size(420, 20);
-            //this.txtGameShortcutLocation.TabIndex = 1;
+            this.txtGameShortcutLocation.Size = new System.Drawing.Size(334, 20);
+            this.txtGameShortcutLocation.TabIndex = 38;
             // 
             // btnGameExeLocationBrowse
             // 
-            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(581, 15);
+            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(569, 18);
             this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(12);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
-            this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(53, 18);
+            this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(67, 19);
             this.btnGameExeLocationBrowse.TabIndex = 2;
             this.btnGameExeLocationBrowse.Text = "Browse";
             this.btnGameExeLocationBrowse.UseVisualStyleBackColor = true;
             this.btnGameExeLocationBrowse.Click += new System.EventHandler(this.btnGameExeLocationBrowse_Click);
             // 
-            // grpLaunchPlatform
-            // 
-            this.grpLaunchPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpLaunchPlatform.Controls.Add(this.picPlatformCheck);
-            this.grpLaunchPlatform.Controls.Add(this.picEpicGames);
-            this.grpLaunchPlatform.Controls.Add(this.picSteam);
-            this.grpLaunchPlatform.Location = new System.Drawing.Point(12, 13);
-            this.grpLaunchPlatform.Margin = new System.Windows.Forms.Padding(0);
-            this.grpLaunchPlatform.Name = "grpLaunchPlatform";
-            this.grpLaunchPlatform.Padding = new System.Windows.Forms.Padding(2);
-            this.grpLaunchPlatform.Size = new System.Drawing.Size(75, 40);
-            this.grpLaunchPlatform.Text = "Platform";
-            //this.grpLaunchPlatform.TabIndex = 8;
-            this.grpLaunchPlatform.TabStop = false;
-            // 
-            // picPlatformCheck
-            // 
-            this.picPlatformCheck.Location = new System.Drawing.Point(3, -1);
-            this.picPlatformCheck.Name = "picPlatformCheck";
-            this.picPlatformCheck.Width = 22;
-            this.picPlatformCheck.Height = 22;
-            this.picPlatformCheck.Image = Properties.Resources.checkmark_icon;
-            this.picPlatformCheck.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picPlatformCheck.BackColor = Color.Transparent;
-            this.picPlatformCheck.Parent = this.picSteam;
-            // 
-            // picEpicGames
-            // 
-            this.picEpicGames.Location = new System.Drawing.Point(8, 12);
-            this.picEpicGames.Size = new System.Drawing.Size(100, 100);
-            this.picEpicGames.Name = "picEpicGames";
-            this.picEpicGames.Cursor = Cursors.Hand;
-            this.picEpicGames.Width = 27;
-            this.picEpicGames.Height = 27;
-            this.picEpicGames.Image = Properties.Resources.epic_icon;
-            this.platformToolTip.SetToolTip(this.picEpicGames, "Epic Games");
-            this.picEpicGames.BackColor = Color.Transparent;
-            this.picEpicGames.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picEpicGames.Click += new System.EventHandler(this.launchPlatform_Click);
-            // 
-            // picSteam
-            // 
-            this.picSteam.Location = new System.Drawing.Point(41, 12);
-            this.picSteam.Name = "picSteam";
-            this.picSteam.Cursor = Cursors.Hand;
-            this.picSteam.Width = 26;
-            this.picSteam.Height = 26;
-            this.picSteam.Image = Properties.Resources.steam_icon;
-            this.platformToolTip.SetToolTip(this.picSteam, "Steam");
-            this.picSteam.BackColor = Color.Transparent;
-            this.picSteam.SizeMode = PictureBoxSizeMode.Zoom;
-            this.picSteam.Click += new System.EventHandler(this.launchPlatform_Click);
-            // 
             // chkAutoLaunchGameOnStart
             // 
-            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(94, 39);
+            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(95, 39);
             this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
             this.chkAutoLaunchGameOnStart.Name = "chkAutoLaunchGameOnStart";
             this.chkAutoLaunchGameOnStart.Size = new System.Drawing.Size(350, 16);
             this.chkAutoLaunchGameOnStart.TabIndex = 3;
             this.chkAutoLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker";
+            // 
+            // picLanguageSelection
+            // 
+            this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
+            this.picLanguageSelection.Location = new System.Drawing.Point(12, 527);
+            this.picLanguageSelection.Name = "picLanguageSelection";
+            this.picLanguageSelection.Size = new System.Drawing.Size(22, 22);
+            this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picLanguageSelection.TabIndex = 39;
+            this.picLanguageSelection.TabStop = false;
             // 
             // grpSortingOptions
             // 
@@ -869,22 +885,11 @@ namespace FallGuysStats {
             this.chkIgnoreLevelTypeWhenSorting.Text = "Ignore Level Type when sorting";
             this.chkIgnoreLevelTypeWhenSorting.UseVisualStyleBackColor = true;
             // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(500, 548);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 19);
-            this.btnSave.TabIndex = 7;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(581, 548);
+            this.btnCancel.Location = new System.Drawing.Point(581, 530);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 19);
             this.btnCancel.TabIndex = 8;
@@ -897,16 +902,17 @@ namespace FallGuysStats {
             this.AcceptButton = this.btnSave;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            //this.Font = new System.Drawing.Font("NotoSans-Regular", 12, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(669, 575);
+            this.ClientSize = new System.Drawing.Size(669, 557);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.grpGameOptions);
             this.Controls.Add(this.grpSortingOptions);
             this.Controls.Add(this.grpOverlay);
             this.Controls.Add(this.grpStats);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.cboMultilingual);
+            this.Controls.Add(this.picLanguageSelection);
             this.Controls.Add(this.txtLogPath);
             this.Controls.Add(this.lblLogPathNote);
             this.Controls.Add(this.lblLogPath);
@@ -930,14 +936,17 @@ namespace FallGuysStats {
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.grpOverlayFontExample.ResumeLayout(false);
+            this.grpLaunchPlatform.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picPlatformCheck)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEpicGames)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSteam)).EndInit();
             this.grpStats.ResumeLayout(false);
             this.grpStats.PerformLayout();
             this.grpGameOptions.ResumeLayout(false);
             this.grpGameOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).EndInit();
             this.grpSortingOptions.ResumeLayout(false);
             this.grpSortingOptions.PerformLayout();
-            this.grpLaunchPlatform.ResumeLayout(false);
-            this.grpLaunchPlatform.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -960,19 +969,19 @@ namespace FallGuysStats {
         private System.Windows.Forms.CheckBox chkOverlayOnTop;
         private System.Windows.Forms.CheckBox chkPlayerByConsoleType;
         private System.Windows.Forms.CheckBox chkColorByRoundType;
-        private System.Windows.Forms.ComboBox cboFastestFilter;
-        private System.Windows.Forms.Label lblFastestFilter;
+        private System.Windows.Forms.ComboBox cboWinsFilter;
+        private System.Windows.Forms.Label lblWinsFilter;
         private System.Windows.Forms.ComboBox cboQualifyFilter;
         private System.Windows.Forms.Label lblQualifyFilter;
-        private System.Windows.Forms.ComboBox cboWinsFilter;
+        private System.Windows.Forms.ComboBox cboFastestFilter;
+        private System.Windows.Forms.Label lblFastestFilter;
+        private System.Windows.Forms.ComboBox cboOverlayColor;
+        private System.Windows.Forms.Label lblOverlayColor;
         private System.Windows.Forms.ComboBox cboMultilingual;
-        private System.Windows.Forms.Label lblWinsFilter;
         private System.Windows.Forms.CheckBox chkHideTimeInfo;
         private System.Windows.Forms.CheckBox chkHideRoundInfo;
         private System.Windows.Forms.CheckBox chkShowTabs;
         private System.Windows.Forms.CheckBox chkAutoUpdate;
-        private System.Windows.Forms.ComboBox cboOverlayColor;
-        private System.Windows.Forms.Label lblOverlayColor;
         private System.Windows.Forms.CheckBox chkFlipped;
         private System.Windows.Forms.CheckBox chkHideWinsInfo;
         private System.Windows.Forms.CheckBox chkHidePercentages;

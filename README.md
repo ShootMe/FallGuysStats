@@ -18,6 +18,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ## Multilingual Support
   - FallGuysStats supports the following languages.
     - English
+    - French
     - Korean
     - Japanese
     - Simplified Chinese
