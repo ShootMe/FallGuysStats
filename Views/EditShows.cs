@@ -62,7 +62,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.Font = new Font(Stats.CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new Font(Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.lblEditShowslabel.Text = Multilingual.GetWord("profile_list");
             if (Stats.CurrentLanguage == 0) { // English
                 this.ClientSize = new Size(405, 194);
@@ -71,14 +71,21 @@ namespace FallGuysStats {
                 this.lblEditShowsBackColor.Size = new Size(405, 60);
                 this.btnEditShowsSave.Location = new Point(203, 154);
                 this.btnEditShowsCancel.Location = new Point(298, 154);
-            } else if (Stats.CurrentLanguage == 1) { // Korean
+            } else if (Stats.CurrentLanguage == 1) { // French
+                this.ClientSize = new Size(428, 194);
+                this.cboEditShows.Location = new Point(167, 85);
+                this.cboEditShows.Size = new Size(175, 17);
+                this.lblEditShowsBackColor.Size = new Size(428, 60);
+                this.btnEditShowsSave.Location = new Point(226, 154);
+                this.btnEditShowsCancel.Location = new Point(321, 154);
+            } else if (Stats.CurrentLanguage == 2) { // Korean
                 this.ClientSize = new Size(370, 194);
                 this.cboEditShows.Location = new Point(167, 85);
                 this.cboEditShows.Size = new Size(170, 17);
                 this.lblEditShowsBackColor.Size = new Size(370, 60);
                 this.btnEditShowsSave.Location = new Point(168, 154);
                 this.btnEditShowsCancel.Location = new Point(263, 154);
-            } else if (Stats.CurrentLanguage == 2) { // Japanese
+            } else if (Stats.CurrentLanguage == 3) { // Japanese
                 this.ClientSize = new Size(430, 194);
                 this.cboEditShows.Location = new Point(202, 85);
                 this.cboEditShows.Size = new Size(170, 17);

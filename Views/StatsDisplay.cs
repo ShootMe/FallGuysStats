@@ -10,7 +10,6 @@ namespace FallGuysStats {
         }
 
         private void StatsDisplay_Load(object sender, EventArgs e) {
-            this.ClientSize = new Size(720, 360);
             this.ChangeLanguage();
             this.graph.DataSource = this.Details;
             this.graph.YColumns[1] = true;
@@ -37,9 +36,10 @@ namespace FallGuysStats {
             this.graph.Invalidate();
         }
         private void ChangeLanguage() {
-            this.Font = new Font(Stats.CurrentLanguage == 3 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
-            this.chkWins.Text = Multilingual.GetWord("level_detail_streak_wins");
-            this.chkFinals.Text = Multilingual.GetWord("level_detail_streak_finals");
+            this.ClientSize = new Size(720, 360);
+            this.Font = new Font(Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
+            this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
         }
     }
