@@ -294,11 +294,11 @@ namespace FallGuysStats {
             this.cboOverlayColor.FormattingEnabled = true;
             this.cboOverlayColor.Items.AddRange(new object[] {
                 "Transparent",
+                "Black",
                 "Magenta",
                 "Red",
-                "Greed",
-                "Blue",
-                "Black"});
+                "Green",
+                "Blue"});
             this.cboOverlayColor.Location = new System.Drawing.Point(447, 123);
             this.cboOverlayColor.Name = "cboOverlayColor";
             this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
@@ -717,7 +717,7 @@ namespace FallGuysStats {
             this.grpGameOptions.Size = new System.Drawing.Size(645, 89);
             this.grpGameOptions.TabIndex = 6;
             this.grpGameOptions.TabStop = false;
-            this.grpGameOptions.Text = "Game Oprions";
+            this.grpGameOptions.Text = "Game Options";
             // 
             // picLanguageSelection
             // 
@@ -733,6 +733,7 @@ namespace FallGuysStats {
             this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMultilingual.Items.AddRange(new object[] {
                 "English",
+                "Français",
                 "한국어",
                 "日本語",
                 "简体中文"});

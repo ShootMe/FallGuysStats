@@ -104,15 +104,15 @@ namespace FallGuysStats {
             }
         }
         private Font GetFontForLongText() {
-            return (Stats.CurrentLanguage == 2 && this.TextRight.Length > 10 ||
-                    Stats.CurrentLanguage == 1 && this.TextRight.Length > 13)
+            return (Stats.CurrentLanguage == 3 && this.TextRight.Length > 10 ||
+                    Stats.CurrentLanguage == 2 && this.TextRight.Length > 13)
                 ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(this.TextRight.Length), FontStyle.Regular, GraphicsUnit.Point)
                 : this.Font;
         }
         private float GetRoundNameFontSize(int textLength) {
             int offset = 21;
             float weight = 1.1F;
-            if (Stats.CurrentLanguage == 2 && textLength > 10) { // Japanese
+            if (Stats.CurrentLanguage == 3 && textLength > 10) { // Japanese
                 offset = 21;
                 if (textLength == 11) {
                     weight = 1.1F;
@@ -125,7 +125,7 @@ namespace FallGuysStats {
                 } else if (textLength == 15) {
                     weight = 1.425F;
                 }
-            } else if (Stats.CurrentLanguage == 1 && textLength > 13) { // Korean
+            } else if (Stats.CurrentLanguage == 2 && textLength > 13) { // Korean
                 offset = 24;
                 if (textLength == 14) {
                     weight = 1.275F;
