@@ -684,7 +684,7 @@ namespace FallGuysStats {
                 SelectedProfile = 0,
                 FlippedDisplay = false,
                 LogPath = null,
-                OverlayColor = 3,
+                OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
                 SwitchBetweenLongest = true,
@@ -1108,6 +1108,12 @@ namespace FallGuysStats {
                     endShow = this.AllStats[j];
                 }
 
+                bool isInWinsFilter = !endShow.PrivateLobby && (this.CurrentSettings.WinsFilter == 0 ||
+                    (this.CurrentSettings.WinsFilter == 1 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.WinsFilter == 2 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.WinsFilter == 3 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && this.IsInPartyFilter(info)));
                 bool isInQualifyFilter = !endShow.PrivateLobby && (this.CurrentSettings.QualifyFilter == 0 ||
                     (this.CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.QualifyFilter == 2 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
@@ -1120,12 +1126,6 @@ namespace FallGuysStats {
                     (this.CurrentSettings.FastestFilter == 3 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.FastestFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.FastestFilter == 5 && endShow.Start > SessionStart && this.IsInPartyFilter(info));
-                bool isInWinsFilter = !endShow.PrivateLobby && (this.CurrentSettings.WinsFilter == 3 ||
-                    (this.CurrentSettings.WinsFilter == 0 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
-                    (this.CurrentSettings.WinsFilter == 1 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
-                    (this.CurrentSettings.WinsFilter == 2 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
-                    (this.CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
-                    (this.CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && this.IsInPartyFilter(info)));
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
@@ -1247,15 +1247,15 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["AveKudos"].Visible = false;
                 this.gridDetails.Columns["AveDuration"].Visible = false;
                 this.gridDetails.Setup("Name",      pos++, 0, Multilingual.GetWord("main_round_name"), DataGridViewContentAlignment.MiddleLeft);
-                this.gridDetails.Setup("Played",    pos++, CurrentLanguage == 0 ? 63 : CurrentLanguage == 1 ? 58 : 81, Multilingual.GetWord("main_played"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Qualified", pos++, CurrentLanguage == 0 ? 66 : CurrentLanguage == 1 ? 55 : 51, Multilingual.GetWord("main_qualified"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Gold",      pos++, CurrentLanguage == 0 ? 53 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_gold"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Silver",    pos++, CurrentLanguage == 0 ? 58 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_silver"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Bronze",    pos++, CurrentLanguage == 0 ? 65 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_bronze"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Kudos",     pos++, CurrentLanguage == 0 ? 60 : CurrentLanguage == 1 ? 58 : 60, Multilingual.GetWord("main_kudos"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Fastest",   pos++, CurrentLanguage == 0 ? 67 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_fastest"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Longest",   pos++, CurrentLanguage == 0 ? 69 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("AveFinish", pos,   CurrentLanguage == 0 ? 70 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Played",    pos++, CurrentLanguage <= 1 ? 63 : CurrentLanguage == 2 ? 58 : 81, Multilingual.GetWord("main_played"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Qualified", pos++, CurrentLanguage <= 1 ? 66 : CurrentLanguage == 2 ? 55 : 51, Multilingual.GetWord("main_qualified"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Gold",      pos++, CurrentLanguage <= 1 ? 53 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_gold"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Silver",    pos++, CurrentLanguage <= 1 ? 58 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_silver"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Bronze",    pos++, CurrentLanguage <= 1 ? 65 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_bronze"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Kudos",     pos++, CurrentLanguage <= 1 ? 60 : CurrentLanguage == 2 ? 58 : 60, Multilingual.GetWord("main_kudos"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Fastest",   pos++, CurrentLanguage <= 1 ? 67 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_fastest"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Longest",   pos++, CurrentLanguage <= 1 ? 69 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("AveFinish", pos,   CurrentLanguage <= 1 ? 70 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1515,8 +1515,7 @@ namespace FallGuysStats {
 
             rounds.Sort();
 
-            using (StatsDisplay display = new StatsDisplay()
-                       { Text = Multilingual.GetWord("level_detail_wins_per_day") }) {
+            using (StatsDisplay display = new StatsDisplay { Text = Multilingual.GetWord("level_detail_wins_per_day") }) {
                 DataTable dt = new DataTable();
                 dt.Columns.Add(Multilingual.GetWord("level_detail_date"), typeof(DateTime));
                 dt.Columns.Add(Multilingual.GetWord("level_detail_wins"), typeof(int));
@@ -1776,7 +1775,7 @@ namespace FallGuysStats {
                 DateTime compareDate = this.menuAllStats.Checked ? DateTime.MinValue : this.menuSeasonStats.Checked ? SeasonStart : this.menuWeekStats.Checked ? WeekStart : this.menuDayStats.Checked ? DayStart : SessionStart;
                 for (int i = 0; i < this.AllStats.Count; i++) {
                     RoundInfo round = this.AllStats[i];
-                    if (round.Start > compareDate && round.Profile == profile && (this.menuAllPartyStats.Checked || round.InParty == !soloOnly)) {
+                    if (round.Start > compareDate && round.Profile == profile && (this.menuAllPartyStats.Checked || round.InParty == soloOnly)) {
                         rounds.Add(round);
                     }
                 }
@@ -2014,15 +2013,15 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["AveKudos"].Visible = false;
                 this.gridDetails.Columns["AveDuration"].Visible = false;
                 this.gridDetails.Setup("Name",      pos++, 0, Multilingual.GetWord("main_round_name"), DataGridViewContentAlignment.MiddleLeft);
-                this.gridDetails.Setup("Played",    pos++, CurrentLanguage == 0 ? 63 : CurrentLanguage == 1 ? 58 : 81, Multilingual.GetWord("main_played"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Qualified", pos++, CurrentLanguage == 0 ? 66 : CurrentLanguage == 1 ? 55 : 51, Multilingual.GetWord("main_qualified"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Gold",      pos++, CurrentLanguage == 0 ? 53 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_gold"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Silver",    pos++, CurrentLanguage == 0 ? 58 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_silver"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Bronze",    pos++, CurrentLanguage == 0 ? 65 : CurrentLanguage == 1 ? 58 : 71, Multilingual.GetWord("main_bronze"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Kudos",     pos++, CurrentLanguage == 0 ? 60 : CurrentLanguage == 1 ? 58 : 60, Multilingual.GetWord("main_kudos"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Fastest",   pos++, CurrentLanguage == 0 ? 67 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_fastest"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("Longest",   pos++, CurrentLanguage == 0 ? 69 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
-                this.gridDetails.Setup("AveFinish", pos,   CurrentLanguage == 0 ? 70 : CurrentLanguage == 1 ? 74 : 71, Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Played",    pos++, CurrentLanguage <= 1 ? 63 : CurrentLanguage == 2 ? 58 : 81, Multilingual.GetWord("main_played"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Qualified", pos++, CurrentLanguage <= 1 ? 66 : CurrentLanguage == 2 ? 55 : 51, Multilingual.GetWord("main_qualified"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Gold",      pos++, CurrentLanguage <= 1 ? 53 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_gold"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Silver",    pos++, CurrentLanguage <= 1 ? 58 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_silver"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Bronze",    pos++, CurrentLanguage <= 1 ? 65 : CurrentLanguage == 2 ? 58 : 71, Multilingual.GetWord("main_bronze"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Kudos",     pos++, CurrentLanguage <= 1 ? 60 : CurrentLanguage == 2 ? 58 : 60, Multilingual.GetWord("main_kudos"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Fastest",   pos++, CurrentLanguage <= 1 ? 67 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_fastest"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("Longest",   pos++, CurrentLanguage <= 1 ? 69 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
+                this.gridDetails.Setup("AveFinish", pos,   CurrentLanguage <= 1 ? 70 : CurrentLanguage == 2 ? 74 : 71, Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
             }
             this.menuSettings.Text = $"{Multilingual.GetWord("main_settings")}";
             this.menuFilters.Text = $"{Multilingual.GetWord("main_filters")}";
