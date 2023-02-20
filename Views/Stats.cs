@@ -122,6 +122,7 @@ namespace FallGuysStats {
                 this.Profiles.Insert(new Profiles() { ProfileID = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2 });
                 this.Profiles.Insert(new Profiles() { ProfileID = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1 });
             }
+
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
 
@@ -254,6 +255,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index = 0;
                     if ((index = info.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -271,6 +273,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index = 0;
                     if ((index = info.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -288,6 +291,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index = 0;
                     if ((index = info.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -305,6 +309,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index = 0;
                     if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -322,6 +327,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     if (info.Name.Equals("round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "round_fall_mountain_hub_complete";
                         this.RoundDetails.Update(info);
@@ -338,6 +344,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index = 0;
                     if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
                         || (index = info.Name.IndexOf(". D", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -361,7 +368,6 @@ namespace FallGuysStats {
 
                     if (lastShow != info.ShowID) {
                         lastShow = info.ShowID;
-
                         if (this.StatLookup.TryGetValue(info.Name, out LevelStats stats)) {
                             info.IsFinal = stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"));
                         } else {
@@ -970,6 +976,8 @@ namespace FallGuysStats {
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
                                             profile = editShows.SelectedProfileId;
+                                            this.CurrentSettings.SelectedProfile = profile;
+                                            this.ReloadProfileMenuItems();
                                         } else {
                                             this.askedPreviousShows = 2;
                                         }
@@ -1775,7 +1783,7 @@ namespace FallGuysStats {
                 DateTime compareDate = this.menuAllStats.Checked ? DateTime.MinValue : this.menuSeasonStats.Checked ? SeasonStart : this.menuWeekStats.Checked ? WeekStart : this.menuDayStats.Checked ? DayStart : SessionStart;
                 for (int i = 0; i < this.AllStats.Count; i++) {
                     RoundInfo round = this.AllStats[i];
-                    if (round.Start > compareDate && round.Profile == profile && (this.menuAllPartyStats.Checked || round.InParty == !soloOnly)) {
+                    if (round.Start > compareDate && round.Profile == profile && (this.menuAllPartyStats.Checked || round.InParty == soloOnly)) {
                         rounds.Add(round);
                     }
                 }

@@ -279,24 +279,22 @@ namespace FallGuysStats {
             {"round_blastball_arenasurvival_blast_ball_trials_fn", "round_blastball_arenasurvival_symphony_launch_show"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" } };
-        private bool GetIsFinalException(string sceneName) {
-            return ((sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_blastball_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0) 
-                    && sceneName.Substring(sceneName.Length - 6).ToLower() == "_final")
-                   
-                   || (sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0
-                       && sceneName.Substring(sceneName.Length - 3).ToLower() == "_fn");
+
+        private bool GetIsRealLastRound(string roundName) {
+            return (roundName.IndexOf("ound_jinxed", StringComparison.OrdinalIgnoreCase) > 0
+                     && roundName.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
+
+                     || (roundName.IndexOf("ound_fall_ball", StringComparison.OrdinalIgnoreCase) > 0
+                     && roundName.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
+                     && roundName.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1)
+
+                     || (roundName.IndexOf("ound_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) > 0
+                     && roundName.IndexOf("_final", StringComparison.OrdinalIgnoreCase) > 0)
+
+                     || (roundName.IndexOf("ound_pixelperfect", StringComparison.OrdinalIgnoreCase) > 0
+                     && roundName.Substring(roundName.Length - 6).ToLower() == "_final");
         }
+
         private bool GetIsModeException(string sceneName) {
             return sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_blastball_only_finals", StringComparison.OrdinalIgnoreCase) > 0
@@ -312,6 +310,26 @@ namespace FallGuysStats {
                    || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0;
         }
+
+        private bool GetIsFinalException(string sceneName) {
+            return ((sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_blastball_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0)
+                     && sceneName.Substring(sceneName.Length - 6).ToLower() == "_final")
+
+                     || (sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0
+                     && sceneName.Substring(sceneName.Length - 3).ToLower() == "_fn");
+        }
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if (logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -333,9 +351,10 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
                 logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
 
+                bool isRealLastRound = GetIsRealLastRound(logRound.Info.Name);
                 bool isModeException = GetIsModeException(logRound.Info.Name);
                 bool isFinalException = GetIsFinalException(logRound.Info.Name);
-                
+
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
                 }
@@ -345,8 +364,10 @@ namespace FallGuysStats {
                 logRound.Info.PrivateLobby = logRound.PrivateLobby;
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
-                
-                if (isModeException) {
+
+                if (isRealLastRound) {
+                    logRound.Info.IsFinal = true;
+                } else if (isModeException) {
                     if (isFinalException) {
                         logRound.Info.IsFinal = true;
                     } else {
