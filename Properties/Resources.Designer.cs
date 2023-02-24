@@ -392,6 +392,86 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap position_ne_off_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_ne_off_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_ne_on_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_ne_on_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_nw_off_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_nw_off_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_nw_on_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_nw_on_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_se_off_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_se_off_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_se_on_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_se_on_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_sw_off_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_sw_off_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap position_sw_on_icon {
+            get {
+                object obj = ResourceManager.GetObject("position_sw_on_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap profile_icon {
             get {
                 object obj = ResourceManager.GetObject("profile_icon", resourceCulture);
@@ -475,6 +555,26 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap switch_icon {
             get {
                 object obj = ResourceManager.GetObject("switch_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap switch_lock_icon {
+            get {
+                object obj = ResourceManager.GetObject("switch_lock_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap switch_unlock_icon {
+            get {
+                object obj = ResourceManager.GetObject("switch_unlock_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

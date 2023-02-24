@@ -87,7 +87,7 @@ namespace FallGuysStats {
 
                         if (!string.IsNullOrEmpty(this.TextRight)) {
                             stringFormat.Alignment = StringAlignment.Far;
-                            if (this.Name.Equals("lblName")) {
+                            if (this.Name.Equals("lblRound")) {
                                 if (!this.LevelColor.IsEmpty) {
                                     int sizeOfText = TextRenderer.MeasureText(this.TextRight, this.GetFontForLongText()).Width;
                                     Pen pen = new Pen(this.LevelColor, 0);

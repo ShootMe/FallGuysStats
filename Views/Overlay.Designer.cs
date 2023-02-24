@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FallGuysStats {
     partial class Overlay {
@@ -24,7 +26,13 @@ namespace FallGuysStats {
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
+            this.picPositionNE = new System.Windows.Forms.PictureBox();
+            this.picPositionNW = new System.Windows.Forms.PictureBox();
+            this.picPositionSE = new System.Windows.Forms.PictureBox();
+            this.picPositionSW = new System.Windows.Forms.PictureBox();
+            this.picPositionLock = new System.Windows.Forms.PictureBox();
             this.lblFilter = new FallGuysStats.TransparentLabel();
             this.lblProfile = new FallGuysStats.TransparentLabel();
             this.lblStreak = new FallGuysStats.TransparentLabel();
@@ -37,13 +45,94 @@ namespace FallGuysStats {
             this.lblPlayersPs = new FallGuysStats.TransparentLabel();
             this.lblPlayersXbox = new FallGuysStats.TransparentLabel();
             this.lblPlayersSwitch = new FallGuysStats.TransparentLabel();
-            this.lblName = new FallGuysStats.TransparentLabel();
+            this.lblRound = new FallGuysStats.TransparentLabel();
             this.lblWins = new FallGuysStats.TransparentLabel();
             this.lblFinish = new FallGuysStats.TransparentLabel();
             this.SuspendLayout();
             // 
+            // picPositionNE
+            // 
+            this.picPositionNE.BackColor = System.Drawing.Color.Transparent;
+            this.picPositionNE.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picPositionNE.Image = Properties.Resources.position_ne_off_icon;
+            this.picPositionNE.Location = new System.Drawing.Point(201, 46);
+            this.picPositionNE.Name = "picPositionNE";
+            this.picPositionNE.Size = new System.Drawing.Size(47, 30);
+            this.picPositionNE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPositionNE.TabStop = false;
+            this.picPositionNE.Visible = false;
+            this.picPositionNE.Click += new System.EventHandler(this.FixedPosition_Click);
+            this.picPositionNE.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
+            this.picPositionNE.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
+            // 
+            // picPositionNW
+            // 
+            this.picPositionNW.BackColor = System.Drawing.Color.Transparent;
+            this.picPositionNW.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picPositionNW.Image = Properties.Resources.position_nw_off_icon;
+            this.picPositionNW.Location = new System.Drawing.Point(251, 46);
+            this.picPositionNW.Name = "picPositionNW";
+            this.picPositionNW.Size = new System.Drawing.Size(47, 30);
+            this.picPositionNW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPositionNW.TabStop = false;
+            this.picPositionNW.Visible = false;
+            this.picPositionNW.Click += new System.EventHandler(this.FixedPosition_Click);
+            this.picPositionNW.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
+            this.picPositionNW.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
+            // 
+            // picPositionSE
+            // 
+            this.picPositionSE.BackColor = System.Drawing.Color.Transparent;
+            this.picPositionSE.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picPositionSE.Image = Properties.Resources.position_se_off_icon;
+            this.picPositionSE.Location = new System.Drawing.Point(201, 80);
+            this.picPositionSE.Name = "picPositionSE";
+            this.picPositionSE.Size = new System.Drawing.Size(47, 30);
+            this.picPositionSE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPositionSE.TabStop = false;
+            this.picPositionSE.Visible = false;
+            this.picPositionSE.Click += new System.EventHandler(this.FixedPosition_Click);
+            this.picPositionSE.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
+            this.picPositionSE.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
+            // 
+            // picPositionSW
+            // 
+            this.picPositionSW.BackColor = System.Drawing.Color.Transparent;
+            this.picPositionSW.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picPositionSW.Image = Properties.Resources.position_sw_off_icon;
+            this.picPositionSW.Location = new System.Drawing.Point(251, 80);
+            this.picPositionSW.Name = "picPositionSW";
+            this.picPositionSW.Size = new System.Drawing.Size(47, 30);
+            this.picPositionSW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPositionSW.TabStop = false;
+            this.picPositionSW.Visible = false;
+            this.picPositionSW.Click += new System.EventHandler(this.FixedPosition_Click);
+            this.picPositionSW.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
+            this.picPositionSW.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
+            // 
+            // picSwitchPositionLock
+            // 
+            this.picPositionLock.BackColor = System.Drawing.Color.Transparent;
+            this.picPositionLock.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picPositionLock.Image = Properties.Resources.switch_unlock_icon;
+            this.picPositionLock.Location = new System.Drawing.Point(12, 7);
+            this.picPositionLock.Name = "picPositionLock";
+            this.picPositionLock.Size = new System.Drawing.Size(47, 30);
+            this.picPositionLock.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPositionLock.TabStop = false;
+            this.picPositionLock.Visible = false;
+            this.picPositionLock.Click += new System.EventHandler(this.FixedPosition_Click);
+            this.picPositionLock.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
+            this.picPositionLock.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
+            // 
             // lblFilter
             // 
+            this.lblFilter.ImageHeight = 0;
+            this.lblFilter.ImageWidth = 0;
+            this.lblFilter.ImageX = 0;
+            this.lblFilter.ImageY = 0;
+            this.lblFilter.IsIcon = false;
+            this.lblFilter.LevelColor = System.Drawing.Color.Empty;
             this.lblFilter.Location = new System.Drawing.Point(22, 77);
             this.lblFilter.Name = "lblFilter";
             this.lblFilter.Size = new System.Drawing.Size(110, 22);
@@ -55,11 +144,18 @@ namespace FallGuysStats {
             // 
             // lblProfile
             // 
+            this.lblProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProfile.ForeColor = System.Drawing.Color.GreenYellow;
+            this.lblProfile.ImageHeight = 0;
+            this.lblProfile.ImageWidth = 0;
+            this.lblProfile.ImageX = 0;
+            this.lblProfile.ImageY = 0;
+            this.lblProfile.IsIcon = false;
+            this.lblProfile.LevelColor = System.Drawing.Color.Empty;
             this.lblProfile.Location = new System.Drawing.Point(22, 27);
             this.lblProfile.Name = "lblProfile";
             this.lblProfile.Size = new System.Drawing.Size(600, 22);
             this.lblProfile.TabIndex = 23;
-            this.lblProfile.ForeColor = Color.GreenYellow;
             this.lblProfile.Text = "Solo";
             this.lblProfile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblProfile.TextRight = "";
@@ -67,6 +163,12 @@ namespace FallGuysStats {
             // 
             // lblStreak
             // 
+            this.lblStreak.ImageHeight = 0;
+            this.lblStreak.ImageWidth = 0;
+            this.lblStreak.ImageX = 0;
+            this.lblStreak.ImageY = 0;
+            this.lblStreak.IsIcon = false;
+            this.lblStreak.LevelColor = System.Drawing.Color.Empty;
             this.lblStreak.Location = new System.Drawing.Point(22, 55);
             this.lblStreak.Name = "lblStreak";
             this.lblStreak.Size = new System.Drawing.Size(242, 22);
@@ -78,6 +180,12 @@ namespace FallGuysStats {
             // 
             // lblFinals
             // 
+            this.lblFinals.ImageHeight = 0;
+            this.lblFinals.ImageWidth = 0;
+            this.lblFinals.ImageX = 0;
+            this.lblFinals.ImageY = 0;
+            this.lblFinals.IsIcon = false;
+            this.lblFinals.LevelColor = System.Drawing.Color.Empty;
             this.lblFinals.Location = new System.Drawing.Point(22, 32);
             this.lblFinals.Name = "lblFinals";
             this.lblFinals.Size = new System.Drawing.Size(242, 22);
@@ -89,6 +197,12 @@ namespace FallGuysStats {
             // 
             // lblQualifyChance
             // 
+            this.lblQualifyChance.ImageHeight = 0;
+            this.lblQualifyChance.ImageWidth = 0;
+            this.lblQualifyChance.ImageX = 0;
+            this.lblQualifyChance.ImageY = 0;
+            this.lblQualifyChance.IsIcon = false;
+            this.lblQualifyChance.LevelColor = System.Drawing.Color.Empty;
             this.lblQualifyChance.Location = new System.Drawing.Point(270, 32);
             this.lblQualifyChance.Name = "lblQualifyChance";
             this.lblQualifyChance.Size = new System.Drawing.Size(281, 22);
@@ -100,6 +214,12 @@ namespace FallGuysStats {
             // 
             // lblFastest
             // 
+            this.lblFastest.ImageHeight = 0;
+            this.lblFastest.ImageWidth = 0;
+            this.lblFastest.ImageX = 0;
+            this.lblFastest.ImageY = 0;
+            this.lblFastest.IsIcon = false;
+            this.lblFastest.LevelColor = System.Drawing.Color.Empty;
             this.lblFastest.Location = new System.Drawing.Point(270, 55);
             this.lblFastest.Name = "lblFastest";
             this.lblFastest.Size = new System.Drawing.Size(281, 22);
@@ -111,6 +231,12 @@ namespace FallGuysStats {
             // 
             // lblDuration
             // 
+            this.lblDuration.ImageHeight = 0;
+            this.lblDuration.ImageWidth = 0;
+            this.lblDuration.ImageX = 0;
+            this.lblDuration.ImageY = 0;
+            this.lblDuration.IsIcon = false;
+            this.lblDuration.LevelColor = System.Drawing.Color.Empty;
             this.lblDuration.Location = new System.Drawing.Point(557, 32);
             this.lblDuration.Name = "lblDuration";
             this.lblDuration.Size = new System.Drawing.Size(225, 22);
@@ -122,81 +248,115 @@ namespace FallGuysStats {
             // 
             // lblPlayers
             // 
+            this.lblPlayers.ImageHeight = 20;
+            this.lblPlayers.ImageWidth = 28;
+            this.lblPlayers.ImageX = 5;
+            this.lblPlayers.ImageY = 0;
+            this.lblPlayers.IsIcon = false;
+            this.lblPlayers.LevelColor = System.Drawing.Color.Empty;
             this.lblPlayers.Location = new System.Drawing.Point(557, 10);
             this.lblPlayers.Name = "lblPlayers";
             this.lblPlayers.Size = new System.Drawing.Size(225, 22);
             this.lblPlayers.TabIndex = 12;
             this.lblPlayers.Text = "PLAYERS :";
-             //this.lblPlayers.Image = Properties.Resources.player_icon;
-            this.lblPlayers.ImageX = 5;
-            this.lblPlayers.ImageWidth = 28;
-            this.lblPlayers.ImageHeight = 20;
             this.lblPlayers.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblPlayers.TextRight = "0";
             this.lblPlayers.Visible = false;
             // 
-            // lblPlayersPs
-            // 
-            this.lblPlayersPs.Location = new System.Drawing.Point(609, 12);
-            this.lblPlayersPs.Name = "lblPlayersPs";
-            this.lblPlayersPs.Size = new System.Drawing.Size(26, 16);
-            this.lblPlayersPs.IsIcon = true;
-            this.lblPlayersPs.Image = Properties.Resources.ps_icon;
-            this.lblPlayersPs.ImageWidth = 13;
-            this.lblPlayersPs.ImageHeight = 13;
-            this.lblPlayersPs.TextRight = "-";
-            this.lblPlayersPs.DrawVisible = false;
-            // 
-            // lblPlayersXbox
-            // 
-            this.lblPlayersXbox.Location = new System.Drawing.Point(647, 12);
-            this.lblPlayersXbox.Name = "lblPlayersXbox";
-            this.lblPlayersXbox.Size = new System.Drawing.Size(26, 16);
-            this.lblPlayersXbox.IsIcon = true;
-            this.lblPlayersXbox.Image = Properties.Resources.xbox_icon;
-            this.lblPlayersXbox.ImageWidth = 13;
-            this.lblPlayersXbox.ImageHeight = 13;
-            this.lblPlayersXbox.TextRight = "-";
-            this.lblPlayersXbox.DrawVisible = false;
-            // 
-            // lblPlayersSwitch
-            // 
-            this.lblPlayersSwitch.Location = new System.Drawing.Point(685, 12);
-            this.lblPlayersSwitch.Name = "lblPlayersSwitch";
-            this.lblPlayersSwitch.Size = new System.Drawing.Size(26, 16);
-            this.lblPlayersSwitch.IsIcon = true;
-            this.lblPlayersSwitch.Image = Properties.Resources.switch_icon;
-            this.lblPlayersSwitch.ImageWidth = 13;
-            this.lblPlayersSwitch.ImageHeight = 13;
-            this.lblPlayersSwitch.TextRight = "-";
-            this.lblPlayersSwitch.DrawVisible = false;
-            // 
             // lblPlayersPc
             // 
+            this.lblPlayersPc.DrawVisible = false;
+            this.lblPlayersPc.Image = Properties.Resources.pc_icon;
+            this.lblPlayersPc.ImageHeight = 13;
+            this.lblPlayersPc.ImageWidth = 13;
+            this.lblPlayersPc.ImageX = 0;
+            this.lblPlayersPc.ImageY = 0;
+            this.lblPlayersPc.IsIcon = true;
+            this.lblPlayersPc.LevelColor = System.Drawing.Color.Empty;
             this.lblPlayersPc.Location = new System.Drawing.Point(723, 12);
             this.lblPlayersPc.Name = "lblPlayersPc";
             this.lblPlayersPc.Size = new System.Drawing.Size(26, 16);
-            this.lblPlayersPc.IsIcon = true;
-            this.lblPlayersPc.Image = Properties.Resources.pc_icon;
-            this.lblPlayersPc.ImageWidth = 13;
-            this.lblPlayersPc.ImageHeight = 13;
+            this.lblPlayersPc.TabIndex = 24;
             this.lblPlayersPc.TextRight = "-";
-            this.lblPlayersPc.DrawVisible = false;
+            this.lblPlayersPc.Visible = false;
             // 
-            // lblName
+            // lblPlayersPs
             // 
-            this.lblName.AutoEllipsis = true;
-            this.lblName.Location = new System.Drawing.Point(270, 9);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(281, 22);
-            this.lblName.TabIndex = 10;
-            this.lblName.Text = "ROUND 1 :";
-            this.lblName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblName.TextRight = "N/A";
-            this.lblName.Visible = false;
+            this.lblPlayersPs.DrawVisible = false;
+            this.lblPlayersPs.Image = Properties.Resources.ps_icon;
+            this.lblPlayersPs.ImageHeight = 13;
+            this.lblPlayersPs.ImageWidth = 13;
+            this.lblPlayersPs.ImageX = 0;
+            this.lblPlayersPs.ImageY = 0;
+            this.lblPlayersPs.IsIcon = true;
+            this.lblPlayersPs.LevelColor = System.Drawing.Color.Empty;
+            this.lblPlayersPs.Location = new System.Drawing.Point(609, 12);
+            this.lblPlayersPs.Name = "lblPlayersPs";
+            this.lblPlayersPs.Size = new System.Drawing.Size(26, 16);
+            this.lblPlayersPs.TabIndex = 25;
+            this.lblPlayersPs.TextRight = "-";
+            this.lblPlayersPs.Visible = false;
+            // 
+            // lblPlayersXbox
+            // 
+            this.lblPlayersXbox.DrawVisible = false;
+            this.lblPlayersXbox.Image = Properties.Resources.xbox_icon;
+            this.lblPlayersXbox.ImageHeight = 13;
+            this.lblPlayersXbox.ImageWidth = 13;
+            this.lblPlayersXbox.ImageX = 0;
+            this.lblPlayersXbox.ImageY = 0;
+            this.lblPlayersXbox.IsIcon = true;
+            this.lblPlayersXbox.LevelColor = System.Drawing.Color.Empty;
+            this.lblPlayersXbox.Location = new System.Drawing.Point(647, 12);
+            this.lblPlayersXbox.Name = "lblPlayersXbox";
+            this.lblPlayersXbox.Size = new System.Drawing.Size(26, 16);
+            this.lblPlayersXbox.TabIndex = 26;
+            this.lblPlayersXbox.TextRight = "-";
+            this.lblPlayersXbox.Visible = false;
+            // 
+            // lblPlayersSwitch
+            // 
+            this.lblPlayersSwitch.DrawVisible = false;
+            this.lblPlayersSwitch.Image = Properties.Resources.switch_icon;
+            this.lblPlayersSwitch.ImageHeight = 13;
+            this.lblPlayersSwitch.ImageWidth = 13;
+            this.lblPlayersSwitch.ImageX = 0;
+            this.lblPlayersSwitch.ImageY = 0;
+            this.lblPlayersSwitch.IsIcon = true;
+            this.lblPlayersSwitch.LevelColor = System.Drawing.Color.Empty;
+            this.lblPlayersSwitch.Location = new System.Drawing.Point(685, 12);
+            this.lblPlayersSwitch.Name = "lblPlayersSwitch";
+            this.lblPlayersSwitch.Size = new System.Drawing.Size(26, 16);
+            this.lblPlayersSwitch.TabIndex = 27;
+            this.lblPlayersSwitch.TextRight = "-";
+            this.lblPlayersSwitch.Visible = false;
+            // 
+            // lblRound
+            // 
+            this.lblRound.AutoEllipsis = true;
+            this.lblRound.ImageHeight = 0;
+            this.lblRound.ImageWidth = 0;
+            this.lblRound.ImageX = 0;
+            this.lblRound.ImageY = 0;
+            this.lblRound.IsIcon = false;
+            this.lblRound.LevelColor = System.Drawing.Color.Empty;
+            this.lblRound.Location = new System.Drawing.Point(270, 9);
+            this.lblRound.Name = "lblRound";
+            this.lblRound.Size = new System.Drawing.Size(281, 22);
+            this.lblRound.TabIndex = 10;
+            this.lblRound.Text = "ROUND 1 :";
+            this.lblRound.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblRound.TextRight = "N/A";
+            this.lblRound.Visible = false;
             // 
             // lblWins
             // 
+            this.lblWins.ImageHeight = 0;
+            this.lblWins.ImageWidth = 0;
+            this.lblWins.ImageX = 0;
+            this.lblWins.ImageY = 0;
+            this.lblWins.IsIcon = false;
+            this.lblWins.LevelColor = System.Drawing.Color.Empty;
             this.lblWins.Location = new System.Drawing.Point(22, 9);
             this.lblWins.Name = "lblWins";
             this.lblWins.Size = new System.Drawing.Size(242, 22);
@@ -208,6 +368,12 @@ namespace FallGuysStats {
             // 
             // lblFinish
             // 
+            this.lblFinish.ImageHeight = 0;
+            this.lblFinish.ImageWidth = 0;
+            this.lblFinish.ImageX = 0;
+            this.lblFinish.ImageY = 0;
+            this.lblFinish.IsIcon = false;
+            this.lblFinish.LevelColor = System.Drawing.Color.Empty;
             this.lblFinish.Location = new System.Drawing.Point(557, 55);
             this.lblFinish.Name = "lblFinish";
             this.lblFinish.Size = new System.Drawing.Size(225, 22);
@@ -223,6 +389,11 @@ namespace FallGuysStats {
             this.BackColor = System.Drawing.Color.Magenta;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(786, 99);
+            this.Controls.Add(this.picPositionNE);
+            this.Controls.Add(this.picPositionNW);
+            this.Controls.Add(this.picPositionSE);
+            this.Controls.Add(this.picPositionSW);
+            this.Controls.Add(this.picPositionLock);
             this.Controls.Add(this.lblFilter);
             this.Controls.Add(this.lblProfile);
             this.Controls.Add(this.lblStreak);
@@ -235,7 +406,7 @@ namespace FallGuysStats {
             this.Controls.Add(this.lblPlayersPs);
             this.Controls.Add(this.lblPlayersXbox);
             this.Controls.Add(this.lblPlayersSwitch);
-            this.Controls.Add(this.lblName);
+            this.Controls.Add(this.lblRound);
             this.Controls.Add(this.lblWins);
             this.Controls.Add(this.lblFinish);
             this.Cursor = System.Windows.Forms.Cursors.SizeAll;
@@ -243,23 +414,26 @@ namespace FallGuysStats {
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.KeyPreview = true;
+            this.Location = new System.Drawing.Point(15, 15);
             this.Name = "Overlay";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Overlay";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
+            this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
+            this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseWheel);
+            //this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseMove);
+            this.Resize += new System.EventHandler(this.Overlay_Resize);
             this.ResumeLayout(false);
-
         }
 
         #endregion
-        private TransparentLabel lblName;
+        private TransparentLabel lblRound;
         private TransparentLabel lblDuration;
         private TransparentLabel lblFinish;
         private TransparentLabel lblFastest;
@@ -276,5 +450,11 @@ namespace FallGuysStats {
         private TransparentLabel lblStreak;
         private TransparentLabel lblFilter;
         private TransparentLabel lblProfile;
+        
+        private System.Windows.Forms.PictureBox picPositionNE;
+        private System.Windows.Forms.PictureBox picPositionNW;
+        private System.Windows.Forms.PictureBox picPositionSE;
+        private System.Windows.Forms.PictureBox picPositionSW;
+        private System.Windows.Forms.PictureBox picPositionLock;
     }
 }

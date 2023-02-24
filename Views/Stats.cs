@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -42,6 +43,17 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static int LastServerPing = 0;
         public static int CurrentLanguage = 0;
+        public static Bitmap ImageOpacity(Image imgData, float opacity) {
+            Bitmap bmpTmp = new Bitmap(imgData.Width, imgData.Height);
+            Graphics gp = Graphics.FromImage(bmpTmp);
+            ColorMatrix clrMatrix = new ColorMatrix();
+            clrMatrix.Matrix33 = opacity;
+            ImageAttributes imgAttribute = new ImageAttributes();
+            imgAttribute.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            gp.DrawImage(imgData, new Rectangle(0, 0, bmpTmp.Width, bmpTmp.Height), 0, 0, imgData.Width, imgData.Height, GraphicsUnit.Pixel, imgAttribute);
+            gp.Dispose();
+            return bmpTmp;
+        }
 
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -135,7 +147,7 @@ namespace FallGuysStats {
             
             this.CurrentRound = new List<RoundInfo>();
 
-            this.overlay = new Overlay() { StatsForm = this, Icon = this.Icon, ShowIcon = true };
+            this.overlay = new Overlay { StatsForm = this, Icon = this.Icon, ShowIcon = true };
             this.overlay.Show();
             this.overlay.Visible = false;
             this.overlay.StartTimer();
@@ -675,9 +687,17 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 24;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 24) {
+                this.CurrentSettings.WinsFilter = 1;
+                this.CurrentSettings.QualifyFilter = 1;
+                this.CurrentSettings.FastestFilter = 1;
+                this.CurrentSettings.Version = 25;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
-            return new UserSettings() {
+            return new UserSettings {
                 ID = 1,
                 CycleTimeSeconds = 5,
                 FilterType = 0,
@@ -687,6 +707,12 @@ namespace FallGuysStats {
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
+                OverlayFixedPosition = string.Empty,
+                OverlayFixedPositionX = null,
+                OverlayFixedPositionY = null,
+                OverlayFixedWidth = null,
+                OverlayFixedHeight = null,
+                FixedFlippedDisplay = false,
                 SwitchBetweenLongest = true,
                 SwitchBetweenQualify = true,
                 SwitchBetweenPlayers = true,
@@ -700,9 +726,9 @@ namespace FallGuysStats {
                 PlayerByConsoleType = false,
                 ColorByRoundType = false,
                 PreviousWins = 0,
-                WinsFilter = 0,
-                QualifyFilter = 0,
-                FastestFilter = 0,
+                WinsFilter = 1,
+                QualifyFilter = 1,
+                FastestFilter = 1,
                 HideWinsInfo = false,
                 HideRoundInfo = false,
                 HideTimeInfo = false,
@@ -826,11 +852,12 @@ namespace FallGuysStats {
             try {
                 if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                     if (this.overlay.Visible) {
-                        this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
-                        this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
-
-                        this.CurrentSettings.OverlayWidth = this.overlay.Width;
-                        this.CurrentSettings.OverlayHeight = this.overlay.Height;
+                        if (!this.overlay.IsFixed()) {
+                            this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
+                            this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
+                            this.CurrentSettings.OverlayWidth = this.overlay.Width;
+                            this.CurrentSettings.OverlayHeight = this.overlay.Height;
+                        }
                     }
                     this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
                     this.CurrentSettings.SelectedProfile = this.currentProfile;
@@ -971,6 +998,8 @@ namespace FallGuysStats {
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
                                             profile = editShows.SelectedProfileId;
+                                            this.CurrentSettings.SelectedProfile = profile;
+                                            this.ReloadProfileMenuItems();
                                         } else {
                                             this.askedPreviousShows = 2;
                                         }
@@ -1109,19 +1138,19 @@ namespace FallGuysStats {
                 }
 
                 bool isInWinsFilter = !endShow.PrivateLobby && (this.CurrentSettings.WinsFilter == 0 ||
-                    (this.CurrentSettings.WinsFilter == 1 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.WinsFilter == 2 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.WinsFilter == 3 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart && this.IsInPartyFilter(info)));
                 bool isInQualifyFilter = !endShow.PrivateLobby && (this.CurrentSettings.QualifyFilter == 0 ||
-                    (this.CurrentSettings.QualifyFilter == 1 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.QualifyFilter == 2 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.QualifyFilter == 3 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.QualifyFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.QualifyFilter == 5 && endShow.Start > SessionStart && this.IsInPartyFilter(info)));
                 bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                    (this.CurrentSettings.FastestFilter == 1 && IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
+                    (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.FastestFilter == 2 && endShow.Start > SeasonStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.FastestFilter == 3 && endShow.Start > WeekStart && this.IsInPartyFilter(info)) ||
                     (this.CurrentSettings.FastestFilter == 4 && endShow.Start > DayStart && this.IsInPartyFilter(info)) ||
@@ -1796,7 +1825,7 @@ namespace FallGuysStats {
                 rounds.Sort();
 
                 this.CurrentSettings.SelectedProfile = profile;
-                this.CurrentSettings.FilterType = menuAllStats.Checked ? 0 : menuSeasonStats.Checked ? 1 : menuWeekStats.Checked ? 2 : menuDayStats.Checked ? 3 : 4;
+                this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
                 this.SaveUserSettings();
 
                 this.loadingExisting = true;
@@ -1882,7 +1911,7 @@ namespace FallGuysStats {
                             this.logFile.Start(logPath, LOGNAME);
                         }
                         
-                        overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs, this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized);
+                        this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs, this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized);
                     }
                 }
             } catch (Exception ex) {
@@ -1897,10 +1926,12 @@ namespace FallGuysStats {
                 overlay.Hide();
                 this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
-                this.CurrentSettings.OverlayLocationX = overlay.Location.X;
-                this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                this.CurrentSettings.OverlayWidth = overlay.Width;
-                this.CurrentSettings.OverlayHeight = overlay.Height;
+                if (!overlay.IsFixed()) {
+                    this.CurrentSettings.OverlayLocationX = overlay.Location.X;
+                    this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                    this.CurrentSettings.OverlayWidth = overlay.Width;
+                    this.CurrentSettings.OverlayHeight = overlay.Height;
+                }
                 this.CurrentSettings.OverlayVisible = false;
                 this.SaveUserSettings();
             } else {
@@ -1911,10 +1942,19 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayVisible = true;
                 this.SaveUserSettings();
 
-                if (this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
-                    overlay.Location = new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value);
+                if (overlay.IsFixed()) {
+                    if (this.CurrentSettings.OverlayFixedPositionX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width)) {
+                        overlay.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
+                        overlay.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
+                    } else {
+                        overlay.Location = this.Location;
+                    }
                 } else {
-                    overlay.Location = this.Location;
+                    if (this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width)) {
+                        overlay.Location = new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value);
+                    } else {
+                        overlay.Location = this.Location;
+                    }
                 }
             }
         }
