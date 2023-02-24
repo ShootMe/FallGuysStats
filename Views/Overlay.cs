@@ -855,7 +855,7 @@ namespace FallGuysStats {
                     }
                     break;
                 }
-                //case Keys.Up:
+                case Keys.Up:
                 case Keys.Left:
                     if (this.shiftKeyToggle == false) { return; }
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
@@ -870,7 +870,7 @@ namespace FallGuysStats {
                         }
                     }
                     break;
-                //case Keys.Down:
+                case Keys.Down:
                 case Keys.Right:
                     if (this.shiftKeyToggle == false) { return; }
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {

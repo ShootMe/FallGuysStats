@@ -31,7 +31,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit 'P' to change the profile order.
   - Hit Keys '1' through '9' to select profiles 1 through 9.
   - Hit Shift + mouse wheel up and down to select a profile up or down.
-  - Hit Shift + Left and Right arrow keys to select a profile down or up.
+  - Hit Shift + (up, Left) and (down, Right) arrow keys to select a profile up or down.
   - Hit 'C' to shows the number of users by platform.
   - Hit 'R' the round name shows the colored badge for the round type.
 
