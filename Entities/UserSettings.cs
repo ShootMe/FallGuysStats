@@ -7,8 +7,14 @@
         public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
         public int? OverlayLocationY { get; set; }
+        public string OverlayFixedPosition { get; set; }
+        public int? OverlayFixedPositionX { get; set; }
+        public int? OverlayFixedPositionY { get; set; }
+        public int? OverlayFixedWidth { get; set; }
+        public int? OverlayFixedHeight { get; set; }
         public int OverlayColor { get; set; }
         public bool FlippedDisplay { get; set; }
+        public bool FixedFlippedDisplay { get; set; }
         public bool SwitchBetweenLongest { get; set; }
         public bool SwitchBetweenQualify { get; set; }
         public bool SwitchBetweenPlayers { get; set; }
