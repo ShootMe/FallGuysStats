@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 namespace FallGuysStats {
@@ -108,7 +107,7 @@ namespace FallGuysStats {
             this.chkAutoLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
             
-            this.picPlatformCheck.Image = this.ChangeOpacity(this.picPlatformCheck.Image, 0.8F);
+            this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
@@ -495,18 +494,6 @@ namespace FallGuysStats {
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
-        }
-        private Bitmap ChangeOpacity(Image imgData, float opacity) {
-            Bitmap bmpTmp = new Bitmap(imgData.Width, imgData.Height);
-            Graphics gp = Graphics.FromImage(bmpTmp);
-            ColorMatrix clrMatrix = new ColorMatrix();
-            clrMatrix.Matrix33 = opacity;
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            gp.DrawImage(imgData, new Rectangle(0, 0, bmpTmp.Width, bmpTmp.Height), 0, 0, imgData.Width, imgData.Height, GraphicsUnit.Pixel, imgAttribute);
-            gp.Dispose();
-
-            return bmpTmp;
         }
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;

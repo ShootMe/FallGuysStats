@@ -41,6 +41,28 @@ namespace FallGuysStats {
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
+            
+            if (Stats.CurrentLanguage == 0) { // English
+                this.chkWins.Location =   new Point(40, 15);
+                this.chkFinals.Location = new Point(145, 15);
+                this.chkShows.Location =  new Point(260, 15);
+            } else if (Stats.CurrentLanguage == 1) { // French
+                this.chkWins.Location =   new Point(40, 15);
+                this.chkFinals.Location = new Point(165, 15);
+                this.chkShows.Location =  new Point(275, 15);
+            } else if (Stats.CurrentLanguage == 2) { // Korean
+                this.chkWins.Location =   new Point(40, 15);
+                this.chkFinals.Location = new Point(135, 15);
+                this.chkShows.Location =  new Point(245, 15);
+            } else if (Stats.CurrentLanguage == 3) { // Japanese
+                this.chkWins.Location =   new Point(40, 15);
+                this.chkFinals.Location = new Point(135, 15);
+                this.chkShows.Location =  new Point(245, 15);
+            } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
+                this.chkWins.Location =   new Point(40, 15);
+                this.chkFinals.Location = new Point(135, 15);
+                this.chkShows.Location =  new Point(230, 15);
+            }
         }
     }
 }
