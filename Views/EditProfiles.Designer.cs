@@ -371,7 +371,7 @@ namespace FallGuysStats {
             this.MinimizeBox = false;
             this.ShowInTaskbar = false;
             this.KeyPreview = true;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new EventHandler(this.EditProfiles_Load);
             this.KeyDown += new KeyEventHandler(this.EditProfile_KeyDown);
             this.groupBox1.ResumeLayout(false);

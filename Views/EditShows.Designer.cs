@@ -123,7 +123,7 @@ namespace FallGuysStats {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new EventHandler(this.EditShows_Load);
             
             this.picEditShowsIcon.ResumeLayout(false);

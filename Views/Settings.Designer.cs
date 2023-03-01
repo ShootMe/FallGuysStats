@@ -916,7 +916,7 @@ namespace FallGuysStats {
             this.MinimizeBox = false;
             this.Name = "Settings";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_Load);
             this.grpOverlay.ResumeLayout(false);
