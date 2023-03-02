@@ -38,17 +38,17 @@ namespace FallGuysStats {
             this.gridDetails.ClearSelection();
             if (this.LevelName == "Shows") {
                 this.gridDetails.Name = "gridShowsStats";
-                this.Text = Multilingual.GetWord("level_detail_show_stats");
+                this.Text = $@"{Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 2;
                 this.ClientSize = new Size(Width - (Stats.CurrentLanguage <= 1 ? 82 : Stats.CurrentLanguage == 1 ? 99 : 60), Height);
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
-                this.Text = Multilingual.GetWord("level_detail_round_stats");
+                this.Text = $@"{Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 1;
                 this.ClientSize = new Size(Width + (Stats.CurrentLanguage <= 1 ? 700 : Stats.CurrentLanguage == 1 ? 626 : 677), Height);
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
-                this.Text = Multilingual.GetWord("level_detail_final_stats");
+                this.Text = $@"{Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 1;
                 this.ClientSize = new Size(Width + (Stats.CurrentLanguage <= 1 ? 700 : Stats.CurrentLanguage == 1 ? 626 : 677), Height);
             } else {
