@@ -36,32 +36,32 @@ namespace FallGuysStats {
             this.graph.Invalidate();
         }
         private void ChangeLanguage() {
-            this.ClientSize = new Size(720, 360);
-            this.Font = new Font(Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.ClientSize = new Size(1280, 540);
+            //this.Font = new Font(Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
             
             if (Stats.CurrentLanguage == 0) { // English
-                this.chkWins.Location =   new Point(40, 15);
-                this.chkFinals.Location = new Point(145, 15);
-                this.chkShows.Location =  new Point(260, 15);
+                this.chkWins.Location =   new Point(75, 10);
+                this.chkFinals.Location = new Point(180, 10);
+                this.chkShows.Location =  new Point(295, 10);
             } else if (Stats.CurrentLanguage == 1) { // French
-                this.chkWins.Location =   new Point(40, 15);
-                this.chkFinals.Location = new Point(165, 15);
-                this.chkShows.Location =  new Point(275, 15);
+                this.chkWins.Location =   new Point(75, 10);
+                this.chkFinals.Location = new Point(200, 10);
+                this.chkShows.Location =  new Point(310, 10);
             } else if (Stats.CurrentLanguage == 2) { // Korean
-                this.chkWins.Location =   new Point(40, 15);
-                this.chkFinals.Location = new Point(135, 15);
-                this.chkShows.Location =  new Point(245, 15);
+                this.chkWins.Location =   new Point(75, 10);
+                this.chkFinals.Location = new Point(170, 10);
+                this.chkShows.Location =  new Point(280, 10);
             } else if (Stats.CurrentLanguage == 3) { // Japanese
-                this.chkWins.Location =   new Point(40, 15);
-                this.chkFinals.Location = new Point(135, 15);
-                this.chkShows.Location =  new Point(245, 15);
+                this.chkWins.Location =   new Point(75, 10);
+                this.chkFinals.Location = new Point(170, 10);
+                this.chkShows.Location =  new Point(280, 10);
             } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
-                this.chkWins.Location =   new Point(40, 15);
-                this.chkFinals.Location = new Point(135, 15);
-                this.chkShows.Location =  new Point(230, 15);
+                this.chkWins.Location =   new Point(75, 10);
+                this.chkFinals.Location = new Point(170, 10);
+                this.chkShows.Location =  new Point(265, 10);
             }
         }
     }

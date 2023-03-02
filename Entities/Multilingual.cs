@@ -103,6 +103,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "Wins"},
                             {"level_detail_date", "Date"},
                             {"level_detail_tooltiptext", "Click to view level stats."},
+                            {"level_date_format", "MMM d, yyyy (ddd)"},
 
                             {"profile_change_tooltiptext", "Click to change your current profile."},
                             {"shows_detail_tooltiptext", "Click to view shows stats."},
@@ -392,6 +393,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "Victoires"},
                             {"level_detail_date", "Date"},
                             {"level_detail_tooltiptext", "Cliquer pour voir les stats de la manche"},
+                            {"level_date_format", "d MMM yyyy (ddd)"},
 
                             {"profile_change_tooltiptext", "Cliquer pour changer de profil"},
                             {"shows_detail_tooltiptext", "Cliquer pour voir les stats des émissions"},
@@ -681,6 +683,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "우승"},
                             {"level_detail_date", "날짜"},
                             {"level_detail_tooltiptext", "레벨 통계를 보려면 클릭하세요."},
+                            {"level_date_format", "yy년 M월 d일 (ddd)"},
 
                             {"profile_change_tooltiptext", "현재 프로필을 변경하려면 클릭하세요."},
                             {"shows_detail_tooltiptext", "쇼 통계를 보려면 클릭하세요."},
@@ -970,6 +973,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "優勝"},
                             {"level_detail_date", "日付"},
                             {"level_detail_tooltiptext", "クリックしてレベル統計を表示"},
+                            {"level_date_format", "yy年 M月 d日 (ddd)"},
 
                             {"profile_change_tooltiptext", "クリックして現在のプロファイルを変更"},
                             {"shows_detail_tooltiptext", "クリックしてショーの統計情報を見る"},
@@ -1259,6 +1263,7 @@ namespace FallGuysStats {
                             {"level_detail_wins", "获胜"},
                             {"level_detail_date", "日期"},
                             {"level_detail_tooltiptext", "点击显示关卡统计"},
+                            {"level_date_format", "yy年 M月 d日 (ddd)"},
 
                             {"profile_change_tooltiptext", "点击更换当前的个人资料。"},
                             {"shows_detail_tooltiptext", "点击查看每场统计信息。"},
