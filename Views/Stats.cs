@@ -129,9 +129,9 @@ namespace FallGuysStats {
             this.StatsDB.BeginTrans();
 
             if (this.Profiles.Count() == 0) {
-                this.Profiles.Insert(new Profiles() { ProfileID = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3 });
-                this.Profiles.Insert(new Profiles() { ProfileID = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2 });
-                this.Profiles.Insert(new Profiles() { ProfileID = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1 });
+                this.Profiles.Insert(new Profiles { ProfileID = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3 });
+                this.Profiles.Insert(new Profiles { ProfileID = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2 });
+                this.Profiles.Insert(new Profiles { ProfileID = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1 });
             }
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
@@ -2085,7 +2085,6 @@ namespace FallGuysStats {
             this.menuUpdate.Text = $"{Multilingual.GetWord("main_update")}";
             this.menuHelp.Text = $"{Multilingual.GetWord("main_help")}";
             this.menuLaunchFallGuys.Text = $"{Multilingual.GetWord("main_launch_fall_guys")}";
-            //this.menuLaunchFallGuys.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             this.menuLaunchFallGuys.Image = this.CurrentSettings.LaunchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
         }
     }
