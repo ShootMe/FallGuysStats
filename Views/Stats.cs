@@ -1544,7 +1544,7 @@ namespace FallGuysStats {
 
             rounds.Sort();
 
-            using (StatsDisplay display = new StatsDisplay { Text = Multilingual.GetWord("level_detail_wins_per_day") }) {
+            using (StatsDisplay display = new StatsDisplay { Text = $"{Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}" }) {
                 DataTable dt = new DataTable();
                 dt.Columns.Add(Multilingual.GetWord("level_detail_date"), typeof(DateTime));
                 dt.Columns.Add(Multilingual.GetWord("level_detail_wins"), typeof(int));
@@ -1773,7 +1773,7 @@ namespace FallGuysStats {
                         return;
                     }
 
-                    foreach (ToolStripItem item in menuPartyFilter.DropDownItems) {
+                    foreach (ToolStripItem item in this.menuPartyFilter.DropDownItems) {
                         if (item is ToolStripMenuItem menuItem && menuItem.Checked && menuItem != button) {
                             menuItem.Checked = false;
                         }
@@ -1782,11 +1782,11 @@ namespace FallGuysStats {
                     button = this.menuAllStats.Checked ? this.menuAllStats : this.menuSeasonStats.Checked ? this.menuSeasonStats : this.menuWeekStats.Checked ? this.menuWeekStats : this.menuDayStats.Checked ? this.menuDayStats : this.menuSessionStats;
                 }
 
-                if(ProfileMenuItems.Contains(button)) {
-                    for (int i = ProfileMenuItems.Count - 1; i >= 0; i--) {
-                        ProfileMenuItems[i].Checked = ProfileMenuItems[i].Name == button.Name;
+                if(this.ProfileMenuItems.Contains(button)) {
+                    for (int i = this.ProfileMenuItems.Count - 1; i >= 0; i--) {
+                        this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                     }
-                    currentProfile = Int32.Parse(button.Name.Substring(11));
+                    this.currentProfile = Int32.Parse(button.Name.Substring(11));
                     button = this.menuAllStats.Checked ? this.menuAllStats : this.menuSeasonStats.Checked ? this.menuSeasonStats : this.menuWeekStats.Checked ? this.menuWeekStats : this.menuDayStats.Checked ? this.menuDayStats : this.menuSessionStats;
                 }
 
@@ -1795,7 +1795,7 @@ namespace FallGuysStats {
                     calculator.Clear();
                 }
 
-                ClearTotals();
+                this.ClearTotals();
 
                 int profile = this.currentProfile;
                 bool soloOnly = this.menuSoloStats.Checked;
