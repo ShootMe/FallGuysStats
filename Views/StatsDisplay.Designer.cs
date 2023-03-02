@@ -100,7 +100,7 @@ namespace FallGuysStats {
             this.KeyPreview = true;
             this.Name = "StatsDisplay";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Stats Display";
             this.Load += new System.EventHandler(this.StatsDisplay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StatsDisplay_KeyDown);
@@ -112,7 +112,7 @@ namespace FallGuysStats {
 
         #endregion
 
-        private Graph graph;
+        private FallGuysStats.Graph graph;
         private System.Windows.Forms.CheckBox chkWins;
         private System.Windows.Forms.CheckBox chkFinals;
         private System.Windows.Forms.CheckBox chkShows;

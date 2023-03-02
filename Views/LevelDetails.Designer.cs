@@ -68,7 +68,7 @@ namespace FallGuysStats {
             this.KeyPreview = true;
             this.Name = "LevelDetails";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Level Stats";
             this.Load += new System.EventHandler(this.LevelDetails_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LevelDetails_KeyDown);
