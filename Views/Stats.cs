@@ -697,6 +697,7 @@ namespace FallGuysStats {
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
                 PlayerByConsoleType = false,
+                ColorByRoundType = false,
                 PreviousWins = 0,
                 WinsFilter = 0,
                 QualifyFilter = 0,
@@ -1859,6 +1860,7 @@ namespace FallGuysStats {
                 using (Settings settings = new Settings()) {
                     settings.Icon = this.Icon;
                     settings.CurrentSettings = this.CurrentSettings;
+                    settings.StatsForm = this;
                     string lastLogPath = this.CurrentSettings.LogPath;
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
