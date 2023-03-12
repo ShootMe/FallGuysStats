@@ -7,6 +7,7 @@ namespace FallGuysStats {
     public partial class Settings : Form {
         private string overlayFontSerialized = string.Empty;
         public UserSettings CurrentSettings { get; set; }
+        public Stats StatsForm { get; set; }
         private int LaunchPlatform;
         private int DisplayLang;
         public Settings() {
@@ -432,6 +433,8 @@ namespace FallGuysStats {
 
                 this.LaunchPlatform = 0;
             } else if (((PictureBox)sender).Name.Equals("picSteam")) { // Steam
+                this.StatsForm.UpdateGameExeLocation();
+                this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
                 this.picPlatformCheck.Parent = this.picSteam;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Steam");
                 this.txtGameShortcutLocation.Visible = false;
@@ -517,6 +520,9 @@ namespace FallGuysStats {
                 
                 this.txtCycleTimeSeconds.Location = new Point(96, 171);
                 this.lblCycleTimeSecondsTag.Location = new Point(127, 170);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(254, 22);
                     this.txtGameShortcutLocation.Size = new Size(420, 20);
@@ -545,6 +551,9 @@ namespace FallGuysStats {
                 
                 this.txtCycleTimeSeconds.Location = new Point(83, 171);
                 this.lblCycleTimeSecondsTag.Location = new Point(114, 170);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(236, 22);
                     this.txtGameShortcutLocation.Size = new Size(438, 20);
@@ -608,6 +617,9 @@ namespace FallGuysStats {
 
                 this.txtCycleTimeSeconds.Location = new Point(85, 170);
                 this.lblCycleTimeSecondsTag.Location = new Point(115, 172);
+                this.grpLaunchPlatform.Size = new Size(88, 56);
+                this.lblGameExeLocation.Location = new Point(107, 24);
+                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(227, 22);
                     this.txtGameShortcutLocation.Size = new Size(447, 20);
