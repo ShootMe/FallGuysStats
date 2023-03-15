@@ -20,7 +20,7 @@ namespace FallGuysStats {
         private bool? allowUpdate, allowNew, allowDelete;
         public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
         public Grid() {
-            SetContextMenu();
+            this.SetContextMenu();
             this.AllowUserToAddRows = false;
             this.AllowUserToOrderColumns = true;
             this.AllowUserToResizeRows = false;
