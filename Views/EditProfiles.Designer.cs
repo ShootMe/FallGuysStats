@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
     partial class EditProfiles {
@@ -25,7 +26,7 @@ namespace FallGuysStats {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.ProfileList = new System.Windows.Forms.ListBox();
+            this.ProfileList = new System.Windows.Forms.DataGridView();
             this.ProfileListUp = new System.Windows.Forms.Button();
             this.ProfileListDown = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -75,17 +76,24 @@ namespace FallGuysStats {
             // 
             // ProfileList
             // 
-            this.ProfileList.FormattingEnabled = true;
-            this.ProfileList.ItemHeight = 12;
+            this.ProfileList.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.ProfileList.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            this.ProfileList.RowHeadersVisible = false;
+            this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(225, 235, 255);
+            this.ProfileList.ColumnHeadersVisible = false;
+            this.ProfileList.AllowUserToAddRows = false;
+            this.ProfileList.AllowUserToDeleteRows = false;
+            this.ProfileList.MultiSelect = false;
+            this.ProfileList.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             this.ProfileList.Cursor = Cursors.Hand;
-            /*this.ProfileList.Items.AddRange(new object[] {
-                "Solo",
-                "Duo",
-                "Squad"});*/
             this.ProfileList.Location = new System.Drawing.Point(6, 15);
             this.ProfileList.Name = "ProfileList";
             this.ProfileList.Size = new System.Drawing.Size(273, 150);
-            this.ProfileList.TabIndex = 2;
+            this.ProfileList.TabStop = true;
+            this.ProfileList.CellClick += new DataGridViewCellEventHandler(this.ProfileList_CellClick);
+            this.ProfileList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
+            this.ProfileList.EditingControlShowing += new DataGridViewEditingControlShowingEventHandler(this.ProfileList_EditingControlShowing);
+            //this.ProfileList.ColumnWidthChanging += new ColumnWidthChangingEventHandler(this.ProfileList_ColumnWidthChanging);
             // 
             // ProfileListUp
             // 
@@ -99,7 +107,7 @@ namespace FallGuysStats {
             // 
             // ProfileListDown
             // 
-            this.ProfileListDown.Location = new System.Drawing.Point(282, 128);
+            this.ProfileListDown.Location = new System.Drawing.Point(282, 130);
             this.ProfileListDown.Name = "ProfileListDown";
             this.ProfileListDown.Size = new System.Drawing.Size(19, 35);
             this.ProfileListDown.TabIndex = 4;
@@ -389,7 +397,8 @@ namespace FallGuysStats {
         }
 
         #endregion
-        private System.Windows.Forms.ListBox ProfileList;
+        //private System.Windows.Forms.ListBox ProfileList;
+        private System.Windows.Forms.DataGridView ProfileList;
         private System.Windows.Forms.Button ProfileListUp;
         private System.Windows.Forms.Button ProfileListDown;
         private System.Windows.Forms.GroupBox groupBox1;

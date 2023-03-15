@@ -15,14 +15,8 @@ namespace FallGuysStats {
         private void Settings_Load(object sender, EventArgs e) {
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
-            this.ChangeLanguage(Stats.CurrentLanguage);
-            switch (Stats.CurrentLanguage) {
-                case 0: this.cboMultilingual.SelectedItem = "English"; break;
-                case 1: this.cboMultilingual.SelectedItem = "Français"; break;
-                case 2: this.cboMultilingual.SelectedItem = "한국어"; break;
-                case 3: this.cboMultilingual.SelectedItem = "日本語"; break;
-                case 4: this.cboMultilingual.SelectedItem = "简体中文"; break;
-            }
+            //this.ChangeLanguage(Stats.CurrentLanguage);
+            this.cboMultilingual.SelectedIndex = Stats.CurrentLanguage;
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
@@ -59,6 +53,7 @@ namespace FallGuysStats {
             this.chkOverlayOnTop.Checked = !this.CurrentSettings.OverlayNotOnTop;
             this.chkPlayerByConsoleType.Checked = this.CurrentSettings.PlayerByConsoleType;
             this.chkColorByRoundType.Checked = this.CurrentSettings.ColorByRoundType;
+            this.chkAutoChangeProfile.Checked = this.CurrentSettings.AutoChangeProfile;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -68,7 +63,33 @@ namespace FallGuysStats {
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
-
+            
+            ImageItem[] imageItemArray = {
+                new ImageItem(Properties.Resources.background, "", "Default", this.Font),
+                new ImageItem(Properties.Resources.background_candycane, "candycane", "Candy Cane", this.Font),
+                new ImageItem(Properties.Resources.background_coffee, "coffee", "Coffee", this.Font),
+                new ImageItem(Properties.Resources.background_dove, "dove", "Dove", this.Font),
+                new ImageItem(Properties.Resources.background_fall_guys_logo, "fall_guys_logo", "Fall Guys Logo", this.Font),
+                new ImageItem(Properties.Resources.background_helter_skelter, "helter_skelter", "Helter Skelter", this.Font),
+                new ImageItem(Properties.Resources.background_hex_a_thon, "hex_a_thon", "Hex A Thon", this.Font),
+                new ImageItem(Properties.Resources.background_ill_be_slime, "ill_be_slime", "I'll Be Slime", this.Font),
+                new ImageItem(Properties.Resources.background_mockingbird, "mockingbird", "Mocking Bird", this.Font),
+                new ImageItem(Properties.Resources.background_newlove, "newlove", "New Love", this.Font),
+                new ImageItem(Properties.Resources.background_parade_guy, "parade_guy", "Parade Guy", this.Font),
+                new ImageItem(Properties.Resources.background_party_pegwin, "party_pegwin", "Party Pegwin", this.Font),
+                new ImageItem(Properties.Resources.background_penguin, "penguin", "Penguin", this.Font),
+                new ImageItem(Properties.Resources.background_suits_you, "suits_you", "Suits You", this.Font),
+                new ImageItem(Properties.Resources.background_sunny_guys, "sunny_guys", "Sunny Guys", this.Font),
+                new ImageItem(Properties.Resources.background_ta_da, "ta_da", "Ta Da", this.Font),
+                new ImageItem(Properties.Resources.background_timeattack, "timeattack", "Time Attack", this.Font),
+                new ImageItem(Properties.Resources.background_watermelon, "watermelon", "Watermelon", this.Font),
+                new ImageItem(Properties.Resources.background_wallpaper_01, "wallpaper_01", "Wallpaper 01", this.Font),
+                new ImageItem(Properties.Resources.background_wallpaper_02, "wallpaper_02", "Wallpaper 02", this.Font),
+                new ImageItem(Properties.Resources.background_wallpaper_03, "wallpaper_03", "Wallpaper 03", this.Font),
+            };
+            this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
+            
             switch (this.CurrentSettings.OverlayColor) {
                 case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
                 case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
@@ -130,32 +151,8 @@ namespace FallGuysStats {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            switch ((string)this.cboMultilingual.SelectedItem) {
-                case "English":
-                    Stats.CurrentLanguage = 0;
-                    this.CurrentSettings.Multilingual = 0;
-                    break;
-                case "Français":
-                    Stats.CurrentLanguage = 1;
-                    this.CurrentSettings.Multilingual = 1;
-                    break;
-                case "한국어":
-                    Stats.CurrentLanguage = 2;
-                    this.CurrentSettings.Multilingual = 2;
-                    break;
-                case "日本語":
-                    Stats.CurrentLanguage = 3;
-                    this.CurrentSettings.Multilingual = 3;
-                    break;
-                case "简体中文":
-                    Stats.CurrentLanguage = 4;
-                    this.CurrentSettings.Multilingual = 4;
-                    break;
-                default:
-                    Stats.CurrentLanguage = 0;
-                    this.CurrentSettings.Multilingual = 0;
-                    break;
-            }
+            Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
+            this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
 
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
 
@@ -221,6 +218,7 @@ namespace FallGuysStats {
             this.CurrentSettings.OverlayNotOnTop = !this.chkOverlayOnTop.Checked;
             this.CurrentSettings.PlayerByConsoleType = this.chkPlayerByConsoleType.Checked;
             this.CurrentSettings.ColorByRoundType = this.chkColorByRoundType.Checked;
+            this.CurrentSettings.AutoChangeProfile = this.chkAutoChangeProfile.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -238,6 +236,10 @@ namespace FallGuysStats {
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
+
+            Console.WriteLine(this.CurrentSettings.OverlayBackgroundResourceName);
+            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName;
+            this.CurrentSettings.OverlayBackground = this.cboOverlayBackground.SelectedIndex;
 
             if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_transparent")}") {
                 this.CurrentSettings.OverlayColor = 0;
@@ -325,10 +327,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = fontConverter.ConvertToString(this.lblOverlayFontExample.Font);
             } else {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
-                Overlay.DefaultFont = new Font(
-                    Stats.CurrentLanguage <= 1 ? Overlay.DefaultFontCollection.Families[2] : // eng, fre
-                    Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : // sc
-                    Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+                Overlay.DefaultFont = new Font(Overlay.GetDefaultFontFamilies(), 18, FontStyle.Regular, GraphicsUnit.Pixel);
             }
             
             this.DialogResult = DialogResult.OK;
@@ -424,7 +423,7 @@ namespace FallGuysStats {
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "eng");
                 } else if (this.DisplayLang == 1) { // French
                     this.txtGameShortcutLocation.Location = new Point(204, 21);
-                    this.txtGameShortcutLocation.Size = new Size(450, 23);
+                    this.txtGameShortcutLocation.Size = new Size(470, 23);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "fre");
                 } else if (this.DisplayLang == 2) { // Korean
                     this.txtGameShortcutLocation.Location = new Point(236, 22);
@@ -455,7 +454,7 @@ namespace FallGuysStats {
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "eng");
                 } else if (this.DisplayLang == 1) { // French
                     this.txtGameExeLocation.Location = new Point(184, 21);
-                    this.txtGameExeLocation.Size = new Size(470, 23);
+                    this.txtGameExeLocation.Size = new Size(490, 23);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "fre");
                 } else if (this.DisplayLang == 2) { // Korean
                     this.txtGameExeLocation.Location = new Point(215, 22);
@@ -486,10 +485,7 @@ namespace FallGuysStats {
             }
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
-            this.lblOverlayFontExample.Font = new Font(
-                this.cboMultilingual.SelectedIndex <= 1 ? Overlay.DefaultFontCollection.Families[2] :
-                this.cboMultilingual.SelectedIndex == 4 ? Overlay.DefaultFontCollection.Families[1] :
-                Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblOverlayFontExample.Font = new Font(Overlay.GetDefaultFontFamilies(this.DisplayLang), 18, FontStyle.Regular, GraphicsUnit.Pixel);
             this.overlayFontSerialized = string.Empty;
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
@@ -497,13 +493,10 @@ namespace FallGuysStats {
         }
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
-            this.Font = new Font(this.DisplayLang == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.Font = new Font(Overlay.GetMainFontFamilies(this.DisplayLang), 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
-            this.lblOverlayFontExample.Font = new Font(
-                this.cboMultilingual.SelectedIndex <= 1 ? Overlay.DefaultFontCollection.Families[2] :
-                this.cboMultilingual.SelectedIndex == 4 ? Overlay.DefaultFontCollection.Families[1] :
-                Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblOverlayFontExample.Font = new Font(Overlay.GetDefaultFontFamilies(this.cboMultilingual.SelectedIndex), 18, FontStyle.Regular, GraphicsUnit.Pixel);
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
             if (this.DisplayLang == 0) { // English
@@ -521,6 +514,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(390, 64);
                 this.lblFastestFilter.Location = new Point(365, 100);
                 
+                this.lblOverlayBackground.Location = new Point(391, 136);
                 this.lblOverlayColor.Location = new Point(429, 173);
                 
                 this.txtCycleTimeSeconds.Location = new Point(96, 171);
@@ -552,6 +546,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(395, 64);
                 this.lblFastestFilter.Location = new Point(348, 100);
 
+                this.lblOverlayBackground.Location = new Point(417, 136);
                 this.lblOverlayColor.Location = new Point(430, 173);
                 //this.lblOverlayFont.Location = new Point(24, 275);
 
@@ -563,11 +558,11 @@ namespace FallGuysStats {
                 this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(204, 21);
-                    this.txtGameShortcutLocation.Size = new Size(450, 23);
+                    this.txtGameShortcutLocation.Size = new Size(470, 23);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
                     this.txtGameExeLocation.Location = new Point(184, 21);
-                    this.txtGameExeLocation.Size = new Size(470, 23);
+                    this.txtGameExeLocation.Size = new Size(490, 23);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
             } else if (this.DisplayLang == 2) { // Korean
@@ -585,6 +580,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(405, 64);
                 this.lblFastestFilter.Location = new Point(367, 100);
                 
+                this.lblOverlayBackground.Location = new Point(403, 136);
                 this.lblOverlayColor.Location = new Point(414, 173);
                 
                 this.txtCycleTimeSeconds.Location = new Point(83, 171);
@@ -616,6 +612,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(355, 64);
                 this.lblFastestFilter.Location = new Point(331, 100);
                 
+                this.lblOverlayBackground.Location = new Point(376, 136);
                 this.lblOverlayColor.Location = new Point(363, 173);
                 
                 this.txtCycleTimeSeconds.Location = new Point(105, 171);
@@ -651,6 +648,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(410, 64);
                 this.lblFastestFilter.Location = new Point(410, 100);
 
+                this.lblOverlayBackground.Location = new Point(457, 136);
                 this.lblOverlayColor.Location = new Point(469, 173);
 
                 this.txtCycleTimeSeconds.Location = new Point(85, 170);
@@ -682,6 +680,32 @@ namespace FallGuysStats {
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
             
+            //ImageItem[] imageItemArray = {
+            //    new ImageItem(Properties.Resources.background, "", "Default", this.Font),
+            //    new ImageItem(Properties.Resources.background_candycane, "candycane", "Candy Cane", this.Font),
+            //    new ImageItem(Properties.Resources.background_coffee, "coffee", "Coffee", this.Font),
+            //    new ImageItem(Properties.Resources.background_dove, "dove", "Dove", this.Font),
+            //    new ImageItem(Properties.Resources.background_fall_guys_logo, "fall_guys_logo", "Fall Guys Logo", this.Font),
+            //    new ImageItem(Properties.Resources.background_helter_skelter, "helter_skelter", "Helter Skelter", this.Font),
+            //    new ImageItem(Properties.Resources.background_hex_a_thon, "hex_a_thon", "Hex A Thon", this.Font),
+            //    new ImageItem(Properties.Resources.background_ill_be_slime, "ill_be_slime", "I'll Be Slime", this.Font),
+            //    new ImageItem(Properties.Resources.background_mockingbird, "mockingbird", "Mocking Bird", this.Font),
+            //    new ImageItem(Properties.Resources.background_newlove, "newlove", "New Love", this.Font),
+            //    new ImageItem(Properties.Resources.background_parade_guy, "parade_guy", "Parade Guy", this.Font),
+            //    new ImageItem(Properties.Resources.background_party_pegwin, "party_pegwin", "Party Pegwin", this.Font),
+            //    new ImageItem(Properties.Resources.background_penguin, "penguin", "Penguin", this.Font),
+            //    new ImageItem(Properties.Resources.background_suits_you, "suits_you", "Suits You", this.Font),
+            //    new ImageItem(Properties.Resources.background_sunny_guys, "sunny_guys", "Sunny Guys", this.Font),
+            //    new ImageItem(Properties.Resources.background_ta_da, "ta_da", "Ta Da", this.Font),
+            //    new ImageItem(Properties.Resources.background_timeattack, "timeattack", "Time Attack", this.Font),
+            //    new ImageItem(Properties.Resources.background_watermelon, "watermelon", "Watermelon", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_01, "wallpaper_01", "Wallpaper 01", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_02, "wallpaper_02", "Wallpaper 02", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_03, "wallpaper_03", "Wallpaper 03", this.Font),
+            //};
+            //this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            //this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
+
             this.cboOverlayColor.Items.Clear();
             this.cboOverlayColor.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_transparent"),
@@ -699,6 +723,7 @@ namespace FallGuysStats {
                 case 5: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
             
+            this.lblOverlayBackground.Text = Multilingual.GetWord("settings_background_image");
             this.lblOverlayColor.Text = Multilingual.GetWord("settings_background");
             this.chkFlipped.Text = Multilingual.GetWord("settings_flip_display_horizontally");
             this.chkShowTabs.Text = Multilingual.GetWord("settings_show_tab_for_currnet_filter__profile");
@@ -764,6 +789,7 @@ namespace FallGuysStats {
             this.chkOverlayOnTop.Text = Multilingual.GetWord("settings_always_show_on_top");
             this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_the_player_by_console_type");
             this.chkColorByRoundType.Text = Multilingual.GetWord("settings_display_the_color_by_round_type");
+            this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");

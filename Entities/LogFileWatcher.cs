@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+
 namespace FallGuysStats {
     public class LogLine {
         public TimeSpan Time { get; } = TimeSpan.Zero;
@@ -13,18 +15,18 @@ namespace FallGuysStats {
         public long Offset { get; set; }
 
         public LogLine(string line, long offset) {
-            Offset = offset;
-            Line = line;
+            this.Offset = offset;
+            this.Line = line;
             bool isValidSemiColon = (line.IndexOf(':') == 2 && line.IndexOf(':', 3) == 5 && line.IndexOf(':', 6) == 12);
             bool isValidDot = (line.IndexOf('.') == 2 && line.IndexOf('.', 3) == 5 && line.IndexOf(':', 6) == 12);
-            IsValid = isValidSemiColon || isValidDot;
-            if (IsValid) {
-                Time = TimeSpan.ParseExact(line.Substring(0, 12), isValidSemiColon ? "hh\\:mm\\:ss\\.fff" : "hh\\.mm\\.ss\\.fff", null);
+            this.IsValid = isValidSemiColon || isValidDot;
+            if (this.IsValid) {
+                this.Time = TimeSpan.ParseExact(line.Substring(0, 12), isValidSemiColon ? "hh\\:mm\\:ss\\.fff" : "hh\\.mm\\.ss\\.fff", null);
             }
         }
 
         public override string ToString() {
-            return $"{Time}: {Line} ({Offset})";
+            return $"{this.Time}: {this.Line} ({this.Offset})";
         }
     }
     public class LogRound {
@@ -49,7 +51,9 @@ namespace FallGuysStats {
         private bool running;
         private bool stop;
         private Thread watcher, parser;
-        private string ShowNameId;
+        public Stats StatsForm { get; set; }
+        private string selectedShowId;
+        private readonly object balanceLock = new object();
 
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
@@ -57,35 +61,35 @@ namespace FallGuysStats {
         public event Action<string> OnError;
 
         public void Start(string logDirectory, string fileName) {
-            if (running) { return; }
+            if (this.running) { return; }
 
-            filePath = Path.Combine(logDirectory, fileName);
-            prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
-            stop = false;
-            watcher = new Thread(ReadLogFile) { IsBackground = true };
-            watcher.Start();
-            parser = new Thread(ParseLines) { IsBackground = true };
-            parser.Start();
+            this.filePath = Path.Combine(logDirectory, fileName);
+            this.prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
+            this.stop = false;
+            this.watcher = new Thread(ReadLogFile) { IsBackground = true };
+            this.watcher.Start();
+            this.parser = new Thread(ParseLines) { IsBackground = true };
+            this.parser.Start();
         }
 
         public async Task Stop() {
-            stop = true;
-            while (running || watcher == null || watcher.ThreadState == ThreadState.Unstarted) {
+            this.stop = true;
+            while (this.running || this.watcher == null || this.watcher.ThreadState == ThreadState.Unstarted) {
                 await Task.Delay(50);
             }
-            lines = new List<LogLine>();
-            await Task.Factory.StartNew(() => watcher?.Join());
-            await Task.Factory.StartNew(() => parser?.Join());
+            this.lines = new List<LogLine>();
+            await Task.Factory.StartNew(() => this.watcher?.Join());
+            await Task.Factory.StartNew(() => this.parser?.Join());
         }
 
         private void ReadLogFile() {
-            running = true;
+            this.running = true;
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
             string currentFilePath = prevFilePath;
             long offset = 0;
-            while (!stop) {
+            while (!this.stop) {
                 try {
                     if (File.Exists(currentFilePath)) {
                         using (FileStream fs = new FileStream(currentFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
@@ -104,7 +108,7 @@ namespace FallGuysStats {
                                         int index;
                                         if ((index = line.IndexOf("[GlobalGameStateClient].PreStart called at ")) > 0) {
                                             currentDate = DateTime.SpecifyKind(DateTime.Parse(line.Substring(index + 43, 19)), DateTimeKind.Utc);
-                                            OnNewLogFileDate?.Invoke(currentDate);
+                                            this.OnNewLogFileDate?.Invoke(currentDate);
                                         }
 
                                         if (currentDate != DateTime.MinValue) {
@@ -151,11 +155,11 @@ namespace FallGuysStats {
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
                             currentLines.Add(line);
-                            if (ParseLine(line, round, logRound)) {
+                            if (this.ParseLine(line, round, logRound)) {
                                 lastDate = line.Date;
                                 offset = line.Offset;
-                                lock (lines) {
-                                    lines.AddRange(currentLines);
+                                lock (this.lines) {
+                                    this.lines.AddRange(currentLines);
                                     currentLines.Clear();
                                 }
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0 ||
@@ -168,7 +172,7 @@ namespace FallGuysStats {
                         if (logRound.LastPing != 0) {
                             Stats.LastServerPing = logRound.LastPing;
                         }
-                        OnParsedLogLinesCurrent?.Invoke(round);
+                        this.OnParsedLogLinesCurrent?.Invoke(round);
                     }
 
                     if (!completed) {
@@ -177,36 +181,36 @@ namespace FallGuysStats {
                         currentFilePath = filePath;
                     }
                 } catch (Exception ex) {
-                    OnError?.Invoke(ex.ToString());
+                    this.OnError?.Invoke(ex.ToString());
                 }
                 Thread.Sleep(UpdateDelay);
             }
-            running = false;
+            this.running = false;
         }
         private void ParseLines() {
             List<RoundInfo> round = new List<RoundInfo>();
             List<RoundInfo> allStats = new List<RoundInfo>();
             LogRound logRound = new LogRound();
 
-            while (!stop) {
+            while (!this.stop) {
                 try {
-                    lock (lines) {
-                        for (int i = 0; i < lines.Count; i++) {
-                            LogLine line = lines[i];
-                            if (ParseLine(line, round, logRound)) {
+                    lock (this.lines) {
+                        for (int i = 0; i < this.lines.Count; i++) {
+                            LogLine line = this.lines[i];
+                            if (this.ParseLine(line, round, logRound)) {
                                 allStats.AddRange(round);
                             }
                         }
 
                         if (allStats.Count > 0) {
-                            OnParsedLogLines?.Invoke(allStats);
+                            this.OnParsedLogLines?.Invoke(allStats);
                             allStats.Clear();
                         }
 
-                        lines.Clear();
+                        this.lines.Clear();
                     }
                 } catch (Exception ex) {
-                    OnError?.Invoke(ex.ToString());
+                    this.OnError?.Invoke(ex.ToString());
                 }
                 Thread.Sleep(UpdateDelay);
             }
@@ -330,11 +334,13 @@ namespace FallGuysStats {
         
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
-                this.ShowNameId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
+            if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
+                this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
+                if (!Stats.EndedShow && this.StatsForm.CurrentSettings.AutoChangeProfile) {
+                    this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
+                }
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
-                logRound.Info = new RoundInfo();
-                logRound.Info.ShowNameId = this.ShowNameId;
+                logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId };
                 int index2 = line.Line.IndexOf(' ', index + 44);
                 if (index2 < 0) { index2 = line.Line.Length; }
 
@@ -446,6 +452,7 @@ namespace FallGuysStats {
                 || line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) > 0
                 || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) > 0
                 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0)) {
+                if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0) { logRound.PrivateLobby = false; }
                 if (logRound.Info.End == DateTime.MinValue) {
                     logRound.Info.End = line.Date;
                 }

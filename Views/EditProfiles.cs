@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,40 +9,147 @@ namespace FallGuysStats {
         public List<Profiles> Profiles { get; set; }
         public List<RoundInfo> AllStats { get; set; }
         public Stats StatsForm { get; set; }
+        private DataTable ProfilesData;
+        private DataGridViewComboBoxColumn cboShowsList;
+        private int selectedRowIndex;
+
+        private string[] _shows = {
+            "",
+            "main_show",
+            "squads_2player_template",
+            "squads_4player",
+            "event_xtreme_fall_guys_template",
+            "event_xtreme_fall_guys_squads_template",
+            "event_only_finals_v2_template",
+            "event_only_races_any_final_template",
+            "event_only_fall_ball_template",
+            "event_only_hexaring_template",
+            "event_only_floor_fall_template",
+            "event_only_blast_ball_trials_template",
+            "event_only_slime_climb",
+            "event_only_jump_club_template",
+            "event_walnut_template",
+            "event_only_survival_ss2_3009_0210_2022",
+            "show_robotrampage_ss2_show1_template",
+            "event_le_anchovy_template",
+            "event_pixel_palooza_template",
+            "private_lobbies"
+        };
+
         public EditProfiles() => this.InitializeComponent();
 
         private void EditProfiles_Load(object sender, EventArgs e) {
             this.ChangeLanguage();
+            this.InitProfileList();
             this.ReloadProfileList();
+            this.ProfileList.ClearSelection();
         }
 
+        private void InitProfileList() {
+            this.cboShowsList = new DataGridViewComboBoxColumn();
+            this.cboShowsList.DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox;
+            DataTable showsData = new DataTable();
+            showsData.Columns.Add("showName");
+            showsData.Columns.Add("showId");
+            foreach (string showId in _shows) {
+                //if (this.Profiles.FindIndex(item => item.LinkedShowId == showId) != -1) continue;
+                showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
+            }
+
+            this.cboShowsList.DataSource = showsData;
+            this.cboShowsList.DisplayMember = "showName";
+            this.cboShowsList.ValueMember = "showId";
+            
+            this.ProfileList.Columns.Add("profile", "profile");
+            this.ProfileList.Columns.Add(this.cboShowsList);
+            this.ProfileList.Columns[0].ReadOnly = true;
+            this.ProfileList.Columns[0].DataPropertyName = "profile";
+            this.ProfileList.Columns[1].Name = "show";
+            this.ProfileList.Columns[1].DataPropertyName = "show";
+            
+            this.ProfilesData = new DataTable();
+            this.ProfilesData.Columns.Add("profile");
+            this.ProfilesData.Columns.Add("show");
+            
+            this.ProfileList.DataSource = this.ProfilesData;
+        }
+        
         private void ReloadProfileList() {
-            
-            
+            this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
+            this.ProfilesData.Clear();
+            foreach (var profile in this.Profiles) {
+                this.ProfilesData.Rows.Add($"{profile.ProfileName} [{AllStats.FindAll(r => r.Profile == profile.ProfileId).Count} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
+            }
             this.Profiles = this.Profiles.OrderByDescending(p => p.ProfileOrder).ToList();
             this.AddPageTextbox.Text = "";
             this.RenamePageTextbox.Text = "";
-            this.ProfileList.Items.Clear();
             this.RenamePageCombobox.Items.Clear();
             this.MoveFromCombobox.Items.Clear();
             this.MoveToCombobox.Items.Clear();
             this.RemoveProfileCombobox.Items.Clear();
             for (int i = 0; i < this.Profiles.Count; i++) {
                 if (this.Profiles[i].ProfileOrder == 0) { this.Profiles[i].ProfileOrder = this.Profiles.Count - i; }
-                this.ProfileList.Items.Insert(0, $"{this.Profiles[i].ProfileName} [{AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileID).Count} {Multilingual.GetWord("profile_rounds_suffix")}]");
                 this.RenamePageCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 this.MoveToCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
-                if (AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileID).Count != 0) {
+                if (AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
                     this.MoveFromCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
                 /*if (Profiles[i].ProfileID != 0 && AllStats.FindAll(r => r.Profile == Profiles[i].ProfileID).Count == 0) {
                     RemoveProfileCombobox.Items.Insert(0, Profiles[i].ProfileName);
                 }*/
-                if (this.Profiles[i].ProfileID != 0) {
+                if (this.Profiles[i].ProfileId != 0) {
                     this.RemoveProfileCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
             }
         }
+
+        private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
+            var datagridview = sender as DataGridView;
+            if (datagridview.CurrentCell.ColumnIndex == 1 & e.Control is ComboBox) {
+                ComboBox cb = e.Control as ComboBox;
+                this.selectedRowIndex = cb.SelectedIndex;
+                cb.SelectionChangeCommitted -= this.SubCombo_SelectionChangeCommitted;
+                cb.SelectionChangeCommitted += this.SubCombo_SelectionChangeCommitted;
+            }
+        }
+
+        private void SubCombo_SelectionChangeCommitted(object sender, EventArgs e) {
+            DataRowView dataRow = (DataRowView)((ComboBox)sender).SelectedItem;
+            string linkedShowId = (string)dataRow.Row[1];
+
+            if (this.Profiles.FindIndex(item => item.LinkedShowId == linkedShowId) != -1) {
+                ((ComboBox)sender).SelectedIndex = this.selectedRowIndex;
+            } else {
+                int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
+                int profileIndex = this.Profiles.Count - profileListIndex - 1;
+                this.Profiles[profileIndex].LinkedShowId = linkedShowId;
+                this.selectedRowIndex = ((ComboBox)sender).SelectedIndex;
+            }
+            this.ProfileList.ClearSelection();
+            this.ProfileList[1, this.ProfileList.CurrentCell.RowIndex].Selected = true;
+        }
+
+        private void ProfileList_CellClick(object sender, DataGridViewCellEventArgs e) {
+            var datagridview = sender as DataGridView;
+            if (e.ColumnIndex == 1) {
+                datagridview.BeginEdit(true);
+                ((ComboBox)datagridview.EditingControl).DroppedDown = true;
+            }
+        }
+
+        private void ProfileList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            var datagridview = sender as DataGridView;
+            if (datagridview.Columns[e.ColumnIndex].Name == "profile") {
+                datagridview.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = (string)e.Value;
+            } else if (datagridview.Columns[e.ColumnIndex].Name == "profile") {
+                datagridview.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = (string)e.Value;
+            }
+        }
+
+        //private void ProfileList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
+        //    e.NewWidth = ((ListView)sender).Columns[e.ColumnIndex].Width;
+        //    e.Cancel = true;
+        //}
 
         private void DeleteAmpersend_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
@@ -57,12 +165,13 @@ namespace FallGuysStats {
                 int maxID = 0;
                 int order = 1;
                 for (int i = 0; i < this.Profiles.Count; i++) {
-                    if (maxID <= this.Profiles[i].ProfileID) { maxID = this.Profiles[i].ProfileID; }
+                    if (maxID <= this.Profiles[i].ProfileId) { maxID = this.Profiles[i].ProfileId; }
                     if (order <= this.Profiles[i].ProfileOrder) { order = this.Profiles[i].ProfileOrder; }
                     if (this.Profiles[i].ProfileName == this.AddPageTextbox.Text) { return; }
                 }
-                this.Profiles.Insert(0, new Profiles { ProfileID = maxID + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = order + 1 });
+                this.Profiles.Insert(0, new Profiles { ProfileId = maxID + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = order + 1 });
                 this.ReloadProfileList();
+                this.ProfileList[0, this.ProfileList.Rows.Count - 1].Selected = true;
             }
         }
 
@@ -84,9 +193,9 @@ namespace FallGuysStats {
                 if (string.IsNullOrEmpty(prevProfileName)) {
                     prevProfileId = 0;
                 } else {
-                    prevProfileId = this.Profiles.Find(p => p.ProfileName == prevProfileName).ProfileID;
+                    prevProfileId = this.Profiles.Find(p => p.ProfileName == prevProfileName).ProfileId;
                 }
-                int profileId = this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()).ProfileID;
+                int profileId = this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()).ProfileId;
                 this.Profiles.Remove(this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()));
                 this.AllStats.RemoveAll(r => r.Profile == profileId);
                 if (this.StatsForm.CurrentSettings.SelectedProfile == profileId) {
@@ -104,8 +213,8 @@ namespace FallGuysStats {
             if (MessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.MoveFromCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.MoveToCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
                     Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                int fromId = this.Profiles.Find(p => p.ProfileName == this.MoveFromCombobox.SelectedItem.ToString()).ProfileID;
-                int toId = this.Profiles.Find(p => p.ProfileName == this.MoveToCombobox.SelectedItem.ToString()).ProfileID;
+                int fromId = this.Profiles.Find(p => p.ProfileName == this.MoveFromCombobox.SelectedItem.ToString()).ProfileId;
+                int toId = this.Profiles.Find(p => p.ProfileName == this.MoveToCombobox.SelectedItem.ToString()).ProfileId;
                 for (int i = 0; i < this.AllStats.Count; i++) {
                     if (this.AllStats[i].Profile != fromId) { continue; }
                     this.AllStats[i].Profile = toId;
@@ -131,25 +240,23 @@ namespace FallGuysStats {
         }
 
         private void ProfileListUp_Click(object sender, EventArgs e) {
-            if (this.ProfileList.SelectedItems.Count <= 0) { return; }
-            if (this.ProfileList.SelectedIndex <= 0) { return; }
-            
-            int profileListIndex = this.ProfileList.SelectedIndex;
-            int profileIndex = this.Profiles.Count - this.ProfileList.SelectedIndex - 1;
+            if (this.ProfileList.SelectedRows.Count <= 0) { return; }
+            if (this.ProfileList.CurrentCell.RowIndex <= 0) { return; }
+            int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
+            int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex + 1].ProfileOrder) = (this.Profiles[profileIndex + 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.ReloadProfileList();
-            this.ProfileList.SelectedIndex = profileListIndex - 1;
+            this.ProfileList[0, profileListIndex - 1].Selected = true;
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
-            if (this.ProfileList.SelectedItems.Count <= 0) { return; }
-            if (this.ProfileList.SelectedIndex >= this.ProfileList.Items.Count - 1) { return; }
-            
-            int profileListIndex = this.ProfileList.SelectedIndex;
-            int profileIndex = this.Profiles.Count - this.ProfileList.SelectedIndex - 1;
+            if (this.ProfileList.SelectedRows.Count <= 0) { return; }
+            if (this.ProfileList.CurrentCell.RowIndex >= this.ProfileList.Rows.Count - 1) { return; }
+            int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
+            int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.ReloadProfileList();
-            this.ProfileList.SelectedIndex = profileListIndex + 1;
+            this.ProfileList[0, profileListIndex + 1].Selected = true;
         }
 
         private void RenameComboxChanged(object sender, EventArgs e) {
@@ -174,12 +281,8 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.Font = new Font(Stats.CurrentLanguage == 4 ? Overlay.DefaultFontCollection.Families[1] : Overlay.DefaultFontCollection.Families[0], 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = new Font(Overlay.GetMainFontFamilies(), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.Text = Multilingual.GetWord("profile_title");
-            this.ProfileList.Items.AddRange(new object[] {
-                Multilingual.GetWord("main_profile_solo"),
-                Multilingual.GetWord("main_profile_duo"),
-                Multilingual.GetWord("main_profile_squad")});
             this.groupBox1.Text = Multilingual.GetWord("profile_list");
             this.AddTabPage.Text = Multilingual.GetWord("profile_add_tab");
             this.AddPageButton.Text = Multilingual.GetWord("profile_add_tab_button");
@@ -228,6 +331,11 @@ namespace FallGuysStats {
                 this.MoveToCombobox.Location =        new Point(81, 44);
                 this.RemoveProfileCombobox.Location = new Point(95, 10);
             } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
+                this.AddPageTextbox.Location =        new Point(110, 8);
+                this.RenamePageCombobox.Location =    new Point(110, 8);
+                this.RenamePageTextbox.Location =     new Point(110, 44);
+                this.MoveFromCombobox.Location =      new Point(81, 10);
+                this.MoveToCombobox.Location =        new Point(81, 44);
                 this.RemoveProfileCombobox.Location = new Point(95, 10);
             }
         }

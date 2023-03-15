@@ -26,7 +26,7 @@ namespace FallGuysStats {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.picEditShowsIcon = new PictureBox();
+            this.picEditShowsIcon = new System.Windows.Forms.PictureBox();
             this.lblEditShowsQuestion = new System.Windows.Forms.Label();
             this.lblEditShowslabel = new System.Windows.Forms.Label();
             this.cboEditShows = new System.Windows.Forms.ComboBox();
@@ -44,7 +44,7 @@ namespace FallGuysStats {
             // 
             // picEditShowsIcon
             // 
-            this.picEditShowsIcon.Location = new System.Drawing.Point(24, 17);
+            this.picEditShowsIcon.Location = new System.Drawing.Point(24, 7);
             this.picEditShowsIcon.Name = "picEditShowsIcon";
             this.picEditShowsIcon.Width = 36;
             this.picEditShowsIcon.Height = 36;
@@ -54,7 +54,7 @@ namespace FallGuysStats {
             // lblEditShowsQuestion
             // 
             this.lblEditShowsQuestion.AutoSize = true;
-            this.lblEditShowsQuestion.Location = new System.Drawing.Point(74, 23);
+            this.lblEditShowsQuestion.Location = new System.Drawing.Point(74, 12);
             this.lblEditShowsQuestion.Name = "lblEditShowsQuestion";
             this.lblEditShowsQuestion.Size = new System.Drawing.Size(62, 12);
             this.lblEditShowsQuestion.Text = "Description";
@@ -62,7 +62,7 @@ namespace FallGuysStats {
             // lblEditShowslabel
             // 
             this.lblEditShowslabel.AutoSize = true;
-            this.lblEditShowslabel.Location = new System.Drawing.Point(74, 58);
+            this.lblEditShowslabel.Location = new System.Drawing.Point(74, 45);
             this.lblEditShowslabel.Name = "lblEditShowslabel";
             this.lblEditShowslabel.Size = new System.Drawing.Size(62, 12);
             this.lblEditShowslabel.Text = "Profile List";
@@ -79,7 +79,7 @@ namespace FallGuysStats {
             // 
             // lblEditShowsBackColor
             // 
-            this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 95);
+            this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 80);
             this.lblEditShowsBackColor.Name = "lblEditShowsBackColor";
             this.lblEditShowsBackColor.Size = new System.Drawing.Size(350, 40);
             this.lblEditShowsBackColor.BackColor = Color.FromArgb(40,0,182,254);
@@ -100,7 +100,7 @@ namespace FallGuysStats {
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
             this.btnEditShowsCancel.Size = new System.Drawing.Size(75, 18);
             this.btnEditShowsCancel.TabIndex = 2;
-            this.btnEditShowsCancel.Text = Multilingual.GetWord("profile_undo_change_button");
+            this.btnEditShowsCancel.Text = "Cancel";
             this.btnEditShowsCancel.UseVisualStyleBackColor = true;
             this.btnEditShowsCancel.Click += new System.EventHandler(this.btnEditShowsCancel_Click);
             // 
@@ -108,7 +108,7 @@ namespace FallGuysStats {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 135);
+            this.ClientSize = new System.Drawing.Size(350, 125);
             this.Controls.Add(this.picEditShowsIcon);
             this.Controls.Add(this.lblEditShowsQuestion);
             this.Controls.Add(this.lblEditShowslabel);
@@ -140,7 +140,7 @@ namespace FallGuysStats {
         }
 
         #endregion
-        private PictureBox picEditShowsIcon;
+        private System.Windows.Forms.PictureBox picEditShowsIcon;
         private System.Windows.Forms.Label lblEditShowsQuestion;
         private System.Windows.Forms.Label lblEditShowslabel;
         private System.Windows.Forms.ComboBox cboEditShows;

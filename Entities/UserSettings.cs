@@ -12,6 +12,8 @@
         public int? OverlayFixedPositionY { get; set; }
         public int? OverlayFixedWidth { get; set; }
         public int? OverlayFixedHeight { get; set; }
+        public int OverlayBackground { get; set; }
+        public string OverlayBackgroundResourceName { get; set; }
         public int OverlayColor { get; set; }
         public bool FlippedDisplay { get; set; }
         public bool FixedFlippedDisplay { get; set; }
@@ -28,6 +30,7 @@
         public bool OverlayNotOnTop { get; set; }
         public bool PlayerByConsoleType { get; set; }
         public bool ColorByRoundType { get; set; }
+        public bool AutoChangeProfile { get; set; }
         public int PreviousWins { get; set; }
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }
