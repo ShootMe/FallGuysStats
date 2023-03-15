@@ -54,7 +54,7 @@ namespace FallGuysStats {
         private int closeRowIndex, closeColumnIndex;
         private Point lastMousePosition;
         private static Color[] Colors = { Color.Black, Color.Red, Color.Green, Color.Blue };
-        private Font GraphFont = new Font(Overlay.DefaultFontCollection.Families[Stats.CurrentLanguage == 4 ? 1 : 0], 10, FontStyle.Regular, GraphicsUnit.Point);
+        private Font GraphFont = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Point);
 
         public Graph() {
             this.closeRowIndex = -1;

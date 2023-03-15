@@ -41,6 +41,8 @@ namespace FallGuysStats {
             this.chkCycleFastestLongest = new System.Windows.Forms.RadioButton();
             this.chkHidePercentages = new System.Windows.Forms.CheckBox();
             this.chkHideWinsInfo = new System.Windows.Forms.CheckBox();
+            this.cboOverlayBackground = new FallGuysStats.ImageComboBox();
+            this.lblOverlayBackground = new System.Windows.Forms.Label();
             this.cboOverlayColor = new System.Windows.Forms.ComboBox();
             this.lblOverlayColor = new System.Windows.Forms.Label();
             this.chkFlipped = new System.Windows.Forms.CheckBox();
@@ -57,6 +59,7 @@ namespace FallGuysStats {
             this.chkOverlayOnTop = new System.Windows.Forms.CheckBox();
             this.chkPlayerByConsoleType = new System.Windows.Forms.CheckBox();
             this.chkColorByRoundType = new System.Windows.Forms.CheckBox();
+            this.chkAutoChangeProfile = new System.Windows.Forms.CheckBox();
             this.lblCycleTimeSecondsTag = new System.Windows.Forms.Label();
             this.lblCycleTimeSeconds = new System.Windows.Forms.Label();
             this.txtCycleTimeSeconds = new System.Windows.Forms.TextBox();
@@ -142,6 +145,8 @@ namespace FallGuysStats {
             this.grpOverlay.Controls.Add(this.grpCycleFastestLongest);
             this.grpOverlay.Controls.Add(this.chkHidePercentages);
             this.grpOverlay.Controls.Add(this.chkHideWinsInfo);
+            this.grpOverlay.Controls.Add(this.cboOverlayBackground);
+            this.grpOverlay.Controls.Add(this.lblOverlayBackground);
             this.grpOverlay.Controls.Add(this.cboOverlayColor);
             this.grpOverlay.Controls.Add(this.lblOverlayColor);
             this.grpOverlay.Controls.Add(this.chkFlipped);
@@ -157,6 +162,7 @@ namespace FallGuysStats {
             this.grpOverlay.Controls.Add(this.chkOverlayOnTop);
             this.grpOverlay.Controls.Add(this.chkPlayerByConsoleType);
             this.grpOverlay.Controls.Add(this.chkColorByRoundType);
+            this.grpOverlay.Controls.Add(this.chkAutoChangeProfile);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSecondsTag);
             this.grpOverlay.Controls.Add(this.lblCycleTimeSeconds);
             this.grpOverlay.Controls.Add(this.txtCycleTimeSeconds);
@@ -288,6 +294,27 @@ namespace FallGuysStats {
             this.chkHideWinsInfo.Text = "Hide Wins info";
             this.chkHideWinsInfo.UseVisualStyleBackColor = true;
             // 
+            // cboOverlayBackground
+            // 
+            this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOverlayBackground.DropDownHeight = 500;
+            this.cboOverlayBackground.FormattingEnabled = true;
+            this.cboOverlayBackground.IntegralHeight = true;
+            this.cboOverlayBackground.Location = new System.Drawing.Point(447, 97);
+            //this.cboOverlayBackground.Margin = new System.Windows.Forms.Padding(0);
+            this.cboOverlayBackground.Name = "cboOverlayBackground";
+            this.cboOverlayBackground.Size = new System.Drawing.Size(183, 21);
+            this.cboOverlayBackground.TabIndex = 19;
+            // 
+            // lblOverlayBackground
+            // 
+            this.lblOverlayBackground.AutoSize = true;
+            this.lblOverlayBackground.Location = new System.Drawing.Point(357, 99);
+            this.lblOverlayBackground.Name = "lblOverlayBackground";
+            this.lblOverlayBackground.Size = new System.Drawing.Size(65, 13);
+            this.lblOverlayBackground.TabIndex = 18;
+            this.lblOverlayBackground.Text = "Background Image";
+            // 
             // cboOverlayColor
             // 
             this.cboOverlayColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -302,7 +329,7 @@ namespace FallGuysStats {
             this.cboOverlayColor.Location = new System.Drawing.Point(447, 123);
             this.cboOverlayColor.Name = "cboOverlayColor";
             this.cboOverlayColor.Size = new System.Drawing.Size(183, 21);
-            this.cboOverlayColor.TabIndex = 19;
+            this.cboOverlayColor.TabIndex = 21;
             // 
             // lblOverlayColor
             // 
@@ -310,18 +337,8 @@ namespace FallGuysStats {
             this.lblOverlayColor.Location = new System.Drawing.Point(357, 125);
             this.lblOverlayColor.Name = "lblOverlayColor";
             this.lblOverlayColor.Size = new System.Drawing.Size(65, 13);
-            this.lblOverlayColor.TabIndex = 18;
-            this.lblOverlayColor.Text = "Background";
-            // 
-            // chkFlipped
-            // 
-            this.chkFlipped.AutoSize = true;
-            this.chkFlipped.Location = new System.Drawing.Point(447, 151);
-            this.chkFlipped.Name = "chkFlipped";
-            this.chkFlipped.Size = new System.Drawing.Size(132, 17);
-            this.chkFlipped.TabIndex = 20;
-            this.chkFlipped.Text = "Flip display horizontally";
-            this.chkFlipped.UseVisualStyleBackColor = true;
+            this.lblOverlayColor.TabIndex = 20;
+            this.lblOverlayColor.Text = "Background Color";
             // 
             // chkShowTabs
             // 
@@ -428,35 +445,55 @@ namespace FallGuysStats {
             this.lblWinsFilter.TabIndex = 12;
             this.lblWinsFilter.Text = "Wins / Final Filter";
             // 
+            // chkFlipped
+            // 
+            this.chkFlipped.AutoSize = true;
+            this.chkFlipped.Location = new System.Drawing.Point(437, 150);
+            this.chkFlipped.Name = "chkFlipped";
+            this.chkFlipped.Size = new System.Drawing.Size(132, 17);
+            this.chkFlipped.TabIndex = 21;
+            this.chkFlipped.Text = "Flip display horizontally";
+            this.chkFlipped.UseVisualStyleBackColor = true;
+            // 
             // chkOverlayOnTop
             // 
             this.chkOverlayOnTop.AutoSize = true;
-            this.chkOverlayOnTop.Location = new System.Drawing.Point(447, 169);
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(437, 167);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
             this.chkOverlayOnTop.Size = new System.Drawing.Size(120, 17);
-            this.chkOverlayOnTop.TabIndex = 21;
+            this.chkOverlayOnTop.TabIndex = 22;
             this.chkOverlayOnTop.Text = "Always show on top";
             this.chkOverlayOnTop.UseVisualStyleBackColor = true;
             // 
             // chkPlayerByConsoleType
             // 
             this.chkPlayerByConsoleType.AutoSize = true;
-            this.chkPlayerByConsoleType.Location = new System.Drawing.Point(447, 189);
+            this.chkPlayerByConsoleType.Location = new System.Drawing.Point(437, 185);
             this.chkPlayerByConsoleType.Name = "chkPlayerByConsoleType";
             this.chkPlayerByConsoleType.Size = new System.Drawing.Size(120, 17);
-            this.chkPlayerByConsoleType.TabIndex = 22;
+            this.chkPlayerByConsoleType.TabIndex = 23;
             this.chkPlayerByConsoleType.Text = "Display the Player by console type";
             this.chkPlayerByConsoleType.UseVisualStyleBackColor = true;
             // 
             // chkColorByRoundType
             // 
             this.chkColorByRoundType.AutoSize = true;
-            this.chkColorByRoundType.Location = new System.Drawing.Point(447, 208);
+            this.chkColorByRoundType.Location = new System.Drawing.Point(437, 204);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
             this.chkColorByRoundType.Size = new System.Drawing.Size(120, 17);
-            this.chkColorByRoundType.TabIndex = 23;
+            this.chkColorByRoundType.TabIndex = 24;
             this.chkColorByRoundType.Text = "Display the Color by round type";
             this.chkColorByRoundType.UseVisualStyleBackColor = true;
+            // 
+            // chkAutoChangeProfile
+            // 
+            this.chkAutoChangeProfile.AutoSize = true;
+            this.chkAutoChangeProfile.Location = new System.Drawing.Point(437, 222);
+            this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
+            this.chkAutoChangeProfile.Size = new System.Drawing.Size(120, 17);
+            this.chkAutoChangeProfile.TabIndex = 25;
+            this.chkAutoChangeProfile.Text = "Display the Color by round type";
+            this.chkAutoChangeProfile.UseVisualStyleBackColor = true;
             // 
             // lblCycleTimeSecondsTag
             // 
@@ -587,7 +624,7 @@ namespace FallGuysStats {
             this.lblOverlayFont.Location = new System.Drawing.Point(9, 238);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(105, 13);
-            this.lblOverlayFont.TabIndex = 24;
+            this.lblOverlayFont.TabIndex = 26;
             this.lblOverlayFont.Text = "Custom Overlay Font";
             // 
             // btnSelectFont
@@ -596,7 +633,7 @@ namespace FallGuysStats {
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(70, 19);
-            this.btnSelectFont.TabIndex = 25;
+            this.btnSelectFont.TabIndex = 27;
             this.btnSelectFont.Text = "Select Font";
             this.btnSelectFont.UseVisualStyleBackColor = true;
             this.btnSelectFont.Click += new System.EventHandler(this.btnSelectFont_Click);
@@ -607,7 +644,7 @@ namespace FallGuysStats {
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(70, 19);
-            this.btnResetOverlayFont.TabIndex = 26;
+            this.btnResetOverlayFont.TabIndex = 28;
             this.btnResetOverlayFont.Text = "Reset Font";
             this.btnResetOverlayFont.UseVisualStyleBackColor = true;
             this.btnResetOverlayFont.Click += new System.EventHandler(this.btnResetOverlayFont_Click);
@@ -723,8 +760,8 @@ namespace FallGuysStats {
             // 
             this.picLanguageSelection.Location = new System.Drawing.Point(12, 60);
             this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Width = 22;
-            this.picLanguageSelection.Height = 22;
+            this.picLanguageSelection.Width = 23;
+            this.picLanguageSelection.Height = 23;
             this.picLanguageSelection.Image = Properties.Resources.language_icon;
             this.picLanguageSelection.SizeMode = PictureBoxSizeMode.Zoom;
             // 
@@ -732,14 +769,14 @@ namespace FallGuysStats {
             // 
             this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMultilingual.Items.AddRange(new object[] {
-                "English",
-                "Français",
-                "한국어",
-                "日本語",
-                "简体中文"});
+                "🇺🇸 English",
+                "🇫🇷 Français",
+                "🇰🇷 한국어",
+                "🇯🇵 日本語",
+                "🇨🇳 简体中文"});
             this.cboMultilingual.Location = new System.Drawing.Point(41, 61);
             this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(65, 19);
+            this.cboMultilingual.Size = new System.Drawing.Size(80, 26);
             this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
             this.cboMultilingual.TabIndex = 99;
             // 
@@ -960,6 +997,7 @@ namespace FallGuysStats {
         private System.Windows.Forms.CheckBox chkOverlayOnTop;
         private System.Windows.Forms.CheckBox chkPlayerByConsoleType;
         private System.Windows.Forms.CheckBox chkColorByRoundType;
+        private System.Windows.Forms.CheckBox chkAutoChangeProfile;
         private System.Windows.Forms.ComboBox cboFastestFilter;
         private System.Windows.Forms.Label lblFastestFilter;
         private System.Windows.Forms.ComboBox cboQualifyFilter;
@@ -971,6 +1009,8 @@ namespace FallGuysStats {
         private System.Windows.Forms.CheckBox chkHideRoundInfo;
         private System.Windows.Forms.CheckBox chkShowTabs;
         private System.Windows.Forms.CheckBox chkAutoUpdate;
+        private FallGuysStats.ImageComboBox cboOverlayBackground;
+        private System.Windows.Forms.Label lblOverlayBackground;
         private System.Windows.Forms.ComboBox cboOverlayColor;
         private System.Windows.Forms.Label lblOverlayColor;
         private System.Windows.Forms.CheckBox chkFlipped;
