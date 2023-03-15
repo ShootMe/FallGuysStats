@@ -9,6 +9,8 @@ namespace FallGuysStats {
         public List<RoundInfo> RoundDetails { get; set; }
         public Stats StatsForm { get; set; }
         private int _showStats;
+        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public LevelDetails() {
             this.InitializeComponent();
         }
@@ -93,8 +95,29 @@ namespace FallGuysStats {
             return sizeOfText + 24;
         }
         private void LevelDetails_Load(object sender, EventArgs e) {
+            //
+            // dataGridViewCellStyle1
+            //
             this.dataGridViewCellStyle1.Font = new Font(Overlay.GetMainFontFamilies(), 7.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewCellStyle1.BackColor = Color.LightGray;
+            this.dataGridViewCellStyle1.ForeColor = Color.Black;
+            this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
+            this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
+            //
+            // dataGridViewCellStyle2
+            //
             this.dataGridViewCellStyle2.Font = new Font(Overlay.GetMainFontFamilies(), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewCellStyle2.BackColor = Color.White;
+            this.dataGridViewCellStyle2.ForeColor = Color.Black;
+            this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
+            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
+            
             this.gridDetails.CurrentCell = null;
             this.gridDetails.ClearSelection();
             this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 86);
