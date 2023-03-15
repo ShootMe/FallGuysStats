@@ -37,7 +37,7 @@ namespace FallGuysStats {
         }
         private void ChangeLanguage() {
             this.ClientSize = new Size(1280, 540);
-            //this.Font = new Font(Overlay.GetMainFontFamilies(), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.graph.Font = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Point);
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");

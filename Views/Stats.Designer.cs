@@ -27,9 +27,8 @@ namespace FallGuysStats {
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.resources = new System.ComponentModel.ComponentResourceManager(typeof(Stats));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Stats));
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,17 +64,10 @@ namespace FallGuysStats {
             // 
             // menu
             // 
-            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.menuSettings,
-                this.menuFilters,
-                this.menuProfile,
-                this.menuOverlay,
-                this.menuUpdate,
-                this.menuHelp,
-                this.menuLaunchFallGuys});
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys });
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(634, 24);
+            this.menu.Size = new System.Drawing.Size(830, 24);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
             // 
@@ -84,7 +76,7 @@ namespace FallGuysStats {
             this.menuSettings.Image = global::FallGuysStats.Properties.Resources.setting_icon;
             this.menuSettings.Name = "menuSettings";
             this.menuSettings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuSettings.Size = new System.Drawing.Size(78, 15);
+            this.menuSettings.Size = new System.Drawing.Size(78, 20);
             this.menuSettings.Text = "Settings";
             this.menuSettings.Click += new System.EventHandler(this.menuSettings_Click);
             // 
@@ -93,7 +85,7 @@ namespace FallGuysStats {
             this.menuFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuStatsFilter, this.menuPartyFilter });
             this.menuFilters.Image = global::FallGuysStats.Properties.Resources.filter_icon;
             this.menuFilters.Name = "menuFilters";
-            this.menuFilters.Size = new System.Drawing.Size(66, 15);
+            this.menuFilters.Size = new System.Drawing.Size(66, 20);
             this.menuFilters.Text = "Filters";
             // 
             // menuStatsFilter
@@ -191,7 +183,7 @@ namespace FallGuysStats {
             this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuEditProfiles });
             this.menuProfile.Image = global::FallGuysStats.Properties.Resources.profile_icon;
             this.menuProfile.Name = "menuProfile";
-            this.menuProfile.Size = new System.Drawing.Size(69, 15);
+            this.menuProfile.Size = new System.Drawing.Size(69, 20);
             this.menuProfile.Text = "Profile";
             // 
             // menuEditProfiles
@@ -208,7 +200,7 @@ namespace FallGuysStats {
             this.menuOverlay.Image = global::FallGuysStats.Properties.Resources.stat_gray_icon;
             this.menuOverlay.Name = "menuOverlay";
             this.menuOverlay.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.menuOverlay.Size = new System.Drawing.Size(109, 15);
+            this.menuOverlay.Size = new System.Drawing.Size(109, 20);
             this.menuOverlay.Text = "Show Overlay";
             this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
             // 
@@ -217,7 +209,7 @@ namespace FallGuysStats {
             this.menuUpdate.Image = global::FallGuysStats.Properties.Resources.github_icon;
             this.menuUpdate.Name = "menuUpdate";
             this.menuUpdate.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
-            this.menuUpdate.Size = new System.Drawing.Size(73, 15);
+            this.menuUpdate.Size = new System.Drawing.Size(73, 20);
             this.menuUpdate.Text = "Update";
             this.menuUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
             // 
@@ -226,7 +218,7 @@ namespace FallGuysStats {
             this.menuHelp.Image = global::FallGuysStats.Properties.Resources.github_icon;
             this.menuHelp.Name = "menuHelp";
             this.menuHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.H)));
-            this.menuHelp.Size = new System.Drawing.Size(60, 15);
+            this.menuHelp.Size = new System.Drawing.Size(60, 20);
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
             // 
@@ -234,26 +226,19 @@ namespace FallGuysStats {
             // 
             this.menuLaunchFallGuys.Image = global::FallGuysStats.Properties.Resources.fallguys_icon;
             this.menuLaunchFallGuys.Name = "menuLaunchFallGuys";
-            this.menuLaunchFallGuys.Size = new System.Drawing.Size(126, 15);
+            this.menuLaunchFallGuys.Size = new System.Drawing.Size(126, 20);
             this.menuLaunchFallGuys.Text = "Launch Fall Guys";
             this.menuLaunchFallGuys.Click += new System.EventHandler(this.menuLaunchFallGuys_Click);
             // 
             // infoStrip
             // 
             this.infoStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-                this.lblCurrentProfile,
-                this.lblTotalTime,
-                this.lblTotalShows,
-                this.lblTotalRounds,
-                this.lblTotalWins,
-                this.lblTotalFinals,
-                this.lblKudos});
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalTime, this.lblTotalShows, this.lblTotalRounds, this.lblTotalWins, this.lblTotalFinals, this.lblKudos });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 24);
             this.infoStrip.Name = "infoStrip";
             this.infoStrip.Padding = new System.Windows.Forms.Padding(4, 6, 1, 1);
-            this.infoStrip.Size = new System.Drawing.Size(770, 23);
+            this.infoStrip.Size = new System.Drawing.Size(830, 26);
             this.infoStrip.TabIndex = 13;
             // 
             // lblCurrentProfile
@@ -282,7 +267,7 @@ namespace FallGuysStats {
             this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalShows.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblTotalShows.Name = "lblTotalShows";
-            this.lblTotalShows.Size = new System.Drawing.Size(60, 16);
+            this.lblTotalShows.Size = new System.Drawing.Size(60, 15);
             this.lblTotalShows.Text = "Shows : 0";
             this.lblTotalShows.ToolTipText = "Click to view shows stats.";
             this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
@@ -294,7 +279,7 @@ namespace FallGuysStats {
             this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalRounds.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblTotalRounds.Name = "lblTotalRounds";
-            this.lblTotalRounds.Size = new System.Drawing.Size(65, 16);
+            this.lblTotalRounds.Size = new System.Drawing.Size(65, 15);
             this.lblTotalRounds.Text = "Rounds : 0";
             this.lblTotalRounds.ToolTipText = "Click to view rounds stats.";
             this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
@@ -341,23 +326,15 @@ namespace FallGuysStats {
             this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
-            this.dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.gridDetails.ColumnHeadersHeight = 20;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridDetails.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            this.dataGridViewCellStyle2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            this.dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.GridColor = System.Drawing.Color.Gray;
             this.gridDetails.Location = new System.Drawing.Point(0, 72);
@@ -399,13 +376,11 @@ namespace FallGuysStats {
             this.infoStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
-        private System.ComponentModel.ComponentResourceManager resources;
         private FallGuysStats.Grid gridDetails;
-        private System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1;
-        private System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;
         private System.Windows.Forms.ToolStripMenuItem menuFilters;

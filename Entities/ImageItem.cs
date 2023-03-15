@@ -90,9 +90,9 @@ namespace FallGuysStats {
                     stringFormat.Alignment = StringAlignment.Far;
                     stringFormat.LineAlignment = StringAlignment.Far;
 
-                    e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                    e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                    //e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                    //e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                     e.Graphics.DrawString(this.Text, this.Font, Brushes.Black, rectangle, stringFormat);
                 }
 

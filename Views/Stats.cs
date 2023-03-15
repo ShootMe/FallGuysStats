@@ -73,7 +73,8 @@ namespace FallGuysStats {
             gp.Dispose();
             return bmpTmp;
         }
-
+        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<LevelStats> StatDetails = new List<LevelStats>();
         public List<RoundInfo> CurrentRound = null;
         public List<RoundInfo> AllStats = new List<RoundInfo>();
@@ -147,8 +148,8 @@ namespace FallGuysStats {
                 this.StatLookup.Add(entry.Key, entry.Value);
             }
 
-            this.gridDetails.DataSource = this.StatDetails;
-
+            this.InitMainDataGridView();
+            
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
 
@@ -170,7 +171,7 @@ namespace FallGuysStats {
             }
             
             this.ChangeMainLanguage();
-            this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} {Multilingual.GetWord("main_multilingual")} {Multilingual.GetWord("main_by")} {Multilingual.GetWord("author")} {Multilingual.GetWord("main_on_twitch")}";
+            this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
@@ -1404,14 +1405,35 @@ namespace FallGuysStats {
             
             return sizeOfText + 24;
         }
+        private void InitMainDataGridView() {
+            this.dataGridViewCellStyle1.Font = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewCellStyle1.BackColor = Color.LightGray;
+            this.dataGridViewCellStyle1.ForeColor = Color.Black;
+            this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
+            this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
+            this.gridDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridDetails.ColumnHeadersHeight = 20;
+                
+            this.dataGridViewCellStyle2.Font = new Font(Overlay.GetMainFontFamilies(), 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.dataGridViewCellStyle2.BackColor = Color.White;
+            this.dataGridViewCellStyle2.ForeColor = Color.Black;
+            this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
+            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
+            this.gridDetails.RowTemplate.Height = 25;
+            
+            this.gridDetails.DataSource = this.StatDetails;
+        }
         private void SetMainDataGridView() {
             try {
                 if (this.gridDetails.Columns.Count == 0) { return; }
-                this.dataGridViewCellStyle1.Font = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.dataGridViewCellStyle2.Font = new Font(Overlay.GetMainFontFamilies(), 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
                 
                 int pos = 0;
-                this.gridDetails.RowTemplate.Height = 25;
                 this.gridDetails.Columns["AveKudos"].Visible = false;
                 this.gridDetails.Columns["AveDuration"].Visible = false;
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
@@ -1526,8 +1548,10 @@ namespace FallGuysStats {
             try {
                 if (e.RowIndex >= 0 && (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")) {
                     this.gridDetails.Cursor = Cursors.Hand;
-                } else {
+                } else if (e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")) {
                     this.gridDetails.Cursor = new Cursor(Properties.Resources.transform_icon.GetHicon());
+                } else {
+                    this.gridDetails.Cursor = Cursors.Default;
                 }
             } catch (Exception ex) {
                 MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2193,12 +2217,13 @@ namespace FallGuysStats {
             return screen;
         }
         private void ChangeMainLanguage() {
-            this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} {Multilingual.GetWord("main_multilingual")} {Multilingual.GetWord("main_by")} {Multilingual.GetWord("author")} {Multilingual.GetWord("main_on_twitch")}";
             this.menu.Font = new Font(Overlay.GetMainFontFamilies(), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
             this.menuLaunchFallGuys.Font = new Font(Overlay.GetMainFontFamilies(), 12, FontStyle.Bold, GraphicsUnit.Pixel, ((byte)(0)));
             this.infoStrip.Font = new Font(Overlay.GetMainFontFamilies(), 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
             
-            //this.SetMainDataGridView();
+            this.dataGridViewCellStyle1.Font = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.dataGridViewCellStyle2.Font = new Font(Overlay.GetMainFontFamilies(), 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.SetMainDataGridView();
             
             this.menuSettings.Text = $"{Multilingual.GetWord("main_settings")}";
             this.menuFilters.Text = $"{Multilingual.GetWord("main_filters")}";
