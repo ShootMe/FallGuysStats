@@ -54,7 +54,7 @@ namespace FallGuysStats {
         private int closeRowIndex, closeColumnIndex;
         private Point lastMousePosition;
         private static Color[] Colors = { Color.Black, Color.Red, Color.Green, Color.Blue };
-        private Font GraphFont = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Point);
+        //private Font GraphFont = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Point);
 
         public Graph() {
             this.closeRowIndex = -1;
@@ -215,7 +215,7 @@ namespace FallGuysStats {
             CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
             int mod = (int)ymax % 8;
             ymax += mod == 0 ? 0 : 8 - mod;
-            float sz = GraphFont.SizeInPoints;
+            float sz = this.Font.SizeInPoints;
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -229,13 +229,13 @@ namespace FallGuysStats {
             bp.Color = Color.FromArgb(30, 0, 0, 0);
             for (int i = 0; i <= 8; i++) {
                 string xval = GetRepresentation(xType, x8 * i + xmin, xmax - xmin);
-                float xsz = TextRenderer.MeasureText(xval, GraphFont).Width;
+                float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
                 float tx = (float)(w8 * i + wmin);
-                g.DrawString(xval, GraphFont, Brushes.Black, tx + 2 - xsz / (float)2.0, hmax + 2);
+                g.DrawString(xval, this.Font, Brushes.Black, tx + 2 - xsz / (float)2.0, hmax + 2);
                 if (i > 0)
                     g.DrawLine(bp, tx, 0, tx, hmax - 1);
                 float ty = (float)(h - 3 * sz - h8 * i);
-                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", GraphFont, Brushes.Black, 2, ty);
+                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, Brushes.Black, 2, ty);
                 if (i > 0)
                     g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz);
             }
@@ -270,16 +270,16 @@ namespace FallGuysStats {
                 string summaryWins = string.Empty;
                 string summaryFinals = string.Empty;
                 string summaryShows = string.Empty;
-                int sizeWidth = TextRenderer.MeasureText(summaryTitle, this.GraphFont).Width;
-                int sizeHeight = TextRenderer.MeasureText(summaryTitle, this.GraphFont).Height;
+                int sizeWidth = TextRenderer.MeasureText(summaryTitle, this.Font).Width;
+                int sizeHeight = TextRenderer.MeasureText(summaryTitle, this.Font).Height;
                 
                 // Shows
                 if (yColumns[3]) {
                     summaryShows += $"{Environment.NewLine}{this.dataSource.Columns[3].ColumnName} : {this.dataSource.DefaultView[closeRowIndex][3]}{Multilingual.GetWord("main_inning")}";
-                    if (sizeWidth < TextRenderer.MeasureText(summaryShows, this.GraphFont).Width) {
-                        sizeWidth = TextRenderer.MeasureText(summaryShows, this.GraphFont).Width;
+                    if (sizeWidth < TextRenderer.MeasureText(summaryShows, this.Font).Width) {
+                        sizeWidth = TextRenderer.MeasureText(summaryShows, this.Font).Width;
                     }
-                    sizeHeight = TextRenderer.MeasureText(summaryShows, this.GraphFont).Height;
+                    sizeHeight = TextRenderer.MeasureText(summaryShows, this.Font).Height;
                 }
                 // Finals
                 if (yColumns[2]) {
@@ -287,10 +287,10 @@ namespace FallGuysStats {
                         summaryFinals += Environment.NewLine;
                     }
                     summaryFinals += $"{Environment.NewLine}{this.dataSource.Columns[2].ColumnName} : {this.dataSource.DefaultView[closeRowIndex][2]}{Multilingual.GetWord("main_inning")}";
-                    if (sizeWidth < TextRenderer.MeasureText(summaryFinals, this.GraphFont).Width) {
-                        sizeWidth = TextRenderer.MeasureText(summaryFinals, this.GraphFont).Width;
+                    if (sizeWidth < TextRenderer.MeasureText(summaryFinals, this.Font).Width) {
+                        sizeWidth = TextRenderer.MeasureText(summaryFinals, this.Font).Width;
                     }
-                    sizeHeight = TextRenderer.MeasureText(summaryFinals, this.GraphFont).Height;
+                    sizeHeight = TextRenderer.MeasureText(summaryFinals, this.Font).Height;
                 }
                 // Wins
                 if (yColumns[1]) {
@@ -301,20 +301,20 @@ namespace FallGuysStats {
                         summaryWins += Environment.NewLine;
                     }
                     summaryWins += $"{Environment.NewLine}{this.dataSource.Columns[1].ColumnName} : {this.dataSource.DefaultView[closeRowIndex][1]}{Multilingual.GetWord("main_inning")}";
-                    if (sizeWidth < TextRenderer.MeasureText(summaryWins, this.GraphFont).Width) {
-                        sizeWidth = TextRenderer.MeasureText(summaryWins, this.GraphFont).Width;
+                    if (sizeWidth < TextRenderer.MeasureText(summaryWins, this.Font).Width) {
+                        sizeWidth = TextRenderer.MeasureText(summaryWins, this.Font).Width;
                     }
-                    sizeHeight = TextRenderer.MeasureText(summaryWins, this.GraphFont).Height;
+                    sizeHeight = TextRenderer.MeasureText(summaryWins, this.Font).Height;
                 }
 
                 int px = this.lastMousePosition.X + sizeWidth > w ? w - sizeWidth : this.lastMousePosition.X;
                 int py = this.lastMousePosition.Y - sizeHeight < 0 ? 0 : this.lastMousePosition.Y - sizeHeight;
 
                 this.FillRoundedRectangle(g, new Pen(Color.FromArgb(95, 255, 0, 255), 0), new SolidBrush(Color.FromArgb(223, 255, 255, 255)), px - 6, py - 6, sizeWidth + 12, sizeHeight + 12, 10);
-                g.DrawString(summaryTitle, this.GraphFont, Brushes.Black, px, py);
-                if (yColumns[1]) g.DrawString(summaryWins, this.GraphFont, Brushes.Red, px, py);
-                if (yColumns[2]) g.DrawString(summaryFinals, this.GraphFont, Brushes.Green, px, py);
-                if (yColumns[3]) g.DrawString(summaryShows, this.GraphFont, Brushes.Blue, px, py);
+                g.DrawString(summaryTitle, this.Font, Brushes.Black, px, py);
+                if (yColumns[1]) g.DrawString(summaryWins, this.Font, Brushes.Red, px, py);
+                if (yColumns[2]) g.DrawString(summaryFinals, this.Font, Brushes.Green, px, py);
+                if (yColumns[3]) g.DrawString(summaryShows, this.Font, Brushes.Blue, px, py);
             }
             e.Dispose();
         }
@@ -335,14 +335,14 @@ namespace FallGuysStats {
             }
         }
         private void CalculateMinMax(decimal xmin, decimal xmax, Type xType, decimal ymin, decimal ymax, Type yType, ref int wmin, ref int wmax, ref int hmin, ref int hmax) {
-            int ysz = TextRenderer.MeasureText(GetRepresentation(yType, ymin, ymax - ymin), this.GraphFont).Width;
-            int ysz2 = TextRenderer.MeasureText(GetRepresentation(yType, ymax, ymax - ymin), this.GraphFont).Width;
+            int ysz = TextRenderer.MeasureText(GetRepresentation(yType, ymin, ymax - ymin), this.Font).Width;
+            int ysz2 = TextRenderer.MeasureText(GetRepresentation(yType, ymax, ymax - ymin), this.Font).Width;
             ysz = ysz > ysz2 ? ysz : ysz2;
-            ysz += TextRenderer.MeasureText("00", this.GraphFont).Width;
-            int xsz = TextRenderer.MeasureText(GetRepresentation(xType, xmax, xmax - xmin), this.GraphFont).Width;
-            int xsz2 = TextRenderer.MeasureText(GetRepresentation(xType, xmin, xmax - xmin), this.GraphFont).Width / 2;
+            ysz += TextRenderer.MeasureText("00", this.Font).Width;
+            int xsz = TextRenderer.MeasureText(GetRepresentation(xType, xmax, xmax - xmin), this.Font).Width;
+            int xsz2 = TextRenderer.MeasureText(GetRepresentation(xType, xmin, xmax - xmin), this.Font).Width / 2;
             ysz = ysz > xsz2 ? ysz : xsz2;
-            float sz = this.GraphFont.SizeInPoints;
+            float sz = this.Font.SizeInPoints;
             //decimal xdiff = xmax - xmin; decimal ydiff = ymax - ymin;
             wmax = Width - xsz / 2;
             wmin = ysz;

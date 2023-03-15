@@ -27,8 +27,6 @@ namespace FallGuysStats {
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             this.gridDetails = new FallGuysStats.Grid();
-            this.dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelDetails));
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
@@ -54,26 +52,6 @@ namespace FallGuysStats {
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
-            //
-            // dataGridViewCellStyle1
-            //
-            this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            this.dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
-            this.dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            //
-            // dataGridViewCellStyle2
-            //
-            this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            this.dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.DeepSkyBlue;
-            this.dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
             // 
             // LevelDetails
             // 
@@ -100,7 +78,5 @@ namespace FallGuysStats {
         #endregion
 
         private FallGuysStats.Grid gridDetails;
-        private System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1;
-        private System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2;
     }
 }

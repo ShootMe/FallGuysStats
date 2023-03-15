@@ -303,7 +303,7 @@ namespace FallGuysStats {
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                            {"author", "Eunma"},
+                            {"author", "Micdu70"},
                             {"main_by", "par"},
                             {"main_on_twitch", "sur Twitch"},
                             {"main_multilingual", "Multilingue"},
@@ -901,7 +901,7 @@ namespace FallGuysStats {
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                            {"author", "Eunma"},
+                            {"author", "Eunma, iku55"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
                             {"main_multilingual", "多言語"},
@@ -1200,7 +1200,7 @@ namespace FallGuysStats {
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                            {"author", "Eunma"},
+                            {"author", "JokerM"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
                             {"main_multilingual", "多语言"},
