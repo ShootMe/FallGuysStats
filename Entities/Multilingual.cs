@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 namespace FallGuysStats {
     public static class Multilingual {
@@ -1356,11 +1356,11 @@ namespace FallGuysStats {
                             {"round_gauntlet_01", "ヒットパレード"},
                             {"round_slippy_slide", "リングシュート"},
                             {"round_hoops_blockade_solo", "フープ・ループ・レジェンド"},
-                            {"round_gauntlet_04", "ナイトフィーバー"},
+                            {"round_gauntlet_04", "ナイト・フィーバー"},
                             {"round_follow-the-leader_s6_launch", "動くスポットライト"},
                             {"round_drumtop", "リリー・リーパー"},
                             {"round_gauntlet_08", "パーティープロムナード"},
-                            {"round_penguin_solos", "ペンギンプールパーティ"},
+                            {"round_penguin_solos", "ペンギンプールパーティー"},
                             {"round_pipedup_s6_launch", "パイプドリーム"},
                             {"round_pixelperfect_almond", "ピクセル名人"},
                             {"round_follow_the_line", "パズルパス"},
@@ -1380,11 +1380,11 @@ namespace FallGuysStats {
                             {"round_gauntlet_07", "ツリートップ・タンブル"},
                             {"round_gauntlet_05", "ツンドラダッシュ"},
                             {"round_gauntlet_03", "ぐるぐるファイト"},
-                            {"round_wall_guys", "ウォールガイズ"},
+                            {"round_wall_guys", "ウォール ガイズ"},
                             {"round_fruitpunch_s4_show", "ビッグショット"},
                             {"round_blastballruins", "ブラストランティス"},
                             {"round_block_party", "ブロックパーティー"},
-                            {"round_hoverboardsurvival_s4_show", "ホバーボードヒーローズ"},
+                            {"round_hoverboardsurvival_s4_show", "ホバーボード・ヒーローズ"},
                             {"round_hoverboardsurvival2_almond", "ハイパードライブ・ヒーロー"},
                             {"round_jump_club", "ジャンプクラブ"},
                             {"round_match_fall", "パーフェクトマッチ"},
