@@ -25,92 +25,80 @@ namespace FallGuysStats {
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        private void InitializeComponent()
+        {
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
-            this.cboLanguage = new System.Windows.Forms.ComboBox();
+            this.cboLanguage = new MetroFramework.Controls.MetroComboBox();
             this.lblBackColor = new System.Windows.Forms.Label();
-            this.btnLanguageSave = new System.Windows.Forms.Button();
-            this.picLanguageSelection.SuspendLayout();
-            this.cboLanguage.SuspendLayout();
-            this.lblBackColor.SuspendLayout();
-            this.btnLanguageSave.SuspendLayout();
+            this.btnLanguageSave = new MetroFramework.Controls.MetroButton();
+            ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).BeginInit();
             this.SuspendLayout();
             // 
             // picLanguageSelection
             // 
-            this.picLanguageSelection.Location = new System.Drawing.Point(22, 12);
+            this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
+            this.picLanguageSelection.Location = new System.Drawing.Point(65, 75);
             this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Width = 23;
-            this.picLanguageSelection.Height = 23;
-            this.picLanguageSelection.Image = Properties.Resources.language_icon;
-            this.picLanguageSelection.SizeMode = PictureBoxSizeMode.Zoom;
+            this.picLanguageSelection.Size = new System.Drawing.Size(32, 32);
+            this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picLanguageSelection.TabIndex = 0;
+            this.picLanguageSelection.TabStop = false;
             // 
             // cboLanguage
             // 
-            this.cboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboLanguage.Items.AddRange(new object[] {
-                "🇺🇸 English",
-                "🇫🇷 Français",
-                "🇰🇷 한국어",
-                "🇯🇵 日本語",
-                "🇨🇳 简体中文"});
             this.cboLanguage.FormattingEnabled = true;
-            this.cboLanguage.Location = new System.Drawing.Point(62, 14);
+            this.cboLanguage.ItemHeight = 23;
+            this.cboLanguage.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
+            this.cboLanguage.Location = new System.Drawing.Point(110, 76);
             this.cboLanguage.Name = "cboLanguage";
-            this.cboLanguage.Size = new System.Drawing.Size(80, 26);
+            this.cboLanguage.Size = new System.Drawing.Size(110, 29);
             this.cboLanguage.TabIndex = 0;
-            this.cboLanguage.SelectedIndexChanged += new EventHandler(this.cboLanguage_SelectedIndexChanged);
+            this.cboLanguage.UseSelectable = true;
+            this.cboLanguage.SelectedIndexChanged += new System.EventHandler(this.cboLanguage_SelectedIndexChanged);
             // 
             // lblBackColor
             // 
-            this.lblBackColor.Location = new System.Drawing.Point(0, 48);
+            this.lblBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
+            this.lblBackColor.Location = new System.Drawing.Point(0, 130);
             this.lblBackColor.Name = "lblBackColor";
-            this.lblBackColor.Size = new System.Drawing.Size(180, 32);
-            this.lblBackColor.BackColor = Color.FromArgb(40,0,182,254);
+            this.lblBackColor.Size = new System.Drawing.Size(300, 50);
+            this.lblBackColor.TabIndex = 1;
             // 
             // btnLanguageSave
             // 
-            this.btnLanguageSave.Location = new System.Drawing.Point(92, 55);
+            this.btnLanguageSave.Location = new System.Drawing.Point(205, 143);
             this.btnLanguageSave.Name = "btnLanguageSave";
-            this.btnLanguageSave.Size = new System.Drawing.Size(75, 18);
+            this.btnLanguageSave.Size = new System.Drawing.Size(75, 25);
             this.btnLanguageSave.TabIndex = 2;
             this.btnLanguageSave.Text = "Confirm";
-            this.btnLanguageSave.UseVisualStyleBackColor = true;
+            this.btnLanguageSave.UseSelectable = true;
             this.btnLanguageSave.Click += new System.EventHandler(this.btnLanguageSave_Click);
             // 
             // SelectLanguage
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(180, 80);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(300, 180);
             this.Controls.Add(this.picLanguageSelection);
             this.Controls.Add(this.cboLanguage);
-            this.Controls.Add(this.lblBackColor);
             this.Controls.Add(this.btnLanguageSave);
-            this.Name = "EditShows";
-            this.Text = "Title";
-            this.ForeColor = System.Drawing.Color.Black;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Controls.Add(this.lblBackColor);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Load += new EventHandler(this.SelectLanguage_Load);
-            this.FormClosing += new FormClosingEventHandler(this.SelectLanguage_FormClosing);
-            
-            this.picLanguageSelection.ResumeLayout(false);
-            this.cboLanguage.ResumeLayout(false);
-            this.lblBackColor.ResumeLayout(false);
-            this.btnLanguageSave.ResumeLayout(false);
+            this.Name = "SelectLanguage";
+            this.Resizable = false;
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
+            this.Style = MetroFramework.MetroColorStyle.Teal;
+            this.Text = "Title";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectLanguage_FormClosing);
+            this.Load += new System.EventHandler(this.SelectLanguage_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
-            this.btnLanguageSave.BringToFront();
         }
 
         #endregion
         private System.Windows.Forms.PictureBox picLanguageSelection;
-        private System.Windows.Forms.ComboBox cboLanguage;
+        private MetroFramework.Controls.MetroComboBox cboLanguage;
         private System.Windows.Forms.Label lblBackColor;
-        private System.Windows.Forms.Button btnLanguageSave;
+        private MetroFramework.Controls.MetroButton btnLanguageSave;
     }
 }

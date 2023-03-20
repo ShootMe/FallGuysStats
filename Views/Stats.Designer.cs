@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace FallGuysStats {
     partial class Stats {
@@ -64,10 +65,15 @@ namespace FallGuysStats {
             // 
             // menu
             // 
+            this.menu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.menu.AutoSize = false;
+            this.menu.BackColor = System.Drawing.Color.Transparent;
+            this.menu.Dock = System.Windows.Forms.DockStyle.None;
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys });
-            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.menu.Location = new System.Drawing.Point(0, 65);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(830, 24);
+            this.menu.Size = new System.Drawing.Size(828, 24);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
             // 
@@ -94,6 +100,7 @@ namespace FallGuysStats {
             this.menuStatsFilter.Name = "menuStatsFilter";
             this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
             this.menuStatsFilter.Text = "Stats";
+            this.menuStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             // 
             // menuAllStats
             // 
@@ -148,6 +155,7 @@ namespace FallGuysStats {
             this.menuPartyFilter.Name = "menuPartyFilter";
             this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
             this.menuPartyFilter.Text = "Party";
+            this.menuPartyFilter.Image = global::FallGuysStats.Properties.Resources.player_icon;
             // 
             // menuAllPartyStats
             // 
@@ -232,13 +240,17 @@ namespace FallGuysStats {
             // 
             // infoStrip
             // 
-            this.infoStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
+            this.infoStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoStrip.AutoSize = false;
+            this.infoStrip.BackColor = System.Drawing.Color.White;
+            this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalTime, this.lblTotalShows, this.lblTotalRounds, this.lblTotalWins, this.lblTotalFinals, this.lblKudos });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.infoStrip.Location = new System.Drawing.Point(0, 24);
+            this.infoStrip.Location = new System.Drawing.Point(20, 97);
             this.infoStrip.Name = "infoStrip";
-            this.infoStrip.Padding = new System.Windows.Forms.Padding(4, 6, 1, 1);
-            this.infoStrip.Size = new System.Drawing.Size(830, 26);
+            this.infoStrip.Padding = new System.Windows.Forms.Padding(0, 6, 0, 1);
+            this.infoStrip.Size = new System.Drawing.Size(790, 26);
+            this.infoStrip.Stretch = true;
             this.infoStrip.TabIndex = 13;
             // 
             // lblCurrentProfile
@@ -337,36 +349,38 @@ namespace FallGuysStats {
             this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.GridColor = System.Drawing.Color.Gray;
-            this.gridDetails.Location = new System.Drawing.Point(0, 72);
+            this.gridDetails.Location = new System.Drawing.Point(20, 145);
+            this.gridDetails.Margin = new System.Windows.Forms.Padding(0);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(828, 548);
+            this.gridDetails.Size = new System.Drawing.Size(790, 685);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellClick);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
+            this.gridDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseLeave);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(242)))), ((int)(((byte)(251)))));
-            this.ClientSize = new System.Drawing.Size(830, 620);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.ClientSize = new System.Drawing.Size(830, 830);
             this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.gridDetails);
             this.Controls.Add(this.menu);
-            this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(15, 15);
-            this.MinimumSize = new System.Drawing.Size(830, 400);
+            this.MinimumSize = new System.Drawing.Size(830, 350);
             this.Name = "Stats";
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Style = MetroFramework.MetroColorStyle.Teal;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);
@@ -376,7 +390,6 @@ namespace FallGuysStats {
             this.infoStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
 
         #endregion

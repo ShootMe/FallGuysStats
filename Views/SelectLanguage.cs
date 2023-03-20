@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 namespace FallGuysStats {
-    public partial class SelectLanguage : Form {
+    public partial class SelectLanguage : MetroFramework.Forms.MetroForm {
         public int selectedLanguage = 0;
         public SelectLanguage() => this.InitializeComponent();
 
@@ -15,7 +12,7 @@ namespace FallGuysStats {
         
         private void cboLanguage_SelectedIndexChanged(object sender, EventArgs e) {
             this.selectedLanguage = ((ComboBox)sender).SelectedIndex;
-            this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
+            this.ChangeLanguage(this.selectedLanguage);
         }
         
         private void btnLanguageSave_Click(object sender, EventArgs e) {
@@ -28,9 +25,10 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage(int lang) {
-            this.Font = new Font(Overlay.GetMainFontFamilies(lang), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = Overlay.GetMainFont(9, lang);
             this.Text = Multilingual.GetWordWithLang("settings_select_language_title", lang);
             this.btnLanguageSave.Text = Multilingual.GetWordWithLang("settings_select_language_button", lang);
+            this.Refresh();
         }
     }
 }

@@ -7,8 +7,8 @@ namespace FallGuysStats {
     public class TransparentLabel : Label {
         protected override CreateParams CreateParams {
             get {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x00000020;
+                var cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
                 return cp;
             }
         }
@@ -40,7 +40,7 @@ namespace FallGuysStats {
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                     g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth, this.ImageHeight);
                     if (this.TextRight != null) {
-                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, 8.75F, this.Font.Style, GraphicsUnit.Point), brFore, this.ClientRectangle, stringFormat);
+                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, 12, this.Font.Style, GraphicsUnit.Pixel), brFore, this.ClientRectangle, stringFormat);
                     }
                 }
             } else {
@@ -104,18 +104,17 @@ namespace FallGuysStats {
                             if (this.Name.Equals("lblRound")) {
                                 Font fontForLongText = this.GetFontForLongText(this.TextRight);
                                 if (!this.LevelColor.IsEmpty) {
-                                    int sizeOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
-                                    this.FillRoundedRectangle(g, null, new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - sizeOfText), this.ClientRectangle.Y - 1, sizeOfText, 22, 10);
+                                    //float sizeOfText = g.MeasureString(this.TextRight, fontForLongText).Width;
+                                    float widthOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
+                                    this.FillRoundedRectangle(g, null, new SolidBrush(this.LevelColor), (int)(this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, (int)widthOfText, 22, 10);
                                     if (this.RoundIcon != null) {
-                                        g.DrawImage(this.RoundIcon, (this.ClientRectangle.Width - sizeOfText - this.ImageWidth) - 5, this.ClientRectangle.Y - 1, this.ImageWidth, this.ImageHeight);
+                                        g.DrawImage(this.RoundIcon, (this.ClientRectangle.Width - widthOfText - this.ImageWidth) - 5, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                 }
+
+                                brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                 if (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 4) {
-                                    //float fontSizeOffset = ((Stats.CurrentLanguage == 2 && (this.TextRight.Length == 13)) ? 4.25F : (Stats.CurrentLanguage == 2 && (this.TextRight.Length > 13)) ? 3.75F : 0F);
-                                    //this.DrawOutlineText(g, new Rectangle(this.ClientRectangle.X - 2, this.ClientRectangle.Y - 1, this.ClientRectangle.Width, this.ClientRectangle.Height),
-                                    //    Stats.CurrentLanguage == 2 ? new Pen(brFore.Color, 1) : null, brFore,
-                                    //    fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size + fontSizeOffset, this.TextRight, stringFormat);
-                                    this.DrawOutlineText(g, new Rectangle(this.ClientRectangle.X - 2, this.ClientRectangle.Y - 2, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
+                                    this.DrawOutlineText(g, new Rectangle(this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 } else {
                                     g.DrawString(this.TextRight, this.GetFontForLongText(this.TextRight), brFore, this.ClientRectangle, stringFormat);
                                 }
@@ -134,7 +133,7 @@ namespace FallGuysStats {
         }
         private Font GetFontForLongText(string text) {
             return (Stats.CurrentLanguage == 2 && text.Length > 12 || Stats.CurrentLanguage == 3 && text.Length > 9)
-                ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length, 21), this.Font.Style, GraphicsUnit.Point)
+                ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length, 21), this.Font.Style, GraphicsUnit.Pixel)
                 : this.Font;
         }
         private float GetRoundNameFontSize(int textLength, int offset) {

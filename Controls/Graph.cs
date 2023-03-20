@@ -17,17 +17,17 @@ namespace FallGuysStats {
                 this.dataSource = value;
                 if (this.dataSource != null) {
                     if (ccount != ncount) {
-                        yColumns = new bool[this.dataSource.Columns.Count];
+                        this.yColumns = new bool[this.dataSource.Columns.Count];
                         bool found = false;
                         for (int i = this.dataSource.Columns.Count - 1; i >= 0; i--) {
-                            yColumns[i] = i != XColumn && !found;
-                            if (yColumns[i])
+                            this.yColumns[i] = i != XColumn && !found;
+                            if (this.yColumns[i])
                                 found = true;
                         }
-                        RefreshColors();
+                        this.RefreshColors();
                     }
                 }
-                Invalidate();
+                this.Invalidate();
             }
         }
         [DefaultValue(0)]
@@ -49,13 +49,24 @@ namespace FallGuysStats {
         public new Image ErrorImage { get; set; }
         [Browsable(false)]
         public new Color BackColor { get { return base.BackColor; } set { base.BackColor = value; } }
+        
+        public Color GraphXBackLineColor;
+        public Color GraphYBackLineColor;
+        public Color GraphXColumnColor;
+        public Color GraphYColumnColor;
+        public Color GraphGuideLineColor;
+        public Color GraphSummaryBackColor;
+        public Color GraphSummaryTitleColor;
+        public Color GraphWinsColor;
+        public Color GraphFinalsColor;
+        public Color GraphShowsColor;
+        
+        private static Color[] Colors = { Color.Black, Color.Red, Color.Green, Color.Blue };
         private Brush[] brushes;
         private Pen[] pens;
         private int closeRowIndex, closeColumnIndex;
         private Point lastMousePosition;
-        private static Color[] Colors = { Color.Black, Color.Red, Color.Green, Color.Blue };
-        //private Font GraphFont = new Font(Overlay.GetMainFontFamilies(), 10, FontStyle.Regular, GraphicsUnit.Point);
-
+        
         public Graph() {
             this.closeRowIndex = -1;
             this.closeColumnIndex = -1;
@@ -64,21 +75,24 @@ namespace FallGuysStats {
             this.XColumn = 0;
             this.DrawPoints = true;
         }
-
-        public void RefreshColors() {
+        public void SetDataColors(Color[] DataColors) {
+            Colors = DataColors;
+            this.RefreshColors();
+        }
+        private void RefreshColors() {
             if (this.dataSource == null) { return; }
-            brushes = new Brush[this.dataSource.Columns.Count];
-            pens = new Pen[this.dataSource.Columns.Count];
+            this.brushes = new Brush[this.dataSource.Columns.Count];
+            this.pens = new Pen[this.dataSource.Columns.Count];
             foreach (DataColumn col in this.dataSource.Columns) {
-                brushes[col.Ordinal] = new SolidBrush(Colors[col.Ordinal]);
-                pens[col.Ordinal] = new Pen(brushes[col.Ordinal]);
+                this.brushes[col.Ordinal] = new SolidBrush(Colors[col.Ordinal]);
+                this.pens[col.Ordinal] = new Pen(this.brushes[col.Ordinal]);
             }
         }
         protected override void OnMouseLeave(EventArgs e) {
             base.OnMouseLeave(e);
-            closeRowIndex = -1;
-            closeColumnIndex = -1;
-            Invalidate();
+            this.closeRowIndex = -1;
+            this.closeColumnIndex = -1;
+            this.Invalidate();
         }
         protected override void OnMouseMove(MouseEventArgs e) {
             base.OnMouseMove(e);
@@ -108,7 +122,7 @@ namespace FallGuysStats {
             ymin = 0;
             //Get bounds
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;
-            CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
+            this.CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
             int mod = (int)ymax % 8;
             ymax += mod == 0 ? 0 : 8 - mod;
             //Get inital values
@@ -212,34 +226,33 @@ namespace FallGuysStats {
 
             //Draw labels
             int wmax = 0; int wmin = 0; int hmin = 0; int hmax = 0;
-            CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
+            this.CalculateMinMax(xmin, xmax, xType, ymin, ymax, yType, ref wmin, ref wmax, ref hmin, ref hmax);
             int mod = (int)ymax % 8;
             ymax += mod == 0 ? 0 : 8 - mod;
             float sz = this.Font.SizeInPoints;
             Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             decimal y8 = (ymax - ymin) / (decimal)8.0; decimal x8 = (xmax - xmin) / (decimal)8.0;
             double h8 = (hmax - hmin) / 8.0; double w8 = (wmax - wmin) / 8.0;
-            Pen bp = new Pen(Color.Black, 1);
+            Pen bp = new Pen(this.GraphYColumnColor, 1);
             bp.DashStyle = DashStyle.Dash;
-            g.DrawLine(bp, wmin, 0, wmin, hmax);
-            g.DrawLine(bp, wmin, hmax, w - 1, hmax);
-            bp.Color = Color.FromArgb(30, 0, 0, 0);
+            g.DrawLine(bp, wmin, 0, wmin, hmax); // Y Outer Line
+            bp.Color = this.GraphXColumnColor;
+            g.DrawLine(bp, wmin, hmax, w - 1, hmax); // X Outer Line
+            
+            //bp.Color = Color.FromArgb(30, 0, 0, 0);
             for (int i = 0; i <= 8; i++) {
-                string xval = GetRepresentation(xType, x8 * i + xmin, xmax - xmin);
+                string xval = this.GetRepresentation(xType, x8 * i + xmin, xmax - xmin);
                 float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
                 float tx = (float)(w8 * i + wmin);
-                g.DrawString(xval, this.Font, Brushes.Black, tx + 2 - xsz / (float)2.0, hmax + 2);
-                if (i > 0)
-                    g.DrawLine(bp, tx, 0, tx, hmax - 1);
+                g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx + 2 - xsz / (float)2.0, hmax + 2); // X Date String
+                if (i > 0) { bp.Color = this.GraphYBackLineColor; g.DrawLine(bp, tx, 0, tx, hmax - 1); } // Y Back Line
                 float ty = (float)(h - 3 * sz - h8 * i);
-                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, Brushes.Black, 2, ty);
-                if (i > 0)
-                    g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz);
+                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 2, ty); // Y Count String
+                if (i > 0) { bp.Color = this.GraphXBackLineColor; g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz); } // X Back Line
             }
-
+            g.SmoothingMode = SmoothingMode.HighQuality;
             //Draw data
             DataRowView init = this.dataSource.DefaultView[0];
             int x = NormalizeX(GetValue(init[XColumn]), xmin, xmax, wmin, wmax);
@@ -265,7 +278,8 @@ namespace FallGuysStats {
             }
 
             if (closeRowIndex >= 0) {
-                g.DrawLine(new Pen(Color.FromArgb(95, 255, 0, 255), 0), this.lastMousePosition, new Point(NormalizeX(GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]), xmin, xmax, wmin, wmax), NormalizeY(GetValue(this.dataSource.DefaultView[closeRowIndex][closeColumnIndex]), ymin, ymax, hmin, hmax)));
+                // Draw Guide Line
+                g.DrawLine(new Pen(this.GraphGuideLineColor, 0), this.lastMousePosition, new Point(NormalizeX(GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]), xmin, xmax, wmin, wmax), NormalizeY(GetValue(this.dataSource.DefaultView[closeRowIndex][closeColumnIndex]), ymin, ymax, hmin, hmax)));
                 string summaryTitle = GetRepresentation(xType, GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]), xmax - xmin);
                 string summaryWins = string.Empty;
                 string summaryFinals = string.Empty;
@@ -310,11 +324,11 @@ namespace FallGuysStats {
                 int px = this.lastMousePosition.X + sizeWidth > w ? w - sizeWidth : this.lastMousePosition.X;
                 int py = this.lastMousePosition.Y - sizeHeight < 0 ? 0 : this.lastMousePosition.Y - sizeHeight;
 
-                this.FillRoundedRectangle(g, new Pen(Color.FromArgb(95, 255, 0, 255), 0), new SolidBrush(Color.FromArgb(223, 255, 255, 255)), px - 6, py - 6, sizeWidth + 12, sizeHeight + 12, 10);
-                g.DrawString(summaryTitle, this.Font, Brushes.Black, px, py);
-                if (yColumns[1]) g.DrawString(summaryWins, this.Font, Brushes.Red, px, py);
-                if (yColumns[2]) g.DrawString(summaryFinals, this.Font, Brushes.Green, px, py);
-                if (yColumns[3]) g.DrawString(summaryShows, this.Font, Brushes.Blue, px, py);
+                this.FillRoundedRectangle(g, new Pen(this.GraphGuideLineColor, 0), new SolidBrush(GraphSummaryBackColor), px - 6, py - 6, sizeWidth + 12, sizeHeight + 12, 10);
+                g.DrawString(summaryTitle, new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Bold, GraphicsUnit.Pixel), new SolidBrush(this.GraphSummaryTitleColor), px, py);
+                if (yColumns[1]) g.DrawString(summaryWins, this.Font, new SolidBrush(this.GraphWinsColor), px, py);
+                if (yColumns[2]) g.DrawString(summaryFinals, this.Font, new SolidBrush(this.GraphFinalsColor), px, py);
+                if (yColumns[3]) g.DrawString(summaryShows, this.Font, new SolidBrush(this.GraphShowsColor), px, py);
             }
             e.Dispose();
         }

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9DDF7BD8-3C77-43D4-A229-F79CE082C6E8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>FallGuysStats</RootNamespace>
     <AssemblyName>FallGuysStats</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -49,6 +49,15 @@
   <ItemGroup>
     <Reference Include="LiteDB">
       <HintPath>.\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PresentationCore" />
@@ -177,6 +186,7 @@
     <EmbeddedResource Include="Views\StatsDisplay.resx">
       <DependentUpon>StatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -200,8 +210,11 @@
     <None Include="Resources\stat_gray_icon.png" />
     <None Include="Resources\fallguys_icon.png" />
     <None Include="Resources\export.png" />
+    <None Include="Resources\export_gray.png" />
     <None Include="Resources\delete.png" />
+    <None Include="Resources\delete_gray.png" />
     <None Include="Resources\move.png" />
+    <None Include="Resources\move_gray.png" />
     <None Include="Resources\fall.ico" />
     <None Include="Resources\fall2.ico" />
     <None Include="Resources\medal_silver.png" />
@@ -221,16 +234,22 @@
     <None Include="Resources\number_9.png" />
     <None Include="Resources\number_10.png" />
     <None Include="Resources\github_icon.png" />
+    <None Include="Resources\github_gray_icon.png" />  
     <None Include="Resources\profile_icon.png" />
+    <None Include="Resources\profile_gray_icon.png" />
     <None Include="Resources\profile2_icon.png" />
     <None Include="Resources\profile2_linked_icon.png" />
     <None Include="Resources\profile2_unlinked_icon.png" />
     <None Include="Resources\filter_icon.png" />
+    <None Include="Resources\filter_gray_icon.png" />
     <None Include="Resources\final_icon.png" />
+    <None Include="Resources\final_gray_icon.png" />
     <None Include="Resources\setting_icon.png" />
+    <None Include="Resources\setting_gray_icon.png" />
     <None Include="Resources\crown_icon.png" />
     <None Include="Resources\kudos_icon.png" />
     <None Include="Resources\clock_icon.png" />
+    <None Include="Resources\clock_gray_icon.png" />
     <None Include="Resources\language_icon.png" />
     <None Include="Resources\checkmark_icon.png" />
     <None Include="Resources\uncheckmark_icon.png" />
@@ -249,7 +268,9 @@
     <None Include="Resources\switch_lock_icon.png" />
     <None Include="Resources\switch_unlock_icon.png" />
     <None Include="Resources\link_icon.png" />
+    <None Include="Resources\link_gray_icon.png" />
     <None Include="Resources\transform_icon.png" />
+    <None Include="Resources\transform_gray_icon.png" />
     <None Include="Resources\round_icon\final\icon_Blast_Ball.png" />
     <None Include="Resources\round_icon\final\icon_FallMountain.png" />
     <None Include="Resources\round_icon\final\icon_Hex-A-Ring.png" />
@@ -331,7 +352,7 @@
     <None Include="Resources\round_icon\team\icon_RocknRoll.png" />
     <None Include="Resources\round_icon\team\icon_SnowyScrap.png" />
     <None Include="Resources\round_icon\team\icon_TeamTailTag.png" />
-    <None Include="Resources\overlay\background.png" />
+    <EmbeddedResource Include="Resources\overlay\background.png" />
     <None Include="Resources\overlay\background_candycane.png" />
     <None Include="Resources\overlay\background_coffee.png" />
     <None Include="Resources\overlay\tab_unselected_dove.png" />
@@ -353,7 +374,7 @@
     <None Include="Resources\overlay\background_wallpaper_03.png" />
     <None Include="Resources\overlay\background_watermelon.png" />
     <None Include="Resources\overlay\background_dove.png" />
-    <None Include="Resources\overlay\tab_selected.png" />
+    <EmbeddedResource Include="Resources\overlay\tab_selected.png" />
     <None Include="Resources\overlay\tab_unselected.png" />
     <None Include="Resources\overlay\tab_unselected_candycane.png" />
     <None Include="Resources\overlay\tab_unselected_coffee.png" />
