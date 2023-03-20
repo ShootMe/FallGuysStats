@@ -73,13 +73,13 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
                 //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(16,16,16);
-                this.dataGridViewCellStyle2.ForeColor = Color.DarkGray;
+                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
+                this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
                 
-                this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(16, 36, 46);
-                this.ProfileList.AlternatingRowsDefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+                this.ProfileList.AlternatingRowsDefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
             }
             
             foreach (Control c1 in Controls) {
