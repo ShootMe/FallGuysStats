@@ -181,12 +181,12 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void DrawOutlineText(Graphics g, Rectangle layoutRect, Pen pen, Brush fillBrush, FontFamily fontFamily, FontStyle fontStyle, float fontSize, string text, StringFormat stringFormat) {
+        private void DrawOutlineText(Graphics g, Rectangle layoutRect, Pen outlinePen, Brush fillBrush, FontFamily fontFamily, FontStyle fontStyle, float fontSize, string text, StringFormat stringFormat) {
             using(GraphicsPath path = new GraphicsPath()) {
                 path.AddString(text, fontFamily, (int)fontStyle, fontSize, layoutRect, stringFormat);
                 path.CloseFigure();
                 g.FillPath(fillBrush, path);
-                if(pen != null) g.DrawPath(pen, path);
+                if(outlinePen != null) g.DrawPath(outlinePen, path);
             }
         }
     }

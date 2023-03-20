@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -197,10 +198,10 @@ namespace FallGuysStats {
         #endregion
         
         #region SetImageItemData(imageItemArray)
-        public void SetImageItemData(ImageItem[] imageItemArray) {
+        public void SetImageItemData(ArrayList imageItemArray) {
             this.DrawMode = DrawMode.OwnerDrawVariable;
             this.Items.Clear();
-            this.Items.AddRange(imageItemArray);
+            this.Items.AddRange(imageItemArray.ToArray());
 
             this.MeasureItem += this.imageItemComboBox_MeasureItem;
             this.DrawItem    += this.imageItemComboBox_DrawItem;

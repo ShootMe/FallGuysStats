@@ -193,7 +193,7 @@ namespace FallGuysStats {
             
             this.CurrentRound = new List<RoundInfo>();
 
-            this.overlay = new Overlay { StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName};
+            this.overlay = new Overlay { StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName};
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.isFixedPositionNe = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("ne");
             this.overlay.isFixedPositionNw = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("nw");
@@ -221,7 +221,25 @@ namespace FallGuysStats {
         
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            
+
+            foreach (var item in this.gridDetails.CMenu.Items) {
+                if (item is ToolStripMenuItem tsi) {
+                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17,17,17);
+                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tsi.MouseEnter += CMenu_MouseEnter;
+                    tsi.MouseLeave += CMenu_MouseLeave;
+                    if (tsi.Name.Equals("exportItemCSV")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemHTML")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemMD")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    }
+                }
+            }
+
             if (this.Theme == MetroThemeStyle.Light) {
                 this.dataGridViewCellStyle1.BackColor = Color.LightGray;
                 this.dataGridViewCellStyle1.ForeColor = Color.Black;
@@ -238,9 +256,9 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
                 //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(32,32,32);
-                //this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
-                this.dataGridViewCellStyle2.ForeColor = Color.DarkGray;
+                //this.dataGridViewCellStyle2.BackColor = Color.FromArgb(32,32,32);
+                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
+                this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             }
@@ -368,6 +386,34 @@ namespace FallGuysStats {
             }
             this.Invalidate(true);
         }
+        private void CMenu_MouseEnter(object sender, EventArgs e) {
+            if (sender is ToolStripMenuItem tsi) {
+                tsi.ForeColor = Color.Black;
+                if (tsi.Name.Equals("exportItemCSV")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemHTML")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemMD")) {
+                    tsi.Image = Properties.Resources.export;
+                }
+            }
+        }
+        private void CMenu_MouseLeave(object sender, EventArgs e) {
+            if (sender is ToolStripMenuItem tsi) {
+                tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                if (tsi.Name.Equals("exportItemCSV")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemHTML")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemMD")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                }
+            }
+        }
         private void menu_MouseEnter(object sender, EventArgs e) {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Name.Equals("menuSettings")) {
@@ -493,7 +539,7 @@ namespace FallGuysStats {
         private void menuProfile_Paint(object sender, PaintEventArgs e) {
             //e.Graphics.DrawRectangle(Pens.Red, ((ToolStripMenuItem)sender).ContentRectangle);
             if (this.AllProfiles.FindIndex(profile => profile.ProfileId.ToString() == ((ToolStripMenuItem)sender).Name.Substring(11) && !string.IsNullOrEmpty(profile.LinkedShowId)) != -1) {
-                e.Graphics.DrawImage(this.Theme == MetroThemeStyle.Light ? Properties.Resources.link_icon : Properties.Resources.link_gray_icon, 21, 5, 12, 12);
+                e.Graphics.DrawImage(this.CurrentSettings.AutoChangeProfile ? Properties.Resources.link_on_icon : this.Theme == MetroThemeStyle.Light ? Properties.Resources.link_icon : Properties.Resources.link_gray_icon, 20, 5, 13, 13);
             }
         }
         private void RemoveUpdateFiles() {
@@ -989,6 +1035,8 @@ namespace FallGuysStats {
                 LogPath = null,
                 OverlayBackground = 0,
                 OverlayBackgroundResourceName = string.Empty,
+                OverlayTabResourceName = string.Empty,
+                IsOverlayBackgroundCustomized = false,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -1189,7 +1237,7 @@ namespace FallGuysStats {
 
                 this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) {
-                    ToggleOverlay(this.overlay);
+                    this.ToggleOverlay(this.overlay);
                 }
 
                 this.menuAllStats.Checked = false;
@@ -1686,7 +1734,7 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
 
                 LevelStats levelStats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                float fBrightness = 0.8F;
+                float fBrightness = 0.7F;
                 switch (this.gridDetails.Columns[e.ColumnIndex].Name) {
                     case "RoundIcon":
                         if (levelStats.IsFinal) {
@@ -2311,7 +2359,7 @@ namespace FallGuysStats {
                         this.SaveUserSettings();
                         this.ChangeMainLanguage();
                         this.gridDetails.ChangeContextMenuLanguage();
-                        this.overlay.BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName;
+                        this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.overlay.ChangeLanguage();
                         this.UpdateTotals();
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);

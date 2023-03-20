@@ -15,6 +15,8 @@
         public int? OverlayFixedHeight { get; set; }
         public int OverlayBackground { get; set; }
         public string OverlayBackgroundResourceName { get; set; }
+        public string OverlayTabResourceName { get; set; }
+        public bool IsOverlayBackgroundCustomized { get; set; }
         public int OverlayColor { get; set; }
         public bool FlippedDisplay { get; set; }
         public bool FixedFlippedDisplay { get; set; }
