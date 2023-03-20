@@ -208,11 +208,7 @@ namespace FallGuysStats {
                 } else if (c1 is MetroComboBox mcbo1) {
                     mcbo1.Theme = theme;
                 } else if (c1 is GroupBox gb1) {
-                    if (this.Theme == MetroThemeStyle.Dark) {
-                        gb1.ForeColor = Color.DarkGray;
-                    } else if (this.Theme == MetroThemeStyle.Light) {
-                        gb1.ForeColor = Color.Black;
-                    }
+                    gb1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroLabel ml2) {
                             ml2.Theme = theme;
@@ -227,14 +223,17 @@ namespace FallGuysStats {
                         } else if (c2 is MetroComboBox mcbo2) {
                             mcbo2.Theme = theme;
                         } else if (c2 is GroupBox gb2) {
-                            if (this.Theme == MetroThemeStyle.Dark) {
-                                gb2.ForeColor = Color.DarkGray;
-                            } else if (this.Theme == MetroThemeStyle.Light) {
-                                gb2.ForeColor = Color.Black;
-                            }
+                            gb2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             foreach (Control c3 in gb2.Controls) {
                                 if (c3 is MetroRadioButton mrb3) {
                                     mrb3.Theme = theme;
+                                } else if (c3 is Label lb3) { //lblOverlayFontExample
+                                    if (!string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
+                                        ColorConverter colorConverter = new ColorConverter();
+                                        lb3.ForeColor = (Color)colorConverter.ConvertFromString(this.overlayFontColorSerialized);
+                                    } else {
+                                        lb3.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                    }
                                 }
                             }
                         }
