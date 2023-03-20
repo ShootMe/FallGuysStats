@@ -19,6 +19,7 @@ namespace FallGuysStats {
         
         public Stats StatsForm { get; set; }
         public string BackgroundResourceName;
+        public string TabResourceName;
         private Thread timer;
         private bool flippedImage;
         private int frameCount;
@@ -87,8 +88,36 @@ namespace FallGuysStats {
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
-            
             SetDefaultFont(Stats.CurrentLanguage, 18);
+            
+            if (!Directory.Exists("Overlay")) {
+                Directory.CreateDirectory("Overlay");
+                using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
+                    byte[] overlaydata = new byte[overlayStream.Length];
+                    overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                    File.WriteAllBytes("Overlay/background.png", overlaydata);
+                }
+                using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
+                    byte[] overlaydata = new byte[overlayStream.Length];
+                    overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                    File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                }
+            } else {
+                if (!File.Exists("Overlay/background.png")) {
+                    using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
+                        byte[] overlaydata = new byte[overlayStream.Length];
+                        overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                        File.WriteAllBytes("Overlay/background.png", overlaydata);
+                    }
+                }
+                if (!File.Exists("Overlay/tab.png")) {
+                    using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
+                        byte[] overlaydata = new byte[overlayStream.Length];
+                        overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                        File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                    }
+                }
+            }
         }
         
         public Overlay() {
@@ -106,8 +135,8 @@ namespace FallGuysStats {
             this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2);
             this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2);
             this.picPositionLock.Location = new Point(this.Location.X - 2, this.Location.Y - 8);
-
-            this.SetBackground(this.BackgroundResourceName);
+            
+            this.SetBackground();
 
             foreach (Control c in Controls) {
                 if (c is TransparentLabel label) {
@@ -122,14 +151,17 @@ namespace FallGuysStats {
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
-        public void SetBackground(string resourceName) {
+        public void SetBackgroundResourcesName(string backgound, string tab) {
+            this.BackgroundResourceName = backgound;
+            this.TabResourceName = tab;
+        }
+        public void SetBackground(string BackgroundResourceName = null) {
             Bitmap background;
             
-            if (string.IsNullOrEmpty(resourceName)) {
+            if (string.IsNullOrEmpty(BackgroundResourceName)) {
                 background = Properties.Resources.background;
             } else {
-                string overlayBackgroundResourceName = $"background_{resourceName}";
-                background = (Bitmap)Properties.Resources.ResourceManager.GetObject(overlayBackgroundResourceName) ?? Properties.Resources.background;
+                background = (Bitmap)Properties.Resources.ResourceManager.GetObject(BackgroundResourceName) ?? Properties.Resources.background;
             }
             
             Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
@@ -1429,23 +1461,34 @@ namespace FallGuysStats {
 
                 bool tabsDisplayed = this.StatsForm.CurrentSettings.ShowOverlayTabs;
                 //bool profileDisplayed = StatsForm.CurrentSettings.ShowOverlayProfile;
+                bool overlayCustomized = this.StatsForm.CurrentSettings.IsOverlayBackgroundCustomized;
                 Bitmap newImage = new Bitmap(this.drawWidth, this.drawHeight, PixelFormat.Format32bppArgb);
                 using (Graphics g = Graphics.FromImage(newImage)) {
                     Bitmap background;
                     if (string.IsNullOrEmpty(this.BackgroundResourceName)) {
                         background = Properties.Resources.background;
                     } else {
-                        background = (Bitmap)Properties.Resources.ResourceManager.GetObject($"background_{this.BackgroundResourceName}") ?? Properties.Resources.background;
+                        if (overlayCustomized) {
+                            background = File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? new Bitmap($"Overlay/{this.BackgroundResourceName}.png") : Properties.Resources.background;
+                        } else {
+                            background = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
+                        }
                     }
                     g.DrawImage(background, 0, tabsDisplayed ? 35 : 0);
+                    
                     if (tabsDisplayed) {
-                        if (string.IsNullOrEmpty(this.BackgroundResourceName)) {
-                            g.DrawImage(Properties.Resources.tab_unselected, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
-                            g.DrawImage(Properties.Resources.tab_unselected, this.drawWidth - 110, 0);
+                        Bitmap tab;
+                        if (string.IsNullOrEmpty(this.TabResourceName)) {
+                            tab = Properties.Resources.tab_unselected;
                         } else {
-                            g.DrawImage((Bitmap)Properties.Resources.ResourceManager.GetObject($"tab_unselected_{this.BackgroundResourceName}") ?? Properties.Resources.tab_unselected, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
-                            g.DrawImage((Bitmap)Properties.Resources.ResourceManager.GetObject($"tab_unselected_{this.BackgroundResourceName}") ?? Properties.Resources.tab_unselected, this.drawWidth - 110, 0);
+                            if (overlayCustomized) {
+                                tab = File.Exists($"Overlay/{this.TabResourceName}.png") ? new Bitmap($"Overlay/{this.TabResourceName}.png") : Properties.Resources.tab_unselected;
+                            } else {
+                                tab = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
+                            }
                         }
+                        g.DrawImage(tab, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
+                        g.DrawImage(tab, this.drawWidth - 110, 0);
                     }
                 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -79,31 +80,46 @@ namespace FallGuysStats {
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
+
+            ArrayList imageItemArray = new ArrayList();
+            if (Directory.Exists("Overlay")) {
+                DirectoryInfo di = new DirectoryInfo("Overlay");
+                foreach (FileInfo file in di.GetFiles()) {
+                    if (file.Name.Equals("background.png") || file.Name.Equals("tab.png")) continue;
+                    string fileName = file.Name.Substring(0, file.Name.Length - 4);
+                    Bitmap background = new Bitmap(file.FullName);
+                    //if (background.Width == 396 && background.Height == 43) continue;
+                    if (background.Width == 786 && background.Height == 99) {
+                        imageItemArray.Add(new ImageItem(background, new[] { fileName, $"tab_{fileName}" }, fileName, this.Font, true));
+                    }
+                }
+            }
             
-            ImageItem[] imageItemArray = {
-                new ImageItem(Properties.Resources.background, "", "Default", this.Font),
-                new ImageItem(Properties.Resources.background_candycane, "candycane", "Candy Cane", this.Font),
-                new ImageItem(Properties.Resources.background_coffee, "coffee", "Coffee", this.Font),
-                new ImageItem(Properties.Resources.background_dove, "dove", "Dove", this.Font),
-                new ImageItem(Properties.Resources.background_fall_guys_logo, "fall_guys_logo", "Fall Guys Logo", this.Font),
-                new ImageItem(Properties.Resources.background_helter_skelter, "helter_skelter", "Helter Skelter", this.Font),
-                new ImageItem(Properties.Resources.background_hex_a_thon, "hex_a_thon", "Hex A Thon", this.Font),
-                new ImageItem(Properties.Resources.background_ill_be_slime, "ill_be_slime", "I'll Be Slime", this.Font),
-                new ImageItem(Properties.Resources.background_mockingbird, "mockingbird", "Mocking Bird", this.Font),
-                new ImageItem(Properties.Resources.background_newlove, "newlove", "New Love", this.Font),
-                new ImageItem(Properties.Resources.background_parade_guy, "parade_guy", "Parade Guy", this.Font),
-                new ImageItem(Properties.Resources.background_party_pegwin, "party_pegwin", "Party Pegwin", this.Font),
-                new ImageItem(Properties.Resources.background_penguin, "penguin", "Penguin", this.Font),
-                new ImageItem(Properties.Resources.background_suits_you, "suits_you", "Suits You", this.Font),
-                new ImageItem(Properties.Resources.background_sunny_guys, "sunny_guys", "Sunny Guys", this.Font),
-                new ImageItem(Properties.Resources.background_ta_da, "ta_da", "Ta Da", this.Font),
-                new ImageItem(Properties.Resources.background_timeattack, "timeattack", "Time Attack", this.Font),
-                new ImageItem(Properties.Resources.background_watermelon, "watermelon", "Watermelon", this.Font),
-                new ImageItem(Properties.Resources.background_wallpaper_01, "wallpaper_01", "Wallpaper 01", this.Font),
-                new ImageItem(Properties.Resources.background_wallpaper_02, "wallpaper_02", "Wallpaper 02", this.Font),
-                new ImageItem(Properties.Resources.background_wallpaper_03, "wallpaper_03", "Wallpaper 03", this.Font),
+            ImageItem[] imageItems = {
+                new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
+                new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
+                new ImageItem(Properties.Resources.background_coffee, new[] { "background_coffee", "tab_unselected_coffee" }, "Coffee", this.Font, false),
+                new ImageItem(Properties.Resources.background_dove, new[] { "background_dove", "tab_unselected_dove" }, "Dove", this.Font, false),
+                new ImageItem(Properties.Resources.background_fall_guys_logo, new[] { "background_fall_guys_logo", "tab_unselected_fall_guys_logo" }, "Fall Guys Logo", this.Font, false),
+                new ImageItem(Properties.Resources.background_helter_skelter, new[] { "background_helter_skelter", "tab_unselected_helter_skelter" }, "Helter Skelter", this.Font, false),
+                new ImageItem(Properties.Resources.background_hex_a_thon, new[] { "background_hex_a_thon", "tab_unselected_hex_a_thon" }, "Hex A Thon", this.Font, false),
+                new ImageItem(Properties.Resources.background_ill_be_slime, new[] { "background_ill_be_slime", "tab_unselected_ill_be_slime" }, "I'll Be Slime", this.Font, false),
+                new ImageItem(Properties.Resources.background_mockingbird, new[] { "background_mockingbird", "tab_unselected_mockingbird" }, "Mocking Bird", this.Font, false),
+                new ImageItem(Properties.Resources.background_newlove, new[] { "background_newlove", "tab_unselected_newlove" }, "New Love", this.Font, false),
+                new ImageItem(Properties.Resources.background_parade_guy, new[] { "background_parade_guy", "tab_unselected_parade_guy" }, "Parade Guy", this.Font, false),
+                new ImageItem(Properties.Resources.background_party_pegwin, new[] { "background_party_pegwin", "tab_unselected_party_pegwin" }, "Party Pegwin", this.Font, false),
+                new ImageItem(Properties.Resources.background_penguin, new[] { "background_penguin", "tab_unselected_penguin" }, "Penguin", this.Font, false),
+                new ImageItem(Properties.Resources.background_suits_you, new[] { "background_suits_you", "tab_unselected_suits_you" }, "Suits You", this.Font, false),
+                new ImageItem(Properties.Resources.background_sunny_guys, new[] { "background_sunny_guys", "tab_unselected_sunny_guys" }, "Sunny Guys", this.Font, false),
+                new ImageItem(Properties.Resources.background_ta_da, new[] { "background_ta_da", "tab_unselected_ta_da" }, "Ta Da", this.Font, false),
+                new ImageItem(Properties.Resources.background_timeattack, new[] { "background_timeattack", "tab_unselected_timeattack" }, "Time Attack", this.Font, false),
+                new ImageItem(Properties.Resources.background_watermelon, new[] { "background_watermelon", "tab_unselected_watermelon" }, "Watermelon", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_01, new[] { "background_wallpaper_01", "tab_unselected_wallpaper_01" }, "Wallpaper 01", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_02, new[] { "background_wallpaper_02", "tab_unselected_wallpaper_02" }, "Wallpaper 02", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
             };
-            
+            imageItemArray.AddRange(imageItems);
+
             this.cboOverlayBackground.SetImageItemData(imageItemArray);
             this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
 
@@ -368,8 +384,10 @@ namespace FallGuysStats {
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
 
-            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName;
+            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[0];
+            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[1];
             this.CurrentSettings.OverlayBackground = this.cboOverlayBackground.SelectedIndex;
+            this.CurrentSettings.IsOverlayBackgroundCustomized = ((ImageItem)this.cboOverlayBackground.SelectedItem).IsCustomized;
 
             if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_transparent")}") {
                 this.CurrentSettings.OverlayColor = 0;

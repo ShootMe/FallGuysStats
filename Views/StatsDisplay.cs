@@ -58,12 +58,12 @@ namespace FallGuysStats {
                 this.graph.GraphXBackLineColor = Color.FromArgb(30, 169, 169, 169);
                 this.graph.GraphYBackLineColor = Color.FromArgb(30, 169, 169, 169);
 
-                this.graph.GraphSummaryBackColor = Color.WhiteSmoke;
-                this.graph.GraphSummaryTitleColor = Color.Black;
+                this.graph.GraphSummaryBackColor = Color.FromArgb(223, 17, 17, 17);
+                this.graph.GraphSummaryTitleColor = Color.DarkGray;
                 this.graph.GraphWinsColor = this.chkWins.ForeColor;
                 this.graph.GraphFinalsColor = this.chkFinals.ForeColor;
                 this.graph.GraphShowsColor = this.chkShows.ForeColor;
-                this.graph.GraphGuideLineColor = Color.Magenta;
+                this.graph.GraphGuideLineColor = Color.GreenYellow;
                 this.graph.SetDataColors(new[] { Color.Black, this.graph.GraphWinsColor, this.graph.GraphFinalsColor, this.graph.GraphShowsColor });
             }
         }
