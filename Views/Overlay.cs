@@ -18,6 +18,8 @@ namespace FallGuysStats {
         public static extern bool ReleaseCapture();
         
         public Stats StatsForm { get; set; }
+        public string BackgroundResourceName;
+        public string TabResourceName;
         private Thread timer;
         private bool flippedImage;
         private int frameCount;
@@ -30,9 +32,32 @@ namespace FallGuysStats {
         private bool startedPlaying;
         private DateTime startTime;
         private bool shiftKeyToggle;
+
+        private bool isPositionButtonMouseEnter;
+        private Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
+        private Image positionNwOffBlur = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
+        private Image positionSeOffBlur = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.4F);
+        private Image positionSwOffBlur = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.4F);
+        private Image positionNeOffFocus = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.8F);
+        private Image positionNwOffFocus = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.8F);
+        private Image positionSeOffFocus = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.8F);
+        private Image positionSwOffFocus = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.8F);
+        private Image positionNeOnBlur = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.4F);
+        private Image positionNwOnBlur = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.4F);
+        private Image positionSeOnBlur = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.4F);
+        private Image positionSwOnBlur = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.4F);
+        private Image positionNeOnFocus = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.8F);
+        private Image positionNwOnFocus = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.8F);
+        private Image positionSeOnFocus = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.8F);
+        private Image positionSwOnFocus = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.8F);
+        private Image positionLockBlur = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.4F);
+        private Image positionLockFocus = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.8F);
+        private Image positionUnlockBlur = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
+        private Image positionUnlockFocus = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
+        public bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
         
         public static PrivateFontCollection DefaultFontCollection;
-        public static Font DefaultFont;
+        public static new Font DefaultFont;
         
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf") ) {
@@ -50,32 +75,68 @@ namespace FallGuysStats {
                     File.WriteAllBytes("NotoSans-Regular.ttf", fontdata);
                 }
             }
+            
+            if (!File.Exists("NotoSansSC-Regular.otf") ) {
+                using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSansSC-Regular.otf")) {
+                    byte[] fontdata = new byte[fontStream.Length];
+                    fontStream.Read(fontdata, 0, (int)fontStream.Length);
+                    File.WriteAllBytes("NotoSansSC-Regular.otf", fontdata);
+                }
+            }
 
             DefaultFontCollection = new PrivateFontCollection();
-            DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
-            if (Stats.CurrentLanguage == 0) {
-                DefaultFont = new Font(DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
+            DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
+            SetDefaultFont(Stats.CurrentLanguage, 18);
+            
+            if (!Directory.Exists("Overlay")) {
+                Directory.CreateDirectory("Overlay");
+                using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
+                    byte[] overlaydata = new byte[overlayStream.Length];
+                    overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                    File.WriteAllBytes("Overlay/background.png", overlaydata);
+                }
+                using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
+                    byte[] overlaydata = new byte[overlayStream.Length];
+                    overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                    File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                }
             } else {
-                DefaultFont = new Font(DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+                if (!File.Exists("Overlay/background.png")) {
+                    using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.background.png")) {
+                        byte[] overlaydata = new byte[overlayStream.Length];
+                        overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                        File.WriteAllBytes("Overlay/background.png", overlaydata);
+                    }
+                }
+                if (!File.Exists("Overlay/tab.png")) {
+                    using (Stream overlayStream = typeof(Stats).Assembly.GetManifestResourceStream("FallGuysStats.Resources.overlay.tab_unselected.png")) {
+                        byte[] overlaydata = new byte[overlayStream.Length];
+                        overlayStream.Read(overlaydata, 0, (int)overlayStream.Length);
+                        File.WriteAllBytes("Overlay/tab.png", overlaydata);
+                    }
+                }
             }
         }
         
         public Overlay() {
             this.InitializeComponent();
             this.ChangeLanguage();
-
-            Bitmap background = Properties.Resources.background;
-            Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(newImage)) {
-                g.DrawImage(background, 0, 0);
-            }
-            this.Background = newImage;
-
-            this.DrawImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
-            this.DrawGraphics = Graphics.FromImage(this.DrawImage);
-            this.drawWidth = background.Width;
-            this.drawHeight = background.Height;
+            
+            this.picPositionNE.Image = this.positionNeOffBlur;
+            this.picPositionNW.Image = this.positionNwOffBlur;
+            this.picPositionSE.Image = this.positionSeOffBlur;
+            this.picPositionSW.Image = this.positionSwOffBlur;
+            this.picPositionLock.Image = this.positionUnlockBlur;
+            
+            this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2));
+            this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNW.Size.Height + 2));
+            this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2);
+            this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2);
+            this.picPositionLock.Location = new Point(this.Location.X - 2, this.Location.Y - 8);
+            
+            this.SetBackground();
 
             foreach (Control c in Controls) {
                 if (c is TransparentLabel label) {
@@ -87,8 +148,38 @@ namespace FallGuysStats {
 
             SetFonts(this);
 
-            DoubleBuffered = true;
-            SetStyle(ControlStyles.ResizeRedraw, true);
+            this.DoubleBuffered = true;
+            this.SetStyle(ControlStyles.ResizeRedraw, true);
+        }
+        public void SetFixedPosition(bool positonNE, bool positonNW, bool positonSE, bool positonSW, bool positonFree) {
+            this.isFixedPositionNe = positonNE;
+            this.isFixedPositionNw = positonNW;
+            this.isFixedPositionSe = positonSE;
+            this.isFixedPositionSw = positonSW;
+            this.isPositionLock = positonFree;
+        }
+        public void SetBackgroundResourcesName(string backgound, string tab) {
+            this.BackgroundResourceName = backgound;
+            this.TabResourceName = tab;
+        }
+        public void SetBackground(string BackgroundResourceName = null) {
+            Bitmap background;
+            
+            if (string.IsNullOrEmpty(BackgroundResourceName)) {
+                background = Properties.Resources.background;
+            } else {
+                background = (Bitmap)Properties.Resources.ResourceManager.GetObject(BackgroundResourceName) ?? Properties.Resources.background;
+            }
+            
+            Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
+            using (Graphics g = Graphics.FromImage(newImage)) {
+                g.DrawImage(background, 0, 0);
+            }
+            this.Background = newImage;
+            this.DrawImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
+            this.DrawGraphics = Graphics.FromImage(this.DrawImage);
+            this.drawWidth = background.Width;
+            this.drawHeight = background.Height;
         }
         protected override void WndProc(ref Message m) {
             if (m.Msg == 0x84) {
@@ -117,8 +208,9 @@ namespace FallGuysStats {
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
             if (font == null) {
-                font = customSize <= 0 ? DefaultFont : new Font(Stats.CurrentLanguage == 0 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0], customSize, FontStyle.Regular, GraphicsUnit.Pixel);
+                font = customSize <= 0 ? DefaultFont : new Font(GetDefaultFontFamilies(), customSize, FontStyle.Regular, GraphicsUnit.Pixel);
             }
+
             control.Font = font;
             foreach (Control ctr in control.Controls) {
                 ctr.Font = font;
@@ -127,24 +219,341 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void Overlay_MouseDown(object sender, MouseEventArgs e) {
-            if (e.Button == MouseButtons.Left) {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+
+        public void SetDefaultFontColor() {
+            this.ForeColor = Color.White;
+        }
+        public void SetFontColor(Color color) {
+            this.ForeColor = color;
+        }
+        public static void SetDefaultFont(int language, float emSize) {
+            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+        public static Font GetDefaultFont(int language, float emSize) {
+            return new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+        public static FontFamily GetDefaultFontFamilies(int language = 0) {
+            return language <= 1 ? DefaultFontCollection.Families[2] :
+                language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        }
+        public static Font GetMainFont(float emSize, int language = 0) {
+            return new Font(GetMainFontFamilies(language), emSize, FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+        public static FontFamily GetMainFontFamilies(int language) {
+            return language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        }
+        public bool IsFixed() {
+            return this.isFixedPositionNe || this.isFixedPositionNw || this.isFixedPositionSe || this.isFixedPositionSw || this.isPositionLock;
+        }
+        private void Position_MouseClick(object sender, MouseEventArgs e) {
+            switch (e.Button) {
+                case MouseButtons.Left:
+                    string iconName = ((PictureBox)sender).Name;
+                    Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                    Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+                    Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+                    if (iconName.Equals("picPositionNE")) {
+                        if (this.isFixedPositionNe) {
+                            if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width)) {
+                                this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
+                            }
+                            this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
+                            this.picPositionNE.Image = this.positionNeOffFocus;
+                            this.isFixedPositionNe = false;
+                            this.Cursor = Cursors.SizeAll;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Show();
+                        } else {
+                            if (!this.IsFixed()) {
+                                this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
+                                this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
+                            }
+                            this.FlipDisplay(true);
+                            this.Background = RecreateBackground();
+                            this.Location = new Point(screenLocation.X, 0);
+                            this.picPositionNE.Image = this.positionNeOnFocus;
+                            this.picPositionNW.Image = this.positionNwOffFocus;
+                            this.picPositionSE.Image = this.positionSeOffFocus;
+                            this.picPositionSW.Image = this.positionSwOffFocus;
+                            this.isFixedPositionNe = true;
+                            this.isFixedPositionNw = false;
+                            this.isFixedPositionSe = false;
+                            this.isFixedPositionSw = false;
+                            this.Cursor = Cursors.Default;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
+                            this.StatsForm.CurrentSettings.OverlayFixedWidth = this.Width;
+                            this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
+                            //this.StatsForm.CurrentSettings.FlippedDisplay = true;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = "ne";
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
+                            this.picPositionLock.Hide();
+                        }
+                    } else if (iconName.Equals("picPositionNW")) {
+                        if (this.isFixedPositionNw) {
+                            if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width)) {
+                                this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
+                            }
+                            this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
+                            this.picPositionNW.Image = this.positionNwOffFocus;
+                            this.isFixedPositionNw = false;
+                            this.Cursor = Cursors.SizeAll;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Show();
+                        } else {
+                            if (!this.IsFixed()) {
+                                this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
+                                this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
+                            }
+                            this.FlipDisplay(false);
+                            this.Background = RecreateBackground();
+                            this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, 0);
+                            this.picPositionNE.Image = this.positionNeOffFocus;
+                            this.picPositionNW.Image = this.positionNwOnFocus;
+                            this.picPositionSE.Image = this.positionSeOffFocus;
+                            this.picPositionSW.Image = this.positionSwOffFocus;
+                            this.isFixedPositionNe = false;
+                            this.isFixedPositionNw = true;
+                            this.isFixedPositionSe = false;
+                            this.isFixedPositionSw = false;
+                            this.Cursor = Cursors.Default;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
+                            this.StatsForm.CurrentSettings.OverlayFixedWidth = this.Width;
+                            this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
+                            //this.StatsForm.CurrentSettings.FlippedDisplay = false;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = "nw";
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Hide();
+                        }
+                    } else if (iconName.Equals("picPositionSE")) {
+                        if (this.isFixedPositionSe) {
+                            if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width)) {
+                                this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
+                            }
+                            this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
+                            this.picPositionSE.Image = this.positionSeOffFocus;
+                            this.isFixedPositionSe = false;
+                            this.Cursor = Cursors.SizeAll;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Show();
+                        } else {
+                            if (!this.IsFixed()) {
+                                this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
+                                this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
+                            }
+                            this.FlipDisplay(true);
+                            this.Background = RecreateBackground();
+                            this.Location = new Point(screenLocation.X, (screenLocation.Y + screenSize.Height) - this.Height);
+                            this.picPositionNE.Image = this.positionNeOffFocus;
+                            this.picPositionNW.Image = this.positionNwOffFocus;
+                            this.picPositionSE.Image = this.positionSeOnFocus;
+                            this.picPositionSW.Image = this.positionSwOffFocus;
+                            this.isFixedPositionNe = false;
+                            this.isFixedPositionNw = false;
+                            this.isFixedPositionSe = true;
+                            this.isFixedPositionSw = false;
+                            this.Cursor = Cursors.Default;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
+                            this.StatsForm.CurrentSettings.OverlayFixedWidth = this.Width;
+                            this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
+                            //this.StatsForm.CurrentSettings.FlippedDisplay = true;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = "se";
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
+                            this.picPositionLock.Hide();
+                        }
+                    } else if (iconName.Equals("picPositionSW")) {
+                        if (this.isFixedPositionSw) {
+                            if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width)) {
+                                this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
+                            }
+                            this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
+                            this.picPositionSW.Image = this.positionSwOffFocus;
+                            this.isFixedPositionSw = false;
+                            this.Cursor = Cursors.SizeAll;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Show();
+                        } else {
+                            if (!this.IsFixed()) {
+                                this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
+                                this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
+                            }
+                            this.FlipDisplay(false);
+                            this.Background = RecreateBackground();
+                            this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, (screenLocation.Y + screenSize.Height) - this.Height);
+                            this.picPositionNE.Image = this.positionNeOffFocus;
+                            this.picPositionNW.Image = this.positionNwOffFocus;
+                            this.picPositionSE.Image = this.positionSeOffFocus;
+                            this.picPositionSW.Image = this.positionSwOnFocus;
+                            this.isFixedPositionNe = false;
+                            this.isFixedPositionNw = false;
+                            this.isFixedPositionSe = false;
+                            this.isFixedPositionSw = true;
+                            this.Cursor = Cursors.Default;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
+                            this.StatsForm.CurrentSettings.OverlayFixedWidth = this.Width;
+                            this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
+                            //this.StatsForm.CurrentSettings.FlippedDisplay = false;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = "sw";
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionLock.Hide();
+                        }
+                    } else if (iconName.Equals("picPositionLock")) {
+                        if (this.isPositionLock) {
+                            this.picPositionLock.Image = this.positionUnlockFocus;
+                            this.isPositionLock = false;
+                            this.Cursor = Cursors.SizeAll;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+                            this.picPositionNE.Show();
+                            this.picPositionNW.Show();
+                            this.picPositionSE.Show();
+                            this.picPositionSW.Show();
+                        } else {
+                            this.picPositionLock.Image = this.positionLockFocus;
+                            this.isPositionLock = true;
+                            this.Cursor = Cursors.Default;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
+                            this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
+                            this.StatsForm.CurrentSettings.OverlayFixedWidth = this.Width;
+                            this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
+                            this.StatsForm.CurrentSettings.OverlayFixedPosition = "free";
+                            this.StatsForm.CurrentSettings.FixedFlippedDisplay = this.flippedImage;
+                            this.picPositionNE.Hide();
+                            this.picPositionNW.Hide();
+                            this.picPositionSE.Hide();
+                            this.picPositionSW.Hide();
+                        }
+                    }
+                    this.StatsForm.SaveUserSettings();
+                    break;
             }
+        }
+        private void Position_MouseEnter(object sender, EventArgs e) {
+            if (this.isPositionButtonMouseEnter) return;
+            if (this.IsFixed()) {
+                if (this.isPositionLock) {
+                    this.picPositionLock.Image = this.isPositionLock ? this.positionLockFocus : this.positionUnlockFocus;
+                } else {
+                    this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
+                    this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
+                    this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
+                    this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
+                }
+            } else {
+                this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
+                this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
+                this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
+                this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
+                this.picPositionLock.Image = this.isPositionLock ? this.positionLockFocus : this.positionUnlockFocus;
+            }
+            this.isPositionButtonMouseEnter = true;
+        }
+        private void Position_MouseLeave(object sender, EventArgs e) {
+            if (!this.isPositionButtonMouseEnter) return;
+            if (this.IsFixed()) {
+                if (this.isPositionLock) {
+                    this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
+                } else {
+                    this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
+                    this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
+                    this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
+                    this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+                }
+            } else {
+                this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
+                this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
+                this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
+                this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+                this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
+            }
+            this.isPositionButtonMouseEnter = false;
+        }
+        private void Overlay_GotFocus(object sender, EventArgs e) {
+            if (this.IsFixed()) {
+                if (this.isPositionLock) {
+                    this.picPositionLock.Show();
+                    this.picPositionNE.Hide();
+                    this.picPositionNW.Hide();
+                    this.picPositionSE.Hide();
+                    this.picPositionSW.Hide();
+                } else {
+                    this.picPositionLock.Hide();
+                    this.picPositionNE.Show();
+                    this.picPositionNW.Show();
+                    this.picPositionSE.Show();
+                    this.picPositionSW.Show();
+                    
+                }
+            } else {
+                if (this.picPositionNE.Visible && this.picPositionNW.Visible &&
+                    this.picPositionSE.Visible && this.picPositionSW.Visible && this.picPositionLock.Visible) return;
+                this.picPositionNE.Show();
+                this.picPositionNW.Show();
+                this.picPositionSE.Show();
+                this.picPositionSW.Show();
+                this.picPositionLock.Show();
+            }
+        }
+        private void Overlay_LostFocus(object sender, EventArgs e) {
+            if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
+                    !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
+            this.picPositionNE.Hide();
+            this.picPositionNW.Hide();
+            this.picPositionSE.Hide();
+            this.picPositionSW.Hide();
+            this.picPositionLock.Hide();
+        }
+        private void Overlay_Resize(object sender, EventArgs e) {
+            this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (this.drawHeight > 99 ? 11 : -6));
+            this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (this.drawHeight > 99 ? 11 : -6));
+            this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2 + (this.drawHeight > 99 ? 11 : -6));
+            this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (this.drawHeight > 99 ? 11 : -6));
+            this.picPositionLock.Location = new Point(this.StatsForm.CurrentSettings.FlippedDisplay ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.drawHeight > 99 ? 11 : -6));
+        }
+        private void Overlay_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button != MouseButtons.Left) return;
+
+            if ((sender.GetType() == this.picPositionNE.GetType()) ||
+                (sender.GetType() == this.picPositionNW.GetType()) ||
+                (sender.GetType() == this.picPositionSE.GetType()) ||
+                (sender.GetType() == this.picPositionSW.GetType()) ||
+                (sender.GetType() == this.picPositionLock.GetType())) return;
+
+            if (this.isFixedPositionNe || this.isFixedPositionNw || this.isFixedPositionSe || this.isFixedPositionSw || this.isPositionLock) return;
+            ReleaseCapture();
+            SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
         }
         private void UpdateTimer() {
             while (this.StatsForm != null && !this.StatsForm.IsDisposed && !this.StatsForm.Disposing) {
                 try {
-                    if (IsHandleCreated && !Disposing && !IsDisposed) {
+                    if (IsHandleCreated && !this.StatsForm.Disposing && !this.StatsForm.IsDisposed) {
                         this.frameCount++;
                         this.isTimeToSwitch = this.frameCount % (this.StatsForm.CurrentSettings.CycleTimeSeconds * 20) == 0;
-                        Invoke((Action)UpdateInfo);
+                        Invoke((Action)this.UpdateInfo);
                     }
 
-                    StatsForm.UpdateDates();
+                    this.StatsForm.UpdateDates();
                     Thread.Sleep(50);
-                } catch { }
+                } catch {
+                    // ignored
+                }
             }
         }
         private void SetQualifyChanceLabel(StatSummary levelInfo) {
@@ -207,17 +616,17 @@ namespace FallGuysStats {
                         int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
                         int swCount = this.lastRound.PlayersSw;
                         int pcCount = this.lastRound.PlayersPc;
-                        this.lblPlayersPs.TextRight = (psCount == 0 ? "　-" : $"　{psCount.ToString()}");
-                        this.lblPlayersPs.Size = new Size((psCount > 9 ? 31 : 26), 16);
+                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"　{psCount.ToString()}");
+                        this.lblPlayersPs.Size = new Size((psCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPs.DrawVisible = true;
-                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "　-" : $"　{xbCount.ToString()}");
-                        this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 31 : 26), 16);
+                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"　{xbCount.ToString()}");
+                        this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 32 : 26), 16);
                         this.lblPlayersXbox.DrawVisible = true;
-                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "　-" : $"　{swCount.ToString()}");
-                        this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 31 : 26), 16);
+                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"　{swCount.ToString()}");
+                        this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 32 : 26), 16);
                         this.lblPlayersSwitch.DrawVisible = true;
-                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "　-" : $"　{pcCount.ToString()}");
-                        this.lblPlayersPc.Size = new Size((pcCount > 9 ? 31 : 26), 16);
+                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"　{pcCount.ToString()}");
+                        this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPc.DrawVisible = true;
                     } else {
                         this.lblPlayers.Image = null;
@@ -260,22 +669,20 @@ namespace FallGuysStats {
 
             lock (this.StatsForm.CurrentRound) {
                 bool hasCurrentRound = this.StatsForm.CurrentRound != null && this.StatsForm.CurrentRound.Count > 0;
-                if (hasCurrentRound && (lastRound == null || Stats.InShow || Stats.EndedShow)) {
+                if (hasCurrentRound && (this.lastRound == null || Stats.InShow || Stats.EndedShow)) {
                     if (Stats.EndedShow) {
                         Stats.EndedShow = false;
                     }
-                    lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
+                    this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
                 }
 
-                lblFilter.Text = this.StatsForm.GetCurrentFilter();
-                lblProfile.Text = this.StatsForm.GetCurrentProfile();
-                Background = RecreateBackground();
-                lblProfile.Location = new Point(flippedImage ? 125 : drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
+                this.lblFilter.Text = this.StatsForm.GetCurrentFilter();
+                this.lblProfile.Text = this.StatsForm.GetCurrentProfile();
+                this.Background = this.RecreateBackground();
+                this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
 
-                if (lastRound != null && !string.IsNullOrEmpty(lastRound.Name)) {
-                    string roundName = lastRound.VerifiedName();
-                    lblName.Text = $"{Multilingual.GetWord("overlay_name_prefix")}{lastRound.Round}{Multilingual.GetWord("overlay_name_suffix")} :";
-
+                if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
+                    string roundName = this.lastRound.VerifiedName();
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out var level)) {
                         roundName = level.Name.ToUpper();
                     }
@@ -289,12 +696,25 @@ namespace FallGuysStats {
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
 
-                    if (StatsForm.CurrentSettings.ColorByRoundType) {
-                        this.lblName.LevelColor = levelType.LevelBackColor(lastRound.IsFinal, 223);
+                    if (this.StatsForm.CurrentSettings.ColorByRoundType) {
+                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
+                        this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, 223);
+                        this.lblRound.RoundIcon = level?.RoundIcon;
+                        if (this.lblRound.RoundIcon.Height != 23) {
+                            this.lblRound.ImageHeight = 23;
+                            this.lblRound.ImageWidth = (int)(Math.Ceiling((Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height) * this.lblRound.RoundIcon.Width));
+                        } else {
+                            this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
+                            this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
+                        }
                     } else {
-                        this.lblName.LevelColor = Color.Empty;
+                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
+                        this.lblRound.LevelColor = Color.Empty;
+                        this.lblRound.RoundIcon = null;
+                        this.lblRound.ImageWidth = 0;
+                        this.lblRound.ImageHeight = 0;
                     }
-                    this.lblName.TextRight = roundName;
+                    this.lblRound.TextRight = roundName;
 
                     this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
@@ -315,10 +735,10 @@ namespace FallGuysStats {
                     string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     this.lblFinals.TextRight = $"　{finalText}{finalChanceDisplay}";
 
-                    SetQualifyChanceLabel(levelInfo);
-                    SetFastestLabel(levelInfo, levelType);
-                    SetPlayersLabel();
-                    SetStreakInfo(levelInfo);
+                    this.SetQualifyChanceLabel(levelInfo);
+                    this.SetFastestLabel(levelInfo, levelType);
+                    this.SetPlayersLabel();
+                    this.SetStreakInfo(levelInfo);
                     if (this.isTimeToSwitch) {
                         this.switchCount++;
                     }
@@ -363,18 +783,18 @@ namespace FallGuysStats {
                         }
                     } else {
                         this.lblFinish.TextRight = "-";
-                        this.lblFinish.ForeColor = Color.White;
+                        this.lblFinish.ForeColor = this.ForeColor;
                     }
 
-                    if (lastRound.GameDuration > 0) {
-                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(lastRound.GameDuration):m\\:ss}):";
+                    if (this.lastRound.GameDuration > 0) {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):";
                     } else {
                         this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
                     }
 
                     if (End != DateTime.MinValue) {
                         this.lblDuration.TextRight = $"　{End - Start:m\\:ss\\.ff}";
-                    } else if (lastRound.Playing) {
+                    } else if (this.lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
                             this.lblDuration.TextRight = $"　{DateTime.UtcNow - startTime:m\\:ss}";
                         } else {
@@ -390,7 +810,7 @@ namespace FallGuysStats {
         protected override void OnPaint(PaintEventArgs e) {
             lock (DefaultFont) {
                 this.DrawGraphics.Clear(Color.Transparent);
-                this.DrawGraphics.DrawImage(Background, 0, 0);
+                this.DrawGraphics.DrawImage(this.Background, 0, 0);
 
                 foreach (Control control in Controls) {
                     if (control is TransparentLabel label) {
@@ -399,11 +819,11 @@ namespace FallGuysStats {
                         this.DrawGraphics.TranslateTransform(-label.Location.X, -label.Location.Y);
                     }
                 }
-
+                
                 e.Graphics.InterpolationMode = InterpolationMode.Default;
                 e.Graphics.PixelOffsetMode = PixelOffsetMode.None;
                 e.Graphics.SmoothingMode = SmoothingMode.None;
-                e.Graphics.DrawImage(this.DrawImage, new Rectangle(0, 0, ClientSize.Width, ClientSize.Height), new Rectangle(0, 0, this.DrawImage.Width, this.DrawImage.Height), GraphicsUnit.Pixel);
+                e.Graphics.DrawImage(this.DrawImage, new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height), new Rectangle(0, 0, this.DrawImage.Width, this.DrawImage.Height), GraphicsUnit.Pixel);
             }
         }
         private void Overlay_MouseWheel(object sender, MouseEventArgs e) {
@@ -447,18 +867,18 @@ namespace FallGuysStats {
                     break;
                 case Keys.T: {
                     int colorOption = 0;
-                    if (BackColor.ToArgb() == Color.Black.ToArgb()) {
-                        colorOption = 5;
-                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
-                        colorOption = 0;
-                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                    if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
                         colorOption = 1;
-                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
                         colorOption = 2;
-                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
                         colorOption = 3;
-                    } else if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
                         colorOption = 4;
+                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                        colorOption = 5;
+                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                        colorOption = 0;
                     }
                     SetBackgroundColor(colorOption);
                     this.StatsForm.CurrentSettings.OverlayColor = colorOption;
@@ -474,12 +894,14 @@ namespace FallGuysStats {
                 case Keys.C:
                     this.StatsForm.CurrentSettings.PlayerByConsoleType =
                         !this.StatsForm.CurrentSettings.PlayerByConsoleType;
-                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
+                    this.StatsForm.SaveUserSettings();
+                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
                     return;
                 case Keys.R:
                     this.StatsForm.CurrentSettings.ColorByRoundType =
                         !this.StatsForm.CurrentSettings.ColorByRoundType;
-                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
+                    this.StatsForm.SaveUserSettings();
+                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
                     return;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
                     return;
@@ -499,6 +921,7 @@ namespace FallGuysStats {
                     break;
                 }
                 case Keys.Up:
+                case Keys.Left:
                     if (this.shiftKeyToggle == false) { return; }
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
@@ -513,6 +936,7 @@ namespace FallGuysStats {
                     }
                     break;
                 case Keys.Down:
+                case Keys.Right:
                     if (this.shiftKeyToggle == false) { return; }
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
@@ -548,17 +972,17 @@ namespace FallGuysStats {
         }
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
-                case 0: BackColor = Color.Magenta; break;
-                case 1: BackColor = Color.Blue; break;
-                case 2: BackColor = Color.Red; break;
-                case 3: BackColor = Color.FromArgb(224, 224, 224); break;
-                case 4: BackColor = Color.Black; break;
-                case 5: BackColor = Color.Green; break;
+                case 0: BackColor = Color.FromArgb(224, 224, 224); break;
+                case 1: BackColor = Color.Black; break;
+                case 2: BackColor = Color.Magenta; break;
+                case 3: BackColor = Color.Red; break;
+                case 4: BackColor = Color.Green; break;
+                case 5: BackColor = Color.Blue; break;
             }
         }
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont) {
-            FlipDisplay(false);
-
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {
+            this.FlipDisplay(false);
+            
             int heightOffset = showTabs ? 35 : 0;
             this.lblWins.Location = new Point(22, 9 + heightOffset);
             this.lblFinals.Location = new Point(22, 32 + heightOffset);
@@ -581,6 +1005,8 @@ namespace FallGuysStats {
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
                 case 0:
+                    this.MinimumSize = new Size(786, showTabs ? 134 : 99);
+
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     this.lblWins.DrawVisible = true;
                     this.lblFinals.Location = new Point(firstColumnX, 32 + heightOffset);
@@ -588,8 +1014,8 @@ namespace FallGuysStats {
                     this.lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     this.lblStreak.DrawVisible = true;
 
-                    this.lblName.Location = new Point(secondColumnX, 9 + heightOffset);
-                    this.lblName.DrawVisible = true;
+                    this.lblRound.Location = new Point(secondColumnX, 9 + heightOffset);
+                    this.lblRound.DrawVisible = true;
                     this.lblQualifyChance.Location = new Point(secondColumnX, 32 + heightOffset);
                     this.lblQualifyChance.DrawVisible = true;
                     this.lblFastest.Location = new Point(secondColumnX, 55 + heightOffset);
@@ -632,6 +1058,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 1:
+                    this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+
                     this.drawWidth -= thirdColumnWidth + spacerWidth;
 
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
@@ -645,8 +1073,8 @@ namespace FallGuysStats {
                     this.lblDuration.DrawVisible = false;
                     this.lblFinish.DrawVisible = false;
 
-                    this.lblName.Location = new Point(secondColumnX, 9 + heightOffset);
-                    this.lblName.DrawVisible = true;
+                    this.lblRound.Location = new Point(secondColumnX, 9 + heightOffset);
+                    this.lblRound.DrawVisible = true;
                     
                     this.lblPlayers.Location = new Point(secondColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
@@ -682,6 +1110,8 @@ namespace FallGuysStats {
                     this.lblQualifyChance.DrawVisible = true;
                     break;
                 case 2:
+                    this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+
                     this.drawWidth -= secondColumnWidth + spacerWidth;
 
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
@@ -691,7 +1121,7 @@ namespace FallGuysStats {
                     this.lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     this.lblStreak.DrawVisible = true;
 
-                    this.lblName.DrawVisible = false;
+                    this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
@@ -708,6 +1138,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 3:
+                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+
                     this.drawWidth -= secondColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
@@ -717,7 +1149,7 @@ namespace FallGuysStats {
                     this.lblStreak.Location = new Point(firstColumnX, 55 + heightOffset);
                     this.lblStreak.DrawVisible = true;
 
-                    this.lblName.DrawVisible = false;
+                    this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
@@ -730,14 +1162,16 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = false;
                     break;
                 case 4:
+                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+
                     this.drawWidth -= firstColumnWidth + spacerWidth;
 
                     this.lblWins.DrawVisible = false;
                     this.lblFinals.DrawVisible = false;
                     this.lblStreak.DrawVisible = false;
 
-                    this.lblName.Location = new Point(firstColumnX, 9 + heightOffset);
-                    this.lblName.DrawVisible = true;
+                    this.lblRound.Location = new Point(firstColumnX, 9 + heightOffset);
+                    this.lblRound.DrawVisible = true;
                     this.lblQualifyChance.Location = new Point(firstColumnX, 32 + heightOffset);
                     this.lblQualifyChance.DrawVisible = true;
                     this.lblFastest.Location = new Point(firstColumnX, 55 + heightOffset);
@@ -780,14 +1214,16 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 5:
+                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+
                     this.drawWidth -= firstColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
                     this.lblWins.DrawVisible = false;
                     this.lblFinals.DrawVisible = false;
                     this.lblStreak.DrawVisible = false;
 
-                    this.lblName.Location = new Point(firstColumnX, 9 + heightOffset);
-                    this.lblName.DrawVisible = true;
+                    this.lblRound.Location = new Point(firstColumnX, 9 + heightOffset);
+                    this.lblRound.DrawVisible = true;
                     
                     this.lblPlayers.Location = new Point(firstColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
@@ -827,13 +1263,15 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = false;
                     break;
                 case 6:
+                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+
                     this.drawWidth -= firstColumnWidth + secondColumnWidth + spacerWidth * 2;
 
                     this.lblWins.DrawVisible = false;
                     this.lblFinals.DrawVisible = false;
                     this.lblStreak.DrawVisible = false;
 
-                    this.lblName.DrawVisible = false;
+                    this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
@@ -857,18 +1295,56 @@ namespace FallGuysStats {
             } else {
                 SetFonts(this);
             }
-
-            this.DisplayTabs(showTabs);
-            this.DisplayProfile(showTabs);
-            this.FlipDisplay(flipDisplay);
-            this.SetBackgroundColor(colorOption);
-
+            
+            if (!string.IsNullOrEmpty(serializedFontColor)) {
+                ColorConverter colorConverter = new ColorConverter();
+                SetFontColor((Color)colorConverter.ConvertFromString(serializedFontColor));
+            } else {
+                SetDefaultFontColor();
+            }
+            
             this.Background = RecreateBackground();
             if (width.HasValue) {
                 this.Width = width.Value;
             }
             if (height.HasValue) {
                 this.Height = height.Value;
+            }
+            
+            this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
+            this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
+            this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
+            this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+            this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
+            this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (showTabs ? 11 : -6));
+            this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNW.Size.Height + 2) + (showTabs ? 11 : -6));
+            this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2 + (showTabs ? 11 : -6));
+            this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (showTabs ? 11 : -6));
+            this.picPositionLock.Location = new Point(flipDisplay ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (showTabs ? 11 : -6));
+
+            if (this.IsFixed()) {
+                if ((this.isFixedPositionSe || this.isFixedPositionSw)) {
+                    if (this.isFixedPositionSe) {
+                        Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                        Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+                        Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+                        this.Location = new Point(screenLocation.X, (screenLocation.Y + screenSize.Height) - this.Height);
+                    } else if (this.isFixedPositionSw) {
+                        Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                        Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+                        Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+                        this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, (screenLocation.Y + screenSize.Height) - this.Height);
+                    }
+                }
+                this.DisplayTabs(showTabs);
+                this.DisplayProfile(showTabs);
+                this.FlipDisplay(this.StatsForm.CurrentSettings.FixedFlippedDisplay);
+                this.SetBackgroundColor(colorOption);
+            } else {
+                this.DisplayTabs(showTabs);
+                this.DisplayProfile(showTabs);
+                this.FlipDisplay(flipDisplay);
+                this.SetBackgroundColor(colorOption);
             }
         }
         public void FlipDisplay(bool flipped) {
@@ -883,6 +1359,7 @@ namespace FallGuysStats {
 
             this.DisplayTabs(this.drawHeight > 99);
             this.DisplayProfile(this.drawHeight > 99);
+            this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.drawHeight > 99 ? 11 : -6));
         }
         private int GetCountNumeric(string s) {
             int count = 0;
@@ -960,14 +1437,18 @@ namespace FallGuysStats {
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
-            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) {
+            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
                 offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
                          (int)(this.GetCountKorAlphabet(s) * (6.7F)) - 
                          (int)(this.GetCountJpnAlphabet(s) * (0.8F)) - 
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) {
+            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
                 offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
+                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
+            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
+                offset = 22 - (this.GetCountKorAlphabet(s) * 2) - 
+                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else {
                 offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
@@ -987,12 +1468,34 @@ namespace FallGuysStats {
 
                 bool tabsDisplayed = this.StatsForm.CurrentSettings.ShowOverlayTabs;
                 //bool profileDisplayed = StatsForm.CurrentSettings.ShowOverlayProfile;
+                bool overlayCustomized = this.StatsForm.CurrentSettings.IsOverlayBackgroundCustomized;
                 Bitmap newImage = new Bitmap(this.drawWidth, this.drawHeight, PixelFormat.Format32bppArgb);
                 using (Graphics g = Graphics.FromImage(newImage)) {
-                    g.DrawImage(Properties.Resources.background, 0, tabsDisplayed ? 35 : 0);
+                    Bitmap background;
+                    if (string.IsNullOrEmpty(this.BackgroundResourceName)) {
+                        background = Properties.Resources.background;
+                    } else {
+                        if (overlayCustomized) {
+                            background = File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? new Bitmap($"Overlay/{this.BackgroundResourceName}.png") : Properties.Resources.background;
+                        } else {
+                            background = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
+                        }
+                    }
+                    g.DrawImage(background, 0, tabsDisplayed ? 35 : 0);
+                    
                     if (tabsDisplayed) {
-                        g.DrawImage(Properties.Resources.tab_unselected, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
-                        g.DrawImage(Properties.Resources.tab_unselected, this.drawWidth - 110, 0);
+                        Bitmap tab;
+                        if (string.IsNullOrEmpty(this.TabResourceName)) {
+                            tab = Properties.Resources.tab_unselected;
+                        } else {
+                            if (overlayCustomized) {
+                                tab = File.Exists($"Overlay/{this.TabResourceName}.png") ? new Bitmap($"Overlay/{this.TabResourceName}.png") : Properties.Resources.tab_unselected;
+                            } else {
+                                tab = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
+                            }
+                        }
+                        g.DrawImage(tab, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
+                        g.DrawImage(tab, this.drawWidth - 110, 0);
                     }
                 }
 
@@ -1037,7 +1540,7 @@ namespace FallGuysStats {
             this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_chance")} :";
             this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
             this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
-            this.lblName.Text = $"{Multilingual.GetWord("overlay_name_prefix")}1{Multilingual.GetWord("overlay_name_suffix")} :";
+            this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}1{Multilingual.GetWord("overlay_round_suffix")} :";
             this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
             this.lblWins.TextRight = $"0{Multilingual.GetWord("overlay_inning")} - 0.0%";
             this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
