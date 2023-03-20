@@ -412,7 +412,6 @@ namespace FallGuysStats {
             this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
             this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseWheel);
-            //this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseMove);
             this.Resize += new System.EventHandler(this.Overlay_Resize);
             this.ResumeLayout(false);
         }

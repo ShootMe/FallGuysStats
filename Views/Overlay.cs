@@ -31,6 +31,7 @@ namespace FallGuysStats {
         private bool startedPlaying;
         private DateTime startTime;
         private bool shiftKeyToggle;
+
         private bool isPositionButtonMouseEnter;
         private Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
         private Image positionNwOffBlur = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
@@ -86,8 +87,8 @@ namespace FallGuysStats {
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
-
-            DefaultFont = new Font(GetDefaultFontFamilies(), 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            
+            SetDefaultFont(Stats.CurrentLanguage, 18);
         }
         
         public Overlay() {
@@ -121,14 +122,14 @@ namespace FallGuysStats {
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
-        public void SetBackground(string overlayBackgroundResourceName) {
+        public void SetBackground(string resourceName) {
             Bitmap background;
             
-            if (string.IsNullOrEmpty(overlayBackgroundResourceName)) {
+            if (string.IsNullOrEmpty(resourceName)) {
                 background = Properties.Resources.background;
             } else {
-                background = (Bitmap)Properties.Resources.ResourceManager.GetObject($"background_{overlayBackgroundResourceName}");
-                if (background == null) background = Properties.Resources.background;
+                string overlayBackgroundResourceName = $"background_{resourceName}";
+                background = (Bitmap)Properties.Resources.ResourceManager.GetObject(overlayBackgroundResourceName) ?? Properties.Resources.background;
             }
             
             Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
@@ -170,6 +171,7 @@ namespace FallGuysStats {
             if (font == null) {
                 font = customSize <= 0 ? DefaultFont : new Font(GetDefaultFontFamilies(), customSize, FontStyle.Regular, GraphicsUnit.Pixel);
             }
+
             control.Font = font;
             foreach (Control ctr in control.Controls) {
                 ctr.Font = font;
@@ -178,16 +180,25 @@ namespace FallGuysStats {
                 }
             }
         }
-        public static FontFamily GetDefaultFontFamilies() {
-            return Stats.CurrentLanguage <= 1 ? DefaultFontCollection.Families[2] :
-                Stats.CurrentLanguage == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+
+        public void SetDefaultFontColor() {
+            this.ForeColor = Color.White;
         }
-        public static FontFamily GetDefaultFontFamilies(int language) {
+        public void SetFontColor(Color color) {
+            this.ForeColor = color;
+        }
+        public static void SetDefaultFont(int language, float emSize) {
+            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+        public static Font GetDefaultFont(int language, float emSize) {
+            return new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+        }
+        public static FontFamily GetDefaultFontFamilies(int language = 0) {
             return language <= 1 ? DefaultFontCollection.Families[2] :
                 language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
-        public static FontFamily GetMainFontFamilies() {
-            return Stats.CurrentLanguage == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        public static Font GetMainFont(float emSize, int language = 0) {
+            return new Font(GetMainFontFamilies(language), emSize, FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static FontFamily GetMainFontFamilies(int language) {
             return language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
@@ -733,7 +744,7 @@ namespace FallGuysStats {
                         }
                     } else {
                         this.lblFinish.TextRight = "-";
-                        this.lblFinish.ForeColor = Color.White;
+                        this.lblFinish.ForeColor = this.ForeColor;
                     }
 
                     if (this.lastRound.GameDuration > 0) {
@@ -845,13 +856,13 @@ namespace FallGuysStats {
                     this.StatsForm.CurrentSettings.PlayerByConsoleType =
                         !this.StatsForm.CurrentSettings.PlayerByConsoleType;
                     this.StatsForm.SaveUserSettings();
-                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
+                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
                     return;
                 case Keys.R:
                     this.StatsForm.CurrentSettings.ColorByRoundType =
                         !this.StatsForm.CurrentSettings.ColorByRoundType;
                     this.StatsForm.SaveUserSettings();
-                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized);
+                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs, this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo, this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight, this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
                     return;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
                     return;
@@ -930,7 +941,7 @@ namespace FallGuysStats {
                 case 5: BackColor = Color.Blue; break;
             }
         }
-        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont) {
+        public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {
             this.FlipDisplay(false);
             
             int heightOffset = showTabs ? 35 : 0;
@@ -1244,6 +1255,13 @@ namespace FallGuysStats {
                 SetFonts(this, -1, fontConverter.ConvertFromString(serializedFont) as Font);
             } else {
                 SetFonts(this);
+            }
+            
+            if (!string.IsNullOrEmpty(serializedFontColor)) {
+                ColorConverter colorConverter = new ColorConverter();
+                SetFontColor((Color)colorConverter.ConvertFromString(serializedFontColor));
+            } else {
+                SetDefaultFontColor();
             }
             
             this.Background = RecreateBackground();

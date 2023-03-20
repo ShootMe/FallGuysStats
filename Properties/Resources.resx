@@ -136,11 +136,20 @@
     <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="export_gray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\export_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="delete" type="System.Resources.ResXFileRef, System.Windows.Forms" >
         <value>..\Resources\delete.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="delete_gray" type="System.Resources.ResXFileRef, System.Windows.Forms" >
+        <value>..\Resources\delete_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="move" type="System.Resources.ResXFileRef, System.Windows.Forms" >
         <value>..\Resources\move.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="move_gray" type="System.Resources.ResXFileRef, System.Windows.Forms" >
+        <value>..\Resources\move_gray.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="fallguys_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\fallguys_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -202,8 +211,14 @@
     <data name="github_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\github_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="github_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\github_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="profile_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\profile_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="profile_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\profile_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="profile2_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\profile2_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -217,14 +232,26 @@
     <data name="filter_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\filter_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="filter_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\filter_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="final_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\final_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="final_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\final_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="setting_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\setting_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="setting_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\setting_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="clock_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\clock_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="clock_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\clock_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="crown_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\crown_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -286,8 +313,14 @@
     <data name="link_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\link_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="link_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\link_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="transform_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\transform_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="transform_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\transform_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
 
     <data name="round_blast_ball_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">

@@ -6,16 +6,14 @@ using System.Windows.Forms;
 
 namespace FallGuysStats {
     public class ImageItem {
-        // Public Field
-        #region Field
+        #region Public Field
         public Image Image;
         public string ResourceName;
         public string Text;
         public Font Font;
         #endregion
 
-        // Private Field
-        #region Field
+        #region Private Field
         private const int MARGIN_WIDTH = 2;
         private const int MARGIN_HEIGHT = 2;
         private int width;
@@ -23,8 +21,7 @@ namespace FallGuysStats {
         private bool sizeCalculated = false;
         #endregion
 
-        // Public Constructor
-        #region Constructor - ImageItem(image, text, font)
+        #region Public Constructor - ImageItem(image, text, font)
         public ImageItem(Image image, string resourceName,string text, Font font) {
             this.Image = image;
             this.ResourceName = resourceName;
@@ -33,8 +30,7 @@ namespace FallGuysStats {
         }
         #endregion
 
-        // Public Method
-        #region MeasureItem(e)
+        #region Public Method - MeasureItem(e)
         public void MeasureItem(MeasureItemEventArgs e) {
             if(!this.sizeCalculated) {
                 this.sizeCalculated = true;
@@ -47,8 +43,8 @@ namespace FallGuysStats {
         }
         #endregion
         
-        #region DrawItem(e)
-        public void DrawItem(DrawItemEventArgs e) {
+        #region Public Method - DrawItem(e)
+        public void DrawItem(DrawItemEventArgs e, Color foreColor) {
             e.DrawBackground();
             
             float height = e.Bounds.Height - 2 * MARGIN_HEIGHT;
@@ -63,13 +59,14 @@ namespace FallGuysStats {
                 height
             );
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            if (e.Bounds.Height <= 20) {
-                e.Graphics.DrawImage(e.Index > 0 ? this.BrightnessImage(this.Image, 60) : this.Image, rectangle);
-            } else {
-                e.Graphics.DrawImage(this.Image, rectangle);
-            }
+            e.Graphics.DrawImage(this.Image, rectangle);
+            //if (e.Bounds.Height <= 25) {
+            //    e.Graphics.DrawImage(e.Index > 0 ? this.BrightnessImage(this.Image, 60) : this.Image, rectangle);
+            //} else {
+            //    e.Graphics.DrawImage(this.Image, rectangle);
+            //}
             
-            if (e.Bounds.Height <= 20) {
+            if (e.Bounds.Height <= 25) {
                 //string visibleText = this.Text;
 
                 //if(e.Bounds.Height < this.Image.Height) {
@@ -81,7 +78,7 @@ namespace FallGuysStats {
                 rectangle = new RectangleF
                 (
                     (rectangle.Right + 2 * MARGIN_WIDTH),
-                    (rectangle.Y + 2),
+                    (rectangle.Y),
                     width,
                     height
                 );
@@ -90,10 +87,10 @@ namespace FallGuysStats {
                     stringFormat.Alignment = StringAlignment.Far;
                     stringFormat.LineAlignment = StringAlignment.Far;
 
-                    //e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-                    //e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                    //e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                    e.Graphics.DrawString(this.Text, this.Font, Brushes.Black, rectangle, stringFormat);
+                    e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                    e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(foreColor), rectangle, stringFormat);
                 }
 
                 //e.Graphics.DrawRectangle(Pens.Blue, Rectangle.Round(rectangle));
@@ -103,8 +100,9 @@ namespace FallGuysStats {
         }
         #endregion
         
-        private Bitmap BrightnessImage(Image imSource, int iBrightness) {
-            Bitmap btTmp = new Bitmap(imSource);
+        #region private Method - BrightnessImage(imgSource, iBrightness)
+        private Bitmap BrightnessImage(Image imgSource, int iBrightness) {
+            Bitmap btTmp = new Bitmap(imgSource);
             Color cTmp;
             int iR, iG, iB;
             for (int iY = 0; iY < btTmp.Height; iY++) {
@@ -123,5 +121,6 @@ namespace FallGuysStats {
             }
             return btTmp;
         }
+        #endregion
     }
 }
