@@ -1,28 +1,39 @@
 ﻿using System;
+using System.Collections;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using MetroFramework;
+using MetroFramework.Controls;
+
 namespace FallGuysStats {
-    public partial class Settings : Form {
+    public partial class Settings : MetroFramework.Forms.MetroForm {
+        protected override CreateParams CreateParams {
+            get {
+                var cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
+        }
         private string overlayFontSerialized = string.Empty;
+        private string overlayFontColorSerialized = string.Empty;
         public UserSettings CurrentSettings { get; set; }
         public Stats StatsForm { get; set; }
         private int LaunchPlatform;
         private int DisplayLang;
+        private bool CboOverlayBackgroundIsFocus;
         public Settings() {
             this.InitializeComponent();
         }
         private void Settings_Load(object sender, EventArgs e) {
+            this.SuspendLayout();
+            this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.ResumeLayout(false);
+            
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
-            switch (Stats.CurrentLanguage) {
-                case 0: this.cboMultilingual.SelectedItem = "English"; break;
-                case 1: this.cboMultilingual.SelectedItem = "한국어"; break;
-                case 2: this.cboMultilingual.SelectedItem = "日本語"; break;
-                case 3: this.cboMultilingual.SelectedItem = "简体中文"; break;
-            }
+            this.cboMultilingual.SelectedIndex = Stats.CurrentLanguage;
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
@@ -59,6 +70,7 @@ namespace FallGuysStats {
             this.chkOverlayOnTop.Checked = !this.CurrentSettings.OverlayNotOnTop;
             this.chkPlayerByConsoleType.Checked = this.CurrentSettings.PlayerByConsoleType;
             this.chkColorByRoundType.Checked = this.CurrentSettings.ColorByRoundType;
+            this.chkAutoChangeProfile.Checked = this.CurrentSettings.AutoChangeProfile;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -69,21 +81,63 @@ namespace FallGuysStats {
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
+            ArrayList imageItemArray = new ArrayList();
+            if (Directory.Exists("Overlay")) {
+                DirectoryInfo di = new DirectoryInfo("Overlay");
+                foreach (FileInfo file in di.GetFiles()) {
+                    if (file.Name.Equals("background.png") || file.Name.Equals("tab.png")) continue;
+                    string fileName = file.Name.Substring(0, file.Name.Length - 4);
+                    Bitmap background = new Bitmap(file.FullName);
+                    //if (background.Width == 396 && background.Height == 43) continue;
+                    if (background.Width == 786 && background.Height == 99) {
+                        imageItemArray.Add(new ImageItem(background, new[] { fileName, $"tab_{fileName}" }, fileName, this.Font, true));
+                    }
+                }
+            }
+            
+            ImageItem[] imageItems = {
+                new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
+                new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
+                new ImageItem(Properties.Resources.background_coffee, new[] { "background_coffee", "tab_unselected_coffee" }, "Coffee", this.Font, false),
+                new ImageItem(Properties.Resources.background_dove, new[] { "background_dove", "tab_unselected_dove" }, "Dove", this.Font, false),
+                new ImageItem(Properties.Resources.background_fall_guys_logo, new[] { "background_fall_guys_logo", "tab_unselected_fall_guys_logo" }, "Fall Guys Logo", this.Font, false),
+                new ImageItem(Properties.Resources.background_helter_skelter, new[] { "background_helter_skelter", "tab_unselected_helter_skelter" }, "Helter Skelter", this.Font, false),
+                new ImageItem(Properties.Resources.background_hex_a_thon, new[] { "background_hex_a_thon", "tab_unselected_hex_a_thon" }, "Hex A Thon", this.Font, false),
+                new ImageItem(Properties.Resources.background_ill_be_slime, new[] { "background_ill_be_slime", "tab_unselected_ill_be_slime" }, "I'll Be Slime", this.Font, false),
+                new ImageItem(Properties.Resources.background_mockingbird, new[] { "background_mockingbird", "tab_unselected_mockingbird" }, "Mocking Bird", this.Font, false),
+                new ImageItem(Properties.Resources.background_newlove, new[] { "background_newlove", "tab_unselected_newlove" }, "New Love", this.Font, false),
+                new ImageItem(Properties.Resources.background_parade_guy, new[] { "background_parade_guy", "tab_unselected_parade_guy" }, "Parade Guy", this.Font, false),
+                new ImageItem(Properties.Resources.background_party_pegwin, new[] { "background_party_pegwin", "tab_unselected_party_pegwin" }, "Party Pegwin", this.Font, false),
+                new ImageItem(Properties.Resources.background_penguin, new[] { "background_penguin", "tab_unselected_penguin" }, "Penguin", this.Font, false),
+                new ImageItem(Properties.Resources.background_suits_you, new[] { "background_suits_you", "tab_unselected_suits_you" }, "Suits You", this.Font, false),
+                new ImageItem(Properties.Resources.background_sunny_guys, new[] { "background_sunny_guys", "tab_unselected_sunny_guys" }, "Sunny Guys", this.Font, false),
+                new ImageItem(Properties.Resources.background_ta_da, new[] { "background_ta_da", "tab_unselected_ta_da" }, "Ta Da", this.Font, false),
+                new ImageItem(Properties.Resources.background_timeattack, new[] { "background_timeattack", "tab_unselected_timeattack" }, "Time Attack", this.Font, false),
+                new ImageItem(Properties.Resources.background_watermelon, new[] { "background_watermelon", "tab_unselected_watermelon" }, "Watermelon", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_01, new[] { "background_wallpaper_01", "tab_unselected_wallpaper_01" }, "Wallpaper 01", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_02, new[] { "background_wallpaper_02", "tab_unselected_wallpaper_02" }, "Wallpaper 02", this.Font, false),
+                new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
+            };
+            imageItemArray.AddRange(imageItems);
+
+            this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
+
             switch (this.CurrentSettings.OverlayColor) {
-                case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
-                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
-                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
-                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
-                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
-                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
+                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
+                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
+                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
+                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
             switch (this.CurrentSettings.WinsFilter) {
-                case 0: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
-                case 1: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
-                case 2: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
-                case 3: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
-                case 4: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
-                case 5: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
+                case 0: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
+                case 1: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
+                case 2: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
+                case 3: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
+                case 4: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
+                case 5: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
             switch (this.CurrentSettings.QualifyFilter) {
                 case 0: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
@@ -94,12 +148,12 @@ namespace FallGuysStats {
                 case 5: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
             switch (this.CurrentSettings.FastestFilter) {
-                case 0: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
-                case 1: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
-                case 2: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
-                case 3: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
-                case 4: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
-                case 5: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
+                case 0: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
+                case 1: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
+                case 2: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
+                case 3: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
+                case 4: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
+                case 5: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
 
             this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
@@ -107,7 +161,7 @@ namespace FallGuysStats {
             this.chkAutoLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
             
-            this.picPlatformCheck.Image = this.ChangeOpacity(this.picPlatformCheck.Image, 0.8F);
+            this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
@@ -127,33 +181,127 @@ namespace FallGuysStats {
             } else {
                 this.lblOverlayFontExample.Font = Overlay.DefaultFont;
             }
+
+            if (!string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized)) {
+                this.overlayFontColorSerialized = this.CurrentSettings.OverlayFontColorSerialized;
+                ColorConverter colorConverter = new ColorConverter();
+                this.lblOverlayFontExample.ForeColor = (Color)colorConverter.ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized);
+            } else {
+                this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            }
+        }
+        
+        private void SetTheme(MetroThemeStyle theme) {
+            this.Theme = theme;
+            this.cboOverlayBackground_blur();
+            foreach (Control c1 in Controls) {
+                if (c1 is MetroLabel ml1) {
+                    ml1.Theme = theme;
+                } else if (c1 is MetroTextBox mtb1) {
+                    mtb1.Theme = theme;
+                } else if (c1 is MetroButton mb1) {
+                    mb1.Theme = theme;
+                } else if (c1 is MetroCheckBox mcb1) {
+                    mcb1.Theme = theme;
+                } else if (c1 is MetroRadioButton mrb1) {
+                    mrb1.Theme = theme;
+                } else if (c1 is MetroComboBox mcbo1) {
+                    mcbo1.Theme = theme;
+                } else if (c1 is GroupBox gb1) {
+                    if (this.Theme == MetroThemeStyle.Dark) {
+                        gb1.ForeColor = Color.DarkGray;
+                    } else if (this.Theme == MetroThemeStyle.Light) {
+                        gb1.ForeColor = Color.Black;
+                    }
+                    foreach (Control c2 in gb1.Controls) {
+                        if (c2 is MetroLabel ml2) {
+                            ml2.Theme = theme;
+                        } else if (c2 is MetroTextBox mtb2) {
+                            mtb2.Theme = theme;
+                        } else if (c2 is MetroButton mb2) {
+                            mb2.Theme = theme;
+                        } else if (c2 is MetroCheckBox mcb2) {
+                            mcb2.Theme = theme;
+                        } else if (c2 is MetroRadioButton mrb2) {
+                            mrb2.Theme = theme;
+                        } else if (c2 is MetroComboBox mcbo2) {
+                            mcbo2.Theme = theme;
+                        } else if (c2 is GroupBox gb2) {
+                            if (this.Theme == MetroThemeStyle.Dark) {
+                                gb2.ForeColor = Color.DarkGray;
+                            } else if (this.Theme == MetroThemeStyle.Light) {
+                                gb2.ForeColor = Color.Black;
+                            }
+                            foreach (Control c3 in gb2.Controls) {
+                                if (c3 is MetroRadioButton mrb3) {
+                                    mrb3.Theme = theme;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
+            this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.Invalidate(true);
+        }
+        private void cboOverlayBackground_blur() {
+            if (this.Theme == MetroThemeStyle.Dark) {
+                this.cboOverlayBackground.ForeColor = Color.DarkGray;
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
+                    
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(153,153,153);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153,153,153);
+            } else if (this.Theme == MetroThemeStyle.Light) {
+                this.cboOverlayBackground.ForeColor = Color.FromArgb(153, 153, 153);
+                this.cboOverlayBackground.BackColor = Color.White;
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
+            }
+        }
+        private void cboOverlayBackground_focus() {
+            if (this.Theme == MetroThemeStyle.Dark) {
+                this.cboOverlayBackground.ForeColor = Color.FromArgb(204,204,204);
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
+                    
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(204,204,204);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170,170,170);
+            } else if (this.Theme == MetroThemeStyle.Light) {
+                this.cboOverlayBackground.ForeColor = Color.Black;
+                this.cboOverlayBackground.BackColor = Color.White;
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(17, 17, 17);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(17, 17, 17);
+            }
+        }
+        private void cboOverlayBackground_MouseEnter(object sender, EventArgs e) {
+            if (!this.CboOverlayBackgroundIsFocus) {
+                this.cboOverlayBackground_focus();
+            }
+        }
+        private void cboOverlayBackground_GotFocus(object sender, EventArgs e) {
+            this.CboOverlayBackgroundIsFocus = true;
+            this.cboOverlayBackground_focus();
+        }
+        private void cboOverlayBackground_MouseLeave(object sender, EventArgs e) {
+            if (!this.CboOverlayBackgroundIsFocus) {
+                this.cboOverlayBackground_blur();
+            }
+        }
+        private void cboOverlayBackground_LostFocus(object sender, EventArgs e) {
+            this.CboOverlayBackgroundIsFocus = false;
+            this.cboOverlayBackground_blur();
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            switch ((string)this.cboMultilingual.SelectedItem) {
-                case "English":
-                    Stats.CurrentLanguage = 0;
-                    this.CurrentSettings.Multilingual = 0;
-                    break;
-                case "한국어":
-                    Stats.CurrentLanguage = 1;
-                    this.CurrentSettings.Multilingual = 1;
-                    break;
-                case "日本語":
-                    Stats.CurrentLanguage = 2;
-                    this.CurrentSettings.Multilingual = 2;
-                    break;
-                case "简体中文":
-                    Stats.CurrentLanguage = 3;
-                    this.CurrentSettings.Multilingual = 3;
-                    break;
-                default:
-                    Stats.CurrentLanguage = 0;
-                    this.CurrentSettings.Multilingual = 0;
-                    break;
-            }
+            Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
+            this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
 
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
+            
+            this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
@@ -217,6 +365,7 @@ namespace FallGuysStats {
             this.CurrentSettings.OverlayNotOnTop = !this.chkOverlayOnTop.Checked;
             this.CurrentSettings.PlayerByConsoleType = this.chkPlayerByConsoleType.Checked;
             this.CurrentSettings.ColorByRoundType = this.chkColorByRoundType.Checked;
+            this.CurrentSettings.AutoChangeProfile = this.chkAutoChangeProfile.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -235,27 +384,32 @@ namespace FallGuysStats {
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
 
-            if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_magenta")}") {
+            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[0];
+            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[1];
+            this.CurrentSettings.OverlayBackground = this.cboOverlayBackground.SelectedIndex;
+            this.CurrentSettings.IsOverlayBackgroundCustomized = ((ImageItem)this.cboOverlayBackground.SelectedItem).IsCustomized;
+
+            if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_transparent")}") {
                 this.CurrentSettings.OverlayColor = 0;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
-                this.CurrentSettings.OverlayColor = 1;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_red")}") {
-                this.CurrentSettings.OverlayColor = 2;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_transparent")}") {
-                this.CurrentSettings.OverlayColor = 3;
             } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_black")}") {
-                this.CurrentSettings.OverlayColor = 4;
+                this.CurrentSettings.OverlayColor = 1;
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_magenta")}") {
+                this.CurrentSettings.OverlayColor = 2;
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_red")}") {
+                this.CurrentSettings.OverlayColor = 3;
             } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_green")}") {
+                this.CurrentSettings.OverlayColor = 4;
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
                 this.CurrentSettings.OverlayColor = 5;
             }
             
-            if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
+            if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.WinsFilter = 0;
-            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_season_stats")}") {
+            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
                 this.CurrentSettings.WinsFilter = 1;
-            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_week_stats")}") {
+            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_season_stats")}") {
                 this.CurrentSettings.WinsFilter = 2;
-            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
+            } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_week_stats")}") {
                 this.CurrentSettings.WinsFilter = 3;
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_day_stats")}") {
                 this.CurrentSettings.WinsFilter = 4;
@@ -321,9 +475,14 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = fontConverter.ConvertToString(this.lblOverlayFontExample.Font);
             } else {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
-                Overlay.DefaultFont = Stats.CurrentLanguage == 0 
-                    ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                    : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+                Overlay.SetDefaultFont(Stats.CurrentLanguage, 18);
+            }
+            
+            if (!string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
+                ColorConverter colorConverter = new ColorConverter();
+                this.CurrentSettings.OverlayFontColorSerialized = colorConverter.ConvertToString(this.lblOverlayFontExample.ForeColor);
+            } else {
+                this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
             }
             
             this.DialogResult = DialogResult.OK;
@@ -413,21 +572,25 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = true;
                 this.txtGameExeLocation.Visible = false;
 
-                if (this.DisplayLang == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(254, 22);
-                    this.txtGameShortcutLocation.Size = new Size(420, 20);
+                if (this.DisplayLang == 0) { // English
+                    this.txtGameShortcutLocation.Location = new Point(267, 23);
+                    this.txtGameShortcutLocation.Size = new Size(508, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "eng");
-                } else if (this.DisplayLang == 1) {
-                    this.txtGameShortcutLocation.Location = new Point(236, 22);
-                    this.txtGameShortcutLocation.Size = new Size(438, 20);
+                } else if (this.DisplayLang == 1) { // French
+                    this.txtGameShortcutLocation.Location = new Point(215, 23);
+                    this.txtGameShortcutLocation.Size = new Size(560, 25);
+                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "fre");
+                } else if (this.DisplayLang == 2) { // Korean
+                    this.txtGameShortcutLocation.Location = new Point(278, 23);
+                    this.txtGameShortcutLocation.Size = new Size(497, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "kor");
-                } else if (this.DisplayLang == 2) {
-                    this.txtGameShortcutLocation.Location = new Point(311, 22);
-                    this.txtGameShortcutLocation.Size = new Size(362, 20);
+                } else if (this.DisplayLang == 3) { // Japanese
+                    this.txtGameShortcutLocation.Location = new Point(293, 23);
+                    this.txtGameShortcutLocation.Size = new Size(482, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "jpn");
-                } else if (this.DisplayLang == 3) {
-                    this.txtGameShortcutLocation.Location = new Point(227, 22);
-                    this.txtGameShortcutLocation.Size = new Size(447, 20);
+                } else if (this.DisplayLang == 4) { // Simplified Chinese
+                    this.txtGameShortcutLocation.Location = new Point(252, 23);
+                    this.txtGameShortcutLocation.Size = new Size(523, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "chs");
                 }
 
@@ -440,197 +603,269 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = false;
                 this.txtGameExeLocation.Visible = true;
 
-                if (this.DisplayLang == 0) {
-                    this.txtGameExeLocation.Location = new Point(224, 22);
-                    this.txtGameExeLocation.Size = new Size(450, 20);
+                if (this.DisplayLang == 0) { // English
+                    this.txtGameExeLocation.Location = new Point(240, 23);
+                    this.txtGameExeLocation.Size = new Size(535, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "eng");
-                } else if (this.DisplayLang == 1) {
-                    this.txtGameExeLocation.Location = new Point(215, 22);
-                    this.txtGameExeLocation.Size = new Size(459, 20);
+                } else if (this.DisplayLang == 1) { // French
+                    this.txtGameExeLocation.Location = new Point(195, 23);
+                    this.txtGameExeLocation.Size = new Size(580, 25);
+                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "fre");
+                } else if (this.DisplayLang == 2) { // Korean
+                    this.txtGameExeLocation.Location = new Point(250, 23);
+                    this.txtGameExeLocation.Size = new Size(525, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "kor");
-                } else if (this.DisplayLang == 2) {
-                    this.txtGameExeLocation.Location = new Point(300, 22);
-                    this.txtGameExeLocation.Size = new Size(374, 20);
+                } else if (this.DisplayLang == 3) { // Japanese
+                    this.txtGameExeLocation.Location = new Point(280, 23);
+                    this.txtGameExeLocation.Size = new Size(495, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "jpn");
-                } else if (this.DisplayLang == 3) {
-                    this.txtGameExeLocation.Location = new Point(203, 22);
-                    this.txtGameExeLocation.Size = new Size(471, 20);
+                } else if (this.DisplayLang == 4) { // Simplified Chinese
+                    this.txtGameExeLocation.Location = new Point(224, 23);
+                    this.txtGameExeLocation.Size = new Size(551, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "chs");
                 }
 
                 this.LaunchPlatform = 1;
             }
+            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
         }
         private void btnCancel_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
         private void btnSelectFont_Click(object sender, EventArgs e) {
-            this.dlgOverlayFont.Font = this.lblOverlayFontExample.Font;
+            if (string.IsNullOrEmpty(this.overlayFontSerialized)) {
+                this.dlgOverlayFont.Font = Overlay.GetDefaultFont(this.DisplayLang, 24);
+            } else {
+                this.dlgOverlayFont.Font = new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, ((byte)(1)));
+            }
+
+            this.dlgOverlayFont.ShowColor = true;
+            if (string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
+                this.dlgOverlayFont.Color = Color.White;
+            } else {
+                this.dlgOverlayFont.Color = this.lblOverlayFontExample.ForeColor;
+            }
+
             if (this.dlgOverlayFont.ShowDialog(this) == DialogResult.OK) {
-                this.lblOverlayFontExample.Font = this.dlgOverlayFont.Font;
-                this.overlayFontSerialized = new FontConverter().ConvertToString(this.dlgOverlayFont.Font);
+                if (this.dlgOverlayFont.Color == Color.White) {
+                    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    this.overlayFontColorSerialized = string.Empty;
+                } else {
+                    this.lblOverlayFontExample.ForeColor = this.dlgOverlayFont.Color;
+                    this.overlayFontColorSerialized = new ColorConverter().ConvertToString(this.lblOverlayFontExample.ForeColor);
+                }
+
+                this.lblOverlayFontExample.Font = new Font(this.dlgOverlayFont.Font.FontFamily, this.dlgOverlayFont.Font.Size, this.dlgOverlayFont.Font.Style, GraphicsUnit.Pixel, ((byte)(1)));
+                this.overlayFontSerialized = new FontConverter().ConvertToString(this.lblOverlayFontExample.Font);
             }
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
-            this.lblOverlayFontExample.Font = this.cboMultilingual.SelectedIndex == 0
-                ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
+            
+            this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.overlayFontColorSerialized = string.Empty;
+            
             this.overlayFontSerialized = string.Empty;
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
+            if (this.DisplayLang == ((ComboBox)sender).SelectedIndex) return;
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
-        private Bitmap ChangeOpacity(Image imgData, float opacity) {
-            Bitmap bmpTmp = new Bitmap(imgData.Width, imgData.Height);
-            Graphics gp = Graphics.FromImage(bmpTmp);
-            ColorMatrix clrMatrix = new ColorMatrix();
-            clrMatrix.Matrix33 = opacity;
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            gp.DrawImage(imgData, new Rectangle(0, 0, bmpTmp.Width, bmpTmp.Height), 0, 0, imgData.Width, imgData.Height, GraphicsUnit.Pixel, imgAttribute);
-            gp.Dispose();
-
-            return bmpTmp;
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == Keys.Tab) {
+                SendKeys.Send("%");
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
+
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
-            this.Font = new Font(Overlay.DefaultFontCollection.Families[0], 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
+            this.Font = Overlay.GetMainFont(12, this.DisplayLang);
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
-            this.lblOverlayFontExample.Font = this.cboMultilingual.SelectedIndex == 0
-                ? new Font(Overlay.DefaultFontCollection.Families[1], 18, FontStyle.Regular, GraphicsUnit.Pixel)
-                : new Font(Overlay.DefaultFontCollection.Families[0], 18, FontStyle.Regular, GraphicsUnit.Pixel);
-            if (lang == 0) { // English
-                this.txtLogPath.Location = new Point(98, 15);
-                this.txtLogPath.Size = new Size(667, 17);
-                this.lblLogPathNote.Location = new Point(95, 40);
-                
-                this.grpStats.Font = new Font(Font.FontFamily, 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.txtPreviousWins.Location = new Point(94, 23);
-                this.lblPreviousWinsNote.Location = new Point(140, 23);
-                this.chkAutoUpdate.Location = new Point(285, 23);
-                this.chkChangeHoopsieLegends.Location = new Point(446, 23);
-                
-                this.lblWinsFilter.Location = new Point(400, 28);
-                this.lblQualifyFilter.Location = new Point(390, 64);
-                this.lblFastestFilter.Location = new Point(365, 100);
-                
-                this.lblOverlayColor.Location = new Point(429, 173);
-                
-                this.txtCycleTimeSeconds.Location = new Point(96, 171);
-                this.lblCycleTimeSecondsTag.Location = new Point(127, 170);
-                this.grpLaunchPlatform.Size = new Size(88, 56);
-                this.lblGameExeLocation.Location = new Point(107, 24);
-                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
+            
+            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
+            this.overlayFontSerialized = string.Empty;
+            this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.overlayFontColorSerialized = string.Empty;
+            //if (string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
+            //    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            //    this.overlayFontColorSerialized = string.Empty;
+            //}
+            
+            this.chkChangeHoopsieLegends.Visible = true;
+            this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
+
+            if (this.DisplayLang == 0) {
+                // English
+                this.txtLogPath.Location = new Point(103, 73);
+                this.txtLogPath.Size = new Size(760, 22);
+                this.lblLogPathNote.Location = new Point(103, 98);
+
+                this.txtPreviousWins.Location = new Point(116, 55);
+                this.lblPreviousWinsNote.Location = new Point(166, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+
+                this.lblWinsFilter.Location = new Point(471, 20);
+                this.lblQualifyFilter.Location = new Point(457, 55);
+                this.lblFastestFilter.Location = new Point(443, 90);
+                this.lblOverlayBackground.Location = new Point(461, 125);
+                this.lblOverlayColor.Location = new Point(502, 160);
+
+                this.txtCycleTimeSeconds.Location = new Point(90, 192);
+                this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
+
+                this.grpLaunchPlatform.Size = new Size(97, 60);
+                this.lblGameExeLocation.Location = new Point(113, 23);
+                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(254, 22);
-                    this.txtGameShortcutLocation.Size = new Size(420, 20);
+                    this.txtGameShortcutLocation.Location = new Point(267, 23);
+                    this.txtGameShortcutLocation.Size = new Size(508, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
-                    this.txtGameExeLocation.Location = new Point(224, 22);
-                    this.txtGameExeLocation.Size = new Size(450, 20);
+                    this.txtGameExeLocation.Location = new Point(267, 23);
+                    this.txtGameExeLocation.Size = new Size(508, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
-            } else if (lang == 1) { // Korean
-                this.txtLogPath.Location = new Point(95, 15);
-                this.txtLogPath.Size = new Size(670, 17);
-                this.lblLogPathNote.Location = new Point(95, 40);
-                
-                this.grpStats.Font = new Font(Font.FontFamily, 12, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.txtPreviousWins.Location = new Point(94, 23);
-                this.lblPreviousWinsNote.Location = new Point(140, 23);
-                this.chkAutoUpdate.Location = new Point(285, 23);
-                this.chkChangeHoopsieLegends.Location = new Point(446, 23);
-                
-                this.lblWinsFilter.Location = new Point(391, 28);
-                this.lblQualifyFilter.Location = new Point(405, 64);
-                this.lblFastestFilter.Location = new Point(367, 100);
-                
-                this.lblOverlayColor.Location = new Point(414, 173);
-                
-                this.txtCycleTimeSeconds.Location = new Point(83, 171);
-                this.lblCycleTimeSecondsTag.Location = new Point(114, 170);
-                this.grpLaunchPlatform.Size = new Size(88, 56);
-                this.lblGameExeLocation.Location = new Point(107, 24);
-                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
+            } else if (this.DisplayLang == 1) {
+                // French
+                this.txtLogPath.Location = new Point(188, 73);
+                this.txtLogPath.Size = new Size(675, 22);
+                this.lblLogPathNote.Location = new Point(188, 98);
+
+                this.txtPreviousWins.Location = new Point(116, 55);
+                this.lblPreviousWinsNote.Location = new Point(166, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+
+                this.lblWinsFilter.Location = new Point(447, 20);
+                this.lblQualifyFilter.Location = new Point(460, 55);
+                this.lblFastestFilter.Location = new Point(413, 90);
+                this.lblOverlayBackground.Location = new Point(483, 125);
+                this.lblOverlayColor.Location = new Point(497, 160);
+
+                this.txtCycleTimeSeconds.Location = new Point(190, 192);
+                this.lblCycleTimeSecondsTag.Location = new Point(218, 192);
+
+                this.grpLaunchPlatform.Size = new Size(97, 60);
+                this.lblGameExeLocation.Location = new Point(113, 23);
+                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(236, 22);
-                    this.txtGameShortcutLocation.Size = new Size(438, 20);
+                    this.txtGameShortcutLocation.Location = new Point(215, 23);
+                    this.txtGameShortcutLocation.Size = new Size(560, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
-                    this.txtGameExeLocation.Location = new Point(214, 22);
-                    this.txtGameExeLocation.Size = new Size(460, 20);
+                    this.txtGameExeLocation.Location = new Point(195, 23);
+                    this.txtGameExeLocation.Size = new Size(580, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
-            } else if (lang == 2) { // Japanese
-                this.txtLogPath.Location = new Point(123, 15);
-                this.txtLogPath.Size = new Size(644, 17);
-                this.lblLogPathNote.Location = new Point(73, 40);
-                
-                this.grpStats.Font = new Font(Font.FontFamily, 10.25F, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.txtPreviousWins.Location = new Point(98, 23);
-                this.lblPreviousWinsNote.Location = new Point(140, 23);
-                this.chkAutoUpdate.Location = new Point(275, 23);
-                this.chkChangeHoopsieLegends.Location = new Point(387, 23);
+            } else if (this.DisplayLang == 2) {
+                // Korean
+                this.txtLogPath.Location = new Point(114, 73);
+                this.txtLogPath.Size = new Size(749, 22);
+                this.lblLogPathNote.Location = new Point(114, 98);
 
-                this.lblWinsFilter.Location = new Point(355, 28);
-                this.lblQualifyFilter.Location = new Point(355, 64);
-                this.lblFastestFilter.Location = new Point(331, 100);
-                
-                this.lblOverlayColor.Location = new Point(363, 173);
-                
-                this.txtCycleTimeSeconds.Location = new Point(105, 171);
-                this.lblCycleTimeSecondsTag.Location = new Point(135, 170);
-                this.grpLaunchPlatform.Size = new Size(125, 56);
-                this.lblGameExeLocation.Location = new Point(147, 24);
-                this.chkAutoLaunchGameOnStart.Location = new Point(150, 54);
+                this.txtPreviousWins.Location = new Point(116, 55);
+                this.lblPreviousWinsNote.Location = new Point(166, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+
+                this.lblWinsFilter.Location = new Point(439, 20);
+                this.lblQualifyFilter.Location = new Point(457, 55);
+                this.lblFastestFilter.Location = new Point(407, 90);
+                this.lblOverlayBackground.Location = new Point(452, 125);
+                this.lblOverlayColor.Location = new Point(466, 160);
+
+                this.txtCycleTimeSeconds.Location = new Point(90, 192);
+                this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
+
+                this.grpLaunchPlatform.Size = new Size(97, 60);
+                this.lblGameExeLocation.Location = new Point(113, 23);
+                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(311, 22);
-                    this.txtGameShortcutLocation.Size = new Size(362, 20);
+                    this.txtGameShortcutLocation.Location = new Point(278, 23);
+                    this.txtGameShortcutLocation.Size = new Size(497, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
-                    this.txtGameExeLocation.Location = new Point(300, 22);
-                    this.txtGameExeLocation.Size = new Size(374, 20);
+                    this.txtGameExeLocation.Location = new Point(250, 23);
+                    this.txtGameExeLocation.Size = new Size(525, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
-            } else if (lang == 3) { // Simplified Chinese
-                this.txtLogPath.Location = new Point(97, 15);
-                this.txtLogPath.Size = new Size(668, 17);
-                this.lblLogPathNote.Location = new Point(95, 40);
+            } else if (this.DisplayLang == 3) {
+                // Japanese
+                this.txtLogPath.Location = new Point(136, 73);
+                this.txtLogPath.Size = new Size(727, 22);
+                this.lblLogPathNote.Location = new Point(67, 98);
 
-                this.grpStats.Font = new Font(Font.FontFamily, 10.25F, FontStyle.Regular, GraphicsUnit.Pixel, ((byte)(0)));
-                this.txtPreviousWins.Location = new Point(98, 23);
-                this.lblPreviousWinsNote.Location = new Point(140, 23);
-                this.chkAutoUpdate.Location = new Point(275, 23);
-                this.chkChangeHoopsieLegends.Location = new Point(387, 23);
+                this.txtPreviousWins.Location = new Point(121, 55);
+                this.lblPreviousWinsNote.Location = new Point(166, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(390, 55);
 
-                // Disabled following settings due to not applicable.
-                this.chkChangeHoopsieLegends.Visible = false;
-                this.chkChangeHoopsieLegends.Checked = false;
-                
-                this.lblWinsFilter.Location = new Point(410, 28);
-                this.lblQualifyFilter.Location = new Point(410, 64);
-                this.lblFastestFilter.Location = new Point(410, 100);
+                this.lblWinsFilter.Location = new Point(405, 20);
+                this.lblQualifyFilter.Location = new Point(405, 55);
+                this.lblFastestFilter.Location = new Point(376, 90);
+                this.lblOverlayBackground.Location = new Point(432, 125);
+                this.lblOverlayColor.Location = new Point(418, 160);
 
-                this.lblOverlayColor.Location = new Point(469, 173);
+                this.txtCycleTimeSeconds.Location = new Point(110, 192);
+                this.lblCycleTimeSecondsTag.Location = new Point(138, 192);
 
-                this.txtCycleTimeSeconds.Location = new Point(85, 170);
-                this.lblCycleTimeSecondsTag.Location = new Point(115, 172);
-                this.grpLaunchPlatform.Size = new Size(88, 56);
-                this.lblGameExeLocation.Location = new Point(107, 24);
-                this.chkAutoLaunchGameOnStart.Location = new Point(110, 54);
+                this.grpLaunchPlatform.Size = new Size(97, 60);
+                this.lblGameExeLocation.Location = new Point(113, 23);
+                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(227, 22);
-                    this.txtGameShortcutLocation.Size = new Size(447, 20);
+                    this.txtGameShortcutLocation.Location = new Point(293, 23);
+                    this.txtGameShortcutLocation.Size = new Size(482, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 } else {
-                    this.txtGameExeLocation.Location = new Point(203, 22);
-                    this.txtGameExeLocation.Size = new Size(471, 20);
+                    this.txtGameExeLocation.Location = new Point(280, 23);
+                    this.txtGameExeLocation.Size = new Size(495, 25);
+                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
+                }
+            } else if (this.DisplayLang == 4) {
+                // Simplified Chinese
+                this.txtLogPath.Location = new Point(109, 73);
+                this.txtLogPath.Size = new Size(754, 22);
+                this.lblLogPathNote.Location = new Point(109, 98);
+
+                this.txtPreviousWins.Location = new Point(110, 55);
+                this.lblPreviousWinsNote.Location = new Point(155, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+
+                this.lblWinsFilter.Location = new Point(467, 20);
+                this.lblQualifyFilter.Location = new Point(467, 55);
+                this.lblFastestFilter.Location = new Point(467, 90);
+                this.lblOverlayBackground.Location = new Point(522, 125);
+                this.lblOverlayColor.Location = new Point(536, 160);
+
+                this.txtCycleTimeSeconds.Location = new Point(87, 192);
+                this.lblCycleTimeSecondsTag.Location = new Point(116, 192);
+
+                this.grpLaunchPlatform.Size = new Size(97, 60);
+                this.lblGameExeLocation.Location = new Point(113, 23);
+                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                if (this.LaunchPlatform == 0) {
+                    this.txtGameShortcutLocation.Location = new Point(252, 23);
+                    this.txtGameShortcutLocation.Size = new Size(523, 25);
+                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
+                } else {
+                    this.txtGameExeLocation.Location = new Point(224, 23);
+                    this.txtGameExeLocation.Size = new Size(551, 25);
                     this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 }
             }
 
+            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
+
+            this.lblTheme.Text = Multilingual.GetWord("settings_theme");
+            this.cboTheme.Items.Clear();
+            this.cboTheme.Items.AddRange(new object[] {
+                Multilingual.GetWord("settings_theme_light"),
+                Multilingual.GetWord("settings_theme_dark"),
+            });
+            switch (this.CurrentSettings.Theme) {
+                case 0: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_light"); break;
+                case 1: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_dark"); break;
+            }
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
@@ -643,27 +878,58 @@ namespace FallGuysStats {
             this.chkCycleFastestLongest.Text = Multilingual.GetWord("settings_cycle_fastest__longest");
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
+
+            //ImageItem[] imageItemArray = {
+            //    new ImageItem(Properties.Resources.background, "", "Default", this.Font),
+            //    new ImageItem(Properties.Resources.background_candycane, "candycane", "Candy Cane", this.Font),
+            //    new ImageItem(Properties.Resources.background_coffee, "coffee", "Coffee", this.Font),
+            //    new ImageItem(Properties.Resources.background_dove, "dove", "Dove", this.Font),
+            //    new ImageItem(Properties.Resources.background_fall_guys_logo, "fall_guys_logo", "Fall Guys Logo", this.Font),
+            //    new ImageItem(Properties.Resources.background_helter_skelter, "helter_skelter", "Helter Skelter", this.Font),
+            //    new ImageItem(Properties.Resources.background_hex_a_thon, "hex_a_thon", "Hex A Thon", this.Font),
+            //    new ImageItem(Properties.Resources.background_ill_be_slime, "ill_be_slime", "I'll Be Slime", this.Font),
+            //    new ImageItem(Properties.Resources.background_mockingbird, "mockingbird", "Mocking Bird", this.Font),
+            //    new ImageItem(Properties.Resources.background_newlove, "newlove", "New Love", this.Font),
+            //    new ImageItem(Properties.Resources.background_parade_guy, "parade_guy", "Parade Guy", this.Font),
+            //    new ImageItem(Properties.Resources.background_party_pegwin, "party_pegwin", "Party Pegwin", this.Font),
+            //    new ImageItem(Properties.Resources.background_penguin, "penguin", "Penguin", this.Font),
+            //    new ImageItem(Properties.Resources.background_suits_you, "suits_you", "Suits You", this.Font),
+            //    new ImageItem(Properties.Resources.background_sunny_guys, "sunny_guys", "Sunny Guys", this.Font),
+            //    new ImageItem(Properties.Resources.background_ta_da, "ta_da", "Ta Da", this.Font),
+            //    new ImageItem(Properties.Resources.background_timeattack, "timeattack", "Time Attack", this.Font),
+            //    new ImageItem(Properties.Resources.background_watermelon, "watermelon", "Watermelon", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_01, "wallpaper_01", "Wallpaper 01", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_02, "wallpaper_02", "Wallpaper 02", this.Font),
+            //    new ImageItem(Properties.Resources.background_wallpaper_03, "wallpaper_03", "Wallpaper 03", this.Font),
+            //};
+            //this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            //this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
+
             this.cboOverlayColor.Items.Clear();
             this.cboOverlayColor.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_transparent"),
+                Multilingual.GetWord("settings_black"),
                 Multilingual.GetWord("settings_magenta"),
                 Multilingual.GetWord("settings_red"),
                 Multilingual.GetWord("settings_green"),
-                Multilingual.GetWord("settings_blue"),
-                Multilingual.GetWord("settings_black")});
+                Multilingual.GetWord("settings_blue")
+            });
             switch (this.CurrentSettings.OverlayColor) {
-                case 0: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
-                case 1: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
-                case 2: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
-                case 3: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
-                case 4: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
-                case 5: cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
+                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
+                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
+                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
+                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
+
+            this.lblOverlayBackground.Text = Multilingual.GetWord("settings_background_image");
             this.lblOverlayColor.Text = Multilingual.GetWord("settings_background");
             this.chkFlipped.Text = Multilingual.GetWord("settings_flip_display_horizontally");
             this.chkShowTabs.Text = Multilingual.GetWord("settings_show_tab_for_currnet_filter__profile");
             this.chkHideTimeInfo.Text = Multilingual.GetWord("settings_hide_time_info");
             this.chkHideRoundInfo.Text = Multilingual.GetWord("settings_hide_round_info");
+
             this.cboFastestFilter.Items.Clear();
             this.cboFastestFilter.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_all_time_stats"),
@@ -671,16 +937,19 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_season_stats"),
                 Multilingual.GetWord("settings_week_stats"),
                 Multilingual.GetWord("settings_day_stats"),
-                Multilingual.GetWord("settings_session_stats")});
-            switch (this.CurrentSettings.WinsFilter) {
-                case 0: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
-                case 1: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
-                case 2: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
-                case 3: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
-                case 4: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
-                case 5: cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
+                Multilingual.GetWord("settings_session_stats")
+            });
+            switch (this.CurrentSettings.FastestFilter) {
+                case 0: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
+                case 1: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
+                case 2: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
+                case 3: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
+                case 4: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
+                case 5: this.cboFastestFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
+
             this.lblFastestFilter.Text = Multilingual.GetWord("settings_fastest__longest_filter");
+
             this.cboQualifyFilter.Items.Clear();
             this.cboQualifyFilter.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_all_time_stats"),
@@ -688,16 +957,19 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_season_stats"),
                 Multilingual.GetWord("settings_week_stats"),
                 Multilingual.GetWord("settings_day_stats"),
-                Multilingual.GetWord("settings_session_stats")});
+                Multilingual.GetWord("settings_session_stats")
+            });
             switch (this.CurrentSettings.QualifyFilter) {
-                case 0: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
-                case 1: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
-                case 2: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
-                case 3: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
-                case 4: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
-                case 5: cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
+                case 0: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
+                case 1: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
+                case 2: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
+                case 3: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
+                case 4: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
+                case 5: this.cboQualifyFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
+
             this.lblQualifyFilter.Text = Multilingual.GetWord("settings_qualify__gold_filter");
+
             this.cboWinsFilter.Items.Clear();
             this.cboWinsFilter.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_all_time_stats"),
@@ -705,19 +977,22 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_season_stats"),
                 Multilingual.GetWord("settings_week_stats"),
                 Multilingual.GetWord("settings_day_stats"),
-                Multilingual.GetWord("settings_session_stats")});
-            switch (this.CurrentSettings.FastestFilter) {
-                case 0: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
-                case 1: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
-                case 2: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
-                case 3: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
-                case 4: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
-                case 5: cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
+                Multilingual.GetWord("settings_session_stats")
+            });
+            switch (this.CurrentSettings.WinsFilter) {
+                case 0: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
+                case 1: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_stats_and_party_filter"); break;
+                case 2: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_season_stats"); break;
+                case 3: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_week_stats"); break;
+                case 4: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_day_stats"); break;
+                case 5: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_session_stats"); break;
             }
+
             this.lblWinsFilter.Text = Multilingual.GetWord("settings_wins__final_filter");
             this.chkOverlayOnTop.Text = Multilingual.GetWord("settings_always_show_on_top");
             this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_the_player_by_console_type");
             this.chkColorByRoundType.Text = Multilingual.GetWord("settings_display_the_color_by_round_type");
+            this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");
@@ -748,6 +1023,7 @@ namespace FallGuysStats {
             this.Text = Multilingual.GetWord("settings_title");
 
             Stats.CurrentLanguage = tempLanguage;
+            this.Invalidate(true);
         }
     }
 }
