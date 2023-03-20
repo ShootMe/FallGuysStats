@@ -4,8 +4,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using MetroFramework;
+using MetroFramework.Controls;
 namespace FallGuysStats {
-    public partial class EditProfiles : Form {
+    public partial class EditProfiles : MetroFramework.Forms.MetroForm {
         public List<Profiles> Profiles { get; set; }
         public List<RoundInfo> AllStats { get; set; }
         public Stats StatsForm { get; set; }
@@ -13,7 +15,7 @@ namespace FallGuysStats {
         private DataGridViewComboBoxColumn cboShowsList;
         private int selectedRowIndex;
 
-        private string[] _shows = {
+        private readonly string[] _shows = {
             "",
             "main_show",
             "squads_2player_template",
@@ -35,14 +37,101 @@ namespace FallGuysStats {
             "event_pixel_palooza_template",
             "private_lobbies"
         };
+        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 
         public EditProfiles() => this.InitializeComponent();
 
         private void EditProfiles_Load(object sender, EventArgs e) {
+            this.ProfileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.ProfileList.DefaultCellStyle = dataGridViewCellStyle2;
+            this.SuspendLayout();
+            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.ResumeLayout(false);
             this.ChangeLanguage();
             this.InitProfileList();
             this.ReloadProfileList();
             this.ProfileList.ClearSelection();
+        }
+        
+        private void SetTheme(MetroThemeStyle theme) {
+            this.Theme = theme;
+            
+            if (this.Theme == MetroThemeStyle.Light) {
+                this.dataGridViewCellStyle1.BackColor = Color.LightGray;
+                this.dataGridViewCellStyle1.ForeColor = Color.Black;
+                this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
+                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            
+                this.dataGridViewCellStyle2.BackColor = Color.White;
+                this.dataGridViewCellStyle2.ForeColor = Color.Black;
+                this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
+                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            } else if (this.Theme == MetroThemeStyle.Dark) {
+                this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2,2,2);
+                this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
+                this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
+                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            
+                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(16,16,16);
+                this.dataGridViewCellStyle2.ForeColor = Color.DarkGray;
+                this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
+                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+                
+                this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(16, 36, 46);
+                this.ProfileList.AlternatingRowsDefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            }
+            
+            foreach (Control c1 in Controls) {
+                if (c1 is MetroLabel ml1) {
+                    ml1.Theme = theme;
+                } else if (c1 is MetroTextBox mtb1) {
+                    mtb1.Theme = theme;
+                } else if (c1 is MetroButton mb1) {
+                    mb1.Theme = theme;
+                } else if (c1 is MetroCheckBox mcb1) {
+                    mcb1.Theme = theme;
+                } else if (c1 is MetroRadioButton mrb1) {
+                    mrb1.Theme = theme;
+                } else if (c1 is MetroComboBox mcbo1) {
+                    mcbo1.Theme = theme;
+                } else if (c1 is MetroTabControl mtc1) {
+                    mtc1.Theme = theme;
+                    foreach (Control c2 in mtc1.Controls) {
+                        if (c2 is MetroTabPage mtp2) {
+                            mtp2.Theme = theme;
+                            foreach (Control c3 in mtp2.Controls) {
+                                if (c3 is MetroLabel ml3) {
+                                    ml3.Theme = theme;
+                                } else if (c3 is MetroTextBox mtb3) {
+                                    mtb3.Theme = theme;
+                                } else if (c3 is MetroButton mb3) {
+                                    mb3.Theme = theme;
+                                } else if (c3 is MetroCheckBox mcb3) {
+                                    mcb3.Theme = theme;
+                                } else if (c3 is MetroRadioButton mrb3) {
+                                    mrb3.Theme = theme;
+                                } else if (c3 is MetroComboBox mcbo3) {
+                                    mcbo3.Theme = theme;
+                                }
+                            }
+                        }
+                    }
+                } else if (c1 is GroupBox gb1) {
+                    if (this.Theme == MetroThemeStyle.Dark) {
+                        gb1.ForeColor = Color.DarkGray;
+                    } else if (this.Theme == MetroThemeStyle.Light) {
+                        gb1.ForeColor = Color.Black;
+                    }
+                    foreach (Control c2 in gb1.Controls) {
+                        if (c2 is MetroButton ml2) {
+                            ml2.Theme = theme;
+                        } else if (c2 is DataGridView dgv2) {
+                            //dgv2.Theme = theme;
+                        }
+                    }
+                }
+            }
         }
 
         private void InitProfileList() {
@@ -52,7 +141,6 @@ namespace FallGuysStats {
             showsData.Columns.Add("showName");
             showsData.Columns.Add("showId");
             foreach (string showId in _shows) {
-                //if (this.Profiles.FindIndex(item => item.LinkedShowId == showId) != -1) continue;
                 showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
             }
 
@@ -281,7 +369,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.Font = new Font(Overlay.GetMainFontFamilies(), 9, FontStyle.Regular, GraphicsUnit.Point, ((byte)(0)));
+            this.Font = Overlay.GetMainFont(12);
             this.Text = Multilingual.GetWord("profile_title");
             this.groupBox1.Text = Multilingual.GetWord("profile_list");
             this.AddTabPage.Text = Multilingual.GetWord("profile_add_tab");
@@ -303,40 +391,40 @@ namespace FallGuysStats {
             //this.UndoChangeButton.Text = Multilingual.GetWord("profile_undo_change_button");
             
             if (Stats.CurrentLanguage == 0) { // English
-                this.AddPageTextbox.Location =        new Point(100, 10);
-                this.RenamePageCombobox.Location =    new Point(100, 10);
-                this.RenamePageTextbox.Location =     new Point(100, 44);
-                this.MoveFromCombobox.Location =      new Point(71, 10);
-                this.MoveToCombobox.Location =        new Point(71, 44);
-                this.RemoveProfileCombobox.Location = new Point(65, 10);
+                this.AddPageTextbox.Location =        new Point(96, 10);
+                this.RenamePageCombobox.Location =    new Point(96, 7);
+                this.RenamePageTextbox.Location =     new Point(96, 45);
+                this.MoveFromCombobox.Location =      new Point(96, 7);
+                this.MoveToCombobox.Location =        new Point(96, 45);
+                this.RemoveProfileCombobox.Location = new Point(96, 7);
             } else if (Stats.CurrentLanguage == 1) { // French
-                this.AddPageTextbox.Location =        new Point(100, 10);
-                this.RenamePageCombobox.Location =    new Point(100, 10);
-                this.RenamePageTextbox.Location =     new Point(100, 44);
-                this.MoveFromCombobox.Location =      new Point(71, 10);
-                this.MoveToCombobox.Location =        new Point(71, 44);
-                this.RemoveProfileCombobox.Location = new Point(65, 10);
+                this.AddPageTextbox.Location =        new Point(96, 10);
+                this.RenamePageCombobox.Location =    new Point(96, 7);
+                this.RenamePageTextbox.Location =     new Point(96, 45);
+                this.MoveFromCombobox.Location =      new Point(96, 7);
+                this.MoveToCombobox.Location =        new Point(96, 45);
+                this.RemoveProfileCombobox.Location = new Point(96, 7);
             } else if (Stats.CurrentLanguage == 2) { // Korean
-                this.AddPageTextbox.Location =        new Point(76, 7);
-                this.RenamePageCombobox.Location =    new Point(76, 7);
-                this.RenamePageTextbox.Location =     new Point(76, 41);
-                this.MoveFromCombobox.Location =      new Point(76, 7);
-                this.MoveToCombobox.Location =        new Point(76, 41);
-                this.RemoveProfileCombobox.Location = new Point(76, 7);
+                this.AddPageTextbox.Location =        new Point(96, 10);
+                this.RenamePageCombobox.Location =    new Point(96, 7);
+                this.RenamePageTextbox.Location =     new Point(96, 45);
+                this.MoveFromCombobox.Location =      new Point(96, 7);
+                this.MoveToCombobox.Location =        new Point(96, 45);
+                this.RemoveProfileCombobox.Location = new Point(96, 7);
             } else if (Stats.CurrentLanguage == 3) { // Japanese
-                this.AddPageTextbox.Location =        new Point(110, 8);
-                this.RenamePageCombobox.Location =    new Point(110, 8);
-                this.RenamePageTextbox.Location =     new Point(110, 44);
-                this.MoveFromCombobox.Location =      new Point(81, 10);
-                this.MoveToCombobox.Location =        new Point(81, 44);
-                this.RemoveProfileCombobox.Location = new Point(95, 10);
+                this.AddPageTextbox.Location =        new Point(130, 10);
+                this.RenamePageCombobox.Location =    new Point(130, 7);
+                this.RenamePageTextbox.Location =     new Point(130, 45);
+                this.MoveFromCombobox.Location =      new Point(96, 7);
+                this.MoveToCombobox.Location =        new Point(96, 45);
+                this.RemoveProfileCombobox.Location = new Point(130, 7);
             } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
-                this.AddPageTextbox.Location =        new Point(110, 8);
-                this.RenamePageCombobox.Location =    new Point(110, 8);
-                this.RenamePageTextbox.Location =     new Point(110, 44);
-                this.MoveFromCombobox.Location =      new Point(81, 10);
-                this.MoveToCombobox.Location =        new Point(81, 44);
-                this.RemoveProfileCombobox.Location = new Point(95, 10);
+                this.AddPageTextbox.Location =        new Point(120, 10);
+                this.RenamePageCombobox.Location =    new Point(120, 7);
+                this.RenamePageTextbox.Location =     new Point(120, 45);
+                this.MoveFromCombobox.Location =      new Point(96, 7);
+                this.MoveToCombobox.Location =        new Point(96, 45);
+                this.RemoveProfileCombobox.Location = new Point(96, 7);
             }
         }
     }

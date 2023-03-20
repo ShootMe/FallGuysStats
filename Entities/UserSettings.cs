@@ -3,6 +3,7 @@
         public int ID { get; set; }
         public int Multilingual { get; set; }
         public string LogPath { get; set; }
+        public int Theme { get; set; }
         public int FilterType { get; set; }
         public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
@@ -58,5 +59,6 @@
         public string GameShortcutLocation { get; set; }
         public bool AutoLaunchGameOnStartup { get; set; }
         public string OverlayFontSerialized { get; set; }
+        public string OverlayFontColorSerialized { get; set; }
     }
 }
