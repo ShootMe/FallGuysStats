@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -35,7 +36,7 @@ namespace FallGuysStats {
                 for (int i = 0; i < processes.Length; i++) {
                     if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
                     if (processCount > 1) {
-                        MessageBox.Show(@"Stats is already running.", @"Already Running");
+                        MessageBox.Show(@"Fall Guys Stats is already running.", @"Already Running");
                         return true;
                     }
                 }
@@ -157,13 +158,12 @@ namespace FallGuysStats {
             this.StatsDB.BeginTrans();
 
             if (this.Profiles.Count() == 0) {
-                using (SelectLanguage initLanguage = new SelectLanguage()) {
-                    initLanguage.Icon = this.Icon;
-                    if (initLanguage.ShowDialog(this) == DialogResult.OK) {
-                        CurrentLanguage = initLanguage.selectedLanguage;
+                using (SelectLanguage initLanguageForm = new SelectLanguage()) {
+                    initLanguageForm.Icon = this.Icon;
+                    if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
+                        CurrentLanguage = initLanguageForm.selectedLanguage;
                         Overlay.SetDefaultFont(CurrentLanguage, 18);
-                        //Overlay.DefaultFont = new Font(Overlay.GetDefaultFontFamilies(), 18, FontStyle.Regular, GraphicsUnit.Pixel);
-                        this.CurrentSettings.Multilingual = initLanguage.selectedLanguage;
+                        this.CurrentSettings.Multilingual = initLanguageForm.selectedLanguage;
                         this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 4, LinkedShowId = "private_lobbies" });
                         this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3, LinkedShowId = "squads_4player" });
                         this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template" });
@@ -173,8 +173,7 @@ namespace FallGuysStats {
             }
             
             this.ChangeMainLanguage();
-            //this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} {Multilingual.GetWord("main_multilingual")} {Multilingual.GetWord("main_by")} {Multilingual.GetWord("author")} {Multilingual.GetWord("main_on_twitch")}";
-            this.Text = $"　  Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
+            this.Text = $"　  {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
@@ -195,11 +194,13 @@ namespace FallGuysStats {
 
             this.overlay = new Overlay { StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName};
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
-            this.overlay.isFixedPositionNe = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("ne");
-            this.overlay.isFixedPositionNw = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("nw");
-            this.overlay.isFixedPositionSe = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("se");
-            this.overlay.isFixedPositionSw = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("sw");
-            this.overlay.isPositionLock = !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("free");
+            this.overlay.SetFixedPosition(
+                    !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("ne"),
+                    !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("nw"),
+                    !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("se"),
+                    !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("sw"),
+                    !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("free")
+                );
             if (this.overlay.IsFixed()) this.overlay.Cursor = Cursors.Default;
             this.overlay.Show();
             this.overlay.Visible = false;
@@ -256,7 +257,6 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
                 //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                //this.dataGridViewCellStyle2.BackColor = Color.FromArgb(32,32,32);
                 this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
                 this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
@@ -266,9 +266,6 @@ namespace FallGuysStats {
             if (this.Theme == MetroThemeStyle.Light) {
                 foreach (Control c1 in Controls) {
                     if (c1 is MenuStrip ms1) {
-                        //ms1.ForeColor = Color.Black;
-                        //ms1.MouseEnter += this.menu_MouseEnter;
-                        //ms1.MouseLeave += this.menu_MouseLeave;
                         foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
                             if (tsmi1.Name.Equals("menuSettings")) {
                                 tsmi1.Image = Properties.Resources.setting_icon;
@@ -326,9 +323,6 @@ namespace FallGuysStats {
             } else if (this.Theme == MetroThemeStyle.Dark) {
                 foreach (Control c1 in Controls) {
                     if (c1 is MenuStrip ms1) {
-                        //ms1.ForeColor = Color.DarkGray;
-                        //ms1.MouseEnter += this.menu_MouseEnter;
-                        //ms1.MouseLeave += this.menu_MouseLeave;
                         foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
                             if (tsmi1.Name.Equals("menuSettings")) {
                                 tsmi1.Image = Properties.Resources.setting_gray_icon;
@@ -1021,6 +1015,16 @@ namespace FallGuysStats {
                 this.CurrentSettings.QualifyFilter = 1;
                 this.CurrentSettings.FastestFilter = 1;
                 this.CurrentSettings.Version = 25;
+                this.SaveUserSettings();
+            }
+
+            if (this.CurrentSettings.Version == 25) {
+                this.CurrentSettings.OverlayBackground = 0;
+                this.CurrentSettings.OverlayBackgroundResourceName = string.Empty;
+                this.CurrentSettings.OverlayTabResourceName = string.Empty;
+                this.CurrentSettings.IsOverlayBackgroundCustomized = false;
+                this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
+                this.CurrentSettings.Version = 26;
                 this.SaveUserSettings();
             }
         }
@@ -2310,9 +2314,10 @@ namespace FallGuysStats {
                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
                 if (index > 0) {
                     int indexEnd = assemblyInfo.IndexOf("\")", index);
+                    Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
-                    if (newVersion > Assembly.GetEntryAssembly().GetName().Version) {
-                        if (silent || MessageBox.Show(this, $"{Multilingual.GetWord("message_update_question_prefix")} (v{newVersion.ToString(2)}) {Multilingual.GetWord("message_update_question_suffix")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                    if (newVersion > currentVersion) {
+                        if (silent || MessageBox.Show(this, $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStats.zip");
                             string exeName = null;
                             using (MemoryStream ms = new MemoryStream(data)) {
@@ -2328,8 +2333,8 @@ namespace FallGuysStats {
                             }
 
                             Process.Start(new ProcessStartInfo(exeName));
-                            Visible = false;
-                            Close();
+                            this.Visible = false;
+                            this.Close();
                             return true;
                         }
                     } else if (!silent) {
@@ -2478,8 +2483,7 @@ namespace FallGuysStats {
             return screen;
         }
         private void ChangeMainLanguage() {
-            //this.Text = $"　  Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
-            //this.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} {Multilingual.GetWord("main_multilingual")} {Multilingual.GetWord("main_by")} {Multilingual.GetWord("author")} {Multilingual.GetWord("main_on_twitch")}";
+            this.Text = $"　  {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.menu.Font = Overlay.GetMainFont(12);
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
