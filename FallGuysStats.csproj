@@ -199,6 +199,8 @@
     <EmbeddedResource Include="Resources\font\NotoSans-Regular.ttf" />
     <EmbeddedResource Include="Resources\font\TitanOne-Regular.ttf" />
     <EmbeddedResource Include="Resources\font\NotoSansSC-Regular.otf" />
+    <EmbeddedResource Include="Resources\overlay\background.png" />
+    <EmbeddedResource Include="Resources\overlay\tab_unselected.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\player_icon.png" />
@@ -268,6 +270,7 @@
     <None Include="Resources\switch_lock_icon.png" />
     <None Include="Resources\switch_unlock_icon.png" />
     <None Include="Resources\link_icon.png" />
+    <None Include="Resources\link_on_icon.png" />
     <None Include="Resources\link_gray_icon.png" />
     <None Include="Resources\transform_icon.png" />
     <None Include="Resources\transform_gray_icon.png" />
@@ -352,7 +355,6 @@
     <None Include="Resources\round_icon\team\icon_RocknRoll.png" />
     <None Include="Resources\round_icon\team\icon_SnowyScrap.png" />
     <None Include="Resources\round_icon\team\icon_TeamTailTag.png" />
-    <EmbeddedResource Include="Resources\overlay\background.png" />
     <None Include="Resources\overlay\background_candycane.png" />
     <None Include="Resources\overlay\background_coffee.png" />
     <None Include="Resources\overlay\tab_unselected_dove.png" />
@@ -374,8 +376,7 @@
     <None Include="Resources\overlay\background_wallpaper_03.png" />
     <None Include="Resources\overlay\background_watermelon.png" />
     <None Include="Resources\overlay\background_dove.png" />
-    <EmbeddedResource Include="Resources\overlay\tab_selected.png" />
-    <None Include="Resources\overlay\tab_unselected.png" />
+    <None Include="Resources\overlay\tab_selected.png" />
     <None Include="Resources\overlay\tab_unselected_candycane.png" />
     <None Include="Resources\overlay\tab_unselected_coffee.png" />
     <None Include="Resources\overlay\tab_unselected_fall_guys_logo.png" />

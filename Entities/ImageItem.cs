@@ -8,9 +8,10 @@ namespace FallGuysStats {
     public class ImageItem {
         #region Public Field
         public Image Image;
-        public string ResourceName;
+        public string[] ResourceName;
         public string Text;
         public Font Font;
+        public bool IsCustomized;
         #endregion
 
         #region Private Field
@@ -22,11 +23,12 @@ namespace FallGuysStats {
         #endregion
 
         #region Public Constructor - ImageItem(image, text, font)
-        public ImageItem(Image image, string resourceName,string text, Font font) {
+        public ImageItem(Image image, string[] resourceName,string text, Font font, bool isCustomized) {
             this.Image = image;
             this.ResourceName = resourceName;
             this.Text  = text;
             this.Font  = font;
+            this.IsCustomized = isCustomized;
         }
         #endregion
 
