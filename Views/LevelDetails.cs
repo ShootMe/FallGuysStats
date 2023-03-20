@@ -33,7 +33,6 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
                 //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                //this.dataGridViewCellStyle2.BackColor = Color.FromArgb(16,16,16);
                 this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
                 this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
@@ -344,9 +343,9 @@ namespace FallGuysStats {
                 }
 
                 if (colorSwitch) {
-                    //this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(16, 36, 46);
-                    this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 58, 66);
-                    this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.White;
+                    //this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 58, 66);
+                    this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+                    this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
                 }
             }
         }

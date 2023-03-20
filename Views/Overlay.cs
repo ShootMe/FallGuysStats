@@ -151,6 +151,13 @@ namespace FallGuysStats {
             this.DoubleBuffered = true;
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
+        public void SetFixedPosition(bool positonNE, bool positonNW, bool positonSE, bool positonSW, bool positonFree) {
+            this.isFixedPositionNe = positonNE;
+            this.isFixedPositionNw = positonNW;
+            this.isFixedPositionSe = positonSE;
+            this.isFixedPositionSw = positonSW;
+            this.isPositionLock = positonFree;
+        }
         public void SetBackgroundResourcesName(string backgound, string tab) {
             this.BackgroundResourceName = backgound;
             this.TabResourceName = tab;
