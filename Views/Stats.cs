@@ -105,15 +105,15 @@ namespace FallGuysStats {
         private int currentProfile;
         private Color infoStripForeColor;
         
-        private Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.7F);
-        private Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.7F);
-        private Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.7F);
-        private Image numberFour = ImageOpacity(Properties.Resources.number_4,  0.7F);
-        private Image numberFive = ImageOpacity(Properties.Resources.number_5,  0.7F);
-        private Image numberSix = ImageOpacity(Properties.Resources.number_6,   0.7F);
-        private Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.7F);
-        private Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.7F);
-        private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.7F);
+        private Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
+        private Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
+        private Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
+        private Image numberFour = ImageOpacity(Properties.Resources.number_4,  0.5F);
+        private Image numberFive = ImageOpacity(Properties.Resources.number_5,  0.5F);
+        private Image numberSix = ImageOpacity(Properties.Resources.number_6,   0.5F);
+        private Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
+        private Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
+        private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
