@@ -764,7 +764,7 @@ namespace FallGuysStats {
                             this.lblFinish.TextRight = $"　{Time:m\\:ss\\.ff}";
                         }
 
-                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "ROCK'N'ROLL" || roundName == "SNOWY SCRAP") {
+                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "ROCK 'N' ROLL" || roundName == "SNOWY SCRAP") {
                             if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
