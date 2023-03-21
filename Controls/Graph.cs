@@ -75,8 +75,8 @@ namespace FallGuysStats {
             this.XColumn = 0;
             this.DrawPoints = true;
         }
-        public void SetDataColors(Color[] DataColors) {
-            Colors = DataColors;
+        public void SetDataColors(Color[] dataColors) {
+            Colors = dataColors;
             this.RefreshColors();
         }
         private void RefreshColors() {
