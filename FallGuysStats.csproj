@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <ApplicationIcon>Resources\fall2.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,9 +37,6 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\fall.ico</ApplicationIcon>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseUpdate|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE;AllowUpdate</DefineConstants>
@@ -52,6 +50,18 @@
     <Reference Include="LiteDB">
       <HintPath>.\LiteDB.dll</HintPath>
     </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,11 +70,16 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ImageComboBox.cs" />
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,6 +89,7 @@
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Entities\ImageItem.cs" />
     <Compile Include="Entities\Json.cs" />
     <Compile Include="Entities\LevelType.cs" />
     <Compile Include="Entities\LineReader.cs" />
@@ -92,6 +108,12 @@
     </Compile>
     <Compile Include="Views\EditProfiles.Designer.cs">
       <DependentUpon>EditProfiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SelectLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SelectLanguage.Designer.cs">
+      <DependentUpon>SelectLanguage.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\LevelDetails.cs">
       <SubType>Form</SubType>
@@ -135,6 +157,9 @@
     <EmbeddedResource Include="Views\EditProfiles.resx">
       <DependentUpon>EditProfiles.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\SelectLanguage.resx">
+      <DependentUpon>SelectLanguage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LevelDetails.resx">
       <DependentUpon>LevelDetails.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,6 +186,7 @@
     <EmbeddedResource Include="Views\StatsDisplay.resx">
       <DependentUpon>StatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -170,9 +196,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-
     <EmbeddedResource Include="Resources\font\NotoSans-Regular.ttf" />
     <EmbeddedResource Include="Resources\font\TitanOne-Regular.ttf" />
+    <EmbeddedResource Include="Resources\font\NotoSansSC-Regular.otf" />
+    <EmbeddedResource Include="Resources\overlay\background.png" />
+    <EmbeddedResource Include="Resources\overlay\tab_unselected.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\player_icon.png" />
@@ -184,12 +212,13 @@
     <None Include="Resources\stat_gray_icon.png" />
     <None Include="Resources\fallguys_icon.png" />
     <None Include="Resources\export.png" />
+    <None Include="Resources\export_gray.png" />
     <None Include="Resources\delete.png" />
+    <None Include="Resources\delete_gray.png" />
     <None Include="Resources\move.png" />
-    <None Include="Resources\tab_unselected.png" />
-    <None Include="Resources\tab_selected.png" />
-    <None Include="Resources\background.png" />
+    <None Include="Resources\move_gray.png" />
     <None Include="Resources\fall.ico" />
+    <None Include="Resources\fall2.ico" />
     <None Include="Resources\medal_silver.png" />
     <None Include="Resources\medal_pink.png" />
     <None Include="Resources\medal_gold.png" />
@@ -207,14 +236,22 @@
     <None Include="Resources\number_9.png" />
     <None Include="Resources\number_10.png" />
     <None Include="Resources\github_icon.png" />
+    <None Include="Resources\github_gray_icon.png" />  
     <None Include="Resources\profile_icon.png" />
+    <None Include="Resources\profile_gray_icon.png" />
     <None Include="Resources\profile2_icon.png" />
+    <None Include="Resources\profile2_linked_icon.png" />
+    <None Include="Resources\profile2_unlinked_icon.png" />
     <None Include="Resources\filter_icon.png" />
+    <None Include="Resources\filter_gray_icon.png" />
     <None Include="Resources\final_icon.png" />
+    <None Include="Resources\final_gray_icon.png" />
     <None Include="Resources\setting_icon.png" />
+    <None Include="Resources\setting_gray_icon.png" />
     <None Include="Resources\crown_icon.png" />
     <None Include="Resources\kudos_icon.png" />
     <None Include="Resources\clock_icon.png" />
+    <None Include="Resources\clock_gray_icon.png" />
     <None Include="Resources\language_icon.png" />
     <None Include="Resources\checkmark_icon.png" />
     <None Include="Resources\uncheckmark_icon.png" />
@@ -222,6 +259,143 @@
     <None Include="Resources\steam_icon.png" />
     <None Include="Resources\epic_main_icon.png" />
     <None Include="Resources\steam_main_icon.png" />
+    <None Include="Resources\position_ne_off_icon.png" />
+    <None Include="Resources\position_nw_off_icon.png" />
+    <None Include="Resources\position_se_off_icon.png" />
+    <None Include="Resources\position_sw_off_icon.png" />
+    <None Include="Resources\position_ne_on_icon.png" />
+    <None Include="Resources\position_nw_on_icon.png" />
+    <None Include="Resources\position_se_on_icon.png" />
+    <None Include="Resources\position_sw_on_icon.png" />
+    <None Include="Resources\switch_lock_icon.png" />
+    <None Include="Resources\switch_unlock_icon.png" />
+    <None Include="Resources\link_icon.png" />
+    <None Include="Resources\link_on_icon.png" />
+    <None Include="Resources\link_gray_icon.png" />
+    <None Include="Resources\transform_icon.png" />
+    <None Include="Resources\transform_gray_icon.png" />
+    <None Include="Resources\round_icon\final\icon_Blast_Ball.png" />
+    <None Include="Resources\round_icon\final\icon_FallMountain.png" />
+    <None Include="Resources\round_icon\final\icon_Hex-A-Ring.png" />
+    <None Include="Resources\round_icon\final\icon_Hex-A-Terrestrial.png" />
+    <None Include="Resources\round_icon\final\icon_HexAGone.png" />
+    <None Include="Resources\round_icon\final\icon_JumpShowdown.png" />
+    <None Include="Resources\round_icon\final\icon_Kraken_Slam.png" />
+    <None Include="Resources\round_icon\final\icon_LostTemple.png" />
+    <None Include="Resources\round_icon\final\icon_RollOff.png" />
+    <None Include="Resources\round_icon\final\icon_RoyalFumble.png" />
+    <None Include="Resources\round_icon\final\icon_ThinIce.png" />
+    <None Include="Resources\round_icon\final\icon_TipToeFinale.png" />
+    <None Include="Resources\round_icon\hunt\icon_Airtime.png" />
+    <None Include="Resources\round_icon\hunt\icon_Bean_Hill_Zone.png" />
+    <None Include="Resources\round_icon\hunt\icon_Bounce_Party.png" />
+    <None Include="Resources\round_icon\hunt\icon_BubbleTrouble.png" />
+    <None Include="Resources\round_icon\hunt\icon_ButtonBashers.png" />
+    <None Include="Resources\round_icon\hunt\icon_Frantic_Factory.png" />
+    <None Include="Resources\round_icon\hunt\icon_HoopsieLegends.png" />
+    <None Include="Resources\round_icon\hunt\icon_Hoop_Chute.png" />
+    <None Include="Resources\round_icon\hunt\icon_Leading_Light.png" />
+    <None Include="Resources\round_icon\hunt\icon_PegwinPoolParty.png" />
+    <None Include="Resources\round_icon\hunt\icon_TailTag.png" />
+    <None Include="Resources\round_icon\hunt\icon_Volleyfall.png" />
+    <None Include="Resources\round_icon\invisibeans\icon_Sweet_Thieves.png" />
+    <None Include="Resources\round_icon\logic\icon_PerfectMatch.png" />
+    <None Include="Resources\round_icon\logic\icon_SumFruit.png" />
+    <None Include="Resources\round_icon\race\icon_BigFans.png" />
+    <None Include="Resources\round_icon\race\icon_CosmicHighway.png" />
+    <None Include="Resources\round_icon\race\icon_DizzyHeights.png" />
+    <None Include="Resources\round_icon\race\icon_DoorDash.png" />
+    <None Include="Resources\round_icon\race\icon_FreezyPeak.png" />
+    <None Include="Resources\round_icon\race\icon_FruitChute.png" />
+    <None Include="Resources\round_icon\race\icon_Full_Tilt.png" />
+    <None Include="Resources\round_icon\race\icon_GateCrash.png" />
+    <None Include="Resources\round_icon\race\icon_HitParade.png" />
+    <None Include="Resources\round_icon\race\icon_KnightFever.png" />
+    <None Include="Resources\round_icon\race\icon_LilyLeapers.png" />
+    <None Include="Resources\round_icon\race\icon_Party_Promenade.png" />
+    <None Include="Resources\round_icon\race\icon_Pipe_Dream.png" />
+    <None Include="Resources\round_icon\race\icon_Pixel_Painters.png" />
+    <None Include="Resources\round_icon\race\icon_Puzzle_Path.png" />
+    <None Include="Resources\round_icon\race\icon_RollOn.png" />
+    <None Include="Resources\round_icon\race\icon_SeeSaw.png" />
+    <None Include="Resources\round_icon\race\icon_ShortCircuit.png" />
+    <None Include="Resources\round_icon\race\icon_SkiFall.png" />
+    <None Include="Resources\round_icon\race\icon_SkylineStumble.png" />
+    <None Include="Resources\round_icon\race\icon_SlimeClimb.png" />
+    <None Include="Resources\round_icon\race\icon_SpaceRace.png" />
+    <None Include="Resources\round_icon\race\icon_Speed_Circuit.png" />
+    <None Include="Resources\round_icon\race\icon_Speed_Slider.png" />
+    <None Include="Resources\round_icon\race\icon_Starchart.png" />
+    <None Include="Resources\round_icon\race\icon_TheSlimescraper.png" />
+    <None Include="Resources\round_icon\race\icon_TheWhirlygig.png" />
+    <None Include="Resources\round_icon\race\icon_TipToe.png" />
+    <None Include="Resources\round_icon\race\icon_Track_Attack.png" />
+    <None Include="Resources\round_icon\race\icon_TreetopTumble.png" />
+    <None Include="Resources\round_icon\race\icon_TundraRun.png" />
+    <None Include="Resources\round_icon\race\icon_WallGuys.png" />
+    <None Include="Resources\round_icon\survival\icon_BigShots.png" />
+    <None Include="Resources\round_icon\survival\icon_Blastlantis.png" />
+    <None Include="Resources\round_icon\survival\icon_BlockParty.png" />
+    <None Include="Resources\round_icon\survival\icon_HoverboardHeroes.png" />
+    <None Include="Resources\round_icon\survival\icon_Hyperdrive_Heroes.png" />
+    <None Include="Resources\round_icon\survival\icon_JumpClub.png" />
+    <None Include="Resources\round_icon\survival\icon_RollOut.png" />
+    <None Include="Resources\round_icon\survival\icon_SnowballSurvival.png" />
+    <None Include="Resources\round_icon\survival\icon_StompinGround.png" />
+    <None Include="Resources\round_icon\survival\icon_The_Swiveller.png" />
+    <None Include="Resources\round_icon\team\icon_Basketfall.png" />
+    <None Include="Resources\round_icon\team\icon_EggScramble.png" />
+    <None Include="Resources\round_icon\team\icon_EggSiege.png" />
+    <None Include="Resources\round_icon\team\icon_FallBall.png" />
+    <None Include="Resources\round_icon\team\icon_Hoarders.png" />
+    <None Include="Resources\round_icon\team\icon_HoopsieDaisy.png" />
+    <None Include="Resources\round_icon\team\icon_Jinxed.png" />
+    <None Include="Resources\round_icon\team\icon_PegwinPursuit.png" />
+    <None Include="Resources\round_icon\team\icon_PowerTrip.png" />
+    <None Include="Resources\round_icon\team\icon_RocknRoll.png" />
+    <None Include="Resources\round_icon\team\icon_SnowyScrap.png" />
+    <None Include="Resources\round_icon\team\icon_TeamTailTag.png" />
+    <None Include="Resources\overlay\background_candycane.png" />
+    <None Include="Resources\overlay\background_coffee.png" />
+    <None Include="Resources\overlay\tab_unselected_dove.png" />
+    <None Include="Resources\overlay\background_fall_guys_logo.png" />
+    <None Include="Resources\overlay\background_helter_skelter.png" />
+    <None Include="Resources\overlay\background_hex_a_thon.png" />
+    <None Include="Resources\overlay\background_ill_be_slime.png" />
+    <None Include="Resources\overlay\background_mockingbird.png" />
+    <None Include="Resources\overlay\background_newlove.png" />
+    <None Include="Resources\overlay\background_parade_guy.png" />
+    <None Include="Resources\overlay\background_party_pegwin.png" />
+    <None Include="Resources\overlay\background_penguin.png" />
+    <None Include="Resources\overlay\background_suits_you.png" />
+    <None Include="Resources\overlay\background_sunny_guys.png" />
+    <None Include="Resources\overlay\background_ta_da.png" />
+    <None Include="Resources\overlay\background_timeattack.png" />
+    <None Include="Resources\overlay\background_wallpaper_01.png" />
+    <None Include="Resources\overlay\background_wallpaper_02.png" />
+    <None Include="Resources\overlay\background_wallpaper_03.png" />
+    <None Include="Resources\overlay\background_watermelon.png" />
+    <None Include="Resources\overlay\background_dove.png" />
+    <None Include="Resources\overlay\tab_selected.png" />
+    <None Include="Resources\overlay\tab_unselected_candycane.png" />
+    <None Include="Resources\overlay\tab_unselected_coffee.png" />
+    <None Include="Resources\overlay\tab_unselected_fall_guys_logo.png" />
+    <None Include="Resources\overlay\tab_unselected_helter_skelter.png" />
+    <None Include="Resources\overlay\tab_unselected_hex_a_thon.png" />
+    <None Include="Resources\overlay\tab_unselected_ill_be_slime.png" />
+    <None Include="Resources\overlay\tab_unselected_mockingbird.png" />
+    <None Include="Resources\overlay\tab_unselected_newlove.png" />
+    <None Include="Resources\overlay\tab_unselected_parade_guy.png" />
+    <None Include="Resources\overlay\tab_unselected_party_pegwin.png" />
+    <None Include="Resources\overlay\tab_unselected_penguin.png" />
+    <None Include="Resources\overlay\tab_unselected_suits_you.png" />
+    <None Include="Resources\overlay\tab_unselected_sunny_guys.png" />
+    <None Include="Resources\overlay\tab_unselected_ta_da.png" />
+    <None Include="Resources\overlay\tab_unselected_timeattack.png" />
+    <None Include="Resources\overlay\tab_unselected_watermelon.png" />
+    <None Include="Resources\overlay\tab_unselected_wallpaper_01.png" />
+    <None Include="Resources\overlay\tab_unselected_wallpaper_02.png" />
+    <None Include="Resources\overlay\tab_unselected_wallpaper_03.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
