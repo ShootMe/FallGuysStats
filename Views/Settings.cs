@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -122,26 +121,24 @@ namespace FallGuysStats {
                 new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
             };
             imageItemArray.AddRange(imageItems);
-
             this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            bool isSelected = false;
             if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
-                bool isSelected = false;
                 for (int i = 0; i < imageItemArray.Count; i++) {
                     if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
-
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
                 }
-                if (!isSelected) { this.cboOverlayBackground.SelectedIndex = customizedBacgroundCount; }
             } else {
                 for (int i = imageItemArray.Count - 1; i >= 0; i--) {
                     if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
-
                     this.cboOverlayBackground.SelectedIndex = i;
+                    isSelected = true;
                     break;
                 }
             }
+            if (!isSelected) { this.cboOverlayBackground.SelectedIndex = customizedBacgroundCount; }
 
             switch (this.CurrentSettings.OverlayColor) {
                 case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
