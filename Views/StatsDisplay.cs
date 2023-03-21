@@ -48,7 +48,6 @@ namespace FallGuysStats {
                 this.graph.SetDataColors(new[] { Color.Black, this.graph.GraphWinsColor, this.graph.GraphFinalsColor, this.graph.GraphShowsColor });
             } else if (theme == MetroThemeStyle.Dark) {
                 this.chkWins.ForeColor = Color.Gold;
-                //this.chkFinals.ForeColor =  Color.FromArgb(102, 0, 153);
                 this.chkFinals.ForeColor = Color.DeepPink;
                 this.chkShows.ForeColor = Color.DeepSkyBlue;
             
@@ -90,28 +89,6 @@ namespace FallGuysStats {
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
-            
-            //if (Stats.CurrentLanguage == 0) { // English
-            //    this.chkWins.Location =   new Point(75, 10);
-            //    this.chkFinals.Location = new Point(180, 10);
-            //    this.chkShows.Location =  new Point(295, 10);
-            //} else if (Stats.CurrentLanguage == 1) { // French
-            //    this.chkWins.Location =   new Point(75, 10);
-            //    this.chkFinals.Location = new Point(200, 10);
-            //    this.chkShows.Location =  new Point(310, 10);
-            //} else if (Stats.CurrentLanguage == 2) { // Korean
-            //    this.chkWins.Location =   new Point(75, 10);
-            //    this.chkFinals.Location = new Point(170, 10);
-            //    this.chkShows.Location =  new Point(280, 10);
-            //} else if (Stats.CurrentLanguage == 3) { // Japanese
-            //    this.chkWins.Location =   new Point(75, 10);
-            //    this.chkFinals.Location = new Point(170, 10);
-            //    this.chkShows.Location =  new Point(280, 10);
-            //} else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
-            //    this.chkWins.Location =   new Point(75, 10);
-            //    this.chkFinals.Location = new Point(170, 10);
-            //    this.chkShows.Location =  new Point(265, 10);
-            //}
         }
     }
 }
