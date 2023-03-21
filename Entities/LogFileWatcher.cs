@@ -283,6 +283,7 @@ namespace FallGuysStats {
             {"round_blastball_arenasurvival_blast_ball_trials_fn", "round_blastball_arenasurvival_symphony_launch_show"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" } };
+
         private bool GetIsRealLastRound(string roundName) {
             return (roundName.IndexOf("ound_jinxed", StringComparison.OrdinalIgnoreCase) > 0
                     && roundName.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
@@ -358,7 +359,7 @@ namespace FallGuysStats {
                 bool isRealLastRound = GetIsRealLastRound(logRound.Info.Name);
                 bool isModeException = GetIsModeException(logRound.Info.Name);
                 bool isFinalException = GetIsFinalException(logRound.Info.Name);
-                
+
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
                 }
