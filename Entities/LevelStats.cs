@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using LiteDB;
 namespace FallGuysStats {
@@ -41,34 +42,34 @@ namespace FallGuysStats {
         private bool setLocalTime;
 
         public void ToLocalTime() {
-            if (setLocalTime) { return; }
-            setLocalTime = true;
+            if (this.setLocalTime) { return; }
+            this.setLocalTime = true;
 
-            StartLocal = Start.ToLocalTime();
-            EndLocal = End.ToLocalTime();
-            if (Finish.HasValue) {
-                FinishLocal = Finish.Value.ToLocalTime();
+            this.StartLocal = this.Start.ToLocalTime();
+            this.EndLocal = this.End.ToLocalTime();
+            if (this.Finish.HasValue) {
+                this.FinishLocal = this.Finish.Value.ToLocalTime();
             }
         }
         public void VerifyName() {
-            if (string.IsNullOrEmpty(SceneName)) { return; }
+            if (string.IsNullOrEmpty(this.SceneName)) { return; }
 
             string roundName;
-            if (LevelStats.SceneToRound.TryGetValue(SceneName, out roundName)) {
-                Name = roundName;
+            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out roundName)) {
+                this.Name = roundName;
             }
         }
         public string VerifiedName() {
-            if (string.IsNullOrEmpty(SceneName)) { return Name; }
+            if (string.IsNullOrEmpty(this.SceneName)) { return this.Name; }
 
             string roundName;
-            if (LevelStats.SceneToRound.TryGetValue(SceneName, out roundName)) {
+            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out roundName)) {
                 return roundName;
             }
-            return Name;
+            return this.Name;
         }
         public override string ToString() {
-            return $"{Name}: Round={Round} Position={Position} Duration={End - Start} Kudos={Kudos}";
+            return $"{this.Name}: Round={this.Round} Position={this.Position} Duration={this.End - this.Start} Kudos={this.Kudos}";
         }
         public override bool Equals(object obj) {
             return obj is RoundInfo info
@@ -110,92 +111,92 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
-            { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2) },
-            { "round_satellitehoppers_almond",    new LevelStats("Cosmic Highway", LevelType.Race, false, 8) },
-            { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, false, 1) },
-            { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1) },
-            { "round_iceclimb",                   new LevelStats("Freezy Peak", LevelType.Race, false, 3) },
-            { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1) },
-            { "round_see_saw_360",                new LevelStats("Full Tilt", LevelType.Race, false, 6) },
-            { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1) },
-            { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1) },
-            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2) },
-            { "round_drumtop",                    new LevelStats("Lily Leapers", LevelType.Race, false, 5) },
-            { "round_gauntlet_08",                new LevelStats("Party Promenade", LevelType.Race, false, 6) },
-            { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, 6) },
-            { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Race, false, 8) },
-            { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, 9) },
-            { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, 4) },
-            { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1) },
-            { "round_shortcircuit",               new LevelStats("Short Circuit", LevelType.Race, false, 4) },
-            { "round_gauntlet_06",                new LevelStats("Skyline Stumble", LevelType.Race, false, 4) },
-            { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1) },
-            { "round_slimeclimb_2",               new LevelStats("Slimescraper", LevelType.Race, false, 4) },
-            { "round_gauntlet_10_almond",         new LevelStats("Space Race", LevelType.Race, false, 8) },
-            { "round_slide_chute",                new LevelStats("Speed Slider", LevelType.Race, false, 9) },
-            { "round_short_circuit_2_symphony_launch_show", new LevelStats("Speed Circuit", LevelType.Race, false, 7) },
-            { "round_starlink_almond",            new LevelStats("Starchart", LevelType.Race, false, 8) },
-            { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1) },
-            { "round_gauntlet_09_symphony_launch_show", new LevelStats("Track Attack", LevelType.Race, false, 7) },
-            { "round_gauntlet_07",                new LevelStats("Treetop Tumble", LevelType.Race, false, 5) },
-            { "round_gauntlet_05",                new LevelStats("Tundra Run", LevelType.Race, false, 3) },
-            { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1) },
-            { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2) },
-            
-            { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6) },
-            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Hunt, false, 7) },
-            { "round_hoops_revenge_symphony_launch_show", new LevelStats("Bounce Party", LevelType.Hunt, false, 7) },
-            { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5) },
-            { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4) },
-            { "round_ffa_button_bashers_squads_almond", new LevelStats("Frantic Factory", LevelType.Hunt, false, 8) },
-            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9) },
-            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2) },
-            { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6) },
-            { "round_penguin_solos",              new LevelStats("Pegwin Party", LevelType.Hunt, false, 5) },
-            { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, 3) },
-            
+            { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, 2, Properties.Resources.round_big_fans_icon) },
+            { "round_satellitehoppers_almond",    new LevelStats("Cosmic Highway", LevelType.Race, false, 8, Properties.Resources.round_cosmic_highway_icon) },
+            { "round_door_dash",                  new LevelStats("Door Dash", LevelType.Race, false, 1, Properties.Resources.round_door_dash_icon) },
+            { "round_gauntlet_02",                new LevelStats("Dizzy Heights", LevelType.Race, false, 1, Properties.Resources.round_dizzy_heights_icon) },
+            { "round_iceclimb",                   new LevelStats("Freezy Peak", LevelType.Race, false, 3, Properties.Resources.round_freezy_peak_icon) },
+            { "round_dodge_fall",                 new LevelStats("Fruit Chute", LevelType.Race, false, 1, Properties.Resources.round_fruit_chute_icon) },
+            { "round_see_saw_360",                new LevelStats("Full Tilt", LevelType.Race, false, 6, Properties.Resources.round_full_tilt_icon) },
+            { "round_chompchomp",                 new LevelStats("Gate Crash", LevelType.Race, false, 1, Properties.Resources.round_gate_crash_icon) },
+            { "round_gauntlet_01",                new LevelStats("Hit Parade", LevelType.Race, false, 1, Properties.Resources.round_hit_parade_icon) },
+            { "round_gauntlet_04",                new LevelStats("Knight Fever", LevelType.Race, false, 2, Properties.Resources.round_knight_fever_icon) },
+            { "round_drumtop",                    new LevelStats("Lily Leapers", LevelType.Race, false, 5, Properties.Resources.round_lily_leapers_icon) },
+            { "round_gauntlet_08",                new LevelStats("Party Promenade", LevelType.Race, false, 6, Properties.Resources.round_party_promenade_icon) },
+            { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, 6, Properties.Resources.round_pipe_dream_icon) },
+            { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Race, false, 8, Properties.Resources.round_pixel_painters_icon) },
+            { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, 9, Properties.Resources.round_puzzle_path_icon) },
+            { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, 4, Properties.Resources.round_roll_on_icon) },
+            { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, 1, Properties.Resources.round_see_saw_icon) },
+            { "round_shortcircuit",               new LevelStats("Short Circuit", LevelType.Race, false, 4, Properties.Resources.round_short_circuit_icon) },
+            { "round_gauntlet_06",                new LevelStats("Skyline Stumble", LevelType.Race, false, 4, Properties.Resources.round_skyline_stumble_icon) },
+            { "round_lava",                       new LevelStats("Slime Climb", LevelType.Race, false, 1, Properties.Resources.round_slime_climb_icon) },
+            { "round_slimeclimb_2",               new LevelStats("The Slimescraper", LevelType.Race, false, 4, Properties.Resources.round_the_slimescraper_icon) },
+            { "round_gauntlet_10_almond",         new LevelStats("Space Race", LevelType.Race, false, 8, Properties.Resources.round_space_race_icon) },
+            { "round_slide_chute",                new LevelStats("Speed Slider", LevelType.Race, false, 9, Properties.Resources.round_speed_slider_icon) },
+            { "round_short_circuit_2_symphony_launch_show", new LevelStats("Speed Circuit", LevelType.Race, false, 7, Properties.Resources.round_speed_circuit_icon) },
+            { "round_starlink_almond",            new LevelStats("Starchart", LevelType.Race, false, 8, Properties.Resources.round_starchart_icon) },
+            { "round_tip_toe",                    new LevelStats("Tip Toe", LevelType.Race, false, 1, Properties.Resources.round_tip_toe_icon) },
+            { "round_gauntlet_09_symphony_launch_show", new LevelStats("Track Attack", LevelType.Race, false, 7, Properties.Resources.round_track_attack_icon) },
+            { "round_gauntlet_07",                new LevelStats("Treetop Tumble", LevelType.Race, false, 5, Properties.Resources.round_treetop_tumble_icon) },
+            { "round_gauntlet_05",                new LevelStats("Tundra Run", LevelType.Race, false, 3, Properties.Resources.round_tundra_run_icon) },
+            { "round_gauntlet_03",                new LevelStats("Whirlygig", LevelType.Race, false, 1, Properties.Resources.round_the_whirlygig_icon) },
+            { "round_wall_guys",                  new LevelStats("Wall Guys", LevelType.Race, false, 2, Properties.Resources.round_wall_guys_icon) },
 
-            { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4) },
-            { "round_blastballruins",             new LevelStats("Blastlantis", LevelType.Survival, false, 9) },
-            { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1) },
-            { "round_hoverboardsurvival_s4_show", new LevelStats("Hoverboard Heroes", LevelType.Survival, false, 4) },
-            { "round_hoverboardsurvival2_almond", new LevelStats("Hyperdrive Heroes", LevelType.Survival, false, 8) },
-            { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1) },
-            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, false, 1) },
-            { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1) },
-            { "round_snowballsurvival",           new LevelStats("Snowball Survival", LevelType.Survival, false, 3) },
-            { "round_robotrampage_arena_2",       new LevelStats("Stompin' Ground", LevelType.Survival, false, 5) },
-            { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Survival, false, 5) },
-            { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1) },
-            { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, 7) },
-            { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, 7) },
+            { "round_airtime",                    new LevelStats("Airtime", LevelType.Hunt, false, 6, Properties.Resources.round_airtime_icon) },
+            { "round_bluejay",                    new LevelStats("Bean Hill Zone", LevelType.Hunt, false, 7, Properties.Resources.round_bean_hill_zone_icon) },
+            { "round_hoops_revenge_symphony_launch_show", new LevelStats("Bounce Party", LevelType.Hunt, false, 7, Properties.Resources.round_bounce_party_icon) },
+            { "round_king_of_the_hill",           new LevelStats("Bubble Trouble", LevelType.Hunt, false, 5, Properties.Resources.round_bubble_trouble_icon) },
+            { "round_1v1_button_basher",          new LevelStats("Button Bashers", LevelType.Hunt, false, 4, Properties.Resources.round_button_bashers_icon) },
+            { "round_ffa_button_bashers_squads_almond", new LevelStats("Frantic Factory", LevelType.Hunt, false, 8, Properties.Resources.round_frantic_factory_icon) },
+            { "round_slippy_slide",               new LevelStats("Hoop Chute", LevelType.Hunt, false, 9, Properties.Resources.round_hoop_chute_icon) },
+            { "round_hoops_blockade_solo",        new LevelStats("Hoopsie Legends", LevelType.Hunt, false, 2, Properties.Resources.round_hoopsie_legends_icon) },
+            { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, 6, Properties.Resources.round_leading_light_icon) },
+            { "round_penguin_solos",              new LevelStats("Pegwin Pool Party", LevelType.Hunt, false, 5, Properties.Resources.round_pegwin_pool_party_icon) },
+            { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, 3, Properties.Resources.round_ski_fall_icon) },
 
-            { "round_basketfall_s4_show",         new LevelStats("Basketfall", LevelType.Team, false, 4) },
-            { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1) },
-            { "round_egg_grab_02",                new LevelStats("Egg Siege", LevelType.Team, false, 2) },
-            { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team, false, 1) },
-            { "round_ballhogs",                   new LevelStats("Hoarders", LevelType.Team, false, 1) },
-            { "round_hoops",                      new LevelStats("Hoopsie Daisy", LevelType.Team, false, 1) },
-            { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1) },
-            { "round_chicken_chase",              new LevelStats("Pegwin Pursuit", LevelType.Team, false, 3) },
-            { "round_territory_control_s4_show",  new LevelStats("Power Trip", LevelType.Team, false, 4) },
-            { "round_rocknroll",                  new LevelStats("Rock'N'Roll", LevelType.Team, false, 1) },
-            { "round_snowy_scrap",                new LevelStats("Snowy Scrap", LevelType.Team, false, 3) },
-            { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6) },
-            { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1) },
 
-            { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, true, 7) },
-            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1) },
-            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1) },
-            { "round_hexaring_symphony_launch_show", new LevelStats("Hex-A-Ring", LevelType.Survival, true, 7) },
-            { "round_hexsnake_almond",            new LevelStats("Hex-A-Terrestrial", LevelType.Survival, true, 8) },
-            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1) },
-            { "round_kraken_attack",              new LevelStats("Kraken Slam", LevelType.Survival, true, 9) },
-            { "round_crown_maze",                 new LevelStats("Lost Temple", LevelType.Race, true, 5) },
-            { "round_tunnel_final",               new LevelStats("Roll Off", LevelType.Survival, true, 3) },
-            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1) },
-            { "round_thin_ice",                   new LevelStats("Thin Ice", LevelType.Survival, true, 3) },
-            { "round_tiptoefinale_almond",        new LevelStats("Tip Toe Finale", LevelType.Survival, true, 8) },
+            { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, 4, Properties.Resources.round_big_shots_icon) },
+            { "round_blastballruins",             new LevelStats("Blastlantis", LevelType.Survival, false, 9, Properties.Resources.round_blastlantis_icon) },
+            { "round_block_party",                new LevelStats("Block Party", LevelType.Survival, false, 1, Properties.Resources.round_block_party_icon) },
+            { "round_hoverboardsurvival_s4_show", new LevelStats("Hoverboard Heroes", LevelType.Survival, false, 4, Properties.Resources.round_hoverboard_heroes_icon) },
+            { "round_hoverboardsurvival2_almond", new LevelStats("Hyperdrive Heroes", LevelType.Survival, false, 8, Properties.Resources.round_hyperdrive_heroes_icon) },
+            { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1, Properties.Resources.round_jump_club_icon) },
+            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, false, 1, Properties.Resources.round_perfect_match_icon) },
+            { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1, Properties.Resources.round_roll_out_icon) },
+            { "round_snowballsurvival",           new LevelStats("Snowball Survival", LevelType.Survival, false, 3, Properties.Resources.round_snowball_survival_icon) },
+            { "round_robotrampage_arena_2",       new LevelStats("Stompin' Ground", LevelType.Survival, false, 5, Properties.Resources.round_stompin_ground_icon) },
+            { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Survival, false, 5, Properties.Resources.round_sum_fruit_icon) },
+            { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1, Properties.Resources.round_tail_tag_icon) },
+            { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, 7, Properties.Resources.round_the_swiveller_icon) },
+            { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, 7, Properties.Resources.round_volleyfall_icon) },
+
+            { "round_basketfall_s4_show",         new LevelStats("Basketfall", LevelType.Team, false, 4, Properties.Resources.round_basketfall_icon) },
+            { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1, Properties.Resources.round_egg_scramble_icon) },
+            { "round_egg_grab_02",                new LevelStats("Egg Siege", LevelType.Team, false, 2, Properties.Resources.round_egg_siege_icon) },
+            { "round_fall_ball_60_players",       new LevelStats("Fall Ball", LevelType.Team, false, 1, Properties.Resources.round_fall_ball_icon) },
+            { "round_ballhogs",                   new LevelStats("Hoarders", LevelType.Team, false, 1, Properties.Resources.round_hoarders_icon) },
+            { "round_hoops",                      new LevelStats("Hoopsie Daisy", LevelType.Team, false, 1, Properties.Resources.round_hoopsie_daisy_icon) },
+            { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1, Properties.Resources.round_jinxed_icon) },
+            { "round_chicken_chase",              new LevelStats("Pegwin Pursuit", LevelType.Team, false, 3, Properties.Resources.round_pegwin_pursuit_icon) },
+            { "round_territory_control_s4_show",  new LevelStats("Power Trip", LevelType.Team, false, 4, Properties.Resources.round_power_trip_icon) },
+            { "round_rocknroll",                  new LevelStats("Rock 'n' Roll", LevelType.Team, false, 1, Properties.Resources.round_rockn_roll_icon) },
+            { "round_snowy_scrap",                new LevelStats("Snowy Scrap", LevelType.Team, false, 3, Properties.Resources.round_snowy_scrap_icon) },
+            { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6, Properties.Resources.round_sweet_thieves_icon) },
+            { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1, Properties.Resources.round_team_tail_tag_icon) },
+
+            { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, true, 7, Properties.Resources.round_blast_ball_icon) },
+            { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1, Properties.Resources.round_fall_mountain_icon) },
+            { "round_floor_fall",                 new LevelStats("Hex-A-Gone", LevelType.Survival, true, 1, Properties.Resources.round_hex_a_gone_icon) },
+            { "round_hexaring_symphony_launch_show", new LevelStats("Hex-A-Ring", LevelType.Survival, true, 7, Properties.Resources.round_hex_a_ring_icon) },
+            { "round_hexsnake_almond",            new LevelStats("Hex-A-Terrestrial", LevelType.Survival, true, 8, Properties.Resources.round_hex_a_terrestrial_icon) },
+            { "round_jump_showdown",              new LevelStats("Jump Showdown", LevelType.Survival, true, 1, Properties.Resources.round_jump_showdown_icon) },
+            { "round_kraken_attack",              new LevelStats("Kraken Slam", LevelType.Survival, true, 9, Properties.Resources.round_kraken_slam_icon) },
+            { "round_crown_maze",                 new LevelStats("Lost Temple", LevelType.Race, true, 5, Properties.Resources.round_lost_temple_icon) },
+            { "round_tunnel_final",               new LevelStats("Roll Off", LevelType.Survival, true, 3, Properties.Resources.round_roll_off_icon) },
+            { "round_royal_rumble",               new LevelStats("Royal Fumble", LevelType.Hunt, true, 1, Properties.Resources.round_royal_fumble_icon) },
+            { "round_thin_ice",                   new LevelStats("Thin Ice", LevelType.Survival, true, 3, Properties.Resources.round_thin_ice_icon) },
+            { "round_tiptoefinale_almond",        new LevelStats("Tip Toe Finale", LevelType.Survival, true, 8, Properties.Resources.round_tip_toe_finale_icon) },
         };
         public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_DoorDash",                  "round_door_dash" },
@@ -288,7 +289,7 @@ namespace FallGuysStats {
             { "FallGuy_SlippySlide",               "round_slippy_slide" },
             { "FallGuy_SlideChute",                "round_slide_chute" }
         };
-
+        public Image RoundIcon { get; set; }
         public string Name { get; set; }
         public int Qualified { get; set; }
         public int Gold { get; set; }
@@ -298,78 +299,79 @@ namespace FallGuysStats {
         public int Kudos { get; set; }
         public TimeSpan Fastest { get; set; }
         public TimeSpan Longest { get; set; }
-        public int AveKudos { get { return Kudos / (Played == 0 ? 1 : Played); } }
+        public int AveKudos { get { return this.Kudos / (this.Played == 0 ? 1 : this.Played); } }
         public LevelType Type;
         public bool IsFinal;
-        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)Duration.TotalSeconds / (Played == 0 ? 1 : Played)); } }
-        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)FinishTime.TotalSeconds / (FinishedCount == 0 ? 1 : FinishedCount)); } }
+        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
+        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
         public TimeSpan Duration;
         public TimeSpan FinishTime;
         public List<RoundInfo> Stats;
         public int Season;
         public int FinishedCount;
 
-        public LevelStats(string levelName, LevelType type, bool isFinal, int season) {
-            Name = levelName;
-            Type = type;
-            Season = season;
-            IsFinal = isFinal;
-            Stats = new List<RoundInfo>();
-            Clear();
+        public LevelStats(string levelName, LevelType type, bool isFinal, int season, Image roundIcon) {
+            this.RoundIcon = roundIcon;
+            this.Name = levelName;
+            this.Type = type;
+            this.Season = season;
+            this.IsFinal = isFinal;
+            this.Stats = new List<RoundInfo>();
+            this.Clear();
         }
         public void Clear() {
-            Qualified = 0;
-            Gold = 0;
-            Silver = 0;
-            Bronze = 0;
-            Played = 0;
-            Kudos = 0;
-            FinishedCount = 0;
-            Duration = TimeSpan.Zero;
-            FinishTime = TimeSpan.Zero;
-            Fastest = TimeSpan.Zero;
-            Longest = TimeSpan.Zero;
-            Stats.Clear();
+            this.Qualified = 0;
+            this.Gold = 0;
+            this.Silver = 0;
+            this.Bronze = 0;
+            this.Played = 0;
+            this.Kudos = 0;
+            this.FinishedCount = 0;
+            this.Duration = TimeSpan.Zero;
+            this.FinishTime = TimeSpan.Zero;
+            this.Fastest = TimeSpan.Zero;
+            this.Longest = TimeSpan.Zero;
+            this.Stats.Clear();
         }
         public void Add(RoundInfo stat) {
-            Stats.Add(stat);
+            this.Stats.Add(stat);
             if (!stat.PrivateLobby) {
-                Played++;
+                this.Played++;
 
                 switch (stat.Tier) {
                     case (int)QualifyTier.Gold:
-                        Gold++;
+                        this.Gold++;
                         break;
                     case (int)QualifyTier.Silver:
-                        Silver++;
+                        this.Silver++;
                         break;
                     case (int)QualifyTier.Bronze:
-                        Bronze++;
+                        this.Bronze++;
                         break;
                 }
 
-                Kudos += stat.Kudos;
-                Duration += stat.End - stat.Start;
-                Qualified += stat.Qualified ? 1 : 0;
+                this.Kudos += stat.Kudos;
+                this.Duration += stat.End - stat.Start;
+                this.Qualified += stat.Qualified ? 1 : 0;
             }
 
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.End) - stat.Start;
             if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
                 if (!stat.PrivateLobby) {
-                    FinishedCount++;
-                    FinishTime += finishTime;
+                    this.FinishedCount++;
+                    this.FinishTime += finishTime;
                 }
-                if (Fastest == TimeSpan.Zero || Fastest > finishTime) {
-                    Fastest = finishTime;
+                if (this.Fastest == TimeSpan.Zero || this.Fastest > finishTime) {
+                    this.Fastest = finishTime;
                 }
-                if (Longest < finishTime) {
-                    Longest = finishTime;
+                if (this.Longest < finishTime) {
+                    this.Longest = finishTime;
                 }
             }
         }
 
         public override string ToString() {
-            return $"{Name}: {Qualified} / {Played}";
+            return $"{this.Name}: {this.Qualified} / {this.Played}";
         }
     }
 }
