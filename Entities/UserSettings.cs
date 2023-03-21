@@ -3,12 +3,23 @@
         public int ID { get; set; }
         public int Multilingual { get; set; }
         public string LogPath { get; set; }
+        public int Theme { get; set; }
         public int FilterType { get; set; }
         public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
         public int? OverlayLocationY { get; set; }
+        public string OverlayFixedPosition { get; set; }
+        public int? OverlayFixedPositionX { get; set; }
+        public int? OverlayFixedPositionY { get; set; }
+        public int? OverlayFixedWidth { get; set; }
+        public int? OverlayFixedHeight { get; set; }
+        public int OverlayBackground { get; set; }
+        public string OverlayBackgroundResourceName { get; set; }
+        public string OverlayTabResourceName { get; set; }
+        public bool IsOverlayBackgroundCustomized { get; set; }
         public int OverlayColor { get; set; }
         public bool FlippedDisplay { get; set; }
+        public bool FixedFlippedDisplay { get; set; }
         public bool SwitchBetweenLongest { get; set; }
         public bool SwitchBetweenQualify { get; set; }
         public bool SwitchBetweenPlayers { get; set; }
@@ -22,6 +33,7 @@
         public bool OverlayNotOnTop { get; set; }
         public bool PlayerByConsoleType { get; set; }
         public bool ColorByRoundType { get; set; }
+        public bool AutoChangeProfile { get; set; }
         public int PreviousWins { get; set; }
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }
@@ -49,5 +61,6 @@
         public string GameShortcutLocation { get; set; }
         public bool AutoLaunchGameOnStartup { get; set; }
         public string OverlayFontSerialized { get; set; }
+        public string OverlayFontColorSerialized { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
 ## Download
-  - [FallGuyStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStats.zip)
+  - [FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip)
 
-  - or if you have problems with false positives in your virus program this one removes the ability to auto update [FallGuyStatsManualUpdate.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStatsManualUpdate.zip)
+  - or if you have problems with false positives in your virus program this one removes the ability to auto update [FallGuysStatsManualUpdate.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip)
   
 ## Usage
   - Extract zip to it's own folder
@@ -15,24 +15,41 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
+## Theme
+  - FallGuysStats supports two themes, Light and Dark.
+
+![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/lightTheme.png)
+
+![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/darkTheme.png)
+
 ## Multilingual Support
   - FallGuysStats supports the following languages.
-    - English
-    - Korean
-    - Japanese
-    - Simplified Chinese
+    - 🇺🇸 English
+    - 🇫🇷 French
+    - 🇰🇷 Korean
+    - 🇯🇵 Japanese
+    - 🇨🇳 Simplified Chinese
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
-  - Hit 'T' to toggle background colors.
-  - Hit 'F' to flip the Display.
-  - Hit 'P' to change the profile order.
+  - Hit Keys 'T' to toggle background colors.
+  - Hit Keys 'F' to flip the Display.
+  - Hit Keys 'P' to change the profile order.
   - Hit Keys '1' through '9' to select profiles 1 through 9.
-  - Hit Shift + mouse wheel up and down to select a profile up or down.
-  - Hit Shift + up and down arrow keys to select a profile up or down.
-  - Hit 'C' to shows the number of users by platform.
-  - Hit 'R' the round name shows the colored badge for the round type.
+  - Hit Keys 'Shift + mouse wheel Up and Down' to select a profile up or down.
+  - Hit Keys 'Shift + (Up, Left) and (Down, Right) arrow keys' to select a profile up or down.
+  - Hit Keys 'C' to shows the number of users by platform.
+  - Hit Keys 'R' the round name shows the colored badge for the round type.
+
+### How to Overlay Background Image Customized
+  - **Step 1.** Edit the **background.png** and **tab.png** in the Overlay folder of the FallGuysStats folder as desired.
+  - **Step 2.** Rename the edited image as below. (my_image_name must be the same.)
+    - **{my_image_name}**.png
+    - tab_**{my_image_name}**.png
+  - **Step 3.** Place the image inside the Overlay folder in the FallGuysStats folder.
+  - **Step 4.** You can see that the background image you added appears first in the Background Image of the Overlay item in Settings.
+  - **Step 5.** Select and save the added image.
 
 ## Deleting shows or moving shows to another profile
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
@@ -41,6 +58,12 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
 ## Changelog
+  - 1.138
+    - Added theme option and change overlay background image option
+  - 1.137
+    - Added a function to automatically select a linked profile when a show starts by linking a profile with a show
+  - 1.136
+    - Overlay position fixed function button addition and changed the graph to make it look better
   - 1.135
     - Bug fixes and multilanguage updates
   - 1.134
