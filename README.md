@@ -92,6 +92,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 
 ## Changelog
+  - 1.139
+    - Bug fixes and Correct typos
   - 1.138
     - Added theme option and change overlay background image option
   - 1.137
