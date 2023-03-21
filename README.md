@@ -11,8 +11,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Run the program while playing Fall Guys to see new stats.
   - Only updates after a show has been completed and results are given.
 
+### Main Window
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
+### Rounds Stats List
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
 ## Theme
@@ -48,8 +50,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit Keys **'C'** to shows the number of users by platform.
   - Hit Keys **'R'** the round name shows the colored badge for the round type.
 
+
 ### Create your own overlays
 ![Customized Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/customizedOverlay.png)
+
 
 ### How to Overlay Background Image Customized
   - **Step 1.** Edit the **background.png** and **tab.png** in the Overlay folder of the FallGuysStats folder as desired.
@@ -70,17 +74,22 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - **Step 5.** Select and save the added image.
 
 ## Linking Profiles and Shows
+
+### Profile Settings
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
 
+### Settings - Automatically change to linked profile
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
   - Link your profile and show so your profile automatically changes when the show starts.
+
 
 ## Deleting shows or moving shows to another profile
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
   - Click the blue Shows label on the main screen
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
+
 
 ## Changelog
   - 1.138
