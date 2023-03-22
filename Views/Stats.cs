@@ -40,7 +40,7 @@ namespace FallGuysStats {
                 for (int i = 0; i < processes.Length; i++) {
                     if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
                     if (processCount > 1) {
-                        CurrentLanguage = lang.Substring(0, 2) == "fr" ? 1 : lang.Substring(0, 2) == "ko" ? 2 : lang.Substring(0, 2) == "ja" ? 3 : lang.Substring(0, 2) == "zh" ? 4 : 0 ;
+                        CurrentLanguage = lang.Substring(0, 2) == "fr" ? 1 : lang.Substring(0, 2) == "ko" ? 2 : lang.Substring(0, 2) == "ja" ? 3 : lang.Substring(0, 2) == "zh" ? 4 : 0;
                         MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
                     }
@@ -547,7 +547,7 @@ namespace FallGuysStats {
                 e.Graphics.DrawImage(this.CurrentSettings.AutoChangeProfile ? Properties.Resources.link_on_icon : this.Theme == MetroThemeStyle.Light ? Properties.Resources.link_icon : Properties.Resources.link_gray_icon, 20, 5, 13, 13);
             }
         }
- 
+
         private void RemoveUpdateFiles() {
 #if AllowUpdate
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -1067,6 +1067,7 @@ namespace FallGuysStats {
                 ShowOverlayTabs = false,
                 ShowPercentages = false,
                 AutoUpdate = false,
+                MaximizedWindowState = false,
                 FormLocationX = null,
                 FormLocationY = null,
                 FormWidth = null,
@@ -1194,10 +1195,19 @@ namespace FallGuysStats {
                     //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
                     //this.CurrentSettings.SelectedProfile = this.currentProfile;
 
-                    this.CurrentSettings.FormLocationX = this.Location.X;
-                    this.CurrentSettings.FormLocationY = this.Location.Y;
-                    this.CurrentSettings.FormWidth = this.ClientSize.Width;
-                    this.CurrentSettings.FormHeight = this.ClientSize.Height;
+                    if (this.WindowState != FormWindowState.Normal) {
+                        this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
+                        this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
+                        this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
+                        this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
+                        this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
+                    } else {
+                        this.CurrentSettings.FormLocationX = this.Location.X;
+                        this.CurrentSettings.FormLocationY = this.Location.Y;
+                        this.CurrentSettings.FormWidth = this.Size.Width;
+                        this.CurrentSettings.FormHeight = this.Size.Height;
+                        this.CurrentSettings.MaximizedWindowState = false;
+                    }
                     this.SaveUserSettings();
                 }
                 this.StatsDB.Dispose();
@@ -1214,13 +1224,6 @@ namespace FallGuysStats {
                     this.LaunchGame(true);
                 }
 
-                if (this.CurrentSettings.FormWidth.HasValue) {
-                    this.ClientSize = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
-                }
-                if (this.CurrentSettings.FormLocationX.HasValue && IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width)) {
-                    this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
-                }
-
                 this.menuProfile.DropDownItems["menuProfile" + this.CurrentSettings.SelectedProfile].PerformClick();
 
                 this.UpdateDates();
@@ -1228,6 +1231,14 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
+                this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
+                if (this.CurrentSettings.FormWidth.HasValue) {
+                    this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
+                }
+                if (this.CurrentSettings.FormLocationX.HasValue && IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width)) {
+                    this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
+                }
+
                 string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                 if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
                     logPath = this.CurrentSettings.LogPath;

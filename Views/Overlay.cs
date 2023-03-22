@@ -699,7 +699,7 @@ namespace FallGuysStats {
 
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out var level)) {
                         roundName = level.Name.ToUpper();
-                    }else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
+                    } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
 

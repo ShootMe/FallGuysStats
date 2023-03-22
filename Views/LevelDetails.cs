@@ -361,7 +361,7 @@ namespace FallGuysStats {
             //    nextInfo = this.gridDetails.Rows[e.RowIndex+1].DataBoundItem as RoundInfo;
             //}
             if (info.PrivateLobby) { // Custom
-                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8,8,8);
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "End") {
