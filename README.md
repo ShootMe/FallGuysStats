@@ -2,23 +2,16 @@
   - [Fall Guys Stats](#fall-guys-stats)
     - [Download](#download)
     - [Usage](#usage)
-
   - [Theme](#theme)
     - [Light Theme](#light-theme)
     - [Dark Theme](#dark-theme)
-
   - [Multilingual Support](#multilingual-support)
-
   - [Overlay](#overlay)
     - [Create your own overlays](#create-your-own-overlays)
     - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
-
   - [Linking Profiles and Shows](#linking-profiles-and-shows)
-
   - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
-
   - [Change Log](#change-log)
-
 
 # Fall Guys Stats
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
@@ -34,11 +27,11 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Only updates after a show has been completed and results are given.
 
 
-  - Main Window
+### Main Window
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
 
- - Rounds Stats List
+### Rounds Stats List
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
 ## Theme
@@ -98,6 +91,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - **Step 5.** Select and save the added image.
 
 ## Linking Profiles and Shows
+  - Link your profile and show so your profile automatically changes when the show starts.
+
 
   - Profile Settings
 
@@ -108,15 +103,14 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
-  - Link your profile and show so your profile automatically changes when the show starts.
-
 
 ## Deleting shows or moving shows to another profile
-![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
-  - Click the blue Shows label on the main screen
+
+  - On the main screen, click the Shows label at the top.
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
+![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ## Change Log
   - 1.139
