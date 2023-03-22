@@ -76,8 +76,8 @@ namespace FallGuysStats {
             this.XColumn = 0;
             this.DrawPoints = true;
         }
-        public void SetDataColors(Color[] DataColors) {
-            Colors = DataColors;
+        public void SetDataColors(Color[] dataColors) {
+            Colors = dataColors;
             this.RefreshColors();
         }
         private void RefreshColors() {
@@ -128,17 +128,17 @@ namespace FallGuysStats {
             ymax += mod == 0 ? 0 : 8 - mod;
             //Get inital values
             int closeInd = 0;
-            int closeTemp = 0;
+            //int closeTemp = 0;
             int close = int.MaxValue;
             int closeIndY = 0;
             int i = 0;
             foreach (DataRowView row in this.dataSource.DefaultView) {
                 int x = NormalizeX(GetValue(row[XColumn]), xmin, xmax, wmin, wmax) - e.X;
-                closeTemp = x * x;
+                //closeTemp = x * x;
                 foreach (DataColumn col in this.dataSource.Columns) {
                     if (!yColumns[col.Ordinal]) { continue; }
                     int y = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax) - e.Y;
-                    y = closeTemp + y * y;
+                    //y = closeTemp + y * y;
                     if (close > y) {
                         close = y;
                         closeIndY = col.Ordinal;

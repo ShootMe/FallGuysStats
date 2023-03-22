@@ -52,6 +52,7 @@ namespace FallGuysStats {
         private Thread watcher, parser;
         public Stats StatsForm { get; set; }
         private string selectedShowId;
+        //private readonly object balanceLock = new object();
 
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
@@ -389,10 +390,13 @@ namespace FallGuysStats {
                     } else {
                         logRound.Info.IsFinal = false;
                     }
-                } else if (isTeamVolleyfallRound) {
-                    logRound.Info.IsTeam = true;
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats stats) && stats.IsFinal);
+                    if (isTeamVolleyfallRound) {
+                        logRound.Info.IsTeam = true;
+                    } else {
+                        logRound.Info.IsTeam = false;
+                    }
                 }
             } else if ((line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase)) > 0 ||
                 (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {

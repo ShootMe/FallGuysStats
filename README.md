@@ -1,3 +1,18 @@
+# Table of Contents
+  - [Fall Guys Stats](#fall-guys-stats)
+    - [Download](#download)
+    - [Usage](#usage)
+  - [Theme](#theme)
+    - [Light Theme](#light-theme)
+    - [Dark Theme](#dark-theme)
+  - [Multilingual Support](#multilingual-support)
+  - [Overlay](#overlay)
+    - [Create your own overlays](#create-your-own-overlays)
+    - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
+  - [Linking Profiles and Shows](#linking-profiles-and-shows)
+  - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
+  - [Change Log](#change-log)
+
 # Fall Guys Stats
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
@@ -11,16 +26,26 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Run the program while playing Fall Guys to see new stats.
   - Only updates after a show has been completed and results are given.
 
+
+### Main Window
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
+
+### Rounds Stats List
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
 ## Theme
   - FallGuysStats supports two themes, Light and Dark.
 
-![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/lightTheme.png)
+### Light Theme
+![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindowLightTheme.png)
 
-![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/darkTheme.png)
+![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindowLightTheme.png)
+
+### Dark Theme
+![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindowDarkTheme.png)
+
+![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindowDarkTheme.png)
 
 ## Multilingual Support
   - FallGuysStats supports the following languages.
@@ -33,31 +58,63 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
-  - Hit Keys 'T' to toggle background colors.
-  - Hit Keys 'F' to flip the Display.
-  - Hit Keys 'P' to change the profile order.
-  - Hit Keys '1' through '9' to select profiles 1 through 9.
-  - Hit Keys 'Shift + mouse wheel Up and Down' to select a profile up or down.
-  - Hit Keys 'Shift + (Up, Left) and (Down, Right) arrow keys' to select a profile up or down.
-  - Hit Keys 'C' to shows the number of users by platform.
-  - Hit Keys 'R' the round name shows the colored badge for the round type.
+  - Hit Keys **'T'** to toggle background colors.
+  - Hit Keys **'F'** to flip the Display.
+  - Hit Keys **'P'** to change the profile order.
+  - Hit Keys **'1'** through **'9'** to select profiles 1 through 9.
+  - Hit Keys **'Shift + mouse wheel Up and Down'** to select a profile up or down.
+  - Hit Keys **'Shift + (Up, Left) and (Down, Right) arrow keys'** to select a profile up or down.
+  - Hit Keys **'C'** to shows the number of users by platform.
+  - Hit Keys **'R'** the round name shows the colored badge for the round type.
+
+
+### Create your own overlays
+![Customized Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/customizedOverlay.png)
+
 
 ### How to Overlay Background Image Customized
   - **Step 1.** Edit the **background.png** and **tab.png** in the Overlay folder of the FallGuysStats folder as desired.
-  - **Step 2.** Rename the edited image as below. (my_image_name must be the same.)
-    - **{my_image_name}**.png
-    - tab_**{my_image_name}**.png
+
+
+  - **Step 2.** Rename the edited image as below.
+    - **{my_image_name}** must be the same for both files.
+      - **{my_image_name}**.png
+      - tab_**{my_image_name}**.png
+
+
   - **Step 3.** Place the image inside the Overlay folder in the FallGuysStats folder.
+
+
   - **Step 4.** You can see that the background image you added appears first in the Background Image of the Overlay item in Settings.
+
+
   - **Step 5.** Select and save the added image.
 
-## Deleting shows or moving shows to another profile
-![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+## Linking Profiles and Shows
+  - Link your profile and show so your profile automatically changes when the show starts.
 
-  - Click the blue Shows label on the main screen
+
+  - Profile Settings
+
+![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
+
+
+  - Settings - Automatically change to linked profile
+
+![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
+
+
+## Deleting shows or moving shows to another profile
+
+
+  - On the main screen, click the Shows label at the top.
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
-## Changelog
+![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+## Change Log
+  - 1.139
+    - Bug fixes and Correct typos
   - 1.138
     - Added theme option and change overlay background image option
   - 1.137

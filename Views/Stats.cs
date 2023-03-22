@@ -114,15 +114,15 @@ namespace FallGuysStats {
         private int currentProfile;
         private Color infoStripForeColor;
 
-        private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1, 0.7F);
-        private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2, 0.7F);
-        private readonly Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.7F);
-        private readonly Image numberFour = ImageOpacity(Properties.Resources.number_4, 0.7F);
-        private readonly Image numberFive = ImageOpacity(Properties.Resources.number_5, 0.7F);
-        private readonly Image numberSix = ImageOpacity(Properties.Resources.number_6, 0.7F);
-        private readonly Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.7F);
-        private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.7F);
-        private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9, 0.7F);
+        private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1, 0.5F);
+        private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2, 0.5F);
+        private readonly Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
+        private readonly Image numberFour = ImageOpacity(Properties.Resources.number_4, 0.5F);
+        private readonly Image numberFive = ImageOpacity(Properties.Resources.number_5, 0.5F);
+        private readonly Image numberSix = ImageOpacity(Properties.Resources.number_6, 0.5F);
+        private readonly Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
+        private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
+        private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9, 0.5F);
 
         public Stats(string sysLang) {
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -600,6 +600,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index;
                     if ((index = info.Name.IndexOf("_variation", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -617,6 +618,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index;
                     if ((index = info.Name.IndexOf("_northernlion", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -634,6 +636,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index;
                     if ((index = info.Name.IndexOf("_hard_mode", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -651,6 +654,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index;
                     if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0) {
                         info.Name = info.Name.Substring(0, index);
@@ -668,6 +672,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     if (info.Name.Equals("round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "round_fall_mountain_hub_complete";
                         this.RoundDetails.Update(info);
@@ -684,6 +689,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
+
                     int index;
                     if ((index = info.Name.IndexOf("_event_", StringComparison.OrdinalIgnoreCase)) > 0
                         || (index = info.Name.IndexOf(". D", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -707,7 +713,6 @@ namespace FallGuysStats {
 
                     if (lastShow != info.ShowID) {
                         lastShow = info.ShowID;
-
                         if (this.StatLookup.TryGetValue(info.Name, out LevelStats stats)) {
                             info.IsFinal = stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"));
                         } else {
@@ -2296,7 +2301,7 @@ namespace FallGuysStats {
                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                     if (newVersion > currentVersion) {
                         if (MessageBox.Show(this, $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuyStats.zip");
+                            byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
                             string exeName = null;
                             using (MemoryStream ms = new MemoryStream(data)) {
                                 using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {

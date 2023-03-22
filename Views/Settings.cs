@@ -99,6 +99,8 @@ namespace FallGuysStats {
                 }
             }
 
+            int customizedBacgroundCount = imageItemArray.Count;
+
             ImageItem[] imageItems = {
                 new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
                 new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
@@ -123,9 +125,24 @@ namespace FallGuysStats {
                 new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
             };
             imageItemArray.AddRange(imageItems);
-
             this.cboOverlayBackground.SetImageItemData(imageItemArray);
-            this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
+            bool isSelected = false;
+            if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
+                for (int i = 0; i < imageItemArray.Count; i++) {
+                    if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    this.cboOverlayBackground.SelectedIndex = i;
+                    isSelected = true;
+                    break;
+                }
+            } else {
+                for (int i = imageItemArray.Count - 1; i >= 0; i--) {
+                    if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    this.cboOverlayBackground.SelectedIndex = i;
+                    isSelected = true;
+                    break;
+                }
+            }
+            if (!isSelected) { this.cboOverlayBackground.SelectedIndex = customizedBacgroundCount; }
 
             switch (this.CurrentSettings.OverlayColor) {
                 case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
