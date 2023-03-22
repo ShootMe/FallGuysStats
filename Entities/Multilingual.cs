@@ -2271,6 +2271,7 @@ namespace FallGuysStats {
                      { "toms_show2", "Toms Show 2" },
                      { "private_lobbies", "Custom Show" },
                      { "pl_vaulted_show", "Vault" },
+                     { "xtreme_party", "X-treme Party" },
                 }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2606,6 +2607,7 @@ namespace FallGuysStats {
                      { "toms_show2", "Toms Show 2" },
                      { "private_lobbies", "Spectacle personnalisé" },
                      { "pl_vaulted_show", "Le Coffre Fort" },
+                     { "xtreme_party", "Fête Xtrême" },
                 }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2941,6 +2943,7 @@ namespace FallGuysStats {
                     { "toms_show2", "Toms Show 2" },
                     { "private_lobbies", "커스텀 쇼" },
                     { "pl_vaulted_show", "볼트" },
+                    { "xtreme_party", "X-익스트림 파티" },
                 }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -3276,6 +3279,7 @@ namespace FallGuysStats {
                     { "toms_show2", "Toms Show 2" },
                     { "private_lobbies", "カスタムショー" },
                     { "pl_vaulted_show", "保管庫" },
+                    { "xtreme_party", "エクストリームパーティー" },
                 }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -3611,6 +3615,7 @@ namespace FallGuysStats {
                      { "toms_show2", "Toms Show 2" },
                      { "private_lobbies", "自定义节目" },
                      { "pl_vaulted_show", "归档库" },
+                     { "xtreme_party", "极限糖豆人派对" },
                 }
             },
         };
