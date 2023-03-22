@@ -2,26 +2,20 @@
   - [Fall Guys Stats](#fall-guys-stats)
     - [Download](#download)
     - [Usage](#usage)
-    
 
   - [Theme](#theme)
     - [Light Theme](#light-theme)
     - [Dark Theme](#dark-theme)
 
-
   - [Multilingual Support](#multilingual-support)
-
 
   - [Overlay](#overlay)
     - [Create your own overlays](#create-your-own-overlays)
     - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
 
-
   - [Linking Profiles and Shows](#linking-profiles-and-shows)
 
-
   - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
-
 
   - [Change Log](#change-log)
 
