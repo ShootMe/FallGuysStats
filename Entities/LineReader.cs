@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Text;
+
 namespace FallGuysStats {
     public class LineReader {
-        private byte[] buffer;
+        private readonly byte[] buffer;
         private int bufferIndex, bufferSize;
-        private Stream file;
-        private StringBuilder currentLine;
+        private readonly Stream file;
+        private readonly StringBuilder currentLine;
         public long Position;
         public LineReader(Stream stream) {
             file = stream;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class SelectLanguage {
         /// <summary>
         /// Required designer variable.
@@ -37,7 +34,7 @@ namespace FallGuysStats {
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(65, 75);
+            this.picLanguageSelection.Location = new System.Drawing.Point(90, 75);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(32, 32);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -48,36 +45,41 @@ namespace FallGuysStats {
             // 
             this.cboLanguage.FormattingEnabled = true;
             this.cboLanguage.ItemHeight = 23;
-            this.cboLanguage.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
-            this.cboLanguage.Location = new System.Drawing.Point(110, 76);
+            this.cboLanguage.Items.AddRange(new object[] {
+            "🇺🇸 English",
+            "🇫🇷 Français",
+            "🇰🇷 한국어",
+            "🇯🇵 日本語",
+            "🇨🇳 简体中文"});
+            this.cboLanguage.Location = new System.Drawing.Point(135, 76);
             this.cboLanguage.Name = "cboLanguage";
             this.cboLanguage.Size = new System.Drawing.Size(110, 29);
             this.cboLanguage.TabIndex = 0;
             this.cboLanguage.UseSelectable = true;
-            this.cboLanguage.SelectedIndexChanged += new System.EventHandler(this.cboLanguage_SelectedIndexChanged);
+            this.cboLanguage.SelectedIndexChanged += new System.EventHandler(this.CboLanguage_SelectedIndexChanged);
             // 
             // lblBackColor
             // 
             this.lblBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
             this.lblBackColor.Location = new System.Drawing.Point(0, 130);
             this.lblBackColor.Name = "lblBackColor";
-            this.lblBackColor.Size = new System.Drawing.Size(300, 50);
+            this.lblBackColor.Size = new System.Drawing.Size(350, 50);
             this.lblBackColor.TabIndex = 1;
             // 
             // btnLanguageSave
             // 
-            this.btnLanguageSave.Location = new System.Drawing.Point(205, 143);
+            this.btnLanguageSave.Location = new System.Drawing.Point(250, 143);
             this.btnLanguageSave.Name = "btnLanguageSave";
             this.btnLanguageSave.Size = new System.Drawing.Size(75, 25);
             this.btnLanguageSave.TabIndex = 2;
             this.btnLanguageSave.Text = "Confirm";
             this.btnLanguageSave.UseSelectable = true;
-            this.btnLanguageSave.Click += new System.EventHandler(this.btnLanguageSave_Click);
+            this.btnLanguageSave.Click += new System.EventHandler(this.BtnLanguageSave_Click);
             // 
             // SelectLanguage
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(300, 180);
+            this.ClientSize = new System.Drawing.Size(350, 180);
             this.Controls.Add(this.picLanguageSelection);
             this.Controls.Add(this.cboLanguage);
             this.Controls.Add(this.btnLanguageSave);
@@ -93,6 +95,7 @@ namespace FallGuysStats {
             this.Load += new System.EventHandler(this.SelectLanguage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion

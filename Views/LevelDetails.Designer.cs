@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class LevelDetails {
         /// <summary>
         /// Required designer variable.
@@ -57,10 +55,10 @@ namespace FallGuysStats {
             this.gridDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridDetails.Size = new System.Drawing.Size(670, 392);
             this.gridDetails.TabIndex = 10;
-            this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
-            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
-            this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
-            this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
+            this.gridDetails.DataSourceChanged += new System.EventHandler(this.GridDetails_DataSourceChanged);
+            this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.GridDetails_CellFormatting);
+            this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.GridDetails_ColumnHeaderMouseClick);
+            this.gridDetails.SelectionChanged += new System.EventHandler(this.GridDetails_SelectionChanged);
             // 
             // LevelDetails
             // 

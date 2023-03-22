@@ -3,6 +3,7 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework;
+
 namespace FallGuysStats {
     public partial class StatsDisplay : MetroFramework.Forms.MetroForm {
         public DataTable Details { get; set; }
@@ -29,13 +30,13 @@ namespace FallGuysStats {
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
             if (theme == MetroThemeStyle.Light) {
-                this.chkWins.ForeColor =  Color.Red;
-                this.chkFinals.ForeColor =  Color.Green;
-                this.chkShows.ForeColor =  Color.Blue;
-            
+                this.chkWins.ForeColor = Color.Red;
+                this.chkFinals.ForeColor = Color.Green;
+                this.chkShows.ForeColor = Color.Blue;
+
                 this.graph.GraphXColumnColor = Color.Black;
                 this.graph.GraphYColumnColor = Color.Black;
-            
+
                 this.graph.GraphXBackLineColor = Color.FromArgb(30, 0, 0, 0);
                 this.graph.GraphYBackLineColor = Color.FromArgb(30, 0, 0, 0);
 
@@ -51,10 +52,10 @@ namespace FallGuysStats {
                 //this.chkFinals.ForeColor =  Color.FromArgb(102, 0, 153);
                 this.chkFinals.ForeColor = Color.DeepPink;
                 this.chkShows.ForeColor = Color.DeepSkyBlue;
-            
+
                 this.graph.GraphXColumnColor = Color.DarkGray;
                 this.graph.GraphYColumnColor = Color.DarkGray;
-            
+
                 this.graph.GraphXBackLineColor = Color.FromArgb(30, 169, 169, 169);
                 this.graph.GraphYBackLineColor = Color.FromArgb(30, 169, 169, 169);
 
@@ -72,15 +73,15 @@ namespace FallGuysStats {
                 this.Close();
             }
         }
-        private void chkWins_CheckedChanged(object sender, EventArgs e) {
+        private void ChkWins_CheckedChanged(object sender, EventArgs e) {
             this.graph.YColumns[1] = chkWins.Checked;
             this.graph.Invalidate();
         }
-        private void chkFinals_CheckedChanged(object sender, EventArgs e) {
+        private void ChkFinals_CheckedChanged(object sender, EventArgs e) {
             this.graph.YColumns[2] = chkFinals.Checked;
             this.graph.Invalidate();
         }
-        private void chkShows_CheckedChanged(object sender, EventArgs e) {
+        private void ChkShows_CheckedChanged(object sender, EventArgs e) {
             this.graph.YColumns[3] = chkShows.Checked;
             this.graph.Invalidate();
         }
@@ -90,7 +91,7 @@ namespace FallGuysStats {
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
-            
+
             //if (Stats.CurrentLanguage == 0) { // English
             //    this.chkWins.Location =   new Point(75, 10);
             //    this.chkFinals.Location = new Point(180, 10);

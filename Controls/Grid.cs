@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+
 namespace FallGuysStats {
     public sealed class Grid : DataGridView {
         public ContextMenuStrip CMenu;
@@ -40,14 +41,13 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
         public SortOrder GetSortOrder(string columnName) {
-            SortOrder sortOrder;
-            this.Orders.TryGetValue(columnName, out sortOrder);
+            this.Orders.TryGetValue(columnName, out var sortOrder);
 
             if (sortOrder == SortOrder.None) {
                 this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                 this.Orders[columnName] = SortOrder.Ascending;
                 return SortOrder.Ascending;
-            } else if(sortOrder == SortOrder.Ascending){
+            } else if (sortOrder == SortOrder.Ascending) {
                 this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Descending;
                 this.Orders[columnName] = SortOrder.Descending;
                 return SortOrder.Descending;
@@ -74,8 +74,9 @@ namespace FallGuysStats {
             if (this.DesignMode) {
                 Graphics g = e.Graphics;
                 g.Clear(BackgroundColor);
-                Pen bp = new Pen(Color.DarkGray, 1);
-                bp.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                Pen bp = new Pen(Color.DarkGray, 1) {
+                    DashStyle = System.Drawing.Drawing2D.DashStyle.Solid
+                };
                 int i = 0;
                 g.DrawLine(bp, 0, 0, 0, Height);
                 g.DrawLine(bp, Width - 1, 0, Width - 1, Height);
@@ -193,19 +194,19 @@ namespace FallGuysStats {
         }
 
         #region Export event handlers
-        private void exportItemCSV_Click(object sender, EventArgs e) {
+        private void ExportItemCSV_Click(object sender, EventArgs e) {
             ExportCsv();
         }
 
-        private void exportItemHTML_Click(object sender, EventArgs e) {
+        private void ExportItemHTML_Click(object sender, EventArgs e) {
             ExportHtml();
         }
 
-        private void exportItemBBCODE_Click(object sender, EventArgs e) {
+        private void ExportItemBBCODE_Click(object sender, EventArgs e) {
             ExportBbCode();
         }
 
-        private void exportItemMD_Click(object sender, EventArgs e) {
+        private void ExportItemMD_Click(object sender, EventArgs e) {
             ExportMarkdown();
         }
         #endregion
@@ -216,17 +217,17 @@ namespace FallGuysStats {
                 this._saveFile.Title = Multilingual.GetWord("message_save_csv_file_caption");
                 this._saveFile.Filter = "CSV files|*.csv";
                 if (this.Name.Equals("gridRoundsSummryList")) {
-                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridShowsStats")) {
-                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridRoundsStats")) {
-                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridFinalsStats")) {
-                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridRoundStats")) {
-                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 }
-                
+
                 if (this._saveFile.ShowDialog() == DialogResult.OK) {
                     Encoding enc = Encoding.GetEncoding("utf-8");
                     using (FileStream fs = new FileStream(this._saveFile.FileName, FileMode.Create)) {
@@ -237,7 +238,7 @@ namespace FallGuysStats {
                             string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
                             sb.Append(EscapeQuotes(header)).Append(",");
                         }
-                        if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+                        if (sb.Length > 0) { sb.Length--; }
 
                         sb.AppendLine();
                         byte[] bytes = enc.GetBytes(sb.ToString());
@@ -255,7 +256,7 @@ namespace FallGuysStats {
                                     sb.Append($"{EscapeQuotes(tooltip)},");
                                 }
                             }
-                            if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+                            if (sb.Length > 0) { sb.Length--; }
 
                             sb.AppendLine();
                             bytes = enc.GetBytes(sb.ToString());
@@ -506,13 +507,13 @@ namespace FallGuysStats {
             ((ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             // 
-            // cMenu
+            // CMenu
             // 
             this.CMenu.Items.AddRange(new ToolStripItem[] { this.ExportItemCsv, this.ExportItemHtml, this.ExportItemBbcode, this.ExportItemMd });
             this.CMenu.Name = "contextMenu";
             this.CMenu.Size = new Size(135, 48);
             // 
-            // exportItemCSV
+            // ExportItemCSV
             // 
             this.ExportItemCsv.Name = "exportItemCSV";
             this.ExportItemCsv.Size = new Size(134, 22);
@@ -520,9 +521,9 @@ namespace FallGuysStats {
             this.ExportItemCsv.ShowShortcutKeys = true;
             this.ExportItemCsv.Image = Properties.Resources.export;
             this.ExportItemCsv.ShortcutKeys = Keys.Control | Keys.S;
-            this.ExportItemCsv.Click += new EventHandler(this.exportItemCSV_Click);
+            this.ExportItemCsv.Click += new EventHandler(this.ExportItemCSV_Click);
             // 
-            // exportItemHTML
+            // ExportItemHTML
             // 
             this.ExportItemHtml.Name = "exportItemHTML";
             this.ExportItemHtml.Size = new Size(134, 22);
@@ -530,9 +531,9 @@ namespace FallGuysStats {
             this.ExportItemHtml.ShowShortcutKeys = true;
             this.ExportItemHtml.Image = Properties.Resources.export;
             this.ExportItemHtml.ShortcutKeys = Keys.Control | Keys.E;
-            this.ExportItemHtml.Click += new EventHandler(this.exportItemHTML_Click);
+            this.ExportItemHtml.Click += new EventHandler(this.ExportItemHTML_Click);
             // 
-            // exportItemBBCODE
+            // ExportItemBBCODE
             // 
             this.ExportItemBbcode.Name = "exportItemBBCODE";
             this.ExportItemBbcode.Size = new Size(134, 22);
@@ -540,9 +541,9 @@ namespace FallGuysStats {
             this.ExportItemBbcode.ShowShortcutKeys = true;
             this.ExportItemBbcode.Image = Properties.Resources.export;
             this.ExportItemBbcode.ShortcutKeys = Keys.Control | Keys.B;
-            this.ExportItemBbcode.Click += new EventHandler(this.exportItemBBCODE_Click);
+            this.ExportItemBbcode.Click += new EventHandler(this.ExportItemBBCODE_Click);
             // 
-            // exportItemMD
+            // ExportItemMD
             // 
             this.ExportItemMd.Name = "exportItemMD";
             this.ExportItemMd.Size = new Size(134, 22);
@@ -550,7 +551,7 @@ namespace FallGuysStats {
             this.ExportItemMd.ShowShortcutKeys = true;
             this.ExportItemMd.Image = Properties.Resources.export;
             this.ExportItemMd.ShortcutKeys = Keys.Control | Keys.M;
-            this.ExportItemMd.Click += new EventHandler(this.exportItemMD_Click);
+            this.ExportItemMd.Click += new EventHandler(this.ExportItemMD_Click);
             // 
             // saveFile
             // 

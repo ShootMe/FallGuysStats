@@ -29,12 +29,16 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
-            
+
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
             this.cboMultilingual.SelectedIndex = Stats.CurrentLanguage;
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
+
+#if !AllowUpdate
+            this.chkAutoUpdate.Visible = false;
+#endif
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
                 this.chkCycleFastestLongest.Checked = true;
@@ -94,7 +98,7 @@ namespace FallGuysStats {
                     }
                 }
             }
-            
+
             ImageItem[] imageItems = {
                 new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
                 new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
@@ -158,9 +162,9 @@ namespace FallGuysStats {
 
             this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
             this.txtGameShortcutLocation.Text = this.CurrentSettings.GameShortcutLocation;
-            this.chkAutoLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
+            this.chkLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            
+
             this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
@@ -190,10 +194,10 @@ namespace FallGuysStats {
                 this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
         }
-        
+
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            this.cboOverlayBackground_blur();
+            this.CboOverlayBackground_blur();
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -241,17 +245,17 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.Invalidate(true);
         }
-        private void cboOverlayBackground_blur() {
+        private void CboOverlayBackground_blur() {
             if (this.Theme == MetroThemeStyle.Dark) {
                 this.cboOverlayBackground.ForeColor = Color.DarkGray;
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
-                    
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(153,153,153);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153,153,153);
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
             } else if (this.Theme == MetroThemeStyle.Light) {
                 this.cboOverlayBackground.ForeColor = Color.FromArgb(153, 153, 153);
                 this.cboOverlayBackground.BackColor = Color.White;
@@ -260,13 +264,13 @@ namespace FallGuysStats {
                 this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
             }
         }
-        private void cboOverlayBackground_focus() {
+        private void CboOverlayBackground_focus() {
             if (this.Theme == MetroThemeStyle.Dark) {
-                this.cboOverlayBackground.ForeColor = Color.FromArgb(204,204,204);
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
-                    
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(204,204,204);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170,170,170);
+                this.cboOverlayBackground.ForeColor = Color.FromArgb(204, 204, 204);
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(204, 204, 204);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170, 170, 170);
             } else if (this.Theme == MetroThemeStyle.Light) {
                 this.cboOverlayBackground.ForeColor = Color.Black;
                 this.cboOverlayBackground.BackColor = Color.White;
@@ -275,31 +279,31 @@ namespace FallGuysStats {
                 this.cboOverlayBackground.ButtonColor = Color.FromArgb(17, 17, 17);
             }
         }
-        private void cboOverlayBackground_MouseEnter(object sender, EventArgs e) {
+        private void CboOverlayBackground_MouseEnter(object sender, EventArgs e) {
             if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_focus();
+                this.CboOverlayBackground_focus();
             }
         }
-        private void cboOverlayBackground_GotFocus(object sender, EventArgs e) {
+        private void CboOverlayBackground_GotFocus(object sender, EventArgs e) {
             this.CboOverlayBackgroundIsFocus = true;
-            this.cboOverlayBackground_focus();
+            this.CboOverlayBackground_focus();
         }
-        private void cboOverlayBackground_MouseLeave(object sender, EventArgs e) {
+        private void CboOverlayBackground_MouseLeave(object sender, EventArgs e) {
             if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_blur();
+                this.CboOverlayBackground_blur();
             }
         }
-        private void cboOverlayBackground_LostFocus(object sender, EventArgs e) {
+        private void CboOverlayBackground_LostFocus(object sender, EventArgs e) {
             this.CboOverlayBackgroundIsFocus = false;
-            this.cboOverlayBackground_blur();
+            this.CboOverlayBackground_blur();
         }
 
-        private void btnSave_Click(object sender, EventArgs e) {
+        private void BtnSave_Click(object sender, EventArgs e) {
             Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
             this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
 
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
-            
+
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
@@ -401,7 +405,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
                 this.CurrentSettings.OverlayColor = 5;
             }
-            
+
             if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.WinsFilter = 0;
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -415,7 +419,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_session_stats")}") {
                 this.CurrentSettings.WinsFilter = 5;
             }
-            
+
             if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.QualifyFilter = 0;
             } else if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -429,7 +433,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_session_stats")}") {
                 this.CurrentSettings.QualifyFilter = 5;
             }
-            
+
             if ((string)this.cboFastestFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.FastestFilter = 0;
             } else if ((string)this.cboFastestFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -467,7 +471,7 @@ namespace FallGuysStats {
             this.CurrentSettings.LaunchPlatform = this.LaunchPlatform;
             this.CurrentSettings.GameExeLocation = this.txtGameExeLocation.Text;
             this.CurrentSettings.GameShortcutLocation = this.txtGameShortcutLocation.Text;
-            this.CurrentSettings.AutoLaunchGameOnStartup = this.chkAutoLaunchGameOnStart.Checked;
+            this.CurrentSettings.AutoLaunchGameOnStartup = this.chkLaunchGameOnStart.Checked;
 
             if (!string.IsNullOrEmpty(this.overlayFontSerialized)) {
                 FontConverter fontConverter = new FontConverter();
@@ -476,35 +480,35 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
                 Overlay.SetDefaultFont(Stats.CurrentLanguage, 18);
             }
-            
+
             if (!string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
                 ColorConverter colorConverter = new ColorConverter();
                 this.CurrentSettings.OverlayFontColorSerialized = colorConverter.ConvertToString(this.lblOverlayFontExample.ForeColor);
             } else {
                 this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
             }
-            
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
-        private void txtCycleTimeSeconds_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void TxtCycleTimeSeconds_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text) && !int.TryParse(this.txtCycleTimeSeconds.Text, out _)) {
                 this.txtCycleTimeSeconds.Text = "5";
             }
         }
-        private void txtLogPath_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void TxtLogPath_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             try {
                 if (this.txtLogPath.Text.IndexOf(".log", StringComparison.OrdinalIgnoreCase) > 0) {
                     this.txtLogPath.Text = Path.GetDirectoryName(this.txtLogPath.Text);
                 }
             } catch { }
         }
-        private void txtPreviousWins_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void TxtPreviousWins_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(this.txtPreviousWins.Text) && !int.TryParse(this.txtPreviousWins.Text, out _)) {
                 this.txtPreviousWins.Text = "0";
             }
         }
-        private void btnGameExeLocationBrowse_Click(object sender, EventArgs e) {
+        private void BtnGameExeLocationBrowse_Click(object sender, EventArgs e) {
             try {
                 using (OpenFileDialog openFile = new OpenFileDialog()) {
                     if (this.LaunchPlatform == 0) { // Epic Games
@@ -512,19 +516,18 @@ namespace FallGuysStats {
                         openFile.Filter = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_filter", this.DisplayLang);
                         openFile.FileName = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_name", this.DisplayLang);
                         openFile.Title = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_title", this.DisplayLang);
-                        
+
                         if (openFile.ShowDialog(this) == DialogResult.OK) {
                             string fileContent;
                             string epicGamesFallGuysApp = "50118b7f954e450f8823df1614b24e80%3A38ec4849ea4f4de6aa7b6fb0f2d278e1%3A0a2d9f6403244d12969e11da6713137b";
-                            FileStream fileStream = new FileStream(openFile.FileName ,FileMode.Open);
-                            using (StreamReader reader = new StreamReader(fileStream))
-                            {
+                            FileStream fileStream = new FileStream(openFile.FileName, FileMode.Open);
+                            using (StreamReader reader = new StreamReader(fileStream)) {
                                 fileContent = reader.ReadToEnd();
                             }
-                            
+
                             string[] splitContent = fileContent.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                             string url = string.Empty;
-                            
+
                             for (int i = 0; i < splitContent.Length; i++) {
                                 if (splitContent[i].ToLower().StartsWith("url=")) {
                                     url = splitContent[i].Substring(4);
@@ -564,7 +567,7 @@ namespace FallGuysStats {
                 ControlErrors.HandleException(this, ex, false);
             }
         }
-        private void launchPlatform_Click(object sender, EventArgs e) {
+        private void LaunchPlatform_Click(object sender, EventArgs e) {
             if ((bool)((PictureBox)sender)?.Name.Equals("picEpicGames")) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
@@ -628,11 +631,11 @@ namespace FallGuysStats {
             }
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
         }
-        private void btnCancel_Click(object sender, EventArgs e) {
+        private void BtnCancel_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-        private void btnSelectFont_Click(object sender, EventArgs e) {
+        private void BtnSelectFont_Click(object sender, EventArgs e) {
             if (string.IsNullOrEmpty(this.overlayFontSerialized)) {
                 this.dlgOverlayFont.Font = Overlay.GetDefaultFont(this.DisplayLang, 24);
             } else {
@@ -659,15 +662,15 @@ namespace FallGuysStats {
                 this.overlayFontSerialized = new FontConverter().ConvertToString(this.lblOverlayFontExample.Font);
             }
         }
-        private void btnResetOverlayFont_Click(object sender, EventArgs e) {
+        private void BtnResetOverlayFont_Click(object sender, EventArgs e) {
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
-            
+
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;
-            
+
             this.overlayFontSerialized = string.Empty;
         }
-        private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
             if (this.DisplayLang == ((ComboBox)sender).SelectedIndex) return;
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
@@ -683,7 +686,7 @@ namespace FallGuysStats {
             this.Font = Overlay.GetMainFont(12, this.DisplayLang);
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
-            
+
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
             this.overlayFontSerialized = string.Empty;
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -692,7 +695,7 @@ namespace FallGuysStats {
             //    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             //    this.overlayFontColorSerialized = string.Empty;
             //}
-            
+
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
@@ -702,22 +705,22 @@ namespace FallGuysStats {
                 this.txtLogPath.Size = new Size(760, 22);
                 this.lblLogPathNote.Location = new Point(103, 98);
 
-                this.txtPreviousWins.Location = new Point(116, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
+                this.txtPreviousWins.Location = new Point(120, 55);
+                this.lblPreviousWinsNote.Location = new Point(170, 55);
                 this.chkChangeHoopsieLegends.Location = new Point(399, 55);
 
-                this.lblWinsFilter.Location = new Point(471, 20);
-                this.lblQualifyFilter.Location = new Point(457, 55);
-                this.lblFastestFilter.Location = new Point(443, 90);
-                this.lblOverlayBackground.Location = new Point(461, 125);
-                this.lblOverlayColor.Location = new Point(502, 160);
+                this.lblWinsFilter.Location = new Point(501, 23);
+                this.lblQualifyFilter.Location = new Point(487, 58);
+                this.lblFastestFilter.Location = new Point(473, 93);
+                this.lblOverlayBackground.Location = new Point(491, 129);
+                this.lblOverlayColor.Location = new Point(532, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(90, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
 
                 this.grpLaunchPlatform.Size = new Size(97, 60);
                 this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                this.chkLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(267, 23);
                     this.txtGameShortcutLocation.Size = new Size(508, 25);
@@ -733,22 +736,22 @@ namespace FallGuysStats {
                 this.txtLogPath.Size = new Size(675, 22);
                 this.lblLogPathNote.Location = new Point(188, 98);
 
-                this.txtPreviousWins.Location = new Point(116, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+                this.txtPreviousWins.Location = new Point(154, 55);
+                this.lblPreviousWinsNote.Location = new Point(200, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(429, 55);
 
-                this.lblWinsFilter.Location = new Point(447, 20);
-                this.lblQualifyFilter.Location = new Point(460, 55);
-                this.lblFastestFilter.Location = new Point(413, 90);
-                this.lblOverlayBackground.Location = new Point(483, 125);
-                this.lblOverlayColor.Location = new Point(497, 160);
+                this.lblWinsFilter.Location = new Point(477, 23);
+                this.lblQualifyFilter.Location = new Point(491, 58);
+                this.lblFastestFilter.Location = new Point(444, 93);
+                this.lblOverlayBackground.Location = new Point(480, 129);
+                this.lblOverlayColor.Location = new Point(504, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(190, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(218, 192);
 
                 this.grpLaunchPlatform.Size = new Size(97, 60);
                 this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                this.chkLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(215, 23);
                     this.txtGameShortcutLocation.Size = new Size(560, 25);
@@ -768,18 +771,18 @@ namespace FallGuysStats {
                 this.lblPreviousWinsNote.Location = new Point(166, 55);
                 this.chkChangeHoopsieLegends.Location = new Point(399, 55);
 
-                this.lblWinsFilter.Location = new Point(439, 20);
-                this.lblQualifyFilter.Location = new Point(457, 55);
-                this.lblFastestFilter.Location = new Point(407, 90);
-                this.lblOverlayBackground.Location = new Point(452, 125);
-                this.lblOverlayColor.Location = new Point(466, 160);
+                this.lblWinsFilter.Location = new Point(465, 23);
+                this.lblQualifyFilter.Location = new Point(483, 58);
+                this.lblFastestFilter.Location = new Point(433, 93);
+                this.lblOverlayBackground.Location = new Point(478, 129);
+                this.lblOverlayColor.Location = new Point(492, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(90, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
 
                 this.grpLaunchPlatform.Size = new Size(97, 60);
                 this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                this.chkLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(278, 23);
                     this.txtGameShortcutLocation.Size = new Size(497, 25);
@@ -799,18 +802,18 @@ namespace FallGuysStats {
                 this.lblPreviousWinsNote.Location = new Point(166, 55);
                 this.chkChangeHoopsieLegends.Location = new Point(390, 55);
 
-                this.lblWinsFilter.Location = new Point(405, 20);
-                this.lblQualifyFilter.Location = new Point(405, 55);
-                this.lblFastestFilter.Location = new Point(376, 90);
-                this.lblOverlayBackground.Location = new Point(432, 125);
-                this.lblOverlayColor.Location = new Point(418, 160);
+                this.lblWinsFilter.Location = new Point(430, 23);
+                this.lblQualifyFilter.Location = new Point(430, 58);
+                this.lblFastestFilter.Location = new Point(401, 93);
+                this.lblOverlayBackground.Location = new Point(457, 129);
+                this.lblOverlayColor.Location = new Point(443, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(110, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(138, 192);
 
                 this.grpLaunchPlatform.Size = new Size(97, 60);
                 this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                this.chkLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(293, 23);
                     this.txtGameShortcutLocation.Size = new Size(482, 25);
@@ -830,18 +833,18 @@ namespace FallGuysStats {
                 this.lblPreviousWinsNote.Location = new Point(155, 55);
                 this.chkChangeHoopsieLegends.Location = new Point(399, 55);
 
-                this.lblWinsFilter.Location = new Point(467, 20);
-                this.lblQualifyFilter.Location = new Point(467, 55);
-                this.lblFastestFilter.Location = new Point(467, 90);
-                this.lblOverlayBackground.Location = new Point(522, 125);
-                this.lblOverlayColor.Location = new Point(536, 160);
+                this.lblWinsFilter.Location = new Point(500, 23);
+                this.lblQualifyFilter.Location = new Point(500, 58);
+                this.lblFastestFilter.Location = new Point(500, 93);
+                this.lblOverlayBackground.Location = new Point(555, 129);
+                this.lblOverlayColor.Location = new Point(569, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(87, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(116, 192);
 
                 this.grpLaunchPlatform.Size = new Size(97, 60);
                 this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
+                this.chkLaunchGameOnStart.Location = new Point(118, 55);
                 if (this.LaunchPlatform == 0) {
                     this.txtGameShortcutLocation.Location = new Point(252, 23);
                     this.txtGameShortcutLocation.Size = new Size(523, 25);
@@ -989,8 +992,8 @@ namespace FallGuysStats {
 
             this.lblWinsFilter.Text = Multilingual.GetWord("settings_wins__final_filter");
             this.chkOverlayOnTop.Text = Multilingual.GetWord("settings_always_show_on_top");
-            this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_the_player_by_console_type");
-            this.chkColorByRoundType.Text = Multilingual.GetWord("settings_display_the_color_by_round_type");
+            this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_players_based_on_platform");
+            this.chkColorByRoundType.Text = Multilingual.GetWord("settings_color_round_name_based_on_round_type");
             this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
@@ -1014,7 +1017,7 @@ namespace FallGuysStats {
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
             //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
-            this.chkAutoLaunchGameOnStart.Text = Multilingual.GetWord("settings_auto_launch_fall_guys_on_tracker");
+            this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
             this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");

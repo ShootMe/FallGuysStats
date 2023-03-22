@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class EditShows {
         /// <summary>
         /// Required designer variable.
@@ -73,41 +70,41 @@ namespace FallGuysStats {
             this.cboEditShows.Name = "cboEditShows";
             this.cboEditShows.Size = new System.Drawing.Size(198, 29);
             this.cboEditShows.TabIndex = 0;
-            //this.cboEditShows.UseSelectable = true;
-            this.cboEditShows.SelectedIndexChanged += new System.EventHandler(this.cboEditShows_Changed);
+            this.cboEditShows.UseSelectable = true;
+            this.cboEditShows.SelectedIndexChanged += new System.EventHandler(this.CboEditShows_Changed);
             // 
             // lblEditShowsBackColor
             // 
-            this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(40,0,182,254);
+            this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
             this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 191);
             this.lblEditShowsBackColor.Name = "lblEditShowsBackColor";
-            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 63);
+            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 53);
             this.lblEditShowsBackColor.TabIndex = 3;
             // 
             // btnEditShowsSave
             // 
-            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 210);
+            this.btnEditShowsSave.Location = new System.Drawing.Point(240, 206);
             this.btnEditShowsSave.Name = "btnEditShowsSave";
             this.btnEditShowsSave.Size = new System.Drawing.Size(87, 25);
             this.btnEditShowsSave.TabIndex = 1;
             this.btnEditShowsSave.Text = "Save";
             this.btnEditShowsSave.UseSelectable = true;
-            this.btnEditShowsSave.Click += new System.EventHandler(this.btnEditShowsSave_Click);
+            this.btnEditShowsSave.Click += new System.EventHandler(this.BtnEditShowsSave_Click);
             // 
             // btnEditShowsCancel
             // 
-            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 210);
+            this.btnEditShowsCancel.Location = new System.Drawing.Point(339, 206);
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
             this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 25);
             this.btnEditShowsCancel.TabIndex = 2;
             this.btnEditShowsCancel.Text = "Cancel";
             this.btnEditShowsCancel.UseSelectable = true;
-            this.btnEditShowsCancel.Click += new System.EventHandler(this.btnEditShowsCancel_Click);
+            this.btnEditShowsCancel.Click += new System.EventHandler(this.BtnEditShowsCancel_Click);
             // 
             // EditShows
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(445, 253);
+            this.ClientSize = new System.Drawing.Size(445, 244);
             this.Controls.Add(this.picEditShowsIcon);
             this.Controls.Add(this.lblEditShowsQuestion);
             this.Controls.Add(this.lblEditShowslabel);
@@ -129,6 +126,7 @@ namespace FallGuysStats {
             ((System.ComponentModel.ISupportInitialize)(this.picEditShowsIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

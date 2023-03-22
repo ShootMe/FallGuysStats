@@ -79,7 +79,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ImageComboBox.cs" />
+    <Compile Include="Controls\ImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -236,7 +238,7 @@
     <None Include="Resources\number_9.png" />
     <None Include="Resources\number_10.png" />
     <None Include="Resources\github_icon.png" />
-    <None Include="Resources\github_gray_icon.png" />  
+    <None Include="Resources\github_gray_icon.png" />
     <None Include="Resources\profile_icon.png" />
     <None Include="Resources\profile_gray_icon.png" />
     <None Include="Resources\profile2_icon.png" />

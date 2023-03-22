@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+
 namespace FallGuysStats {
     public class Graph : PictureBox {
         private DataTable dataSource;
@@ -49,7 +50,7 @@ namespace FallGuysStats {
         public new Image ErrorImage { get; set; }
         [Browsable(false)]
         public new Color BackColor { get { return base.BackColor; } set { base.BackColor = value; } }
-        
+
         public Color GraphXBackLineColor;
         public Color GraphYBackLineColor;
         public Color GraphXColumnColor;
@@ -60,13 +61,13 @@ namespace FallGuysStats {
         public Color GraphWinsColor;
         public Color GraphFinalsColor;
         public Color GraphShowsColor;
-        
+
         private static Color[] Colors = { Color.Black, Color.Red, Color.Green, Color.Blue };
         private Brush[] brushes;
         private Pen[] pens;
         private int closeRowIndex, closeColumnIndex;
         private Point lastMousePosition;
-        
+
         public Graph() {
             this.closeRowIndex = -1;
             this.closeColumnIndex = -1;
@@ -99,7 +100,7 @@ namespace FallGuysStats {
 
             if (this.dataSource == null || this.dataSource.DefaultView.Count == 0) { return; }
 
-            int w = Width; int h = Height;
+            //int w = Width; int h = Height;
             decimal xmax = decimal.MinValue; decimal xmin = decimal.MaxValue; decimal ymax = decimal.MinValue; decimal ymin = decimal.MaxValue;
             Type yType = null;
             Type xType = this.dataSource.Columns[XColumn].DataType;
@@ -220,7 +221,6 @@ namespace FallGuysStats {
             }
             if (!visible) {
                 ymax = 10;
-                ymin = 0;
             }
             ymin = 0;
 
@@ -235,21 +235,22 @@ namespace FallGuysStats {
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             decimal y8 = (ymax - ymin) / (decimal)8.0; decimal x8 = (xmax - xmin) / (decimal)8.0;
             double h8 = (hmax - hmin) / 8.0; double w8 = (wmax - wmin) / 8.0;
-            Pen bp = new Pen(this.GraphYColumnColor, 1);
-            bp.DashStyle = DashStyle.Dash;
+            Pen bp = new Pen(this.GraphYColumnColor, 1) {
+                DashStyle = DashStyle.Dash
+            };
             g.DrawLine(bp, wmin, 0, wmin, hmax); // Y Outer Line
             bp.Color = this.GraphXColumnColor;
             g.DrawLine(bp, wmin, hmax, w - 1, hmax); // X Outer Line
-            
+
             //bp.Color = Color.FromArgb(30, 0, 0, 0);
             for (int i = 0; i <= 8; i++) {
                 string xval = this.GetRepresentation(xType, x8 * i + xmin, xmax - xmin);
                 float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
                 float tx = (float)(w8 * i + wmin);
-                g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx + 2 - xsz / (float)2.0, hmax + 2); // X Date String
+                g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx - xsz / (float)2.0, hmax + 2); // X Date String
                 if (i > 0) { bp.Color = this.GraphYBackLineColor; g.DrawLine(bp, tx, 0, tx, hmax - 1); } // Y Back Line
                 float ty = (float)(h - 3 * sz - h8 * i);
-                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 2, ty); // Y Count String
+                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 4, ty); // Y Count String
                 if (i > 0) { bp.Color = this.GraphXBackLineColor; g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz); } // X Back Line
             }
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -286,7 +287,7 @@ namespace FallGuysStats {
                 string summaryShows = string.Empty;
                 int sizeWidth = TextRenderer.MeasureText(summaryTitle, this.Font).Width;
                 int sizeHeight = TextRenderer.MeasureText(summaryTitle, this.Font).Height;
-                
+
                 // Shows
                 if (yColumns[3]) {
                     summaryShows += $"{Environment.NewLine}{this.dataSource.Columns[3].ColumnName} : {this.dataSource.DefaultView[closeRowIndex][3]}{Multilingual.GetWord("main_inning")}";
@@ -322,9 +323,9 @@ namespace FallGuysStats {
                 }
 
                 int px = this.lastMousePosition.X + sizeWidth > w ? w - sizeWidth : this.lastMousePosition.X;
-                int py = this.lastMousePosition.Y - sizeHeight < 0 ? 0 : this.lastMousePosition.Y - sizeHeight;
+                int py = this.lastMousePosition.Y - sizeHeight < 0 ? 0 : this.lastMousePosition.Y - sizeHeight - 18;
 
-                this.FillRoundedRectangle(g, new Pen(this.GraphGuideLineColor, 0), new SolidBrush(GraphSummaryBackColor), px - 6, py - 6, sizeWidth + 12, sizeHeight + 12, 10);
+                this.FillRoundedRectangle(g, new Pen(this.GraphGuideLineColor, 0), new SolidBrush(GraphSummaryBackColor), px - 6, py - 6, sizeWidth + 20, sizeHeight + 12 + (Stats.CurrentLanguage == 4 ? 12 : 18), 10);
                 g.DrawString(summaryTitle, new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Bold, GraphicsUnit.Pixel), new SolidBrush(this.GraphSummaryTitleColor), px, py);
                 if (yColumns[1]) g.DrawString(summaryWins, this.Font, new SolidBrush(this.GraphWinsColor), px, py);
                 if (yColumns[2]) g.DrawString(summaryFinals, this.Font, new SolidBrush(this.GraphFinalsColor), px, py);
@@ -344,7 +345,7 @@ namespace FallGuysStats {
             path.AddArc(corner, 90, 90);
             path.CloseFigure();
             g.FillPath(brush, path);
-            if(pen != null) {
+            if (pen != null) {
                 g.DrawPath(pen, path);
             }
         }
@@ -395,11 +396,7 @@ namespace FallGuysStats {
         }
         private string GetRepresentation(Type t, decimal value, decimal range) {
             if (t == typeof(DateTime)) {
-                if (TimeSpan.FromTicks((long)range).Days > 0) {
-                    return new DateTime((long)value).ToString(Multilingual.GetWord("level_date_format"));
-                } else {
-                    return new DateTime((long)value).ToString("HH:mm");
-                }
+                return new DateTime((long)value).ToString(Multilingual.GetWord("level_date_format"));
             } else if (t == typeof(int)) {
                 return ((int)value).ToString();
             } else if (t == typeof(long)) {

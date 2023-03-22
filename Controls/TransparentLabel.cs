@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+
 namespace FallGuysStats {
     public class TransparentLabel : Label {
         protected override CreateParams CreateParams {
@@ -32,9 +33,10 @@ namespace FallGuysStats {
             if (!this.DrawVisible) { return; }
             if (this.PlatformIcon != null) {
                 using (SolidBrush brFore = new SolidBrush(this.ForeColor)) {
-                    StringFormat stringFormat = new StringFormat();
-                    stringFormat.Alignment = StringAlignment.Far;
-                    stringFormat.LineAlignment = StringAlignment.Far;
+                    StringFormat stringFormat = new StringFormat {
+                        Alignment = StringAlignment.Far,
+                        LineAlignment = StringAlignment.Far
+                    };
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -50,8 +52,9 @@ namespace FallGuysStats {
                         g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                         g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
-                        StringFormat stringFormat = new StringFormat();
-                        stringFormat.Alignment = StringAlignment.Near;
+                        StringFormat stringFormat = new StringFormat {
+                            Alignment = StringAlignment.Near
+                        };
                         switch (this.TextAlign) {
                             case ContentAlignment.BottomLeft:
                             case ContentAlignment.BottomCenter:
@@ -80,19 +83,20 @@ namespace FallGuysStats {
                         }
 
                         if (!string.IsNullOrEmpty(this.Text)) {
-                            if (this.Name.Equals("lblRound")) {
+                            /*if (this.Name.Equals("lblRound")) {
                                 if (!this.LevelColor.IsEmpty) {
-                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
+                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
                                     //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle.X, this.ClientRectangle.Y + ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? 10 : 0), stringFormat);
                                     
                                 } else {
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
                                     //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle, stringFormat);
-                                }
+                        }
                             } else {
                                 this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
                                 //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle, stringFormat);
-                            }
+                            }*/
+                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
                         }
 
                         if (this.Image != null) {
@@ -129,16 +133,62 @@ namespace FallGuysStats {
             }
         }
         private Color GetComplementaryColor(Color source, int alpha) {
-            return Color.FromArgb(alpha,255 - source.R, 255 - source.G, 255 - source.B);
+            return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
         }
         private Font GetFontForLongText(string text) {
-            return (Stats.CurrentLanguage == 2 && text.Length > 12 || Stats.CurrentLanguage == 3 && text.Length > 9)
+            return ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && text.Length > 12) || (Stats.CurrentLanguage == 2 && text.Length > 12) || (Stats.CurrentLanguage == 3 && text.Length > 9)
                 ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length, 21), this.Font.Style, GraphicsUnit.Pixel)
                 : this.Font;
         }
         private float GetRoundNameFontSize(int textLength, int offset) {
             float weight = 1.0F;
-            if (Stats.CurrentLanguage == 3 && textLength > 9) { // Japanese
+            if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
+                offset += 9;
+                if (textLength == 13) {
+                    weight = 0.95F;
+                } else if (textLength == 14) {
+                    weight = 1.05F;
+                } else if (textLength == 15) {
+                    weight = 1.05F;
+                } else if (textLength == 16) {
+                    weight = 1.05F;
+                } else if (textLength == 17) {
+                    weight = 1.05F;
+                } else if (textLength == 18) {
+                    weight = 1.05F;
+                } else if (textLength == 19) {
+                    weight = 1.05F;
+                } else if (textLength == 20) {
+                    weight = 1.1F;
+                } else if (textLength == 21) {
+                    weight = 1.2F;
+                } else if (textLength == 22) {
+                    weight = 1.4F;
+                } else if (textLength == 23) {
+                    weight = 1.6F;
+                } else if (textLength == 24) {
+                    weight = 1.8F;
+                } else if (textLength == 25) {
+                    weight = 2.0F;
+                } else if (textLength == 26) {
+                    weight = 2.2F;
+                } else if (textLength == 27) {
+                    weight = 3.4F;
+                } else if (textLength == 28) {
+                    weight = 4.7F;
+                } else if (textLength == 29) {
+                    weight = 9.7F;
+                }
+            } else if (Stats.CurrentLanguage == 2) { // Korean
+                offset += 3;
+                if (textLength == 13) {
+                    weight = 1.15F;
+                } else if (textLength == 14) {
+                    weight = 1.2F;
+                } else if (textLength == 15) {
+                    weight = 1.225F;
+                }
+            } else if (Stats.CurrentLanguage == 3) { // Japanese
                 if (textLength == 10) {
                     weight = 1.075F;
                 } else if (textLength == 11) {
@@ -151,15 +201,6 @@ namespace FallGuysStats {
                     weight = 1.25F;
                 } else if (textLength == 15) {
                     weight = 1.35F;
-                }
-            } else if (Stats.CurrentLanguage == 2 && textLength > 12) { // Korean
-                offset += 3;
-                if (textLength == 13) {
-                    weight = 1.15F;
-                } else if (textLength == 14) {
-                    weight = 1.2F;
-                } else if (textLength == 15) {
-                    weight = 1.225F;
                 }
             }
             return (offset - textLength) * weight;
@@ -182,11 +223,11 @@ namespace FallGuysStats {
             }
         }
         private void DrawOutlineText(Graphics g, Rectangle layoutRect, Pen outlinePen, Brush fillBrush, FontFamily fontFamily, FontStyle fontStyle, float fontSize, string text, StringFormat stringFormat) {
-            using(GraphicsPath path = new GraphicsPath()) {
+            using (GraphicsPath path = new GraphicsPath()) {
                 path.AddString(text, fontFamily, (int)fontStyle, fontSize, layoutRect, stringFormat);
                 path.CloseFigure();
                 g.FillPath(fillBrush, path);
-                if(outlinePen != null) g.DrawPath(outlinePen, path);
+                if (outlinePen != null) g.DrawPath(outlinePen, path);
             }
         }
     }

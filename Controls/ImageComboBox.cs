@@ -15,27 +15,22 @@ namespace FallGuysStats {
                 return cp;
             }
         }
-        
+
         private Color borderColor = Color.Gray;
         public Color BorderColor {
             get { return borderColor; }
-            set
-            {
-                if (borderColor != value)
-                {
+            set {
+                if (borderColor != value) {
                     borderColor = value;
                     Invalidate();
                 }
             }
         }
         private Color buttonColor = Color.DarkGray;
-        public Color ButtonColor
-        {
+        public Color ButtonColor {
             get { return buttonColor; }
-            set
-            {
-                if (buttonColor != value)
-                {
+            set {
+                if (buttonColor != value) {
                     buttonColor = value;
                     Invalidate();
                 }
@@ -59,7 +54,7 @@ namespace FallGuysStats {
                     dropDownRect.X = clientRect.Width - dropDownRect.Right;
                     dropDownRect.Width += 1;
                 }
-                var innerBorderColor = Enabled ? BackColor : SystemColors.Control;
+                //var innerBorderColor = Enabled ? BackColor : SystemColors.Control;
                 var outerBorderColor = Enabled ? BorderColor : SystemColors.ControlDark;
                 var buttonColor = Enabled ? ButtonColor : SystemColors.Control;
                 var middle = new Point(dropDownRect.Left + dropDownRect.Width / 2,
@@ -82,12 +77,12 @@ namespace FallGuysStats {
                 } else {
                     dc = m.WParam;
                 }
-                var rgn = CreateRectRgn(innerInnerBorder.Left, innerInnerBorder.Top, 
+                var rgn = CreateRectRgn(innerInnerBorder.Left, innerInnerBorder.Top,
                     innerInnerBorder.Right, innerInnerBorder.Bottom);
                 SelectClipRgn(dc, rgn);
                 DefWndProc(ref m);
                 DeleteObject(rgn);
-                rgn = CreateRectRgn(clientRect.Left, clientRect.Top, 
+                rgn = CreateRectRgn(clientRect.Left, clientRect.Top,
                     clientRect.Right, clientRect.Bottom);
                 SelectClipRgn(dc, rgn);
                 using (var g = Graphics.FromHdc(dc)) {
@@ -110,8 +105,7 @@ namespace FallGuysStats {
                 if (shoulEndPaint)
                     EndPaint(Handle, ref ps);
                 DeleteObject(rgn);
-            }
-            else
+            } else
                 base.WndProc(ref m);
         }
 
@@ -161,13 +155,13 @@ namespace FallGuysStats {
 
         [DllImport("gdi32.dll")]
         private static extern IntPtr CreateRectRgn(int x1, int y1, int x2, int y2);
-        
+
         #region Private Field
-        private const int COLOR_ITEM_MARGIN_WIDTH  = 4;
+        private const int COLOR_ITEM_MARGIN_WIDTH = 4;
         private const int COLOR_ITEM_MARGIN_HEIGHT = 4;
-        private const int IMAGE_ITEM_MARGIN_WIDTH  = 2;
+        private const int IMAGE_ITEM_MARGIN_WIDTH = 2;
         private const int IMAGE_ITEM_MARGIN_HEIGHT = 2;
-        private MetroFramework.Components.MetroToolTip toolTip = new MetroFramework.Components.MetroToolTip();
+        private readonly MetroFramework.Components.MetroToolTip toolTip = new MetroFramework.Components.MetroToolTip();
         #endregion
 
         #region SetColorData(colorArray)
@@ -179,38 +173,38 @@ namespace FallGuysStats {
                 this.Items.Add(color);
             }
 
-            this.DrawItem += this.colorComboBox_DrawItem;
+            this.DrawItem += this.ColorComboBox_DrawItem;
         }
         #endregion
-        
+
         #region SetImageData(imageArray)
         public void SetImageData(Image[] imageArray) {
             this.DrawMode = DrawMode.OwnerDrawVariable;
             this.Items.Clear();
 
-            foreach(Image image in imageArray) {
+            foreach (Image image in imageArray) {
                 this.Items.Add(image);
             }
 
-            this.MeasureItem += this.imageComboBox_MeasureItem;
-            this.DrawItem    += this.imageComboBox_DrawItem;
+            this.MeasureItem += this.ImageComboBox_MeasureItem;
+            this.DrawItem += this.ImageComboBox_DrawItem;
         }
         #endregion
-        
+
         #region SetImageItemData(imageItemArray)
         public void SetImageItemData(ArrayList imageItemArray) {
             this.DrawMode = DrawMode.OwnerDrawVariable;
             this.Items.Clear();
             this.Items.AddRange(imageItemArray.ToArray());
 
-            this.MeasureItem += this.imageItemComboBox_MeasureItem;
-            this.DrawItem    += this.imageItemComboBox_DrawItem;
+            this.MeasureItem += this.ImageItemComboBox_MeasureItem;
+            this.DrawItem += this.ImageItemComboBox_DrawItem;
         }
         #endregion
 
-        #region colorComboBox_DrawItem(sender, e)
-        private void colorComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if(e.Index < 0) { return; }
+        #region ColorComboBox_DrawItem(sender, e)
+        private void ColorComboBox_DrawItem(object sender, DrawItemEventArgs e) {
+            if (e.Index < 0) { return; }
 
             e.DrawBackground();
 
@@ -227,15 +221,15 @@ namespace FallGuysStats {
             ComboBox comboBox = sender as ComboBox;
             Color color = (Color)comboBox.Items[e.Index];
 
-            using(SolidBrush brush = new SolidBrush(color)) {
+            using (SolidBrush brush = new SolidBrush(color)) {
                 e.Graphics.FillRectangle(brush, rectangle);
             }
 
             e.Graphics.DrawRectangle(Pens.Black, rectangle);
 
-            using(Font font = new Font(comboBox.Font.FontFamily, comboBox.Font.Size * 0.75f, FontStyle.Bold)) {
-                using(StringFormat stringFormat = new StringFormat()) {
-                    stringFormat.Alignment     = StringAlignment.Near;
+            using (Font font = new Font(comboBox.Font.FontFamily, comboBox.Font.Size * 0.75f, FontStyle.Bold)) {
+                using (StringFormat stringFormat = new StringFormat()) {
+                    stringFormat.Alignment = StringAlignment.Near;
                     stringFormat.LineAlignment = StringAlignment.Center;
 
                     int x = height + 2 * COLOR_ITEM_MARGIN_WIDTH;
@@ -249,23 +243,23 @@ namespace FallGuysStats {
             e.DrawFocusRectangle();
         }
         #endregion
-        
-        #region imageComboBox_MeasureItem(sender, e)
-        private void imageComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
-            if(e.Index < 0) { return; }
+
+        #region ImageComboBox_MeasureItem(sender, e)
+        private void ImageComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
+            if (e.Index < 0) { return; }
 
             ComboBox comboBox = sender as ComboBox;
             Image image = (Image)comboBox.Items[e.Index];
             this.toolTip.SetToolTip(this, comboBox.SelectedText);
-            
+
             e.ItemHeight = image.Height + 2 * IMAGE_ITEM_MARGIN_HEIGHT;
-            e.ItemWidth  = image.Width  + 2 * IMAGE_ITEM_MARGIN_WIDTH;
+            e.ItemWidth = image.Width + 2 * IMAGE_ITEM_MARGIN_WIDTH;
         }
         #endregion
-        
-        #region imageComboBox_DrawItem(sender, e)
-        private void imageComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if(e.Index < 0) { return; }
+
+        #region ImageComboBox_DrawItem(sender, e)
+        private void ImageComboBox_DrawItem(object sender, DrawItemEventArgs e) {
+            if (e.Index < 0) { return; }
 
             e.DrawBackground();
             ComboBox comboBox = sender as ComboBox;
@@ -273,8 +267,8 @@ namespace FallGuysStats {
             Image image = (Image)comboBox.Items[e.Index];
 
             float height = e.Bounds.Height - 2 * IMAGE_ITEM_MARGIN_HEIGHT;
-            float scale  = height / image.Height;
-            float width  = image.Width * scale;
+            float scale = height / image.Height;
+            float width = image.Width * scale;
 
             RectangleF rectangle = new RectangleF
             (
@@ -291,10 +285,10 @@ namespace FallGuysStats {
             e.DrawFocusRectangle();
         }
         #endregion
-        
-        #region imageItemComboBox_MeasureItem(sender, e)
-        private void imageItemComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
-            if(e.Index < 0) { return; }
+
+        #region ImageItemComboBox_MeasureItem(sender, e)
+        private void ImageItemComboBox_MeasureItem(object sender, MeasureItemEventArgs e) {
+            if (e.Index < 0) { return; }
 
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
@@ -302,11 +296,11 @@ namespace FallGuysStats {
             item.MeasureItem(e);
         }
         #endregion
-        
-        #region imageItemComboBox_DrawItem(sender, e)
-        private void imageItemComboBox_DrawItem(object sender, DrawItemEventArgs e) {
-            if(e.Index < 0) { return; }
-            
+
+        #region ImageItemComboBox_DrawItem(sender, e)
+        private void ImageItemComboBox_DrawItem(object sender, DrawItemEventArgs e) {
+            if (e.Index < 0) { return; }
+
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
             this.toolTip.SetToolTip(this, item.Text);

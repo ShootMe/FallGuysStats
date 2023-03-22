@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class StatsDisplay {
         /// <summary>
         /// Required designer variable.
@@ -27,12 +25,51 @@ namespace FallGuysStats {
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatsDisplay));
-            this.graph = new FallGuysStats.Graph();
             this.chkWins = new MetroFramework.Controls.MetroCheckBox();
             this.chkFinals = new MetroFramework.Controls.MetroCheckBox();
             this.chkShows = new MetroFramework.Controls.MetroCheckBox();
+            this.graph = new FallGuysStats.Graph();
             ((System.ComponentModel.ISupportInitialize)(this.graph)).BeginInit();
             this.SuspendLayout();
+            // 
+            // chkWins
+            // 
+            this.chkWins.AutoSize = true;
+            this.chkWins.ForeColor = System.Drawing.Color.Red;
+            this.chkWins.Location = new System.Drawing.Point(958, 38);
+            this.chkWins.Name = "chkWins";
+            this.chkWins.Size = new System.Drawing.Size(84, 15);
+            this.chkWins.TabIndex = 1;
+            this.chkWins.Text = "Streak Wins";
+            this.chkWins.UseCustomForeColor = true;
+            this.chkWins.UseSelectable = true;
+            this.chkWins.CheckedChanged += new System.EventHandler(this.ChkWins_CheckedChanged);
+            // 
+            // chkFinals
+            // 
+            this.chkFinals.AutoSize = true;
+            this.chkFinals.ForeColor = System.Drawing.Color.Green;
+            this.chkFinals.Location = new System.Drawing.Point(1054, 38);
+            this.chkFinals.Name = "chkFinals";
+            this.chkFinals.Size = new System.Drawing.Size(88, 15);
+            this.chkFinals.TabIndex = 2;
+            this.chkFinals.Text = "Streak Finals";
+            this.chkFinals.UseCustomForeColor = true;
+            this.chkFinals.UseSelectable = true;
+            this.chkFinals.CheckedChanged += new System.EventHandler(this.ChkFinals_CheckedChanged);
+            // 
+            // chkShows
+            // 
+            this.chkShows.AutoSize = true;
+            this.chkShows.ForeColor = System.Drawing.Color.Blue;
+            this.chkShows.Location = new System.Drawing.Point(1151, 38);
+            this.chkShows.Name = "chkShows";
+            this.chkShows.Size = new System.Drawing.Size(57, 15);
+            this.chkShows.TabIndex = 3;
+            this.chkShows.Text = "Shows";
+            this.chkShows.UseCustomForeColor = true;
+            this.chkShows.UseSelectable = true;
+            this.chkShows.CheckedChanged += new System.EventHandler(this.ChkShows_CheckedChanged);
             // 
             // graph
             // 
@@ -48,49 +85,9 @@ namespace FallGuysStats {
             this.graph.TabIndex = 0;
             this.graph.TabStop = false;
             // 
-            // chkWins
-            // 
-            this.chkWins.AutoSize = true;
-            this.chkWins.ForeColor = System.Drawing.Color.Red;
-            this.chkWins.Location = new System.Drawing.Point(958, 38);
-            this.chkWins.Name = "chkWins";
-            this.chkWins.Size = new System.Drawing.Size(84, 15);
-            this.chkWins.TabIndex = 1;
-            this.chkWins.Text = "Streak Wins";
-            this.chkWins.UseCustomForeColor = true;
-            this.chkWins.UseSelectable = true;
-            this.chkWins.CheckedChanged += new System.EventHandler(this.chkWins_CheckedChanged);
-            // 
-            // chkFinals
-            // 
-            this.chkFinals.AutoSize = true;
-            this.chkFinals.ForeColor = System.Drawing.Color.Green;
-            this.chkFinals.Location = new System.Drawing.Point(1054, 38);
-            this.chkFinals.Name = "chkFinals";
-            this.chkFinals.Size = new System.Drawing.Size(88, 15);
-            this.chkFinals.TabIndex = 2;
-            this.chkFinals.Text = "Streak Finals";
-            this.chkFinals.UseCustomForeColor = true;
-            this.chkFinals.UseSelectable = true;
-            this.chkFinals.CheckedChanged += new System.EventHandler(this.chkFinals_CheckedChanged);
-            // 
-            // chkShows
-            // 
-            this.chkShows.AutoSize = true;
-            this.chkShows.ForeColor = System.Drawing.Color.Blue;
-            this.chkShows.Location = new System.Drawing.Point(1151, 38);
-            this.chkShows.Name = "chkShows";
-            this.chkShows.Size = new System.Drawing.Size(57, 15);
-            this.chkShows.TabIndex = 3;
-            this.chkShows.Text = "Shows";
-            this.chkShows.UseCustomForeColor = true;
-            this.chkShows.UseSelectable = true;
-            this.chkShows.CheckedChanged += new System.EventHandler(this.chkShows_CheckedChanged);
-            // 
             // StatsDisplay
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1280, 540);
             this.Controls.Add(this.chkShows);
             this.Controls.Add(this.chkFinals);
@@ -109,6 +106,7 @@ namespace FallGuysStats {
             ((System.ComponentModel.ISupportInitialize)(this.graph)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion
