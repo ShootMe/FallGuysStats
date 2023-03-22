@@ -212,6 +212,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap background_super_mario_bros {
+            get {
+                object obj = ResourceManager.GetObject("background_super_mario_bros", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap background_ta_da {
             get {
                 object obj = ResourceManager.GetObject("background_ta_da", resourceCulture);
@@ -1885,6 +1895,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap tab_unselected_sunny_guys {
             get {
                 object obj = ResourceManager.GetObject("tab_unselected_sunny_guys", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tab_unselected_super_mario_bros {
+            get {
+                object obj = ResourceManager.GetObject("tab_unselected_super_mario_bros", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

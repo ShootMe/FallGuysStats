@@ -369,6 +369,7 @@
     <None Include="Resources\overlay\background_penguin.png" />
     <None Include="Resources\overlay\background_suits_you.png" />
     <None Include="Resources\overlay\background_sunny_guys.png" />
+    <None Include="Resources\overlay\background_super_mario_bros.png" />
     <None Include="Resources\overlay\background_ta_da.png" />
     <None Include="Resources\overlay\background_timeattack.png" />
     <None Include="Resources\overlay\background_wallpaper_01.png" />
@@ -390,6 +391,7 @@
     <None Include="Resources\overlay\tab_unselected_penguin.png" />
     <None Include="Resources\overlay\tab_unselected_suits_you.png" />
     <None Include="Resources\overlay\tab_unselected_sunny_guys.png" />
+    <None Include="Resources\overlay\tab_unselected_super_mario_bros.png" />
     <None Include="Resources\overlay\tab_unselected_ta_da.png" />
     <None Include="Resources\overlay\tab_unselected_timeattack.png" />
     <None Include="Resources\overlay\tab_unselected_watermelon.png" />
