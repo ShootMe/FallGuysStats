@@ -1,3 +1,31 @@
+# Table of Contents
+  - [Fall Guys Stats](#fall-guys-stats)
+    - [Download](#download)
+    - [Usage](#usage)
+    
+
+  - [Theme](#theme)
+    - [Light Theme](#light-theme)
+    - [Dark Theme](#dark-theme)
+
+
+  - [Multilingual Support](#multilingual-support)
+
+
+  - [Overlay](#overlay)
+    - [Create your own overlays](#create-your-own-overlays)
+    - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
+
+
+  - [Linking Profiles and Shows](#linking-profiles-and-shows)
+
+
+  - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
+
+
+  - [Change Log](#change-log)
+
+
 # Fall Guys Stats
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
@@ -11,10 +39,12 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Run the program while playing Fall Guys to see new stats.
   - Only updates after a show has been completed and results are given.
 
-### Main Window
+
+  - Main Window
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
-### Rounds Stats List
+
+ - Rounds Stats List
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
 
 ## Theme
@@ -75,10 +105,13 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ## Linking Profiles and Shows
 
-### Profile Settings
+  - Profile Settings
+
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
 
-### Settings - Automatically change to linked profile
+
+  - Settings - Automatically change to linked profile
+
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
   - Link your profile and show so your profile automatically changes when the show starts.
@@ -91,7 +124,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
 
-## Changelog
+## Change Log
   - 1.139
     - Bug fixes and Correct typos
   - 1.138
