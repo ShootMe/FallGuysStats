@@ -128,17 +128,17 @@ namespace FallGuysStats {
             ymax += mod == 0 ? 0 : 8 - mod;
             //Get inital values
             int closeInd = 0;
-            //int closeTemp = 0;
+            int closeTemp;
             int close = int.MaxValue;
             int closeIndY = 0;
             int i = 0;
             foreach (DataRowView row in this.dataSource.DefaultView) {
                 int x = NormalizeX(GetValue(row[XColumn]), xmin, xmax, wmin, wmax) - e.X;
-                //closeTemp = x * x;
+                closeTemp = x * x;
                 foreach (DataColumn col in this.dataSource.Columns) {
                     if (!yColumns[col.Ordinal]) { continue; }
                     int y = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax) - e.Y;
-                    //y = closeTemp + y * y;
+                    y = closeTemp + y * y;
                     if (close > y) {
                         close = y;
                         closeIndY = col.Ordinal;
@@ -244,7 +244,7 @@ namespace FallGuysStats {
 
             //bp.Color = Color.FromArgb(30, 0, 0, 0);
             for (int i = 0; i <= 8; i++) {
-                string xval = this.GetRepresentation(xType, x8 * i + xmin, xmax - xmin);
+                string xval = this.GetRepresentation(xType, x8 * i + xmin);
                 float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
                 float tx = (float)(w8 * i + wmin);
                 g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx - xsz / (float)2.0, hmax + 2); // X Date String
@@ -281,7 +281,7 @@ namespace FallGuysStats {
             if (closeRowIndex >= 0) {
                 // Draw Guide Line
                 g.DrawLine(new Pen(this.GraphGuideLineColor, 0), this.lastMousePosition, new Point(NormalizeX(GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]), xmin, xmax, wmin, wmax), NormalizeY(GetValue(this.dataSource.DefaultView[closeRowIndex][closeColumnIndex]), ymin, ymax, hmin, hmax)));
-                string summaryTitle = GetRepresentation(xType, GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]), xmax - xmin);
+                string summaryTitle = GetRepresentation(xType, GetValue(this.dataSource.DefaultView[closeRowIndex][XColumn]));
                 string summaryWins = string.Empty;
                 string summaryFinals = string.Empty;
                 string summaryShows = string.Empty;
@@ -350,12 +350,12 @@ namespace FallGuysStats {
             }
         }
         private void CalculateMinMax(decimal xmin, decimal xmax, Type xType, decimal ymin, decimal ymax, Type yType, ref int wmin, ref int wmax, ref int hmin, ref int hmax) {
-            int ysz = TextRenderer.MeasureText(GetRepresentation(yType, ymin, ymax - ymin), this.Font).Width;
-            int ysz2 = TextRenderer.MeasureText(GetRepresentation(yType, ymax, ymax - ymin), this.Font).Width;
+            int ysz = TextRenderer.MeasureText(GetRepresentation(yType, ymin), this.Font).Width;
+            int ysz2 = TextRenderer.MeasureText(GetRepresentation(yType, ymax), this.Font).Width;
             ysz = ysz > ysz2 ? ysz : ysz2;
             ysz += TextRenderer.MeasureText("00", this.Font).Width;
-            int xsz = TextRenderer.MeasureText(GetRepresentation(xType, xmax, xmax - xmin), this.Font).Width;
-            int xsz2 = TextRenderer.MeasureText(GetRepresentation(xType, xmin, xmax - xmin), this.Font).Width / 2;
+            int xsz = TextRenderer.MeasureText(GetRepresentation(xType, xmax), this.Font).Width;
+            int xsz2 = TextRenderer.MeasureText(GetRepresentation(xType, xmin), this.Font).Width / 2;
             ysz = ysz > xsz2 ? ysz : xsz2;
             float sz = this.Font.SizeInPoints;
             //decimal xdiff = xmax - xmin; decimal ydiff = ymax - ymin;
@@ -394,7 +394,7 @@ namespace FallGuysStats {
                     return 0;
             }
         }
-        private string GetRepresentation(Type t, decimal value, decimal range) {
+        private string GetRepresentation(Type t, decimal value) {
             if (t == typeof(DateTime)) {
                 return new DateTime((long)value).ToString(Multilingual.GetWord("level_date_format"));
             } else if (t == typeof(int)) {

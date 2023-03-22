@@ -392,11 +392,7 @@ namespace FallGuysStats {
                     }
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats stats) && stats.IsFinal);
-                    if (isTeamVolleyfallRound) {
-                        logRound.Info.IsTeam = true;
-                    } else {
-                        logRound.Info.IsTeam = false;
-                    }
+                    logRound.Info.IsTeam = isTeamVolleyfallRound;
                 }
             } else if ((line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase)) > 0 ||
                 (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {
