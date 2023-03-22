@@ -112,7 +112,7 @@ namespace FallGuysStats {
                                     }
                                 }
 
-                                brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.WhiteSmoke;
+                                brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                 if (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 4) {
                                     this.DrawOutlineText(g, new Rectangle(this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 } else {
