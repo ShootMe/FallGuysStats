@@ -1019,6 +1019,33 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 23;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 23) {
+                this.CurrentSettings.OverlayColor = 0;
+                this.CurrentSettings.GameExeLocation = string.Empty;
+                this.CurrentSettings.GameShortcutLocation = string.Empty;
+                this.CurrentSettings.AutoLaunchGameOnStartup = false;
+                this.CurrentSettings.Version = 24;
+                this.SaveUserSettings();
+            }
+
+            if (this.CurrentSettings.Version == 24) {
+                this.CurrentSettings.WinsFilter = 1;
+                this.CurrentSettings.QualifyFilter = 1;
+                this.CurrentSettings.FastestFilter = 1;
+                this.CurrentSettings.Version = 25;
+                this.SaveUserSettings();
+            }
+
+            if (this.CurrentSettings.Version == 25) {
+                this.CurrentSettings.OverlayBackground = 0;
+                this.CurrentSettings.OverlayBackgroundResourceName = string.Empty;
+                this.CurrentSettings.OverlayTabResourceName = string.Empty;
+                this.CurrentSettings.IsOverlayBackgroundCustomized = false;
+                this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
+                this.CurrentSettings.Version = 26;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1052,7 +1079,7 @@ namespace FallGuysStats {
                 OnlyShowFinalStreak = false,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
-                OverlayFontSerialized = String.Empty,
+                OverlayFontSerialized = string.Empty,
                 OverlayFontColorSerialized = string.Empty,
                 PlayerByConsoleType = false,
                 ColorByRoundType = false,
@@ -1076,12 +1103,12 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 23,
-                AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 GameShortcutLocation = string.Empty,
+                AutoLaunchGameOnStartup = false,
                 IgnoreLevelTypeWhenSorting = false,
-                UpdatedDateFormat = true
+                UpdatedDateFormat = true,
+                Version = 26
             };
         }
         private void UpdateHoopsieLegends() {
@@ -1645,7 +1672,7 @@ namespace FallGuysStats {
         private void GridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
-        private int GetDataGridViewColumnWidth(string columnName, String columnText) {
+        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
             int sizeOfText;
             switch (columnName) {
                 case "RoundIcon":
@@ -2252,7 +2279,7 @@ namespace FallGuysStats {
                         if (this.ProfileMenuItems[i].Name == button.Name) this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileName == this.ProfileMenuItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                     }
-                    this.currentProfile = Int32.Parse(button.Name.Substring(11));
+                    this.currentProfile = int.Parse(button.Name.Substring(11));
                     this.updateSelectedProfile = true;
                 }
 

@@ -116,7 +116,7 @@ namespace FallGuysStats {
                             {"wins_detail_tooltiptext", "Click to view wins stats."},
                             {"finals_detail_tooltiptext", "Click to view rounds (reached finals only) stats."},
 
-                            {"message_already_running_caption", "Already Running"},
+                            {"message_already_running_caption", "Launching Error"},
                             {"message_fall_guys_already_running", "Fall Guys is already running."},
                             {"message_tracker_already_running", "Tracker is already running."},
                             {"message_register_shortcut_caption", "Need to set shortcut file path"},
@@ -183,7 +183,7 @@ namespace FallGuysStats {
                             {"settings_theme_dark", "Dark"},
                             {"settings_previous_win", "Previous Win(s):"},
                             {"settings_before_using_tracker", "(before using tracker)"},
-                            {"settings_auto_update_program", "Auto Update Program"},
+                            {"settings_auto_update_program", "Check update on startup"},
                             {"settings_rename_hoopsie_legends_to_hoopsie_heroes", "Rename Hoopsie Legends to Hoopsie Heroes"},
                             {"settings_overlay", "Overlay"},
                             {"settings_hide_wins_info", "Hide Wins info"},
@@ -418,9 +418,9 @@ namespace FallGuysStats {
                             {"wins_detail_tooltiptext", "Cliquer pour voir les stats des victoires"},
                             {"finals_detail_tooltiptext", "Cliquer pour voir les stats des manches (finale atteinte seulement)"},
 
-                            {"message_already_running_caption", "Déjà lancé"},
-                            {"message_fall_guys_already_running", "Fall Guys a déjà été lancé"},
-                            {"message_tracker_already_running", "Le tracker a déjà été lancé."},
+                            {"message_already_running_caption", "Erreur de lancement"},
+                            {"message_fall_guys_already_running", "Fall Guys est déjà en cours d'exécution."},
+                            {"message_tracker_already_running", "Le tracker est déjà en cours d'exécution."},
                             {"message_register_shortcut_caption", "Chemin d'accès au raccourci de Fall Guys non configuré"},
                             {"message_register_shortcut", "Veuillez configurer le chemin d'accès au raccourci de Fall Guys"},
                             {"message_register_exe_caption", "Chemin d'accès au fichier d'exécution de Fall Guys non configuré"},
@@ -485,7 +485,7 @@ namespace FallGuysStats {
                             {"settings_theme_dark", "Sombre"},
                             {"settings_previous_win", "Win(s) précédente(s) :"},
                             {"settings_before_using_tracker", "(avant l'utilisation du tracker)"},
-                            {"settings_auto_update_program", "MAJ auto. du tracker"},
+                            {"settings_auto_update_program", "Vérifier s'il y a une nouvelle version (au lancement du programme)"},
                             {"settings_rename_hoopsie_legends_to_hoopsie_heroes", "Renommer manche 'Les Cerceaux' en 'Légendes Badaboum'"},
                             {"settings_overlay", "Overlay"},
                             {"settings_hide_wins_info", "Masquer les infos concernant les wins / finales"},
@@ -504,9 +504,9 @@ namespace FallGuysStats {
                             {"settings_session_stats", "Stats de la session"},
                             {"settings_cycle_time", "Temps du cycle d'affichage :"},
                             {"settings_sec", "seconde(s)"},
-                            {"settings_background_image", "Arrière-plan (Image)"},
-                            {"settings_background", "Couleur de fond"},
-                            {"settings_transparent", "Transparente"},
+                            {"settings_background_image", "Arrière-plan (image)"},
+                            {"settings_background", "Fond (couleur)"},
+                            {"settings_transparent", "Transparent"},
                             {"settings_magenta", "Rose"},
                             {"settings_red", "Rouge"},
                             {"settings_green", "Vert"},
@@ -3660,7 +3660,7 @@ namespace FallGuysStats {
             return word;
         }
         /*public static string GetRoundName (string keyWord) {
-            string name = String.Empty;
+            string name = string.Empty;
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundDictionary);
             roundDictionary?.TryGetValue(keyWord, out name);
             return name;

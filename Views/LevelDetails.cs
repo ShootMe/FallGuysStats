@@ -40,7 +40,7 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             }
         }
-        private int GetClientWidth(String level) {
+        private int GetClientWidth(string level) {
             int lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
@@ -53,7 +53,7 @@ namespace FallGuysStats {
                     return this.Width + (lang == 0 ? 759 : lang == 1 ? 798 : lang == 2 ? 698 : lang == 3 ? 708 : 685);
             }
         }
-        private int GetDataGridViewColumnWidth(string columnName, String columnText) {
+        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
             int sizeOfText;
             switch (columnName) {
                 case "RoundIcon":
@@ -222,7 +222,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void MnuToolStripSeparator_Custom_Paint(Object sender, PaintEventArgs e) {
+        private void MnuToolStripSeparator_Custom_Paint(object sender, PaintEventArgs e) {
             ToolStripSeparator sep = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, sep.Width, sep.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, sep.Height / 2, sep.Width - 4, sep.Height / 2); // CUSTOM_COLOR_FOREGROUND
