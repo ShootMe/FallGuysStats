@@ -1065,7 +1065,7 @@ namespace FallGuysStats {
                 OnlyShowFinalStreak = false,
                 OverlayVisible = false,
                 OverlayNotOnTop = false,
-                OverlayFontSerialized = String.Empty,
+                OverlayFontSerialized = string.Empty,
                 OverlayFontColorSerialized = string.Empty,
                 PlayerByConsoleType = false,
                 ColorByRoundType = false,
@@ -1088,12 +1088,12 @@ namespace FallGuysStats {
                 OverlayHeight = 99,
                 HideOverlayPercentages = false,
                 HoopsieHeros = false,
-                Version = 23,
                 AutoLaunchGameOnStartup = false,
                 GameExeLocation = string.Empty,
                 GameShortcutLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
-                UpdatedDateFormat = true
+                UpdatedDateFormat = true,
+                Version = 26
             };
         }
         private void UpdateHoopsieLegends() {
@@ -2331,7 +2331,7 @@ namespace FallGuysStats {
                                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
                                             exeName = entry.Name;
                                         }
-                                        File.Move(entry.Name, $"{entry.Name}.bak");
+                                        if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
                                         entry.ExtractToFile(entry.Name, true);
                                     }
                                 }
