@@ -3658,7 +3658,7 @@ namespace FallGuysStats {
             return word;
         }
         /*public static string GetRoundName (string keyWord) {
-            string name = String.Empty;
+            string name = string.Empty;
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundDictionary);
             roundDictionary?.TryGetValue(keyWord, out name);
             return name;

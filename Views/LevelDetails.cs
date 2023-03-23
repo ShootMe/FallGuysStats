@@ -39,7 +39,7 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             }
         }
-        private int GetClientWidth(String level) {
+        private int GetClientWidth(string level) {
             int lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
@@ -52,7 +52,7 @@ namespace FallGuysStats {
                     return this.Width + (lang == 0 ? 667 : lang == 1 ? 709 : lang == 2 ? 584 : lang == 3 ? 651 : 590);
             }
         }
-        private int GetDataGridViewColumnWidth(string columnName, String columnText) {
+        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
             int sizeOfText;
             switch (columnName) {
                 case "RoundIcon":
