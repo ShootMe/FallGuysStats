@@ -38,14 +38,14 @@ namespace FallGuysStats {
                 MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private static bool IsAlreadyRunning(string lang) {
+        private static bool IsAlreadyRunning(string sysLang) {
             try {
                 int processCount = 0;
                 Process[] processes = Process.GetProcesses();
                 for (int i = 0; i < processes.Length; i++) {
                     if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
                     if (processCount > 1) {
-                        CurrentLanguage = lang.Substring(0, 2) == "fr" ? 1 : lang.Substring(0, 2) == "ko" ? 2 : lang.Substring(0, 2) == "ja" ? 3 : lang.Substring(0, 2) == "zh" ? 4 : 0;
+                        CurrentLanguage = sysLang.Substring(0, 2) == "fr" ? 1 : sysLang.Substring(0, 2) == "ko" ? 2 : sysLang.Substring(0, 2) == "ja" ? 3 : sysLang.Substring(0, 2) == "zh" ? 4 : 0;
                         MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
                     }

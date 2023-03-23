@@ -3,18 +3,17 @@ using System.Windows.Forms;
 
 namespace FallGuysStats {
     public partial class SelectLanguage : MetroFramework.Forms.MetroForm {
-        private readonly string sysLang;
+        public int defaultLanguage;
         public int selectedLanguage;
 
         public SelectLanguage(string sysLang) {
-            this.sysLang = sysLang;
+            this.defaultLanguage = sysLang.Substring(0, 2) == "fr" ? 1 : sysLang.Substring(0, 2) == "ko" ? 2 : sysLang.Substring(0, 2) == "ja" ? 3 : sysLang.Substring(0, 2) == "zh" ? 4 : 0;
             this.InitializeComponent();
         }
 
         private void SelectLanguage_Load(object sender, EventArgs e) {
-            var defaultLang = sysLang.Substring(0, 2) == "fr" ? 1 : sysLang.Substring(0, 2) == "ko" ? 2 : sysLang.Substring(0, 2) == "ja" ? 3 : sysLang.Substring(0, 2) == "zh" ? 4 : 0;
-            this.ChangeLanguage(defaultLang);
-            this.cboLanguage.SelectedIndex = defaultLang;
+            this.ChangeLanguage(this.defaultLanguage);
+            this.cboLanguage.SelectedIndex = this.defaultLanguage;
         }
 
         private void CboLanguage_SelectedIndexChanged(object sender, EventArgs e) {

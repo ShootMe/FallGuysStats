@@ -29,6 +29,7 @@ namespace FallGuysStats {
         private Bitmap Background, DrawImage;
         private Graphics DrawGraphics;
         private RoundInfo lastRound;
+        private int levelException;
         private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
@@ -583,16 +584,16 @@ namespace FallGuysStats {
                     break;
             }
         }
-        private void SetFastestLabel(StatSummary levelInfo, LevelType type, int levelException) {
+        private void SetFastestLabel(StatSummary levelInfo, LevelType type) {
             int fastestSwitchCount = this.switchCount;
             if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
                 if (this.StatsForm.CurrentSettings.OnlyShowLongest) {
                     fastestSwitchCount = 0;
                 } else {
-                    fastestSwitchCount = levelException == 1 ? 1 : levelException == 2 ? 2 : type.FastestLabel();
+                    fastestSwitchCount = this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
                 }
             }
-            switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && levelException != 1) ? 3 : 2)) {
+            switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
                 case 0:
                     this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
                     this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"　{levelInfo.LongestFinish:m\\:ss\\.ff}" : "　-";
@@ -690,11 +691,11 @@ namespace FallGuysStats {
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     string roundName = this.lastRound.VerifiedName();
 
-                    var levelException = 0;
+                    this.levelException = 0;
                     if (roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
-                        levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
+                        this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
                     } else if (roundName == "round_1v1_button_basher" || roundName == "round_1v1_volleyfall_symphony_launch_show") {
-                        levelException = 2; // Level is like a "Team" level type (score info is most important)
+                        this.levelException = 2; // Level is like a "Team" level type (score info is most important)
                     }
 
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out var level)) {
@@ -703,7 +704,7 @@ namespace FallGuysStats {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
 
-                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, levelException);
+                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException);
 
                     if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
                         if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
@@ -753,7 +754,7 @@ namespace FallGuysStats {
                     this.lblFinals.TextRight = $"　{finalText}{finalChanceDisplay}";
 
                     this.SetQualifyChanceLabel(levelInfo);
-                    this.SetFastestLabel(levelInfo, levelType, levelException);
+                    this.SetFastestLabel(levelInfo, levelType);
                     this.SetPlayersLabel();
                     this.SetStreakInfo(levelInfo);
                     if (this.isTimeToSwitch) {
@@ -781,7 +782,7 @@ namespace FallGuysStats {
                             this.lblFinish.TextRight = $"　{Time:m\\:ss\\.ff}";
                         }
 
-                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || levelException == 1) {
+                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
                             if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
