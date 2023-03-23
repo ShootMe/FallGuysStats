@@ -23,11 +23,16 @@ namespace FallGuysStats {
         [STAThread]
         static void Main() {
             try {
-                var sysLang = CultureInfo.CurrentUICulture.Name;
-                if (!IsAlreadyRunning(sysLang)) {
+                var isUpdate = false;
+#if AllowUpdate
+                if (File.Exists(Path.GetFileName(Assembly.GetEntryAssembly().Location) + ".bak")) {
+                    isUpdate = true;
+                }
+#endif
+                if (isUpdate || !IsAlreadyRunning(CultureInfo.CurrentUICulture.Name)) {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Stats(sysLang));
+                    Application.Run(new Stats(CultureInfo.CurrentUICulture.Name));
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
