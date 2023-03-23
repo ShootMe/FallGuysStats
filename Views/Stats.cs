@@ -1263,7 +1263,9 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
-                this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
+                if (this.WindowState != FormWindowState.Minimized) {
+                    this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
+                }
                 if (this.CurrentSettings.FormWidth.HasValue) {
                     this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
                 }
