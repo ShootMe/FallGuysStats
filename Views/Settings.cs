@@ -761,7 +761,7 @@ namespace FallGuysStats {
                 this.lblQualifyFilter.Location = new Point(491, 58);
                 this.lblFastestFilter.Location = new Point(444, 93);
                 this.lblOverlayBackground.Location = new Point(480, 129);
-                this.lblOverlayColor.Location = new Point(504, 168);
+                this.lblOverlayColor.Location = new Point(516, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(190, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(218, 192);
@@ -822,8 +822,8 @@ namespace FallGuysStats {
                 this.lblWinsFilter.Location = new Point(430, 23);
                 this.lblQualifyFilter.Location = new Point(430, 58);
                 this.lblFastestFilter.Location = new Point(401, 93);
-                this.lblOverlayBackground.Location = new Point(457, 129);
-                this.lblOverlayColor.Location = new Point(443, 168);
+                this.lblOverlayBackground.Location = new Point(469, 129);
+                this.lblOverlayColor.Location = new Point(455, 168);
 
                 this.txtCycleTimeSeconds.Location = new Point(110, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(138, 192);
