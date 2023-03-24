@@ -23,16 +23,16 @@ namespace FallGuysStats {
         [STAThread]
         static void Main() {
             try {
-                var isUpdate = false;
+                var isAppUpdated = false;
 #if AllowUpdate
                 if (File.Exists(Path.GetFileName(Assembly.GetEntryAssembly().Location) + ".bak")) {
-                    isUpdate = true;
+                    isAppUpdated = true;
                 }
 #endif
-                if (isUpdate || !IsAlreadyRunning(CultureInfo.CurrentUICulture.Name)) {
+                if (isAppUpdated || !IsAlreadyRunning(CultureInfo.CurrentUICulture.Name)) {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
-                    Application.Run(new Stats(CultureInfo.CurrentUICulture.Name));
+                    Application.Run(new Stats());
                 }
             } catch (Exception ex) {
                 MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -129,7 +129,7 @@ namespace FallGuysStats {
         private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9, 0.5F);
 
-        public Stats(string sysLang) {
+        public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
@@ -165,7 +165,7 @@ namespace FallGuysStats {
             this.StatsDB.BeginTrans();
 
             if (this.Profiles.Count() == 0) {
-                using (SelectLanguage initLanguageForm = new SelectLanguage(sysLang)) {
+                using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name)) {
                     initLanguageForm.Icon = this.Icon;
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
