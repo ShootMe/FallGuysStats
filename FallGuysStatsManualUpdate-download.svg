@@ -66,6 +66,10 @@
           font-style: normal;
           vertical-align: top;
         }
+
+        .container .button.icon-zip:hover {
+          background-image: linear-gradient(to bottom, #ff55fb, #b600ff);
+        }
       </style>
 
       <div class="container">
