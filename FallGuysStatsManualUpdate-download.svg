@@ -27,18 +27,14 @@
           text-decoration: none;
         }
 
-        .container .button.icon-zip::before {
-          background-image: url(icon-zip.svg);
+        .container .button.icon-zip div #Calque_1 {
           content: '';
           position: absolute;
           display: block;
           top: 0;
           left: 0;
           width: 4.5em;
-          height: 100%;
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 45% auto;
+          height: 77%;
           z-index: 1;
         }
 
@@ -73,7 +69,34 @@
       </style>
 
       <div class="container">
-        <a class="button icon-zip" href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip"><span>zip • multi language <em>FallGuysStatsManualUpdate.zip</em></span></a>
+        <a class="button icon-zip">
+          <div>
+          <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            width="100px" height="100px" viewBox="0 -45 100 145" enable-background="new 0 -45 100 145" xml:space="preserve">
+            <g id="Your_Icon">
+              <path fill="#FFFFFF" d="M38.893,20.391h13.704c1.377,0,2.491-1.112,2.491-2.485c0-1.376-1.114-2.491-2.491-2.491H38.893
+                c-1.375,0-2.489,1.115-2.489,2.491C36.402,19.278,37.517,20.391,38.893,20.391z"/>
+              <path fill="#FFFFFF" d="M38.893,4.791h13.704c1.377,0,2.491-1.108,2.491-2.483c0-1.378-1.114-2.488-2.491-2.488H38.893
+                c-1.375,0-2.489,1.11-2.489,2.488C36.402,3.682,37.517,4.791,38.893,4.791z"/>
+              <path fill="#FFFFFF" d="M61.491,23.115H47.78c-1.373,0-2.488,1.113-2.488,2.487c0,1.378,1.116,2.488,2.488,2.488h13.711
+                c1.376,0,2.483-1.11,2.483-2.488C63.975,24.228,62.867,23.115,61.491,23.115z"/>
+              <path fill="#FFFFFF" d="M38.623,36.125l13.711,0c1.376,0,2.49-1.113,2.49-2.484c0-1.375-1.116-2.486-2.49-2.486H38.623
+                c-1.369,0-2.485,1.111-2.485,2.486C36.138,35.013,37.255,36.125,38.623,36.125z"/>
+              <path fill="#FFFFFF" d="M61.228,38.854l-13.712,0c-1.374,0-2.486,1.113-2.486,2.487s1.113,2.492,2.486,2.492h13.712
+                c1.374,0,2.487-1.117,2.487-2.492C63.715,39.966,62.601,38.854,61.228,38.854z"/>
+              <path fill="#FFFFFF" d="M61.491,7.515H47.78c-1.373,0-2.488,1.116-2.488,2.493c0,1.374,1.116,2.484,2.488,2.484h13.711
+                c1.376,0,2.483-1.11,2.483-2.484C63.975,8.631,62.867,7.515,61.491,7.515z"/>
+              <path fill="#FFFFFF" d="M38.623,51.726h13.711c1.376,0,2.49-1.108,2.49-2.489c0-1.371-1.116-2.487-2.49-2.487H38.623
+                c-1.369,0-2.485,1.119-2.485,2.487C36.138,50.617,37.255,51.726,38.623,51.726z"/>
+              <path fill="#FFFFFF" d="M60.369,59.476H38.742c-1.593,0-3.104,1.348-3.104,2.943v34.604c0,1.593,1.51,2.977,3.104,2.977h21.627
+                c1.596,0,3.058-1.384,3.058-2.977V62.419C63.427,60.823,61.965,59.476,60.369,59.476z M61.111,91.82
+                c0,1.293-1.47,2.391-2.768,2.391H40.769c-1.297,0-2.813-1.098-2.813-2.391v-2.411c0-1.295,1.517-2.146,2.813-2.146h17.575
+                c1.298,0,2.768,0.851,2.768,2.146V91.82z"/>
+            </g>
+          </svg>
+          </div>
+          <span>zip • multi language <em>FallGuysStatsManualUpdate.zip</em></span>
+        </a>
       </div>
     </div>
   </foreignObject>
