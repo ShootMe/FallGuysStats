@@ -40,9 +40,9 @@ namespace FallGuysStats {
             // picEditShowsIcon
             // 
             this.picEditShowsIcon.Image = global::FallGuysStats.Properties.Resources.fallguys_icon;
-            this.picEditShowsIcon.Location = new System.Drawing.Point(45, 80);
+            this.picEditShowsIcon.Location = new System.Drawing.Point(42, 80);
             this.picEditShowsIcon.Name = "picEditShowsIcon";
-            this.picEditShowsIcon.Size = new System.Drawing.Size(42, 36);
+            this.picEditShowsIcon.Size = new System.Drawing.Size(45, 39);
             this.picEditShowsIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picEditShowsIcon.TabIndex = 0;
             this.picEditShowsIcon.TabStop = false;
