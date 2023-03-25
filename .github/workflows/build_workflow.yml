@@ -21,10 +21,16 @@ jobs:
       - name: Build
         run: msbuild /t:build /p:configuration=Release /p:platform="Any CPU"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: FallGuysStatsManualUpdate
           path: bin/**
+      - name: Push commit
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "master"
+          force: true
 
   build:
     name: Build FallGuysStats.zip
@@ -41,7 +47,13 @@ jobs:
       - name: Build
         run: msbuild /t:build /p:configuration=ReleaseUpdate /p:platform="Any CPU"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.2
         with:
           name: FallGuysStats
           path: bin/**
+      - name: Push commit
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "master"
+          force: true
