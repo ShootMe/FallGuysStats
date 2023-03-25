@@ -1,11 +1,17 @@
 name: Build
 run-name: Build
 on:
-  push
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 jobs:
   build_manual_update:
     name: Build FallGuysStatsManualUpdate.zip
     runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [ 10.x, 12.x, 14.x, 16.x, 18.x ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,6 +32,9 @@ jobs:
   build:
     name: Build FallGuysStats.zip
     runs-on: windows-latest
+    strategy:
+      matrix:
+        node-version: [ 10.x, 12.x, 14.x, 16.x, 18.x ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
