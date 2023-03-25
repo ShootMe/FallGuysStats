@@ -9,16 +9,13 @@ jobs:
   build_manual_update:
     name: Build FallGuysStatsManualUpdate.zip
     runs-on: windows-latest
-    strategy:
-      matrix:
-        node-version: [ 10.x, 12.x, 14.x, 16.x, 18.x ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.3.1
       - name: Setup NuGet
-        uses: nuget/setup-nuget@v1
+        uses: nuget/setup-nuget@v1.1.1
       - name: Restore Packages
         run: nuget restore FallGuysStats.sln
       - name: Build
@@ -32,16 +29,13 @@ jobs:
   build:
     name: Build FallGuysStats.zip
     runs-on: windows-latest
-    strategy:
-      matrix:
-        node-version: [ 10.x, 12.x, 14.x, 16.x, 18.x ]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.3.1
       - name: Setup NuGet
-        uses: nuget/setup-nuget@v1
+        uses: nuget/setup-nuget@v1.1.1
       - name: Restore Packages
         run: nuget restore FallGuysStats.sln
       - name: Build
