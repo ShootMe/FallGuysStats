@@ -18,10 +18,10 @@
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
 ## Download
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](FallGuysStats-download.svg)</a>
+　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](Resources/FallGuysStats-download.svg)</a>
   - Or, if you have a false detection problem with your virus program, download the version below with the automatic update feature removed.
 
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](FallGuysStatsManualUpdate-download.svg)</a>
+　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](Resources/FallGuysStatsManualUpdate-download.svg)</a>
 
 ## Usage
   - Extract zip to it's own folder
