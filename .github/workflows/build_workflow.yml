@@ -25,12 +25,6 @@ jobs:
         with:
           name: FallGuysStatsManualUpdate
           path: bin/**
-      - name: Push commit
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "master"
-          force: true
 
   build:
     name: Build FallGuysStats.zip
@@ -51,9 +45,3 @@ jobs:
         with:
           name: FallGuysStats
           path: bin/**
-      - name: Push commit
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "master"
-          force: true
