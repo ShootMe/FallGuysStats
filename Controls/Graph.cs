@@ -255,7 +255,7 @@ namespace FallGuysStats {
                         if (xval != "") {
                             xvalp = xval;
                             if (i > 0 && i < 8) {
-                                tx = NormalizeX(GetValue(dataSource.DefaultView[dpcount][XColumn]), xmin, xmax, wmin, wmax);
+                                tx = NormalizeX(GetValue(this.dataSource.DefaultView[dpcount][XColumn]), xmin, xmax, wmin, wmax);
                                 dpcount++;
                             }
                         } else {
@@ -269,8 +269,9 @@ namespace FallGuysStats {
                 float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
                 g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx - (xsz / (float)2.0), hmax + 2); // X Date String
                 if (i > 0) { bp.Color = this.GraphYBackLineColor; g.DrawLine(bp, tx, 0, tx, hmax - 1); } // Y Back Line
-                float ty = (float)(h - (3 * sz) - (h8 * i));
-                g.DrawString($"{(y8 * i) + ymin:0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 4, ty); // Y Count String
+                decimal yval = (y8 * i) + ymin;
+                float ty = (float)(h - (3 * sz) - (yval != 0 ? (h8 * i) : 0));
+                if (yval != 0 || i == 0) { g.DrawString($"{yval:0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 4, ty); } // Y Count String
                 if (i > 0) { bp.Color = this.GraphXBackLineColor; g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz); } // X Back Line
             }
             g.SmoothingMode = SmoothingMode.HighQuality;

@@ -479,7 +479,7 @@ namespace FallGuysStats {
                             {"settings_title", "Configuration"},
                             {"settings_log_path", "Chemin vers les logs du jeu :"},
                             {"settings_log_path_description", "* Vous n'avez normalement pas besoin de configurer ceci. Ne le faites qu'en cas de problème."},
-                            {"settings_stats", "Stats"},
+                            {"settings_stats", "Tracker"},
                             {"settings_theme", "Thème :"},
                             {"settings_theme_light", "Clair"},
                             {"settings_theme_dark", "Sombre"},

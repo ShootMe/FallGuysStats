@@ -38,8 +38,8 @@ namespace FallGuysStats {
             "event_pixel_palooza_template",
             "private_lobbies"
         };
-        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 
         public EditProfiles() => this.InitializeComponent();
 

@@ -21,7 +21,7 @@ using Microsoft.Win32;
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
         [STAThread]
-        static void Main() {
+        private static void Main() {
             try {
                 bool isAppUpdated = false;
 #if AllowUpdate
@@ -87,8 +87,8 @@ namespace FallGuysStats {
             return bmpTmp;
         }
 
-        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<LevelStats> StatDetails = new List<LevelStats>();
         public List<RoundInfo> CurrentRound = null;
         public List<RoundInfo> AllStats = new List<RoundInfo>();

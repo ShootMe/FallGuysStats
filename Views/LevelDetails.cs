@@ -11,8 +11,8 @@ namespace FallGuysStats {
         public List<RoundInfo> RoundDetails { get; set; }
         public Stats StatsForm { get; set; }
         private int _showStats;
-        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        private readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public LevelDetails() {
             this.InitializeComponent();
         }

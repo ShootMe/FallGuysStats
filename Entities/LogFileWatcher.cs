@@ -42,7 +42,7 @@ namespace FallGuysStats {
         public RoundInfo Info;
     }
     public class LogFileWatcher {
-        const int UpdateDelay = 500;
+        private const int UpdateDelay = 500;
 
         private string filePath;
         private string prevFilePath;

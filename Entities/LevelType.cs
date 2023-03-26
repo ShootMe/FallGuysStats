@@ -11,7 +11,8 @@ namespace FallGuysStats {
         Invisibeans,
         Unknown
     }
-    static class LevelTypeBehavior {
+
+    internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
             switch (type) {
                 case LevelType.Race:
