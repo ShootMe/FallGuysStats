@@ -8,7 +8,7 @@ namespace FallGuysStats {
     public class TransparentLabel : Label {
         protected override CreateParams CreateParams {
             get {
-                var cp = base.CreateParams;
+                CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
@@ -112,7 +112,7 @@ namespace FallGuysStats {
                                     float widthOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
                                     this.FillRoundedRectangle(g, null, new SolidBrush(this.LevelColor), (int)(this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, (int)widthOfText, 22, 10);
                                     if (this.RoundIcon != null) {
-                                        g.DrawImage(this.RoundIcon, (this.ClientRectangle.Width - widthOfText - this.ImageWidth) - 5, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
+                                        g.DrawImage(this.RoundIcon, this.ClientRectangle.Width - widthOfText - this.ImageWidth - 5, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                 }
 

@@ -37,8 +37,8 @@ namespace FallGuysStats {
             if (!this.sizeCalculated) {
                 this.sizeCalculated = true;
                 SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
-                this.height = 2 * MARGIN_HEIGHT + (int)Math.Max(this.Image.Height, textSize.Height);
-                this.width = (int)(4 * MARGIN_WIDTH + this.Image.Width + textSize.Width);
+                this.height = (2 * MARGIN_HEIGHT) + (int)Math.Max(this.Image.Height, textSize.Height);
+                this.width = (int)((4 * MARGIN_WIDTH) + this.Image.Width + textSize.Width);
             }
             e.ItemWidth = this.width;
             e.ItemHeight = this.height;
@@ -49,7 +49,7 @@ namespace FallGuysStats {
         public void DrawItem(DrawItemEventArgs e, Color foreColor) {
             e.DrawBackground();
 
-            float height = e.Bounds.Height - 2 * MARGIN_HEIGHT;
+            float height = e.Bounds.Height - (2 * MARGIN_HEIGHT);
             float scale = height / this.Image.Height;
             float width = this.Image.Width * scale;
 
@@ -75,12 +75,12 @@ namespace FallGuysStats {
                 //    visibleText = Text.Substring(0, this.Text.IndexOf('\n'));
                 //}
 
-                width = e.Bounds.Width - rectangle.Right - 3 * MARGIN_WIDTH;
+                width = e.Bounds.Width - rectangle.Right - (3 * MARGIN_WIDTH);
 
                 rectangle = new RectangleF
                 (
-                    (rectangle.Right + 2 * MARGIN_WIDTH),
-                    (rectangle.Y),
+                    rectangle.Right + (2 * MARGIN_WIDTH),
+                    rectangle.Y,
                     width,
                     height
                 );

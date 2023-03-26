@@ -196,7 +196,7 @@ namespace FallGuysStats {
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
             }
 
-            foreach (var item in this.gridDetails.CMenu.Items) {
+            foreach (object item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
                     tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -482,7 +482,7 @@ namespace FallGuysStats {
                         showCompare = one.ShowID.CompareTo(two.ShowID);
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "ShowNameId":
-                        int showNameCompare = (string.IsNullOrEmpty(one.ShowNameId) ? @" " : one.ShowNameId).CompareTo((string.IsNullOrEmpty(two.ShowNameId) ? @" " : two.ShowNameId));
+                        int showNameCompare = (string.IsNullOrEmpty(one.ShowNameId) ? @" " : one.ShowNameId).CompareTo(string.IsNullOrEmpty(two.ShowNameId) ? @" " : two.ShowNameId);
                         return showNameCompare != 0 ? showNameCompare : roundCompare;
                     case "Round":
                         roundCompare = one.Round.CompareTo(two.Round);

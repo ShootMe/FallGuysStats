@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Cache;
 using System.Text;
+
 namespace FallGuysStats {
     public class ZipWebClient : WebClient {
         public ZipWebClient() : base() {

@@ -10,7 +10,7 @@ namespace FallGuysStats {
     public partial class Settings : MetroFramework.Forms.MetroForm {
         protected override CreateParams CreateParams {
             get {
-                var cp = base.CreateParams;
+                CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
@@ -478,11 +478,7 @@ namespace FallGuysStats {
                     case 6: this.CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; break;
                 }
 
-                if (this.CurrentSettings.ShowOverlayTabs) {
-                    this.CurrentSettings.OverlayHeight = 134;
-                } else {
-                    this.CurrentSettings.OverlayHeight = 99;
-                }
+                this.CurrentSettings.OverlayHeight = this.CurrentSettings.ShowOverlayTabs ? 134 : 99;
             }
 
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = this.chkIgnoreLevelTypeWhenSorting.Checked;
@@ -654,18 +650,12 @@ namespace FallGuysStats {
             this.Close();
         }
         private void BtnSelectFont_Click(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(this.overlayFontSerialized)) {
-                this.dlgOverlayFont.Font = Overlay.GetDefaultFont(this.DisplayLang, 24);
-            } else {
-                this.dlgOverlayFont.Font = new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, ((byte)(1)));
-            }
+            this.dlgOverlayFont.Font = string.IsNullOrEmpty(this.overlayFontSerialized)
+                ? Overlay.GetDefaultFont(this.DisplayLang, 24)
+                : new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, (byte)1);
 
             this.dlgOverlayFont.ShowColor = true;
-            if (string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
-                this.dlgOverlayFont.Color = Color.White;
-            } else {
-                this.dlgOverlayFont.Color = this.lblOverlayFontExample.ForeColor;
-            }
+            this.dlgOverlayFont.Color = string.IsNullOrEmpty(this.overlayFontColorSerialized) ? Color.White : this.lblOverlayFontExample.ForeColor;
 
             if (this.dlgOverlayFont.ShowDialog(this) == DialogResult.OK) {
                 if (this.dlgOverlayFont.Color == Color.White) {
@@ -676,7 +666,7 @@ namespace FallGuysStats {
                     this.overlayFontColorSerialized = new ColorConverter().ConvertToString(this.lblOverlayFontExample.ForeColor);
                 }
 
-                this.lblOverlayFontExample.Font = new Font(this.dlgOverlayFont.Font.FontFamily, this.dlgOverlayFont.Font.Size, this.dlgOverlayFont.Font.Style, GraphicsUnit.Pixel, ((byte)(1)));
+                this.lblOverlayFontExample.Font = new Font(this.dlgOverlayFont.Font.FontFamily, this.dlgOverlayFont.Font.Size, this.dlgOverlayFont.Font.Style, GraphicsUnit.Pixel, (byte)1);
                 this.overlayFontSerialized = new FontConverter().ConvertToString(this.lblOverlayFontExample.Font);
             }
         }

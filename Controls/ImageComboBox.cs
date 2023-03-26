@@ -38,15 +38,15 @@ namespace FallGuysStats {
         }
         protected override void WndProc(ref Message m) {
             if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple) {
-                var clientRect = ClientRectangle;
-                var dropDownButtonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
-                var outerBorder = new Rectangle(clientRect.Location,
+                Rectangle clientRect = ClientRectangle;
+                int dropDownButtonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
+                Rectangle outerBorder = new Rectangle(clientRect.Location,
                     new Size(clientRect.Width - 1, clientRect.Height - 1));
-                var innerBorder = new Rectangle(outerBorder.X + 1, outerBorder.Y + 1,
+                Rectangle innerBorder = new Rectangle(outerBorder.X + 1, outerBorder.Y + 1,
                     outerBorder.Width - dropDownButtonWidth - 2, outerBorder.Height - 2);
-                var innerInnerBorder = new Rectangle(innerBorder.X + 1, innerBorder.Y + 1,
+                Rectangle innerInnerBorder = new Rectangle(innerBorder.X + 1, innerBorder.Y + 1,
                     innerBorder.Width - 2, innerBorder.Height - 2);
-                var dropDownRect = new Rectangle(innerBorder.Right + 1, innerBorder.Y,
+                Rectangle dropDownRect = new Rectangle(innerBorder.Right + 1, innerBorder.Y,
                     dropDownButtonWidth, innerBorder.Height + 1);
                 if (RightToLeft == RightToLeft.Yes) {
                     innerBorder.X = clientRect.Width - innerBorder.Right;
@@ -55,11 +55,11 @@ namespace FallGuysStats {
                     dropDownRect.Width += 1;
                 }
                 //var innerBorderColor = Enabled ? BackColor : SystemColors.Control;
-                var outerBorderColor = Enabled ? BorderColor : SystemColors.ControlDark;
-                var buttonColor = Enabled ? ButtonColor : SystemColors.Control;
-                var middle = new Point(dropDownRect.Left + dropDownRect.Width / 2,
-                    dropDownRect.Top + dropDownRect.Height / 2);
-                var arrow = new Point[] {
+                Color outerBorderColor = Enabled ? BorderColor : SystemColors.ControlDark;
+                Color buttonColor = Enabled ? ButtonColor : SystemColors.Control;
+                Point middle = new Point(dropDownRect.Left + (dropDownRect.Width / 2),
+                    dropDownRect.Top + (dropDownRect.Height / 2));
+                Point[] arrow = new Point[] {
                     //new Point(middle.X - 3, middle.Y - 2),
                     //new Point(middle.X + 4, middle.Y - 2),
                     //new Point(middle.X, middle.Y + 2)
@@ -67,7 +67,7 @@ namespace FallGuysStats {
                     new Point(middle.X + 1, middle.Y - 2),
                     new Point(middle.X - 5, middle.Y + 4)
                 };
-                var ps = new PAINTSTRUCT();
+                PAINTSTRUCT ps = new PAINTSTRUCT();
                 bool shoulEndPaint = false;
                 IntPtr dc;
                 if (m.WParam == IntPtr.Zero) {
@@ -77,7 +77,7 @@ namespace FallGuysStats {
                 } else {
                     dc = m.WParam;
                 }
-                var rgn = CreateRectRgn(innerInnerBorder.Left, innerInnerBorder.Top,
+                IntPtr rgn = CreateRectRgn(innerInnerBorder.Left, innerInnerBorder.Top,
                     innerInnerBorder.Right, innerInnerBorder.Bottom);
                 SelectClipRgn(dc, rgn);
                 DefWndProc(ref m);
@@ -85,20 +85,20 @@ namespace FallGuysStats {
                 rgn = CreateRectRgn(clientRect.Left, clientRect.Top,
                     clientRect.Right, clientRect.Bottom);
                 SelectClipRgn(dc, rgn);
-                using (var g = Graphics.FromHdc(dc)) {
+                using (Graphics g = Graphics.FromHdc(dc)) {
                     //using (var b = new SolidBrush(buttonColor)) {
-                    using (var b = new SolidBrush(Color.Transparent)) {
+                    using (SolidBrush b = new SolidBrush(Color.Transparent)) {
                         g.FillRectangle(b, dropDownRect);
                     }
-                    using (var b = new SolidBrush(buttonColor)) {
+                    using (SolidBrush b = new SolidBrush(buttonColor)) {
                         g.FillPolygon(b, arrow);
                     }
                     //using (var p = new Pen(innerBorderColor)) {
-                    using (var p = new Pen(Color.Transparent)) {
+                    using (Pen p = new Pen(Color.Transparent)) {
                         g.DrawRectangle(p, innerBorder);
                         g.DrawRectangle(p, innerInnerBorder);
                     }
-                    using (var p = new Pen(outerBorderColor)) {
+                    using (Pen p = new Pen(outerBorderColor)) {
                         g.DrawRectangle(p, outerBorder);
                     }
                 }
@@ -208,7 +208,7 @@ namespace FallGuysStats {
 
             e.DrawBackground();
 
-            int height = e.Bounds.Height - 2 * COLOR_ITEM_MARGIN_HEIGHT;
+            int height = e.Bounds.Height - (2 * COLOR_ITEM_MARGIN_HEIGHT);
 
             Rectangle rectangle = new Rectangle
             (
@@ -232,8 +232,8 @@ namespace FallGuysStats {
                     stringFormat.Alignment = StringAlignment.Near;
                     stringFormat.LineAlignment = StringAlignment.Center;
 
-                    int x = height + 2 * COLOR_ITEM_MARGIN_WIDTH;
-                    int y = e.Bounds.Y + e.Bounds.Height / 2;
+                    int x = height + (2 * COLOR_ITEM_MARGIN_WIDTH);
+                    int y = e.Bounds.Y + (e.Bounds.Height / 2);
 
                     e.Graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                     e.Graphics.DrawString(color.Name, font, Brushes.Black, x, y, stringFormat);
@@ -252,8 +252,8 @@ namespace FallGuysStats {
             Image image = (Image)comboBox.Items[e.Index];
             this.toolTip.SetToolTip(this, comboBox.SelectedText);
 
-            e.ItemHeight = image.Height + 2 * IMAGE_ITEM_MARGIN_HEIGHT;
-            e.ItemWidth = image.Width + 2 * IMAGE_ITEM_MARGIN_WIDTH;
+            e.ItemHeight = image.Height + (2 * IMAGE_ITEM_MARGIN_HEIGHT);
+            e.ItemWidth = image.Width + (2 * IMAGE_ITEM_MARGIN_WIDTH);
         }
         #endregion
 
@@ -266,7 +266,7 @@ namespace FallGuysStats {
             this.toolTip.SetToolTip(this, comboBox.SelectedText);
             Image image = (Image)comboBox.Items[e.Index];
 
-            float height = e.Bounds.Height - 2 * IMAGE_ITEM_MARGIN_HEIGHT;
+            float height = e.Bounds.Height - (2 * IMAGE_ITEM_MARGIN_HEIGHT);
             float scale = height / image.Height;
             float width = image.Width * scale;
 

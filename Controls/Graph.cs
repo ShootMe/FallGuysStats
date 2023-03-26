@@ -138,7 +138,7 @@ namespace FallGuysStats {
                 foreach (DataColumn col in this.dataSource.Columns) {
                     if (!yColumns[col.Ordinal]) { continue; }
                     int y = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax) - e.Y;
-                    y = closeTemp + y * y;
+                    y = closeTemp + (y * y);
                     if (close > y) {
                         close = y;
                         closeIndY = col.Ordinal;
@@ -243,14 +243,34 @@ namespace FallGuysStats {
             g.DrawLine(bp, wmin, hmax, w - 1, hmax); // X Outer Line
 
             //bp.Color = Color.FromArgb(30, 0, 0, 0);
+            string xvalp = "";
+            int dptotal = dataSource.DefaultView.Count;
+            int dpcount = 1;
             for (int i = 0; i <= 8; i++) {
-                string xval = this.GetRepresentation(xType, x8 * i + xmin);
+                string xval = this.GetRepresentation(xType, (x8 * i) + xmin);
+                float tx = (float)((w8 * i) + wmin);
+                if (i < 8 && xval == xvalp) { xval = ""; }
+                if (dptotal > 1) {
+                    if (dptotal <= 8) {
+                        if (xval != "") {
+                            xvalp = xval;
+                            if (i > 0 && i < 8) {
+                                tx = NormalizeX(GetValue(dataSource.DefaultView[dpcount][XColumn]), xmin, xmax, wmin, wmax);
+                                dpcount++;
+                            }
+                        } else {
+                            tx = wmin;
+                        }
+                    }
+                } else if (i > 0) {
+                    xval = "";
+                    tx = wmin;
+                }
                 float xsz = TextRenderer.MeasureText(xval, this.Font).Width;
-                float tx = (float)(w8 * i + wmin);
-                g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx - xsz / (float)2.0, hmax + 2); // X Date String
+                g.DrawString(xval, this.Font, new SolidBrush(this.GraphXColumnColor), tx - (xsz / (float)2.0), hmax + 2); // X Date String
                 if (i > 0) { bp.Color = this.GraphYBackLineColor; g.DrawLine(bp, tx, 0, tx, hmax - 1); } // Y Back Line
-                float ty = (float)(h - 3 * sz - h8 * i);
-                g.DrawString($"{(y8 * i + ymin):0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 4, ty); // Y Count String
+                float ty = (float)(h - (3 * sz) - (h8 * i));
+                g.DrawString($"{(y8 * i) + ymin:0}{Multilingual.GetWord("main_inning")}", this.Font, new SolidBrush(this.GraphYColumnColor), 4, ty); // Y Count String
                 if (i > 0) { bp.Color = this.GraphXBackLineColor; g.DrawLine(bp, wmin + 1, ty + sz, w - 1, ty + sz); } // X Back Line
             }
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -325,7 +345,7 @@ namespace FallGuysStats {
                 int px = this.lastMousePosition.X + sizeWidth > w ? w - sizeWidth : this.lastMousePosition.X;
                 int py = this.lastMousePosition.Y - sizeHeight < 0 ? 0 : this.lastMousePosition.Y - sizeHeight - 18;
 
-                this.FillRoundedRectangle(g, new Pen(this.GraphGuideLineColor, 0), new SolidBrush(GraphSummaryBackColor), px - 6, py - 6, sizeWidth + 20, sizeHeight + 12 + (Stats.CurrentLanguage == 4 ? 12 : 18), 10);
+                this.FillRoundedRectangle(g, new Pen(this.GraphGuideLineColor, 0), new SolidBrush(this.GraphSummaryBackColor), px - 6, py - 6, sizeWidth + 32, sizeHeight + 32, 10);
                 g.DrawString(summaryTitle, new Font(this.Font.FontFamily, this.Font.Size, FontStyle.Bold, GraphicsUnit.Pixel), new SolidBrush(this.GraphSummaryTitleColor), px, py);
                 if (yColumns[1]) g.DrawString(summaryWins, this.Font, new SolidBrush(this.GraphWinsColor), px, py);
                 if (yColumns[2]) g.DrawString(summaryFinals, this.Font, new SolidBrush(this.GraphFinalsColor), px, py);
@@ -359,18 +379,18 @@ namespace FallGuysStats {
             ysz = ysz > xsz2 ? ysz : xsz2;
             float sz = this.Font.SizeInPoints;
             //decimal xdiff = xmax - xmin; decimal ydiff = ymax - ymin;
-            wmax = Width - xsz / 2;
+            wmax = Width - (xsz / 2);
             wmin = ysz;
             hmin = (int)sz;
-            hmax = (int)(Height - 2 * sz);
+            hmax = (int)(Height - (2 * sz));
         }
         private int NormalizeX(decimal x, decimal xmin, decimal xmax, int wmin, int wmax) {
             double point = xmax - xmin == 0 ? 0 : (double)(x - xmin) / (double)(xmax - xmin);
-            return (int)((wmax - wmin) * point + wmin);
+            return (int)(((wmax - wmin) * point) + wmin);
         }
         private int NormalizeY(decimal y, decimal ymin, decimal ymax, int hmin, int hmax) {
             double point = ymax - ymin == 0 ? 0 : (double)(y - ymin) / (double)(ymax - ymin);
-            return (int)(hmax - (hmax - hmin) * point);
+            return (int)(hmax - ((hmax - hmin) * point));
         }
         private decimal GetValue(object value) {
             switch (value) {

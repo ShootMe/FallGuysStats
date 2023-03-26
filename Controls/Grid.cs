@@ -41,7 +41,7 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
         public SortOrder GetSortOrder(string columnName) {
-            this.Orders.TryGetValue(columnName, out var sortOrder);
+            this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
 
             if (sortOrder == SortOrder.None) {
                 this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
@@ -80,7 +80,7 @@ namespace FallGuysStats {
                 int i = 0;
                 g.DrawLine(bp, 0, 0, 0, Height);
                 g.DrawLine(bp, Width - 1, 0, Width - 1, Height);
-                int header = (int)ColumnHeadersDefaultCellStyle.Font.Size * 2 + 1;
+                int header = ((int)ColumnHeadersDefaultCellStyle.Font.Size * 2) + 1;
                 g.FillRectangle(new SolidBrush(ColumnHeadersDefaultCellStyle.BackColor), 1, 1, Width - 2, header - 1);
                 TextRenderer.DrawText(g, "Header", ColumnHeadersDefaultCellStyle.Font, new Point(10, 2), ColumnHeadersDefaultCellStyle.ForeColor);
                 g.FillRectangle(new SolidBrush(DefaultCellStyle.BackColor), 1, header, Width - 2, Height - header - 1);
@@ -187,10 +187,7 @@ namespace FallGuysStats {
             return false;
         }
         private string EscapeQuotes(string value, char escapeCharacter = ',') {
-            if (!string.IsNullOrEmpty(value) && value.IndexOf(escapeCharacter) >= 0) {
-                return $"\"{value}\"";
-            }
-            return value;
+            return !string.IsNullOrEmpty(value) && value.IndexOf(escapeCharacter) >= 0 ? $"\"{value}\"" : value;
         }
 
         #region Export event handlers
@@ -432,11 +429,7 @@ namespace FallGuysStats {
                     }
 
                     if (iCol <= this.CurrentCell.ColumnIndex) {
-                        if (this.CurrentCell.RowIndex + 1 < Rows.Count) {
-                            this.CurrentCell = Rows[this.CurrentCell.RowIndex + 1].Cells[iCol];
-                        } else {
-                            this.CurrentCell = Rows[0].Cells[iCol];
-                        }
+                        this.CurrentCell = this.CurrentCell.RowIndex + 1 < Rows.Count ? Rows[this.CurrentCell.RowIndex + 1].Cells[iCol] : Rows[0].Cells[iCol];
                     }
                 }
                 return true;
@@ -461,11 +454,7 @@ namespace FallGuysStats {
                     }
 
                     if (iCol >= this.CurrentCell.ColumnIndex) {
-                        if (this.CurrentCell.RowIndex - 1 >= 0) {
-                            this.CurrentCell = Rows[this.CurrentCell.RowIndex - 1].Cells[iCol];
-                        } else {
-                            this.CurrentCell = Rows[0].Cells[iCol];
-                        }
+                        this.CurrentCell = this.CurrentCell.RowIndex - 1 >= 0 ? Rows[this.CurrentCell.RowIndex - 1].Cells[iCol] : Rows[0].Cells[iCol];
                     }
                 }
                 return true;
@@ -504,7 +493,7 @@ namespace FallGuysStats {
             this.ExportItemMd = new ToolStripMenuItem();
             this._saveFile = new SaveFileDialog();
             this.CMenu.SuspendLayout();
-            ((ISupportInitialize)(this)).BeginInit();
+            ((ISupportInitialize)this).BeginInit();
             this.SuspendLayout();
             // 
             // CMenu
@@ -562,7 +551,7 @@ namespace FallGuysStats {
             // 
             this.DataError += new DataGridViewDataErrorEventHandler(this.Grid_DataError);
             this.CMenu.ResumeLayout(false);
-            ((ISupportInitialize)(this)).EndInit();
+            ((ISupportInitialize)this).EndInit();
             this.ResumeLayout(false);
         }
         public static DataTable Convert(IEnumerable array, params string[] columns) {

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace FallGuysStats {
     public class StatSummary {
         public int CurrentStreak { get; set; }

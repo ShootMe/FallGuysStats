@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
 namespace FallGuysStats {
     public static class Json {
         public static JsonObject Read(string json) {

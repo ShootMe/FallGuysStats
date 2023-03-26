@@ -127,7 +127,7 @@ namespace FallGuysStats {
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroButton ml2) {
                             ml2.Theme = theme;
-                        } else if (c2 is DataGridView dgv2) {
+                            //} else if (c2 is DataGridView dgv2) {
                             //dgv2.Theme = theme;
                         }
                     }
@@ -167,7 +167,7 @@ namespace FallGuysStats {
         private void ReloadProfileList() {
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
             this.ProfilesData.Clear();
-            foreach (var profile in this.Profiles) {
+            foreach (Profiles profile in this.Profiles) {
                 this.ProfilesData.Rows.Add($"{profile.ProfileName} [{AllStats.FindAll(r => r.Profile == profile.ProfileId).Count} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
             }
             this.Profiles = this.Profiles.OrderByDescending(p => p.ProfileOrder).ToList();
@@ -194,7 +194,7 @@ namespace FallGuysStats {
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
-            var datagridview = sender as DataGridView;
+            DataGridView datagridview = sender as DataGridView;
             if (datagridview.CurrentCell.ColumnIndex == 1 & e.Control is ComboBox) {
                 ComboBox cb = e.Control as ComboBox;
                 this.selectedRowIndex = cb.SelectedIndex;
@@ -220,7 +220,7 @@ namespace FallGuysStats {
         }
 
         private void ProfileList_CellClick(object sender, DataGridViewCellEventArgs e) {
-            var datagridview = sender as DataGridView;
+            DataGridView datagridview = sender as DataGridView;
             if (e.ColumnIndex == 1) {
                 datagridview.BeginEdit(true);
                 ((ComboBox)datagridview.EditingControl).DroppedDown = true;
@@ -228,7 +228,7 @@ namespace FallGuysStats {
         }
 
         private void ProfileList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            var datagridview = sender as DataGridView;
+            DataGridView datagridview = sender as DataGridView;
             if (datagridview.Columns[e.ColumnIndex].Name == "profile") {
                 datagridview.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = (string)e.Value;
             } else if (datagridview.Columns[e.ColumnIndex].Name == "profile") {
@@ -278,12 +278,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                int prevProfileId;
-                if (string.IsNullOrEmpty(prevProfileName)) {
-                    prevProfileId = 0;
-                } else {
-                    prevProfileId = this.Profiles.Find(p => p.ProfileName == prevProfileName).ProfileId;
-                }
+                int prevProfileId = string.IsNullOrEmpty(prevProfileName) ? 0 : this.Profiles.Find(p => p.ProfileName == prevProfileName).ProfileId;
                 int profileId = this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()).ProfileId;
                 this.Profiles.Remove(this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()));
                 this.AllStats.RemoveAll(r => r.Profile == profileId);
