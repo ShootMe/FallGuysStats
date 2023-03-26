@@ -2356,9 +2356,7 @@ namespace FallGuysStats {
                                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
                                             exeName = entry.Name;
                                         }
-                                        if (File.Exists(entry.Name)) {
-                                            File.Move(entry.Name, $"{entry.Name}.bak");
-                                        }
+                                        if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
                                         entry.ExtractToFile(entry.Name, true);
                                     }
                                 }

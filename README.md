@@ -2,25 +2,27 @@
   - [Fall Guys Stats](#fall-guys-stats)
     - [Download](#download)
     - [Usage](#usage)
-  - [Theme](#theme)
-    - [Light Theme](#light-theme)
-    - [Dark Theme](#dark-theme)
+    - [Theme](#theme)
+      - [Light Theme](#light-theme)
+      - [Dark Theme](#dark-theme)
   - [Multilingual Support](#multilingual-support)
   - [Overlay](#overlay)
     - [Create your own overlays](#create-your-own-overlays)
     - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
-  - [Linking Profiles and Shows](#linking-profiles-and-shows)
-  - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
+  - [Profile](#profile)
+    - [Linking Profiles and Shows](#linking-profiles-and-shows)
+    - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
   - [Change Log](#change-log)
 
 # Fall Guys Stats
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
 ## Download
-  - [FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip)
+　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](Resources/FallGuysStats-download.svg)</a>
+  - Or, if you have a false detection problem with your virus program, download the version below with the automatic update feature removed.
 
-  - or if you have problems with false positives in your virus program this one removes the ability to auto update [FallGuysStatsManualUpdate.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip)
-  
+　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](Resources/FallGuysStatsManualUpdate-download.svg)</a>
+
 ## Usage
   - Extract zip to it's own folder
   - Run the program while playing Fall Guys to see new stats.
@@ -90,7 +92,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
   - **Step 5.** Select and save the added image.
 
-## Linking Profiles and Shows
+## Profile
+
+### Linking Profiles and Shows
   - Link your profile and show so your profile automatically changes when the show starts.
 
 
@@ -104,7 +108,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
 
-## Deleting shows or moving shows to another profile
+### Deleting shows or moving shows to another profile
 
 
   - On the main screen, click the Shows label at the top.
@@ -113,6 +117,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ## Change Log
+  - 1.140
+    - Update all packages due to package vulnerabilities
   - 1.139
     - Bug fixes and Correct typos
   - 1.138
