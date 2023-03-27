@@ -32,6 +32,8 @@ namespace FallGuysStats {
         private bool startedPlaying;
         private DateTime startTime;
         private bool shiftKeyToggle;
+        private bool ctrlKeyToggle;
+        private Size DefaultSize;
 
         private bool isPositionButtonMouseEnter;
         private Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
@@ -856,14 +858,25 @@ namespace FallGuysStats {
             }
         }
         private void Overlay_KeyUp(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.ShiftKey) {
-                this.shiftKeyToggle = false;
+            switch (e.KeyCode) {
+                case Keys.ShiftKey:
+                    this.shiftKeyToggle = false;
+                    break;
+                case Keys.ControlKey:
+                    this.ctrlKeyToggle = false;
+                    break;
             }
         }
         private void Overlay_KeyDown(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
                     this.shiftKeyToggle = true;
+                    break;
+                case Keys.ControlKey:
+                    this.ctrlKeyToggle = true;
+                    break;
+                case Keys.D:
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) this.Size = this.DefaultSize;
                     break;
                 case Keys.T: {
                     int colorOption = 0;
@@ -1005,7 +1018,8 @@ namespace FallGuysStats {
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
                 case 0:
-                    this.MinimumSize = new Size(786, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(786, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(786, showTabs ? 134 : 99);
 
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     this.lblWins.DrawVisible = true;
@@ -1058,7 +1072,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 1:
-                    this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(555, showTabs ? 134 : 99);
 
                     this.drawWidth -= thirdColumnWidth + spacerWidth;
 
@@ -1110,7 +1125,8 @@ namespace FallGuysStats {
                     this.lblQualifyChance.DrawVisible = true;
                     break;
                 case 2:
-                    this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(538, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(499, showTabs ? 134 : 99);
 
                     this.drawWidth -= secondColumnWidth + spacerWidth;
 
@@ -1138,7 +1154,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 3:
-                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(268, showTabs ? 134 : 99);
 
                     this.drawWidth -= secondColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
@@ -1162,7 +1179,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = false;
                     break;
                 case 4:
-                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(538, showTabs ? 134 : 99);
 
                     this.drawWidth -= firstColumnWidth + spacerWidth;
 
@@ -1214,7 +1232,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = true;
                     break;
                 case 5:
-                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(307, showTabs ? 134 : 99);
 
                     this.drawWidth -= firstColumnWidth + thirdColumnWidth + spacerWidth * 2;
 
@@ -1263,7 +1282,8 @@ namespace FallGuysStats {
                     this.lblFinish.DrawVisible = false;
                     break;
                 case 6:
-                    this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
+                    this.DefaultSize = new Size(251, showTabs ? 134 : 99);
 
                     this.drawWidth -= firstColumnWidth + secondColumnWidth + spacerWidth * 2;
 
