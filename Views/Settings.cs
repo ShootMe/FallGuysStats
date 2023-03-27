@@ -90,11 +90,14 @@ namespace FallGuysStats {
                 DirectoryInfo di = new DirectoryInfo("Overlay");
                 foreach (FileInfo file in di.GetFiles()) {
                     if (file.Name.Equals("background.png") || file.Name.Equals("tab.png")) continue;
-                    string fileName = file.Name.Substring(0, file.Name.Length - 4);
-                    Bitmap background = new Bitmap(file.FullName);
-                    //if (background.Width == 396 && background.Height == 43) continue;
-                    if (background.Width == 786 && background.Height == 99) {
-                        imageItemArray.Add(new ImageItem(background, new[] { fileName, $"tab_{fileName}" }, fileName, this.Font, true));
+                    if (file.Name.StartsWith("background_") && file.Name.EndsWith(".png")) {
+                        string fileName = file.Name.Substring(11);
+                        fileName = fileName.Remove(fileName.Length - 4);
+                        Bitmap background = new Bitmap(file.FullName);
+                        //if (background.Width == 396 && background.Height == 43) continue;
+                        if (background.Width == 786 && background.Height == 99) {
+                            imageItemArray.Add(new ImageItem(background, new[] { $"background_{fileName}", $"tab_{fileName}" }, fileName, this.Font, true));
+                        }
                     }
                 }
             }
