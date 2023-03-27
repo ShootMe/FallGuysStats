@@ -60,7 +60,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
-  - Hit Keys **'Shift + Ctrl + D'** to set the overlay to its default size.
+  - Hit Keys **'Ctrl + Shift + D'** to set the overlay to its default size.
   - Hit Keys **'T'** to toggle background colors.
   - Hit Keys **'F'** to flip the Display.
   - Hit Keys **'P'** to change the profile order.
