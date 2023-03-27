@@ -158,7 +158,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ImageComboBox.cs" />
+      <Compile Include="Controls\ImageComboBox.cs">
+          <SubType>Component</SubType>
+      </Compile>
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -315,7 +317,7 @@
     <None Include="Resources\number_9.png" />
     <None Include="Resources\number_10.png" />
     <None Include="Resources\github_icon.png" />
-    <None Include="Resources\github_gray_icon.png" />  
+    <None Include="Resources\github_gray_icon.png" />
     <None Include="Resources\profile_icon.png" />
     <None Include="Resources\profile_gray_icon.png" />
     <None Include="Resources\profile2_icon.png" />
@@ -378,6 +380,7 @@
     <None Include="Resources\round_icon\hunt\icon_TailTag.png" />
     <None Include="Resources\round_icon\hunt\icon_Volleyfall.png" />
     <None Include="Resources\round_icon\invisibeans\icon_Sweet_Thieves.png" />
+    <None Include="Resources\round_icon\invisibeans\icon_Treat_Thieves.png" />
     <None Include="Resources\round_icon\logic\icon_PerfectMatch.png" />
     <None Include="Resources\round_icon\logic\icon_SumFruit.png" />
     <None Include="Resources\round_icon\race\icon_BigFans.png" />

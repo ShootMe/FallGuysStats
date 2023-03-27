@@ -180,9 +180,10 @@ namespace FallGuysStats {
             { "round_jinxed",                     new LevelStats("Jinxed", LevelType.Team, false, 1, Properties.Resources.round_jinxed_icon) },
             { "round_chicken_chase",              new LevelStats("Pegwin Pursuit", LevelType.Team, false, 3, Properties.Resources.round_pegwin_pursuit_icon) },
             { "round_territory_control_s4_show",  new LevelStats("Power Trip", LevelType.Team, false, 4, Properties.Resources.round_power_trip_icon) },
-            { "round_rocknroll",                  new LevelStats("Rock 'n' Roll", LevelType.Team, false, 1, Properties.Resources.round_rockn_roll_icon) },
+            { "round_rocknroll",                  new LevelStats("Rock 'n' Roll", LevelType.Team, false, 1, Properties.Resources.round_rock_n_roll_icon) },
             { "round_snowy_scrap",                new LevelStats("Snowy Scrap", LevelType.Team, false, 3, Properties.Resources.round_snowy_scrap_icon) },
             { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6, Properties.Resources.round_sweet_thieves_icon) },
+            { "round_pumpkin_pie",                new LevelStats("Treat Thieves", LevelType.Team, false, 8, Properties.Resources.round_treat_thieves_icon) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1, Properties.Resources.round_team_tail_tag_icon) },
 
             { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, true, 7, Properties.Resources.round_blast_ball_icon) },
