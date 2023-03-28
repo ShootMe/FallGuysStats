@@ -1613,6 +1613,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap round_treat_thieves_icon {
+            get {
+                object obj = ResourceManager.GetObject("round_treat_thieves_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap round_treetop_tumble_icon {
             get {
                 object obj = ResourceManager.GetObject("round_treetop_tumble_icon", resourceCulture);

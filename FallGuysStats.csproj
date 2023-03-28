@@ -385,6 +385,7 @@
     <None Include="Resources\round_icon\hunt\icon_TailTag.png" />
     <None Include="Resources\round_icon\hunt\icon_Volleyfall.png" />
     <None Include="Resources\round_icon\invisibeans\icon_Sweet_Thieves.png" />
+    <None Include="Resources\round_icon\invisibeans\icon_Treat_Thieves.png" />
     <None Include="Resources\round_icon\logic\icon_PerfectMatch.png" />
     <None Include="Resources\round_icon\logic\icon_SumFruit.png" />
     <None Include="Resources\round_icon\race\icon_BigFans.png" />
