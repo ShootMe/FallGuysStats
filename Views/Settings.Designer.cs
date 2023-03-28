@@ -1117,7 +1117,7 @@
             // 
             this.cboOverlayBackground.BorderColor = System.Drawing.Color.Gray;
             this.cboOverlayBackground.ButtonColor = System.Drawing.Color.DarkGray;
-            this.cboOverlayBackground.DropDownHeight = 500;
+            this.cboOverlayBackground.DropDownHeight = 414;
             this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOverlayBackground.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.cboOverlayBackground.FormattingEnabled = true;
