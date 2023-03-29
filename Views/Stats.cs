@@ -1472,8 +1472,10 @@ namespace FallGuysStats {
         public void SetCurrentProfileIcon(bool linked) {
             if (this.CurrentSettings.AutoChangeProfile) {
                 this.lblCurrentProfile.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
+                this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             } else {
                 this.lblCurrentProfile.Image = Properties.Resources.profile2_icon;
+                this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
         }
         public StatSummary GetLevelInfo(string name) {
