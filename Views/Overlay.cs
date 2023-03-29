@@ -33,7 +33,7 @@ namespace FallGuysStats {
         private DateTime startTime;
         private bool shiftKeyToggle;
         private bool ctrlKeyToggle;
-        private Size DefaultSize;
+        private new Size DefaultSize;
 
         private bool isPositionButtonMouseEnter;
         private Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);

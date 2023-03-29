@@ -28,11 +28,11 @@ namespace FallGuysStats {
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditProfiles));
             this.ProfileList = new System.Windows.Forms.DataGridView();
             this.ProfileListUp = new MetroFramework.Controls.MetroButton();
             this.ProfileListDown = new MetroFramework.Controls.MetroButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            //this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.AddTabPage = new MetroFramework.Controls.MetroTabPage();
             this.AddPageButton = new MetroFramework.Controls.MetroButton();
@@ -91,6 +91,7 @@ namespace FallGuysStats {
             this.ProfileListUp.Size = new System.Drawing.Size(20, 50);
             this.ProfileListUp.TabIndex = 3;
             this.ProfileListUp.Text = "∧";
+            this.ProfileListUp.UseSelectable = true;
             this.ProfileListUp.Click += new System.EventHandler(this.ProfileListUp_Click);
             // 
             // ProfileListDown
@@ -100,6 +101,7 @@ namespace FallGuysStats {
             this.ProfileListDown.Size = new System.Drawing.Size(20, 50);
             this.ProfileListDown.TabIndex = 4;
             this.ProfileListDown.Text = "∨";
+            this.ProfileListDown.UseSelectable = true;
             this.ProfileListDown.Click += new System.EventHandler(this.ProfileListDown_Click);
             // 
             // groupBox1
@@ -125,18 +127,25 @@ namespace FallGuysStats {
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(382, 165);
             this.tabControl1.TabIndex = 6;
+            this.tabControl1.UseSelectable = true;
             // 
             // AddTabPage
             // 
             this.AddTabPage.Controls.Add(this.AddPageButton);
             this.AddTabPage.Controls.Add(this.AddPageTextbox);
             this.AddTabPage.Controls.Add(this.AddPageLabel1);
-            this.AddTabPage.Location = new System.Drawing.Point(4, 22);
+            this.AddTabPage.HorizontalScrollbarBarColor = true;
+            this.AddTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.AddTabPage.HorizontalScrollbarSize = 10;
+            this.AddTabPage.Location = new System.Drawing.Point(4, 38);
             this.AddTabPage.Name = "AddTabPage";
             this.AddTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.AddTabPage.Size = new System.Drawing.Size(351, 74);
+            this.AddTabPage.Size = new System.Drawing.Size(374, 123);
             this.AddTabPage.TabIndex = 0;
             this.AddTabPage.Text = "Add";
+            this.AddTabPage.VerticalScrollbarBarColor = true;
+            this.AddTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.AddTabPage.VerticalScrollbarSize = 10;
             // 
             // AddPageButton
             // 
@@ -145,15 +154,38 @@ namespace FallGuysStats {
             this.AddPageButton.Size = new System.Drawing.Size(76, 26);
             this.AddPageButton.TabIndex = 2;
             this.AddPageButton.Text = "Add";
+            this.AddPageButton.UseSelectable = true;
             this.AddPageButton.Click += new System.EventHandler(this.AddPageButton_Click);
             // 
             // AddPageTextbox
             // 
+            // 
+            // 
+            // 
+            this.AddPageTextbox.CustomButton.Image = null;
+            this.AddPageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
+            this.AddPageTextbox.CustomButton.Name = "";
+            this.AddPageTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.AddPageTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.AddPageTextbox.CustomButton.TabIndex = 1;
+            this.AddPageTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.AddPageTextbox.CustomButton.UseSelectable = true;
+            this.AddPageTextbox.CustomButton.Visible = false;
+            this.AddPageTextbox.Lines = new string[0];
             this.AddPageTextbox.Location = new System.Drawing.Point(96, 10);
             this.AddPageTextbox.MaxLength = 20;
             this.AddPageTextbox.Name = "AddPageTextbox";
+            this.AddPageTextbox.PasswordChar = '\0';
+            this.AddPageTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.AddPageTextbox.SelectedText = "";
+            this.AddPageTextbox.SelectionLength = 0;
+            this.AddPageTextbox.SelectionStart = 0;
+            this.AddPageTextbox.ShortcutsEnabled = true;
             this.AddPageTextbox.Size = new System.Drawing.Size(178, 25);
             this.AddPageTextbox.TabIndex = 1;
+            this.AddPageTextbox.UseSelectable = true;
+            this.AddPageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.AddPageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.AddPageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersend_KeyPress);
             // 
             // AddPageLabel1
@@ -161,7 +193,7 @@ namespace FallGuysStats {
             this.AddPageLabel1.AutoSize = true;
             this.AddPageLabel1.Location = new System.Drawing.Point(7, 9);
             this.AddPageLabel1.Name = "AddPageLabel1";
-            this.AddPageLabel1.Size = new System.Drawing.Size(78, 12);
+            this.AddPageLabel1.Size = new System.Drawing.Size(87, 19);
             this.AddPageLabel1.TabIndex = 0;
             this.AddPageLabel1.Text = "Profile Name";
             // 
@@ -172,12 +204,18 @@ namespace FallGuysStats {
             this.RenameTabPage.Controls.Add(this.RenamePageLabel2);
             this.RenameTabPage.Controls.Add(this.RenamePageCombobox);
             this.RenameTabPage.Controls.Add(this.RenamePageLabel1);
-            this.RenameTabPage.Location = new System.Drawing.Point(4, 22);
+            this.RenameTabPage.HorizontalScrollbarBarColor = true;
+            this.RenameTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.RenameTabPage.HorizontalScrollbarSize = 10;
+            this.RenameTabPage.Location = new System.Drawing.Point(4, 38);
             this.RenameTabPage.Name = "RenameTabPage";
             this.RenameTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.RenameTabPage.Size = new System.Drawing.Size(351, 74);
+            this.RenameTabPage.Size = new System.Drawing.Size(374, 123);
             this.RenameTabPage.TabIndex = 3;
             this.RenameTabPage.Text = "Rename";
+            this.RenameTabPage.VerticalScrollbarBarColor = true;
+            this.RenameTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.RenameTabPage.VerticalScrollbarSize = 10;
             // 
             // RenameButton
             // 
@@ -186,15 +224,38 @@ namespace FallGuysStats {
             this.RenameButton.Size = new System.Drawing.Size(76, 26);
             this.RenameButton.TabIndex = 4;
             this.RenameButton.Text = "Rename";
+            this.RenameButton.UseSelectable = true;
             this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
             // 
             // RenamePageTextbox
             // 
+            // 
+            // 
+            // 
+            this.RenamePageTextbox.CustomButton.Image = null;
+            this.RenamePageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
+            this.RenamePageTextbox.CustomButton.Name = "";
+            this.RenamePageTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.RenamePageTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.RenamePageTextbox.CustomButton.TabIndex = 1;
+            this.RenamePageTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.RenamePageTextbox.CustomButton.UseSelectable = true;
+            this.RenamePageTextbox.CustomButton.Visible = false;
+            this.RenamePageTextbox.Lines = new string[0];
             this.RenamePageTextbox.Location = new System.Drawing.Point(96, 45);
             this.RenamePageTextbox.MaxLength = 20;
             this.RenamePageTextbox.Name = "RenamePageTextbox";
+            this.RenamePageTextbox.PasswordChar = '\0';
+            this.RenamePageTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.RenamePageTextbox.SelectedText = "";
+            this.RenamePageTextbox.SelectionLength = 0;
+            this.RenamePageTextbox.SelectionStart = 0;
+            this.RenamePageTextbox.ShortcutsEnabled = true;
             this.RenamePageTextbox.Size = new System.Drawing.Size(178, 25);
             this.RenamePageTextbox.TabIndex = 3;
+            this.RenamePageTextbox.UseSelectable = true;
+            this.RenamePageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.RenamePageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.RenamePageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersend_KeyPress);
             // 
             // RenamePageLabel2
@@ -202,18 +263,18 @@ namespace FallGuysStats {
             this.RenamePageLabel2.AutoSize = true;
             this.RenamePageLabel2.Location = new System.Drawing.Point(7, 47);
             this.RenamePageLabel2.Name = "RenamePageLabel2";
-            this.RenamePageLabel2.Size = new System.Drawing.Size(78, 12);
+            this.RenamePageLabel2.Size = new System.Drawing.Size(87, 19);
             this.RenamePageLabel2.TabIndex = 2;
             this.RenamePageLabel2.Text = "Profile Name";
             // 
             // RenamePageCombobox
             // 
-            this.RenamePageCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RenamePageCombobox.FormattingEnabled = true;
             this.RenamePageCombobox.Location = new System.Drawing.Point(96, 7);
             this.RenamePageCombobox.Name = "RenamePageCombobox";
-            this.RenamePageCombobox.Size = new System.Drawing.Size(192, 20);
+            this.RenamePageCombobox.Size = new System.Drawing.Size(192, 22);
             this.RenamePageCombobox.TabIndex = 1;
+            this.RenamePageCombobox.UseSelectable = true;
             this.RenamePageCombobox.SelectedIndexChanged += new System.EventHandler(this.RenameComboxChanged);
             // 
             // RenamePageLabel1
@@ -221,7 +282,7 @@ namespace FallGuysStats {
             this.RenamePageLabel1.AutoSize = true;
             this.RenamePageLabel1.Location = new System.Drawing.Point(7, 9);
             this.RenamePageLabel1.Name = "RenamePageLabel1";
-            this.RenamePageLabel1.Size = new System.Drawing.Size(40, 12);
+            this.RenamePageLabel1.Size = new System.Drawing.Size(47, 19);
             this.RenamePageLabel1.TabIndex = 0;
             this.RenamePageLabel1.Text = "Profile";
             // 
@@ -232,12 +293,18 @@ namespace FallGuysStats {
             this.MoveTabPage.Controls.Add(this.MoveToCombobox);
             this.MoveTabPage.Controls.Add(this.MovePageLabel1);
             this.MoveTabPage.Controls.Add(this.MoveFromCombobox);
-            this.MoveTabPage.Location = new System.Drawing.Point(4, 22);
+            this.MoveTabPage.HorizontalScrollbarBarColor = true;
+            this.MoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.MoveTabPage.HorizontalScrollbarSize = 10;
+            this.MoveTabPage.Location = new System.Drawing.Point(4, 38);
             this.MoveTabPage.Name = "MoveTabPage";
             this.MoveTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.MoveTabPage.Size = new System.Drawing.Size(351, 74);
+            this.MoveTabPage.Size = new System.Drawing.Size(374, 123);
             this.MoveTabPage.TabIndex = 1;
             this.MoveTabPage.Text = "Move";
+            this.MoveTabPage.VerticalScrollbarBarColor = true;
+            this.MoveTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.MoveTabPage.VerticalScrollbarSize = 10;
             // 
             // MovePageButton
             // 
@@ -246,6 +313,7 @@ namespace FallGuysStats {
             this.MovePageButton.Size = new System.Drawing.Size(76, 26);
             this.MovePageButton.TabIndex = 4;
             this.MovePageButton.Text = "Move";
+            this.MovePageButton.UseSelectable = true;
             this.MovePageButton.Click += new System.EventHandler(this.MovePageButton_Click);
             // 
             // MovePageLabel2
@@ -253,47 +321,53 @@ namespace FallGuysStats {
             this.MovePageLabel2.AutoSize = true;
             this.MovePageLabel2.Location = new System.Drawing.Point(7, 47);
             this.MovePageLabel2.Name = "MovePageLabel2";
-            this.MovePageLabel2.Size = new System.Drawing.Size(20, 12);
+            this.MovePageLabel2.Size = new System.Drawing.Size(22, 19);
             this.MovePageLabel2.TabIndex = 3;
             this.MovePageLabel2.Text = "To";
             // 
             // MoveToCombobox
             // 
-            this.MoveToCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MoveToCombobox.FormattingEnabled = true;
             this.MoveToCombobox.Location = new System.Drawing.Point(96, 45);
             this.MoveToCombobox.Name = "MoveToCombobox";
-            this.MoveToCombobox.Size = new System.Drawing.Size(192, 20);
+            this.MoveToCombobox.Size = new System.Drawing.Size(192, 22);
             this.MoveToCombobox.TabIndex = 2;
+            this.MoveToCombobox.UseSelectable = true;
             // 
             // MovePageLabel1
             // 
             this.MovePageLabel1.AutoSize = true;
             this.MovePageLabel1.Location = new System.Drawing.Point(7, 9);
             this.MovePageLabel1.Name = "MovePageLabel1";
-            this.MovePageLabel1.Size = new System.Drawing.Size(34, 12);
+            this.MovePageLabel1.Size = new System.Drawing.Size(41, 19);
             this.MovePageLabel1.TabIndex = 1;
             this.MovePageLabel1.Text = "From";
             // 
             // MoveFromCombobox
             // 
-            this.MoveFromCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.MoveFromCombobox.FormattingEnabled = true;
             this.MoveFromCombobox.Location = new System.Drawing.Point(96, 7);
             this.MoveFromCombobox.Name = "MoveFromCombobox";
-            this.MoveFromCombobox.Size = new System.Drawing.Size(192, 20);
+            this.MoveFromCombobox.Size = new System.Drawing.Size(192, 22);
             this.MoveFromCombobox.TabIndex = 0;
+            this.MoveFromCombobox.UseSelectable = true;
             // 
             // RemoveTabPage
             // 
             this.RemoveTabPage.Controls.Add(this.RemovePageButton);
             this.RemoveTabPage.Controls.Add(this.RemoveProfileCombobox);
             this.RemoveTabPage.Controls.Add(this.RemovePageLabel1);
-            this.RemoveTabPage.Location = new System.Drawing.Point(4, 22);
+            this.RemoveTabPage.HorizontalScrollbarBarColor = true;
+            this.RemoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.RemoveTabPage.HorizontalScrollbarSize = 10;
+            this.RemoveTabPage.Location = new System.Drawing.Point(4, 38);
             this.RemoveTabPage.Name = "RemoveTabPage";
-            this.RemoveTabPage.Size = new System.Drawing.Size(351, 74);
+            this.RemoveTabPage.Size = new System.Drawing.Size(374, 123);
             this.RemoveTabPage.TabIndex = 2;
             this.RemoveTabPage.Text = "Remove";
+            this.RemoveTabPage.VerticalScrollbarBarColor = true;
+            this.RemoveTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.RemoveTabPage.VerticalScrollbarSize = 10;
             // 
             // RemovePageButton
             // 
@@ -302,34 +376,35 @@ namespace FallGuysStats {
             this.RemovePageButton.Size = new System.Drawing.Size(76, 26);
             this.RemovePageButton.TabIndex = 2;
             this.RemovePageButton.Text = "Remove";
+            this.RemovePageButton.UseSelectable = true;
             this.RemovePageButton.Click += new System.EventHandler(this.RemovePageButton_Click);
             // 
             // RemoveProfileCombobox
             // 
-            this.RemoveProfileCombobox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.RemoveProfileCombobox.FormattingEnabled = true;
             this.RemoveProfileCombobox.Location = new System.Drawing.Point(96, 7);
             this.RemoveProfileCombobox.Name = "RemoveProfileCombobox";
-            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 20);
+            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 22);
             this.RemoveProfileCombobox.TabIndex = 1;
+            this.RemoveProfileCombobox.UseSelectable = true;
             // 
             // RemovePageLabel1
             // 
             this.RemovePageLabel1.AutoSize = true;
             this.RemovePageLabel1.Location = new System.Drawing.Point(7, 9);
             this.RemovePageLabel1.Name = "RemovePageLabel1";
-            this.RemovePageLabel1.Size = new System.Drawing.Size(40, 12);
+            this.RemovePageLabel1.Size = new System.Drawing.Size(47, 19);
             this.RemovePageLabel1.TabIndex = 0;
             this.RemovePageLabel1.Text = "Profile";
             // 
             // EditProfiles
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(419, 520);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.Color.Black;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
