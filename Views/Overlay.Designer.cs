@@ -143,8 +143,6 @@ namespace FallGuysStats {
             // 
             // lblProfile
             // 
-            this.lblProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblProfile.ForeColor = System.Drawing.Color.GreenYellow;
             this.lblProfile.ImageHeight = 0;
             this.lblProfile.ImageWidth = 0;
             this.lblProfile.ImageX = 0;
