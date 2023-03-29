@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
@@ -2009,59 +2010,86 @@ namespace FallGuysStats {
             for (int i = 0; i < StatDetails.Count; i++) {
                 rounds.AddRange(StatDetails[i].Stats);
             }
-
             rounds.Sort();
 
+            //if (rounds.Count <= 0) {
+            //    MessageBox.Show(this, $"{Multilingual.GetWord("level_detail_no_data")}", Multilingual.GetWord("level_detail_no_data_caption"), MessageBoxButtons.OK);
+            //    return;
+            //}
+            
             using (StatsDisplay display = new StatsDisplay { StatsForm = this, Text = $"{Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}" }) {
-                DataTable dt = new DataTable();
-                dt.Columns.Add(Multilingual.GetWord("level_detail_date"), typeof(DateTime));
-                dt.Columns.Add(Multilingual.GetWord("level_detail_wins"), typeof(int));
-                dt.Columns.Add(Multilingual.GetWord("level_detail_finals"), typeof(int));
-                dt.Columns.Add(Multilingual.GetWord("level_detail_shows"), typeof(int));
-
                 if (rounds.Count > 0) {
-                    DateTime start = rounds[0].StartLocal;
-                    int currentWins = 0;
-                    int currentFinals = 0;
-                    int currentShows = 0;
-                    for (int i = 0; i < rounds.Count; i++) {
-                        RoundInfo info = rounds[i];
-                        if (info.PrivateLobby) { continue; }
+                    ArrayList dates = new ArrayList();
+                    ArrayList shows = new ArrayList();
+                    ArrayList finals = new ArrayList();
+                    ArrayList wins = new ArrayList();
+                    if (rounds.Count > 0) {
+                        DateTime start = rounds[0].StartLocal;
+                        int currentShows = 0;
+                        int currentFinals = 0;
+                        int currentWins = 0;
+                        for (int i = 0; i < rounds.Count; i++) {
+                            RoundInfo info = rounds[i];
+                            if (info.PrivateLobby) { continue; }
 
-                        if (info.Round == 1) {
-                            currentShows++;
-                        }
+                            if (info.Round == 1) {
+                                currentShows++;
+                            }
 
-                        if (info.Crown || info.IsFinal) {
-                            currentFinals++;
-                            if (info.Qualified) {
-                                currentWins++;
+                            if (info.Crown || info.IsFinal) {
+                                currentFinals++;
+                                if (info.Qualified) {
+                                    currentWins++;
+                                }
+                            }
+
+                            if (info.StartLocal.Date != start.Date) {
+                                dates.Add(start.Date.ToOADate());
+                                shows.Add(Convert.ToDouble(currentShows));
+                                finals.Add(Convert.ToDouble(currentFinals));
+                                wins.Add(Convert.ToDouble(currentWins));
+
+                                int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
+                                while (missingCount > 1) {
+                                    missingCount--;
+                                    start = start.Date.AddDays(1);
+                                    dates.Add(start.ToOADate());
+                                    shows.Add(0D);
+                                    finals.Add(0D);
+                                    wins.Add(0D);
+                                }
+
+                                currentShows = 0;
+                                currentFinals = 0;
+                                currentWins = 0;
+                                start = info.StartLocal;
                             }
                         }
 
-                        if (info.StartLocal.Date != start.Date) {
-                            dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
-
-                            int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
-                            while (missingCount > 1) {
-                                missingCount--;
-                                start = start.Date.AddDays(1);
-                                dt.Rows.Add(start, 0, 0, 0);
-                            }
-
-                            currentWins = 0;
-                            currentFinals = 0;
-                            currentShows = 0;
-                            start = info.StartLocal;
-                        }
+                        dates.Add(start.Date.ToOADate());
+                        shows.Add(Convert.ToDouble(currentShows));
+                        finals.Add(Convert.ToDouble(currentFinals));
+                        wins.Add(Convert.ToDouble(currentWins));
+                    } else {
+                        dates.Add(DateTime.Now.Date.ToOADate());
+                        shows.Add(0D);
+                        finals.Add(0D);
+                        wins.Add(0D);
                     }
-
-                    dt.Rows.Add(start.Date, currentWins, currentFinals, currentShows);
+                    
+                    display.manualSpacing = dates.Count / 28;
+                    display.dates = (double[])dates.ToArray(typeof(double));
+                    display.shows = (double[])shows.ToArray(typeof(double));
+                    display.finals = (double[])finals.ToArray(typeof(double));
+                    display.wins = (double[])wins.ToArray(typeof(double));
                 } else {
-                    dt.Rows.Add(DateTime.Now.Date, 0, 0, 0);
+                    display.manualSpacing = 1;
+                    display.dates = null;
+                    display.shows = null;
+                    display.finals = null;
+                    display.wins = null;
                 }
 
-                display.Details = dt;
                 display.ShowDialog(this);
             }
         }

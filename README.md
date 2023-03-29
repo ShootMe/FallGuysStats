@@ -7,12 +7,13 @@
       - [Dark Theme](#dark-theme)
   - [Multilingual Support](#multilingual-support)
   - [Overlay](#overlay)
+    - [Hotkey](#hotkey)
     - [Create your own overlays](#create-your-own-overlays)
     - [How to Overlay Background Image Customized](#how-to-overlay-background-image-customized)
   - [Profile](#profile)
     - [Linking Profiles and Shows](#linking-profiles-and-shows)
     - [Deleting shows or moving shows to another profile](#deleting-shows-or-moving-shows-to-another-profile)
-  - [Change Log](#change-log)
+  - [Changelog](#changelog)
 
 # Fall Guys Stats
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
@@ -60,6 +61,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
+### Hotkey
   - Hit Keys **'Ctrl + Shift + D'** to set the overlay to its default size.
   - Hit Keys **'T'** to toggle background colors.
   - Hit Keys **'F'** to flip the Display.
@@ -117,7 +119,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
-## Change Log
+## Changelog
+  - 1.141
+    - Upgrade Win Per Day Charts
+    - Finals bug fix
   - 1.140
     - Update all packages due to package vulnerabilities
   - 1.139
