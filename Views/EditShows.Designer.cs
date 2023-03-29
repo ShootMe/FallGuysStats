@@ -27,6 +27,7 @@ namespace FallGuysStats {
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditShows));
             this.picEditShowsIcon = new System.Windows.Forms.PictureBox();
             this.lblEditShowsQuestion = new MetroFramework.Controls.MetroLabel();
             this.lblEditShowslabel = new MetroFramework.Controls.MetroLabel();
@@ -73,12 +74,12 @@ namespace FallGuysStats {
             this.cboEditShows.Name = "cboEditShows";
             this.cboEditShows.Size = new System.Drawing.Size(198, 29);
             this.cboEditShows.TabIndex = 0;
-            //this.cboEditShows.UseSelectable = true;
+            this.cboEditShows.UseSelectable = true;
             this.cboEditShows.SelectedIndexChanged += new System.EventHandler(this.cboEditShows_Changed);
             // 
             // lblEditShowsBackColor
             // 
-            this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(40,0,182,254);
+            this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
             this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 191);
             this.lblEditShowsBackColor.Name = "lblEditShowsBackColor";
             this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 63);
@@ -115,6 +116,7 @@ namespace FallGuysStats {
             this.Controls.Add(this.btnEditShowsSave);
             this.Controls.Add(this.btnEditShowsCancel);
             this.Controls.Add(this.lblEditShowsBackColor);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditShows";
