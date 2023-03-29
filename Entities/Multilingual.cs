@@ -526,7 +526,7 @@ namespace FallGuysStats {
                             {"settings_ping_only", "Ping seul."},
                             {"settings_flip_display_horizontally", "Inversion horizontale de l'affichage"},
                             {"settings_always_show_on_top", "Toujours afficher"},
-                            {"settings_display_players_based_on_platform", "Afficher joueurs selon le support de jeu"},
+                            {"settings_display_players_based_on_platform", "Afficher les joueurs par support de jeu"},
                             {"settings_color_round_name_based_on_round_type", "Colorer la manche selon son type"},
                             {"settings_auto_change_profile", "Passer automatiquement sur le profil lié"},
                             {"settings_custom_overlay_font", "Police d'écriture"},
