@@ -26,23 +26,24 @@ namespace FallGuysStats {
             //this.formsPlot.Plot.Title("Title");
             //this.formsPlot.Plot.XLabel("Horizontal Axis");
             //this.formsPlot.Plot.YLabel("Vertical Axis");
+
             if (this.dates != null) {
                 this.MyScatterPlot1 = this.formsPlot.Plot.AddScatter(this.dates, this.shows, color: this.chkShows.ForeColor, label: Multilingual.GetWord("level_detail_shows"));
                 this.MyScatterPlot2 = this.formsPlot.Plot.AddScatter(this.dates, this.finals, color: this.chkFinals.ForeColor, label: Multilingual.GetWord("level_detail_finals"));
                 this.MyScatterPlot3 = this.formsPlot.Plot.AddScatter(this.dates, this.wins, color: this.chkWins.ForeColor, label: Multilingual.GetWord("level_detail_wins"));
                 this.formsPlot.Plot.Legend();
                 this.formsPlot.Plot.XAxis.DateTimeFormat(true);
-
-                this.formsPlot.Plot.XAxis.ManualTickSpacing(this.manualSpacing, ScottPlot.Ticks.DateTimeUnit.Day);
+                
+                this.formsPlot.Plot.XAxis.ManualTickSpacing((this.manualSpacing <= 0 ? 1 : this.manualSpacing), ScottPlot.Ticks.DateTimeUnit.Day);
                 this.formsPlot.Plot.XAxis.TickLabelStyle(rotation: 45);
                 this.formsPlot.Plot.XAxis.SetSizeLimit(min: 50);
-
+                
                 this.HighlightedPoint = this.formsPlot.Plot.AddPoint(0, 0);
                 this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.Magenta : Color.Chartreuse;
                 this.HighlightedPoint.MarkerSize = 10;
                 this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                 this.HighlightedPoint.IsVisible = false;
-
+                
                 this.formsPlot.Refresh();
                 this.MyScatterPlot1.IsVisible = false;
                 this.MyScatterPlot2.IsVisible = false;
