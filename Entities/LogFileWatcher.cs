@@ -296,11 +296,14 @@ namespace FallGuysStats {
                        && roundName.IndexOf("_final", StringComparison.OrdinalIgnoreCase) > 0)
 
                    || (roundName.IndexOf("ound_pixelperfect", StringComparison.OrdinalIgnoreCase) > 0
-                       && roundName.Substring(roundName.Length - 6).ToLower() == "_final");
+                       && roundName.Substring(roundName.Length - 6).ToLower() == "_final")
+
+                   || roundName.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase);
         }
-        
+
         private bool GetIsModeException(string sceneName) {
-            return sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+            return sceneName.IndexOf("ound_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) > 0
+                   || sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_blastball_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) > 0
@@ -312,10 +315,13 @@ namespace FallGuysStats {
                    || sceneName.IndexOf("ound_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
                    || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
-                   || sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0;
+                   || sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0
+                   || sceneName.IndexOf("ound_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) > 0;
         }
+
         private bool GetIsFinalException(string sceneName) {
-            return ((sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
+            return ((sceneName.IndexOf("ound_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) > 0
+                     || sceneName.IndexOf("ound_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                      || sceneName.IndexOf("ound_blastball_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                      || sceneName.IndexOf("ound_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) > 0
                      || sceneName.IndexOf("ound_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) > 0
@@ -326,13 +332,16 @@ namespace FallGuysStats {
                      || sceneName.IndexOf("ound_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) > 0
                      || sceneName.IndexOf("ound_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
                      || sceneName.IndexOf("ound_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) > 0
-                     || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0) 
-                    && sceneName.Substring(sceneName.Length - 6).ToLower() == "_final")
-                   
-                   || (sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0
-                       && sceneName.Substring(sceneName.Length - 3).ToLower() == "_fn");
+                     || sceneName.IndexOf("ound_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) > 0)
+                         && sceneName.Substring(sceneName.Length - 6).ToLower() == "_final")
+
+                     || (sceneName.IndexOf("ound_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) > 0
+                         && sceneName.Substring(sceneName.Length - 3).ToLower() == "_fn")
+
+                     || (sceneName.IndexOf("ound_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) > 0
+                         && sceneName.Substring(sceneName.Length - 3) == "_03");
         }
-        
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
