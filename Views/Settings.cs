@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
+using System.Reflection;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -29,7 +32,9 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
-            
+
+            changeTab(this.tileProgram, null);
+
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
@@ -96,7 +101,7 @@ namespace FallGuysStats {
             }
 
             int customizedBacgroundCount = imageItemArray.Count;
-            
+
             ImageItem[] imageItems = {
                 new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
                 new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
@@ -178,7 +183,7 @@ namespace FallGuysStats {
             this.txtGameShortcutLocation.Text = this.CurrentSettings.GameShortcutLocation;
             this.chkAutoLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            
+
             this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
@@ -208,7 +213,7 @@ namespace FallGuysStats {
                 this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
         }
-        
+
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
             this.cboOverlayBackground_blur();
@@ -225,8 +230,8 @@ namespace FallGuysStats {
                     mrb1.Theme = theme;
                 } else if (c1 is MetroComboBox mcbo1) {
                     mcbo1.Theme = theme;
-                } else if (c1 is GroupBox gb1) {
-                    gb1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                } else if (c1 is MetroPanel gb1) {
+                    gb1.Theme = theme;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroLabel ml2) {
                             ml2.Theme = theme;
@@ -266,10 +271,10 @@ namespace FallGuysStats {
         private void cboOverlayBackground_blur() {
             if (this.Theme == MetroThemeStyle.Dark) {
                 this.cboOverlayBackground.ForeColor = Color.DarkGray;
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
-                    
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(153,153,153);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153,153,153);
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
             } else if (this.Theme == MetroThemeStyle.Light) {
                 this.cboOverlayBackground.ForeColor = Color.FromArgb(153, 153, 153);
                 this.cboOverlayBackground.BackColor = Color.White;
@@ -280,11 +285,11 @@ namespace FallGuysStats {
         }
         private void cboOverlayBackground_focus() {
             if (this.Theme == MetroThemeStyle.Dark) {
-                this.cboOverlayBackground.ForeColor = Color.FromArgb(204,204,204);
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17,17,17);
-                    
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(204,204,204);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170,170,170);
+                this.cboOverlayBackground.ForeColor = Color.FromArgb(204, 204, 204);
+                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
+
+                this.cboOverlayBackground.BorderColor = Color.FromArgb(204, 204, 204);
+                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170, 170, 170);
             } else if (this.Theme == MetroThemeStyle.Light) {
                 this.cboOverlayBackground.ForeColor = Color.Black;
                 this.cboOverlayBackground.BackColor = Color.White;
@@ -317,7 +322,7 @@ namespace FallGuysStats {
             this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
 
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
-            
+
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
@@ -419,7 +424,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
                 this.CurrentSettings.OverlayColor = 5;
             }
-            
+
             if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.WinsFilter = 0;
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -433,7 +438,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_session_stats")}") {
                 this.CurrentSettings.WinsFilter = 5;
             }
-            
+
             if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.QualifyFilter = 0;
             } else if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -447,7 +452,7 @@ namespace FallGuysStats {
             } else if ((string)this.cboQualifyFilter.SelectedItem == $"{Multilingual.GetWord("settings_session_stats")}") {
                 this.CurrentSettings.QualifyFilter = 5;
             }
-            
+
             if ((string)this.cboFastestFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
                 this.CurrentSettings.FastestFilter = 0;
             } else if ((string)this.cboFastestFilter.SelectedItem == $"{Multilingual.GetWord("settings_stats_and_party_filter")}") {
@@ -494,14 +499,14 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
                 Overlay.SetDefaultFont(Stats.CurrentLanguage, 18);
             }
-            
+
             if (!string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
                 ColorConverter colorConverter = new ColorConverter();
                 this.CurrentSettings.OverlayFontColorSerialized = colorConverter.ConvertToString(this.lblOverlayFontExample.ForeColor);
             } else {
                 this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
             }
-            
+
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -530,19 +535,18 @@ namespace FallGuysStats {
                         openFile.Filter = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_filter", this.DisplayLang);
                         openFile.FileName = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_name", this.DisplayLang);
                         openFile.Title = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_title", this.DisplayLang);
-                        
+
                         if (openFile.ShowDialog(this) == DialogResult.OK) {
                             string fileContent;
                             string epicGamesFallGuysApp = "50118b7f954e450f8823df1614b24e80%3A38ec4849ea4f4de6aa7b6fb0f2d278e1%3A0a2d9f6403244d12969e11da6713137b";
-                            FileStream fileStream = new FileStream(openFile.FileName ,FileMode.Open);
-                            using (StreamReader reader = new StreamReader(fileStream))
-                            {
+                            FileStream fileStream = new FileStream(openFile.FileName, FileMode.Open);
+                            using (StreamReader reader = new StreamReader(fileStream)) {
                                 fileContent = reader.ReadToEnd();
                             }
-                            
+
                             string[] splitContent = fileContent.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                             string url = string.Empty;
-                            
+
                             for (int i = 0; i < splitContent.Length; i++) {
                                 if (splitContent[i].ToLower().StartsWith("url=")) {
                                     url = splitContent[i].Substring(4);
@@ -589,27 +593,9 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = true;
                 this.txtGameExeLocation.Visible = false;
 
-                if (this.DisplayLang == 0) { // English
-                    this.txtGameShortcutLocation.Location = new Point(267, 23);
-                    this.txtGameShortcutLocation.Size = new Size(508, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "eng");
-                } else if (this.DisplayLang == 1) { // French
-                    this.txtGameShortcutLocation.Location = new Point(215, 23);
-                    this.txtGameShortcutLocation.Size = new Size(560, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "fre");
-                } else if (this.DisplayLang == 2) { // Korean
-                    this.txtGameShortcutLocation.Location = new Point(278, 23);
-                    this.txtGameShortcutLocation.Size = new Size(497, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "kor");
-                } else if (this.DisplayLang == 3) { // Japanese
-                    this.txtGameShortcutLocation.Location = new Point(293, 23);
-                    this.txtGameShortcutLocation.Size = new Size(482, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "jpn");
-                } else if (this.DisplayLang == 4) { // Simplified Chinese
-                    this.txtGameShortcutLocation.Location = new Point(252, 23);
-                    this.txtGameShortcutLocation.Size = new Size(523, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", "chs");
-                }
+                this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", this.DisplayLang);
+                this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
 
                 this.LaunchPlatform = 0;
             } else if (((PictureBox)sender).Name.Equals("picSteam")) { // Steam
@@ -620,27 +606,9 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = false;
                 this.txtGameExeLocation.Visible = true;
 
-                if (this.DisplayLang == 0) { // English
-                    this.txtGameExeLocation.Location = new Point(240, 23);
-                    this.txtGameExeLocation.Size = new Size(535, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "eng");
-                } else if (this.DisplayLang == 1) { // French
-                    this.txtGameExeLocation.Location = new Point(195, 23);
-                    this.txtGameExeLocation.Size = new Size(580, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "fre");
-                } else if (this.DisplayLang == 2) { // Korean
-                    this.txtGameExeLocation.Location = new Point(250, 23);
-                    this.txtGameExeLocation.Size = new Size(525, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "kor");
-                } else if (this.DisplayLang == 3) { // Japanese
-                    this.txtGameExeLocation.Location = new Point(280, 23);
-                    this.txtGameExeLocation.Size = new Size(495, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "jpn");
-                } else if (this.DisplayLang == 4) { // Simplified Chinese
-                    this.txtGameExeLocation.Location = new Point(224, 23);
-                    this.txtGameExeLocation.Size = new Size(551, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", "chs");
-                }
+                this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", this.DisplayLang);
+                this.txtGameExeLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
 
                 this.LaunchPlatform = 1;
             }
@@ -679,10 +647,10 @@ namespace FallGuysStats {
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
-            
+
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;
-            
+
             this.overlayFontSerialized = string.Empty;
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
@@ -701,7 +669,7 @@ namespace FallGuysStats {
             this.Font = Overlay.GetMainFont(12, this.DisplayLang);
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
-            
+
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
             this.overlayFontSerialized = string.Empty;
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -710,166 +678,21 @@ namespace FallGuysStats {
             //    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             //    this.overlayFontColorSerialized = string.Empty;
             //}
-            
+
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
-            if (this.DisplayLang == 0) {
-                // English
-                this.txtLogPath.Location = new Point(103, 73);
-                this.txtLogPath.Size = new Size(760, 22);
-                this.lblLogPathNote.Location = new Point(103, 98);
-
-                this.txtPreviousWins.Location = new Point(116, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
-
-                this.lblWinsFilter.Location = new Point(471, 20);
-                this.lblQualifyFilter.Location = new Point(457, 55);
-                this.lblFastestFilter.Location = new Point(443, 90);
-                this.lblOverlayBackground.Location = new Point(461, 125);
-                this.lblOverlayColor.Location = new Point(502, 160);
-
-                this.txtCycleTimeSeconds.Location = new Point(90, 192);
-                this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
-
-                this.grpLaunchPlatform.Size = new Size(97, 60);
-                this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
-                if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(267, 23);
-                    this.txtGameShortcutLocation.Size = new Size(508, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                } else {
-                    this.txtGameExeLocation.Location = new Point(267, 23);
-                    this.txtGameExeLocation.Size = new Size(508, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                }
-            } else if (this.DisplayLang == 1) {
-                // French
-                this.txtLogPath.Location = new Point(188, 73);
-                this.txtLogPath.Size = new Size(675, 22);
-                this.lblLogPathNote.Location = new Point(188, 98);
-
-                this.txtPreviousWins.Location = new Point(116, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
-
-                this.lblWinsFilter.Location = new Point(447, 20);
-                this.lblQualifyFilter.Location = new Point(460, 55);
-                this.lblFastestFilter.Location = new Point(413, 90);
-                this.lblOverlayBackground.Location = new Point(483, 125);
-                this.lblOverlayColor.Location = new Point(497, 160);
-
-                this.txtCycleTimeSeconds.Location = new Point(190, 192);
-                this.lblCycleTimeSecondsTag.Location = new Point(218, 192);
-
-                this.grpLaunchPlatform.Size = new Size(97, 60);
-                this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
-                if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(215, 23);
-                    this.txtGameShortcutLocation.Size = new Size(560, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                } else {
-                    this.txtGameExeLocation.Location = new Point(195, 23);
-                    this.txtGameExeLocation.Size = new Size(580, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                }
-            } else if (this.DisplayLang == 2) {
-                // Korean
-                this.txtLogPath.Location = new Point(114, 73);
-                this.txtLogPath.Size = new Size(749, 22);
-                this.lblLogPathNote.Location = new Point(114, 98);
-
-                this.txtPreviousWins.Location = new Point(116, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
-
-                this.lblWinsFilter.Location = new Point(439, 20);
-                this.lblQualifyFilter.Location = new Point(457, 55);
-                this.lblFastestFilter.Location = new Point(407, 90);
-                this.lblOverlayBackground.Location = new Point(452, 125);
-                this.lblOverlayColor.Location = new Point(466, 160);
-
-                this.txtCycleTimeSeconds.Location = new Point(90, 192);
-                this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
-
-                this.grpLaunchPlatform.Size = new Size(97, 60);
-                this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
-                if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(278, 23);
-                    this.txtGameShortcutLocation.Size = new Size(497, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                } else {
-                    this.txtGameExeLocation.Location = new Point(250, 23);
-                    this.txtGameExeLocation.Size = new Size(525, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                }
-            } else if (this.DisplayLang == 3) {
-                // Japanese
-                this.txtLogPath.Location = new Point(136, 73);
-                this.txtLogPath.Size = new Size(727, 22);
-                this.lblLogPathNote.Location = new Point(67, 98);
-
-                this.txtPreviousWins.Location = new Point(121, 55);
-                this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(390, 55);
-
-                this.lblWinsFilter.Location = new Point(405, 20);
-                this.lblQualifyFilter.Location = new Point(405, 55);
-                this.lblFastestFilter.Location = new Point(376, 90);
-                this.lblOverlayBackground.Location = new Point(432, 125);
-                this.lblOverlayColor.Location = new Point(418, 160);
-
-                this.txtCycleTimeSeconds.Location = new Point(110, 192);
-                this.lblCycleTimeSecondsTag.Location = new Point(138, 192);
-
-                this.grpLaunchPlatform.Size = new Size(97, 60);
-                this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
-                if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(293, 23);
-                    this.txtGameShortcutLocation.Size = new Size(482, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                } else {
-                    this.txtGameExeLocation.Location = new Point(280, 23);
-                    this.txtGameExeLocation.Size = new Size(495, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                }
-            } else if (this.DisplayLang == 4) {
-                // Simplified Chinese
-                this.txtLogPath.Location = new Point(109, 73);
-                this.txtLogPath.Size = new Size(754, 22);
-                this.lblLogPathNote.Location = new Point(109, 98);
-
-                this.txtPreviousWins.Location = new Point(110, 55);
-                this.lblPreviousWinsNote.Location = new Point(155, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
-
-                this.lblWinsFilter.Location = new Point(467, 20);
-                this.lblQualifyFilter.Location = new Point(467, 55);
-                this.lblFastestFilter.Location = new Point(467, 90);
-                this.lblOverlayBackground.Location = new Point(522, 125);
-                this.lblOverlayColor.Location = new Point(536, 160);
-
-                this.txtCycleTimeSeconds.Location = new Point(87, 192);
-                this.lblCycleTimeSecondsTag.Location = new Point(116, 192);
-
-                this.grpLaunchPlatform.Size = new Size(97, 60);
-                this.lblGameExeLocation.Location = new Point(113, 23);
-                this.chkAutoLaunchGameOnStart.Location = new Point(118, 55);
-                if (this.LaunchPlatform == 0) {
-                    this.txtGameShortcutLocation.Location = new Point(252, 23);
-                    this.txtGameShortcutLocation.Size = new Size(523, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                } else {
-                    this.txtGameExeLocation.Location = new Point(224, 23);
-                    this.txtGameExeLocation.Size = new Size(551, 25);
-                    this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                }
+            if (this.LaunchPlatform == 0) {
+                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
+            } else {
+                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
             }
+
+            this.tileProgram.Text = Multilingual.GetWord("settings_program");
+            this.tileDisplay.Text = Multilingual.GetWord("settings_display");
+            this.tileOverlay.Text = Multilingual.GetWord("settings_overlay");
+            this.tileFallGuys.Text = Multilingual.GetWord("settings_launch_fallguys");
+            this.tileAbout.Text = Multilingual.GetWord("settings_about");
 
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
 
@@ -885,8 +708,9 @@ namespace FallGuysStats {
             }
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
+            this.lblLanguage.Text = Multilingual.GetWord("settings_language");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
-            this.grpOverlay.Text = Multilingual.GetWord("settings_overlay");
+            //this.grpOverlay.Text = Multilingual.GetWord("settings_overlay");
             this.chkOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
             this.chkOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
             this.chkCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
@@ -1023,24 +847,193 @@ namespace FallGuysStats {
             this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
             this.grpOverlayFontExample.Text = Multilingual.GetWord("settings_font_example");
             this.lblOverlayFontExample.Text = Multilingual.GetWord("settings_round_example");
-            this.grpStats.Text = Multilingual.GetWord("settings_stats");
+            //this.grpStats.Text = Multilingual.GetWord("settings_stats");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
-            this.grpGameOptions.Text = Multilingual.GetWord("settings_game_options");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
             //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
             this.chkAutoLaunchGameOnStart.Text = Multilingual.GetWord("settings_auto_launch_fall_guys_on_tracker");
-            this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
+            //this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
             this.Text = Multilingual.GetWord("settings_title");
 
+            this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
+            this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 22);
+            this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 12);
+            this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
+            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 87);
+            this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 122);
+            this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
+            this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 49);
+            this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 79);
+            this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 170);
+            this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
+            this.lblOverlayBackground.Location = new Point(15, 335);
+            this.lblOverlayColor.Location = new Point(15, 366);
+            if (this.LaunchPlatform == 0) {
+                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
+                this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
+            } else {
+                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
+                this.txtGameExeLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
+            }
+            this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
+#if AllowUpdate
+            this.lblVersion.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
+#else
+            this.lblVersion.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} (Manual Update Version)";
+            this.chkAutoUpdate.Visible = false;
+#endif
             Stats.CurrentLanguage = tempLanguage;
             this.Invalidate(true);
+        }
+
+        private void changeTab(object sender, EventArgs e) {
+            this.panelProgram.Location = new Point(218, 75);
+            this.panelDisplay.Location = new Point(218, 75);
+            this.panelOverlay.Location = new Point(218, 75);
+            this.panelFallGuys.Location = new Point(218, 75);
+            this.panelAbout.Location = new Point(218, 75);
+            this.panelProgram.Visible = false;
+            this.panelDisplay.Visible = false;
+            this.panelOverlay.Visible = false;
+            this.panelFallGuys.Visible = false;
+            this.panelAbout.Visible = false;
+            this.tileProgram.Style = MetroColorStyle.Silver;
+            this.tileDisplay.Style = MetroColorStyle.Silver;
+            this.tileOverlay.Style = MetroColorStyle.Silver;
+            this.tileFallGuys.Style = MetroColorStyle.Silver;
+            this.tileAbout.Style = MetroColorStyle.Silver;
+            if (sender.Equals(this.tileProgram)) {
+                this.tileProgram.Style = MetroColorStyle.Blue;
+                this.panelProgram.Visible = true;
+            }
+            if (sender.Equals(this.tileDisplay)) {
+                this.tileDisplay.Style = MetroColorStyle.Blue;
+                this.panelDisplay.Visible = true;
+            }
+            if (sender.Equals(this.tileOverlay)) {
+                this.tileOverlay.Style = MetroColorStyle.Blue;
+                this.panelOverlay.Visible = true;
+            }
+            if (sender.Equals(this.tileFallGuys)) {
+                this.tileFallGuys.Style = MetroColorStyle.Blue;
+                this.panelFallGuys.Visible = true;
+            }
+            if (sender.Equals(this.tileAbout)) {
+                this.tileAbout.Style = MetroColorStyle.Blue;
+                this.panelAbout.Visible = true;
+            }
+            this.tileProgram.Refresh();
+            this.tileDisplay.Refresh();
+            this.tileOverlay.Refresh();
+            this.tileFallGuys.Refresh();
+            this.tileAbout.Refresh();
+
+            if (sender.Equals(this.tileAbout)) {
+                this.btnCheckUpdates.Visible = false;
+#if AllowUpdate
+                this.lblupdateNote.UseCustomForeColor = false;
+                this.lblupdateNote.Text = $"Checking updates...";
+                using (ZipWebClient web = new ZipWebClient()) {
+                    string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+
+                    int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                    if (index > 0) {
+                        int indexEnd = assemblyInfo.IndexOf("\")", index);
+                        Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                        Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                        if (newVersion > currentVersion) {
+                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)}{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
+                            this.lblupdateNote.ForeColor = Color.Green;
+                            this.lblupdateNote.UseCustomForeColor = true;
+                            this.btnCheckUpdates.Visible = true;
+                        } else {
+                            this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang);
+                        }
+                    } else {
+                        this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_not_determine_version", this.DisplayLang);
+                        this.lblupdateNote.ForeColor = Color.Red;
+                        this.lblupdateNote.UseCustomForeColor = true;
+                    }
+                }
+#endif
+            }
+        }
+
+        private void link_Click(object sender, EventArgs e) {
+            if (sender.Equals(this.fglink1)) {
+                openLink(@"https://github.com/ShootMe/FallGuysStats");
+            }
+            if (sender.Equals(this.fglink2)) {
+                openLink(@"https://github.com/ShootMe/FallGuysStats/issues");
+            }
+            if (sender.Equals(this.lbltpl1)) {
+                openLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");
+            }
+            if (sender.Equals(this.lbltpl2)) {
+                openLink(@"https://github.com/Fody/Home/blob/master/license.txt");
+            }
+            if (sender.Equals(this.lbltpl3)) {
+                openLink(@"https://github.com/dennismagno/metroframework-modern-ui/blob/master/LICENSE.md");
+            }
+            if (sender.Equals(this.lbltpl4)) {
+                openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
+            }
+        }
+        private void openLink(string link) {
+            try {
+                Process.Start(link);
+            } catch (Exception ex) {
+                MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void metroButton1_Click(object sender, EventArgs e) {
+#if AllowUpdate
+             using (ZipWebClient web = new ZipWebClient()) {
+                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+             
+                int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                 if (index > 0) {
+                     int indexEnd = assemblyInfo.IndexOf("\")", index);
+                     Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                     if (newVersion > currentVersion) {
+                         if (MessageBox.Show(this, $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                             byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
+                             string exeName = null;
+                             using (MemoryStream ms = new MemoryStream(data)) {
+                                 using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
+                                     foreach (var entry in zipFile.Entries) {
+                                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
+                                             exeName = entry.Name;
+                                         }
+                                         if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
+                                         entry.ExtractToFile(entry.Name, true);
+                                     }
+                                 }
+                             }
+             
+                            Process.Start(new ProcessStartInfo(exeName));
+                             this.Visible = false;
+                             Application.Exit();
+                         }
+                     } else {
+                         MessageBox.Show(this, $"{Multilingual.GetWord("message_update_latest_version")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OK, MessageBoxIcon.None);
+                     }
+                 } else {
+                     MessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}", $"{Multilingual.GetWord("message_update_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 }
+             }
+#endif
         }
     }
 }
