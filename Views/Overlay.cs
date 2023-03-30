@@ -274,7 +274,7 @@ namespace FallGuysStats {
                                 this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
                             }
                             this.FlipDisplay(true);
-                            this.Background = RecreateBackground();
+                            this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X, 0);
                             this.picPositionNE.Image = this.positionNeOnFocus;
                             this.picPositionNW.Image = this.positionNwOffFocus;
@@ -314,7 +314,7 @@ namespace FallGuysStats {
                                 this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
                             }
                             this.FlipDisplay(false);
-                            this.Background = RecreateBackground();
+                            this.Background = this.RecreateBackground();
                             this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, 0);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOnFocus;
@@ -354,7 +354,7 @@ namespace FallGuysStats {
                                 this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
                             }
                             this.FlipDisplay(true);
-                            this.Background = RecreateBackground();
+                            this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X, (screenLocation.Y + screenSize.Height) - this.Height);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOffFocus;
@@ -394,7 +394,7 @@ namespace FallGuysStats {
                                 this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
                             }
                             this.FlipDisplay(false);
-                            this.Background = RecreateBackground();
+                            this.Background = this.RecreateBackground();
                             this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, (screenLocation.Y + screenSize.Height) - this.Height);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOffFocus;
@@ -900,7 +900,7 @@ namespace FallGuysStats {
                 }
                 case Keys.F:
                     this.FlipDisplay(!this.flippedImage);
-                    this.Background = RecreateBackground();
+                    this.Background = this.RecreateBackground();
                     this.StatsForm.CurrentSettings.FlippedDisplay = this.flippedImage;
                     this.StatsForm.SaveUserSettings();
                     break;
@@ -1323,7 +1323,7 @@ namespace FallGuysStats {
                 this.SetDefaultFontColor();
             }
             
-            this.Background = RecreateBackground();
+            this.Background = this.RecreateBackground();
             if (width.HasValue) {
                 this.Width = width.Value;
             }

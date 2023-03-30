@@ -19,6 +19,7 @@ namespace FallGuysStats {
         private string overlayFontColorSerialized = string.Empty;
         public UserSettings CurrentSettings { get; set; }
         public Stats StatsForm { get; set; }
+        public Overlay Overlay { get; set; }
         private int LaunchPlatform;
         private int DisplayLang;
         private bool CboOverlayBackgroundIsFocus;
@@ -207,6 +208,8 @@ namespace FallGuysStats {
             } else {
                 this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
+            
+            this.trkOverlayOpacity.Value = this.CurrentSettings.OverlayBackgroundOpacity;
         }
         
         private void SetTheme(MetroThemeStyle theme) {
@@ -240,6 +243,8 @@ namespace FallGuysStats {
                             mrb2.Theme = theme;
                         } else if (c2 is MetroComboBox mcbo2) {
                             mcbo2.Theme = theme;
+                        } else if (c2 is MetroTrackBar mtrb2) {
+                            mtrb2.Theme = theme;
                         } else if (c2 is GroupBox gb2) {
                             gb2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             foreach (Control c3 in gb2.Controls) {
@@ -501,6 +506,8 @@ namespace FallGuysStats {
             } else {
                 this.CurrentSettings.OverlayFontColorSerialized = string.Empty;
             }
+
+            this.CurrentSettings.OverlayBackgroundOpacity = this.trkOverlayOpacity.Value;
             
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -689,6 +696,10 @@ namespace FallGuysStats {
             if (this.DisplayLang == ((ComboBox)sender).SelectedIndex) return;
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
+        private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
+            this.overlayOpacityToolTip.SetToolTip(((MetroTrackBar)sender), ((MetroTrackBar)sender).Value.ToString());
+            this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100D;
+        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             if (keyData == Keys.Tab) {
                 SendKeys.Send("%");
@@ -722,13 +733,14 @@ namespace FallGuysStats {
 
                 this.txtPreviousWins.Location = new Point(116, 55);
                 this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(399, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(395, 55);
 
                 this.lblWinsFilter.Location = new Point(471, 20);
                 this.lblQualifyFilter.Location = new Point(457, 55);
                 this.lblFastestFilter.Location = new Point(443, 90);
                 this.lblOverlayBackground.Location = new Point(461, 125);
                 this.lblOverlayColor.Location = new Point(502, 160);
+                this.lblOverlayOpacity.Location = new Point(453, 195);
 
                 this.txtCycleTimeSeconds.Location = new Point(90, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
@@ -760,6 +772,7 @@ namespace FallGuysStats {
                 this.lblFastestFilter.Location = new Point(413, 90);
                 this.lblOverlayBackground.Location = new Point(483, 125);
                 this.lblOverlayColor.Location = new Point(497, 160);
+                this.lblOverlayOpacity.Location = new Point(478, 195);
 
                 this.txtCycleTimeSeconds.Location = new Point(190, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(218, 192);
@@ -791,6 +804,7 @@ namespace FallGuysStats {
                 this.lblFastestFilter.Location = new Point(407, 90);
                 this.lblOverlayBackground.Location = new Point(452, 125);
                 this.lblOverlayColor.Location = new Point(466, 160);
+                this.lblOverlayOpacity.Location = new Point(438, 195);
 
                 this.txtCycleTimeSeconds.Location = new Point(90, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(118, 192);
@@ -815,13 +829,14 @@ namespace FallGuysStats {
 
                 this.txtPreviousWins.Location = new Point(121, 55);
                 this.lblPreviousWinsNote.Location = new Point(166, 55);
-                this.chkChangeHoopsieLegends.Location = new Point(390, 55);
+                this.chkChangeHoopsieLegends.Location = new Point(380, 55);
 
                 this.lblWinsFilter.Location = new Point(405, 20);
                 this.lblQualifyFilter.Location = new Point(405, 55);
                 this.lblFastestFilter.Location = new Point(376, 90);
-                this.lblOverlayBackground.Location = new Point(432, 125);
-                this.lblOverlayColor.Location = new Point(418, 160);
+                this.lblOverlayBackground.Location = new Point(445, 125);
+                this.lblOverlayColor.Location = new Point(431, 160);
+                this.lblOverlayOpacity.Location = new Point(389, 195);
 
                 this.txtCycleTimeSeconds.Location = new Point(110, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(138, 192);
@@ -853,6 +868,7 @@ namespace FallGuysStats {
                 this.lblFastestFilter.Location = new Point(467, 90);
                 this.lblOverlayBackground.Location = new Point(522, 125);
                 this.lblOverlayColor.Location = new Point(536, 160);
+                this.lblOverlayOpacity.Location = new Point(480, 195);
 
                 this.txtCycleTimeSeconds.Location = new Point(87, 192);
                 this.lblCycleTimeSecondsTag.Location = new Point(116, 192);
@@ -942,6 +958,7 @@ namespace FallGuysStats {
 
             this.lblOverlayBackground.Text = Multilingual.GetWord("settings_background_image");
             this.lblOverlayColor.Text = Multilingual.GetWord("settings_background");
+            this.lblOverlayOpacity.Text = Multilingual.GetWord("settings_background_opacity");
             this.chkFlipped.Text = Multilingual.GetWord("settings_flip_display_horizontally");
             this.chkShowTabs.Text = Multilingual.GetWord("settings_show_tab_for_currnet_filter__profile");
             this.chkHideTimeInfo.Text = Multilingual.GetWord("settings_hide_time_info");
