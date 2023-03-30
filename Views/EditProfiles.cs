@@ -35,6 +35,7 @@ namespace FallGuysStats {
             "show_robotrampage_ss2_show1_template",
             "event_le_anchovy_template",
             "event_pixel_palooza_template",
+            "xtreme_party",
             "private_lobbies"
         };
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();

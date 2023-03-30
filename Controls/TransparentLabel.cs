@@ -113,11 +113,7 @@ namespace FallGuysStats {
                                 }
 
                                 brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
-                                if (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 4) {
-                                    this.DrawOutlineText(g, new Rectangle(this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
-                                } else {
-                                    g.DrawString(this.TextRight, this.GetFontForLongText(this.TextRight), brFore, this.ClientRectangle, stringFormat);
-                                }
+                                this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 //g.DrawString(this.TextRight, this.GetFontForLongText(this.TextRight), brFore, this.ClientRectangle, stringFormat);
                             } else {
                                 this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.TextRight, stringFormat);

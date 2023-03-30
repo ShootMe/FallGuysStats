@@ -16,6 +16,7 @@
         public int OverlayBackground { get; set; }
         public string OverlayBackgroundResourceName { get; set; }
         public string OverlayTabResourceName { get; set; }
+        public int OverlayBackgroundOpacity { get; set; }
         public bool IsOverlayBackgroundCustomized { get; set; }
         public int OverlayColor { get; set; }
         public bool FlippedDisplay { get; set; }
