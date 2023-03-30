@@ -248,6 +248,8 @@ namespace FallGuysStats {
                             mrb2.Theme = theme;
                         } else if (c2 is MetroComboBox mcbo2) {
                             mcbo2.Theme = theme;
+                        } else if (c2 is MetroLink mlnk2) {
+                            mlnk2.Theme = theme;
                         } else if (c2 is MetroTrackBar mtrb2) {
                             mtrb2.Theme = theme;
                         } else if (c2 is GroupBox gb2) {
