@@ -1123,7 +1123,7 @@ namespace FallGuysStats {
                             {"settings_before_using_tracker", "(Statsを使用する前の回数)"},
                             {"settings_auto_update_program", "Statsを自動更新"},
                             {"settings_rename_hoopsie_legends_to_hoopsie_heroes", "フープ・ループ・レジェンドをフープ・ループ・ヒーローで表示する"},
-                            {"settings_overlay", "オーバーレイ設定"},
+                            {"settings_overlay", "オーバーレイ"},
                             {"settings_hide_wins_info", "優勝情報を隠す"},
                             {"settings_hide_round_info", "ラウンド情報を隠す"},
                             {"settings_hide_time_info", "時間情報を隠す"},

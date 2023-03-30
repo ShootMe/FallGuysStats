@@ -82,7 +82,6 @@ namespace FallGuysStats {
             this.picEpicGames = new System.Windows.Forms.PictureBox();
             this.picSteam = new System.Windows.Forms.PictureBox();
             this.cboMultilingual = new MetroFramework.Controls.MetroComboBox();
-            this.grpStats = new System.Windows.Forms.GroupBox();
             this.lblTheme = new MetroFramework.Controls.MetroLabel();
             this.chkChangeHoopsieLegends = new MetroFramework.Controls.MetroCheckBox();
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
@@ -112,6 +111,7 @@ namespace FallGuysStats {
             this.panelFallGuys = new MetroFramework.Controls.MetroPanel();
             this.tileAbout = new MetroFramework.Controls.MetroTile();
             this.panelAbout = new MetroFramework.Controls.MetroPanel();
+            this.lblupdateNote = new MetroFramework.Controls.MetroLabel();
             this.lbltpl4 = new MetroFramework.Controls.MetroLink();
             this.lbltpl3 = new MetroFramework.Controls.MetroLink();
             this.lbltpl2 = new MetroFramework.Controls.MetroLink();
@@ -122,10 +122,8 @@ namespace FallGuysStats {
             this.btnCheckUpdates = new MetroFramework.Controls.MetroButton();
             this.lblVersion = new MetroFramework.Controls.MetroLabel();
             this.lblLicence = new MetroFramework.Controls.MetroLabel();
-            this.lblupdateNote = new MetroFramework.Controls.MetroLabel();
-            this.grpOverlayFontExample.SuspendLayout();
             this.overlayOpacityToolTip = new MetroFramework.Components.MetroToolTip();
-            this.grpOverlay.SuspendLayout();
+            this.grpOverlayFontExample.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
             this.grpCycleWinFinalStreak.SuspendLayout();
@@ -197,7 +195,6 @@ namespace FallGuysStats {
             // 
             // btnSave
             // 
-            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnSave.Location = new System.Drawing.Point(678, 600);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 25);
@@ -209,7 +206,7 @@ namespace FallGuysStats {
             // lblOverlayFont
             // 
             this.lblOverlayFont.AutoSize = true;
-            this.lblOverlayFont.Location = new System.Drawing.Point(15, 531);
+            this.lblOverlayFont.Location = new System.Drawing.Point(15, 574);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
             this.lblOverlayFont.TabIndex = 26;
@@ -217,7 +214,7 @@ namespace FallGuysStats {
             // 
             // btnSelectFont
             // 
-            this.btnSelectFont.Location = new System.Drawing.Point(153, 527);
+            this.btnSelectFont.Location = new System.Drawing.Point(153, 570);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -228,7 +225,7 @@ namespace FallGuysStats {
             // 
             // btnResetOverlayFont
             // 
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(253, 527);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(253, 570);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -240,7 +237,7 @@ namespace FallGuysStats {
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(15, 566);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(15, 609);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
@@ -273,7 +270,7 @@ namespace FallGuysStats {
             this.grpCycleQualifyGold.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleQualifyGold.Name = "grpCycleQualifyGold";
             this.grpCycleQualifyGold.Padding = new System.Windows.Forms.Padding(2);
-            this.grpCycleQualifyGold.Size = new System.Drawing.Size(576, 40);
+            this.grpCycleQualifyGold.Size = new System.Drawing.Size(520, 40);
             this.grpCycleQualifyGold.TabIndex = 8;
             this.grpCycleQualifyGold.TabStop = false;
             // 
@@ -323,7 +320,7 @@ namespace FallGuysStats {
             this.grpCycleFastestLongest.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleFastestLongest.Name = "grpCycleFastestLongest";
             this.grpCycleFastestLongest.Padding = new System.Windows.Forms.Padding(2);
-            this.grpCycleFastestLongest.Size = new System.Drawing.Size(576, 40);
+            this.grpCycleFastestLongest.Size = new System.Drawing.Size(520, 40);
             this.grpCycleFastestLongest.TabIndex = 9;
             this.grpCycleFastestLongest.TabStop = false;
             // 
@@ -386,7 +383,6 @@ namespace FallGuysStats {
             // 
             // lblOverlayBackground
             // 
-            this.lblOverlayBackground.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblOverlayBackground.AutoSize = true;
             this.lblOverlayBackground.Location = new System.Drawing.Point(15, 335);
             this.lblOverlayBackground.Name = "lblOverlayBackground";
@@ -405,7 +401,7 @@ namespace FallGuysStats {
             "Red",
             "Green",
             "Blue"});
-            this.cboOverlayColor.Location = new System.Drawing.Point(168, 361);
+            this.cboOverlayColor.Location = new System.Drawing.Point(197, 361);
             this.cboOverlayColor.Name = "cboOverlayColor";
             this.cboOverlayColor.Size = new System.Drawing.Size(240, 29);
             this.cboOverlayColor.TabIndex = 21;
@@ -413,7 +409,6 @@ namespace FallGuysStats {
             // 
             // lblOverlayColor
             // 
-            this.lblOverlayColor.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblOverlayColor.AutoSize = true;
             this.lblOverlayColor.Location = new System.Drawing.Point(15, 366);
             this.lblOverlayColor.Name = "lblOverlayColor";
@@ -425,7 +420,7 @@ namespace FallGuysStats {
             // 
             this.lblOverlayOpacity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblOverlayOpacity.AutoSize = true;
-            this.lblOverlayOpacity.Location = new System.Drawing.Point(453, 195);
+            this.lblOverlayOpacity.Location = new System.Drawing.Point(15, 401);
             this.lblOverlayOpacity.Name = "lblOverlayOpacity";
             this.lblOverlayOpacity.Size = new System.Drawing.Size(128, 19);
             this.lblOverlayOpacity.TabIndex = 20;
@@ -434,7 +429,7 @@ namespace FallGuysStats {
             // trkOverlayOpacity
             // 
             this.trkOverlayOpacity.BackColor = System.Drawing.Color.Transparent;
-            this.trkOverlayOpacity.Location = new System.Drawing.Point(599, 193);
+            this.trkOverlayOpacity.Location = new System.Drawing.Point(197, 396);
             this.trkOverlayOpacity.Name = "trkOverlayOpacity";
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
             this.trkOverlayOpacity.TabIndex = 22;
@@ -446,7 +441,7 @@ namespace FallGuysStats {
             // 
             this.chkFlipped.AutoSize = true;
             this.chkFlipped.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkFlipped.Location = new System.Drawing.Point(15, 396);
+            this.chkFlipped.Location = new System.Drawing.Point(15, 439);
             this.chkFlipped.Name = "chkFlipped";
             this.chkFlipped.Size = new System.Drawing.Size(167, 19);
             this.chkFlipped.TabIndex = 23;
@@ -507,7 +502,7 @@ namespace FallGuysStats {
             // 
             this.lblFastestFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFastestFilter.AutoSize = true;
-            this.lblFastestFilter.Location = new System.Drawing.Point(248, 79);
+            this.lblFastestFilter.Location = new System.Drawing.Point(192, 79);
             this.lblFastestFilter.Name = "lblFastestFilter";
             this.lblFastestFilter.Size = new System.Drawing.Size(138, 19);
             this.lblFastestFilter.TabIndex = 16;
@@ -534,7 +529,7 @@ namespace FallGuysStats {
             // 
             this.lblQualifyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblQualifyFilter.AutoSize = true;
-            this.lblQualifyFilter.Location = new System.Drawing.Point(262, 49);
+            this.lblQualifyFilter.Location = new System.Drawing.Point(206, 49);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
             this.lblQualifyFilter.Size = new System.Drawing.Size(124, 19);
             this.lblQualifyFilter.TabIndex = 14;
@@ -561,7 +556,7 @@ namespace FallGuysStats {
             // 
             this.lblWinsFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWinsFilter.AutoSize = true;
-            this.lblWinsFilter.Location = new System.Drawing.Point(277, 19);
+            this.lblWinsFilter.Location = new System.Drawing.Point(221, 19);
             this.lblWinsFilter.Name = "lblWinsFilter";
             this.lblWinsFilter.Size = new System.Drawing.Size(114, 19);
             this.lblWinsFilter.TabIndex = 12;
@@ -572,7 +567,7 @@ namespace FallGuysStats {
             // 
             this.chkOverlayOnTop.AutoSize = true;
             this.chkOverlayOnTop.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOverlayOnTop.Location = new System.Drawing.Point(15, 421);
+            this.chkOverlayOnTop.Location = new System.Drawing.Point(15, 464);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
             this.chkOverlayOnTop.Size = new System.Drawing.Size(148, 19);
             this.chkOverlayOnTop.TabIndex = 22;
@@ -583,7 +578,7 @@ namespace FallGuysStats {
             // 
             this.chkPlayerByConsoleType.AutoSize = true;
             this.chkPlayerByConsoleType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPlayerByConsoleType.Location = new System.Drawing.Point(15, 446);
+            this.chkPlayerByConsoleType.Location = new System.Drawing.Point(15, 489);
             this.chkPlayerByConsoleType.Name = "chkPlayerByConsoleType";
             this.chkPlayerByConsoleType.Size = new System.Drawing.Size(234, 19);
             this.chkPlayerByConsoleType.TabIndex = 24;
@@ -594,7 +589,7 @@ namespace FallGuysStats {
             // 
             this.chkColorByRoundType.AutoSize = true;
             this.chkColorByRoundType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkColorByRoundType.Location = new System.Drawing.Point(15, 471);
+            this.chkColorByRoundType.Location = new System.Drawing.Point(15, 514);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
             this.chkColorByRoundType.Size = new System.Drawing.Size(221, 19);
             this.chkColorByRoundType.TabIndex = 25;
@@ -605,7 +600,7 @@ namespace FallGuysStats {
             // 
             this.chkAutoChangeProfile.AutoSize = true;
             this.chkAutoChangeProfile.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAutoChangeProfile.Location = new System.Drawing.Point(15, 496);
+            this.chkAutoChangeProfile.Location = new System.Drawing.Point(15, 539);
             this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
             this.chkAutoChangeProfile.Size = new System.Drawing.Size(221, 19);
             this.chkAutoChangeProfile.TabIndex = 26;
@@ -675,7 +670,7 @@ namespace FallGuysStats {
             this.grpCycleWinFinalStreak.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleWinFinalStreak.Name = "grpCycleWinFinalStreak";
             this.grpCycleWinFinalStreak.Padding = new System.Windows.Forms.Padding(2);
-            this.grpCycleWinFinalStreak.Size = new System.Drawing.Size(576, 40);
+            this.grpCycleWinFinalStreak.Size = new System.Drawing.Size(520, 40);
             this.grpCycleWinFinalStreak.TabIndex = 10;
             this.grpCycleWinFinalStreak.TabStop = false;
             // 
@@ -725,7 +720,7 @@ namespace FallGuysStats {
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(576, 40);
+            this.groupBox1.Size = new System.Drawing.Size(520, 40);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
@@ -982,7 +977,7 @@ namespace FallGuysStats {
             // 
             // 
             this.txtGameShortcutLocation.CustomButton.Image = null;
-            this.txtGameShortcutLocation.CustomButton.Location = new System.Drawing.Point(369, 1);
+            this.txtGameShortcutLocation.CustomButton.Location = new System.Drawing.Point(381, 1);
             this.txtGameShortcutLocation.CustomButton.Name = "";
             this.txtGameShortcutLocation.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.txtGameShortcutLocation.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1055,7 +1050,6 @@ namespace FallGuysStats {
             // 
             // btnCancel
             // 
-            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(778, 600);
             this.btnCancel.Name = "btnCancel";
@@ -1159,6 +1153,8 @@ namespace FallGuysStats {
             this.panelOverlay.Controls.Add(this.chkOverlayOnTop);
             this.panelOverlay.Controls.Add(this.chkFlipped);
             this.panelOverlay.Controls.Add(this.lblOverlayColor);
+            this.panelOverlay.Controls.Add(this.trkOverlayOpacity);
+            this.panelOverlay.Controls.Add(this.lblOverlayOpacity);
             this.panelOverlay.Controls.Add(this.cboOverlayColor);
             this.panelOverlay.Controls.Add(this.lblOverlayBackground);
             this.panelOverlay.Controls.Add(this.cboOverlayBackground);
@@ -1184,7 +1180,7 @@ namespace FallGuysStats {
             this.panelOverlay.HorizontalScrollbarBarColor = true;
             this.panelOverlay.HorizontalScrollbarHighlightOnWheel = false;
             this.panelOverlay.HorizontalScrollbarSize = 10;
-            this.panelOverlay.Location = new System.Drawing.Point(756, 15);
+            this.panelOverlay.Location = new System.Drawing.Point(695, 15);
             this.panelOverlay.Name = "panelOverlay";
             this.panelOverlay.Size = new System.Drawing.Size(647, 500);
             this.panelOverlay.TabIndex = 13;
@@ -1202,7 +1198,7 @@ namespace FallGuysStats {
             this.cboOverlayBackground.FormattingEnabled = true;
             this.cboOverlayBackground.IntegralHeight = false;
             this.cboOverlayBackground.ItemHeight = 12;
-            this.cboOverlayBackground.Location = new System.Drawing.Point(168, 335);
+            this.cboOverlayBackground.Location = new System.Drawing.Point(197, 335);
             this.cboOverlayBackground.Name = "cboOverlayBackground";
             this.cboOverlayBackground.Size = new System.Drawing.Size(240, 20);
             this.cboOverlayBackground.TabIndex = 19;
@@ -1295,6 +1291,14 @@ namespace FallGuysStats {
             this.panelAbout.VerticalScrollbarBarColor = true;
             this.panelAbout.VerticalScrollbarHighlightOnWheel = false;
             this.panelAbout.VerticalScrollbarSize = 10;
+            // 
+            // lblupdateNote
+            // 
+            this.lblupdateNote.AutoSize = true;
+            this.lblupdateNote.Location = new System.Drawing.Point(13, 68);
+            this.lblupdateNote.Name = "lblupdateNote";
+            this.lblupdateNote.Size = new System.Drawing.Size(0, 0);
+            this.lblupdateNote.TabIndex = 14;
             // 
             // lbltpl4
             // 
@@ -1402,13 +1406,6 @@ namespace FallGuysStats {
             this.lblLicence.TabIndex = 5;
             this.lblLicence.Text = resources.GetString("lblLicence.Text");
             // 
-            // lblupdateNote
-            // 
-            this.lblupdateNote.AutoSize = true;
-            this.lblupdateNote.Location = new System.Drawing.Point(13, 68);
-            this.lblupdateNote.Name = "lblupdateNote";
-            this.lblupdateNote.Size = new System.Drawing.Size(0, 0);
-            this.lblupdateNote.TabIndex = 14;
             // overlayOpacityToolTip
             // 
             this.overlayOpacityToolTip.Style = MetroFramework.MetroColorStyle.Blue;
@@ -1422,17 +1419,17 @@ namespace FallGuysStats {
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(876, 650);
             this.Controls.Add(this.panelOverlay);
-            this.Controls.Add(this.panelFallGuys);
-            this.Controls.Add(this.panelDisplay);
-            this.Controls.Add(this.panelAbout);
             this.Controls.Add(this.tileAbout);
             this.Controls.Add(this.tileFallGuys);
             this.Controls.Add(this.tileOverlay);
             this.Controls.Add(this.tileDisplay);
-            this.Controls.Add(this.panelProgram);
             this.Controls.Add(this.tileProgram);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.panelAbout);
+            this.Controls.Add(this.panelFallGuys);
+            this.Controls.Add(this.panelDisplay);
+            this.Controls.Add(this.panelProgram);
             this.ForeColor = System.Drawing.Color.Black;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
