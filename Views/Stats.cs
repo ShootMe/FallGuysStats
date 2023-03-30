@@ -65,16 +65,15 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static int LastServerPing = 0;
         public static int CurrentLanguage = 0;
-        public static Bitmap ImageOpacity(Image imgData, float opacity) {
-            Bitmap bmpTmp = new Bitmap(imgData.Width, imgData.Height);
-            Graphics gp = Graphics.FromImage(bmpTmp);
-            ColorMatrix clrMatrix = new ColorMatrix();
-            clrMatrix.Matrix33 = opacity;
+        public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
+            Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
+            Graphics gp = Graphics.FromImage(bmp);
+            ColorMatrix clrMatrix = new ColorMatrix { Matrix33 = opacity };
             ImageAttributes imgAttribute = new ImageAttributes();
             imgAttribute.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            gp.DrawImage(imgData, new Rectangle(0, 0, bmpTmp.Width, bmpTmp.Height), 0, 0, imgData.Width, imgData.Height, GraphicsUnit.Pixel, imgAttribute);
+            gp.DrawImage(sourceImage, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel, imgAttribute);
             gp.Dispose();
-            return bmpTmp;
+            return bmp;
         }
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -203,8 +202,9 @@ namespace FallGuysStats {
                     !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("free")
                 );
             if (this.overlay.IsFixed()) this.overlay.Cursor = Cursors.Default;
+            this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
             this.overlay.Show();
-            this.overlay.Visible = false;
+            this.overlay.Hide();
             this.overlay.StartTimer();
 
             this.UpdateGameExeLocation();
@@ -1033,6 +1033,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 26;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 26) {
+                this.CurrentSettings.OverlayBackgroundOpacity = 100;
+                this.CurrentSettings.Version = 27;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1046,6 +1052,7 @@ namespace FallGuysStats {
                 OverlayBackground = 0,
                 OverlayBackgroundResourceName = string.Empty,
                 OverlayTabResourceName = string.Empty,
+                OverlayBackgroundOpacity = 100,
                 IsOverlayBackgroundCustomized = false,
                 OverlayColor = 0,
                 OverlayLocationX = null,
@@ -1094,7 +1101,7 @@ namespace FallGuysStats {
                 GameShortcutLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
                 UpdatedDateFormat = true,
-                Version = 26
+                Version = 27
             };
         }
         private void UpdateHoopsieLegends() {
@@ -2390,6 +2397,7 @@ namespace FallGuysStats {
                     settings.Icon = this.Icon;
                     settings.CurrentSettings = this.CurrentSettings;
                     settings.StatsForm = this;
+                    settings.Overlay = this.overlay;
                     string lastLogPath = this.CurrentSettings.LogPath;
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
@@ -2399,6 +2407,7 @@ namespace FallGuysStats {
                         this.SaveUserSettings();
                         this.ChangeMainLanguage();
                         this.gridDetails.ChangeContextMenuLanguage();
+                        this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.overlay.ChangeLanguage();
                         this.UpdateTotals();
@@ -2417,6 +2426,8 @@ namespace FallGuysStats {
                         }
                         
                         this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs, this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
+                    } else {
+                        this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
                 }
             } catch (Exception ex) {
