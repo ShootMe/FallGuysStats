@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -221,7 +220,12 @@ namespace FallGuysStats {
             
             this.infoStrip.Renderer = new MyToolStripSystemRenderer();
         }
-        
+
+        public sealed override string Text {
+            get { return base.Text; }
+            set { base.Text = value; }
+        }
+
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
 
