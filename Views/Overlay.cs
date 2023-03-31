@@ -572,14 +572,14 @@ namespace FallGuysStats {
                     qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
                     qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 1000 ?  " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
-                    this.lblQualifyChance.TextRight = $"　{qualifyDisplay}{qualifyChanceDisplay}";
+                    this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                     break;
                 case 1:
                     this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_gold")} :";
                     qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
                     qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 1000 ?  " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
-                    this.lblQualifyChance.TextRight = $"　{qualifyDisplay}{qualifyChanceDisplay}";
+                    this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                     break;
             }
         }
@@ -591,15 +591,15 @@ namespace FallGuysStats {
             switch (fastestSwitchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
                 case 0:
                     this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
-                    this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"　{levelInfo.LongestFinish:m\\:ss\\.ff}" : "　-";
+                    this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
                     break;
                 case 1:
                     this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
-                    this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"　{levelInfo.BestFinish:m\\:ss\\.ff}" : "　-";
+                    this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
                     break;
                 case 2:
                     this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
-                    this.lblFastest.TextRight = $"　{levelInfo.BestScore?.ToString()}";
+                    this.lblFastest.TextRight = $"{levelInfo.BestScore?.ToString()}";
                     break;
             }
         }
@@ -610,7 +610,7 @@ namespace FallGuysStats {
             }
             switch (playersSwitchCount % 2) {
                 case 0:
-                    this.lblPlayers.TextRight = $"　{this.lastRound?.Players.ToString()}";
+                    this.lblPlayers.TextRight = $"{this.lastRound?.Players.ToString()}";
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                         this.lblPlayers.Image = Properties.Resources.player_icon;
                         this.lblPlayers.Text = @"ㅤ    :";
@@ -618,16 +618,16 @@ namespace FallGuysStats {
                         int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
                         int swCount = this.lastRound.PlayersSw;
                         int pcCount = this.lastRound.PlayersPc;
-                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"　{psCount.ToString()}");
+                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount.ToString()}");
                         this.lblPlayersPs.Size = new Size((psCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPs.DrawVisible = true;
-                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"　{xbCount.ToString()}");
+                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount.ToString()}");
                         this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 32 : 26), 16);
                         this.lblPlayersXbox.DrawVisible = true;
-                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"　{swCount.ToString()}");
+                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount.ToString()}");
                         this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 32 : 26), 16);
                         this.lblPlayersSwitch.DrawVisible = true;
-                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"　{pcCount.ToString()}");
+                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount.ToString()}");
                         this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPc.DrawVisible = true;
                     } else {
@@ -646,7 +646,7 @@ namespace FallGuysStats {
                     this.lblPlayersSwitch.DrawVisible = false;
                     this.lblPlayersPc.DrawVisible = false;
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing != 0 ? $"　{Stats.LastServerPing} ms" : "　-";
+                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing != 0 ? $"{Stats.LastServerPing} ms" : "-";
                     break;
             }
         }
@@ -658,11 +658,11 @@ namespace FallGuysStats {
             switch (streakSwitchCount % 2) {
                 case 0:
                     this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
-                    this.lblStreak.TextRight = $"　{levelInfo.CurrentStreak}{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{Multilingual.GetWord("overlay_streak_suffix")})";
+                    this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{Multilingual.GetWord("overlay_streak_suffix")})";
                     break;
                 case 1:
                     this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
-                    this.lblStreak.TextRight = $"　{levelInfo.CurrentFinalStreak}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak}{Multilingual.GetWord("overlay_inning")})";
+                    this.lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak}{Multilingual.GetWord("overlay_inning")})";
                     break;
             }
         }
@@ -722,20 +722,20 @@ namespace FallGuysStats {
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{Multilingual.GetWord("overlay_win")} - {winChance:0.0}%";
                     if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
-                        this.lblWins.TextRight = $"　{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
+                        this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
                     } else if (this.StatsForm.CurrentSettings.FilterType != 0) {
-                        this.lblWins.TextRight = $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}";
+                        this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}";
                     } else {
-                        this.lblWins.TextRight = $"　{levelInfo.TotalWins}{winChanceDisplay}";
+                        this.lblWins.TextRight = $"{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
                     this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
                     float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     
-                    string finalText = $"　{levelInfo.TotalFinals}{(levelInfo.TotalShows < 1000 ?  " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
+                    string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 1000 ?  " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
                     
                     string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
-                    this.lblFinals.TextRight = $"　{finalText}{finalChanceDisplay}";
+                    this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
 
                     this.SetQualifyChanceLabel(levelInfo);
                     this.SetFastestLabel(levelInfo, levelType);
@@ -761,9 +761,9 @@ namespace FallGuysStats {
                         TimeSpan Time = Finish.GetValueOrDefault(End) - Start;
                         //lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
                         if (this.lastRound.Position > 0) {
-                            this.lblFinish.TextRight = $"　# {this.lastRound.Position} - {Time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"# {this.lastRound.Position} - {Time:m\\:ss\\.ff}";
                         } else {
-                            this.lblFinish.TextRight = $"　{Time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
                         }
 
                         if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "ROCK 'N' ROLL" || roundName == "SNOWY SCRAP") {
@@ -779,9 +779,9 @@ namespace FallGuysStats {
                         }
                     } else if (this.lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
-                            this.lblFinish.TextRight = $"　{DateTime.UtcNow - startTime:m\\:ss}";
+                            this.lblFinish.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
                         } else {
-                            this.lblFinish.TextRight = $"　{DateTime.UtcNow - Start:m\\:ss}";
+                            this.lblFinish.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
                         }
                     } else {
                         this.lblFinish.TextRight = "-";
@@ -795,15 +795,15 @@ namespace FallGuysStats {
                     }
 
                     if (End != DateTime.MinValue) {
-                        this.lblDuration.TextRight = $"　{End - Start:m\\:ss\\.ff}";
+                        this.lblDuration.TextRight = $"{End - Start:m\\:ss\\.ff}";
                     } else if (this.lastRound.Playing) {
                         if (Start > DateTime.UtcNow) {
-                            this.lblDuration.TextRight = $"　{DateTime.UtcNow - startTime:m\\:ss}";
+                            this.lblDuration.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
                         } else {
-                            this.lblDuration.TextRight = $"　{DateTime.UtcNow - Start:m\\:ss}";
+                            this.lblDuration.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
                         }
                     } else {
-                        this.lblDuration.TextRight = "　-";
+                        this.lblDuration.TextRight = "-";
                     }
                 }
                 Invalidate();
