@@ -174,6 +174,7 @@ namespace FallGuysStats {
             // btnSave
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Location = new System.Drawing.Point(675, 870);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 25);
@@ -242,6 +243,7 @@ namespace FallGuysStats {
             // chkOnlyShowGold
             // 
             this.chkOnlyShowGold.AutoSize = true;
+            this.chkOnlyShowGold.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowGold.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowGold.Name = "chkOnlyShowGold";
@@ -253,6 +255,7 @@ namespace FallGuysStats {
             // chkOnlyShowQualify
             // 
             this.chkOnlyShowQualify.AutoSize = true;
+            this.chkOnlyShowQualify.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowQualify.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowQualify.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowQualify.Name = "chkOnlyShowQualify";
@@ -265,6 +268,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleQualifyGold.AutoSize = true;
             this.chkCycleQualifyGold.Checked = true;
+            this.chkCycleQualifyGold.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleQualifyGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleQualifyGold.Location = new System.Drawing.Point(6, 14);
             this.chkCycleQualifyGold.Name = "chkCycleQualifyGold";
@@ -291,6 +295,7 @@ namespace FallGuysStats {
             // chkOnlyShowLongest
             // 
             this.chkOnlyShowLongest.AutoSize = true;
+            this.chkOnlyShowLongest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowLongest.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
@@ -302,6 +307,7 @@ namespace FallGuysStats {
             // chkOnlyShowFastest
             // 
             this.chkOnlyShowFastest.AutoSize = true;
+            this.chkOnlyShowFastest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowFastest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowFastest.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowFastest.Name = "chkOnlyShowFastest";
@@ -314,6 +320,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleFastestLongest.AutoSize = true;
             this.chkCycleFastestLongest.Checked = true;
+            this.chkCycleFastestLongest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleFastestLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleFastestLongest.Location = new System.Drawing.Point(6, 14);
             this.chkCycleFastestLongest.Name = "chkCycleFastestLongest";
@@ -326,6 +333,7 @@ namespace FallGuysStats {
             // chkHidePercentages
             // 
             this.chkHidePercentages.AutoSize = true;
+            this.chkHidePercentages.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHidePercentages.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHidePercentages.Location = new System.Drawing.Point(14, 118);
             this.chkHidePercentages.Name = "chkHidePercentages";
@@ -337,6 +345,7 @@ namespace FallGuysStats {
             // chkHideWinsInfo
             // 
             this.chkHideWinsInfo.AutoSize = true;
+            this.chkHideWinsInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideWinsInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideWinsInfo.Location = new System.Drawing.Point(14, 28);
             this.chkHideWinsInfo.Name = "chkHideWinsInfo";
@@ -349,6 +358,7 @@ namespace FallGuysStats {
             // 
             this.cboOverlayBackground.BorderColor = System.Drawing.Color.Gray;
             this.cboOverlayBackground.ButtonColor = System.Drawing.Color.DarkGray;
+            this.cboOverlayBackground.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboOverlayBackground.DropDownHeight = 500;
             this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOverlayBackground.FormattingEnabled = true;
@@ -375,6 +385,7 @@ namespace FallGuysStats {
             // 
             // cboOverlayColor
             // 
+            this.cboOverlayColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboOverlayColor.FormattingEnabled = true;
             this.cboOverlayColor.ItemHeight = 23;
             this.cboOverlayColor.Items.AddRange(new object[] { "Transparent", "Black", "Magenta", "Red", "Green", "Blue" });
@@ -407,6 +418,7 @@ namespace FallGuysStats {
             // trkOverlayOpacity
             // 
             this.trkOverlayOpacity.BackColor = System.Drawing.Color.Transparent;
+            this.trkOverlayOpacity.Cursor = System.Windows.Forms.Cursors.Hand;
             this.trkOverlayOpacity.Location = new System.Drawing.Point(599, 193);
             this.trkOverlayOpacity.Name = "trkOverlayOpacity";
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
@@ -418,6 +430,7 @@ namespace FallGuysStats {
             // chkFlipped
             // 
             this.chkFlipped.AutoSize = true;
+            this.chkFlipped.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkFlipped.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkFlipped.Location = new System.Drawing.Point(573, 233);
             this.chkFlipped.Name = "chkFlipped";
@@ -429,6 +442,7 @@ namespace FallGuysStats {
             // chkShowTabs
             // 
             this.chkShowTabs.AutoSize = true;
+            this.chkShowTabs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkShowTabs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkShowTabs.Location = new System.Drawing.Point(14, 148);
             this.chkShowTabs.Name = "chkShowTabs";
@@ -440,6 +454,7 @@ namespace FallGuysStats {
             // chkHideTimeInfo
             // 
             this.chkHideTimeInfo.AutoSize = true;
+            this.chkHideTimeInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideTimeInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideTimeInfo.Location = new System.Drawing.Point(14, 88);
             this.chkHideTimeInfo.Name = "chkHideTimeInfo";
@@ -451,6 +466,7 @@ namespace FallGuysStats {
             // chkHideRoundInfo
             // 
             this.chkHideRoundInfo.AutoSize = true;
+            this.chkHideRoundInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideRoundInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideRoundInfo.Location = new System.Drawing.Point(14, 58);
             this.chkHideRoundInfo.Name = "chkHideRoundInfo";
@@ -461,6 +477,7 @@ namespace FallGuysStats {
             // 
             // cboFastestFilter
             // 
+            this.cboFastestFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboFastestFilter.FormattingEnabled = true;
             this.cboFastestFilter.ItemHeight = 23;
             this.cboFastestFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
@@ -482,6 +499,7 @@ namespace FallGuysStats {
             // 
             // cboQualifyFilter
             // 
+            this.cboQualifyFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboQualifyFilter.FormattingEnabled = true;
             this.cboQualifyFilter.ItemHeight = 23;
             this.cboQualifyFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
@@ -503,6 +521,7 @@ namespace FallGuysStats {
             // 
             // cboWinsFilter
             // 
+            this.cboWinsFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboWinsFilter.FormattingEnabled = true;
             this.cboWinsFilter.ItemHeight = 23;
             this.cboWinsFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
@@ -524,6 +543,7 @@ namespace FallGuysStats {
             // chkOverlayOnTop
             // 
             this.chkOverlayOnTop.AutoSize = true;
+            this.chkOverlayOnTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOverlayOnTop.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOverlayOnTop.Location = new System.Drawing.Point(573, 258);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
@@ -535,6 +555,7 @@ namespace FallGuysStats {
             // chkPlayerByConsoleType
             // 
             this.chkPlayerByConsoleType.AutoSize = true;
+            this.chkPlayerByConsoleType.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPlayerByConsoleType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkPlayerByConsoleType.Location = new System.Drawing.Point(573, 283);
             this.chkPlayerByConsoleType.Name = "chkPlayerByConsoleType";
@@ -546,6 +567,7 @@ namespace FallGuysStats {
             // chkColorByRoundType
             // 
             this.chkColorByRoundType.AutoSize = true;
+            this.chkColorByRoundType.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkColorByRoundType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkColorByRoundType.Location = new System.Drawing.Point(573, 308);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
@@ -557,6 +579,7 @@ namespace FallGuysStats {
             // chkAutoChangeProfile
             // 
             this.chkAutoChangeProfile.AutoSize = true;
+            this.chkAutoChangeProfile.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoChangeProfile.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoChangeProfile.Location = new System.Drawing.Point(573, 333);
             this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
@@ -633,6 +656,7 @@ namespace FallGuysStats {
             // chkOnlyShowFinalStreak
             // 
             this.chkOnlyShowFinalStreak.AutoSize = true;
+            this.chkOnlyShowFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
@@ -644,6 +668,7 @@ namespace FallGuysStats {
             // chkOnlyShowWinStreak
             // 
             this.chkOnlyShowWinStreak.AutoSize = true;
+            this.chkOnlyShowWinStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowWinStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowWinStreak.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowWinStreak.Name = "chkOnlyShowWinStreak";
@@ -656,6 +681,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleWinFinalStreak.AutoSize = true;
             this.chkCycleWinFinalStreak.Checked = true;
+            this.chkCycleWinFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleWinFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleWinFinalStreak.Location = new System.Drawing.Point(6, 14);
             this.chkCycleWinFinalStreak.Name = "chkCycleWinFinalStreak";
@@ -682,6 +708,7 @@ namespace FallGuysStats {
             // chkOnlyShowPing
             // 
             this.chkOnlyShowPing.AutoSize = true;
+            this.chkOnlyShowPing.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowPing.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowPing.Name = "chkOnlyShowPing";
@@ -693,6 +720,7 @@ namespace FallGuysStats {
             // chkOnlyShowPlayers
             // 
             this.chkOnlyShowPlayers.AutoSize = true;
+            this.chkOnlyShowPlayers.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowPlayers.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowPlayers.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowPlayers.Name = "chkOnlyShowPlayers";
@@ -705,6 +733,7 @@ namespace FallGuysStats {
             // 
             this.chkCyclePlayersPing.AutoSize = true;
             this.chkCyclePlayersPing.Checked = true;
+            this.chkCyclePlayersPing.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCyclePlayersPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCyclePlayersPing.Location = new System.Drawing.Point(6, 14);
             this.chkCyclePlayersPing.Name = "chkCyclePlayersPing";
@@ -725,6 +754,7 @@ namespace FallGuysStats {
             // 
             // btnSelectFont
             // 
+            this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSelectFont.Location = new System.Drawing.Point(31, 378);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
@@ -736,6 +766,7 @@ namespace FallGuysStats {
             // 
             // btnResetOverlayFont
             // 
+            this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetOverlayFont.Location = new System.Drawing.Point(31, 408);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
@@ -824,6 +855,7 @@ namespace FallGuysStats {
             // 
             // cboMultilingual
             // 
+            this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
             this.cboMultilingual.Location = new System.Drawing.Point(45, 88);
@@ -862,6 +894,7 @@ namespace FallGuysStats {
             // chkChangeHoopsieLegends
             // 
             this.chkChangeHoopsieLegends.AutoSize = true;
+            this.chkChangeHoopsieLegends.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkChangeHoopsieLegends.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(395, 55);
             this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
@@ -872,6 +905,7 @@ namespace FallGuysStats {
             // 
             // cboTheme
             // 
+            this.cboTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboTheme.FormattingEnabled = true;
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
@@ -886,6 +920,7 @@ namespace FallGuysStats {
             // chkAutoUpdate
             // 
             this.chkAutoUpdate.AutoSize = true;
+            this.chkAutoUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoUpdate.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoUpdate.Location = new System.Drawing.Point(252, 22);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
@@ -1042,6 +1077,7 @@ namespace FallGuysStats {
             // 
             // btnGameExeLocationBrowse
             // 
+            this.btnGameExeLocationBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(781, 23);
             this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(14, 11, 14, 11);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
@@ -1054,6 +1090,7 @@ namespace FallGuysStats {
             // chkAutoLaunchGameOnStart
             // 
             this.chkAutoLaunchGameOnStart.AutoSize = true;
+            this.chkAutoLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(118, 55);
             this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
@@ -1089,6 +1126,7 @@ namespace FallGuysStats {
             // chkIgnoreLevelTypeWhenSorting
             // 
             this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
+            this.chkIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkIgnoreLevelTypeWhenSorting.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(14, 22);
             this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
@@ -1101,6 +1139,7 @@ namespace FallGuysStats {
             // btnCancel
             // 
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(775, 870);
             this.btnCancel.Name = "btnCancel";

@@ -27,6 +27,7 @@ namespace FallGuysStats {
             "event_only_fall_ball_template",
             "event_only_hexaring_template",
             "event_only_floor_fall_template",
+            "event_only_floor_fall_low_grav",
             "event_only_blast_ball_trials_template",
             "event_only_slime_climb",
             "event_only_jump_club_template",
@@ -144,6 +145,8 @@ namespace FallGuysStats {
             foreach (string showId in _shows) {
                 showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
             }
+
+            showsData.DefaultView.Sort = "showName ASC";
 
             this.cboShowsList.DataSource = showsData;
             this.cboShowsList.DisplayMember = "showName";

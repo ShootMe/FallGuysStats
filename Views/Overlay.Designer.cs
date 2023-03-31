@@ -186,7 +186,7 @@ namespace FallGuysStats {
             this.lblFinals.TabIndex = 5;
             this.lblFinals.Text = "FINALS :";
             this.lblFinals.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFinals.TextRight = "　0 - 0.0%";
+            this.lblFinals.TextRight = "0 - 0.0%";
             this.lblFinals.Visible = false;
             // 
             // lblQualifyChance
@@ -202,7 +202,7 @@ namespace FallGuysStats {
             this.lblQualifyChance.TabIndex = 14;
             this.lblQualifyChance.Text = "QUALIFY :";
             this.lblQualifyChance.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblQualifyChance.TextRight = "　0 / 0 - 0.0%";
+            this.lblQualifyChance.TextRight = "0 / 0 - 0.0%";
             this.lblQualifyChance.Visible = false;
             // 
             // lblFastest
@@ -218,7 +218,7 @@ namespace FallGuysStats {
             this.lblFastest.TabIndex = 16;
             this.lblFastest.Text = "FASTEST :";
             this.lblFastest.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblFastest.TextRight = "　-";
+            this.lblFastest.TextRight = "-";
             this.lblFastest.Visible = false;
             // 
             // lblDuration
@@ -234,7 +234,7 @@ namespace FallGuysStats {
             this.lblDuration.TabIndex = 18;
             this.lblDuration.Text = "TIME :";
             this.lblDuration.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.lblDuration.TextRight = "　-";
+            this.lblDuration.TextRight = "-";
             this.lblDuration.Visible = false;
             // 
             // lblPlayers

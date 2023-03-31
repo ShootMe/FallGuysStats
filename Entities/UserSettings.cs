@@ -63,5 +63,6 @@
         public bool AutoLaunchGameOnStartup { get; set; }
         public string OverlayFontSerialized { get; set; }
         public string OverlayFontColorSerialized { get; set; }
+        public int WinPerDayGraphStyle { get; set; }
     }
 }
