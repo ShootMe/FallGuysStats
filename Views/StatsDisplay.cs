@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using MetroFramework;
+using MetroFramework.Controls;
 using ScottPlot;
 
 namespace FallGuysStats {
@@ -12,9 +13,8 @@ namespace FallGuysStats {
         public StatsDisplay() {
             this.InitializeComponent();
         }
-        private ScottPlot.Plottable.ScatterPlot MyScatterPlot1;
-        private ScottPlot.Plottable.ScatterPlot MyScatterPlot2;
-        private ScottPlot.Plottable.ScatterPlot MyScatterPlot3;
+        private ScottPlot.Plottable.ScatterPlot MyScatterPlot1, MyScatterPlot2, MyScatterPlot3;
+        private ScottPlot.Plottable.BarPlot MyBarPlot1, MyBarPlot2, MyBarPlot3;
         private ScottPlot.Plottable.MarkerPlot HighlightedPoint;
         private ScottPlot.Plottable.Tooltip tooltip;
 
@@ -28,34 +28,93 @@ namespace FallGuysStats {
             //this.formsPlot.Plot.YLabel("Vertical Axis");
 
             if (this.dates != null) {
-                this.MyScatterPlot1 = this.formsPlot.Plot.AddScatter(this.dates, this.shows, color: this.chkShows.ForeColor, label: Multilingual.GetWord("level_detail_shows"));
-                this.MyScatterPlot2 = this.formsPlot.Plot.AddScatter(this.dates, this.finals, color: this.chkFinals.ForeColor, label: Multilingual.GetWord("level_detail_finals"));
-                this.MyScatterPlot3 = this.formsPlot.Plot.AddScatter(this.dates, this.wins, color: this.chkWins.ForeColor, label: Multilingual.GetWord("level_detail_wins"));
-                this.formsPlot.Plot.Legend();
+                this.MyBarPlot1 = this.formsPlot.Plot.AddBar(this.shows, this.dates, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255));
+                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                this.MyBarPlot2 = this.formsPlot.Plot.AddBar(this.finals, this.dates, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255));
+                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                this.MyBarPlot3 = this.formsPlot.Plot.AddBar(this.wins, this.dates, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255));
+                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
+                
+                this.MyScatterPlot1 = this.formsPlot.Plot.AddScatter(this.dates, this.shows, markerSize: 4, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255), label: Multilingual.GetWord("level_detail_shows"));
+                this.MyScatterPlot2 = this.formsPlot.Plot.AddScatter(this.dates, this.finals, markerSize: 4, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255), label: Multilingual.GetWord("level_detail_finals"));
+                this.MyScatterPlot3 = this.formsPlot.Plot.AddScatter(this.dates, this.wins, markerSize: 4, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255), label: Multilingual.GetWord("level_detail_wins"));
+
+                this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
                 this.formsPlot.Plot.XAxis.DateTimeFormat(true);
                 
                 this.formsPlot.Plot.XAxis.ManualTickSpacing((this.manualSpacing <= 0 ? 1 : this.manualSpacing), ScottPlot.Ticks.DateTimeUnit.Day);
                 this.formsPlot.Plot.XAxis.TickLabelStyle(rotation: 45);
-                this.formsPlot.Plot.XAxis.SetSizeLimit(min: 50);
+                //this.formsPlot.Plot.XAxis.SetSizeLimit(min: 50);
+                this.formsPlot.Plot.SetAxisLimits(yMin: 0);
                 
                 this.HighlightedPoint = this.formsPlot.Plot.AddPoint(0, 0);
-                this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.Magenta : Color.Chartreuse;
-                this.HighlightedPoint.MarkerSize = 10;
+                this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.SlateGray : Color.LightGray;
+                this.HighlightedPoint.MarkerSize = 7;
                 this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                 this.HighlightedPoint.IsVisible = false;
-                
+
                 this.formsPlot.Refresh();
                 this.MyScatterPlot1.IsVisible = false;
                 this.MyScatterPlot2.IsVisible = false;
                 this.MyScatterPlot3.IsVisible = false;
+                this.MyBarPlot1.IsVisible = false;
+                this.MyBarPlot2.IsVisible = false;
+                this.MyBarPlot3.IsVisible = false;
                 
                 this.chkWins.Checked = true;
+                this.tgGraph.Checked = this.StatsForm.CurrentSettings.WinPerDayGraphStyle != 0;
             } else {
                 this.formsPlot.Refresh();
             }
         }
 
-        public double DistanceToPoint(double x1, double y1, double x2, double y2) {
+        private void ChangeFormsPlotStyle(bool style) {
+            if (style) { // BarPlot
+                this.StatsForm.CurrentSettings.WinPerDayGraphStyle = 1;
+                this.MyBarPlot1.IsVisible = this.chkShows.Checked;
+                this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
+                this.MyBarPlot3.IsVisible = this.chkWins.Checked;
+                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
+                
+                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
+                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
+                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
+                this.MyScatterPlot1.Label = null;
+                this.MyScatterPlot2.Label = null;
+                this.MyScatterPlot3.Label = null;
+                
+                this.HighlightedPoint.MarkerShape = MarkerShape.none;
+            } else { // ScatterPlot
+                this.StatsForm.CurrentSettings.WinPerDayGraphStyle = 0;
+                this.MyBarPlot1.IsVisible = false;
+                this.MyBarPlot2.IsVisible = false;
+                this.MyBarPlot3.IsVisible = false;
+                this.MyBarPlot1.Label = null;
+                this.MyBarPlot2.Label = null;
+                this.MyBarPlot3.Label = null;
+                
+                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 255);
+                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 255);
+                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 255);
+                this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
+                this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
+                this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
+                this.MyScatterPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                this.MyScatterPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                this.MyScatterPlot3.Label = Multilingual.GetWord("level_detail_wins");
+                
+                this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
+            }
+            this.formsPlot.Refresh();
+        }
+
+        private Color GetColorWithAlpha(Color color, int alpha) {
+            return Color.FromArgb(alpha, color.R, color.G, color.B);
+        }
+
+        private double DistanceToPoint(double x1, double y1, double x2, double y2) {
             return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
         }
 
@@ -136,10 +195,18 @@ namespace FallGuysStats {
             }
             
             this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($"{DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}") +
+                                                                 Environment.NewLine +
                                                                  (this.MyScatterPlot1.IsVisible ? $"{Multilingual.GetWord("level_detail_shows")} : {this.MyScatterPlot1.Ys[currentIndex]}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
                                                                  (this.MyScatterPlot2.IsVisible ? $"{Multilingual.GetWord("level_detail_finals")} : {this.MyScatterPlot2.Ys[currentIndex]}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
                                                                  (this.MyScatterPlot3.IsVisible ? $"{Multilingual.GetWord("level_detail_wins")} : {this.MyScatterPlot3.Ys[currentIndex]}{Multilingual.GetWord("main_inning")}" : ""),
                 x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
+            
+            this.tooltip.BorderWidth = 1;
+            this.tooltip.BorderColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(239, 49,51,56) : Color.FromArgb(239, 211,211,211);
+            this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
+            this.tooltip.Font.Size = 13;
+            this.tooltip.Font.Color = Color.White;
+            this.tooltip.ArrowSize = 5;
             
             this.HighlightedPoint.IsVisible = true;
             this.formsPlot.Render();
@@ -157,13 +224,17 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
+            this.tgGraph.Theme = theme;
+            this.picGraph.Image = this.tgGraph.Checked ? 
+                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.bar_plot_icon : Properties.Resources.bar_plot_gray_icon) : 
+                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.scatter_plot_icon : Properties.Resources.scatter_plot_gray_icon);
             this.chkWins.Theme = theme;
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
             if (theme == MetroThemeStyle.Light) {
-                this.chkWins.ForeColor =  Color.Red;
-                this.chkFinals.ForeColor =  Color.Green;
-                this.chkShows.ForeColor =  Color.Blue;
+                this.chkWins.ForeColor =  Color.Goldenrod;
+                this.chkFinals.ForeColor =  Color.DeepPink;
+                this.chkShows.ForeColor =  Color.RoyalBlue;
             } else if (theme == MetroThemeStyle.Dark) {
                 this.chkWins.ForeColor = Color.Gold;
                 this.chkFinals.ForeColor = Color.DeepPink;
@@ -180,19 +251,40 @@ namespace FallGuysStats {
                 this.Close();
             }
         }
+        private void tgGraph_CheckStateChanged(object sender, EventArgs e) {
+            this.picGraph.Image = ((MetroToggle)sender).Checked ? 
+                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.bar_plot_icon : Properties.Resources.bar_plot_gray_icon) : 
+                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.scatter_plot_icon : Properties.Resources.scatter_plot_gray_icon);
+            this.ChangeFormsPlotStyle(((MetroToggle)sender).Checked);
+        }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            this.MyScatterPlot3.IsVisible = chkWins.Checked;
+            if (this.tgGraph.Checked) {
+                this.MyScatterPlot3.IsVisible = chkWins.Checked;
+                this.MyBarPlot3.IsVisible = chkWins.Checked;
+            } else {
+                this.MyScatterPlot3.IsVisible = chkWins.Checked;
+            }
             this.formsPlot.Refresh();
         }
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+            if (this.tgGraph.Checked) {
+                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+                this.MyBarPlot2.IsVisible = chkFinals.Checked;
+            } else {
+                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+            }
             this.formsPlot.Refresh();
         }
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            this.MyScatterPlot1.IsVisible = chkShows.Checked;
+            if (this.tgGraph.Checked) {
+                this.MyScatterPlot1.IsVisible = chkShows.Checked;
+                this.MyBarPlot1.IsVisible = chkShows.Checked;
+            } else {
+                this.MyScatterPlot1.IsVisible = chkShows.Checked;
+            }
             this.formsPlot.Refresh();
         }
         private void ChangeLanguage() {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Controls;
 using System.Windows.Forms;
 
 namespace FallGuysStats {
@@ -97,10 +98,10 @@ namespace FallGuysStats {
             // menuStatsFilter
             // 
             this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuAllStats, this.menuSeasonStats, this.menuWeekStats, this.menuDayStats, this.menuSessionStats });
+            this.menuStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             this.menuStatsFilter.Name = "menuStatsFilter";
             this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
             this.menuStatsFilter.Text = "Stats";
-            this.menuStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             // 
             // menuAllStats
             // 
@@ -152,10 +153,10 @@ namespace FallGuysStats {
             // menuPartyFilter
             // 
             this.menuPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuAllPartyStats, this.menuSoloStats, this.menuPartyStats });
+            this.menuPartyFilter.Image = global::FallGuysStats.Properties.Resources.player_icon;
             this.menuPartyFilter.Name = "menuPartyFilter";
             this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
             this.menuPartyFilter.Text = "Party";
-            this.menuPartyFilter.Image = global::FallGuysStats.Properties.Resources.player_icon;
             // 
             // menuAllPartyStats
             // 
@@ -242,13 +243,15 @@ namespace FallGuysStats {
             // 
             this.infoStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.infoStrip.AutoSize = false;
-            this.infoStrip.BackColor = System.Drawing.Color.White;
+            this.infoStrip.BackColor = System.Drawing.Color.Transparent;
+            this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalTime, this.lblTotalShows, this.lblTotalRounds, this.lblTotalWins, this.lblTotalFinals, this.lblKudos });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(20, 97);
             this.infoStrip.Name = "infoStrip";
             this.infoStrip.Padding = new System.Windows.Forms.Padding(0, 6, 0, 1);
+            this.infoStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.infoStrip.Size = new System.Drawing.Size(790, 26);
             this.infoStrip.Stretch = true;
             this.infoStrip.TabIndex = 13;
@@ -391,8 +394,9 @@ namespace FallGuysStats {
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
         }
-
+        
         #endregion
+
         private FallGuysStats.Grid gridDetails;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;

@@ -282,6 +282,26 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap bar_plot_gray_icon {
+            get {
+                object obj = ResourceManager.GetObject("bar_plot_gray_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap bar_plot_icon {
+            get {
+                object obj = ResourceManager.GetObject("bar_plot_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap checkmark_icon {
             get {
                 object obj = ResourceManager.GetObject("checkmark_icon", resourceCulture);
@@ -1655,6 +1675,26 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap round_wall_guys_icon {
             get {
                 object obj = ResourceManager.GetObject("round_wall_guys_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scatter_plot_gray_icon {
+            get {
+                object obj = ResourceManager.GetObject("scatter_plot_gray_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scatter_plot_icon {
+            get {
+                object obj = ResourceManager.GetObject("scatter_plot_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
