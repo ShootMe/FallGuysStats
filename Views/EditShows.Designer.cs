@@ -68,6 +68,7 @@ namespace FallGuysStats {
             // 
             // cboEditShows
             // 
+            this.cboEditShows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboEditShows.FormattingEnabled = true;
             this.cboEditShows.ItemHeight = 23;
             this.cboEditShows.Location = new System.Drawing.Point(185, 135);
@@ -87,6 +88,7 @@ namespace FallGuysStats {
             // 
             // btnEditShowsSave
             // 
+            this.btnEditShowsSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditShowsSave.Location = new System.Drawing.Point(238, 210);
             this.btnEditShowsSave.Name = "btnEditShowsSave";
             this.btnEditShowsSave.Size = new System.Drawing.Size(87, 25);
@@ -97,6 +99,7 @@ namespace FallGuysStats {
             // 
             // btnEditShowsCancel
             // 
+            this.btnEditShowsCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 210);
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
             this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 25);

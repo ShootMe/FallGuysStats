@@ -195,6 +195,8 @@ namespace FallGuysStats {
             // 
             // btnSave
             // 
+            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSave.Location = new System.Drawing.Point(678, 600);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 25);
@@ -202,62 +204,6 @@ namespace FallGuysStats {
             this.btnSave.Text = "Save";
             this.btnSave.UseSelectable = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // lblOverlayFont
-            // 
-            this.lblOverlayFont.AutoSize = true;
-            this.lblOverlayFont.Location = new System.Drawing.Point(15, 574);
-            this.lblOverlayFont.Name = "lblOverlayFont";
-            this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
-            this.lblOverlayFont.TabIndex = 26;
-            this.lblOverlayFont.Text = "Custom Overlay Font";
-            // 
-            // btnSelectFont
-            // 
-            this.btnSelectFont.Location = new System.Drawing.Point(153, 570);
-            this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSelectFont.Name = "btnSelectFont";
-            this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
-            this.btnSelectFont.TabIndex = 27;
-            this.btnSelectFont.Text = "Select Font";
-            this.btnSelectFont.UseSelectable = true;
-            this.btnSelectFont.Click += new System.EventHandler(this.btnSelectFont_Click);
-            // 
-            // btnResetOverlayFont
-            // 
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(253, 570);
-            this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
-            this.btnResetOverlayFont.Name = "btnResetOverlayFont";
-            this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
-            this.btnResetOverlayFont.TabIndex = 28;
-            this.btnResetOverlayFont.Text = "Reset Font";
-            this.btnResetOverlayFont.UseSelectable = true;
-            this.btnResetOverlayFont.Click += new System.EventHandler(this.btnResetOverlayFont_Click);
-            // 
-            // grpOverlayFontExample
-            // 
-            this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(15, 609);
-            this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
-            this.grpOverlayFontExample.Name = "grpOverlayFontExample";
-            this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
-            this.grpOverlayFontExample.Size = new System.Drawing.Size(618, 75);
-            this.grpOverlayFontExample.TabIndex = 35;
-            this.grpOverlayFontExample.TabStop = false;
-            this.grpOverlayFontExample.Text = "Example";
-            // 
-            // lblOverlayFontExample
-            // 
-            this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblOverlayFontExample.Location = new System.Drawing.Point(5, 14);
-            this.lblOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblOverlayFontExample.Name = "lblOverlayFontExample";
-            this.lblOverlayFontExample.Size = new System.Drawing.Size(609, 53);
-            this.lblOverlayFontExample.TabIndex = 0;
-            this.lblOverlayFontExample.Text = "Round 3 : Freezy Peak";
-            this.lblOverlayFontExample.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // grpCycleQualifyGold
             // 
@@ -277,6 +223,7 @@ namespace FallGuysStats {
             // chkOnlyShowGold
             // 
             this.chkOnlyShowGold.AutoSize = true;
+            this.chkOnlyShowGold.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowGold.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowGold.Name = "chkOnlyShowGold";
@@ -288,6 +235,7 @@ namespace FallGuysStats {
             // chkOnlyShowQualify
             // 
             this.chkOnlyShowQualify.AutoSize = true;
+            this.chkOnlyShowQualify.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowQualify.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowQualify.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowQualify.Name = "chkOnlyShowQualify";
@@ -300,6 +248,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleQualifyGold.AutoSize = true;
             this.chkCycleQualifyGold.Checked = true;
+            this.chkCycleQualifyGold.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleQualifyGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleQualifyGold.Location = new System.Drawing.Point(6, 14);
             this.chkCycleQualifyGold.Name = "chkCycleQualifyGold";
@@ -327,6 +276,7 @@ namespace FallGuysStats {
             // chkOnlyShowLongest
             // 
             this.chkOnlyShowLongest.AutoSize = true;
+            this.chkOnlyShowLongest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowLongest.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
@@ -338,6 +288,7 @@ namespace FallGuysStats {
             // chkOnlyShowFastest
             // 
             this.chkOnlyShowFastest.AutoSize = true;
+            this.chkOnlyShowFastest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowFastest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowFastest.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowFastest.Name = "chkOnlyShowFastest";
@@ -350,6 +301,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleFastestLongest.AutoSize = true;
             this.chkCycleFastestLongest.Checked = true;
+            this.chkCycleFastestLongest.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleFastestLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleFastestLongest.Location = new System.Drawing.Point(6, 14);
             this.chkCycleFastestLongest.Name = "chkCycleFastestLongest";
@@ -362,6 +314,7 @@ namespace FallGuysStats {
             // chkHidePercentages
             // 
             this.chkHidePercentages.AutoSize = true;
+            this.chkHidePercentages.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHidePercentages.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHidePercentages.Location = new System.Drawing.Point(15, 109);
             this.chkHidePercentages.Name = "chkHidePercentages";
@@ -373,6 +326,7 @@ namespace FallGuysStats {
             // chkHideWinsInfo
             // 
             this.chkHideWinsInfo.AutoSize = true;
+            this.chkHideWinsInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideWinsInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideWinsInfo.Location = new System.Drawing.Point(15, 19);
             this.chkHideWinsInfo.Name = "chkHideWinsInfo";
@@ -380,6 +334,25 @@ namespace FallGuysStats {
             this.chkHideWinsInfo.TabIndex = 0;
             this.chkHideWinsInfo.Text = "Hide Wins info";
             this.chkHideWinsInfo.UseSelectable = true;
+            // 
+            // cboOverlayBackground
+            // 
+            this.cboOverlayBackground.BorderColor = System.Drawing.Color.Gray;
+            this.cboOverlayBackground.ButtonColor = System.Drawing.Color.DarkGray;
+            this.cboOverlayBackground.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboOverlayBackground.DropDownHeight = 500;
+            this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboOverlayBackground.FormattingEnabled = true;
+            this.cboOverlayBackground.IntegralHeight = true;
+            this.cboOverlayBackground.ItemHeight = 23;
+            this.cboOverlayBackground.Location = new System.Drawing.Point(599, 123);
+            this.cboOverlayBackground.Name = "cboOverlayBackground";
+            this.cboOverlayBackground.Size = new System.Drawing.Size(240, 20);
+            this.cboOverlayBackground.TabIndex = 19;
+            this.cboOverlayBackground.GotFocus += new System.EventHandler(this.cboOverlayBackground_GotFocus);
+            this.cboOverlayBackground.LostFocus += new System.EventHandler(this.cboOverlayBackground_LostFocus);
+            this.cboOverlayBackground.MouseEnter += new System.EventHandler(this.cboOverlayBackground_MouseEnter);
+            this.cboOverlayBackground.MouseLeave += new System.EventHandler(this.cboOverlayBackground_MouseLeave);
             // 
             // lblOverlayBackground
             // 
@@ -392,6 +365,7 @@ namespace FallGuysStats {
             // 
             // cboOverlayColor
             // 
+            this.cboOverlayColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboOverlayColor.FormattingEnabled = true;
             this.cboOverlayColor.ItemHeight = 23;
             this.cboOverlayColor.Items.AddRange(new object[] {
@@ -429,6 +403,7 @@ namespace FallGuysStats {
             // trkOverlayOpacity
             // 
             this.trkOverlayOpacity.BackColor = System.Drawing.Color.Transparent;
+            this.trkOverlayOpacity.Cursor = System.Windows.Forms.Cursors.Hand;
             this.trkOverlayOpacity.Location = new System.Drawing.Point(197, 396);
             this.trkOverlayOpacity.Name = "trkOverlayOpacity";
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
@@ -440,6 +415,7 @@ namespace FallGuysStats {
             // chkFlipped
             // 
             this.chkFlipped.AutoSize = true;
+            this.chkFlipped.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkFlipped.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkFlipped.Location = new System.Drawing.Point(15, 439);
             this.chkFlipped.Name = "chkFlipped";
@@ -451,6 +427,7 @@ namespace FallGuysStats {
             // chkShowTabs
             // 
             this.chkShowTabs.AutoSize = true;
+            this.chkShowTabs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkShowTabs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkShowTabs.Location = new System.Drawing.Point(15, 139);
             this.chkShowTabs.Name = "chkShowTabs";
@@ -462,6 +439,7 @@ namespace FallGuysStats {
             // chkHideTimeInfo
             // 
             this.chkHideTimeInfo.AutoSize = true;
+            this.chkHideTimeInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideTimeInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideTimeInfo.Location = new System.Drawing.Point(15, 79);
             this.chkHideTimeInfo.Name = "chkHideTimeInfo";
@@ -473,6 +451,7 @@ namespace FallGuysStats {
             // chkHideRoundInfo
             // 
             this.chkHideRoundInfo.AutoSize = true;
+            this.chkHideRoundInfo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkHideRoundInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkHideRoundInfo.Location = new System.Drawing.Point(15, 49);
             this.chkHideRoundInfo.Name = "chkHideRoundInfo";
@@ -483,6 +462,7 @@ namespace FallGuysStats {
             // 
             // cboFastestFilter
             // 
+            this.cboFastestFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboFastestFilter.FormattingEnabled = true;
             this.cboFastestFilter.ItemHeight = 23;
             this.cboFastestFilter.Items.AddRange(new object[] {
@@ -510,6 +490,7 @@ namespace FallGuysStats {
             // 
             // cboQualifyFilter
             // 
+            this.cboQualifyFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboQualifyFilter.FormattingEnabled = true;
             this.cboQualifyFilter.ItemHeight = 23;
             this.cboQualifyFilter.Items.AddRange(new object[] {
@@ -537,6 +518,7 @@ namespace FallGuysStats {
             // 
             // cboWinsFilter
             // 
+            this.cboWinsFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboWinsFilter.FormattingEnabled = true;
             this.cboWinsFilter.ItemHeight = 23;
             this.cboWinsFilter.Items.AddRange(new object[] {
@@ -566,6 +548,7 @@ namespace FallGuysStats {
             // chkOverlayOnTop
             // 
             this.chkOverlayOnTop.AutoSize = true;
+            this.chkOverlayOnTop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOverlayOnTop.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOverlayOnTop.Location = new System.Drawing.Point(15, 464);
             this.chkOverlayOnTop.Name = "chkOverlayOnTop";
@@ -577,6 +560,7 @@ namespace FallGuysStats {
             // chkPlayerByConsoleType
             // 
             this.chkPlayerByConsoleType.AutoSize = true;
+            this.chkPlayerByConsoleType.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPlayerByConsoleType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkPlayerByConsoleType.Location = new System.Drawing.Point(15, 489);
             this.chkPlayerByConsoleType.Name = "chkPlayerByConsoleType";
@@ -588,6 +572,7 @@ namespace FallGuysStats {
             // chkColorByRoundType
             // 
             this.chkColorByRoundType.AutoSize = true;
+            this.chkColorByRoundType.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkColorByRoundType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkColorByRoundType.Location = new System.Drawing.Point(15, 514);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
@@ -599,6 +584,7 @@ namespace FallGuysStats {
             // chkAutoChangeProfile
             // 
             this.chkAutoChangeProfile.AutoSize = true;
+            this.chkAutoChangeProfile.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoChangeProfile.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoChangeProfile.Location = new System.Drawing.Point(15, 539);
             this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
@@ -677,6 +663,7 @@ namespace FallGuysStats {
             // chkOnlyShowFinalStreak
             // 
             this.chkOnlyShowFinalStreak.AutoSize = true;
+            this.chkOnlyShowFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
@@ -688,6 +675,7 @@ namespace FallGuysStats {
             // chkOnlyShowWinStreak
             // 
             this.chkOnlyShowWinStreak.AutoSize = true;
+            this.chkOnlyShowWinStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowWinStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowWinStreak.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowWinStreak.Name = "chkOnlyShowWinStreak";
@@ -700,6 +688,7 @@ namespace FallGuysStats {
             // 
             this.chkCycleWinFinalStreak.AutoSize = true;
             this.chkCycleWinFinalStreak.Checked = true;
+            this.chkCycleWinFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCycleWinFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCycleWinFinalStreak.Location = new System.Drawing.Point(6, 14);
             this.chkCycleWinFinalStreak.Name = "chkCycleWinFinalStreak";
@@ -727,6 +716,7 @@ namespace FallGuysStats {
             // chkOnlyShowPing
             // 
             this.chkOnlyShowPing.AutoSize = true;
+            this.chkOnlyShowPing.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowPing.Location = new System.Drawing.Point(385, 14);
             this.chkOnlyShowPing.Name = "chkOnlyShowPing";
@@ -738,6 +728,7 @@ namespace FallGuysStats {
             // chkOnlyShowPlayers
             // 
             this.chkOnlyShowPlayers.AutoSize = true;
+            this.chkOnlyShowPlayers.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkOnlyShowPlayers.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkOnlyShowPlayers.Location = new System.Drawing.Point(238, 14);
             this.chkOnlyShowPlayers.Name = "chkOnlyShowPlayers";
@@ -750,6 +741,7 @@ namespace FallGuysStats {
             // 
             this.chkCyclePlayersPing.AutoSize = true;
             this.chkCyclePlayersPing.Checked = true;
+            this.chkCyclePlayersPing.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkCyclePlayersPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkCyclePlayersPing.Location = new System.Drawing.Point(6, 14);
             this.chkCyclePlayersPing.Name = "chkCyclePlayersPing";
@@ -758,6 +750,62 @@ namespace FallGuysStats {
             this.chkCyclePlayersPing.TabStop = true;
             this.chkCyclePlayersPing.Text = "Cycle Players / Ping";
             this.chkCyclePlayersPing.UseSelectable = true;
+            // 
+            // lblOverlayFont
+            // 
+            this.lblOverlayFont.AutoSize = true;
+            this.lblOverlayFont.Location = new System.Drawing.Point(15, 574);
+            this.lblOverlayFont.Name = "lblOverlayFont";
+            this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
+            this.lblOverlayFont.TabIndex = 27;
+            this.lblOverlayFont.Text = "Custom Overlay Font";
+            // 
+            // btnSelectFont
+            // 
+            this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSelectFont.Location = new System.Drawing.Point(153, 570);
+            this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSelectFont.Name = "btnSelectFont";
+            this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
+            this.btnSelectFont.TabIndex = 28;
+            this.btnSelectFont.Text = "Select Font";
+            this.btnSelectFont.UseSelectable = true;
+            this.btnSelectFont.Click += new System.EventHandler(this.btnSelectFont_Click);
+            // 
+            // btnResetOverlayFont
+            // 
+            this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(253, 570);
+            this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
+            this.btnResetOverlayFont.Name = "btnResetOverlayFont";
+            this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
+            this.btnResetOverlayFont.TabIndex = 29;
+            this.btnResetOverlayFont.Text = "Reset Font";
+            this.btnResetOverlayFont.UseSelectable = true;
+            this.btnResetOverlayFont.Click += new System.EventHandler(this.btnResetOverlayFont_Click);
+            // 
+            // grpOverlayFontExample
+            // 
+            this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(15, 609);
+            this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
+            this.grpOverlayFontExample.Name = "grpOverlayFontExample";
+            this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
+            this.grpOverlayFontExample.Size = new System.Drawing.Size(618, 75);
+            this.grpOverlayFontExample.TabIndex = 35;
+            this.grpOverlayFontExample.TabStop = false;
+            this.grpOverlayFontExample.Text = "Example";
+            // 
+            // lblOverlayFontExample
+            // 
+            this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblOverlayFontExample.Location = new System.Drawing.Point(5, 14);
+            this.lblOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblOverlayFontExample.Name = "lblOverlayFontExample";
+            this.lblOverlayFontExample.Size = new System.Drawing.Size(609, 53);
+            this.lblOverlayFontExample.TabIndex = 0;
+            this.lblOverlayFontExample.Text = "Round 3 : Freezy Peak";
+            this.lblOverlayFontExample.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // grpLaunchPlatform
             // 
@@ -816,6 +864,7 @@ namespace FallGuysStats {
             // 
             // cboMultilingual
             // 
+            this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] {
             "🇺🇸 English",
@@ -842,6 +891,7 @@ namespace FallGuysStats {
             // chkChangeHoopsieLegends
             // 
             this.chkChangeHoopsieLegends.AutoSize = true;
+            this.chkChangeHoopsieLegends.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkChangeHoopsieLegends.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(8, 39);
             this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
@@ -852,6 +902,7 @@ namespace FallGuysStats {
             // 
             // cboTheme
             // 
+            this.cboTheme.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboTheme.FormattingEnabled = true;
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
@@ -868,6 +919,7 @@ namespace FallGuysStats {
             // chkAutoUpdate
             // 
             this.chkAutoUpdate.AutoSize = true;
+            this.chkAutoUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoUpdate.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoUpdate.Location = new System.Drawing.Point(8, 59);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
@@ -1005,6 +1057,7 @@ namespace FallGuysStats {
             // 
             // btnGameExeLocationBrowse
             // 
+            this.btnGameExeLocationBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(571, 74);
             this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(14, 11, 14, 11);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
@@ -1017,6 +1070,7 @@ namespace FallGuysStats {
             // chkAutoLaunchGameOnStart
             // 
             this.chkAutoLaunchGameOnStart.AutoSize = true;
+            this.chkAutoLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(8, 104);
             this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
@@ -1039,6 +1093,7 @@ namespace FallGuysStats {
             // chkIgnoreLevelTypeWhenSorting
             // 
             this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
+            this.chkIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkIgnoreLevelTypeWhenSorting.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(8, 63);
             this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
@@ -1050,6 +1105,8 @@ namespace FallGuysStats {
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(778, 600);
             this.btnCancel.Name = "btnCancel";
@@ -1188,24 +1245,6 @@ namespace FallGuysStats {
             this.panelOverlay.VerticalScrollbarBarColor = true;
             this.panelOverlay.VerticalScrollbarHighlightOnWheel = false;
             this.panelOverlay.VerticalScrollbarSize = 10;
-            // 
-            // cboOverlayBackground
-            // 
-            this.cboOverlayBackground.BorderColor = System.Drawing.Color.Gray;
-            this.cboOverlayBackground.ButtonColor = System.Drawing.Color.DarkGray;
-            this.cboOverlayBackground.DropDownHeight = 500;
-            this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboOverlayBackground.FormattingEnabled = true;
-            this.cboOverlayBackground.IntegralHeight = false;
-            this.cboOverlayBackground.ItemHeight = 12;
-            this.cboOverlayBackground.Location = new System.Drawing.Point(197, 335);
-            this.cboOverlayBackground.Name = "cboOverlayBackground";
-            this.cboOverlayBackground.Size = new System.Drawing.Size(240, 20);
-            this.cboOverlayBackground.TabIndex = 19;
-            this.cboOverlayBackground.GotFocus += new System.EventHandler(this.cboOverlayBackground_GotFocus);
-            this.cboOverlayBackground.LostFocus += new System.EventHandler(this.cboOverlayBackground_LostFocus);
-            this.cboOverlayBackground.MouseEnter += new System.EventHandler(this.cboOverlayBackground_MouseEnter);
-            this.cboOverlayBackground.MouseLeave += new System.EventHandler(this.cboOverlayBackground_MouseLeave);
             // 
             // tileOverlay
             // 

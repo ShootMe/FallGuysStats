@@ -86,6 +86,7 @@ namespace FallGuysStats {
             // 
             // ProfileListUp
             // 
+            this.ProfileListUp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ProfileListUp.Location = new System.Drawing.Point(375, 19);
             this.ProfileListUp.Name = "ProfileListUp";
             this.ProfileListUp.Size = new System.Drawing.Size(20, 50);
@@ -96,6 +97,7 @@ namespace FallGuysStats {
             // 
             // ProfileListDown
             // 
+            this.ProfileListDown.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ProfileListDown.Location = new System.Drawing.Point(375, 218);
             this.ProfileListDown.Name = "ProfileListDown";
             this.ProfileListDown.Size = new System.Drawing.Size(20, 50);
@@ -149,6 +151,7 @@ namespace FallGuysStats {
             // 
             // AddPageButton
             // 
+            this.AddPageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddPageButton.Location = new System.Drawing.Point(8, 88);
             this.AddPageButton.Name = "AddPageButton";
             this.AddPageButton.Size = new System.Drawing.Size(76, 26);
@@ -219,6 +222,7 @@ namespace FallGuysStats {
             // 
             // RenameButton
             // 
+            this.RenameButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RenameButton.Location = new System.Drawing.Point(8, 88);
             this.RenameButton.Name = "RenameButton";
             this.RenameButton.Size = new System.Drawing.Size(76, 26);
@@ -269,6 +273,7 @@ namespace FallGuysStats {
             // 
             // RenamePageCombobox
             // 
+            this.RenamePageCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RenamePageCombobox.FormattingEnabled = true;
             this.RenamePageCombobox.Location = new System.Drawing.Point(96, 7);
             this.RenamePageCombobox.Name = "RenamePageCombobox";
@@ -308,6 +313,7 @@ namespace FallGuysStats {
             // 
             // MovePageButton
             // 
+            this.MovePageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MovePageButton.Location = new System.Drawing.Point(8, 88);
             this.MovePageButton.Name = "MovePageButton";
             this.MovePageButton.Size = new System.Drawing.Size(76, 26);
@@ -327,6 +333,7 @@ namespace FallGuysStats {
             // 
             // MoveToCombobox
             // 
+            this.MoveToCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MoveToCombobox.FormattingEnabled = true;
             this.MoveToCombobox.Location = new System.Drawing.Point(96, 45);
             this.MoveToCombobox.Name = "MoveToCombobox";
@@ -345,6 +352,7 @@ namespace FallGuysStats {
             // 
             // MoveFromCombobox
             // 
+            this.MoveFromCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MoveFromCombobox.FormattingEnabled = true;
             this.MoveFromCombobox.Location = new System.Drawing.Point(96, 7);
             this.MoveFromCombobox.Name = "MoveFromCombobox";
@@ -371,6 +379,7 @@ namespace FallGuysStats {
             // 
             // RemovePageButton
             // 
+            this.RemovePageButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RemovePageButton.Location = new System.Drawing.Point(8, 88);
             this.RemovePageButton.Name = "RemovePageButton";
             this.RemovePageButton.Size = new System.Drawing.Size(76, 26);
@@ -381,6 +390,7 @@ namespace FallGuysStats {
             // 
             // RemoveProfileCombobox
             // 
+            this.RemoveProfileCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RemoveProfileCombobox.FormattingEnabled = true;
             this.RemoveProfileCombobox.Location = new System.Drawing.Point(96, 7);
             this.RemoveProfileCombobox.Name = "RemoveProfileCombobox";
