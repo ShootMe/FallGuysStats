@@ -120,6 +120,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ## Changelog
+  - 1.143
+    - Add style option to the daily win stats graph
   - 1.142
     - Add overlay background opacity adjustment option
   - 1.141
