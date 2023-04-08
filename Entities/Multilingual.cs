@@ -258,6 +258,7 @@ namespace FallGuysStats {
                             {"settings_cancel", "Cancel"},
                             {"settings_select_language_title", "Select your language"},
                             {"settings_select_language_button", "Confirm"},
+                            {"settings_prevent_mouse_cursor_bugs", "Prevent Mouse Cursor Bugs (Experimental)"},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -570,6 +571,7 @@ namespace FallGuysStats {
                             {"settings_cancel", "Annuler"},
                             {"settings_select_language_title", "Sélectionnez votre langue"},
                             {"settings_select_language_button", "Confirmer"},
+                            {"settings_prevent_mouse_cursor_bugs", "Prévenir les bogues du curseur de la souris (expérimental)"},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -880,6 +882,7 @@ namespace FallGuysStats {
                             {"settings_cancel", "취소"},
                             {"settings_select_language_title", "언어 선택"},
                             {"settings_select_language_button", "확인"},
+                            {"settings_prevent_mouse_cursor_bugs", "마우스 커서 버그 방지 (실험)"},
 
                             {"overlay_streak", "연승"},
                             {"overlay_streak_suffix", "연승"},
@@ -1114,7 +1117,7 @@ namespace FallGuysStats {
                             {"settings_launch_fallguys", "Fall Guysを起動"},
                             {"settings_about", "このアプリについて"},
                             {"settings_log_path", "ログファイルパス"},
-                            {"settings_log_path_description", "* Statsがログファイルパスを見つけられない場合は、ここにFallGuysクライアントのログファイルパスを直接入力してください。"},
+                            {"settings_log_path_description", "* Statsがログファイルパスを見つけられない場合は、\r\nここにFallGuysクライアントのログファイルパスを直接入力してください。"},
                             {"settings_stats", "プログラム設定"},
                             {"settings_theme", "テーマ"},
                             {"settings_theme_light", "ライト"},
@@ -1192,6 +1195,7 @@ namespace FallGuysStats {
                             {"settings_cancel", "キャンセル"},
                             {"settings_select_language_title", "言語を選択"},
                             {"settings_select_language_button", "保存"},
+                            {"settings_prevent_mouse_cursor_bugs", "マウスカーソルの不具合を防ぐ（実験編）"},
 
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", "勝"},
@@ -1502,6 +1506,7 @@ namespace FallGuysStats {
                             {"settings_cancel", "取消"},
                             {"settings_select_language_title", "选择你的语言"},
                             {"settings_select_language_button", "选择"},
+                            {"settings_prevent_mouse_cursor_bugs", "防止鼠标光标错误（实验性的）。"},
 
                             {"overlay_streak", "连胜"},
                             {"overlay_streak_suffix", ""},
