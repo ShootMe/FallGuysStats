@@ -34,7 +34,7 @@ namespace FallGuysStats {
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
 
-            changeTab(this.tileProgram, null);
+            this.ChangeTab(this.tileProgram, null);
 
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
@@ -83,6 +83,7 @@ namespace FallGuysStats {
             this.chkShowTabs.Checked = this.CurrentSettings.ShowOverlayTabs;
             //this.chkShowProfile.Checked = this.CurrentSettings.ShowOverlayProfile;
             this.chkAutoUpdate.Checked = this.CurrentSettings.AutoUpdate;
+            this.chkPreventMouseCursorBugs.Checked = this.CurrentSettings.PreventMouseCursorBugs;
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
@@ -102,7 +103,6 @@ namespace FallGuysStats {
             }
 
             int customizedBacgroundCount = imageItemArray.Count;
-
             ImageItem[] imageItems = {
                 new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
                 new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
@@ -123,6 +123,7 @@ namespace FallGuysStats {
                 new ImageItem(Properties.Resources.background_timeattack, new[] { "background_timeattack", "tab_unselected_timeattack" }, "Time Attack", this.Font, false),
                 new ImageItem(Properties.Resources.background_watermelon, new[] { "background_watermelon", "tab_unselected_watermelon" }, "Watermelon", this.Font, false),
                 new ImageItem(Properties.Resources.background_super_mario_bros, new[] { "background_super_mario_bros", "tab_unselected_super_mario_bros" }, "Super Mario Bros.", this.Font, false),
+                new ImageItem(Properties.Resources.background_super_mario_bros_3, new[] { "background_super_mario_bros_3", "tab_unselected_super_mario_bros_3" }, "Super Mario Bros. 3", this.Font, false),
                 new ImageItem(Properties.Resources.background_wallpaper_01, new[] { "background_wallpaper_01", "tab_unselected_wallpaper_01" }, "Wallpaper 01", this.Font, false),
                 new ImageItem(Properties.Resources.background_wallpaper_02, new[] { "background_wallpaper_02", "tab_unselected_wallpaper_02" }, "Wallpaper 02", this.Font, false),
                 new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
@@ -409,6 +410,7 @@ namespace FallGuysStats {
             this.CurrentSettings.HideTimeInfo = this.chkHideTimeInfo.Checked;
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
+            this.CurrentSettings.PreventMouseCursorBugs = this.chkPreventMouseCursorBugs.Checked;
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
@@ -695,11 +697,7 @@ namespace FallGuysStats {
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
-            if (this.LaunchPlatform == 0) {
-                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-            } else {
-                this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-            }
+            this.lblGameExeLocation.Text = Multilingual.GetWord(this.LaunchPlatform == 0 ? "settings_fall_guys_shortcut_location" : "settings_fall_guys_exe_location");
 
             this.tileProgram.Text = Multilingual.GetWord("settings_program");
             this.tileDisplay.Text = Multilingual.GetWord("settings_display");
@@ -721,7 +719,6 @@ namespace FallGuysStats {
             }
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
-            this.lblLanguage.Text = Multilingual.GetWord("settings_language");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
             //this.grpOverlay.Text = Multilingual.GetWord("settings_overlay");
             this.chkOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
@@ -733,31 +730,6 @@ namespace FallGuysStats {
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
 
-            //ImageItem[] imageItemArray = {
-            //    new ImageItem(Properties.Resources.background, "", "Default", this.Font),
-            //    new ImageItem(Properties.Resources.background_candycane, "candycane", "Candy Cane", this.Font),
-            //    new ImageItem(Properties.Resources.background_coffee, "coffee", "Coffee", this.Font),
-            //    new ImageItem(Properties.Resources.background_dove, "dove", "Dove", this.Font),
-            //    new ImageItem(Properties.Resources.background_fall_guys_logo, "fall_guys_logo", "Fall Guys Logo", this.Font),
-            //    new ImageItem(Properties.Resources.background_helter_skelter, "helter_skelter", "Helter Skelter", this.Font),
-            //    new ImageItem(Properties.Resources.background_hex_a_thon, "hex_a_thon", "Hex A Thon", this.Font),
-            //    new ImageItem(Properties.Resources.background_ill_be_slime, "ill_be_slime", "I'll Be Slime", this.Font),
-            //    new ImageItem(Properties.Resources.background_mockingbird, "mockingbird", "Mocking Bird", this.Font),
-            //    new ImageItem(Properties.Resources.background_newlove, "newlove", "New Love", this.Font),
-            //    new ImageItem(Properties.Resources.background_parade_guy, "parade_guy", "Parade Guy", this.Font),
-            //    new ImageItem(Properties.Resources.background_party_pegwin, "party_pegwin", "Party Pegwin", this.Font),
-            //    new ImageItem(Properties.Resources.background_penguin, "penguin", "Penguin", this.Font),
-            //    new ImageItem(Properties.Resources.background_suits_you, "suits_you", "Suits You", this.Font),
-            //    new ImageItem(Properties.Resources.background_sunny_guys, "sunny_guys", "Sunny Guys", this.Font),
-            //    new ImageItem(Properties.Resources.background_ta_da, "ta_da", "Ta Da", this.Font),
-            //    new ImageItem(Properties.Resources.background_timeattack, "timeattack", "Time Attack", this.Font),
-            //    new ImageItem(Properties.Resources.background_watermelon, "watermelon", "Watermelon", this.Font),
-            //    new ImageItem(Properties.Resources.background_wallpaper_01, "wallpaper_01", "Wallpaper 01", this.Font),
-            //    new ImageItem(Properties.Resources.background_wallpaper_02, "wallpaper_02", "Wallpaper 02", this.Font),
-            //    new ImageItem(Properties.Resources.background_wallpaper_03, "wallpaper_03", "Wallpaper 03", this.Font),
-            //};
-            //this.cboOverlayBackground.SetImageItemData(imageItemArray);
-            //this.cboOverlayBackground.SelectedIndex = this.CurrentSettings.OverlayBackground;
 
             this.cboOverlayColor.Items.Clear();
             this.cboOverlayColor.Items.AddRange(new object[] {
@@ -864,6 +836,7 @@ namespace FallGuysStats {
             //this.grpStats.Text = Multilingual.GetWord("settings_stats");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
+            this.chkPreventMouseCursorBugs.Text = Multilingual.GetWord("settings_prevent_mouse_cursor_bugs");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
@@ -880,15 +853,15 @@ namespace FallGuysStats {
             this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 22);
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 12);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
-            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 87);
-            this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 122);
+            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 120);
+            //this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 162);
             this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
-            this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 49);
-            this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 79);
+            this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
+            this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 85);
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 170);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
             this.lblOverlayBackground.Location = new Point(15, 335);
-            this.lblOverlayColor.Location = new Point(15, 366);
+            this.lblOverlayColor.Location = new Point(15, 370);
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
@@ -909,7 +882,7 @@ namespace FallGuysStats {
             this.Invalidate(true);
         }
 
-        private void changeTab(object sender, EventArgs e) {
+        private void ChangeTab(object sender, EventArgs e) {
             this.panelProgram.Location = new Point(218, 75);
             this.panelDisplay.Location = new Point(218, 75);
             this.panelOverlay.Location = new Point(218, 75);
@@ -984,22 +957,22 @@ namespace FallGuysStats {
 
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.fglink1)) {
-                openLink(@"https://github.com/ShootMe/FallGuysStats");
+                this.openLink(@"https://github.com/ShootMe/FallGuysStats");
             }
             if (sender.Equals(this.fglink2)) {
-                openLink(@"https://github.com/ShootMe/FallGuysStats/issues");
+                this.openLink(@"https://github.com/ShootMe/FallGuysStats/issues");
             }
             if (sender.Equals(this.lbltpl1)) {
-                openLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");
+                this.openLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");
             }
             if (sender.Equals(this.lbltpl2)) {
-                openLink(@"https://github.com/Fody/Home/blob/master/license.txt");
+                this.openLink(@"https://github.com/Fody/Home/blob/master/license.txt");
             }
             if (sender.Equals(this.lbltpl3)) {
-                openLink(@"https://github.com/dennismagno/metroframework-modern-ui/blob/master/LICENSE.md");
+                this.openLink(@"https://github.com/dennismagno/metroframework-modern-ui/blob/master/LICENSE.md");
             }
             if (sender.Equals(this.lbltpl4)) {
-                openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
+                this.openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
             }
         }
         private void openLink(string link) {

@@ -344,7 +344,12 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
+            if (this.StatsForm.CurrentSettings.PreventMouseCursorBugs && Stats.InShow && !Stats.EndedShow && line.Line.IndexOf("EOSSingleton.OnApplicationFocus: HasFocus True -> False", StringComparison.OrdinalIgnoreCase) > 0) {
+                if (Overlay.ActiveForm != null) {
+                    SendKeys.SendWait("%{TAB}");
+                }
+            //} else if ((index = line.Line.IndexOf("EOSSingleton.OnApplicationFocus: HasFocus False -> True", StringComparison.OrdinalIgnoreCase)) > 0) {
+            } else if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (!Stats.EndedShow && this.StatsForm.CurrentSettings.AutoChangeProfile) {
                     this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
