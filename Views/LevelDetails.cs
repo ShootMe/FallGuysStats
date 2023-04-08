@@ -471,9 +471,7 @@ namespace FallGuysStats {
                 int roundCompare = one.Round.CompareTo(two.Round);
                 int showCompare = one.ShowID.CompareTo(two.ShowID);
                 if (sortOrder == SortOrder.Descending) {
-                    RoundInfo temp = one;
-                    one = two;
-                    two = temp;
+                    (one, two) = (two, one);
                 }
 
                 switch (columnName) {

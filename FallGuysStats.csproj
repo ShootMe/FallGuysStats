@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9DDF7BD8-3C77-43D4-A229-F79CE082C6E8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>FallGuysStats</RootNamespace>
     <AssemblyName>FallGuysStats</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -471,6 +471,7 @@
     <None Include="Resources\overlay\background_suits_you.png" />
     <None Include="Resources\overlay\background_sunny_guys.png" />
     <None Include="Resources\overlay\background_super_mario_bros.png" />
+    <None Include="Resources\overlay\background_super_mario_bros_3.png" />
     <None Include="Resources\overlay\background_ta_da.png" />
     <None Include="Resources\overlay\background_timeattack.png" />
     <None Include="Resources\overlay\background_wallpaper_01.png" />
@@ -493,6 +494,7 @@
     <None Include="Resources\overlay\tab_unselected_suits_you.png" />
     <None Include="Resources\overlay\tab_unselected_sunny_guys.png" />
     <None Include="Resources\overlay\tab_unselected_super_mario_bros.png" />
+    <None Include="Resources\overlay\tab_unselected_super_mario_bros_3.png" />
     <None Include="Resources\overlay\tab_unselected_ta_da.png" />
     <None Include="Resources\overlay\tab_unselected_timeattack.png" />
     <None Include="Resources\overlay\tab_unselected_watermelon.png" />
