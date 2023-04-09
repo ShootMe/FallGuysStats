@@ -57,8 +57,9 @@ namespace FallGuysStats {
         private Image positionUnlockBlur = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
         private Image positionUnlockFocus = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
         public bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
+        private bool isFocused, isMouseEnter;
         
-        public static PrivateFontCollection DefaultFontCollection;
+        private static PrivateFontCollection DefaultFontCollection;
         public static new Font DefaultFont;
         
         static Overlay() {
@@ -125,7 +126,7 @@ namespace FallGuysStats {
         public Overlay() {
             this.InitializeComponent();
             this.ChangeLanguage();
-            
+
             this.picPositionNE.Image = this.positionNeOffBlur;
             this.picPositionNW.Image = this.positionNwOffBlur;
             this.picPositionSE.Image = this.positionSeOffBlur;
@@ -243,6 +244,12 @@ namespace FallGuysStats {
         }
         public static FontFamily GetMainFontFamilies(int language) {
             return language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        }
+        public bool IsFocused() {
+            return this.isFocused;
+        }
+        public bool IsMouseEnter() {
+            return this.isMouseEnter;
         }
         public bool IsFixed() {
             return this.isFixedPositionNe || this.isFixedPositionNw || this.isFixedPositionSe || this.isFixedPositionSw || this.isPositionLock;
@@ -488,6 +495,7 @@ namespace FallGuysStats {
             this.isPositionButtonMouseEnter = false;
         }
         private void Overlay_GotFocus(object sender, EventArgs e) {
+            this.isFocused = true;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {
                     this.picPositionLock.Show();
@@ -514,6 +522,7 @@ namespace FallGuysStats {
             }
         }
         private void Overlay_LostFocus(object sender, EventArgs e) {
+            this.isFocused = false;
             if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
                     !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
             this.picPositionNE.Hide();
@@ -521,6 +530,12 @@ namespace FallGuysStats {
             this.picPositionSE.Hide();
             this.picPositionSW.Hide();
             this.picPositionLock.Hide();
+        }
+        private void Overlay_MouseEnter(object sender, EventArgs e) {
+            this.isMouseEnter = true;
+        }
+        private void Overlay_MouseLeave(object sender, EventArgs e) {
+            this.isMouseEnter = false;
         }
         private void Overlay_Resize(object sender, EventArgs e) {
             this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (this.drawHeight > 99 ? 11 : -6));

@@ -114,6 +114,8 @@ namespace FallGuysStats {
         private Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
+        private Point ScreenCenter;
+
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -137,12 +139,6 @@ namespace FallGuysStats {
             this.InitializeComponent();
             
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
-
-            this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
-            this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
-            this.logFile.OnError += this.LogFile_OnError;
-            this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
-            this.logFile.StatsForm = this;
 
             foreach (var entry in LevelStats.ALL) {
                 this.StatDetails.Add(entry.Value);
@@ -192,6 +188,19 @@ namespace FallGuysStats {
             this.CurrentRound = new List<RoundInfo>();
 
             this.overlay = new Overlay { StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName};
+            
+            Screen screen = this.GetCurrentScreen(this.overlay.Location);
+            Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+            Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+            this.ScreenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
+            
+            this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
+            this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
+            this.logFile.OnError += this.LogFile_OnError;
+            this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
+            this.logFile.StatsForm = this;
+            this.logFile.Overlay = this.overlay;
+            
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.SetFixedPosition(
                     !string.IsNullOrEmpty(fixedPosition) && fixedPosition.Equals("ne"),
@@ -224,6 +233,10 @@ namespace FallGuysStats {
         public sealed override string Text {
             get { return base.Text; }
             set { base.Text = value; }
+        }
+        
+        public void SetCursorPositionCenter() {
+            Cursor.Position = this.ScreenCenter;
         }
 
         private void SetTheme(MetroThemeStyle theme) {
@@ -952,6 +965,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 27;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 27) {
+                this.CurrentSettings.PreventMouseCursorBugs = false;
+                this.CurrentSettings.Version = 28;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1016,7 +1035,7 @@ namespace FallGuysStats {
                 IgnoreLevelTypeWhenSorting = false,
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
-                Version = 27
+                Version = 28
             };
         }
         private void UpdateHoopsieLegends() {

@@ -1539,7 +1539,6 @@ namespace FallGuysStats {
         private MetroFramework.Components.MetroToolTip platformToolTip;
         private MetroFramework.Controls.MetroTile tileProgram;
         private MetroFramework.Controls.MetroPanel panelProgram;
-        private MetroFramework.Controls.MetroLabel lblLanguage;
         private MetroFramework.Controls.MetroPanel panelDisplay;
         private MetroFramework.Controls.MetroTile tileDisplay;
         private MetroFramework.Controls.MetroPanel panelOverlay;
