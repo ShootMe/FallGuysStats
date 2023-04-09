@@ -486,8 +486,6 @@ namespace FallGuysStats {
                 logRound.CountingPlayers = false;
                 Stats.InShow = false;
                 Stats.EndedShow = true;
-                round.Clear();
-                logRound.Info = null;
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null) { return false; }
 
