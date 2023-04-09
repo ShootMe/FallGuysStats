@@ -115,6 +115,7 @@ namespace FallGuysStats {
         private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
         private Point ScreenCenter;
+        private bool isFocused;
 
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -237,6 +238,17 @@ namespace FallGuysStats {
         
         public void SetCursorPositionCenter() {
             Cursor.Position = this.ScreenCenter;
+        }
+
+        private void Stats_GotFocus(object sender, EventArgs e) {
+            this.isFocused = true;
+        }
+        private void Stats_LostFocus(object sender, EventArgs e) {
+            this.isFocused = false;
+        }
+        
+        public bool IsFocused() {
+            return this.isFocused;
         }
 
         private void SetTheme(MetroThemeStyle theme) {
