@@ -398,7 +398,7 @@ namespace FallGuysStats {
                 }
             } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase)) > 0 ||
                        (index = line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {
-                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby") > 0;
+                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0;
                 logRound.CurrentlyInParty = logRound.PrivateLobby || (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) > 0);
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
@@ -437,14 +437,13 @@ namespace FallGuysStats {
                 } else {
                     logRound.Info.PlayersEtc++;
                 }
-            } else if ((index = line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy [", StringComparison.OrdinalIgnoreCase)) > 0) {
-                int prevIndex = line.Line.IndexOf(']', index + 65);
-                logRound.CurrentPlayerID = line.Line.Substring(index + 65, prevIndex - index - 65);
-            } else if (logRound.Info != null && line.Line.IndexOf($"[ClientGameManager] Handling unspawn for player FallGuy [{logRound.CurrentPlayerID}]", StringComparison.OrdinalIgnoreCase) > 0) {
-                if (logRound.Info.End == DateTime.MinValue) {
-                    logRound.Info.Finish = line.Date;
-                } else {
-                    logRound.Info.Finish = logRound.Info.End;
+            } else if (line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy", StringComparison.OrdinalIgnoreCase) > 0 && (index = line.Line.IndexOf("playerID = ", StringComparison.OrdinalIgnoreCase)) > 0) {
+                int prevIndex = line.Line.IndexOf(',', index + 11);
+                logRound.CurrentPlayerID = line.Line.Substring(index + 11, prevIndex - index - 11);
+            } else if (logRound.Info != null && line.Line.IndexOf($"HandleServerPlayerProgress PlayerId={logRound.CurrentPlayerID} is succeeded=", StringComparison.OrdinalIgnoreCase) > 0) {
+                index = line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase);
+                if (index > 0) {
+                    logRound.Info.Finish = logRound.Info.End == DateTime.MinValue ? line.Date : logRound.Info.End;
                 }
                 logRound.FindingPosition = true;
             } else if (logRound.Info != null && logRound.FindingPosition && (index = line.Line.IndexOf("[ClientGameSession] NumPlayersAchievingObjective=")) > 0) {
