@@ -345,7 +345,7 @@ namespace FallGuysStats {
             int index;
             if (Stats.InShow && logRound.Info != null && line.Line.IndexOf("EOSSingleton.OnApplicationFocus: HasFocus True -> False", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (!Stats.EndedShow && this.StatsForm.CurrentSettings.PreventMouseCursorBugs) {
-                    if (this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
+                    if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
                 }
             } else if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
