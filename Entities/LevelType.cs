@@ -7,8 +7,8 @@ namespace FallGuysStats {
         Hunt,
         Logic,
         Team,
-        Final,
         Invisibeans,
+        Final,
         Unknown
     }
     internal static class LevelTypeBehavior {
