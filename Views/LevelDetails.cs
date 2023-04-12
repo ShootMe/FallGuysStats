@@ -28,12 +28,12 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             } else if (this.Theme == MetroThemeStyle.Dark) {
-                this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2,2,2);
+                this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2, 2, 2);
                 this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
                 //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49,51,56);
+                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49, 51, 56);
                 this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
@@ -170,32 +170,34 @@ namespace FallGuysStats {
                 // 
                 // moveShows
                 // 
-                this.gridDetails.MoveShows = new ToolStripMenuItem();
-                this.gridDetails.MoveShows.Name = "moveShows";
-                this.gridDetails.MoveShows.Size = new Size(134, 22);
-                this.gridDetails.MoveShows.Text = Multilingual.GetWord("main_move_shows");
-                this.gridDetails.MoveShows.ShowShortcutKeys = true;
-                this.gridDetails.MoveShows.Image = Properties.Resources.move;
-                this.gridDetails.MoveShows.ShortcutKeys = Keys.Control | Keys.P;
+                this.gridDetails.MoveShows = new ToolStripMenuItem {
+                    Name = "moveShows",
+                    Size = new Size(134, 22),
+                    Text = Multilingual.GetWord("main_move_shows"),
+                    ShowShortcutKeys = true,
+                    Image = Properties.Resources.move,
+                    ShortcutKeys = Keys.Control | Keys.P
+                };
                 this.gridDetails.MoveShows.Click += this.moveShows_Click;
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.MoveShows);
                 // 
                 // deleteShows
                 // 
-                this.gridDetails.DeleteShows = new ToolStripMenuItem();
-                this.gridDetails.DeleteShows.Name = "deleteShows";
-                this.gridDetails.DeleteShows.Size = new Size(134, 22);
-                this.gridDetails.DeleteShows.Text = Multilingual.GetWord("main_delete_shows");
-                this.gridDetails.DeleteShows.ShowShortcutKeys = true;
-                this.gridDetails.DeleteShows.Image = Properties.Resources.delete;
-                this.gridDetails.DeleteShows.ShortcutKeys = Keys.Control | Keys.D;
+                this.gridDetails.DeleteShows = new ToolStripMenuItem {
+                    Name = "deleteShows",
+                    Size = new Size(134, 22),
+                    Text = Multilingual.GetWord("main_delete_shows"),
+                    ShowShortcutKeys = true,
+                    Image = Properties.Resources.delete,
+                    ShortcutKeys = Keys.Control | Keys.D
+                };
                 this.gridDetails.DeleteShows.Click += this.deleteShows_Click;
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
             }
 
-            foreach (var item in this.gridDetails.CMenu.Items) {
+            foreach (object item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
-                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17,17,17);
+                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     tsi.MouseEnter += CMenu_MouseEnter;
                     tsi.MouseLeave += CMenu_MouseLeave;
@@ -214,14 +216,14 @@ namespace FallGuysStats {
                     }
                 } else if (item is ToolStripSeparator tss) {
                     tss.Paint += mnuToolStripSeparator_Custom_Paint;
-                    tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17,17,17);
+                    tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
             }
         }
-        private void mnuToolStripSeparator_Custom_Paint (Object sender, PaintEventArgs e) {
+        private void mnuToolStripSeparator_Custom_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator sep = (ToolStripSeparator)sender;
-            e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17,17,17)), 0, 0, sep.Width, sep.Height); // CUSTOM_COLOR_BACKGROUND
+            e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, sep.Width, sep.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, sep.Height / 2, sep.Width - 4, sep.Height / 2); // CUSTOM_COLOR_FOREGROUND
 
         }
@@ -272,6 +274,8 @@ namespace FallGuysStats {
             this.gridDetails.Columns["InParty"].Visible = false;
             this.gridDetails.Columns["PrivateLobby"].Visible = false;
             this.gridDetails.Columns["Qualified"].Visible = false;
+            this.gridDetails.Columns["IsFinal"].Visible = false;
+            this.gridDetails.Columns["IsTeam"].Visible = false;
             if (this._showStats == 0) {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
@@ -282,9 +286,6 @@ namespace FallGuysStats {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "IsFinalIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "IsFinalIcon" });
                 this.gridDetails.Setup("IsFinalIcon", pos++, this.GetDataGridViewColumnWidth("IsFinalIcon", $"{Multilingual.GetWord("level_detail_is_final")}"), $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
                 //this.gridDetails.Setup("IsFinal", pos++, this.GetDataGridViewColumnWidth("IsFinalIcon", $"{Multilingual.GetWord("level_detail_is_final")}"), $"{Multilingual.GetWord("level_detail_is_final")}", DataGridViewContentAlignment.MiddleCenter);
-                this.gridDetails.Columns["IsFinal"].Visible = false;
-            } else {
-                this.gridDetails.Columns["IsFinal"].Visible = false;
             }
             this.gridDetails.Setup("ShowID", pos++, this.GetDataGridViewColumnWidth("ShowID", $"{Multilingual.GetWord("level_detail_show_id")}"), $"{Multilingual.GetWord("level_detail_show_id")}", DataGridViewContentAlignment.MiddleRight);
             this.gridDetails.Setup("ShowNameId", pos++, this.GetDataGridViewColumnWidth("ShowNameId", $"{Multilingual.GetWord("level_detail_show_name_id")}"), $"{Multilingual.GetWord("level_detail_show_name_id")}", DataGridViewContentAlignment.MiddleLeft);
@@ -353,12 +354,8 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
 
             RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
-            RoundInfo nextInfo = null;
-            if (e.RowIndex > this.gridDetails.Rows.Count) {
-                nextInfo = this.gridDetails.Rows[e.RowIndex+1].DataBoundItem as RoundInfo;
-            }
             if (info.PrivateLobby) { // Custom
-                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8,8,8);
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "End") {
@@ -409,13 +406,13 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Round") {
                 if (this._showStats == 1 && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
-                    Color c1 = level.Type.LevelForeColor(info.IsFinal);
+                    Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam);
                     //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
-                    Color c1 = level.Type.LevelForeColor(info.IsFinal);
+                    Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
                     e.Value = level.Name;
                     //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -479,7 +476,7 @@ namespace FallGuysStats {
                         showCompare = one.ShowID.CompareTo(two.ShowID);
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "ShowNameId":
-                        int showNameCompare = (string.IsNullOrEmpty(one.ShowNameId) ? @" " : one.ShowNameId).CompareTo((string.IsNullOrEmpty(two.ShowNameId) ? @" " : two.ShowNameId));
+                        int showNameCompare = (string.IsNullOrEmpty(one.ShowNameId) ? @" " : one.ShowNameId).CompareTo(string.IsNullOrEmpty(two.ShowNameId) ? @" " : two.ShowNameId);
                         return showNameCompare != 0 ? showNameCompare : roundCompare;
                     case "Round":
                         roundCompare = one.Round.CompareTo(two.Round);
@@ -493,7 +490,7 @@ namespace FallGuysStats {
                             string nameOne = this.StatsForm.StatLookup.TryGetValue(one.Name, out LevelStats level1) ? level1.Name : one.Name;
                             string nameTwo = this.StatsForm.StatLookup.TryGetValue(two.Name, out LevelStats level2) ? level2.Name : two.Name;
                             int nameCompare = nameOne.CompareTo(nameTwo);
-                            return nameCompare != 0 ? nameCompare : roundCompare;    
+                            return nameCompare != 0 ? nameCompare : roundCompare;
                         }
                     case "Players":
                         int playerCompare = one.Players.CompareTo(two.Players);
@@ -608,11 +605,11 @@ namespace FallGuysStats {
                     rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
                 }
                 using (EditShows moveShows = new EditShows()) {
-                   moveShows.StatsForm = this.StatsForm;
-                   moveShows.Profiles = this.StatsForm.AllProfiles;
-                   moveShows.FunctionFlag = "move";
-                   moveShows.SelectedCount = rows.Count;
-                   moveShows.Icon = Icon;
+                    moveShows.StatsForm = this.StatsForm; 
+                    moveShows.Profiles = this.StatsForm.AllProfiles; 
+                    moveShows.FunctionFlag = "move"; 
+                    moveShows.SelectedCount = rows.Count; 
+                    moveShows.Icon = Icon;
                     if (moveShows.ShowDialog(this) == DialogResult.OK) {
                         lock (this.StatsForm.StatsDB) {
                             this.StatsForm.StatsDB.BeginTrans();

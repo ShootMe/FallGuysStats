@@ -83,7 +83,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
   - **Step 2.** Rename the edited image as below.
     - **{my_image_name}** must be the same for both files.
-      - **{my_image_name}**.png
+      - background_**{my_image_name}**.png
       - tab_**{my_image_name}**.png
 
 
