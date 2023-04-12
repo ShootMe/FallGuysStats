@@ -158,14 +158,15 @@ namespace FallGuysStats {
             { "round_hoverboardsurvival_s4_show", new LevelStats("Hoverboard Heroes", LevelType.Survival, false, 4, Properties.Resources.round_hoverboard_heroes_icon) },
             { "round_hoverboardsurvival2_almond", new LevelStats("Hyperdrive Heroes", LevelType.Survival, false, 8, Properties.Resources.round_hyperdrive_heroes_icon) },
             { "round_jump_club",                  new LevelStats("Jump Club", LevelType.Survival, false, 1, Properties.Resources.round_jump_club_icon) },
-            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Survival, false, 1, Properties.Resources.round_perfect_match_icon) },
             { "round_tunnel",                     new LevelStats("Roll Out", LevelType.Survival, false, 1, Properties.Resources.round_roll_out_icon) },
             { "round_snowballsurvival",           new LevelStats("Snowball Survival", LevelType.Survival, false, 3, Properties.Resources.round_snowball_survival_icon) },
             { "round_robotrampage_arena_2",       new LevelStats("Stompin' Ground", LevelType.Survival, false, 5, Properties.Resources.round_stompin_ground_icon) },
-            { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Survival, false, 5, Properties.Resources.round_sum_fruit_icon) },
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, 1, Properties.Resources.round_tail_tag_icon) },
             { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, 7, Properties.Resources.round_the_swiveller_icon) },
             { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, 7, Properties.Resources.round_volleyfall_icon) },
+            
+            { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Logic, false, 1, Properties.Resources.round_perfect_match_icon) },
+            { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Logic, false, 5, Properties.Resources.round_sum_fruit_icon) },
 
             { "round_basketfall_s4_show",         new LevelStats("Basketfall", LevelType.Team, false, 4, Properties.Resources.round_basketfall_icon) },
             { "round_egg_grab",                   new LevelStats("Egg Scramble", LevelType.Team, false, 1, Properties.Resources.round_egg_scramble_icon) },
@@ -178,9 +179,10 @@ namespace FallGuysStats {
             { "round_territory_control_s4_show",  new LevelStats("Power Trip", LevelType.Team, false, 4, Properties.Resources.round_power_trip_icon) },
             { "round_rocknroll",                  new LevelStats("Rock 'n' Roll", LevelType.Team, false, 1, Properties.Resources.round_rock_n_roll_icon) },
             { "round_snowy_scrap",                new LevelStats("Snowy Scrap", LevelType.Team, false, 3, Properties.Resources.round_snowy_scrap_icon) },
-            { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Team, false, 6, Properties.Resources.round_sweet_thieves_icon) },
-            { "round_pumpkin_pie",                new LevelStats("Treat Thieves", LevelType.Team, false, 8, Properties.Resources.round_treat_thieves_icon) },
             { "round_conveyor_arena",             new LevelStats("Team Tail Tag", LevelType.Team, false, 1, Properties.Resources.round_team_tail_tag_icon) },
+            
+            { "round_invisibeans",                new LevelStats("Sweet Thieves", LevelType.Invisibeans, false, 6, Properties.Resources.round_sweet_thieves_icon) },
+            { "round_pumpkin_pie",                new LevelStats("Treat Thieves", LevelType.Invisibeans, false, 8, Properties.Resources.round_treat_thieves_icon) },
 
             { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("Blast Ball", LevelType.Survival, true, 7, Properties.Resources.round_blast_ball_icon) },
             { "round_fall_mountain_hub_complete", new LevelStats("Fall Mountain", LevelType.Race, true, 1, Properties.Resources.round_fall_mountain_icon) },
