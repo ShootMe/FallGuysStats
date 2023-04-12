@@ -167,19 +167,23 @@ namespace FallGuysStats {
             if (this._showStats == 2 && this.gridDetails.RowCount > 0) {
                 // add separator
                 this.gridDetails.CMenu.Items.Add("-");
-                // 
-                // moveShows
-                // 
-                this.gridDetails.MoveShows = new ToolStripMenuItem {
-                    Name = "moveShows",
-                    Size = new Size(134, 22),
-                    Text = Multilingual.GetWord("main_move_shows"),
-                    ShowShortcutKeys = true,
-                    Image = Properties.Resources.move,
-                    ShortcutKeys = Keys.Control | Keys.P
-                };
-                this.gridDetails.MoveShows.Click += this.moveShows_Click;
-                this.gridDetails.CMenu.Items.Add(this.gridDetails.MoveShows);
+
+                if (this.StatsForm.AllProfiles.Count > 1) {
+                    // 
+                    // moveShows
+                    // 
+                    this.gridDetails.MoveShows = new ToolStripMenuItem {
+                        Name = "moveShows",
+                        Size = new Size(134, 22),
+                        Text = Multilingual.GetWord("main_move_shows"),
+                        ShowShortcutKeys = true,
+                        Image = Properties.Resources.move,
+                        ShortcutKeys = Keys.Control | Keys.P
+                    };
+                    this.gridDetails.MoveShows.Click += this.moveShows_Click;
+                    this.gridDetails.CMenu.Items.Add(this.gridDetails.MoveShows);
+                }
+                
                 // 
                 // deleteShows
                 // 
