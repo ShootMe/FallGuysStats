@@ -855,13 +855,13 @@ namespace FallGuysStats {
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
             this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 120);
             //this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 162);
-            this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
-            this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
-            this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 85);
+            //this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
+            //this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
+            //this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 85);
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 170);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
-            this.lblOverlayBackground.Location = new Point(15, 335);
-            this.lblOverlayColor.Location = new Point(15, 370);
+            //this.lblOverlayBackground.Location = new Point(15, 353);
+            //this.lblOverlayColor.Location = new Point(15, 370);
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
