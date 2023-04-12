@@ -120,6 +120,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ## Changelog
+  - 1.148
+    - various updates (Thanks to Micdu70)
   - 1.147
     - Improved mouse cursor bug prevention
     - Fix the Finish time when you are 'Out for now' but qualified
