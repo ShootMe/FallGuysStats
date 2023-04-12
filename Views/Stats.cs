@@ -1090,7 +1090,7 @@ namespace FallGuysStats {
         }
         public void ResetStats() {
             for (int i = 0; i < this.StatDetails.Count; i++) {
-                LevelStats calculator = StatDetails[i];
+                LevelStats calculator = this.StatDetails[i];
                 calculator.Clear();
             }
 
@@ -1199,9 +1199,7 @@ namespace FallGuysStats {
                 this.logFile.Start(logPath, LOGNAME);
 
                 this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo, this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight, this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
-                if (this.CurrentSettings.OverlayVisible) {
-                    this.ToggleOverlay(this.overlay);
-                }
+                if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
 
                 this.menuAllStats.Checked = false;
                 switch (this.CurrentSettings.FilterType) {
@@ -1882,8 +1880,8 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < StatDetails.Count; i++) {
-                    rounds.AddRange(StatDetails[i].Stats);
+                for (int i = 0; i < this.StatDetails.Count; i++) {
+                    rounds.AddRange(this.StatDetails[i].Stats);
                 }
 
                 rounds.Sort();
@@ -1926,8 +1924,8 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < StatDetails.Count; i++) {
-                    rounds.AddRange(StatDetails[i].Stats);
+                for (int i = 0; i < this.StatDetails.Count; i++) {
+                    rounds.AddRange(this.StatDetails[i].Stats);
                 }
                 rounds.Sort();
                 levelDetails.RoundDetails = rounds;
@@ -1939,8 +1937,8 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < StatDetails.Count; i++) {
-                    rounds.AddRange(StatDetails[i].Stats);
+                for (int i = 0; i < this.StatDetails.Count; i++) {
+                    rounds.AddRange(this.StatDetails[i].Stats);
                 }
 
                 rounds.Sort();
@@ -1962,75 +1960,60 @@ namespace FallGuysStats {
         }
         private void ShowWinGraph() {
             List<RoundInfo> rounds = new List<RoundInfo>();
-            for (int i = 0; i < StatDetails.Count; i++) {
-                rounds.AddRange(StatDetails[i].Stats);
+            for (int i = 0; i < this.StatDetails.Count; i++) {
+                rounds.AddRange(this.StatDetails[i].Stats);
             }
             rounds.Sort();
-
-            //if (rounds.Count <= 0) {
-            //    MessageBox.Show(this, $"{Multilingual.GetWord("level_detail_no_data")}", Multilingual.GetWord("level_detail_no_data_caption"), MessageBoxButtons.OK);
-            //    return;
-            //}
             
             using (StatsDisplay display = new StatsDisplay { StatsForm = this, Text = $"{Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}" }) {
+                ArrayList dates = new ArrayList();
+                ArrayList shows = new ArrayList();
+                ArrayList finals = new ArrayList();
+                ArrayList wins = new ArrayList();
                 if (rounds.Count > 0) {
-                    ArrayList dates = new ArrayList();
-                    ArrayList shows = new ArrayList();
-                    ArrayList finals = new ArrayList();
-                    ArrayList wins = new ArrayList();
-                    if (rounds.Count > 0) {
-                        DateTime start = rounds[0].StartLocal;
-                        int currentShows = 0;
-                        int currentFinals = 0;
-                        int currentWins = 0;
-                        for (int i = 0; i < rounds.Count; i++) {
-                            RoundInfo info = rounds[i];
-                            if (info.PrivateLobby) { continue; }
+                    DateTime start = rounds[0].StartLocal;
+                    int currentShows = 0;
+                    int currentFinals = 0;
+                    int currentWins = 0;
+                    foreach (var info in rounds.Where(info => !info.PrivateLobby)) {
+                        if (info.Round == 1) {
+                            currentShows++;
+                        }
 
-                            if (info.Round == 1) {
-                                currentShows++;
-                            }
-
-                            if (info.Crown || info.IsFinal) {
-                                currentFinals++;
-                                if (info.Qualified) {
-                                    currentWins++;
-                                }
-                            }
-
-                            if (info.StartLocal.Date != start.Date) {
-                                dates.Add(start.Date.ToOADate());
-                                shows.Add(Convert.ToDouble(currentShows));
-                                finals.Add(Convert.ToDouble(currentFinals));
-                                wins.Add(Convert.ToDouble(currentWins));
-
-                                int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
-                                while (missingCount > 1) {
-                                    missingCount--;
-                                    start = start.Date.AddDays(1);
-                                    dates.Add(start.ToOADate());
-                                    shows.Add(0D);
-                                    finals.Add(0D);
-                                    wins.Add(0D);
-                                }
-
-                                currentShows = 0;
-                                currentFinals = 0;
-                                currentWins = 0;
-                                start = info.StartLocal;
+                        if (info.Crown || info.IsFinal) {
+                            currentFinals++;
+                            if (info.Qualified) {
+                                currentWins++;
                             }
                         }
 
-                        dates.Add(start.Date.ToOADate());
-                        shows.Add(Convert.ToDouble(currentShows));
-                        finals.Add(Convert.ToDouble(currentFinals));
-                        wins.Add(Convert.ToDouble(currentWins));
-                    } else {
-                        dates.Add(DateTime.Now.Date.ToOADate());
-                        shows.Add(0D);
-                        finals.Add(0D);
-                        wins.Add(0D);
+                        if (start.Date != info.StartLocal.Date) {
+                            dates.Add(start.Date.ToOADate());
+                            shows.Add(Convert.ToDouble(currentShows));
+                            finals.Add(Convert.ToDouble(currentFinals));
+                            wins.Add(Convert.ToDouble(currentWins));
+
+                            int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
+                            while (missingCount > 1) {
+                                missingCount--;
+                                start = start.Date.AddDays(1);
+                                dates.Add(start.ToOADate());
+                                shows.Add(0D);
+                                finals.Add(0D);
+                                wins.Add(0D);
+                            }
+
+                            currentShows = 0;
+                            currentFinals = 0;
+                            currentWins = 0;
+                            start = info.StartLocal;
+                        }
                     }
+
+                    dates.Add(start.Date.ToOADate());
+                    shows.Add(Convert.ToDouble(currentShows + 1));
+                    finals.Add(Convert.ToDouble(currentFinals));
+                    wins.Add(Convert.ToDouble(currentWins));
                     
                     display.manualSpacing = (int)Math.Ceiling(dates.Count / 28D);
                     display.dates = (double[])dates.ToArray(typeof(double));
@@ -2038,6 +2021,11 @@ namespace FallGuysStats {
                     display.finals = (double[])finals.ToArray(typeof(double));
                     display.wins = (double[])wins.ToArray(typeof(double));
                 } else {
+                    dates.Add(DateTime.Now.Date.ToOADate());
+                    shows.Add(0D);
+                    finals.Add(0D);
+                    wins.Add(0D);
+                    
                     display.manualSpacing = 1;
                     display.dates = null;
                     display.shows = null;
@@ -2360,7 +2348,7 @@ namespace FallGuysStats {
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.UpdateGridRoundName();
                         this.UpdateHoopsieLegends();
-
+                        
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) || (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await this.logFile.Stop();
 
