@@ -40,9 +40,7 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
         public SortOrder GetSortOrder(string columnName) {
-            SortOrder sortOrder;
-            this.Orders.TryGetValue(columnName, out sortOrder);
-
+            this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
             if (sortOrder == SortOrder.None) {
                 this.Columns[columnName].HeaderCell.SortGlyphDirection = SortOrder.Ascending;
                 this.Orders[columnName] = SortOrder.Ascending;
