@@ -567,7 +567,7 @@ namespace FallGuysStats {
                         rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
                     }
 
-                    if (MessageBox.Show(this, 
+                    if (MetroMessageBox.Show(this, 
                             $@"{Multilingual.GetWord("message_delete_show_prefix")}({rows.Count}){Multilingual.GetWord("message_delete_show_suffix")}", 
                             Multilingual.GetWord("message_delete_show_caption"), 
                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
@@ -596,7 +596,7 @@ namespace FallGuysStats {
                     Close();
                 }
             } catch (Exception ex) {
-                MessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void moveShows_Click(object sender, EventArgs e) {
@@ -657,7 +657,7 @@ namespace FallGuysStats {
                     rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
                 }
 
-                if (MessageBox.Show(this, 
+                if (MetroMessageBox.Show(this, 
                         $@"{Multilingual.GetWord("message_delete_show_prefix")} ({rows.Count}) {Multilingual.GetWord("message_delete_show_suffix")}", 
                         Multilingual.GetWord("message_delete_show_caption"), 
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)

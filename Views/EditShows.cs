@@ -119,7 +119,7 @@ namespace FallGuysStats {
             } else if (FunctionFlag == "move") {
                 questionStr = $"{Multilingual.GetWord("profile_move_select_question_prefix")} ({this.SelectedCount}) {Multilingual.GetWord("profile_move_select_question_infix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("profile_move_select_question_suffix")}";
             }
-            if (MessageBox.Show(this,
+            if (MetroMessageBox.Show(this,
                     questionStr,
                     Multilingual.GetWord("message_save_profile_caption"), MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Question) == DialogResult.OK)

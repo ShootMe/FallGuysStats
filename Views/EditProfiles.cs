@@ -251,7 +251,7 @@ namespace FallGuysStats {
         private void AddPageButton_Click(object sender, EventArgs e) {
             if (this.AddPageTextbox.Text.Length == 0) { return; }
 
-            if (MessageBox.Show(this,
+            if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_create_profile_prefix")} ({this.AddPageTextbox.Text}) {Multilingual.GetWord("message_create_profile_suffix")}",
                     Multilingual.GetWord("message_create_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
@@ -270,7 +270,7 @@ namespace FallGuysStats {
 
         private void RemovePageButton_Click(object sender, EventArgs e) {
             if (this.RemoveProfileCombobox.SelectedIndex < 0) { return; }
-            if (MessageBox.Show(this,
+            if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_delete_profile_prefix")} ({this.RemoveProfileCombobox.SelectedItem}) {Multilingual.GetWord("message_delete_profile_infix")} {Multilingual.GetWord("message_delete_profile_suffix")}",
                     Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 string prevProfileName = string.Empty;
@@ -298,7 +298,7 @@ namespace FallGuysStats {
             if (this.MoveToCombobox.SelectedIndex < 0) { return; }
             if (this.MoveFromCombobox.SelectedIndex < 0) { return; }
             if (this.MoveFromCombobox.SelectedItem.ToString() == this.MoveToCombobox.SelectedItem.ToString()) { return; }
-            if (MessageBox.Show(this,
+            if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.MoveFromCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.MoveToCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
                     Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 int fromId = this.Profiles.Find(p => p.ProfileName == this.MoveFromCombobox.SelectedItem.ToString()).ProfileId;
@@ -315,7 +315,7 @@ namespace FallGuysStats {
             if (this.RenamePageCombobox.SelectedIndex < 0) { return; }
             if (this.RenamePageTextbox.Text.Length == 0) { return; }
             if (this.RenamePageCombobox.SelectedItem.ToString() == this.RenamePageTextbox.Text) { return; }
-            if (MessageBox.Show(this,
+            if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.RenamePageCombobox.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.RenamePageTextbox.Text}) {Multilingual.GetWord("message_rename_profile_suffix")}",
                     Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
