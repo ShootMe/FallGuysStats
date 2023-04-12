@@ -130,7 +130,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - 1.145
     - Fixed additional prevent mouse cursor bugs
   - 1.144
-    - Change Settings UI
+    - Change Settings UI (Thanks to iku55)
     - Add prevent mouse cursor bugs (Experimental)
   - 1.143
     - Add style option to the daily win stats graph
