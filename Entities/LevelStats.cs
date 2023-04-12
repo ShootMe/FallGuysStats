@@ -26,6 +26,7 @@ namespace FallGuysStats {
         public int PlayersEtc { get; set; }
         public bool InParty { get; set; }
         public bool IsFinal { get; set; }
+        public bool IsTeam { get; set; }
         public bool PrivateLobby { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
@@ -54,19 +55,14 @@ namespace FallGuysStats {
         public void VerifyName() {
             if (string.IsNullOrEmpty(this.SceneName)) { return; }
 
-            string roundName;
-            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out roundName)) {
+            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string roundName)) {
                 this.Name = roundName;
             }
         }
         public string VerifiedName() {
-            if (string.IsNullOrEmpty(this.SceneName)) { return this.Name; }
-
-            string roundName;
-            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out roundName)) {
-                return roundName;
-            }
-            return this.Name;
+            return string.IsNullOrEmpty(this.SceneName)
+                ? this.Name
+                : LevelStats.SceneToRound.TryGetValue(this.SceneName, out string roundName) ? roundName : this.Name;
         }
         public override string ToString() {
             return $"{this.Name}: Round={this.Round} Position={this.Position} Duration={this.End - this.Start} Kudos={this.Kudos}";

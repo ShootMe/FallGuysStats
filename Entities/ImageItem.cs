@@ -23,24 +23,24 @@ namespace FallGuysStats {
         #endregion
 
         #region Public Constructor - ImageItem(image, text, font)
-        public ImageItem(Image image, string[] resourceName,string text, Font font, bool isCustomized) {
+        public ImageItem(Image image, string[] resourceName, string text, Font font, bool isCustomized) {
             this.Image = image;
             this.ResourceName = resourceName;
-            this.Text  = text;
-            this.Font  = font;
+            this.Text = text;
+            this.Font = font;
             this.IsCustomized = isCustomized;
         }
         #endregion
 
         #region Public Method - MeasureItem(e)
         public void MeasureItem(MeasureItemEventArgs e) {
-            if(!this.sizeCalculated) {
+            if (!this.sizeCalculated) {
                 this.sizeCalculated = true;
                 SizeF textSize = e.Graphics.MeasureString(this.Text, this.Font);
                 this.height = 2 * MARGIN_HEIGHT + (int)Math.Max(this.Image.Height, textSize.Height);
                 this.width = (int)(4 * MARGIN_WIDTH + this.Image.Width + textSize.Width);
             }
-            e.ItemWidth  = this.width;
+            e.ItemWidth = this.width;
             e.ItemHeight = this.height;
         }
         #endregion
@@ -75,12 +75,12 @@ namespace FallGuysStats {
                 //    visibleText = Text.Substring(0, this.Text.IndexOf('\n'));
                 //}
 
-                width = e.Bounds.Width - rectangle.Right - 3 * MARGIN_WIDTH;
+                width = e.Bounds.Width - rectangle.Right - (3 * MARGIN_WIDTH);
 
                 rectangle = new RectangleF
                 (
-                    (rectangle.Right + 2 * MARGIN_WIDTH),
-                    (rectangle.Y),
+                    rectangle.Right + (2 * MARGIN_WIDTH),
+                    rectangle.Y,
                     width,
                     height
                 );

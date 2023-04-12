@@ -342,6 +342,12 @@ namespace FallGuysStats {
                          && sceneName.Substring(sceneName.Length - 3) == "_03");
         }
         
+        private bool GetIsTeamException(string roundName) {
+            return roundName.IndexOf("ound_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) > 0
+                   && (roundName.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) > 0
+                       || roundName.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) > 0);
+        }
+        
         private void PreventMouseCursorBug() {
             if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
             if (!this.StatsForm.IsFocused() && this.Overlay.IsMouseEnter()) { this.StatsForm.SetCursorPositionCenter(); }
@@ -374,6 +380,7 @@ namespace FallGuysStats {
                 bool isRealLastRound = GetIsRealLastRound(logRound.Info.Name);
                 bool isModeException = GetIsModeException(logRound.Info.Name);
                 bool isFinalException = GetIsFinalException(logRound.Info.Name);
+                bool isTeamException = GetIsTeamException(logRound.Info.Name);
 
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
@@ -396,10 +403,11 @@ namespace FallGuysStats {
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats stats) && stats.IsFinal);
                 }
+                logRound.Info.IsTeam = isTeamException;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0;
-                logRound.CurrentlyInParty = logRound.PrivateLobby || (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) > 0);
+                logRound.CurrentlyInParty = !logRound.PrivateLobby && (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) == -1);
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
@@ -571,6 +579,7 @@ namespace FallGuysStats {
                     round[i].ShowEnd = showEnd;
                 }
                 if (logRound.Info.Qualified) {
+                    logRound.Info.Position = 1;
                     logRound.Info.Crown = true;
                 }
                 logRound.Info = null;

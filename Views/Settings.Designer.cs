@@ -94,7 +94,7 @@ namespace FallGuysStats {
             this.txtGameExeLocation = new MetroFramework.Controls.MetroTextBox();
             this.txtGameShortcutLocation = new MetroFramework.Controls.MetroTextBox();
             this.btnGameExeLocationBrowse = new MetroFramework.Controls.MetroButton();
-            this.chkAutoLaunchGameOnStart = new MetroFramework.Controls.MetroCheckBox();
+            this.chkLaunchGameOnStart = new MetroFramework.Controls.MetroCheckBox();
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.chkIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroCheckBox();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
@@ -158,7 +158,7 @@ namespace FallGuysStats {
             this.lblLogPathNote.Name = "lblLogPathNote";
             this.lblLogPathNote.Size = new System.Drawing.Size(572, 19);
             this.lblLogPathNote.TabIndex = 2;
-            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the c" + "orrect location.";
+            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the correct location.";
             // 
             // txtLogPath
             // 
@@ -582,7 +582,7 @@ namespace FallGuysStats {
             this.chkColorByRoundType.Name = "chkColorByRoundType";
             this.chkColorByRoundType.Size = new System.Drawing.Size(221, 19);
             this.chkColorByRoundType.TabIndex = 25;
-            this.chkColorByRoundType.Text = "Display the Color by round type";
+            this.chkColorByRoundType.Text = "Color round name based on round type";
             this.chkColorByRoundType.UseSelectable = true;
             // 
             // chkAutoChangeProfile
@@ -594,7 +594,7 @@ namespace FallGuysStats {
             this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
             this.chkAutoChangeProfile.Size = new System.Drawing.Size(221, 19);
             this.chkAutoChangeProfile.TabIndex = 26;
-            this.chkAutoChangeProfile.Text = "Display the Color by round type";
+            this.chkAutoChangeProfile.Text = "Automatically change to linked profile";
             this.chkAutoChangeProfile.UseSelectable = true;
             // 
             // lblCycleTimeSecondsTag
@@ -883,7 +883,7 @@ namespace FallGuysStats {
             this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
             this.lblPreviousWinsNote.Size = new System.Drawing.Size(126, 19);
             this.lblPreviousWinsNote.TabIndex = 2;
-            this.lblPreviousWinsNote.Text = "Before using tracker";
+            this.lblPreviousWinsNote.Text = "(before using tracker)";
             // 
             // lblPreviousWins
             // 
@@ -892,7 +892,7 @@ namespace FallGuysStats {
             this.lblPreviousWins.Name = "lblPreviousWins";
             this.lblPreviousWins.Size = new System.Drawing.Size(85, 19);
             this.lblPreviousWins.TabIndex = 0;
-            this.lblPreviousWins.Text = "Previous Win";
+            this.lblPreviousWins.Text = "Previous Win(s)";
             // 
             // txtPreviousWins
             // 
@@ -1013,18 +1013,18 @@ namespace FallGuysStats {
             this.btnGameExeLocationBrowse.UseSelectable = true;
             this.btnGameExeLocationBrowse.Click += new System.EventHandler(this.btnGameExeLocationBrowse_Click);
             // 
-            // chkAutoLaunchGameOnStart
+            // chkLaunchGameOnStart
             // 
-            this.chkAutoLaunchGameOnStart.AutoSize = true;
-            this.chkAutoLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkAutoLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAutoLaunchGameOnStart.Location = new System.Drawing.Point(8, 110);
-            this.chkAutoLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
-            this.chkAutoLaunchGameOnStart.Name = "chkAutoLaunchGameOnStart";
-            this.chkAutoLaunchGameOnStart.Size = new System.Drawing.Size(226, 19);
-            this.chkAutoLaunchGameOnStart.TabIndex = 3;
-            this.chkAutoLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker";
-            this.chkAutoLaunchGameOnStart.UseSelectable = true;
+            this.chkLaunchGameOnStart.AutoSize = true;
+            this.chkLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkLaunchGameOnStart.Location = new System.Drawing.Point(8, 110);
+            this.chkLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
+            this.chkLaunchGameOnStart.Name = "chkLaunchGameOnStart";
+            this.chkLaunchGameOnStart.Size = new System.Drawing.Size(226, 19);
+            this.chkLaunchGameOnStart.TabIndex = 3;
+            this.chkLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker";
+            this.chkLaunchGameOnStart.UseSelectable = true;
             // 
             // picLanguageSelection
             // 
@@ -1231,7 +1231,7 @@ namespace FallGuysStats {
             // 
             // panelFallGuys
             // 
-            this.panelFallGuys.Controls.Add(this.chkAutoLaunchGameOnStart);
+            this.panelFallGuys.Controls.Add(this.chkLaunchGameOnStart);
             this.panelFallGuys.Controls.Add(this.btnGameExeLocationBrowse);
             this.panelFallGuys.Controls.Add(this.txtGameShortcutLocation);
             this.panelFallGuys.Controls.Add(this.txtGameExeLocation);
@@ -1507,7 +1507,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroTextBox txtGameExeLocation;
         private MetroFramework.Controls.MetroTextBox txtGameShortcutLocation;
         private MetroFramework.Controls.MetroButton btnGameExeLocationBrowse;
-        private MetroFramework.Controls.MetroCheckBox chkAutoLaunchGameOnStart;
+        private MetroFramework.Controls.MetroCheckBox chkLaunchGameOnStart;
         private MetroFramework.Controls.MetroCheckBox chkIgnoreLevelTypeWhenSorting;
         private MetroFramework.Controls.MetroButton btnCancel;
         private System.Windows.Forms.GroupBox grpCycleQualifyGold;
