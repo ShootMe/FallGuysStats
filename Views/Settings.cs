@@ -13,7 +13,7 @@ namespace FallGuysStats {
     public partial class Settings : MetroFramework.Forms.MetroForm {
         protected override CreateParams CreateParams {
             get {
-                var cp = base.CreateParams;
+                CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
@@ -93,11 +93,14 @@ namespace FallGuysStats {
                 DirectoryInfo di = new DirectoryInfo("Overlay");
                 foreach (FileInfo file in di.GetFiles()) {
                     if (file.Name.Equals("background.png") || file.Name.Equals("tab.png")) continue;
-                    string fileName = file.Name.Substring(0, file.Name.Length - 4);
-                    Bitmap background = new Bitmap(file.FullName);
-                    //if (background.Width == 396 && background.Height == 43) continue;
-                    if (background.Width == 786 && background.Height == 99) {
-                        imageItemArray.Add(new ImageItem(background, new[] { fileName, $"tab_{fileName}" }, fileName, this.Font, true));
+                    if (file.Name.StartsWith("background_") && file.Name.EndsWith(".png")) {
+                        string backgroundName = file.Name.Substring(11);
+                        backgroundName = backgroundName.Remove(backgroundName.Length - 4);
+                        Bitmap background = new Bitmap(file.FullName);
+                        //if (background.Width == 396 && background.Height == 43) continue;
+                        if (background.Width == 786 && background.Height == 99) {
+                            imageItemArray.Add(new ImageItem(background, new[] { $"background_{backgroundName}", $"tab_{backgroundName}" }, backgroundName, this.Font, true));
+                        }
                     }
                 }
             }
@@ -183,7 +186,7 @@ namespace FallGuysStats {
 
             this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
             this.txtGameShortcutLocation.Text = this.CurrentSettings.GameShortcutLocation;
-            this.chkAutoLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
+            this.chkLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
 
             this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
@@ -499,7 +502,7 @@ namespace FallGuysStats {
             this.CurrentSettings.LaunchPlatform = this.LaunchPlatform;
             this.CurrentSettings.GameExeLocation = this.txtGameExeLocation.Text;
             this.CurrentSettings.GameShortcutLocation = this.txtGameShortcutLocation.Text;
-            this.CurrentSettings.AutoLaunchGameOnStartup = this.chkAutoLaunchGameOnStart.Checked;
+            this.CurrentSettings.AutoLaunchGameOnStartup = this.chkLaunchGameOnStart.Checked;
 
             if (!string.IsNullOrEmpty(this.overlayFontSerialized)) {
                 FontConverter fontConverter = new FontConverter();
@@ -630,18 +633,12 @@ namespace FallGuysStats {
             this.Close();
         }
         private void btnSelectFont_Click(object sender, EventArgs e) {
-            if (string.IsNullOrEmpty(this.overlayFontSerialized)) {
-                this.dlgOverlayFont.Font = Overlay.GetDefaultFont(this.DisplayLang, 24);
-            } else {
-                this.dlgOverlayFont.Font = new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, ((byte)(1)));
-            }
+            this.dlgOverlayFont.Font = string.IsNullOrEmpty(this.overlayFontSerialized)
+                ? Overlay.GetDefaultFont(this.DisplayLang, 24)
+                : new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, (byte)1);
 
             this.dlgOverlayFont.ShowColor = true;
-            if (string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
-                this.dlgOverlayFont.Color = Color.White;
-            } else {
-                this.dlgOverlayFont.Color = this.lblOverlayFontExample.ForeColor;
-            }
+            this.dlgOverlayFont.Color = string.IsNullOrEmpty(this.overlayFontColorSerialized) ? Color.White : this.lblOverlayFontExample.ForeColor;
 
             if (this.dlgOverlayFont.ShowDialog(this) == DialogResult.OK) {
                 if (this.dlgOverlayFont.Color == Color.White) {
@@ -817,8 +814,8 @@ namespace FallGuysStats {
 
             this.lblWinsFilter.Text = Multilingual.GetWord("settings_wins__final_filter");
             this.chkOverlayOnTop.Text = Multilingual.GetWord("settings_always_show_on_top");
-            this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_the_player_by_console_type");
-            this.chkColorByRoundType.Text = Multilingual.GetWord("settings_display_the_color_by_round_type");
+            this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_players_based_on_platform");
+            this.chkColorByRoundType.Text = Multilingual.GetWord("settings_color_round_name_based_on_round_type");
             this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
@@ -842,7 +839,7 @@ namespace FallGuysStats {
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
             //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
-            this.chkAutoLaunchGameOnStart.Text = Multilingual.GetWord("settings_auto_launch_fall_guys_on_tracker");
+            this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
             //this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");

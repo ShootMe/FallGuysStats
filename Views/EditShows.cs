@@ -7,13 +7,6 @@ using MetroFramework;
 using MetroFramework.Controls;
 namespace FallGuysStats {
     public partial class EditShows : MetroFramework.Forms.MetroForm {
-        //protected override CreateParams CreateParams {
-        //    get {
-        //        var cp = base.CreateParams;
-        //        cp.ExStyle |= 0x02000000;
-        //        return cp;
-        //    }
-        //}
         public Stats StatsForm { get; set; }
         public List<Profiles> Profiles { get; set; }
         public int SelectedProfileId = 0;
@@ -28,6 +21,12 @@ namespace FallGuysStats {
             this.ChangeLanguage();
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
             this.cboEditShows.Items.Clear();
+            
+            if (this.Profiles.Count == 1) {
+                this.cboEditShows.Items.Insert(0, this.Profiles[0].ProfileName);
+                this.cboEditShows.SelectedIndex = 0;
+                return;
+            }
             
             for (int i = this.Profiles.Count - 1; i >= 0; i--) {
                 if (this.FunctionFlag == "move" && this.Profiles[i].ProfileId == StatsForm.CurrentSettings.SelectedProfile) continue;
@@ -118,7 +117,7 @@ namespace FallGuysStats {
             if (FunctionFlag == "add") {
                 questionStr = $"{Multilingual.GetWord("message_save_profile_prefix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("message_save_profile_suffix")}";
             } else if (FunctionFlag == "move") {
-                questionStr = $"{Multilingual.GetWord("profile_move_select_question_prefix")} ({this.SelectedCount.ToString()}) {Multilingual.GetWord("profile_move_select_question_infix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("profile_move_select_question_suffix")}";
+                questionStr = $"{Multilingual.GetWord("profile_move_select_question_prefix")} ({this.SelectedCount}) {Multilingual.GetWord("profile_move_select_question_infix")} ({this.cboEditShows.SelectedItem}) {Multilingual.GetWord("profile_move_select_question_suffix")}";
             }
             if (MessageBox.Show(this,
                     questionStr,

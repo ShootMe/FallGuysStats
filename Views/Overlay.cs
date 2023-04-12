@@ -28,6 +28,7 @@ namespace FallGuysStats {
         private Bitmap Background, DrawImage;
         private Graphics DrawGraphics;
         private RoundInfo lastRound;
+        private int levelException;
         private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
@@ -63,7 +64,7 @@ namespace FallGuysStats {
         public static new Font DefaultFont;
         
         static Overlay() {
-            if (!File.Exists("TitanOne-Regular.ttf") ) {
+            if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.TitanOne-Regular.ttf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
@@ -71,7 +72,7 @@ namespace FallGuysStats {
                 }
             }
             
-            if (!File.Exists("NotoSans-Regular.ttf") ) {
+            if (!File.Exists("NotoSans-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSans-Regular.ttf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
@@ -79,7 +80,7 @@ namespace FallGuysStats {
                 }
             }
             
-            if (!File.Exists("NotoSansSC-Regular.otf") ) {
+            if (!File.Exists("NotoSansSC-Regular.otf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.NotoSansSC-Regular.otf")) {
                     byte[] fontdata = new byte[fontStream.Length];
                     fontStream.Read(fontdata, 0, (int)fontStream.Length);
@@ -166,13 +167,9 @@ namespace FallGuysStats {
             this.TabResourceName = tab;
         }
         public void SetBackground(string BackgroundResourceName = null) {
-            Bitmap background;
-            
-            if (string.IsNullOrEmpty(BackgroundResourceName)) {
-                background = Properties.Resources.background;
-            } else {
-                background = (Bitmap)Properties.Resources.ResourceManager.GetObject(BackgroundResourceName) ?? Properties.Resources.background;
-            }
+            Bitmap background = string.IsNullOrEmpty(BackgroundResourceName)
+                ? Properties.Resources.background
+                : (Bitmap)Properties.Resources.ResourceManager.GetObject(BackgroundResourceName) ?? Properties.Resources.background;
             
             Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
             using (Graphics g = Graphics.FromImage(newImage)) {
@@ -321,7 +318,7 @@ namespace FallGuysStats {
                             }
                             this.FlipDisplay(false);
                             this.Background = this.RecreateBackground();
-                            this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, 0);
+                            this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, 0);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOnFocus;
                             this.picPositionSE.Image = this.positionSeOffFocus;
@@ -361,7 +358,7 @@ namespace FallGuysStats {
                             }
                             this.FlipDisplay(true);
                             this.Background = this.RecreateBackground();
-                            this.Location = new Point(screenLocation.X, (screenLocation.Y + screenSize.Height) - this.Height);
+                            this.Location = new Point(screenLocation.X, screenLocation.Y + screenSize.Height - this.Height);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOffFocus;
                             this.picPositionSE.Image = this.positionSeOnFocus;
@@ -401,7 +398,7 @@ namespace FallGuysStats {
                             }
                             this.FlipDisplay(false);
                             this.Background = this.RecreateBackground();
-                            this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, (screenLocation.Y + screenSize.Height) - this.Height);
+                            this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, screenLocation.Y + screenSize.Height - this.Height);
                             this.picPositionNE.Image = this.positionNeOffFocus;
                             this.picPositionNW.Image = this.positionNwOffFocus;
                             this.picPositionSE.Image = this.positionSeOffFocus;
@@ -585,14 +582,14 @@ namespace FallGuysStats {
                     this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_chance")} :";
                     qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
-                    qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 1000 ?  " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                    qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 1000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
                     this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                     break;
                 case 1:
                     this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_gold")} :";
                     qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                     qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
-                    qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 1000 ?  " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                    qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 1000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
                     this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                     break;
             }
@@ -600,9 +597,10 @@ namespace FallGuysStats {
         private void SetFastestLabel(StatSummary levelInfo, LevelType type) {
             int fastestSwitchCount = this.switchCount;
             if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 : type.FastestLabel();
+                fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
+                    : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
             }
-            switch (fastestSwitchCount % (levelInfo.BestScore.HasValue ? 3 : 2)) {
+            switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
                 case 0:
                     this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
                     this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
@@ -632,16 +630,16 @@ namespace FallGuysStats {
                         int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
                         int swCount = this.lastRound.PlayersSw;
                         int pcCount = this.lastRound.PlayersPc;
-                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount.ToString()}");
+                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount}");
                         this.lblPlayersPs.Size = new Size((psCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPs.DrawVisible = true;
-                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount.ToString()}");
+                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount}");
                         this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 32 : 26), 16);
                         this.lblPlayersXbox.DrawVisible = true;
-                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount.ToString()}");
+                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount}");
                         this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 32 : 26), 16);
                         this.lblPlayersSwitch.DrawVisible = true;
-                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount.ToString()}");
+                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount}");
                         this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPc.DrawVisible = true;
                     } else {
@@ -699,26 +697,35 @@ namespace FallGuysStats {
 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     string roundName = this.lastRound.VerifiedName();
-                    if (this.StatsForm.StatLookup.TryGetValue(roundName, out var level)) {
-                        roundName = level.Name.ToUpper();
+                    this.levelException = 0;
+                    if (roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
+                        this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
+                    } else if (roundName == "round_1v1_button_basher" || roundName == "round_1v1_volleyfall_symphony_launch_show") {
+                        this.levelException = 2; // Level is like a "Team" level type (score info is most important)
                     }
-
-                    if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
+                    if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
+                        roundName = level.Name.ToUpper();
+                    } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
-                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName);
-                    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException);
+
+                    if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
+                        if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
+                    } else {
+                        if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+                    }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
 
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
-                        this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, 223);
+                        this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
                         this.lblRound.RoundIcon = level?.RoundIcon;
                         if (this.lblRound.RoundIcon.Height != 23) {
                             this.lblRound.ImageHeight = 23;
-                            this.lblRound.ImageWidth = (int)(Math.Ceiling((Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height) * this.lblRound.RoundIcon.Width));
+                            this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);
                         } else {
                             this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
                             this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
@@ -737,16 +744,16 @@ namespace FallGuysStats {
                     string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{Multilingual.GetWord("overlay_win")} - {winChance:0.0}%";
                     if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
                         this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
-                    } else if (this.StatsForm.CurrentSettings.FilterType != 0) {
-                        this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}";
                     } else {
-                        this.lblWins.TextRight = $"{levelInfo.TotalWins}{winChanceDisplay}";
+                        this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 0
+                            ? $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
+                            : $"　{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
                     this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
                     float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     
-                    string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 1000 ?  " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
+                    string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 1000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
                     
                     string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
@@ -774,13 +781,9 @@ namespace FallGuysStats {
                     if (Finish.HasValue) {
                         TimeSpan Time = Finish.GetValueOrDefault(End) - Start;
                         //lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
-                        if (this.lastRound.Position > 0) {
-                            this.lblFinish.TextRight = $"# {this.lastRound.Position} - {Time:m\\:ss\\.ff}";
-                        } else {
-                            this.lblFinish.TextRight = $"{Time:m\\:ss\\.ff}";
-                        }
+                        this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"　# {this.lastRound.Position} - {Time:m\\:ss\\.ff}" : $"　{Time:m\\:ss\\.ff}";
 
-                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || roundName == "ROCK 'N' ROLL" || roundName == "SNOWY SCRAP") {
+                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
                             if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
@@ -792,30 +795,20 @@ namespace FallGuysStats {
                             this.lblFinish.ForeColor = Color.Gold;
                         }
                     } else if (this.lastRound.Playing) {
-                        if (Start > DateTime.UtcNow) {
-                            this.lblFinish.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
-                        } else {
-                            this.lblFinish.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
-                        }
+                        this.lblFinish.TextRight = Start > DateTime.UtcNow ? $"　{DateTime.UtcNow - startTime:m\\:ss}" : $"　{DateTime.UtcNow - Start:m\\:ss}";
                     } else {
                         this.lblFinish.TextRight = "-";
                         this.lblFinish.ForeColor = this.ForeColor;
                     }
 
-                    if (this.lastRound.GameDuration > 0) {
-                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):";
-                    } else {
-                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
-                    }
+                    this.lblDuration.Text = this.lastRound.GameDuration > 0
+                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
+                        : $"{Multilingual.GetWord("overlay_duration")} :";
 
                     if (End != DateTime.MinValue) {
                         this.lblDuration.TextRight = $"{End - Start:m\\:ss\\.ff}";
                     } else if (this.lastRound.Playing) {
-                        if (Start > DateTime.UtcNow) {
-                            this.lblDuration.TextRight = $"{DateTime.UtcNow - startTime:m\\:ss}";
-                        } else {
-                            this.lblDuration.TextRight = $"{DateTime.UtcNow - Start:m\\:ss}";
-                        }
+                        this.lblDuration.TextRight = Start > DateTime.UtcNow ? $"　{DateTime.UtcNow - startTime:m\\:ss}" : $"　{DateTime.UtcNow - Start:m\\:ss}";
                     } else {
                         this.lblDuration.TextRight = "-";
                     }
@@ -846,25 +839,25 @@ namespace FallGuysStats {
             if (this.shiftKeyToggle == false) { return; }
             if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
             if ((e.Delta / 120) > 0) {
-                for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                     if (!(item is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i > 0) {
-                        this.StatsForm.ProfileMenuItems[i-1].PerformClick();
+                        this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
                         break;
                     } else if (menuItem.Checked && i == 0) {
-                        this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count-1].PerformClick();
+                        this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
                         break;
                     }
                 }
             } else {
-                for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                     if (!(item is ToolStripMenuItem menuItem)) { continue; }
-                    if (menuItem.Checked && i+1 < this.StatsForm.ProfileMenuItems.Count) {
-                        this.StatsForm.ProfileMenuItems[i+1].PerformClick();
+                    if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
+                        this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
                         break;
-                    } else if (menuItem.Checked && i+1 >= this.StatsForm.ProfileMenuItems.Count) {
+                    } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
                         this.StatsForm.ProfileMenuItems[0].PerformClick();
                         break;
                     }
@@ -893,25 +886,25 @@ namespace FallGuysStats {
                     if (this.shiftKeyToggle && this.ctrlKeyToggle) this.Size = this.DefaultSize;
                     break;
                 case Keys.T: {
-                    int colorOption = 0;
-                    if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
-                        colorOption = 1;
-                    } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
-                        colorOption = 2;
-                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
-                        colorOption = 3;
-                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
-                        colorOption = 4;
-                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
-                        colorOption = 5;
-                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
-                        colorOption = 0;
+                        int colorOption = 0;
+                        if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                            colorOption = 1;
+                        } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
+                            colorOption = 2;
+                        } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                            colorOption = 3;
+                        } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                            colorOption = 4;
+                        } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                            colorOption = 5;
+                        } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                            colorOption = 0;
+                        }
+                        SetBackgroundColor(colorOption);
+                        this.StatsForm.CurrentSettings.OverlayColor = colorOption;
+                        this.StatsForm.SaveUserSettings();
+                        break;
                     }
-                    SetBackgroundColor(colorOption);
-                    this.StatsForm.CurrentSettings.OverlayColor = colorOption;
-                    this.StatsForm.SaveUserSettings();
-                    break;
-                }
                 case Keys.F:
                     this.FlipDisplay(!this.flippedImage);
                     this.Background = this.RecreateBackground();
@@ -933,31 +926,31 @@ namespace FallGuysStats {
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
                     return;
                 case Keys.P: {
-                    for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
-                        ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                        if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                        for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                            ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
+                            if (!(item is ToolStripMenuItem menuItem)) { continue; }
 
-                        if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
-                            break;
-                        } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[0].PerformClick();
-                            break;
+                            if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
+                                this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                                break;
+                            } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
+                                this.StatsForm.ProfileMenuItems[0].PerformClick();
+                                break;
+                            }
                         }
+                        break;
                     }
-                    break;
-                }
                 case Keys.Up:
                 case Keys.Left:
                     if (this.shiftKeyToggle == false) { return; }
-                    for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                    for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                         if (!(item is ToolStripMenuItem menuItem)) { continue; }
                         if (menuItem.Checked && i > 0) {
-                            this.StatsForm.ProfileMenuItems[i-1].PerformClick();
+                            this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
                             break;
                         } else if (menuItem.Checked && i == 0) {
-                            this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count-1].PerformClick();
+                            this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
                             break;
                         }
                     }
@@ -968,10 +961,10 @@ namespace FallGuysStats {
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                         if (!(item is ToolStripMenuItem menuItem)) { continue; }
-                        if (menuItem.Checked && i+1 < this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[i+1].PerformClick();
+                        if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
+                            this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
                             break;
-                        } else if (menuItem.Checked && i+1 >= this.StatsForm.ProfileMenuItems.Count) {
+                        } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
                             this.StatsForm.ProfileMenuItems[0].PerformClick();
                             break;
                         }
@@ -985,16 +978,15 @@ namespace FallGuysStats {
                 case Keys.D6:
                 case Keys.D7:
                 case Keys.D8:
-                case Keys.D9:
-                {
-                    if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
-                    int i = Convert.ToInt32(((char)e.KeyValue).ToString());
-                    if (i <= this.StatsForm.ProfileMenuItems.Count) {
-                        this.StatsForm.ProfileMenuItems[i-1].PerformClick();
-                    }
+                case Keys.D9: {
+                        if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
+                        int i = Convert.ToInt32(((char)e.KeyValue).ToString());
+                        if (i <= this.StatsForm.ProfileMenuItems.Count) {
+                            this.StatsForm.ProfileMenuItems[i-1].PerformClick();
+                        }
 
-                    break;
-                }
+                        break;
+                    }
             }
         }
         public void SetBackgroundColor(int colorOption) {
@@ -1027,7 +1019,7 @@ namespace FallGuysStats {
             this.lblFinals.Size = new Size(firstColumnWidth, 22);
             this.lblStreak.Size = new Size(firstColumnWidth, 22);
 
-            this.drawWidth = firstColumnWidth + secondColumnWidth + thirdColumnWidth + spacerWidth * 3 + firstColumnX - 2;
+            this.drawWidth = firstColumnWidth + secondColumnWidth + thirdColumnWidth + (spacerWidth * 3) + firstColumnX - 2;
 
             int overlaySetting = (hideWins ? 4 : 0) + (hideRound ? 2 : 0) + (hideTime ? 1 : 0);
             switch (overlaySetting) {
@@ -1110,25 +1102,25 @@ namespace FallGuysStats {
                     this.lblPlayers.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayersPs.Location = new Point(secondColumnX+49, 35 + heightOffset);
+                        this.lblPlayersPs.Location = new Point(secondColumnX + 49, 35 + heightOffset);
                         this.lblPlayersPs.Size = new Size(26, 16);
                         this.lblPlayersPs.ImageWidth = 13;
                         this.lblPlayersPs.ImageHeight = 13;
                         this.lblPlayersPs.DrawVisible = true;
                     
-                        this.lblPlayersXbox.Location = new Point(secondColumnX+86, 35 + heightOffset);
+                        this.lblPlayersXbox.Location = new Point(secondColumnX + 86, 35 + heightOffset);
                         this.lblPlayersXbox.Size = new Size(26, 16);
                         this.lblPlayersXbox.ImageWidth = 13;
                         this.lblPlayersXbox.ImageHeight = 13;
                         this.lblPlayersXbox.DrawVisible = true;
                     
-                        this.lblPlayersSwitch.Location = new Point(secondColumnX+123, 35 + heightOffset);
+                        this.lblPlayersSwitch.Location = new Point(secondColumnX + 123, 35 + heightOffset);
                         this.lblPlayersSwitch.Size = new Size(26, 16);
                         this.lblPlayersSwitch.ImageWidth = 13;
                         this.lblPlayersSwitch.ImageHeight = 13;
                         this.lblPlayersSwitch.DrawVisible = true;
                     
-                        this.lblPlayersPc.Location = new Point(secondColumnX+160, 35 + heightOffset);
+                        this.lblPlayersPc.Location = new Point(secondColumnX + 160, 35 + heightOffset);
                         this.lblPlayersPc.Size = new Size(26, 16);
                         this.lblPlayersPc.ImageWidth = 13;
                         this.lblPlayersPc.ImageHeight = 13;
@@ -1171,7 +1163,7 @@ namespace FallGuysStats {
                     //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
                     this.DefaultSize = new Size(268, showTabs ? 134 : 99);
 
-                    this.drawWidth -= secondColumnWidth + thirdColumnWidth + spacerWidth * 2;
+                    this.drawWidth -= secondColumnWidth + thirdColumnWidth + (spacerWidth * 2);
 
                     this.lblWins.Location = new Point(firstColumnX, 9 + heightOffset);
                     this.lblWins.DrawVisible = true;
@@ -1249,7 +1241,7 @@ namespace FallGuysStats {
                     //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
                     this.DefaultSize = new Size(307, showTabs ? 134 : 99);
 
-                    this.drawWidth -= firstColumnWidth + thirdColumnWidth + spacerWidth * 2;
+                    this.drawWidth -= firstColumnWidth + thirdColumnWidth + (spacerWidth * 2);
 
                     this.lblWins.DrawVisible = false;
                     this.lblFinals.DrawVisible = false;
@@ -1299,7 +1291,7 @@ namespace FallGuysStats {
                     //this.MinimumSize = new Size(251, showTabs ? 134 : 99);
                     this.DefaultSize = new Size(251, showTabs ? 134 : 99);
 
-                    this.drawWidth -= firstColumnWidth + secondColumnWidth + spacerWidth * 2;
+                    this.drawWidth -= firstColumnWidth + secondColumnWidth + (spacerWidth * 2);
 
                     this.lblWins.DrawVisible = false;
                     this.lblFinals.DrawVisible = false;
@@ -1357,17 +1349,17 @@ namespace FallGuysStats {
             this.picPositionLock.Location = new Point(flipDisplay ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (showTabs ? 11 : -6));
 
             if (this.IsFixed()) {
-                if ((this.isFixedPositionSe || this.isFixedPositionSw)) {
+                if (this.isFixedPositionSe || this.isFixedPositionSw) {
                     if (this.isFixedPositionSe) {
                         Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
                         Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                         Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-                        this.Location = new Point(screenLocation.X, (screenLocation.Y + screenSize.Height) - this.Height);
+                        this.Location = new Point(screenLocation.X, screenLocation.Y + screenSize.Height - this.Height);
                     } else if (this.isFixedPositionSw) {
                         Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
                         Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                         Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-                        this.Location = new Point((screenLocation.X + screenSize.Width) - this.Width, (screenLocation.Y + screenSize.Height) - this.Height);
+                        this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, screenLocation.Y + screenSize.Height - this.Height);
                     }
                 }
                 this.DisplayTabs(showTabs);
@@ -1398,7 +1390,7 @@ namespace FallGuysStats {
         private int GetCountNumeric(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if (0x30 <= ch && ch <= 0x39) count++;
             }
             return count;
@@ -1406,7 +1398,7 @@ namespace FallGuysStats {
         private int GetCountSpace(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if (0x20 == ch) count++;
             }
             return count;
@@ -1414,7 +1406,7 @@ namespace FallGuysStats {
         private int GetCountBigSignCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if ((0x23 <= ch && ch <= 0x26)
                     || 0x2B == ch
                     || (0x3C <= ch && ch <= 0x40)
@@ -1426,7 +1418,7 @@ namespace FallGuysStats {
         private int GetCountSmallSignCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if ((0x21 <= ch && ch <= 0x22)
                     || (0x27 <= ch && ch <= 0x2A)
                     || (0x2C <= ch && ch <= 0x2F)
@@ -1440,7 +1432,7 @@ namespace FallGuysStats {
         private int GetCountKorAlphabet(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if ((0xAC00 <= ch && ch <= 0xD7A3) //Korean
                     || (0x3131 <= ch && ch <= 0x318E) //Korean
                    ) count++;
@@ -1450,7 +1442,7 @@ namespace FallGuysStats {
         private int GetCountJpnAlphabet(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if ((0x3040 <= ch && ch <= 0x309F) //Japanese
                     || (0x30A0 <= ch && ch <= 0x30FF) //Japanese
                     || (0x3400 <= ch && ch <= 0x4DBF) //Japanese
@@ -1463,7 +1455,7 @@ namespace FallGuysStats {
         private int GetCountEnglishlowercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
-            foreach(char ch in charArr) {
+            foreach (char ch in charArr) {
                 if ((0x61 <= ch && ch <= 0x7A)) count++;
             }
             return count;
@@ -1475,33 +1467,31 @@ namespace FallGuysStats {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
             if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
-                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
-                         (int)(this.GetCountKorAlphabet(s) * (6.7F)) - 
-                         (int)(this.GetCountJpnAlphabet(s) * (0.8F)) - 
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
+                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) -
+                         (int)(this.GetCountKorAlphabet(s) * (6.7F)) -
+                         (int)(this.GetCountJpnAlphabet(s) * (0.8F)) -
+                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
-                offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
+                offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
-                offset = 22 - (this.GetCountKorAlphabet(s) * 2) - 
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
+                offset = 22 - (this.GetCountKorAlphabet(s) * 2) -
+                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else {
-                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) - 
-                         (int)(this.GetCountKorAlphabet(s) * (1.8F)) - 
-                         (int)(this.GetCountJpnAlphabet(s) * (1.8F)) - 
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) - 
-                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F)) - 
+                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) -
+                         (int)(this.GetCountKorAlphabet(s) * (1.8F)) -
+                         (int)(this.GetCountJpnAlphabet(s) * (1.8F)) -
+                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
+                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F)) -
                          (int)(this.GetCountNumeric(s) * (-0.1F));
             }
             return sizeOfText - offset;
         }
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {
-                if (this.Background != null) {
-                    this.Background.Dispose();
-                }
+                this.Background?.Dispose();
 
                 bool tabsDisplayed = this.StatsForm.CurrentSettings.ShowOverlayTabs;
                 //bool profileDisplayed = StatsForm.CurrentSettings.ShowOverlayProfile;
@@ -1512,11 +1502,9 @@ namespace FallGuysStats {
                     if (string.IsNullOrEmpty(this.BackgroundResourceName)) {
                         background = Properties.Resources.background;
                     } else {
-                        if (overlayCustomized) {
-                            background = File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? new Bitmap($"Overlay/{this.BackgroundResourceName}.png") : Properties.Resources.background;
-                        } else {
-                            background = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
-                        }
+                        background = overlayCustomized
+                            ? File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? new Bitmap($"Overlay/{this.BackgroundResourceName}.png") : Properties.Resources.background
+                            : (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
                     }
                     g.DrawImage(background, 0, tabsDisplayed ? 35 : 0);
                     
@@ -1525,11 +1513,9 @@ namespace FallGuysStats {
                         if (string.IsNullOrEmpty(this.TabResourceName)) {
                             tab = Properties.Resources.tab_unselected;
                         } else {
-                            if (overlayCustomized) {
-                                tab = File.Exists($"Overlay/{this.TabResourceName}.png") ? new Bitmap($"Overlay/{this.TabResourceName}.png") : Properties.Resources.tab_unselected;
-                            } else {
-                                tab = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
-                            }
+                            tab = overlayCustomized
+                                ? File.Exists($"Overlay/{this.TabResourceName}.png") ? new Bitmap($"Overlay/{this.TabResourceName}.png") : Properties.Resources.tab_unselected
+                                : (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
                         }
                         g.DrawImage(tab, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
                         g.DrawImage(tab, this.drawWidth - 110, 0);
