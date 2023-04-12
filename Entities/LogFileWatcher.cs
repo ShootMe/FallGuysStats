@@ -65,9 +65,9 @@ namespace FallGuysStats {
             this.filePath = Path.Combine(logDirectory, fileName);
             this.prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
             this.stop = false;
-            this.watcher = new Thread(ReadLogFile) { IsBackground = true };
+            this.watcher = new Thread(this.ReadLogFile) { IsBackground = true };
             this.watcher.Start();
-            this.parser = new Thread(ParseLines) { IsBackground = true };
+            this.parser = new Thread(this.ParseLines) { IsBackground = true };
             this.parser.Start();
         }
 
@@ -161,8 +161,9 @@ namespace FallGuysStats {
                                     this.lines.AddRange(currentLines);
                                     currentLines.Clear();
                                 }
-                            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0 ||
-                                line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
+                            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
+                                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0
+                                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason IngameMenuLeaveMatch", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             }
@@ -340,22 +341,21 @@ namespace FallGuysStats {
                      || (sceneName.IndexOf("ound_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) > 0
                          && sceneName.Substring(sceneName.Length - 3) == "_03");
         }
+        
+        private void PreventMouseCursorBug() {
+            if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
+            if (!this.StatsForm.IsFocused() && this.Overlay.IsMouseEnter()) { this.StatsForm.SetCursorPositionCenter(); }
+        }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (Stats.InShow && logRound.Info != null && line.Line.IndexOf("EOSSingleton.OnApplicationFocus: HasFocus True -> False", StringComparison.OrdinalIgnoreCase) > 0) {
-                if (!Stats.EndedShow && this.StatsForm.CurrentSettings.PreventMouseCursorBugs) {
-                    if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
-                }
-            } else if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
+            
+            if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
-                if (!Stats.EndedShow && this.StatsForm.CurrentSettings.AutoChangeProfile) {
+                if (this.StatsForm.CurrentSettings.AutoChangeProfile && !Stats.EndedShow) {
                     this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
                 }
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
-                if (Stats.InShow && !Stats.EndedShow && this.StatsForm.CurrentSettings.PreventMouseCursorBugs) {
-                    if (this.Overlay.IsMouseEnter()) { this.StatsForm.SetCursorPositionCenter(); }
-                }
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId };
                 int index2 = line.Line.IndexOf(' ', index + 44);
                 if (index2 < 0) { index2 = line.Line.Length; }
@@ -396,8 +396,8 @@ namespace FallGuysStats {
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats stats) && stats.IsFinal);
                 }
-            } else if ((index = line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase)) > 0 ||
-                       (index = line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase)) > 0) {
+            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0) {
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0;
                 logRound.CurrentlyInParty = logRound.PrivateLobby || (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) > 0);
                 if (logRound.Info != null) {
@@ -458,10 +458,16 @@ namespace FallGuysStats {
                     int msIndex = line.Line.IndexOf("ms", index);
                     logRound.LastPing = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
                 }
+            //} else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Precountdown to Countdown", StringComparison.OrdinalIgnoreCase) > 0) {
             } else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
+                if (this.StatsForm.CurrentSettings.PreventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
+                    this.PreventMouseCursorBug();
+                }
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
+            //} else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0
+            //           || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateGameInProgress with FGClient.StateQualificationScreen", StringComparison.OrdinalIgnoreCase) > 0) {
             } else if (logRound.Info != null &&
                        (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) > 0
                         || line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) > 0
@@ -472,9 +478,9 @@ namespace FallGuysStats {
                     logRound.Info.End = line.Date;
                 }
                 logRound.Info.Playing = false;
-            } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
+           } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
-                       || line.Line.IndexOf("[ClientGameManager] Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
+                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason IngameMenuLeaveMatch", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;

@@ -205,8 +205,7 @@ namespace FallGuysStats {
             base.WndProc(ref m);
         }
         public void StartTimer() {
-            this.timer = new Thread(UpdateTimer);
-            this.timer.IsBackground = true;
+            this.timer = new Thread(UpdateTimer) { IsBackground = true };
             this.timer.Start();
         }
         public static void SetFonts(Control control, float customSize = -1, Font font = null) {
