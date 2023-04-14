@@ -350,13 +350,13 @@ namespace FallGuysStats {
         }
         
         private void PreventMouseCursorBug() {
-            if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
-            if (!this.StatsForm.IsFocused() && this.Overlay.IsMouseEnter()) { this.StatsForm.SetCursorPositionCenter(); }
+            //if (!this.StatsForm.IsFocused() && this.Overlay.IsFocused()) { SendKeys.SendWait("%{TAB}"); }
+            if (Form.ActiveForm != this.StatsForm && this.Overlay.IsMouseEnter()) { this.StatsForm.SetCursorPositionCenter(); }
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            
+            this.PreventMouseCursorBug();
             if (Stats.InShow && logRound.Info == null && (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.StatsForm.CurrentSettings.AutoChangeProfile && !Stats.EndedShow) {
