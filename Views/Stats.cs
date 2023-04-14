@@ -123,8 +123,7 @@ namespace FallGuysStats {
         private Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
-        private Point ScreenCenter;
-        private bool isFocused;
+        private Point screenCenter;
 
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -201,7 +200,7 @@ namespace FallGuysStats {
             Screen screen = this.GetCurrentScreen(this.overlay.Location);
             Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
             Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-            this.ScreenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
+            this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
             this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
@@ -244,18 +243,19 @@ namespace FallGuysStats {
         }
         
         public void SetCursorPositionCenter() {
-            Cursor.Position = this.ScreenCenter;
-        }
-
-        private void Stats_GotFocus(object sender, EventArgs e) {
-            this.isFocused = true;
-        }
-        private void Stats_LostFocus(object sender, EventArgs e) {
-            this.isFocused = false;
-        }
-        
-        public bool IsFocused() {
-            return this.isFocused;
+            if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+                // NW
+                Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2);
+            } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+                // SW
+                Cursor.Position = new Point(this.screenCenter.X * 2, 0);
+            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+                // NE
+                Cursor.Position = new Point(0, this.screenCenter.Y * 2);
+            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+                // SE
+                Cursor.Position = new Point(0, 0);
+            }
         }
 
         private void SetTheme(MetroThemeStyle theme) {

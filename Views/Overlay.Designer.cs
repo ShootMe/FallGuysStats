@@ -61,7 +61,7 @@ namespace FallGuysStats {
             this.picPositionNE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPositionNE.TabStop = false;
             this.picPositionNE.Visible = false;
-            this.picPositionNE.MouseClick += new MouseEventHandler(this.Position_MouseClick);
+            this.picPositionNE.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Position_MouseClick);
             this.picPositionNE.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
             this.picPositionNE.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
             // 
@@ -76,7 +76,7 @@ namespace FallGuysStats {
             this.picPositionNW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPositionNW.TabStop = false;
             this.picPositionNW.Visible = false;
-            this.picPositionNW.MouseClick += new MouseEventHandler(this.Position_MouseClick);
+            this.picPositionNW.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Position_MouseClick);
             this.picPositionNW.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
             this.picPositionNW.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
             // 
@@ -91,7 +91,7 @@ namespace FallGuysStats {
             this.picPositionSE.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPositionSE.TabStop = false;
             this.picPositionSE.Visible = false;
-            this.picPositionSE.MouseClick += new MouseEventHandler(this.Position_MouseClick);
+            this.picPositionSE.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Position_MouseClick);
             this.picPositionSE.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
             this.picPositionSE.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
             // 
@@ -106,7 +106,7 @@ namespace FallGuysStats {
             this.picPositionSW.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPositionSW.TabStop = false;
             this.picPositionSW.Visible = false;
-            this.picPositionSW.MouseClick += new MouseEventHandler(this.Position_MouseClick);
+            this.picPositionSW.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Position_MouseClick);
             this.picPositionSW.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
             this.picPositionSW.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
             // 
@@ -121,7 +121,7 @@ namespace FallGuysStats {
             this.picPositionLock.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPositionLock.TabStop = false;
             this.picPositionLock.Visible = false;
-            this.picPositionLock.MouseClick += new MouseEventHandler(this.Position_MouseClick);
+            this.picPositionLock.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Position_MouseClick);
             this.picPositionLock.MouseEnter += new System.EventHandler(this.Position_MouseEnter);
             this.picPositionLock.MouseLeave += new System.EventHandler(this.Position_MouseLeave);
             // 
