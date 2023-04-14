@@ -387,8 +387,6 @@ namespace FallGuysStats {
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Stats_FormClosing);
             this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);
-            this.GotFocus += new System.EventHandler(this.Stats_GotFocus);
-            this.LostFocus += new System.EventHandler(this.Stats_LostFocus);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
             this.infoStrip.ResumeLayout(false);
