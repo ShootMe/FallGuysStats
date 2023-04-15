@@ -16,6 +16,8 @@
   - [Changelog](#changelog)
 
 # Fall Guys Stats
+[![Fall Guys Stats](https://github-readme-stats.vercel.app/api/pin/?username=ShootMe&repo=FallGuysStats&theme=aura_dark)](https://github.com/ShootMe/FallGuysStats)
+
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
 ## Download
@@ -118,6 +120,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the 'DEL' key or right-click to manage the show through the 'Delete' and 'Move show data' menus.
 
 ![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
   - 1.150
