@@ -88,6 +88,9 @@ namespace FallGuysStats {
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
+            this.chkFallalyticsReporting.Checked = this.CurrentSettings.EnableFallalyticsReporting;
+            this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
+
             ArrayList imageItemArray = new ArrayList();
             if (Directory.Exists("Overlay")) {
                 DirectoryInfo di = new DirectoryInfo("Overlay");
@@ -520,6 +523,9 @@ namespace FallGuysStats {
             }
 
             this.CurrentSettings.OverlayBackgroundOpacity = this.trkOverlayOpacity.Value;
+
+            this.CurrentSettings.EnableFallalyticsReporting = this.chkFallalyticsReporting.Checked;
+            this.CurrentSettings.FallalyticsAPIKey = this.txtFallalyticsAPIKey.Text;
             
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -885,16 +891,19 @@ namespace FallGuysStats {
             this.panelOverlay.Location = new Point(218, 75);
             this.panelFallGuys.Location = new Point(218, 75);
             this.panelAbout.Location = new Point(218, 75);
+            this.panelFallalytics.Location = new Point(218, 75);
             this.panelProgram.Visible = false;
             this.panelDisplay.Visible = false;
             this.panelOverlay.Visible = false;
             this.panelFallGuys.Visible = false;
             this.panelAbout.Visible = false;
+            this.panelFallalytics.Visible = false;
             this.tileProgram.Style = MetroColorStyle.Silver;
             this.tileDisplay.Style = MetroColorStyle.Silver;
             this.tileOverlay.Style = MetroColorStyle.Silver;
             this.tileFallGuys.Style = MetroColorStyle.Silver;
             this.tileAbout.Style = MetroColorStyle.Silver;
+            this.tileFallalytics.Style = MetroColorStyle.Silver;
             if (sender.Equals(this.tileProgram)) {
                 this.tileProgram.Style = MetroColorStyle.Blue;
                 this.panelProgram.Visible = true;
@@ -915,10 +924,15 @@ namespace FallGuysStats {
                 this.tileAbout.Style = MetroColorStyle.Blue;
                 this.panelAbout.Visible = true;
             }
+            if (sender.Equals(this.tileFallalytics)) {
+                this.tileFallalytics.Style = MetroColorStyle.Blue;
+                this.panelFallalytics.Visible = true;
+            }
             this.tileProgram.Refresh();
             this.tileDisplay.Refresh();
             this.tileOverlay.Refresh();
             this.tileFallGuys.Refresh();
+            this.tileFallalytics.Refresh();
             this.tileAbout.Refresh();
 
             if (sender.Equals(this.tileAbout)) {

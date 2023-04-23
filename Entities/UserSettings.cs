@@ -66,5 +66,7 @@
         public string OverlayFontSerialized { get; set; }
         public string OverlayFontColorSerialized { get; set; }
         public int WinPerDayGraphStyle { get; set; }
+        public bool EnableFallalyticsReporting { get; set; }
+        public string FallalyticsAPIKey { get; set; }
     }
 }
