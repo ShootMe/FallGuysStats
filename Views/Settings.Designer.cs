@@ -123,6 +123,11 @@ namespace FallGuysStats {
             this.lblVersion = new MetroFramework.Controls.MetroLabel();
             this.lblLicence = new MetroFramework.Controls.MetroLabel();
             this.overlayOpacityToolTip = new MetroFramework.Components.MetroToolTip();
+            this.panelFallalytics = new MetroFramework.Controls.MetroPanel();
+            this.fallalyticsAPIKeyLable = new MetroFramework.Controls.MetroLabel();
+            this.txtFallalyticsAPIKey = new MetroFramework.Controls.MetroTextBox();
+            this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
+            this.tileFallalytics = new MetroFramework.Controls.MetroTile();
             this.grpOverlayFontExample.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
@@ -138,6 +143,7 @@ namespace FallGuysStats {
             this.panelOverlay.SuspendLayout();
             this.panelFallGuys.SuspendLayout();
             this.panelAbout.SuspendLayout();
+            this.panelFallalytics.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
@@ -156,13 +162,18 @@ namespace FallGuysStats {
             this.lblLogPathNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblLogPathNote.Location = new System.Drawing.Point(8, 37);
             this.lblLogPathNote.Name = "lblLogPathNote";
-            this.lblLogPathNote.Size = new System.Drawing.Size(572, 19);
+            this.lblLogPathNote.Size = new System.Drawing.Size(486, 15);
             this.lblLogPathNote.TabIndex = 2;
-            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the correct location.";
+            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the c" +
+    "orrect location.";
             // 
             // txtLogPath
             // 
-            this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
             this.txtLogPath.CustomButton.Image = null;
             this.txtLogPath.CustomButton.Location = new System.Drawing.Point(520, 2);
             this.txtLogPath.CustomButton.Name = "";
@@ -248,7 +259,9 @@ namespace FallGuysStats {
             // 
             // lblOverlayFontExample
             // 
-            this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblOverlayFontExample.Location = new System.Drawing.Point(1, 15);
             this.lblOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOverlayFontExample.Name = "lblOverlayFontExample";
@@ -397,7 +410,13 @@ namespace FallGuysStats {
             this.cboOverlayColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboOverlayColor.FormattingEnabled = true;
             this.cboOverlayColor.ItemHeight = 23;
-            this.cboOverlayColor.Items.AddRange(new object[] { "Transparent", "Black", "Magenta", "Red", "Green", "Blue" });
+            this.cboOverlayColor.Items.AddRange(new object[] {
+            "Transparent",
+            "Black",
+            "Magenta",
+            "Red",
+            "Green",
+            "Blue"});
             this.cboOverlayColor.Location = new System.Drawing.Point(203, 386);
             this.cboOverlayColor.Name = "cboOverlayColor";
             this.cboOverlayColor.Size = new System.Drawing.Size(240, 29);
@@ -487,7 +506,13 @@ namespace FallGuysStats {
             this.cboFastestFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboFastestFilter.FormattingEnabled = true;
             this.cboFastestFilter.ItemHeight = 23;
-            this.cboFastestFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
+            this.cboFastestFilter.Items.AddRange(new object[] {
+            "All Time Stats",
+            "Stats and Party Filter",
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboFastestFilter.Location = new System.Drawing.Point(397, 155);
             this.cboFastestFilter.Name = "cboFastestFilter";
             this.cboFastestFilter.Size = new System.Drawing.Size(227, 29);
@@ -498,7 +523,7 @@ namespace FallGuysStats {
             // 
             this.lblFastestFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblFastestFilter.AutoSize = true;
-            this.lblFastestFilter.Location = new System.Drawing.Point(393, 133);
+            this.lblFastestFilter.Location = new System.Drawing.Point(325, 133);
             this.lblFastestFilter.Name = "lblFastestFilter";
             this.lblFastestFilter.Size = new System.Drawing.Size(138, 19);
             this.lblFastestFilter.TabIndex = 16;
@@ -509,7 +534,13 @@ namespace FallGuysStats {
             this.cboQualifyFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboQualifyFilter.FormattingEnabled = true;
             this.cboQualifyFilter.ItemHeight = 23;
-            this.cboQualifyFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
+            this.cboQualifyFilter.Items.AddRange(new object[] {
+            "All Time Stats",
+            "Stats and Party Filter",
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboQualifyFilter.Location = new System.Drawing.Point(397, 96);
             this.cboQualifyFilter.Name = "cboQualifyFilter";
             this.cboQualifyFilter.Size = new System.Drawing.Size(227, 29);
@@ -520,7 +551,7 @@ namespace FallGuysStats {
             // 
             this.lblQualifyFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblQualifyFilter.AutoSize = true;
-            this.lblQualifyFilter.Location = new System.Drawing.Point(393, 74);
+            this.lblQualifyFilter.Location = new System.Drawing.Point(325, 74);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
             this.lblQualifyFilter.Size = new System.Drawing.Size(124, 19);
             this.lblQualifyFilter.TabIndex = 14;
@@ -531,7 +562,13 @@ namespace FallGuysStats {
             this.cboWinsFilter.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboWinsFilter.FormattingEnabled = true;
             this.cboWinsFilter.ItemHeight = 23;
-            this.cboWinsFilter.Items.AddRange(new object[] { "All Time Stats", "Stats and Party Filter", "Season Stats", "Week Stats", "Day Stats", "Session Stats" });
+            this.cboWinsFilter.Items.AddRange(new object[] {
+            "All Time Stats",
+            "Stats and Party Filter",
+            "Season Stats",
+            "Week Stats",
+            "Day Stats",
+            "Session Stats"});
             this.cboWinsFilter.Location = new System.Drawing.Point(397, 36);
             this.cboWinsFilter.Name = "cboWinsFilter";
             this.cboWinsFilter.Size = new System.Drawing.Size(227, 29);
@@ -542,7 +579,7 @@ namespace FallGuysStats {
             // 
             this.lblWinsFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWinsFilter.AutoSize = true;
-            this.lblWinsFilter.Location = new System.Drawing.Point(393, 14);
+            this.lblWinsFilter.Location = new System.Drawing.Point(325, 14);
             this.lblWinsFilter.Name = "lblWinsFilter";
             this.lblWinsFilter.Size = new System.Drawing.Size(114, 19);
             this.lblWinsFilter.TabIndex = 12;
@@ -580,7 +617,7 @@ namespace FallGuysStats {
             this.chkColorByRoundType.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkColorByRoundType.Location = new System.Drawing.Point(21, 536);
             this.chkColorByRoundType.Name = "chkColorByRoundType";
-            this.chkColorByRoundType.Size = new System.Drawing.Size(221, 19);
+            this.chkColorByRoundType.Size = new System.Drawing.Size(269, 19);
             this.chkColorByRoundType.TabIndex = 25;
             this.chkColorByRoundType.Text = "Color round name based on round type";
             this.chkColorByRoundType.UseSelectable = true;
@@ -592,7 +629,7 @@ namespace FallGuysStats {
             this.chkAutoChangeProfile.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkAutoChangeProfile.Location = new System.Drawing.Point(21, 561);
             this.chkAutoChangeProfile.Name = "chkAutoChangeProfile";
-            this.chkAutoChangeProfile.Size = new System.Drawing.Size(221, 19);
+            this.chkAutoChangeProfile.Size = new System.Drawing.Size(255, 19);
             this.chkAutoChangeProfile.TabIndex = 26;
             this.chkAutoChangeProfile.Text = "Automatically change to linked profile";
             this.chkAutoChangeProfile.UseSelectable = true;
@@ -629,7 +666,8 @@ namespace FallGuysStats {
             this.txtCycleTimeSeconds.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtCycleTimeSeconds.CustomButton.UseSelectable = true;
             this.txtCycleTimeSeconds.CustomButton.Visible = false;
-            this.txtCycleTimeSeconds.Lines = new string[] { "5" };
+            this.txtCycleTimeSeconds.Lines = new string[] {
+        "5"};
             this.txtCycleTimeSeconds.Location = new System.Drawing.Point(96, 170);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
@@ -752,7 +790,8 @@ namespace FallGuysStats {
             // 
             // grpLaunchPlatform
             // 
-            this.grpLaunchPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.grpLaunchPlatform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpLaunchPlatform.Controls.Add(this.picPlatformCheck);
             this.grpLaunchPlatform.Controls.Add(this.picEpicGames);
             this.grpLaunchPlatform.Controls.Add(this.picSteam);
@@ -808,7 +847,12 @@ namespace FallGuysStats {
             // 
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
-            this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
+            this.cboMultilingual.Items.AddRange(new object[] {
+            "🇺🇸 English",
+            "🇫🇷 Français",
+            "🇰🇷 한국어",
+            "🇯🇵 日本語",
+            "🇨🇳 简体中文"});
             this.cboMultilingual.Location = new System.Drawing.Point(49, 162);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
@@ -843,7 +887,9 @@ namespace FallGuysStats {
             this.cboTheme.FormattingEnabled = true;
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
-            this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
+            this.cboTheme.Items.AddRange(new object[] {
+            "Light",
+            "Dark"});
             this.cboTheme.Location = new System.Drawing.Point(63, 120);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
@@ -862,15 +908,15 @@ namespace FallGuysStats {
             this.chkAutoUpdate.TabIndex = 3;
             this.chkAutoUpdate.Text = "Auto Update Program";
             this.chkAutoUpdate.UseSelectable = true;
-            //
+            // 
             // chkPreventMouseCursorBugs
-            //
+            // 
             this.chkPreventMouseCursorBugs.AutoSize = true;
             this.chkPreventMouseCursorBugs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventMouseCursorBugs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 220);
             this.chkPreventMouseCursorBugs.Name = "chkPreventMouseCursorBugs";
-            this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(161, 19);
+            this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(287, 19);
             this.chkPreventMouseCursorBugs.TabIndex = 3;
             this.chkPreventMouseCursorBugs.Text = "Prevent Mouse Cursor Bugs (Experimental)";
             this.chkPreventMouseCursorBugs.UseSelectable = true;
@@ -881,7 +927,7 @@ namespace FallGuysStats {
             this.lblPreviousWinsNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblPreviousWinsNote.Location = new System.Drawing.Point(145, 12);
             this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
-            this.lblPreviousWinsNote.Size = new System.Drawing.Size(126, 19);
+            this.lblPreviousWinsNote.Size = new System.Drawing.Size(134, 19);
             this.lblPreviousWinsNote.TabIndex = 2;
             this.lblPreviousWinsNote.Text = "(before using tracker)";
             // 
@@ -890,7 +936,7 @@ namespace FallGuysStats {
             this.lblPreviousWins.AutoSize = true;
             this.lblPreviousWins.Location = new System.Drawing.Point(8, 12);
             this.lblPreviousWins.Name = "lblPreviousWins";
-            this.lblPreviousWins.Size = new System.Drawing.Size(85, 19);
+            this.lblPreviousWins.Size = new System.Drawing.Size(98, 19);
             this.lblPreviousWins.TabIndex = 0;
             this.lblPreviousWins.Text = "Previous Win(s)";
             // 
@@ -908,7 +954,8 @@ namespace FallGuysStats {
             this.txtPreviousWins.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtPreviousWins.CustomButton.UseSelectable = true;
             this.txtPreviousWins.CustomButton.Visible = false;
-            this.txtPreviousWins.Lines = new string[] { "0" };
+            this.txtPreviousWins.Lines = new string[] {
+        "0"};
             this.txtPreviousWins.Location = new System.Drawing.Point(99, 12);
             this.txtPreviousWins.MaxLength = 5;
             this.txtPreviousWins.Name = "txtPreviousWins";
@@ -1110,7 +1157,6 @@ namespace FallGuysStats {
             this.panelDisplay.Controls.Add(this.txtPreviousWins);
             this.panelDisplay.Controls.Add(this.chkChangeHoopsieLegends);
             this.panelDisplay.Controls.Add(this.lblPreviousWinsNote);
-            
             this.panelDisplay.HorizontalScrollbarBarColor = true;
             this.panelDisplay.HorizontalScrollbarHighlightOnWheel = false;
             this.panelDisplay.HorizontalScrollbarSize = 10;
@@ -1192,11 +1238,11 @@ namespace FallGuysStats {
             this.cboOverlayBackground.DropDownHeight = 500;
             this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOverlayBackground.FormattingEnabled = true;
-            this.cboOverlayBackground.IntegralHeight = true;
-            this.cboOverlayBackground.ItemHeight = 23;
+            this.cboOverlayBackground.IntegralHeight = false;
+            this.cboOverlayBackground.ItemHeight = 13;
             this.cboOverlayBackground.Location = new System.Drawing.Point(203, 352);
             this.cboOverlayBackground.Name = "cboOverlayBackground";
-            this.cboOverlayBackground.Size = new System.Drawing.Size(240, 20);
+            this.cboOverlayBackground.Size = new System.Drawing.Size(240, 21);
             this.cboOverlayBackground.TabIndex = 19;
             this.cboOverlayBackground.GotFocus += new System.EventHandler(this.cboOverlayBackground_GotFocus);
             this.cboOverlayBackground.LostFocus += new System.EventHandler(this.cboOverlayBackground_LostFocus);
@@ -1252,7 +1298,7 @@ namespace FallGuysStats {
             // 
             this.tileAbout.ActiveControl = null;
             this.tileAbout.BackColor = System.Drawing.Color.LightGray;
-            this.tileAbout.Location = new System.Drawing.Point(12, 257);
+            this.tileAbout.Location = new System.Drawing.Point(12, 303);
             this.tileAbout.Name = "tileAbout";
             this.tileAbout.Size = new System.Drawing.Size(200, 40);
             this.tileAbout.TabIndex = 17;
@@ -1407,12 +1453,94 @@ namespace FallGuysStats {
             this.overlayOpacityToolTip.StyleManager = null;
             this.overlayOpacityToolTip.Theme = MetroFramework.MetroThemeStyle.Light;
             // 
+            // panelFallalytics
+            // 
+            this.panelFallalytics.Controls.Add(this.fallalyticsAPIKeyLable);
+            this.panelFallalytics.Controls.Add(this.txtFallalyticsAPIKey);
+            this.panelFallalytics.Controls.Add(this.chkFallalyticsReporting);
+            this.panelFallalytics.HorizontalScrollbarBarColor = true;
+            this.panelFallalytics.HorizontalScrollbarHighlightOnWheel = false;
+            this.panelFallalytics.HorizontalScrollbarSize = 10;
+            this.panelFallalytics.Location = new System.Drawing.Point(280, 7);
+            this.panelFallalytics.Name = "panelFallalytics";
+            this.panelFallalytics.Size = new System.Drawing.Size(640, 498);
+            this.panelFallalytics.TabIndex = 19;
+            this.panelFallalytics.VerticalScrollbarBarColor = true;
+            this.panelFallalytics.VerticalScrollbarHighlightOnWheel = false;
+            this.panelFallalytics.VerticalScrollbarSize = 10;
+            // 
+            // fallalyticsAPIKeyLable
+            // 
+            this.fallalyticsAPIKeyLable.AutoSize = true;
+            this.fallalyticsAPIKeyLable.Location = new System.Drawing.Point(15, 51);
+            this.fallalyticsAPIKeyLable.Name = "fallalyticsAPIKeyLable";
+            this.fallalyticsAPIKeyLable.Size = new System.Drawing.Size(206, 19);
+            this.fallalyticsAPIKeyLable.TabIndex = 5;
+            this.fallalyticsAPIKeyLable.Text = "(Optional) Enter Fallalytics API key";
+            // 
+            // txtFallalyticsAPIKey
+            // 
+            // 
+            // 
+            // 
+            this.txtFallalyticsAPIKey.CustomButton.Image = null;
+            this.txtFallalyticsAPIKey.CustomButton.Location = new System.Drawing.Point(281, 1);
+            this.txtFallalyticsAPIKey.CustomButton.Name = "";
+            this.txtFallalyticsAPIKey.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtFallalyticsAPIKey.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtFallalyticsAPIKey.CustomButton.TabIndex = 1;
+            this.txtFallalyticsAPIKey.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtFallalyticsAPIKey.CustomButton.UseSelectable = true;
+            this.txtFallalyticsAPIKey.CustomButton.Visible = false;
+            this.txtFallalyticsAPIKey.Lines = new string[] {
+        "4d328236-b3c2-4449-a158-d07128671920"};
+            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 73);
+            this.txtFallalyticsAPIKey.MaxLength = 32767;
+            this.txtFallalyticsAPIKey.Name = "txtFallalyticsAPIKey";
+            this.txtFallalyticsAPIKey.PasswordChar = '\0';
+            this.txtFallalyticsAPIKey.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtFallalyticsAPIKey.SelectedText = "";
+            this.txtFallalyticsAPIKey.SelectionLength = 0;
+            this.txtFallalyticsAPIKey.SelectionStart = 0;
+            this.txtFallalyticsAPIKey.ShortcutsEnabled = true;
+            this.txtFallalyticsAPIKey.Size = new System.Drawing.Size(303, 23);
+            this.txtFallalyticsAPIKey.TabIndex = 4;
+            this.txtFallalyticsAPIKey.Text = "4d328236-b3c2-4449-a158-d07128671920";
+            this.txtFallalyticsAPIKey.UseSelectable = true;
+            this.txtFallalyticsAPIKey.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtFallalyticsAPIKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // chkFallalyticsReporting
+            // 
+            this.chkFallalyticsReporting.AutoSize = true;
+            this.chkFallalyticsReporting.Location = new System.Drawing.Point(15, 17);
+            this.chkFallalyticsReporting.Name = "chkFallalyticsReporting";
+            this.chkFallalyticsReporting.Size = new System.Drawing.Size(257, 15);
+            this.chkFallalyticsReporting.TabIndex = 2;
+            this.chkFallalyticsReporting.Text = "Send information about rounds to Fallalytics";
+            this.chkFallalyticsReporting.UseSelectable = true;
+            // 
+            // tileFallalytics
+            // 
+            this.tileFallalytics.ActiveControl = null;
+            this.tileFallalytics.BackColor = System.Drawing.Color.LightGray;
+            this.tileFallalytics.Location = new System.Drawing.Point(12, 257);
+            this.tileFallalytics.Name = "tileFallalytics";
+            this.tileFallalytics.Size = new System.Drawing.Size(200, 40);
+            this.tileFallalytics.TabIndex = 20;
+            this.tileFallalytics.Text = "Fallalytics";
+            this.tileFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tileFallalytics.UseSelectable = true;
+            this.tileFallalytics.Click += new System.EventHandler(this.ChangeTab);
+            // 
             // Settings
             // 
             this.AcceptButton = this.btnSave;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(890, 650);
+            this.Controls.Add(this.panelFallalytics);
+            this.Controls.Add(this.tileFallalytics);
             this.Controls.Add(this.panelOverlay);
             this.Controls.Add(this.tileAbout);
             this.Controls.Add(this.tileFallGuys);
@@ -1460,7 +1588,10 @@ namespace FallGuysStats {
             this.panelFallGuys.PerformLayout();
             this.panelAbout.ResumeLayout(false);
             this.panelAbout.PerformLayout();
+            this.panelFallalytics.ResumeLayout(false);
+            this.panelFallalytics.PerformLayout();
             this.ResumeLayout(false);
+
         }
         #endregion
         
@@ -1559,5 +1690,10 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLink lbltpl3;
         private MetroFramework.Controls.MetroLabel lblupdateNote;
         private MetroFramework.Components.MetroToolTip overlayOpacityToolTip;
+        private MetroFramework.Controls.MetroPanel panelFallalytics;
+        private MetroFramework.Controls.MetroLabel fallalyticsAPIKeyLable;
+        private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
+        private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
+        private MetroFramework.Controls.MetroTile tileFallalytics;
     }
 }
