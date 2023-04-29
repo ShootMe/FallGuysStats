@@ -37,26 +37,26 @@ namespace FallGuysStats {
         private new Size DefaultSize;
 
         private bool isPositionButtonMouseEnter;
-        private Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
-        private Image positionNwOffBlur = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
-        private Image positionSeOffBlur = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.4F);
-        private Image positionSwOffBlur = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.4F);
-        private Image positionNeOffFocus = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.8F);
-        private Image positionNwOffFocus = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.8F);
-        private Image positionSeOffFocus = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.8F);
-        private Image positionSwOffFocus = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.8F);
-        private Image positionNeOnBlur = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.4F);
-        private Image positionNwOnBlur = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.4F);
-        private Image positionSeOnBlur = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.4F);
-        private Image positionSwOnBlur = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.4F);
-        private Image positionNeOnFocus = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.8F);
-        private Image positionNwOnFocus = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.8F);
-        private Image positionSeOnFocus = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.8F);
-        private Image positionSwOnFocus = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.8F);
-        private Image positionLockBlur = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.4F);
-        private Image positionLockFocus = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.8F);
-        private Image positionUnlockBlur = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
-        private Image positionUnlockFocus = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
+        private readonly Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
+        private readonly Image positionNwOffBlur = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
+        private readonly Image positionSeOffBlur = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.4F);
+        private readonly Image positionSwOffBlur = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.4F);
+        private readonly Image positionNeOffFocus = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.8F);
+        private readonly Image positionNwOffFocus = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.8F);
+        private readonly Image positionSeOffFocus = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.8F);
+        private readonly Image positionSwOffFocus = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.8F);
+        private readonly Image positionNeOnBlur = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.4F);
+        private readonly Image positionNwOnBlur = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.4F);
+        private readonly Image positionSeOnBlur = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.4F);
+        private readonly Image positionSwOnBlur = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.4F);
+        private readonly Image positionNeOnFocus = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.8F);
+        private readonly Image positionNwOnFocus = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.8F);
+        private readonly Image positionSeOnFocus = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.8F);
+        private readonly Image positionSwOnFocus = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.8F);
+        private readonly Image positionLockBlur = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.4F);
+        private readonly Image positionLockFocus = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.8F);
+        private readonly Image positionUnlockBlur = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
+        private readonly Image positionUnlockFocus = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
         public bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
         private bool isFocused, isMouseEnter;
         
@@ -658,7 +658,7 @@ namespace FallGuysStats {
                     this.lblPlayersSwitch.DrawVisible = false;
                     this.lblPlayersPc.DrawVisible = false;
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing != 0 ? $"{Stats.LastServerPing} ms" : "-";
+                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing >= 0 ? $"{Stats.LastServerPing} ms" : "-";
                     break;
             }
         }

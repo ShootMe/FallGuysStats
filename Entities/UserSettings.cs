@@ -4,6 +4,7 @@
         public int Multilingual { get; set; }
         public string LogPath { get; set; }
         public int Theme { get; set; }
+        public bool Visible { get; set; }
         public int FilterType { get; set; }
         public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
