@@ -441,6 +441,8 @@ namespace FallGuysStats {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
                     } else if (tsmi.Name.Equals("trayHelp")) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                    } else if (tsmi.Name.Equals("trayExitProgram")) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
                     }
 
                     foreach (var subItem1 in tsmi.DropDownItems) {
@@ -498,6 +500,8 @@ namespace FallGuysStats {
                     tsi.Image = Properties.Resources.github_icon;
                 } else if (tsi.Name.Equals("trayEditProfiles")) {
                     tsi.Image = Properties.Resources.setting_icon;
+                } else if (tsi.Name.Equals("trayExitProgram")) {
+                    tsi.Image = Properties.Resources.shutdown_icon;
                 }
             }
         }
@@ -523,7 +527,9 @@ namespace FallGuysStats {
                 } else if (tsi.Name.Equals("trayHelp")) {
                     tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
                 } else if (tsi.Name.Equals("trayEditProfiles")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.setting_gray_icon : Properties.Resources.setting_icon;
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                } else if (tsi.Name.Equals("trayExitProgram")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
                 }
             }
         }
@@ -549,21 +555,21 @@ namespace FallGuysStats {
         private void menu_MouseLeave(object sender, EventArgs e) {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             if (tsmi.Name.Equals("menuSettings")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.setting_gray_icon : Properties.Resources.setting_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             } else if (tsmi.Name.Equals("menuFilters")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.filter_gray_icon : Properties.Resources.filter_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
             } else if (tsmi.Name.Equals("menuProfile")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.profile_gray_icon : Properties.Resources.profile_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
             } else if (tsmi.Name.Equals("menuOverlay")) {
             } else if (tsmi.Name.Equals("menuUpdate")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.github_gray_icon : Properties.Resources.github_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
             } else if (tsmi.Name.Equals("menuHelp")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.github_gray_icon : Properties.Resources.github_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
             } else if (tsmi.Name.Equals("menuLaunchFallGuys")) {
             } else if (tsmi.Name.Equals("menuEditProfiles")) {
-                tsmi.Image = this.Theme == MetroThemeStyle.Dark ? Properties.Resources.setting_gray_icon : Properties.Resources.setting_icon;
+                tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             }
-            tsmi.ForeColor = this.Theme == MetroThemeStyle.Dark ? Color.DarkGray : Color.Black;
+            tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
         private void infoStrip_MouseEnter(object sender, EventArgs e) {
             this.Cursor = Cursors.Hand;
@@ -1372,7 +1378,7 @@ namespace FallGuysStats {
                 this.maximizedForm = false;
             }
         }
-        private void Stats_ExitProgram(object sender, EventArgs e) {
+        private async void Stats_ExitProgram(object sender, EventArgs e) {
             try {
                 if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                     if (this.overlay.Visible) {
@@ -1403,9 +1409,13 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Dispose();
                 
-                Application.Exit();
+                await this.logFile.Stop();
+                Application.ExitThread();
+                Environment.Exit(0);
             } catch {
-                Application.Exit();
+                await this.logFile.Stop();
+                Application.ExitThread();
+                Environment.Exit(0);
             }
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
