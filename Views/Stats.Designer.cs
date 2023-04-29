@@ -407,8 +407,7 @@ namespace FallGuysStats {
             // 
             this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
             this.trayCMenu.Name = "ｔｒａｙ";
-            this.trayCMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.trayCMenu.Size = new System.Drawing.Size(166, 204);
+            this.trayCMenu.Size = new System.Drawing.Size(166, 226);
             // 
             // trayOverlay
             // 

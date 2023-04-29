@@ -330,11 +330,17 @@ namespace FallGuysStats {
 
         private void btnSave_Click(object sender, EventArgs e) {
             Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
+            
             this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
 
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
 
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
+            Stats.CurrentTheme = this.CurrentSettings.Theme switch {
+                0 => MetroThemeStyle.Light,
+                1 => MetroThemeStyle.Dark,
+                _ => MetroThemeStyle.Default
+            };
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
