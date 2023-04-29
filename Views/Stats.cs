@@ -104,6 +104,7 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static int LastServerPing = 0;
         public static int CurrentLanguage = 0;
+        public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -175,6 +176,11 @@ namespace FallGuysStats {
                 try {
                     this.CurrentSettings = this.UserSettings.FindAll().First();
                     CurrentLanguage = this.CurrentSettings.Multilingual;
+                    CurrentTheme = this.CurrentSettings.Theme switch {
+                        0 => MetroThemeStyle.Light,
+                        1 => MetroThemeStyle.Dark,
+                        _ => MetroThemeStyle.Default
+                    };
                 } catch {
                     this.UserSettings.DeleteAll();
                     this.CurrentSettings = GetDefaultSettings();
@@ -276,9 +282,8 @@ namespace FallGuysStats {
             this.ResumeLayout(false);
             
             this.menu.Renderer = new ToolStripProfessionalRenderer(new MenuColorTable());
+            this.trayCMenu.Renderer = new ToolStripProfessionalRenderer(new MenuColorTable());
             this.infoStrip.Renderer = new MyToolStripSystemRenderer();
-            //this.trayCMenu.Renderer = new MyToolStripSystemRenderer();
-            this.trayIcon.Text = Multilingual.GetWord("main_fall_guys_stats");
             DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
@@ -294,7 +299,10 @@ namespace FallGuysStats {
             //    get { return Color.Red; }
             //}
             public override Color MenuBorder {
-                get { return Color.Teal; }
+                get { return CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+            }
+            public override Color ToolStripDropDownBackground {
+                get { return CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
             }
             public override Color MenuItemBorder {
                 get { return Color.DarkSeaGreen; }

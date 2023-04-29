@@ -10,6 +10,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using MetroFramework;
+
 namespace FallGuysStats {
     public sealed class Grid : DataGridView {
         public ContextMenuStrip CMenu;
@@ -42,9 +44,12 @@ namespace FallGuysStats {
             public MenuColorTable() {
                 UseSystemColors = false;
             }
-            //public override Color MenuBorder {
-            //    get { return Color.Fuchsia; }
-            //}
+            public override Color MenuBorder {
+                get { return Stats.CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+            }
+            public override Color ToolStripDropDownBackground {
+                get { return Stats.CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+            }
             public override Color MenuItemBorder {
                 get { return Color.DarkSeaGreen; }
             }

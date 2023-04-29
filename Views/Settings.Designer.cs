@@ -930,7 +930,7 @@ namespace FallGuysStats {
             // lblGameExeLocation
             // 
             this.lblGameExeLocation.AutoSize = true;
-            this.lblGameExeLocation.Location = new System.Drawing.Point(106, 20);
+            this.lblGameExeLocation.Location = new System.Drawing.Point(107, 20);
             this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGameExeLocation.Name = "lblGameExeLocation";
             this.lblGameExeLocation.Size = new System.Drawing.Size(150, 19);
