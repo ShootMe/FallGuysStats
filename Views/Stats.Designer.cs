@@ -580,6 +580,7 @@ namespace FallGuysStats {
             // 
             // trayExitProgram
             // 
+            this.trayExitProgram.Image = global::FallGuysStats.Properties.Resources.shutdown_icon;
             this.trayExitProgram.Name = "trayExitProgram";
             this.trayExitProgram.Size = new System.Drawing.Size(165, 22);
             this.trayExitProgram.Text = "Exit";

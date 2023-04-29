@@ -608,7 +608,7 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Visible = false;
 
                 this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", this.DisplayLang);
-                this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameShortcutLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
 
                 this.LaunchPlatform = 0;
@@ -621,7 +621,7 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Visible = true;
 
                 this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", this.DisplayLang);
-                this.txtGameExeLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
 
                 this.LaunchPlatform = 1;
@@ -861,11 +861,11 @@ namespace FallGuysStats {
             //this.lblOverlayColor.Location = new Point(15, 370);
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
-                this.txtGameShortcutLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameShortcutLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
             } else {
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
-                this.txtGameExeLocation.Location = new Point(this.lblGameExeLocation.Location.X + this.lblGameExeLocation.Width + 4, 74);
+                this.txtGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");

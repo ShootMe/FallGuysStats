@@ -153,6 +153,12 @@
     <data name="fallguys_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\fallguys_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="shutdown_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\shutdown_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="shutdown_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\shutdown_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="stat_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\stat_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
