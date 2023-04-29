@@ -239,10 +239,10 @@ namespace FallGuysStats {
             // 
             // lblPlayers
             // 
-            this.lblPlayers.ImageHeight = 20;
+            this.lblPlayers.ImageHeight = 22;
             this.lblPlayers.ImageWidth = 28;
             this.lblPlayers.ImageX = 5;
-            this.lblPlayers.ImageY = 0;
+            this.lblPlayers.ImageY = -1;
             this.lblPlayers.LevelColor = System.Drawing.Color.Empty;
             this.lblPlayers.Location = new System.Drawing.Point(557, 10);
             this.lblPlayers.Name = "lblPlayers";

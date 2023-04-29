@@ -219,7 +219,7 @@ namespace FallGuysStats {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
                     }
                 } else if (item is ToolStripSeparator tss) {
-                    tss.Paint += mnuToolStripSeparator_Custom_Paint;
+                    tss.Paint += this.mnuToolStripSeparator_Custom_Paint;
                     tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
@@ -229,7 +229,6 @@ namespace FallGuysStats {
             ToolStripSeparator sep = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, sep.Width, sep.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, sep.Height / 2, sep.Width - 4, sep.Height / 2); // CUSTOM_COLOR_FOREGROUND
-
         }
         private void CMenu_MouseEnter(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {

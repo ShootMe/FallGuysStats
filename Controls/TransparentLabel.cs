@@ -82,19 +82,7 @@ namespace FallGuysStats {
                         }
 
                         if (!string.IsNullOrEmpty(this.Text)) {
-                            if (this.Name.Equals("lblRound")) {
-                                if (!this.LevelColor.IsEmpty) {
-                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
-                                    //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle.X, this.ClientRectangle.Y + ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? 10 : 0), stringFormat);
-                                    
-                                } else {
-                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
-                                    //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle, stringFormat);
-                                }
-                            } else {
-                                this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
-                                //g.DrawString(this.Text, this.Font, brFore, this.ClientRectangle, stringFormat);
-                            }
+                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
                         }
 
                         if (this.Image != null) {
