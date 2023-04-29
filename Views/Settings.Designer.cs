@@ -930,7 +930,7 @@ namespace FallGuysStats {
             // lblGameExeLocation
             // 
             this.lblGameExeLocation.AutoSize = true;
-            this.lblGameExeLocation.Location = new System.Drawing.Point(8, 77);
+            this.lblGameExeLocation.Location = new System.Drawing.Point(106, 20);
             this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGameExeLocation.Name = "lblGameExeLocation";
             this.lblGameExeLocation.Size = new System.Drawing.Size(150, 19);
@@ -953,7 +953,7 @@ namespace FallGuysStats {
             this.txtGameExeLocation.CustomButton.Visible = false;
             this.txtGameExeLocation.Enabled = false;
             this.txtGameExeLocation.Lines = new string[0];
-            this.txtGameExeLocation.Location = new System.Drawing.Point(162, 74);
+            this.txtGameExeLocation.Location = new System.Drawing.Point(162, 46);
             this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameExeLocation.MaxLength = 32767;
             this.txtGameExeLocation.Name = "txtGameExeLocation";
@@ -985,7 +985,7 @@ namespace FallGuysStats {
             this.txtGameShortcutLocation.CustomButton.Visible = false;
             this.txtGameShortcutLocation.Enabled = false;
             this.txtGameShortcutLocation.Lines = new string[0];
-            this.txtGameShortcutLocation.Location = new System.Drawing.Point(162, 74);
+            this.txtGameShortcutLocation.Location = new System.Drawing.Point(162, 46);
             this.txtGameShortcutLocation.Margin = new System.Windows.Forms.Padding(2);
             this.txtGameShortcutLocation.MaxLength = 32767;
             this.txtGameShortcutLocation.Name = "txtGameShortcutLocation";
@@ -1004,7 +1004,7 @@ namespace FallGuysStats {
             // btnGameExeLocationBrowse
             // 
             this.btnGameExeLocationBrowse.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(571, 74);
+            this.btnGameExeLocationBrowse.Location = new System.Drawing.Point(571, 46);
             this.btnGameExeLocationBrowse.Margin = new System.Windows.Forms.Padding(14, 11, 14, 11);
             this.btnGameExeLocationBrowse.Name = "btnGameExeLocationBrowse";
             this.btnGameExeLocationBrowse.Size = new System.Drawing.Size(62, 25);
@@ -1018,7 +1018,7 @@ namespace FallGuysStats {
             this.chkLaunchGameOnStart.AutoSize = true;
             this.chkLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkLaunchGameOnStart.Location = new System.Drawing.Point(8, 110);
+            this.chkLaunchGameOnStart.Location = new System.Drawing.Point(8, 90);
             this.chkLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
             this.chkLaunchGameOnStart.Name = "chkLaunchGameOnStart";
             this.chkLaunchGameOnStart.Size = new System.Drawing.Size(226, 19);
