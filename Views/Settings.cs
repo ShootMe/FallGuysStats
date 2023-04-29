@@ -336,11 +336,8 @@ namespace FallGuysStats {
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
 
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
-            Stats.CurrentTheme = this.CurrentSettings.Theme switch {
-                0 => MetroThemeStyle.Light,
-                1 => MetroThemeStyle.Dark,
-                _ => MetroThemeStyle.Default
-            };
+            Stats.CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
+                this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
