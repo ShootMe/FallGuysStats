@@ -160,6 +160,7 @@ namespace FallGuysStats {
         private Point screenCenter;
         private bool maximizedForm;
         private bool isFocused;
+        private bool isFormClosing;
         private DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
 
         public Stats() {
@@ -1378,50 +1379,49 @@ namespace FallGuysStats {
                 this.maximizedForm = false;
             }
         }
-        private async void Stats_ExitProgram(object sender, EventArgs e) {
-            try {
-                if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
-                    if (this.overlay.Visible) {
-                        if (!this.overlay.IsFixed()) {
-                            this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
-                            this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
-                            this.CurrentSettings.OverlayWidth = this.overlay.Width;
-                            this.CurrentSettings.OverlayHeight = this.overlay.Height;
-                        }
-                    }
-                    //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
-                    //this.CurrentSettings.SelectedProfile = this.currentProfile;
-                    if (this.WindowState != FormWindowState.Normal) {
-                        this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
-                        this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
-                        this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
-                        this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
-                        this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
-                    } else {
-                        this.CurrentSettings.FormLocationX = this.Location.X;
-                        this.CurrentSettings.FormLocationY = this.Location.Y;
-                        this.CurrentSettings.FormWidth = this.Size.Width;
-                        this.CurrentSettings.FormHeight = this.Size.Height;
-                        this.CurrentSettings.MaximizedWindowState = false;
-                    }
-                    this.CurrentSettings.Visible = this.Visible;
-                    this.SaveUserSettings();
-                }
-                this.StatsDB.Dispose();
-                
-                await this.logFile.Stop();
-                Application.ExitThread();
-                Environment.Exit(0);
-            } catch {
-                await this.logFile.Stop();
-                Application.ExitThread();
-                Environment.Exit(0);
-            }
+        private void Stats_ExitProgram(object sender, EventArgs e) {
+            this.isFormClosing = true;
+            this.Close();
         }
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
-            this.Hide();
-            e.Cancel = true;
-            //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
+            if (this.isFormClosing) {
+                try {
+                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                        if (this.overlay.Visible) {
+                            if (!this.overlay.IsFixed()) {
+                                this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
+                                this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
+                                this.CurrentSettings.OverlayWidth = this.overlay.Width;
+                                this.CurrentSettings.OverlayHeight = this.overlay.Height;
+                            }
+                        }
+                        //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
+                        //this.CurrentSettings.SelectedProfile = this.currentProfile;
+                        if (this.WindowState != FormWindowState.Normal) {
+                            this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
+                            this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
+                            this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
+                            this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
+                            this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
+                        } else {
+                            this.CurrentSettings.FormLocationX = this.Location.X;
+                            this.CurrentSettings.FormLocationY = this.Location.Y;
+                            this.CurrentSettings.FormWidth = this.Size.Width;
+                            this.CurrentSettings.FormHeight = this.Size.Height;
+                            this.CurrentSettings.MaximizedWindowState = false;
+                        }
+                        this.CurrentSettings.Visible = this.Visible;
+                        this.SaveUserSettings();
+                    }
+                    this.StatsDB.Dispose();
+                } catch {
+                    //Application.ExitThread();
+                    //Environment.Exit(0);
+                }
+            } else {
+                this.Hide();
+                e.Cancel = true;    
+            }
         }
         private void Stats_Load(object sender, EventArgs e) {
             try {
