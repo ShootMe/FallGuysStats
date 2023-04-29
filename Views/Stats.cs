@@ -176,11 +176,8 @@ namespace FallGuysStats {
                 try {
                     this.CurrentSettings = this.UserSettings.FindAll().First();
                     CurrentLanguage = this.CurrentSettings.Multilingual;
-                    CurrentTheme = this.CurrentSettings.Theme switch {
-                        0 => MetroThemeStyle.Light,
-                        1 => MetroThemeStyle.Dark,
-                        _ => MetroThemeStyle.Default
-                    };
+                    CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
+                        this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
                 } catch {
                     this.UserSettings.DeleteAll();
                     this.CurrentSettings = GetDefaultSettings();
