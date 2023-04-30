@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
+using FallGuysStats.Entities;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -164,6 +165,8 @@ namespace FallGuysStats {
         private bool isFocused;
         private bool isFormClosing;
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
+
+        private static FallalyticsReporter StatsReporter = new FallalyticsReporter();
 
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -1588,6 +1591,15 @@ namespace FallGuysStats {
                                 stat.Profile = profile;
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);
+
+                                //Below is where reporting to fallaytics happen
+                                //Must have enabled the setting to enable tracking
+                                //Must not be a private lobby
+                                //Must be a game that is played after FallGuysStats started
+                                if (CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > startupTime) {
+                                    StatsReporter.Report(stat, CurrentSettings.FallalyticsAPIKey);
+                                }
+
                             } else {
                                 continue;
                             }
