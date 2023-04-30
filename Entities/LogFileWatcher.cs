@@ -177,7 +177,7 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (logRound.LastPing >= 0) {
+                        if (logRound.LastPing != 0) {
                             Stats.LastServerPing = logRound.LastPing;
                         }
                         this.OnParsedLogLinesCurrent?.Invoke(round);
@@ -606,7 +606,7 @@ namespace FallGuysStats {
                     } else {
                         if (detail.IndexOf("> Kudos: ", StringComparison.OrdinalIgnoreCase) == 0) {
                             questKudos = int.Parse(detail.Substring(9));
-                            //Fame, Crowns, CurrentCrownShards
+                            //> Fame:, > Crowns:, > CurrentCrownShards:
                         }
                     }
                 }
