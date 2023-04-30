@@ -2879,6 +2879,7 @@ namespace FallGuysStats {
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.UpdateGridRoundName();
                         this.UpdateHoopsieLegends();
+                        this.Refresh();
                         this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
                         this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
