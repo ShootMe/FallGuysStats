@@ -5,57 +5,56 @@ using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
 
-namespace FallGuysStats.Entities {
+namespace FallGuysStats {
     internal class FallalyticsReporter {
-
-        public List<RoundInfo> gameList = new List<RoundInfo>();
+        private List<RoundInfo> roundList = new List<RoundInfo>();
 
         private static readonly string APIEndpoint = "https://fallalytics.com/api/report";
 
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         public async void Report(RoundInfo stat, string APIKey) {
-            var request = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
 
-            request.Content = new StringContent(RoundInfoToJSONString(stat), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToJSONString(stat), Encoding.UTF8, "application/json");
             try {
-                await client.SendAsync(request);
+                await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
-                Console.WriteLine("Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: " + e.ToString());
+                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e}");
             }
 
             if(stat.Round == 1) {
-                foreach (RoundInfo game in gameList.ToList()) {
-                    if(game.ShowID != stat.ShowID) {
-                        gameList.Remove(game);
+                foreach (RoundInfo roundInfo in this.roundList.ToList()) {
+                    if(roundInfo.ShowID != stat.ShowID) {
+                        this.roundList.Remove(roundInfo);
                     }
                 } 
             }
 
-            gameList.Add(stat);
+            this.roundList.Add(stat);
 
             bool foundMissMatch = false;
             int finalRound = -1;
-            foreach (RoundInfo game in gameList.ToList()) {
-                if(game.SessionId != stat.SessionId) {
+            foreach (RoundInfo roundInfo in this.roundList.ToList()) {
+                if(roundInfo.SessionId != stat.SessionId) {
                     foundMissMatch = true;
                 }
-                if (game.IsFinal) {
-                    finalRound = game.Round;
+                if (roundInfo.IsFinal) {
+                    finalRound = roundInfo.Round;
                 }
             }
-            if (gameList.Count == finalRound && !foundMissMatch) {
-                gameComplete(APIKey);
+            if (this.roundList.Count == finalRound && !foundMissMatch) {
+                this.showComplete(APIKey);
             }
         }
-        public async void gameComplete(string APIKey) {
-            var requestArray = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
+        public async void showComplete(string APIKey) {
+            HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
             requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             string jsonArraystring = "[";
-            foreach (RoundInfo game in gameList) {
-                jsonArraystring += RoundInfoToJSONString(game);
+            foreach (RoundInfo game in this.roundList) {
+                jsonArraystring += this.RoundInfoToJSONString(game);
                 jsonArraystring += ",";
             }
             jsonArraystring = jsonArraystring.Remove(jsonArraystring.Length - 1);
@@ -64,21 +63,21 @@ namespace FallGuysStats.Entities {
             requestArray.Content = new StringContent(jsonArraystring, Encoding.UTF8, "application/json");
 
             try {
-                await client.SendAsync(requestArray);
+                await HttpClient.SendAsync(requestArray);
             } catch (HttpRequestException e) {
-                Console.WriteLine("Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: " + e.ToString());
+                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e}");
             }
             
-            gameList = new List<RoundInfo>();
+            this.roundList = new List<RoundInfo>();
         }
         public string RoundInfoToJSONString(RoundInfo round) {
-            string JSON = "";
-            JSON += "{\"round\":\"" + round.Name + "\",";
-            JSON += "\"index\":" + round.Round + ",";
-            JSON += "\"show\":\"" + round.ShowNameId + "\",";
-            JSON += "\"isfinal\":" + round.IsFinal.ToString().ToLower() + ",";
-            JSON += "\"session\":\"" + round.SessionId + "\"}";
-            return JSON;
+            string json = "";
+            json += "{\"round\":\"" + round.Name + "\",";
+            json += "\"index\":" + round.Round + ",";
+            json += "\"show\":\"" + round.ShowNameId + "\",";
+            json += "\"isfinal\":" + round.IsFinal.ToString().ToLower() + ",";
+            json += "\"session\":\"" + round.SessionId + "\"}";
+            return json;
         }
     }
 }

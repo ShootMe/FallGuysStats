@@ -26,6 +26,10 @@ namespace FallGuysStats {
         private int LaunchPlatform;
         private int DisplayLang;
         private bool CboOverlayBackgroundIsFocus;
+
+        private Bitmap ResizeImage(Bitmap source, int scale) {
+            return new Bitmap(source, new Size(source.Width / scale, source.Height / scale));
+        }
         public Settings() {
             this.InitializeComponent();
         }
@@ -35,7 +39,7 @@ namespace FallGuysStats {
             this.ResumeLayout(false);
 
             this.ChangeTab(this.tileProgram, null);
-
+            
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
@@ -709,6 +713,7 @@ namespace FallGuysStats {
             this.tileDisplay.Text = Multilingual.GetWord("settings_display");
             this.tileOverlay.Text = Multilingual.GetWord("settings_overlay");
             this.tileFallGuys.Text = Multilingual.GetWord("settings_launch_fallguys");
+            this.tileFallalytics.Text = Multilingual.GetWord("settings_fallalytics");
             this.tileAbout.Text = Multilingual.GetWord("settings_about");
 
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
@@ -877,11 +882,17 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
+            this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
+            this.fallalyticsAPIKeyLable.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
+            this.fallalyticsLink.Text = Multilingual.GetWord("settings_visit_fallalytics");
+            
+            this.fglink1.Text = Multilingual.GetWord("settings_github");
+            this.fglink2.Text = Multilingual.GetWord("settings_issue_traker");
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
 #if AllowUpdate
-            this.lblVersion.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
+            this.lblVersion.Text = $"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
 #else
-            this.lblVersion.Text = $"Fall Guys Stats v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} (Manual Update Version)";
+            this.lblVersion.Text = $"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)} ({Multilingual.GetWord("main_manual_update_version")})";
             this.chkAutoUpdate.Visible = false;
 #endif
             Stats.CurrentLanguage = tempLanguage;
@@ -908,41 +919,35 @@ namespace FallGuysStats {
             this.tileAbout.Style = MetroColorStyle.Silver;
             this.tileFallalytics.Style = MetroColorStyle.Silver;
             if (sender.Equals(this.tileProgram)) {
-                this.tileProgram.Style = MetroColorStyle.Blue;
+                this.tileProgram.Style = MetroColorStyle.Teal;
                 this.panelProgram.Visible = true;
             }
             if (sender.Equals(this.tileDisplay)) {
-                this.tileDisplay.Style = MetroColorStyle.Blue;
+                this.tileDisplay.Style = MetroColorStyle.Teal;
                 this.panelDisplay.Visible = true;
             }
             if (sender.Equals(this.tileOverlay)) {
-                this.tileOverlay.Style = MetroColorStyle.Blue;
+                this.tileOverlay.Style = MetroColorStyle.Teal;
                 this.panelOverlay.Visible = true;
             }
             if (sender.Equals(this.tileFallGuys)) {
-                this.tileFallGuys.Style = MetroColorStyle.Blue;
+                this.tileFallGuys.Style = MetroColorStyle.Teal;
                 this.panelFallGuys.Visible = true;
             }
             if (sender.Equals(this.tileAbout)) {
-                this.tileAbout.Style = MetroColorStyle.Blue;
+                this.tileAbout.Style = MetroColorStyle.Teal;
                 this.panelAbout.Visible = true;
             }
             if (sender.Equals(this.tileFallalytics)) {
-                this.tileFallalytics.Style = MetroColorStyle.Blue;
+                this.tileFallalytics.Style = MetroColorStyle.Teal;
                 this.panelFallalytics.Visible = true;
             }
-            this.tileProgram.Refresh();
-            this.tileDisplay.Refresh();
-            this.tileOverlay.Refresh();
-            this.tileFallGuys.Refresh();
-            this.tileFallalytics.Refresh();
-            this.tileAbout.Refresh();
+            this.Refresh();
 
             if (sender.Equals(this.tileAbout)) {
-                this.btnCheckUpdates.Visible = false;
 #if AllowUpdate
                 this.lblupdateNote.UseCustomForeColor = false;
-                this.lblupdateNote.Text = $"Checking updates...";
+                this.lblupdateNote.Text = $"Checking for updates...";
                 using (ZipWebClient web = new ZipWebClient()) {
                     string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
 
@@ -952,8 +957,8 @@ namespace FallGuysStats {
                         Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                         Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                         if (newVersion > currentVersion) {
-                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)}{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
-                            this.lblupdateNote.ForeColor = Color.Green;
+                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)} v{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
+                            this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.LimeGreen : Color.LightGreen;
                             this.lblupdateNote.UseCustomForeColor = true;
                             this.btnCheckUpdates.Visible = true;
                         } else {
@@ -988,12 +993,16 @@ namespace FallGuysStats {
             if (sender.Equals(this.lbltpl4)) {
                 this.openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
             }
+            if (sender.Equals(this.fallalyticsLink)) {
+                this.openLink(@"https://fallalytics.com/");
+            }
         }
         private void openLink(string link) {
             try {
                 Process.Start(link);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

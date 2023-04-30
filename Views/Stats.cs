@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
-using FallGuysStats.Entities;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -107,6 +106,7 @@ namespace FallGuysStats {
         public static int LastServerPing = 0;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
+        private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -150,23 +150,21 @@ namespace FallGuysStats {
         private int currentProfile;
         private Color infoStripForeColor;
         
-        private Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
-        private Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
-        private Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
-        private Image numberFour = ImageOpacity(Properties.Resources.number_4,  0.5F);
-        private Image numberFive = ImageOpacity(Properties.Resources.number_5,  0.5F);
-        private Image numberSix = ImageOpacity(Properties.Resources.number_6,   0.5F);
-        private Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
-        private Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
-        private Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
+        private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
+        private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
+        private readonly Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
+        private readonly Image numberFour = ImageOpacity(Properties.Resources.number_4,  0.5F);
+        private readonly Image numberFive = ImageOpacity(Properties.Resources.number_5,  0.5F);
+        private readonly Image numberSix = ImageOpacity(Properties.Resources.number_6,   0.5F);
+        private readonly Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
+        private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
+        private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
         private Point screenCenter;
         private bool maximizedForm;
         private bool isFocused;
         private bool isFormClosing;
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
-
-        private static FallalyticsReporter StatsReporter = new FallalyticsReporter();
 
         public Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -1597,9 +1595,8 @@ namespace FallGuysStats {
                                 //Must not be a private lobby
                                 //Must be a game that is played after FallGuysStats started
                                 if (CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > startupTime) {
-                                    StatsReporter.Report(stat, CurrentSettings.FallalyticsAPIKey);
+                                    FallalyticsReporter.Report(stat, CurrentSettings.FallalyticsAPIKey);
                                 }
-
                             } else {
                                 continue;
                             }
