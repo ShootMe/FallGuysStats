@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
+
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
         [DllImport("user32.dll")]
@@ -278,14 +279,32 @@ namespace FallGuysStats {
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
             
-            this.menu.Renderer = new ToolStripProfessionalRenderer(new MenuColorTable());
-            this.trayCMenu.Renderer = new ToolStripProfessionalRenderer(new MenuColorTable());
+            this.menu.Renderer = new CustomArrowRenderer();
+            this.trayCMenu.Renderer = new CustomArrowRenderer();
             this.infoStrip.Renderer = new MyToolStripSystemRenderer();
             DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
+        }
+        
+        public class CustomArrowRenderer : ToolStripProfessionalRenderer {
+            public CustomArrowRenderer() : base(new MenuColorTable()) { }
+            protected override void OnRenderArrow (ToolStripArrowRenderEventArgs e) {
+                //var tsMenuItem = e.Item as ToolStripMenuItem;
+                //if (tsMenuItem != null) e.ArrowColor = CurrentTheme == MetroThemeStyle.Dark ? Color.DarkGray : Color.FromArgb(17, 17, 17);
+                //Point point = new Point(e.ArrowRectangle.Left + e.ArrowRectangle.Width / 2, e.ArrowRectangle.Top + e.ArrowRectangle.Height / 2);
+                //Point[] points = new Point[3]
+                //{
+                //    new Point(point.X - 2, point.Y - 4),
+                //    new Point(point.X - 2, point.Y + 4),
+                //    new Point(point.X + 2, point.Y)
+                //};
+                //e.Graphics.FillPolygon(Brushes.DarkGray, points);
+                e.ArrowColor = CurrentTheme == MetroThemeStyle.Dark ? Color.DarkGray : Color.FromArgb(17, 17, 17);
+                base.OnRenderArrow(e);
+            }
         }
         
         private class MenuColorTable : ProfessionalColorTable {
