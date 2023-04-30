@@ -53,6 +53,7 @@ namespace FallGuysStats {
         private Thread watcher, parser;
         public Stats StatsForm { get; set; }
         private string selectedShowId;
+        private string sessionId;
         private bool autoChangeProfile, preventMouseCursorBugs;
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
@@ -366,8 +367,12 @@ namespace FallGuysStats {
                     this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
                 }
             }
+            else if (line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                //Store SessionID to prevent duplicates
+                this.sessionId = line.Line.Substring(line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase) + 33);
+            }
             else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
-                logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId };
+                logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId };
                 int index2 = line.Line.IndexOf(' ', index + 44);
                 if (index2 < 0) { index2 = line.Line.Length; }
 

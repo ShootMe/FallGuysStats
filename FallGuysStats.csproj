@@ -172,9 +172,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-      <Compile Include="Controls\ImageComboBox.cs">
-          <SubType>Component</SubType>
-      </Compile>
+    <Compile Include="Controls\ImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Graph.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -184,6 +184,7 @@
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Entities\FallalyticsReporter.cs" />
     <Compile Include="Entities\ImageItem.cs" />
     <Compile Include="Entities\Json.cs" />
     <Compile Include="Entities\LevelType.cs" />
