@@ -124,6 +124,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - 1.153
+    - Add Fallalytics reporting (Optional)
   - 1.152
     - Add tray icon
     - Save kudos from quests
