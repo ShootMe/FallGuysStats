@@ -14,7 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <ApplicationIcon>Resources\fall2.ico</ApplicationIcon>
-    <LangVersion>11</LangVersion>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -47,7 +47,6 @@
     <Optimize>true</Optimize>
     <DebugType>embedded</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
@@ -375,6 +374,8 @@
     <None Include="Resources\bar_plot_gray_icon.png" />
     <None Include="Resources\scatter_plot_icon.png" />
     <None Include="Resources\scatter_plot_gray_icon.png" />
+    <None Include="Resources\shutdown_gray_icon.png" />
+    <None Include="Resources\shutdown_icon.png" />
     <None Include="Resources\round_icon\final\icon_Blast_Ball.png" />
     <None Include="Resources\round_icon\final\icon_FallMountain.png" />
     <None Include="Resources\round_icon\final\icon_Hex-A-Ring.png" />
