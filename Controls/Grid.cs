@@ -6,9 +6,12 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using MetroFramework;
+
 namespace FallGuysStats {
     public sealed class Grid : DataGridView {
         public ContextMenuStrip CMenu;
@@ -19,6 +22,51 @@ namespace FallGuysStats {
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
+        private DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
+        public enum DWMWINDOWATTRIBUTE {
+            DWMWA_WINDOW_CORNER_PREFERENCE = 33
+        }
+        // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
+        // what value of the enum to set.
+        public enum DWM_WINDOW_CORNER_PREFERENCE {
+            DWMWCP_DEFAULT      = 0,
+            DWMWCP_DONOTROUND   = 1,
+            DWMWCP_ROUND        = 2,
+            DWMWCP_ROUNDSMALL   = 3
+        }
+        // Import dwmapi.dll and define DwmSetWindowAttribute in C# corresponding to the native function.
+        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern long DwmSetWindowAttribute(IntPtr hWnd,
+            DWMWINDOWATTRIBUTE attribute,
+            ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
+            uint cbAttribute);
+        private class CustomColorTable : ProfessionalColorTable {
+            public CustomColorTable() { UseSystemColors = false; }
+            public override Color MenuBorder {
+                get { return Stats.CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+            }
+            public override Color ToolStripDropDownBackground {
+                get { return Stats.CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+            }
+            public override Color MenuItemBorder {
+                get { return Color.DarkSeaGreen; }
+            }
+            public override Color MenuItemSelected {
+                get { return Color.LightGreen; }
+            }
+            //public override Color MenuItemSelectedGradientBegin {
+            //    get { return Color.LawnGreen; }
+            //}
+            //public override Color MenuItemSelectedGradientEnd {
+            //    get { return Color.MediumSeaGreen; }
+            //}
+            //public override Color MenuStripGradientBegin {
+            //    get { return Color.AliceBlue; }
+            //}
+            //public override Color MenuStripGradientEnd {
+            //    get { return Color.DodgerBlue; }
+            //}
+        }
         public Grid() {
             this.SetContextMenu();
             this.AllowUserToAddRows = false;
@@ -31,13 +79,15 @@ namespace FallGuysStats {
             this.BorderStyle = BorderStyle.None;
             this.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.RowHeadersWidth = 20;
-            this.ContextMenuStrip = CMenu;
+            this.ContextMenuStrip = this.CMenu;
             this.readOnly = false;
             this.EnableHeadersVisualStyles = false;
             this.ColumnHeadersDefaultCellStyle.BackColor = Color.LightGray;
             this.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             this.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
+            DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
+            this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
         }
         public SortOrder GetSortOrder(string columnName) {
             this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
