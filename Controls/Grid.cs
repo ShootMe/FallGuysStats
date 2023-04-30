@@ -40,10 +40,8 @@ namespace FallGuysStats {
             DWMWINDOWATTRIBUTE attribute,
             ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
             uint cbAttribute);
-        private class MenuColorTable : ProfessionalColorTable {
-            public MenuColorTable() {
-                UseSystemColors = false;
-            }
+        private class CustomColorTable : ProfessionalColorTable {
+            public CustomColorTable() { UseSystemColors = false; }
             public override Color MenuBorder {
                 get { return Stats.CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
             }
@@ -89,7 +87,7 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
             DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
-            this.CMenu.Renderer = new ToolStripProfessionalRenderer(new MenuColorTable());
+            this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
         }
         public SortOrder GetSortOrder(string columnName) {
             this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
