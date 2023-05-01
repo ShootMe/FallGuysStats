@@ -166,7 +166,7 @@ namespace FallGuysStats {
         private bool isFormClosing;
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
 
-        public Stats() {
+        private Stats() {
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
@@ -220,14 +220,9 @@ namespace FallGuysStats {
                 this.StatLookup.Add(entry.Key, entry.Value);
             }
             
-            this.InitMainDataGridView();
-            this.ChangeMainLanguage();
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
-            
-            this.UpdateGridRoundName();
-            this.UpdateHoopsieLegends();
 
             this.RoundDetails.EnsureIndex(x => x.Name);
             this.RoundDetails.EnsureIndex(x => x.ShowID);
@@ -235,8 +230,14 @@ namespace FallGuysStats {
             this.RoundDetails.EnsureIndex(x => x.Start);
             this.RoundDetails.EnsureIndex(x => x.InParty);
             this.StatsDB.Commit();
-
+            
             this.UpdateDatabaseVersion();
+            
+            this.InitMainDataGridView();
+            this.ChangeMainLanguage();
+            
+            this.UpdateGridRoundName();
+            this.UpdateHoopsieLegends();
             
             this.CurrentRound = new List<RoundInfo>();
 
@@ -288,6 +289,8 @@ namespace FallGuysStats {
             DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+
+            this.trayIcon.Visible = true;
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
@@ -1436,7 +1439,6 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
-                Console.WriteLine(this.CurrentSettings.Visible);
                 if (this.CurrentSettings.Visible) {
                     this.Show();
                     this.ShowInTaskbar = true;
