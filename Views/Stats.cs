@@ -66,7 +66,7 @@ namespace FallGuysStats {
                     Application.Run(new Stats());
                 }
             } catch (Exception ex) {
-                MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private static bool IsAlreadyRunning(string sysLang) {
@@ -83,7 +83,7 @@ namespace FallGuysStats {
                 }
                 return false;
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, @"Process Exception");
+                MessageBox.Show(ex.Message, @"Process Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
         }
@@ -203,6 +203,7 @@ namespace FallGuysStats {
             if (this.Profiles.Count() == 0) {
                 using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name)) {
                     initLanguageForm.Icon = this.Icon;
+                    this.EnableTrayMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
                         Overlay.SetDefaultFont(CurrentLanguage, 18);
@@ -212,6 +213,7 @@ namespace FallGuysStats {
                         this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template" });
                         this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show" });
                     }
+                    this.EnableTrayMenu(true);
                 }
             }
             
@@ -1568,6 +1570,7 @@ namespace FallGuysStats {
                                         editShows.Icon = this.Icon;
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
+                                        this.EnableTrayMenu(false);
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
                                             profile = editShows.SelectedProfileId;
@@ -1576,6 +1579,7 @@ namespace FallGuysStats {
                                         } else {
                                             this.askedPreviousShows = 2;
                                         }
+                                        this.EnableTrayMenu(true);
                                     }
                                 }
 
@@ -2141,7 +2145,9 @@ namespace FallGuysStats {
                         rounds.Sort();
                         levelDetails.RoundDetails = rounds;
                         levelDetails.StatsForm = this;
+                        this.EnableTrayMenu(false);
                         levelDetails.ShowDialog(this);
+                        this.EnableTrayMenu(true);
                     }
                 } else {
                     this.ToggleWinPercentageDisplay();
@@ -2258,7 +2264,9 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = shows;
                 levelDetails.StatsForm = this;
+                this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableTrayMenu(true);
             }
         }
         private void ShowRounds() {
@@ -2271,7 +2279,9 @@ namespace FallGuysStats {
                 rounds.Sort();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
+                this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableTrayMenu(true);
             }
         }
         private void ShowFinals() {
@@ -2296,7 +2306,9 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
+                this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableTrayMenu(true);
             }
         }
         private void ShowWinGraph() {
@@ -2378,7 +2390,9 @@ namespace FallGuysStats {
                     display.wins = null;
                 }
 
+                this.EnableTrayMenu(false);
                 display.ShowDialog(this);
+                this.EnableTrayMenu(true);
             }
         }
         private void LaunchHelpInBrowser() {
@@ -2465,6 +2479,11 @@ namespace FallGuysStats {
                 this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
                 this.SaveUserSettings();
             }
+        }
+        public void EnableTrayMenu(bool enable) {
+            this.traySettings.Enabled = enable;
+            this.trayFilters.Enabled = enable;
+            this.trayProfile.Enabled = enable;
         }
         private string FindGameExeLocation() {
             try {
@@ -2865,6 +2884,7 @@ namespace FallGuysStats {
                     settings.StatsForm = this;
                     settings.Overlay = this.overlay;
                     string lastLogPath = this.CurrentSettings.LogPath;
+                    this.EnableTrayMenu(false);
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
                         this.SuspendLayout();
@@ -2903,6 +2923,7 @@ namespace FallGuysStats {
                     } else {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
+                    this.EnableTrayMenu(true);
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
@@ -2963,7 +2984,9 @@ namespace FallGuysStats {
                     editProfiles.StatsForm = this;
                     editProfiles.Profiles = this.AllProfiles;
                     editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
+                    this.EnableTrayMenu(false);
                     editProfiles.ShowDialog(this);
+                    this.EnableTrayMenu(true);
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
                         this.AllProfiles = editProfiles.Profiles;
