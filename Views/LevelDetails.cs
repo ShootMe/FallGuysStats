@@ -43,7 +43,7 @@ namespace FallGuysStats {
             int lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
-                    return this.Width - (lang == 0 ? -2 : lang == 1 ? -35 : lang == 2 ? 40 : lang == 3 ? -13 : 46);
+                    return this.Width - (lang == 0 ? -13 : lang == 1 ? -46 : lang == 2 ? 28 : lang == 3 ? -23 : 46);
                 case "Rounds":
                     return this.Width + (lang == 0 ? 816 : lang == 1 ? 858 : lang == 2 ? 733 : lang == 3 ? 800 : 739);
                 case "Finals":
@@ -279,6 +279,7 @@ namespace FallGuysStats {
             this.gridDetails.Columns["Qualified"].Visible = false;
             this.gridDetails.Columns["IsFinal"].Visible = false;
             this.gridDetails.Columns["IsTeam"].Visible = false;
+            this.gridDetails.Columns["SessionId"].Visible = false;
             if (this._showStats == 0) {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
@@ -292,7 +293,7 @@ namespace FallGuysStats {
             }
             this.gridDetails.Setup("ShowID", pos++, this.GetDataGridViewColumnWidth("ShowID", $"{Multilingual.GetWord("level_detail_show_id")}"), $"{Multilingual.GetWord("level_detail_show_id")}", DataGridViewContentAlignment.MiddleRight);
             this.gridDetails.Setup("ShowNameId", pos++, this.GetDataGridViewColumnWidth("ShowNameId", $"{Multilingual.GetWord("level_detail_show_name_id")}"), $"{Multilingual.GetWord("level_detail_show_name_id")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridDetails.Setup("Round", pos++, this.GetDataGridViewColumnWidth("Round", $"{Multilingual.GetWord("level_detail_round")}"), $"{Multilingual.GetWord("level_detail_round")}{(_showStats == 2 ? Multilingual.GetWord("level_detail_round_suffix") : "")}", DataGridViewContentAlignment.MiddleRight);
+            this.gridDetails.Setup("Round", pos++, this.GetDataGridViewColumnWidth("Round", $"{Multilingual.GetWord("level_detail_round")}{(_showStats == 2 ? Multilingual.GetWord("level_detail_round_suffix") : "")}"), $"{Multilingual.GetWord("level_detail_round")}{(_showStats == 2 ? Multilingual.GetWord("level_detail_round_suffix") : "")}", DataGridViewContentAlignment.MiddleRight);
             if (this._showStats == 1) { // Rounds
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
