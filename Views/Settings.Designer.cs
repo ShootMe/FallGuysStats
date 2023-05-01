@@ -777,7 +777,7 @@ namespace FallGuysStats {
             this.picPlatformCheck.Image = global::FallGuysStats.Properties.Resources.checkmark_icon;
             this.picPlatformCheck.Location = new System.Drawing.Point(10, 0);
             this.picPlatformCheck.Name = "picPlatformCheck";
-            this.picPlatformCheck.Size = new System.Drawing.Size(28, 22);
+            this.picPlatformCheck.Size = new System.Drawing.Size(17, 17);
             this.picPlatformCheck.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPlatformCheck.TabIndex = 0;
             this.picPlatformCheck.TabStop = false;
@@ -787,7 +787,7 @@ namespace FallGuysStats {
             this.picEpicGames.BackColor = System.Drawing.Color.Transparent;
             this.picEpicGames.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picEpicGames.Image = global::FallGuysStats.Properties.Resources.epic_icon;
-            this.picEpicGames.Location = new System.Drawing.Point(5, 17);
+            this.picEpicGames.Location = new System.Drawing.Point(3, 17);
             this.picEpicGames.Name = "picEpicGames";
             this.picEpicGames.Size = new System.Drawing.Size(46, 38);
             this.picEpicGames.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -801,7 +801,7 @@ namespace FallGuysStats {
             this.picSteam.BackColor = System.Drawing.Color.Transparent;
             this.picSteam.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picSteam.Image = global::FallGuysStats.Properties.Resources.steam_icon;
-            this.picSteam.Location = new System.Drawing.Point(47, 18);
+            this.picSteam.Location = new System.Drawing.Point(45, 19);
             this.picSteam.Name = "picSteam";
             this.picSteam.Size = new System.Drawing.Size(45, 34);
             this.picSteam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
