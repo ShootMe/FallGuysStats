@@ -22,7 +22,7 @@ namespace FallGuysStats {
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
-                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e}");
+                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e.Message}");
             }
 
             if(stat.Round == 1) {
@@ -65,7 +65,7 @@ namespace FallGuysStats {
             try {
                 await HttpClient.SendAsync(requestArray);
             } catch (HttpRequestException e) {
-                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e}");
+                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e.Message}");
             }
             
             this.roundList = new List<RoundInfo>();
