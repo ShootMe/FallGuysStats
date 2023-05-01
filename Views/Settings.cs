@@ -196,7 +196,7 @@ namespace FallGuysStats {
             this.chkLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
 
-            this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
+            //this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
@@ -639,7 +639,7 @@ namespace FallGuysStats {
 
                 this.LaunchPlatform = 1;
             }
-            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
+            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(20, 16) : new Point(19, 14);
         }
         private void btnCancel_Click(object sender, EventArgs e) {
             this.DialogResult = DialogResult.Cancel;
@@ -716,7 +716,7 @@ namespace FallGuysStats {
             this.tileFallalytics.Text = Multilingual.GetWord("settings_fallalytics");
             this.tileAbout.Text = Multilingual.GetWord("settings_about");
 
-            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(11, 1) : new Point(9, 1);
+            this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(20, 16) : new Point(19, 14);
 
             this.lblTheme.Text = Multilingual.GetWord("settings_theme");
             this.cboTheme.Items.Clear();
