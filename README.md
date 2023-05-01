@@ -68,9 +68,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Hit Keys `T` to toggle background colors.
   - Hit Keys `F` to flip the Display.
   - Hit Keys `P` to change the profile order.
-  - Hit Keys `1` through **'9'** to select profiles 1 through 9.
-  - Hit Keys `Shift + mouse wheel Up and Down` to select a profile up or down.
-  - Hit Keys `Shift + (Up, Left) and (Down, Right) arrow keys` to select a profile up or down.
+  - Hit Keys `1 through 9` to select profiles 1 through 9.
+  - Hit Keys `Shift + mouse wheel Up` or `Shift + mouse wheel Down` to select the previous or next profile.
+  - Hit Keys `Shift + (Up, Left) arrow keys` or `Shift + (Down, Right) arrow keys` to select the previous or next profile.
   - Hit Keys `C` to shows the number of users by platform.
   - Hit Keys `R` the round name shows the colored badge for the round type.
 
