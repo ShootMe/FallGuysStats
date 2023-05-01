@@ -2484,6 +2484,10 @@ namespace FallGuysStats {
             this.traySettings.Enabled = enable;
             this.trayFilters.Enabled = enable;
             this.trayProfile.Enabled = enable;
+            if (enable) {
+                this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+            }
         }
         private string FindGameExeLocation() {
             try {
