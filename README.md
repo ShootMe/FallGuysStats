@@ -80,7 +80,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 
 ### How to Overlay Background Image Customized
-  - **Step 1.** Edit the **background.png** and **tab.png** in the Overlay folder of the FallGuysStats folder as desired.
+  - **Step 1.** Edit the `background.png` and `tab.png` in the Overlay folder of the FallGuysStats folder as desired.
 
 
   - **Step 2.** Rename the edited image as below.
