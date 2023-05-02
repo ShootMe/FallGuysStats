@@ -62,6 +62,7 @@ namespace FallGuysStats {
             this.lblSilverMedal = new System.Windows.Forms.ToolStripLabel();
             this.lblBronzeMedal = new System.Windows.Forms.ToolStripLabel();
             this.lblPinkMedal = new System.Windows.Forms.ToolStripLabel();
+            this.lblEliminatedMedal = new System.Windows.Forms.ToolStripLabel();
             this.lblKudos = new System.Windows.Forms.ToolStripLabel();
             this.gridDetails = new FallGuysStats.Grid();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -359,7 +360,7 @@ namespace FallGuysStats {
             this.infoStrip2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblTotalTime, this.lblGoldMedal, this.lblSilverMedal, this.lblBronzeMedal, this.lblPinkMedal, this.lblKudos });
+            this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblTotalTime, this.lblGoldMedal, this.lblSilverMedal, this.lblBronzeMedal, this.lblPinkMedal, this.lblEliminatedMedal, this.lblKudos });
             this.infoStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip2.Location = new System.Drawing.Point(0, 120);
             this.infoStrip2.Name = "infoStrip2";
@@ -407,6 +408,14 @@ namespace FallGuysStats {
             this.lblPinkMedal.Name = "lblPinkMedal";
             this.lblPinkMedal.Size = new System.Drawing.Size(30, 16);
             this.lblPinkMedal.Text = "0";
+            // 
+            // lblEliminatedMedal
+            // 
+            this.lblEliminatedMedal.Image = global::FallGuysStats.Properties.Resources.medal_eliminated;
+            this.lblEliminatedMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblEliminatedMedal.Name = "lblEliminatedMedal";
+            this.lblEliminatedMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblEliminatedMedal.Text = "0";
             // 
             // lblKudos
             // 
@@ -706,6 +715,7 @@ namespace FallGuysStats {
         private System.Windows.Forms.ToolStripLabel lblSilverMedal;
         private System.Windows.Forms.ToolStripLabel lblBronzeMedal;
         private System.Windows.Forms.ToolStripLabel lblPinkMedal;
+        private System.Windows.Forms.ToolStripLabel lblEliminatedMedal;
         private System.Windows.Forms.ToolStripLabel lblKudos;
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem menuEditProfiles;

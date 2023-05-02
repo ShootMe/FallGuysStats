@@ -130,7 +130,7 @@ namespace FallGuysStats {
         private int Wins;
         private int Finals;
         private int Kudos;
-        private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals;
+        private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals, EliminatedMedals;
         private int nextShowID;
         private bool loadingExisting;
         private bool updateFilterType;
@@ -456,6 +456,7 @@ namespace FallGuysStats {
                                 case "lblSilverMedal":
                                 case "lblBronzeMedal":
                                 case "lblPinkMedal":
+                                case "lblEliminatedMedal":
                                 case "lblKudos":
                                     tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
                             }
@@ -1644,6 +1645,8 @@ namespace FallGuysStats {
                                     this.BronzeMedals++;
                                     break;
                             }
+                        } else {
+                            this.EliminatedMedals++;
                         }
                         
                         this.Kudos += stat.Kudos;
@@ -1899,6 +1902,7 @@ namespace FallGuysStats {
             this.SilverMedals = 0;
             this.BronzeMedals = 0;
             this.PinkMedals = 0;
+            this.EliminatedMedals = 0;
             this.Kudos = 0;
         }
         private void UpdateTotals() {
@@ -1920,11 +1924,13 @@ namespace FallGuysStats {
                 this.lblSilverMedal.Text = $"{this.SilverMedals}";
                 this.lblBronzeMedal.Text = $"{this.BronzeMedals}";
                 this.lblPinkMedal.Text = $"{this.PinkMedals}";
+                this.lblEliminatedMedal.Text = $"{this.EliminatedMedals}";
                 this.lblKudos.Text = $"{this.Kudos}";
                 this.lblGoldMedal.Visible = this.GoldMedals != 0;
                 this.lblSilverMedal.Visible = this.SilverMedals != 0;
                 this.lblBronzeMedal.Visible = this.BronzeMedals != 0;
                 this.lblPinkMedal.Visible = this.PinkMedals != 0;
+                this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0;
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
