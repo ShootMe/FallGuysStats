@@ -171,7 +171,8 @@ namespace FallGuysStats {
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason IngameMenuLeaveMatch", StringComparison.OrdinalIgnoreCase) > 0
-                                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason LeaveMatchSquadMode", StringComparison.OrdinalIgnoreCase) > 0) {
+                                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason LeaveMatchSquadMode", StringComparison.OrdinalIgnoreCase) > 0
+                                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             }
