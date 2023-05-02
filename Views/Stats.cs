@@ -2600,10 +2600,60 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
-        private void lblCurrentProfile_Click(object sender, EventArgs e) {
-            for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
-                if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
-                if (this.shiftKeyToggle) {
+        private void Stats_KeyUp(object sender, KeyEventArgs e) {
+            switch (e.KeyCode) {
+                case Keys.ShiftKey:
+                    this.shiftKeyToggle = false;
+                    break;
+                case Keys.ControlKey:
+                    this.ctrlKeyToggle = false;
+                    break;
+            }
+        }
+
+        private void Stats_KeyDown(object sender, KeyEventArgs e) {
+            switch (e.KeyCode) {
+                case Keys.ShiftKey:
+                    this.shiftKeyToggle = true;
+                    break;
+                case Keys.ControlKey:
+                    this.ctrlKeyToggle = true;
+                    break;
+            }
+        }
+        private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
+                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
+                    if (this.shiftKeyToggle) {
+                        if (menuItem.Checked && i - 1 >= 0) {
+                            this.ProfileMenuItems[i - 1].PerformClick();
+                            this.ProfileTrayItems[i].Checked = false;
+                            this.ProfileTrayItems[i - 1].Checked = true;
+                            break;
+                        } else if (menuItem.Checked && i - 1 < 0) {
+                            this.ProfileMenuItems[this.ProfileTrayItems.Count - 1].PerformClick();
+                            this.ProfileTrayItems[0].Checked = false;
+                            this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = true;
+                            break;
+                        }
+                    } else {
+                        if (menuItem.Checked && i + 1 < this.ProfileMenuItems.Count) {
+                            this.ProfileMenuItems[i + 1].PerformClick();
+                            this.ProfileTrayItems[i].Checked = false;
+                            this.ProfileTrayItems[i + 1].Checked = true;
+                            break;
+                        } else if (menuItem.Checked && i + 1 >= this.ProfileMenuItems.Count) {
+                            this.ProfileMenuItems[0].PerformClick();
+                            this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = false;
+                            this.ProfileTrayItems[0].Checked = true;
+                            break;
+                        }
+                    }
+                }
+            } else if (e.Button == MouseButtons.Right) {
+                for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
+                    if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i - 1 >= 0) {
                         this.ProfileMenuItems[i - 1].PerformClick();
                         this.ProfileTrayItems[i].Checked = false;
@@ -2613,18 +2663,6 @@ namespace FallGuysStats {
                         this.ProfileMenuItems[this.ProfileTrayItems.Count - 1].PerformClick();
                         this.ProfileTrayItems[0].Checked = false;
                         this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = true;
-                        break;
-                    }
-                } else {
-                    if (menuItem.Checked && i + 1 < this.ProfileMenuItems.Count) {
-                        this.ProfileMenuItems[i + 1].PerformClick();
-                        this.ProfileTrayItems[i].Checked = false;
-                        this.ProfileTrayItems[i + 1].Checked = true;
-                        break;
-                    } else if (menuItem.Checked && i + 1 >= this.ProfileMenuItems.Count) {
-                        this.ProfileMenuItems[0].PerformClick();
-                        this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = false;
-                        this.ProfileTrayItems[0].Checked = true;
                         break;
                     }
                 }
@@ -3189,28 +3227,6 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys.Image = this.CurrentSettings.LaunchPlatform == 0
                 ? Properties.Resources.epic_main_icon
                 : Properties.Resources.steam_main_icon;
-        }
-
-        private void Stats_KeyUp(object sender, KeyEventArgs e) {
-            switch (e.KeyCode) {
-                case Keys.ShiftKey:
-                    this.shiftKeyToggle = false;
-                    break;
-                case Keys.ControlKey:
-                    this.ctrlKeyToggle = false;
-                    break;
-            }
-        }
-
-        private void Stats_KeyDown(object sender, KeyEventArgs e) {
-            switch (e.KeyCode) {
-                case Keys.ShiftKey:
-                    this.shiftKeyToggle = true;
-                    break;
-                case Keys.ControlKey:
-                    this.ctrlKeyToggle = true;
-                    break;
-            }
         }
     }
 }

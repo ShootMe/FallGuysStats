@@ -281,7 +281,7 @@ namespace FallGuysStats {
             this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.infoStrip.Location = new System.Drawing.Point(0, 98);
+            this.infoStrip.Location = new System.Drawing.Point(0, 93);
             this.infoStrip.Name = "infoStrip";
             this.infoStrip.Padding = new System.Windows.Forms.Padding(20, 6, 20, 1);
             this.infoStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -297,7 +297,7 @@ namespace FallGuysStats {
             this.lblCurrentProfile.Size = new System.Drawing.Size(47, 16);
             this.lblCurrentProfile.Text = "Solo";
             this.lblCurrentProfile.ToolTipText = "Click to change your current profile.";
-            this.lblCurrentProfile.Click += new System.EventHandler(this.lblCurrentProfile_Click);
+            this.lblCurrentProfile.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblCurrentProfile_MouseDown);
             this.lblCurrentProfile.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblCurrentProfile.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
@@ -361,7 +361,7 @@ namespace FallGuysStats {
             this.infoStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblTotalTime, this.lblGoldMedal, this.lblSilverMedal, this.lblBronzeMedal, this.lblPinkMedal, this.lblKudos });
             this.infoStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.infoStrip2.Location = new System.Drawing.Point(0, 125);
+            this.infoStrip2.Location = new System.Drawing.Point(0, 120);
             this.infoStrip2.Name = "infoStrip2";
             this.infoStrip2.Padding = new System.Windows.Forms.Padding(14, 6, 14, 1);
             this.infoStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
@@ -433,12 +433,12 @@ namespace FallGuysStats {
             this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.GridColor = System.Drawing.Color.Gray;
-            this.gridDetails.Location = new System.Drawing.Point(20, 169);
+            this.gridDetails.Location = new System.Drawing.Point(20, 158);
             this.gridDetails.Margin = new System.Windows.Forms.Padding(0);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(790, 661);
+            this.gridDetails.Size = new System.Drawing.Size(790, 672);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
