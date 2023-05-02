@@ -660,6 +660,8 @@ namespace FallGuysStats {
             this.Load += new System.EventHandler(this.Stats_Load);
             this.Shown += new System.EventHandler(this.Stats_Shown);
             this.VisibleChanged += new System.EventHandler(this.Stats_VisibleChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Stats_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Stats_KeyUp);
             this.Resize += new System.EventHandler(this.Stats_Resize);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();

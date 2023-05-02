@@ -32,8 +32,7 @@ namespace FallGuysStats {
         private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
-        private bool shiftKeyToggle;
-        private bool ctrlKeyToggle;
+        private bool shiftKeyToggle, ctrlKeyToggle;
         private new Size DefaultSize;
 
         private bool isPositionButtonMouseEnter;
