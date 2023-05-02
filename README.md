@@ -1,5 +1,5 @@
 # Table of Contents
-  - [**Fall Guys Stats**](#fall-guys-stats)
+  - [**Fall Guys Stats**](#-fall-guys-stats)
     - [**Download**](#download)
     - [**Usage**](#usage)
     - [**Theme**](#theme)
@@ -15,7 +15,7 @@
     - [**Deleting shows or moving shows to another profile**](#deleting-shows-or-moving-shows-to-another-profile)
   - [**Changelog**](#changelog)
 
-# Fall Guys Stats [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Hoier/Fallalytics/blob/main/LICENSE)
+# [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Hoier/Fallalytics/blob/main/LICENSE) Fall Guys Stats
 [![Fall Guys Stats](https://github-readme-stats.vercel.app/api/pin/?username=ShootMe&repo=FallGuysStats&theme=aura_dark)](https://github.com/ShootMe/FallGuysStats)
 
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
