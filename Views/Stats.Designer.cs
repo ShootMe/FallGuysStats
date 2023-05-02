@@ -52,11 +52,16 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
             this.lblCurrentProfile = new System.Windows.Forms.ToolStripLabel();
-            this.lblTotalTime = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalShows = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
-            this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalFinals = new System.Windows.Forms.ToolStripLabel();
+            this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
+            this.infoStrip2 = new System.Windows.Forms.ToolStrip();
+            this.lblTotalTime = new System.Windows.Forms.ToolStripLabel();
+            this.lblGoldMedal = new System.Windows.Forms.ToolStripLabel();
+            this.lblSilverMedal = new System.Windows.Forms.ToolStripLabel();
+            this.lblBronzeMedal = new System.Windows.Forms.ToolStripLabel();
+            this.lblPinkMedal = new System.Windows.Forms.ToolStripLabel();
             this.lblKudos = new System.Windows.Forms.ToolStripLabel();
             this.gridDetails = new FallGuysStats.Grid();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
@@ -86,6 +91,7 @@ namespace FallGuysStats {
             this.trayExitProgram = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.infoStrip.SuspendLayout();
+            this.infoStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.trayCMenu.SuspendLayout();
             this.SuspendLayout();
@@ -272,41 +278,33 @@ namespace FallGuysStats {
             this.infoStrip.BackColor = System.Drawing.Color.Transparent;
             this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalTime, this.lblTotalShows, this.lblTotalRounds, this.lblTotalWins, this.lblTotalFinals, this.lblKudos });
+            this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
-            this.infoStrip.Location = new System.Drawing.Point(20, 97);
+            this.infoStrip.Location = new System.Drawing.Point(0, 98);
             this.infoStrip.Name = "infoStrip";
-            this.infoStrip.Padding = new System.Windows.Forms.Padding(0, 6, 0, 1);
+            this.infoStrip.Padding = new System.Windows.Forms.Padding(20, 6, 20, 1);
             this.infoStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.infoStrip.Size = new System.Drawing.Size(790, 26);
-            this.infoStrip.Stretch = true;
+            this.infoStrip.Size = new System.Drawing.Size(828, 27);
             this.infoStrip.TabIndex = 13;
             // 
             // lblCurrentProfile
             // 
             this.lblCurrentProfile.ForeColor = System.Drawing.Color.Crimson;
             this.lblCurrentProfile.Image = global::FallGuysStats.Properties.Resources.profile2_icon;
-            this.lblCurrentProfile.Margin = new System.Windows.Forms.Padding(4, 1, 0, 2);
+            this.lblCurrentProfile.Margin = new System.Windows.Forms.Padding(4, 1, 20, 2);
             this.lblCurrentProfile.Name = "lblCurrentProfile";
-            this.lblCurrentProfile.Size = new System.Drawing.Size(54, 16);
-            this.lblCurrentProfile.Text = ": Solo";
+            this.lblCurrentProfile.Size = new System.Drawing.Size(47, 16);
+            this.lblCurrentProfile.Text = "Solo";
             this.lblCurrentProfile.ToolTipText = "Click to change your current profile.";
             this.lblCurrentProfile.Click += new System.EventHandler(this.lblCurrentProfile_Click);
             this.lblCurrentProfile.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblCurrentProfile.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
-            // lblTotalTime
-            // 
-            this.lblTotalTime.Image = global::FallGuysStats.Properties.Resources.clock_icon;
-            this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
-            this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(71, 16);
-            this.lblTotalTime.Text = ": 0:00:00";
-            // 
             // lblTotalShows
             // 
             this.lblTotalShows.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalShows.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalShows.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(60, 15);
             this.lblTotalShows.Text = "Shows : 0";
@@ -318,7 +316,7 @@ namespace FallGuysStats {
             // lblTotalRounds
             // 
             this.lblTotalRounds.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalRounds.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblTotalRounds.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(65, 15);
             this.lblTotalRounds.Text = "Rounds : 0";
@@ -327,39 +325,96 @@ namespace FallGuysStats {
             this.lblTotalRounds.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalRounds.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
+            // lblTotalFinals
+            // 
+            this.lblTotalFinals.ForeColor = System.Drawing.Color.Blue;
+            this.lblTotalFinals.Image = global::FallGuysStats.Properties.Resources.final_icon;
+            this.lblTotalFinals.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblTotalFinals.Name = "lblTotalFinals";
+            this.lblTotalFinals.Size = new System.Drawing.Size(69, 16);
+            this.lblTotalFinals.Text = "0 (0.0%)";
+            this.lblTotalFinals.ToolTipText = "Click to view finals stats.";
+            this.lblTotalFinals.Click += new System.EventHandler(this.lblTotalFinals_Click);
+            this.lblTotalFinals.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalFinals.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
             // lblTotalWins
             // 
             this.lblTotalWins.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalWins.Image = global::FallGuysStats.Properties.Resources.crown_icon;
             this.lblTotalWins.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblTotalWins.Name = "lblTotalWins";
-            this.lblTotalWins.Size = new System.Drawing.Size(76, 16);
-            this.lblTotalWins.Text = ": 0 (0.0%)";
+            this.lblTotalWins.Size = new System.Drawing.Size(69, 16);
+            this.lblTotalWins.Text = "0 (0.0%)";
             this.lblTotalWins.ToolTipText = "Click to view wins stats.";
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
-            // lblTotalFinals
+            // infoStrip2
             // 
-            this.lblTotalFinals.ForeColor = System.Drawing.Color.Blue;
-            this.lblTotalFinals.Image = global::FallGuysStats.Properties.Resources.final_icon;
-            this.lblTotalFinals.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
-            this.lblTotalFinals.Name = "lblTotalFinals";
-            this.lblTotalFinals.Size = new System.Drawing.Size(76, 16);
-            this.lblTotalFinals.Text = ": 0 (0.0%)";
-            this.lblTotalFinals.ToolTipText = "Click to view finals stats.";
-            this.lblTotalFinals.Click += new System.EventHandler(this.lblTotalFinals_Click);
-            this.lblTotalFinals.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
-            this.lblTotalFinals.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            this.infoStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoStrip2.AutoSize = false;
+            this.infoStrip2.BackColor = System.Drawing.Color.Transparent;
+            this.infoStrip2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.infoStrip2.Dock = System.Windows.Forms.DockStyle.None;
+            this.infoStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblTotalTime, this.lblGoldMedal, this.lblSilverMedal, this.lblBronzeMedal, this.lblPinkMedal, this.lblKudos });
+            this.infoStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
+            this.infoStrip2.Location = new System.Drawing.Point(0, 125);
+            this.infoStrip2.Name = "infoStrip2";
+            this.infoStrip2.Padding = new System.Windows.Forms.Padding(14, 6, 14, 1);
+            this.infoStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.infoStrip2.Size = new System.Drawing.Size(828, 27);
+            this.infoStrip2.TabIndex = 14;
+            // 
+            // lblTotalTime
+            // 
+            this.lblTotalTime.Image = global::FallGuysStats.Properties.Resources.clock_icon;
+            this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 1, 20, 2);
+            this.lblTotalTime.Name = "lblTotalTime";
+            this.lblTotalTime.Size = new System.Drawing.Size(64, 16);
+            this.lblTotalTime.Text = "0:00:00";
+            // 
+            // lblGoldMedal
+            // 
+            this.lblGoldMedal.Image = global::FallGuysStats.Properties.Resources.medal_gold;
+            this.lblGoldMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblGoldMedal.Name = "lblGoldMedal";
+            this.lblGoldMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblGoldMedal.Text = "0";
+            // 
+            // lblSilverMedal
+            // 
+            this.lblSilverMedal.Image = global::FallGuysStats.Properties.Resources.medal_silver;
+            this.lblSilverMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblSilverMedal.Name = "lblSilverMedal";
+            this.lblSilverMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblSilverMedal.Text = "0";
+            // 
+            // lblBronzeMedal
+            // 
+            this.lblBronzeMedal.Image = global::FallGuysStats.Properties.Resources.medal_bronze;
+            this.lblBronzeMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblBronzeMedal.Name = "lblBronzeMedal";
+            this.lblBronzeMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblBronzeMedal.Text = "0";
+            // 
+            // lblPinkMedal
+            // 
+            this.lblPinkMedal.Image = global::FallGuysStats.Properties.Resources.medal_pink;
+            this.lblPinkMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
+            this.lblPinkMedal.Name = "lblPinkMedal";
+            this.lblPinkMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblPinkMedal.Text = "0";
             // 
             // lblKudos
             // 
             this.lblKudos.Image = global::FallGuysStats.Properties.Resources.kudos_icon;
             this.lblKudos.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblKudos.Name = "lblKudos";
-            this.lblKudos.Size = new System.Drawing.Size(37, 16);
-            this.lblKudos.Text = ": 0";
+            this.lblKudos.Size = new System.Drawing.Size(30, 16);
+            this.lblKudos.Text = "0";
             // 
             // gridDetails
             // 
@@ -378,12 +433,12 @@ namespace FallGuysStats {
             this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.GridColor = System.Drawing.Color.Gray;
-            this.gridDetails.Location = new System.Drawing.Point(20, 145);
+            this.gridDetails.Location = new System.Drawing.Point(20, 169);
             this.gridDetails.Margin = new System.Windows.Forms.Padding(0);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(790, 685);
+            this.gridDetails.Size = new System.Drawing.Size(790, 661);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
@@ -590,6 +645,7 @@ namespace FallGuysStats {
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(830, 830);
             this.Controls.Add(this.infoStrip);
+            this.Controls.Add(this.infoStrip2);
             this.Controls.Add(this.gridDetails);
             this.Controls.Add(this.menu);
             this.ForeColor = System.Drawing.Color.Black;
@@ -609,6 +665,8 @@ namespace FallGuysStats {
             this.menu.PerformLayout();
             this.infoStrip.ResumeLayout(false);
             this.infoStrip.PerformLayout();
+            this.infoStrip2.ResumeLayout(false);
+            this.infoStrip2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.trayCMenu.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -635,12 +693,17 @@ namespace FallGuysStats {
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
         private System.Windows.Forms.ToolStripMenuItem menuProfile;
         private System.Windows.Forms.ToolStrip infoStrip;
+        private System.Windows.Forms.ToolStrip infoStrip2;
         private System.Windows.Forms.ToolStripLabel lblCurrentProfile;
         private System.Windows.Forms.ToolStripLabel lblTotalTime;
         private System.Windows.Forms.ToolStripLabel lblTotalShows;
         private System.Windows.Forms.ToolStripLabel lblTotalRounds;
         private System.Windows.Forms.ToolStripLabel lblTotalWins;
         private System.Windows.Forms.ToolStripLabel lblTotalFinals;
+        private System.Windows.Forms.ToolStripLabel lblGoldMedal;
+        private System.Windows.Forms.ToolStripLabel lblSilverMedal;
+        private System.Windows.Forms.ToolStripLabel lblBronzeMedal;
+        private System.Windows.Forms.ToolStripLabel lblPinkMedal;
         private System.Windows.Forms.ToolStripLabel lblKudos;
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem menuEditProfiles;

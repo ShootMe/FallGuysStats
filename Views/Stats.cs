@@ -124,12 +124,13 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
-        public int Shows;
-        public int Rounds;
-        public TimeSpan Duration;
-        public int Wins;
-        public int Finals;
-        public int Kudos;
+        private int Shows;
+        private int Rounds;
+        private TimeSpan Duration;
+        private int Wins;
+        private int Finals;
+        private int Kudos;
+        private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals;
         private int nextShowID;
         private bool loadingExisting;
         private bool updateFilterType;
@@ -286,6 +287,7 @@ namespace FallGuysStats {
             this.menu.Renderer = new CustomArrowRenderer();
             this.trayCMenu.Renderer = new CustomArrowRenderer();
             this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
+            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
             DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
@@ -432,23 +434,32 @@ namespace FallGuysStats {
                     }
                 } else if (c1 is ToolStrip ts1) {
                     ts1.BackColor = Color.Transparent;
-                    foreach (ToolStripLabel tsl1 in ts1.Items) {
-                        switch (tsl1.Name) {
-                            case "lblCurrentProfile": tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
-                            case "lblTotalTime":
-                                tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
-                                tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                                break;
-                            case "lblTotalShows":
-                            case "lblTotalRounds":
-                            case "lblTotalWins":
-                                tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                break;
-                            case "lblTotalFinals":
-                                tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
-                                tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                break;
-                            case "lblKudos": tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
+                    foreach (var tsi1 in ts1.Items) {
+                        if (tsi1 is ToolStripLabel tsl1) {
+                            switch (tsl1.Name) {
+                                case "lblCurrentProfile": tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
+                                case "lblTotalTime":
+                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                    break;
+                                case "lblTotalShows":
+                                case "lblTotalRounds":
+                                case "lblTotalWins":
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    break;
+                                case "lblTotalFinals":
+                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    break;
+                                case "lblGoldMedal":
+                                case "lblSilverMedal":
+                                case "lblBronzeMedal":
+                                case "lblPinkMedal":
+                                case "lblKudos":
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
+                            }
+                        } else if (tsi1 is ToolStripSeparator tss1) {
+                            tss1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
                         }
                     }
                 }
@@ -1616,6 +1627,24 @@ namespace FallGuysStats {
                             this.Rounds++;
                         }
                         this.Duration += stat.End - stat.Start;
+
+                        if (stat.Qualified) {
+                            switch (stat.Tier) {
+                                case 0:
+                                    this.PinkMedals++;
+                                    break;
+                                case 1:
+                                    this.GoldMedals++;
+                                    break;
+                                case 2:
+                                    this.SilverMedals++;
+                                    break;
+                                case 3:
+                                    this.BronzeMedals++;
+                                    break;
+                            }
+                        }
+                        
                         this.Kudos += stat.Kudos;
 
                         // add new type of round to the rounds lookup
@@ -1865,6 +1894,10 @@ namespace FallGuysStats {
             this.Wins = 0;
             this.Shows = 0;
             this.Finals = 0;
+            this.GoldMedals = 0;
+            this.SilverMedals = 0;
+            this.BronzeMedals = 0;
+            this.PinkMedals = 0;
             this.Kudos = 0;
         }
         private void UpdateTotals() {
@@ -1882,7 +1915,16 @@ namespace FallGuysStats {
                 float finalChance = (float)this.Finals * 100 / (this.Shows == 0 ? 1 : this.Shows);
                 this.lblTotalFinals.Text = $"{this.Finals}{Multilingual.GetWord("main_inning")} ({finalChance:0.0} %)";
                 this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
+                this.lblGoldMedal.Text = $"{this.GoldMedals}";
+                this.lblSilverMedal.Text = $"{this.SilverMedals}";
+                this.lblBronzeMedal.Text = $"{this.BronzeMedals}";
+                this.lblPinkMedal.Text = $"{this.PinkMedals}";
                 this.lblKudos.Text = $"{this.Kudos}";
+                this.lblGoldMedal.Visible = this.GoldMedals != 0;
+                this.lblSilverMedal.Visible = this.SilverMedals != 0;
+                this.lblBronzeMedal.Visible = this.BronzeMedals != 0;
+                this.lblPinkMedal.Visible = this.PinkMedals != 0;
+                this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);

@@ -1410,7 +1410,7 @@ namespace FallGuysStats {
             this.lblVersion.ForeColor = System.Drawing.Color.Teal;
             this.lblVersion.Location = new System.Drawing.Point(8, 12);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(249, 28);
+            this.lblVersion.Size = new System.Drawing.Size(500, 28);
             this.lblVersion.TabIndex = 2;
             this.lblVersion.Text = "Fall Guys Stats";
             this.lblVersion.UseCustomForeColor = true;

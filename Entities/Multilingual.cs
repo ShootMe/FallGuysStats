@@ -823,7 +823,7 @@ namespace FallGuysStats {
                             {"settings_launch_fallguys", "폴 가이즈 실행"},
                             {"settings_fallalytics", "폴라리틱스"},
                             {"settings_enter_fallalytics_api_key", "(선택 사항) 폴라리틱스 API 키 입력"},
-                            {"settings_sends_info_about_rounds_played_to_fallalytics", "플레이한 라운드에 대한 정보를 폴라리틱스로 전송"},
+                            {"settings_sends_info_about_rounds_played_to_fallalytics", "플레이한 라운드 정보를 폴라리틱스로 전송"},
                             {"settings_visit_fallalytics", "Fallalytics 방문하기"},
                             {"settings_about", "이 앱 정보"},
                             {"settings_log_path", "로그파일 경로"},
