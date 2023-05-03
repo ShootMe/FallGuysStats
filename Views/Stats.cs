@@ -2445,10 +2445,10 @@ namespace FallGuysStats {
             
             using (StatsDisplay display = new StatsDisplay {
                        StatsForm = this,
-                       Text = $"    {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
+                       Text = $"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
                        BackImage = Properties.Resources.crown_icon,
                        BackMaxSize = 32,
-                       BackImagePadding = new Padding(18, 21, 0, 0)
+                       BackImagePadding = new Padding(20, 20, 0, 0)
                    })
             {
                 ArrayList dates = new ArrayList();

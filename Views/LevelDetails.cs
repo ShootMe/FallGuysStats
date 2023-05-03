@@ -143,7 +143,7 @@ namespace FallGuysStats {
             this.gridDetails.ClearSelection();
             this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 86);
             this.BackMaxSize = 32;
-            this.BackImagePadding = new Padding(18, 20, 0, 0);
+            this.BackImagePadding = new Padding(20, 20, 0, 0);
             if (this.LevelName == "Shows") {
                 this.gridDetails.Name = "gridShowsStats";
                 this.BackImage = Properties.Resources.fallguys_icon;
