@@ -36,7 +36,7 @@ namespace FallGuysStats {
             this.btnSelectFont = new MetroFramework.Controls.MetroButton();
             this.btnResetOverlayFont = new MetroFramework.Controls.MetroButton();
             this.grpOverlayFontExample = new System.Windows.Forms.GroupBox();
-            this.lblOverlayFontExample = new MetroFramework.Controls.MetroLabel();
+            this.lblOverlayFontExample = new System.Windows.Forms.Label();
             this.grpCycleQualifyGold = new System.Windows.Forms.GroupBox();
             this.chkOnlyShowGold = new MetroFramework.Controls.MetroRadioButton();
             this.chkOnlyShowQualify = new MetroFramework.Controls.MetroRadioButton();
@@ -262,7 +262,6 @@ namespace FallGuysStats {
             // lblOverlayFontExample
             // 
             this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblOverlayFontExample.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayFontExample.Location = new System.Drawing.Point(1, 15);
             this.lblOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOverlayFontExample.Name = "lblOverlayFontExample";
@@ -1674,7 +1673,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLabel lblOverlayFont;
         private MetroFramework.Controls.MetroButton btnSelectFont;
         private System.Windows.Forms.FontDialog dlgOverlayFont;
-        private MetroFramework.Controls.MetroLabel lblOverlayFontExample;
+        private System.Windows.Forms.Label lblOverlayFontExample;
         private System.Windows.Forms.GroupBox grpOverlayFontExample;
         private System.Windows.Forms.GroupBox grpLaunchPlatform;
         private System.Windows.Forms.PictureBox picSteam;
