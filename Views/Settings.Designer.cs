@@ -36,7 +36,7 @@ namespace FallGuysStats {
             this.btnSelectFont = new MetroFramework.Controls.MetroButton();
             this.btnResetOverlayFont = new MetroFramework.Controls.MetroButton();
             this.grpOverlayFontExample = new System.Windows.Forms.GroupBox();
-            this.lblOverlayFontExample = new System.Windows.Forms.Label();
+            this.lblOverlayFontExample = new MetroFramework.Controls.MetroLabel();
             this.grpCycleQualifyGold = new System.Windows.Forms.GroupBox();
             this.chkOnlyShowGold = new MetroFramework.Controls.MetroRadioButton();
             this.chkOnlyShowQualify = new MetroFramework.Controls.MetroRadioButton();
@@ -150,6 +150,7 @@ namespace FallGuysStats {
             // lblLogPath
             // 
             this.lblLogPath.AutoSize = true;
+            this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPath.Location = new System.Drawing.Point(8, 12);
             this.lblLogPath.Name = "lblLogPath";
             this.lblLogPath.Size = new System.Drawing.Size(84, 19);
@@ -160,6 +161,7 @@ namespace FallGuysStats {
             // 
             this.lblLogPathNote.AutoSize = true;
             this.lblLogPathNote.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lblLogPathNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPathNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblLogPathNote.Location = new System.Drawing.Point(8, 37);
             this.lblLogPathNote.Name = "lblLogPathNote";
@@ -214,6 +216,7 @@ namespace FallGuysStats {
             // lblOverlayFont
             // 
             this.lblOverlayFont.AutoSize = true;
+            this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayFont.Location = new System.Drawing.Point(21, 631);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
@@ -223,7 +226,7 @@ namespace FallGuysStats {
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(159, 630);
+            this.btnSelectFont.Location = new System.Drawing.Point(169, 630);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -235,7 +238,7 @@ namespace FallGuysStats {
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(259, 630);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 630);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -259,6 +262,7 @@ namespace FallGuysStats {
             // lblOverlayFontExample
             // 
             this.lblOverlayFontExample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblOverlayFontExample.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayFontExample.Location = new System.Drawing.Point(1, 15);
             this.lblOverlayFontExample.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblOverlayFontExample.Name = "lblOverlayFontExample";
@@ -396,6 +400,7 @@ namespace FallGuysStats {
             // lblOverlayBackground
             // 
             this.lblOverlayBackground.AutoSize = true;
+            this.lblOverlayBackground.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayBackground.Location = new System.Drawing.Point(15, 353);
             this.lblOverlayBackground.Name = "lblOverlayBackground";
             this.lblOverlayBackground.Size = new System.Drawing.Size(120, 19);
@@ -417,6 +422,7 @@ namespace FallGuysStats {
             // lblOverlayColor
             // 
             this.lblOverlayColor.AutoSize = true;
+            this.lblOverlayColor.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayColor.Location = new System.Drawing.Point(15, 388);
             this.lblOverlayColor.Name = "lblOverlayColor";
             this.lblOverlayColor.Size = new System.Drawing.Size(79, 19);
@@ -426,6 +432,7 @@ namespace FallGuysStats {
             // lblOverlayOpacity
             // 
             this.lblOverlayOpacity.AutoSize = true;
+            this.lblOverlayOpacity.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayOpacity.Location = new System.Drawing.Point(15, 423);
             this.lblOverlayOpacity.Name = "lblOverlayOpacity";
             this.lblOverlayOpacity.Size = new System.Drawing.Size(128, 19);
@@ -507,6 +514,7 @@ namespace FallGuysStats {
             // lblFastestFilter
             // 
             this.lblFastestFilter.AutoSize = true;
+            this.lblFastestFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblFastestFilter.Location = new System.Drawing.Point(393, 133);
             this.lblFastestFilter.Name = "lblFastestFilter";
             this.lblFastestFilter.Size = new System.Drawing.Size(138, 19);
@@ -528,6 +536,7 @@ namespace FallGuysStats {
             // lblQualifyFilter
             // 
             this.lblQualifyFilter.AutoSize = true;
+            this.lblQualifyFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblQualifyFilter.Location = new System.Drawing.Point(393, 74);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
             this.lblQualifyFilter.Size = new System.Drawing.Size(124, 19);
@@ -549,6 +558,7 @@ namespace FallGuysStats {
             // lblWinsFilter
             // 
             this.lblWinsFilter.AutoSize = true;
+            this.lblWinsFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblWinsFilter.Location = new System.Drawing.Point(393, 14);
             this.lblWinsFilter.Name = "lblWinsFilter";
             this.lblWinsFilter.Size = new System.Drawing.Size(114, 19);
@@ -606,6 +616,7 @@ namespace FallGuysStats {
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
+            this.lblCycleTimeSecondsTag.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblCycleTimeSecondsTag.Location = new System.Drawing.Point(124, 170);
             this.lblCycleTimeSecondsTag.Name = "lblCycleTimeSecondsTag";
             this.lblCycleTimeSecondsTag.Size = new System.Drawing.Size(29, 19);
@@ -615,6 +626,7 @@ namespace FallGuysStats {
             // lblCycleTimeSeconds
             // 
             this.lblCycleTimeSeconds.AutoSize = true;
+            this.lblCycleTimeSeconds.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblCycleTimeSeconds.Location = new System.Drawing.Point(21, 170);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
             this.lblCycleTimeSeconds.Size = new System.Drawing.Size(73, 19);
@@ -825,6 +837,7 @@ namespace FallGuysStats {
             // lblTheme
             // 
             this.lblTheme.AutoSize = true;
+            this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblTheme.Location = new System.Drawing.Point(8, 125);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(49, 19);
@@ -884,6 +897,7 @@ namespace FallGuysStats {
             // lblPreviousWinsNote
             // 
             this.lblPreviousWinsNote.AutoSize = true;
+            this.lblPreviousWinsNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblPreviousWinsNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblPreviousWinsNote.Location = new System.Drawing.Point(145, 12);
             this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
@@ -894,6 +908,7 @@ namespace FallGuysStats {
             // lblPreviousWins
             // 
             this.lblPreviousWins.AutoSize = true;
+            this.lblPreviousWins.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblPreviousWins.Location = new System.Drawing.Point(8, 12);
             this.lblPreviousWins.Name = "lblPreviousWins";
             this.lblPreviousWins.Size = new System.Drawing.Size(98, 19);
@@ -936,6 +951,7 @@ namespace FallGuysStats {
             // lblGameExeLocation
             // 
             this.lblGameExeLocation.AutoSize = true;
+            this.lblGameExeLocation.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblGameExeLocation.Location = new System.Drawing.Point(107, 20);
             this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGameExeLocation.Name = "lblGameExeLocation";
@@ -1301,6 +1317,7 @@ namespace FallGuysStats {
             // lblupdateNote
             // 
             this.lblupdateNote.AutoSize = true;
+            this.lblupdateNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblupdateNote.Location = new System.Drawing.Point(9, 90);
             this.lblupdateNote.Name = "lblupdateNote";
             this.lblupdateNote.Size = new System.Drawing.Size(0, 0);
@@ -1418,6 +1435,7 @@ namespace FallGuysStats {
             // lblLicence
             // 
             this.lblLicence.AutoSize = true;
+            this.lblLicence.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLicence.Location = new System.Drawing.Point(9, 175);
             this.lblLicence.Name = "lblLicence";
             this.lblLicence.Size = new System.Drawing.Size(577, 418);
@@ -1467,6 +1485,7 @@ namespace FallGuysStats {
             // fallalyticsAPIKeyLable
             // 
             this.fallalyticsAPIKeyLable.AutoSize = true;
+            this.fallalyticsAPIKeyLable.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.fallalyticsAPIKeyLable.Location = new System.Drawing.Point(11, 51);
             this.fallalyticsAPIKeyLable.Name = "fallalyticsAPIKeyLable";
             this.fallalyticsAPIKeyLable.Size = new System.Drawing.Size(206, 19);
@@ -1474,9 +1493,6 @@ namespace FallGuysStats {
             this.fallalyticsAPIKeyLable.Text = "(Optional) Enter Fallalytics API key";
             // 
             // txtFallalyticsAPIKey
-            // 
-            // 
-            // 
             // 
             this.txtFallalyticsAPIKey.CustomButton.Image = null;
             this.txtFallalyticsAPIKey.CustomButton.Location = new System.Drawing.Point(281, 1);
@@ -1658,7 +1674,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLabel lblOverlayFont;
         private MetroFramework.Controls.MetroButton btnSelectFont;
         private System.Windows.Forms.FontDialog dlgOverlayFont;
-        private System.Windows.Forms.Label lblOverlayFontExample;
+        private MetroFramework.Controls.MetroLabel lblOverlayFontExample;
         private System.Windows.Forms.GroupBox grpOverlayFontExample;
         private System.Windows.Forms.GroupBox grpLaunchPlatform;
         private System.Windows.Forms.PictureBox picSteam;
