@@ -355,6 +355,9 @@
     <None Include="Resources\steam_icon.png" />
     <None Include="Resources\epic_main_icon.png" />
     <None Include="Resources\steam_main_icon.png" />
+    <None Include="Resources\round_icon.png" />
+    <None Include="Resources\round_gray_icon.png" />
+    <None Include="Resources\show_icon.png" />
     <None Include="Resources\position_ne_off_icon.png" />
     <None Include="Resources\position_nw_off_icon.png" />
     <None Include="Resources\position_se_off_icon.png" />

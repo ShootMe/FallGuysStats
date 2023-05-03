@@ -131,6 +131,7 @@ namespace FallGuysStats {
         private int Finals;
         private int Kudos;
         private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals, EliminatedMedals;
+        private int CustomGoldMedals, CustomSilverMedals, CustomBronzeMedals, CustomPinkMedals, CustomEliminatedMedals;
         private int nextShowID;
         private bool loadingExisting;
         private bool updateFilterType;
@@ -444,8 +445,11 @@ namespace FallGuysStats {
                                     tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     break;
                                 case "lblTotalShows":
-                                case "lblTotalRounds":
                                 case "lblTotalWins":
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    break;
+                                case "lblTotalRounds":
+                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                                     tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalFinals":
@@ -1635,25 +1639,46 @@ namespace FallGuysStats {
                         }
                         this.Duration += stat.End - stat.Start;
 
-                        if (stat.Qualified) {
-                            switch (stat.Tier) {
-                                case 0:
-                                    this.PinkMedals++;
-                                    break;
-                                case 1:
-                                    this.GoldMedals++;
-                                    break;
-                                case 2:
-                                    this.SilverMedals++;
-                                    break;
-                                case 3:
-                                    this.BronzeMedals++;
-                                    break;
+                        if (!stat.PrivateLobby) {
+                            if (stat.Qualified) {
+                                switch (stat.Tier) {
+                                    case 0:
+                                        this.PinkMedals++;
+                                        break;
+                                    case 1:
+                                        this.GoldMedals++;
+                                        break;
+                                    case 2:
+                                        this.SilverMedals++;
+                                        break;
+                                    case 3:
+                                        this.BronzeMedals++;
+                                        break;
+                                }
+                            } else {
+                                this.EliminatedMedals++;
                             }
                         } else {
-                            this.EliminatedMedals++;
+                            if (stat.Qualified) {
+                                switch (stat.Tier) {
+                                    case 0:
+                                        this.CustomPinkMedals++;
+                                        break;
+                                    case 1:
+                                        this.CustomGoldMedals++;
+                                        break;
+                                    case 2:
+                                        this.CustomSilverMedals++;
+                                        break;
+                                    case 3:
+                                        this.CustomBronzeMedals++;
+                                        break;
+                                }
+                            } else {
+                                this.CustomEliminatedMedals++;
+                            }
                         }
-                        
+
                         this.Kudos += stat.Kudos;
 
                         // add new type of round to the rounds lookup
@@ -1910,15 +1935,22 @@ namespace FallGuysStats {
             this.BronzeMedals = 0;
             this.PinkMedals = 0;
             this.EliminatedMedals = 0;
+            this.CustomGoldMedals = 0;
+            this.CustomSilverMedals = 0;
+            this.CustomBronzeMedals = 0;
+            this.CustomPinkMedals = 0;
+            this.CustomEliminatedMedals = 0;
             this.Kudos = 0;
         }
         private void UpdateTotals() {
             try {
                 this.lblCurrentProfile.Text = $"{GetCurrentProfile()}";
                 this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
-                this.lblTotalShows.Text = $"{Multilingual.GetWord("main_shows")} : {this.Shows}{Multilingual.GetWord("main_inning")} ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
+                this.lblTotalShows.Text = $"{this.Shows}{Multilingual.GetWord("main_inning")}";
+                if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
                 this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
-                this.lblTotalRounds.Text = $"{Multilingual.GetWord("main_rounds")} : {this.Rounds}{Multilingual.GetWord("main_round")} ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds}{Multilingual.GetWord("main_round")})";
+                this.lblTotalRounds.Text = $"{this.Rounds}{Multilingual.GetWord("main_round")}";
+                if (this.CustomRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds}{Multilingual.GetWord("main_round")})";
                 this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
                 float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
@@ -1928,16 +1960,22 @@ namespace FallGuysStats {
                 this.lblTotalFinals.Text = $"{this.Finals}{Multilingual.GetWord("main_inning")} ({finalChance:0.0} %)";
                 this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
                 this.lblGoldMedal.Text = $"{this.GoldMedals}";
+                if (this.CustomGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomGoldMedals})";
                 this.lblSilverMedal.Text = $"{this.SilverMedals}";
+                if (this.CustomSilverMedals > 0) this.lblSilverMedal.Text += $" ({this.CustomSilverMedals})";
                 this.lblBronzeMedal.Text = $"{this.BronzeMedals}";
+                if (this.CustomBronzeMedals > 0) this.lblBronzeMedal.Text += $" ({this.CustomBronzeMedals})";
                 this.lblPinkMedal.Text = $"{this.PinkMedals}";
+                if (this.CustomPinkMedals > 0) this.lblPinkMedal.Text += $" ({this.CustomPinkMedals})";
                 this.lblEliminatedMedal.Text = $"{this.EliminatedMedals}";
+                if (this.CustomEliminatedMedals > 0) this.lblEliminatedMedal.Text += $" ({this.CustomEliminatedMedals})";
+                this.lblGoldMedal.Visible = this.GoldMedals != 0 || this.CustomGoldMedals != 0;
+                this.lblSilverMedal.Visible = this.SilverMedals != 0 || this.CustomSilverMedals != 0;
+                this.lblBronzeMedal.Visible = this.BronzeMedals != 0 || this.CustomBronzeMedals != 0;
+                this.lblPinkMedal.Visible = this.PinkMedals != 0 || this.CustomPinkMedals != 0;
+                this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomEliminatedMedals != 0;
+                
                 this.lblKudos.Text = $"{this.Kudos}";
-                this.lblGoldMedal.Visible = this.GoldMedals != 0;
-                this.lblSilverMedal.Visible = this.SilverMedals != 0;
-                this.lblBronzeMedal.Visible = this.BronzeMedals != 0;
-                this.lblPinkMedal.Visible = this.PinkMedals != 0;
-                this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0;
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
@@ -2224,12 +2262,14 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
                 if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
                     LevelStats stats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                    using (LevelDetails levelDetails = new LevelDetails()) {
-                        levelDetails.LevelName = stats.Name;
+                    using (LevelDetails levelDetails = new LevelDetails {
+                               LevelName = stats.Name,
+                               RoundIcon = stats.RoundIcon,
+                               StatsForm = this
+                           }) {
                         List<RoundInfo> rounds = stats.Stats;
                         rounds.Sort();
                         levelDetails.RoundDetails = rounds;
-                        levelDetails.StatsForm = this;
                         this.EnableTrayMenu(false);
                         levelDetails.ShowDialog(this);
                         this.EnableTrayMenu(true);
@@ -2405,7 +2445,10 @@ namespace FallGuysStats {
             
             using (StatsDisplay display = new StatsDisplay {
                        StatsForm = this,
-                       Text = $"{Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}"
+                       Text = $"    {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
+                       BackImage = Properties.Resources.crown_icon,
+                       BackMaxSize = 32,
+                       BackImagePadding = new Padding(18, 21, 0, 0)
                    })
             {
                 ArrayList dates = new ArrayList();
