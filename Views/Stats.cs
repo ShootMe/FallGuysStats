@@ -124,8 +124,8 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
-        private int Shows;
-        private int Rounds;
+        private int Shows, Rounds;
+        private int CustomShows, CustomRounds;
         private TimeSpan Duration;
         private int Wins;
         private int Finals;
@@ -1627,6 +1627,11 @@ namespace FallGuysStats {
                                 this.Shows++;
                             }
                             this.Rounds++;
+                        } else {
+                            if (stat.Round == 1) {
+                                this.CustomShows++;
+                            }
+                            this.CustomRounds++;
                         }
                         this.Duration += stat.End - stat.Start;
 
@@ -1893,10 +1898,12 @@ namespace FallGuysStats {
             return summary;
         }
         private void ClearTotals() {
-            this.Rounds = 0;
-            this.Duration = TimeSpan.Zero;
             this.Wins = 0;
             this.Shows = 0;
+            this.Rounds = 0;
+            this.CustomRounds = 0;
+            this.Duration = TimeSpan.Zero;
+            this.CustomShows = 0;
             this.Finals = 0;
             this.GoldMedals = 0;
             this.SilverMedals = 0;
@@ -1909,10 +1916,10 @@ namespace FallGuysStats {
             try {
                 this.lblCurrentProfile.Text = $"{GetCurrentProfile()}";
                 this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
-                this.lblTotalRounds.Text = $"{Multilingual.GetWord("main_rounds")} : {this.Rounds}{Multilingual.GetWord("main_round")}";
-                this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
-                this.lblTotalShows.Text = $"{Multilingual.GetWord("main_shows")} : {this.Shows}{Multilingual.GetWord("main_inning")}";
+                this.lblTotalShows.Text = $"{Multilingual.GetWord("main_shows")} : {this.Shows}{Multilingual.GetWord("main_inning")} ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
                 this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
+                this.lblTotalRounds.Text = $"{Multilingual.GetWord("main_rounds")} : {this.Rounds}{Multilingual.GetWord("main_round")} ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds}{Multilingual.GetWord("main_round")})";
+                this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
                 float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
                 this.lblTotalWins.Text = $"{this.Wins}{Multilingual.GetWord("main_win")} ({winChance:0.0} %)";
