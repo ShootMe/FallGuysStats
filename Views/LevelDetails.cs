@@ -7,6 +7,7 @@ using MetroFramework;
 namespace FallGuysStats {
     public partial class LevelDetails : MetroFramework.Forms.MetroForm {
         public string LevelName { get; set; }
+        public Image RoundIcon { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
         public Stats StatsForm { get; set; }
         private int _showStats;
@@ -141,22 +142,28 @@ namespace FallGuysStats {
             this.gridDetails.CurrentCell = null;
             this.gridDetails.ClearSelection();
             this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 86);
+            this.BackMaxSize = 32;
+            this.BackImagePadding = new Padding(18, 20, 0, 0);
             if (this.LevelName == "Shows") {
                 this.gridDetails.Name = "gridShowsStats";
-                this.Text = $@"{Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfile()}";
+                this.BackImage = Properties.Resources.fallguys_icon;
+                this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 2;
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
-                this.Text = $@"{Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfile()}";
+                this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
+                this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 1;
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
-                this.Text = $@"{Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfile()}";
+                this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
+                this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfile()}";
                 this._showStats = 1;
             } else {
                 this.gridDetails.Name = "gridRoundStats";
+                this.BackImage = this.RoundIcon;
                 this._showStats = 0;
-                this.Text = $@"{Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName}";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName}";
             }
 
             this.gridDetails.DataSource = RoundDetails;
