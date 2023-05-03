@@ -35,9 +35,14 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ### Main Window
 ![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainWindow.png)
 
+### Shows Stats List
+![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showWindow.png)
 
 ### Rounds Stats List
 ![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindow.png)
+
+### Wins Per Day Chart
+![Fall Guys Level Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/chartWindow.png)
 
 ## Theme
   - FallGuysStats supports two themes, `Light` and `Dark`.
@@ -105,12 +110,12 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
   - `Profile Settings`
 
-![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
+![Profile And Show Linkage](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
 
 
   - `Settings` - `Automatically change to linked profile`
 
-![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
+![Automatic Profile Change](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
 
 ### Deleting shows or moving shows to another profile
@@ -119,7 +124,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - On the main screen, click the Shows label at the top.
   - Highlight any number of shows and hit the `DEL` key or `right-click` to manage the show through the `Delete` and `Move show data` menus.
 
-![Shows](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
