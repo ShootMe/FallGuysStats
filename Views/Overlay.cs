@@ -750,10 +750,8 @@ namespace FallGuysStats {
                     }
 
                     this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
-                    float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    
                     string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 1000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
-                    
+                    float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                     string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
                     this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
 
