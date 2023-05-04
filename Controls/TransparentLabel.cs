@@ -106,7 +106,7 @@ namespace FallGuysStats {
                                 this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 //g.DrawString(this.TextRight, this.GetFontForLongText(this.TextRight), brFore, this.ClientRectangle, stringFormat);
                             } else {
-                                this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.TextRight, stringFormat);
+                                this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                 //g.DrawString(this.TextRight, this.Font, brFore, this.ClientRectangle, stringFormat);
                             }
                         }
@@ -116,6 +116,18 @@ namespace FallGuysStats {
         }
         private Color GetComplementaryColor(Color source, int alpha) {
             return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
+        }
+        private float GetFontSizeFactor() {
+            switch (this.Name) {
+                case "lblFinals":
+                    return (this.TextRight.Length > 15 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                case "lblStreak":
+                    return (this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                case "lblQualifyChance":
+                    return (this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                default:
+                    return 1f;
+            }
         }
         private Font GetFontForLongText(string text) {
             return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && text.Length > 12) || Stats.CurrentLanguage == 2 && text.Length > 12 || Stats.CurrentLanguage == 3 && text.Length > 9)
