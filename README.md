@@ -16,9 +16,9 @@
   - [**Changelog**](#changelog)
 
 # [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/ShootMe/FallGuysStats/blob/master/LICENSE) Fall Guys Stats
-[![Fall Guys Stats](https://github-readme-stats.vercel.app/api/pin/?username=ShootMe&repo=FallGuysStats&theme=aura_dark)](https://github.com/ShootMe/FallGuysStats)
-
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
+
+![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 ## Download
 　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](Resources/FallGuysStats-download.svg)</a>
