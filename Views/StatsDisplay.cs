@@ -277,6 +277,7 @@ namespace FallGuysStats {
             this.picGraph.Image = ((MetroToggle)sender).Checked ? 
                 (this.Theme == MetroThemeStyle.Light ? Properties.Resources.bar_plot_icon : Properties.Resources.bar_plot_gray_icon) : 
                 (this.Theme == MetroThemeStyle.Light ? Properties.Resources.scatter_plot_icon : Properties.Resources.scatter_plot_gray_icon);
+            if (this.dates == null) { return; }
             this.ChangeFormsPlotStyle(((MetroToggle)sender).Checked);
         }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
