@@ -378,30 +378,6 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             if (this.Theme == theme) return;
             this.Theme = theme;
-            foreach (object item in this.gridDetails.CMenu.Items) {
-                if (item is ToolStripMenuItem tsi) {
-                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    tsi.MouseEnter += this.CMenu_MouseEnter;
-                    tsi.MouseLeave += this.CMenu_MouseLeave;
-                    switch (tsi.Name) {
-                        case "exportItemCSV":
-                        case "exportItemHTML":
-                        case "exportItemBBCODE":
-                        case "exportItemMD":
-                            tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray; break;
-                    }
-                }
-            }
-
-            this.dataGridViewCellStyle1.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
-            this.dataGridViewCellStyle1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            this.dataGridViewCellStyle1.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
-            //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            this.dataGridViewCellStyle2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
-            this.dataGridViewCellStyle2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            this.dataGridViewCellStyle2.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.PaleGreen;
-            this.dataGridViewCellStyle2.SelectionForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Black;
             
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
@@ -472,6 +448,31 @@ namespace FallGuysStats {
                     }
                 }
             }
+            
+            foreach (object item in this.gridDetails.CMenu.Items) {
+                if (item is ToolStripMenuItem tsi) {
+                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tsi.MouseEnter += this.CMenu_MouseEnter;
+                    tsi.MouseLeave += this.CMenu_MouseLeave;
+                    switch (tsi.Name) {
+                        case "exportItemCSV":
+                        case "exportItemHTML":
+                        case "exportItemBBCODE":
+                        case "exportItemMD":
+                            tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray; break;
+                    }
+                }
+            }
+
+            this.dataGridViewCellStyle1.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
+            this.dataGridViewCellStyle1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.dataGridViewCellStyle1.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
+            //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
+            this.dataGridViewCellStyle2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            this.dataGridViewCellStyle2.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.PaleGreen;
+            this.dataGridViewCellStyle2.SelectionForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Black;
 
             foreach (var item in this.trayCMenu.Items) {
                 if (item is ToolStripMenuItem tsmi) {
@@ -1274,7 +1275,6 @@ namespace FallGuysStats {
             string newName = this.CurrentSettings.HoopsieHeros ? Multilingual.GetWord("main_hoopsie_heroes") : Multilingual.GetWord("main_hoopsie_legends");
             if (level.Name != newName) {
                 level.Name = newName;
-                this.gridDetails.Invalidate();
             }
         }
         private void UpdateGridRoundName() {
@@ -3094,11 +3094,9 @@ namespace FallGuysStats {
                     this.EnableTrayMenu(false);
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
-                        this.SuspendLayout();
                         this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                         this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
                             this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
-                        this.ResumeLayout(false);
                         this.SaveUserSettings();
                         if (this.currentLanguage != CurrentLanguage) {
                             this.ChangeMainLanguage();
@@ -3107,10 +3105,10 @@ namespace FallGuysStats {
                             this.UpdateGridRoundName();
                             this.overlay.ChangeLanguage();
                         }
+                        this.UpdateHoopsieLegends();
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
-                        this.UpdateHoopsieLegends();
                         this.Refresh();
                         this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
                         this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
