@@ -3079,6 +3079,9 @@ namespace FallGuysStats {
         }
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
+            if (!enable) {
+                this.Visible = true;
+            }
         }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
