@@ -23,11 +23,11 @@ namespace FallGuysStats {
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
         
-        //[DllImport("user32")]
+        //[DllImport("user32.dll")]
         //private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-        //[DllImport("user32")]
+        //[DllImport("user32.dll")]
         //public static extern IntPtr GetForegroundWindow();
-        //[DllImport("user32")]
+        //[DllImport("user32.dll")]
         //private static extern IntPtr GetActiveWindow();
         
         public enum DWMWINDOWATTRIBUTE {
@@ -144,7 +144,8 @@ namespace FallGuysStats {
         public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
         public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
         public UserSettings CurrentSettings;
-        private Overlay overlay;
+        public Overlay overlay;
+        public bool isUpdate;
         private DateTime lastAddedShow = DateTime.MinValue;
         private DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
@@ -152,7 +153,7 @@ namespace FallGuysStats {
         private int currentProfile;
         private int currentLanguage;
         private Color infoStripForeColor;
-        
+
         private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
         private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
         private readonly Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
@@ -1404,7 +1405,32 @@ namespace FallGuysStats {
                 this.maximizedForm = false;
             }
         }
-        private void Stats_ExitProgram(object sender, EventArgs e) {
+        public void SaveWindowState() {
+            this.CurrentSettings.Visible = this.Visible;
+            if (this.overlay.Visible) {
+                if (!this.overlay.IsFixed()) {
+                    this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
+                    this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
+                    this.CurrentSettings.OverlayWidth = this.overlay.Width;
+                    this.CurrentSettings.OverlayHeight = this.overlay.Height;
+                }
+            }
+            
+            if (this.WindowState != FormWindowState.Normal) {
+                this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
+                this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
+                this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
+                this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
+                this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
+            } else {
+                this.CurrentSettings.FormLocationX = this.Location.X;
+                this.CurrentSettings.FormLocationY = this.Location.Y;
+                this.CurrentSettings.FormWidth = this.Size.Width;
+                this.CurrentSettings.FormHeight = this.Size.Height;
+                this.CurrentSettings.MaximizedWindowState = false;
+            }
+        }
+        public void Stats_ExitProgram(object sender, EventArgs e) {
             this.isFormClosing = true;
             this.Close();
         }
@@ -1412,30 +1438,11 @@ namespace FallGuysStats {
             if (this.isFormClosing) {
                 try {
                     if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
-                        if (this.overlay.Visible) {
-                            if (!this.overlay.IsFixed()) {
-                                this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
-                                this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
-                                this.CurrentSettings.OverlayWidth = this.overlay.Width;
-                                this.CurrentSettings.OverlayHeight = this.overlay.Height;
-                            }
-                        }
                         //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
                         //this.CurrentSettings.SelectedProfile = this.currentProfile;
-                        if (this.WindowState != FormWindowState.Normal) {
-                            this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
-                            this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
-                            this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
-                            this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
-                            this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
-                        } else {
-                            this.CurrentSettings.FormLocationX = this.Location.X;
-                            this.CurrentSettings.FormLocationY = this.Location.Y;
-                            this.CurrentSettings.FormWidth = this.Size.Width;
-                            this.CurrentSettings.FormHeight = this.Size.Height;
-                            this.CurrentSettings.MaximizedWindowState = false;
+                        if (!this.isUpdate) {
+                            this.SaveWindowState();
                         }
-                        this.CurrentSettings.Visible = this.Visible;
                         this.SaveUserSettings();
                     }
                     this.StatsDB.Dispose();
@@ -3032,7 +3039,6 @@ namespace FallGuysStats {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
-
                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
                 if (index > 0) {
                     int indexEnd = assemblyInfo.IndexOf("\")", index);
@@ -3044,22 +3050,11 @@ namespace FallGuysStats {
                                 $"{Multilingual.GetWord("message_update_question_caption")}",
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                         {
-                            byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
-                            string exeName = null;
-                            using (MemoryStream ms = new MemoryStream(data)) {
-                                using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
-                                    foreach (var entry in zipFile.Entries) {
-                                        if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
-                                            exeName = entry.Name;
-                                        }
-                                        if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
-                                        entry.ExtractToFile(entry.Name, true);
-                                    }
-                                }
-                            }
-
-                            Process.Start(new ProcessStartInfo(exeName));
-                            //this.Close();
+                            this.SaveWindowState();
+                            this.Hide();
+                            this.overlay.Hide();
+                            this.DownloadNewVersion(web);
+                            this.isUpdate = true;
                             this.Stats_ExitProgram(this, null);
                             return true;
                         }
@@ -3079,6 +3074,24 @@ namespace FallGuysStats {
 #endif
             return false;
         }
+#if AllowUpdate
+        public void DownloadNewVersion(ZipWebClient web) {
+            byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
+            string exeName = null;
+            using (MemoryStream ms = new MemoryStream(data)) {
+                using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
+                    foreach (var entry in zipFile.Entries) {
+                        if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
+                            exeName = entry.Name;
+                        }
+                        if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
+                        entry.ExtractToFile(entry.Name, true);
+                    }
+                }
+            }
+            Process.Start(new ProcessStartInfo(exeName));
+        }
+#endif
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
             if (!enable && !this.Visible) { this.Visible = true; }
