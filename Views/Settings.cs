@@ -1009,41 +1009,36 @@ namespace FallGuysStats {
             }
         }
 
-        private void metroButton1_Click(object sender, EventArgs e) {
+        private void btnCheckUpdates_Click(object sender, EventArgs e) {
 #if AllowUpdate
              using (ZipWebClient web = new ZipWebClient()) {
                  string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
-             
-                int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
                  if (index > 0) {
                      int indexEnd = assemblyInfo.IndexOf("\")", index);
                      Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                      Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                      if (newVersion > currentVersion) {
-                         if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                             byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
-                             string exeName = null;
-                             using (MemoryStream ms = new MemoryStream(data)) {
-                                 using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
-                                     foreach (var entry in zipFile.Entries) {
-                                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
-                                             exeName = entry.Name;
-                                         }
-                                         if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
-                                         entry.ExtractToFile(entry.Name, true);
-                                     }
-                                 }
-                             }
-             
-                            Process.Start(new ProcessStartInfo(exeName));
-                             this.Visible = false;
-                             Application.Exit();
+                         if (MetroMessageBox.Show(this,
+                                 $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
+                                 $"{Multilingual.GetWord("message_update_question_caption")}",
+                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                         {
+                             this.Hide();
+                             this.StatsForm.SaveWindowState();
+                             this.StatsForm.Hide();
+                             this.StatsForm.overlay.Hide();
+                             this.StatsForm.DownloadNewVersion(web);
+                             this.StatsForm.isUpdate = true;
+                             this.StatsForm.Stats_ExitProgram(this, null);
                          }
                      } else {
-                         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_latest_version")}", $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_latest_version")}", $"{Multilingual.GetWord("message_update_question_caption")}",
+                             MessageBoxButtons.OK, MessageBoxIcon.Information);
                      }
                  } else {
-                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}", $"{Multilingual.GetWord("message_update_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}", $"{Multilingual.GetWord("message_update_error_caption")}",
+                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                  }
              }
 #endif

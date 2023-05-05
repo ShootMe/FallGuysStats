@@ -1431,7 +1431,7 @@ namespace FallGuysStats {
             this.btnCheckUpdates.Text = "Update";
             this.btnCheckUpdates.UseSelectable = true;
             this.btnCheckUpdates.Visible = false;
-            this.btnCheckUpdates.Click += new System.EventHandler(this.metroButton1_Click);
+            this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
             // 
             // lblVersion
             // 
