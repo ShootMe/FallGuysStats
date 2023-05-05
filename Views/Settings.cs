@@ -87,6 +87,7 @@ namespace FallGuysStats {
             this.chkShowTabs.Checked = this.CurrentSettings.ShowOverlayTabs;
             //this.chkShowProfile.Checked = this.CurrentSettings.ShowOverlayProfile;
             this.chkAutoUpdate.Checked = this.CurrentSettings.AutoUpdate;
+            this.chkSystemTrayIcon.Checked = this.CurrentSettings.SystemTrayIcon;
             this.chkPreventMouseCursorBugs.Checked = this.CurrentSettings.PreventMouseCursorBugs;
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
@@ -423,6 +424,7 @@ namespace FallGuysStats {
             this.CurrentSettings.HideTimeInfo = this.chkHideTimeInfo.Checked;
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
+            this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.PreventMouseCursorBugs = this.chkPreventMouseCursorBugs.Checked;
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
@@ -847,6 +849,7 @@ namespace FallGuysStats {
             //this.grpStats.Text = Multilingual.GetWord("settings_stats");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
+            this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
             this.chkPreventMouseCursorBugs.Text = Multilingual.GetWord("settings_prevent_mouse_cursor_bugs");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
@@ -864,7 +867,7 @@ namespace FallGuysStats {
             this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 22);
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 12);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
-            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 120);
+            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 150);
             //this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 162);
             //this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
             //this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
