@@ -150,6 +150,7 @@ namespace FallGuysStats {
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile;
+        private int currentLanguage;
         private Color infoStripForeColor;
         
         private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
@@ -375,6 +376,7 @@ namespace FallGuysStats {
         }
 
         private void SetTheme(MetroThemeStyle theme) {
+            if (this.Theme == theme) return;
             this.Theme = theme;
             foreach (object item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
@@ -3079,9 +3081,7 @@ namespace FallGuysStats {
         }
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
-            if (!enable) {
-                this.Visible = true;
-            }
+            if (!enable && !this.Visible) { this.Visible = true; }
         }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
@@ -3100,14 +3100,16 @@ namespace FallGuysStats {
                             this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
                         this.ResumeLayout(false);
                         this.SaveUserSettings();
-                        this.ChangeMainLanguage();
-                        this.gridDetails.ChangeContextMenuLanguage();
+                        if (this.currentLanguage != CurrentLanguage) {
+                            this.ChangeMainLanguage();
+                            this.UpdateTotals();
+                            this.gridDetails.ChangeContextMenuLanguage();
+                            this.UpdateGridRoundName();
+                            this.overlay.ChangeLanguage();
+                        }
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
-                        this.overlay.ChangeLanguage();
-                        this.UpdateTotals();
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
-                        this.UpdateGridRoundName();
                         this.UpdateHoopsieLegends();
                         this.Refresh();
                         this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
@@ -3241,6 +3243,7 @@ namespace FallGuysStats {
             return screen;
         }
         private void ChangeMainLanguage() {
+            this.currentLanguage = CurrentLanguage;
             this.trayIcon.Text = Multilingual.GetWord("main_fall_guys_stats");
             this.Text = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.menu.Font = Overlay.GetMainFont(12);
