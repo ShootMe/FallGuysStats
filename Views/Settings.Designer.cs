@@ -86,6 +86,7 @@ namespace FallGuysStats {
             this.chkChangeHoopsieLegends = new MetroFramework.Controls.MetroCheckBox();
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
+            this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
             this.chkPreventMouseCursorBugs = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
@@ -826,7 +827,7 @@ namespace FallGuysStats {
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(49, 162);
+            this.cboMultilingual.Location = new System.Drawing.Point(49, 192);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -837,7 +838,7 @@ namespace FallGuysStats {
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(8, 125);
+            this.lblTheme.Location = new System.Drawing.Point(8, 155);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(49, 19);
             this.lblTheme.TabIndex = 5;
@@ -862,7 +863,7 @@ namespace FallGuysStats {
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(63, 120);
+            this.cboTheme.Location = new System.Drawing.Point(63, 150);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -881,12 +882,24 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Text = "Auto Update Program";
             this.chkAutoUpdate.UseSelectable = true;
             // 
+            // chkSystemTrayIcon
+            // 
+            this.chkSystemTrayIcon.AutoSize = true;
+            this.chkSystemTrayIcon.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkSystemTrayIcon.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkSystemTrayIcon.Location = new System.Drawing.Point(8, 110);
+            this.chkSystemTrayIcon.Name = "chkSystemTrayIcon";
+            this.chkSystemTrayIcon.Size = new System.Drawing.Size(161, 19);
+            this.chkSystemTrayIcon.TabIndex = 3;
+            this.chkSystemTrayIcon.Text = "Use the system tray icon";
+            this.chkSystemTrayIcon.UseSelectable = true;
+            // 
             // chkPreventMouseCursorBugs
             // 
             this.chkPreventMouseCursorBugs.AutoSize = true;
             this.chkPreventMouseCursorBugs.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventMouseCursorBugs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 220);
+            this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 250);
             this.chkPreventMouseCursorBugs.Name = "chkPreventMouseCursorBugs";
             this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(287, 19);
             this.chkPreventMouseCursorBugs.TabIndex = 3;
@@ -1050,7 +1063,7 @@ namespace FallGuysStats {
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(11, 162);
+            this.picLanguageSelection.Location = new System.Drawing.Point(11, 192);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1110,6 +1123,7 @@ namespace FallGuysStats {
             this.panelProgram.Controls.Add(this.picLanguageSelection);
             this.panelProgram.Controls.Add(this.cboMultilingual);
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
+            this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
             this.panelProgram.Controls.Add(this.chkPreventMouseCursorBugs);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
@@ -1119,7 +1133,7 @@ namespace FallGuysStats {
             this.panelProgram.HorizontalScrollbarSize = 10;
             this.panelProgram.Location = new System.Drawing.Point(29, 15);
             this.panelProgram.Name = "panelProgram";
-            this.panelProgram.Size = new System.Drawing.Size(660, 240);
+            this.panelProgram.Size = new System.Drawing.Size(660, 270);
             this.panelProgram.TabIndex = 10;
             this.panelProgram.VerticalScrollbarBarColor = true;
             this.panelProgram.VerticalScrollbarHighlightOnWheel = false;
@@ -1635,6 +1649,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLabel lblTheme;
         private MetroFramework.Controls.MetroComboBox cboTheme;
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
+        private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
         private MetroFramework.Controls.MetroCheckBox chkPreventMouseCursorBugs;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;

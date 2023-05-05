@@ -48,6 +48,7 @@
         public bool ShowPercentages { get; set; }
         public bool UpdatedDateFormat { get; set; }
         public bool AutoUpdate { get; set; }
+        public bool SystemTrayIcon { get; set; }
         public bool PreventMouseCursorBugs { get; set; }
         public bool MaximizedWindowState { get; set; }
         public int? FormLocationX { get; set; }
