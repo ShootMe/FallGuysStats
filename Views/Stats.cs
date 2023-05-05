@@ -296,7 +296,7 @@ namespace FallGuysStats {
             DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
 
-            this.trayIcon.Visible = true;
+            if (this.CurrentSettings.SystemTrayIcon) { this.trayIcon.Visible = true; }
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
@@ -1191,6 +1191,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 29;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 29) {
+                this.CurrentSettings.SystemTrayIcon = true;
+                this.CurrentSettings.Version = 30;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1241,6 +1247,7 @@ namespace FallGuysStats {
                 ShowPercentages = false,
                 AutoUpdate = false,
                 MaximizedWindowState = false,
+                SystemTrayIcon = true,
                 PreventMouseCursorBugs = false,
                 FormLocationX = null,
                 FormLocationY = null,
@@ -1257,7 +1264,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 29
+                Version = 30
             };
         }
         private void UpdateHoopsieLegends() {
@@ -1435,8 +1442,12 @@ namespace FallGuysStats {
                     //Environment.Exit(0);
                 }
             } else {
-                this.Hide();
-                e.Cancel = true;    
+                if (this.CurrentSettings.SystemTrayIcon) {
+                    this.Hide();
+                    e.Cancel = true;
+                } else {
+                    this.Stats_ExitProgram(this, null);
+                }
             }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -2609,12 +2620,14 @@ namespace FallGuysStats {
             }
         }
         public void EnableTrayMenu(bool enable) {
-            this.traySettings.Enabled = enable;
-            this.trayFilters.Enabled = enable;
-            this.trayProfile.Enabled = enable;
-            if (enable) {
-                this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+            if (this.CurrentSettings.SystemTrayIcon) {
+                this.traySettings.Enabled = enable;
+                this.trayFilters.Enabled = enable;
+                this.trayProfile.Enabled = enable;
+                if (enable) {
+                    this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                }
             }
         }
         private string FindGameExeLocation() {
@@ -3064,6 +3077,9 @@ namespace FallGuysStats {
 #endif
             return false;
         }
+        private void SetSystemTrayIcon(bool enable) {
+            this.trayIcon.Visible = enable;
+        }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
@@ -3076,6 +3092,7 @@ namespace FallGuysStats {
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
                         this.SuspendLayout();
+                        this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                         this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
                             this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
                         this.ResumeLayout(false);

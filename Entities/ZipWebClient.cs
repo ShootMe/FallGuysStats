@@ -5,8 +5,8 @@ using System.Text;
 namespace FallGuysStats {
     public class ZipWebClient : WebClient {
         public ZipWebClient() : base() {
-            this.Encoding = Encoding.GetEncoding(1252);
-            this.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0)";
+            this.Encoding = Encoding.GetEncoding(65001);
+            this.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64;)";
             this.Headers["Accept-Encoding"] = "gzip, deflate";
             this.Headers["Accept-Language"] = "en-us";
             this.Headers["Accept"] = "text/html, application/xhtml+xml, */*";
