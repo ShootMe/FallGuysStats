@@ -1369,25 +1369,26 @@ namespace FallGuysStats {
             this.loadingExisting = false;
         }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
-            if (e.Button != MouseButtons.Left) return;
-            IntPtr hMainWnd = Process.GetProcessesByName("FallGuysStats")[0].MainWindowHandle;
-            //IntPtr hWnd = FindWindow(null, $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}");
-            if (this.Visible && this.WindowState == FormWindowState.Minimized) {
-                this.isFocused = true;
-                this.WindowState = this.maximizedForm ? FormWindowState.Maximized : FormWindowState.Normal;
-                SetForegroundWindow(hMainWnd);
-            } else if (this.Visible && this.WindowState != FormWindowState.Minimized) {
-                if (this.isFocused) {
-                    this.isFocused = false;
-                    this.Hide();
-                    //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
+            if (e.Button == MouseButtons.Left) {
+                IntPtr hMainWnd = Process.GetProcessesByName("FallGuysStats")[0].MainWindowHandle;
+                //IntPtr hWnd = FindWindow(null, $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}");
+                if (this.Visible && this.WindowState == FormWindowState.Minimized) {
+                    this.isFocused = true;
+                    this.WindowState = this.maximizedForm ? FormWindowState.Maximized : FormWindowState.Normal;
+                    SetForegroundWindow(hMainWnd);
+                } else if (this.Visible && this.WindowState != FormWindowState.Minimized) {
+                    if (this.isFocused) {
+                        this.isFocused = false;
+                        this.Hide();
+                        //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
+                    } else {
+                        this.isFocused = true;
+                        SetForegroundWindow(hMainWnd);
+                    }
                 } else {
                     this.isFocused = true;
-                    SetForegroundWindow(hMainWnd);
+                    this.Show();
                 }
-            } else {
-                this.isFocused = true;
-                this.Show();
             }
         }
         
@@ -1434,16 +1435,15 @@ namespace FallGuysStats {
             this.isFormClosing = true;
             this.Close();
         }
-        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
-            if (this.isFormClosing) {
+        private async void Stats_FormClosing(object sender, FormClosingEventArgs e) {
+            if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
                     if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                         //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
                         //this.CurrentSettings.SelectedProfile = this.currentProfile;
-                        if (!this.isUpdate) {
-                            this.SaveWindowState();
-                        }
+                        if (!this.isUpdate) { this.SaveWindowState(); }
                         this.SaveUserSettings();
+                        await this.logFile.Stop();
                     }
                     this.StatsDB.Dispose();
                 } catch {
@@ -1451,12 +1451,8 @@ namespace FallGuysStats {
                     //Environment.Exit(0);
                 }
             } else {
-                if (this.CurrentSettings.SystemTrayIcon) {
-                    this.Hide();
-                    e.Cancel = true;
-                } else {
-                    this.Stats_ExitProgram(this, null);
-                }
+                this.Hide();
+                e.Cancel = true;
             }
         }
         private void Stats_Load(object sender, EventArgs e) {
