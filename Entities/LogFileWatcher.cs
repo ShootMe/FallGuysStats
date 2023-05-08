@@ -157,7 +157,7 @@ namespace FallGuysStats {
                         List<RoundInfo> round = new List<RoundInfo>();
                         LogRound logRound = new LogRound();
                         List<LogLine> currentLines = new List<LogLine>();
-
+                        
                         for (int i = 0; i < tempLines.Count; i++) {
                             LogLine line = tempLines[i];
                             currentLines.Add(line);
@@ -170,11 +170,17 @@ namespace FallGuysStats {
                                 }
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0
-                                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason IngameMenuLeaveMatch", StringComparison.OrdinalIgnoreCase) > 0
-                                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason LeaveMatchSquadMode", StringComparison.OrdinalIgnoreCase) > 0
-                                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
+                                       || line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
+                            } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
+                                if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
+                                    this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
+                                }
+                            } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
+                                if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
+                                    this.StatsForm.PreventMouseCursorBug();
+                                }
                             }
                         }
 
@@ -190,7 +196,7 @@ namespace FallGuysStats {
                         currentFilePath = filePath;
                     }
                 } catch (Exception ex) {
-                    this.OnError?.Invoke(ex.ToString());
+                    this.OnError?.Invoke(ex.Message);
                 }
                 Thread.Sleep(UpdateDelay);
             }
@@ -219,7 +225,7 @@ namespace FallGuysStats {
                         this.lines.Clear();
                     }
                 } catch (Exception ex) {
-                    this.OnError?.Invoke(ex.ToString());
+                    this.OnError?.Invoke(ex.Message);
                 }
                 Thread.Sleep(UpdateDelay);
             }
@@ -363,9 +369,6 @@ namespace FallGuysStats {
                 (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0)
             {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
-                if (this.autoChangeProfile && !Stats.EndedShow) {
-                    this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
-                }
             }
             else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) > 0) {
                 //Store SessionID to prevent duplicates
@@ -503,9 +506,6 @@ namespace FallGuysStats {
             else if (logRound.Info != null &&
                        line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0)
             {
-                if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
-                    this.StatsForm.PreventMouseCursorBug();
-                }
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
@@ -517,6 +517,8 @@ namespace FallGuysStats {
                         || line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) > 0
                         || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) > 0
                         || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0))
+                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
+                        //|| line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0))
             {
                 if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0) { logRound.PrivateLobby = false; }
                 if (logRound.Info.End == DateTime.MinValue) {
@@ -524,10 +526,7 @@ namespace FallGuysStats {
                 }
                 logRound.Info.Playing = false;
             }
-            else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
-                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason IngameMenuLeaveMatch", StringComparison.OrdinalIgnoreCase) > 0
-                       || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState called with reason LeaveMatchSquadMode", StringComparison.OrdinalIgnoreCase) > 0)
+            else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
@@ -538,7 +537,6 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.InShow = false;
-                Stats.EndedShow = true;
             }
             else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null) { return false; }
