@@ -14,31 +14,6 @@ namespace FallGuysStats {
         private DataTable ProfilesData;
         private DataGridViewComboBoxColumn cboShowsList;
         private int selectedRowIndex;
-
-        private readonly string[] _shows = {
-            "",
-            "main_show",
-            "squads_2player_template",
-            "squads_4player",
-            "event_xtreme_fall_guys_template",
-            "event_xtreme_fall_guys_squads_template",
-            "event_only_finals_v2_template",
-            "event_only_races_any_final_template",
-            "event_only_fall_ball_template",
-            "event_only_hexaring_template",
-            "event_only_floor_fall_template",
-            "event_only_floor_fall_low_grav",
-            "event_only_blast_ball_trials_template",
-            "event_only_slime_climb",
-            "event_only_jump_club_template",
-            "event_walnut_template",
-            "event_only_survival_ss2_3009_0210_2022",
-            "show_robotrampage_ss2_show1_template",
-            "event_le_anchovy_template",
-            "event_pixel_palooza_template",
-            "xtreme_party",
-            "private_lobbies"
-        };
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 
@@ -143,7 +118,8 @@ namespace FallGuysStats {
             DataTable showsData = new DataTable();
             showsData.Columns.Add("showName");
             showsData.Columns.Add("showId");
-            foreach (string showId in _shows) {
+            showsData.Rows.Add("", "");
+            foreach (string showId in this.StatsForm.publicShowIdList) {
                 showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
             }
 
