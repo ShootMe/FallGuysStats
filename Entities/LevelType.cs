@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using MetroFramework;
 
 namespace FallGuysStats {
     public enum LevelType {
@@ -49,7 +50,7 @@ namespace FallGuysStats {
             }
             return Color.DarkGray;
         }
-        public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam) {
+        public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
             if (isFinal) {
                 return Color.FromArgb(130, 100, 0);
             }
@@ -68,7 +69,7 @@ namespace FallGuysStats {
                 case LevelType.Team:
                     return Color.FromArgb(130, 40, 0);
                 case LevelType.Invisibeans:
-                    return Color.FromArgb(0, 0, 0);
+                    return theme == MetroThemeStyle.Light ? Color.FromArgb(0, 0, 0) : Color.DarkGray;
             }
             return Color.FromArgb(60, 60, 60);
         }

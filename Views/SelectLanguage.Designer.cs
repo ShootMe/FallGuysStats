@@ -29,6 +29,7 @@ namespace FallGuysStats {
         {
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.cboLanguage = new MetroFramework.Controls.MetroComboBox();
+            this.chkAutoGenerateProfile = new MetroFramework.Controls.MetroCheckBox();
             this.lblBackColor = new System.Windows.Forms.Label();
             this.btnLanguageSave = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).BeginInit();
@@ -56,6 +57,22 @@ namespace FallGuysStats {
             this.cboLanguage.UseSelectable = true;
             this.cboLanguage.SelectedIndexChanged += new System.EventHandler(this.cboLanguage_SelectedIndexChanged);
             // 
+            // chkAutoGenerateProfile
+            // 
+            this.chkAutoGenerateProfile.AutoSize = true;
+            this.chkAutoGenerateProfile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
+            this.chkAutoGenerateProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkAutoGenerateProfile.ForeColor = System.Drawing.Color.Teal;
+            this.chkAutoGenerateProfile.Location = new System.Drawing.Point(15, 153);
+            this.chkAutoGenerateProfile.Name = "chkAutoGenerateProfile";
+            this.chkAutoGenerateProfile.Size = new System.Drawing.Size(142, 15);
+            this.chkAutoGenerateProfile.TabIndex = 2;
+            this.chkAutoGenerateProfile.Text = "Auto-generate profiles";
+            this.chkAutoGenerateProfile.UseCustomBackColor = true;
+            this.chkAutoGenerateProfile.UseCustomForeColor = true;
+            this.chkAutoGenerateProfile.UseSelectable = true;
+            this.chkAutoGenerateProfile.CheckedChanged += new System.EventHandler(this.chkAutoGenerateProfile_CheckedChanged);
+            // 
             // lblBackColor
             // 
             this.lblBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
@@ -66,7 +83,7 @@ namespace FallGuysStats {
             // 
             // btnLanguageSave
             // 
-            this.btnLanguageSave.Location = new System.Drawing.Point(205, 143);
+            this.btnLanguageSave.Location = new System.Drawing.Point(210, 145);
             this.btnLanguageSave.Name = "btnLanguageSave";
             this.btnLanguageSave.Size = new System.Drawing.Size(75, 25);
             this.btnLanguageSave.TabIndex = 2;
@@ -80,6 +97,7 @@ namespace FallGuysStats {
             this.ClientSize = new System.Drawing.Size(300, 180);
             this.Controls.Add(this.picLanguageSelection);
             this.Controls.Add(this.cboLanguage);
+            this.Controls.Add(this.chkAutoGenerateProfile);
             this.Controls.Add(this.btnLanguageSave);
             this.Controls.Add(this.lblBackColor);
             this.MaximizeBox = false;
@@ -93,11 +111,13 @@ namespace FallGuysStats {
             this.Load += new System.EventHandler(this.SelectLanguage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.PictureBox picLanguageSelection;
         private MetroFramework.Controls.MetroComboBox cboLanguage;
+        private MetroFramework.Controls.MetroCheckBox chkAutoGenerateProfile;
         private System.Windows.Forms.Label lblBackColor;
         private MetroFramework.Controls.MetroButton btnLanguageSave;
     }
