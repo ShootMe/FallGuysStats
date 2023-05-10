@@ -175,7 +175,7 @@ namespace FallGuysStats {
                                 lastDate = line.Date;
                             } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
-                                    this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby);
+                                    this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby, this.selectedShowId.StartsWith("show_wle_s10"));
                                 }
                             } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
@@ -231,7 +231,7 @@ namespace FallGuysStats {
             }
         }
         private readonly Dictionary<string, string> _roundNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-            { "round_follow-the-leader_ss2_launch", "round_follow-the-leader_s6_launch" },
+            {"round_follow-the-leader_ss2_launch", "round_follow-the-leader_s6_launch"},
             
             // Finals Marathon
             {"round_kraken_attack_only_finals_v2_r1", "round_kraken_attack"},

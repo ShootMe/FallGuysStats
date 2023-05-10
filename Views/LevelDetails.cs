@@ -31,12 +31,13 @@ namespace FallGuysStats {
             } else if (this.Theme == MetroThemeStyle.Dark) {
                 this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2, 2, 2);
                 this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
-                this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
-                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+                //this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
+                this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkMagenta;
+                this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
                 this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49, 51, 56);
                 this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
-                this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
+                this.dataGridViewCellStyle2.SelectionBackColor = Color.SpringGreen;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             }
         }
