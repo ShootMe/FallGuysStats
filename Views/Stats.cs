@@ -60,7 +60,7 @@ namespace FallGuysStats {
                     isAppUpdated = true;
                 }
 #endif
-                if (isAppUpdated || !IsAlreadyRunning(CultureInfo.CurrentUICulture.Name)) {
+                if (isAppUpdated || !IsAlreadyRunning(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
                     Application.EnableVisualStyles();
                     Application.SetCompatibleTextRenderingDefault(false);
                     Application.Run(new Stats());
@@ -76,7 +76,10 @@ namespace FallGuysStats {
                 for (int i = 0; i < processes.Length; i++) {
                     if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
                     if (processCount > 1) {
-                        CurrentLanguage = sysLang.Substring(0, 2) == "fr" ? 1 : sysLang.Substring(0, 2) == "ko" ? 2 : sysLang.Substring(0, 2) == "ja" ? 3 : sysLang.Substring(0, 2) == "zh" ? 4 : 0;
+                        CurrentLanguage = sysLang == "fr" ? 1 :
+                                        sysLang == "ko" ? 2 :
+                                        sysLang == "ja" ? 3 :
+                                        sysLang == "zh" ? 4 : 0;
                         MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
                     }
