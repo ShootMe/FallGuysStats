@@ -1112,6 +1112,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap round_gauntlet_icon {
+            get {
+                object obj = ResourceManager.GetObject("round_gauntlet_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap round_gray_icon {
             get {
                 object obj = ResourceManager.GetObject("round_gray_icon", resourceCulture);
