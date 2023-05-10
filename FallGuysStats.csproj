@@ -507,6 +507,9 @@
     <None Include="Resources\overlay\tab_unselected_wallpaper_02.png" />
     <None Include="Resources\overlay\tab_unselected_wallpaper_03.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\round_icon\creative\icon_Gauntlet.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
