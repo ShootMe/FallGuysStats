@@ -28,6 +28,7 @@ namespace FallGuysStats {
         public int ImageHeight { get; set; }
         public Color LevelColor { get; set; }
         public Image RoundIcon { get; set; }
+        public bool IsCreativeRound { get; set; }
         public void Draw(Graphics g) {
             if (!this.DrawVisible) { return; }
             if (this.PlatformIcon != null) {
@@ -136,7 +137,7 @@ namespace FallGuysStats {
         }
         private float GetRoundNameFontSize(int textLength, int offset) {
             float weight = 1.0F;
-            if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
+            if (this.IsCreativeRound) {
                 offset += 9;
                 if (textLength == 13) {
                     weight = 0.95F;
@@ -173,30 +174,70 @@ namespace FallGuysStats {
                 } else if (textLength == 29) {
                     weight = 9.7F;
                 }
-            } else if (Stats.CurrentLanguage == 2) { // Korean
-                offset += 3;
-                if (textLength == 13) {
-                    weight = 1.15F;
-                } else if (textLength == 14) {
-                    weight = 1.2F;
-                } else if (textLength == 15) {
-                    weight = 1.225F;
-                }
-            } else if (Stats.CurrentLanguage == 3) { // Japanese
-                if (textLength == 10) {
-                    weight = 1.075F;
-                } else if (textLength == 11) {
-                    weight = 1.1F;
-                } else if (textLength == 12) {
-                    weight = 1.15F;
-                } else if (textLength == 13) {
-                    weight = 1.2F;
-                } else if (textLength == 14) {
-                    weight = 1.25F;
-                } else if (textLength == 15) {
-                    weight = 1.35F;
+            } else {
+                if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
+                    offset += 9;
+                    if (textLength == 13) {
+                        weight = 0.95F;
+                    } else if (textLength == 14) {
+                        weight = 1.05F;
+                    } else if (textLength == 15) {
+                        weight = 1.05F;
+                    } else if (textLength == 16) {
+                        weight = 1.05F;
+                    } else if (textLength == 17) {
+                        weight = 1.05F;
+                    } else if (textLength == 18) {
+                        weight = 1.05F;
+                    } else if (textLength == 19) {
+                        weight = 1.05F;
+                    } else if (textLength == 20) {
+                        weight = 1.1F;
+                    } else if (textLength == 21) {
+                        weight = 1.2F;
+                    } else if (textLength == 22) {
+                        weight = 1.4F;
+                    } else if (textLength == 23) {
+                        weight = 1.6F;
+                    } else if (textLength == 24) {
+                        weight = 1.8F;
+                    } else if (textLength == 25) {
+                        weight = 2.0F;
+                    } else if (textLength == 26) {
+                        weight = 2.2F;
+                    } else if (textLength == 27) {
+                        weight = 3.4F;
+                    } else if (textLength == 28) {
+                        weight = 4.7F;
+                    } else if (textLength == 29) {
+                        weight = 9.7F;
+                    }
+                } else if (Stats.CurrentLanguage == 2) { // Korean
+                    offset += 3;
+                    if (textLength == 13) {
+                        weight = 1.15F;
+                    } else if (textLength == 14) {
+                        weight = 1.2F;
+                    } else if (textLength == 15) {
+                        weight = 1.225F;
+                    }
+                } else if (Stats.CurrentLanguage == 3) { // Japanese
+                    if (textLength == 10) {
+                        weight = 1.075F;
+                    } else if (textLength == 11) {
+                        weight = 1.1F;
+                    } else if (textLength == 12) {
+                        weight = 1.15F;
+                    } else if (textLength == 13) {
+                        weight = 1.2F;
+                    } else if (textLength == 14) {
+                        weight = 1.25F;
+                    } else if (textLength == 15) {
+                        weight = 1.35F;
+                    }
                 }
             }
+            
             return (offset - textLength) * weight;
         }
         private void FillRoundedRectangle(Graphics g, Pen pen, Brush brush, int x, int y, int width, int height, int radius) {
