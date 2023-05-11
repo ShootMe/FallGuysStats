@@ -604,7 +604,7 @@ namespace FallGuysStats {
                     Close();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void moveShows_Click(object sender, EventArgs e) {
