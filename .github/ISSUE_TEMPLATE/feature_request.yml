@@ -1,0 +1,25 @@
+name: Feature Request
+description: Feature Request
+title: "[Feature Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request✨  
+        Please check below before submitting new issue:
+        1. Please check if there is an issue with the same content.
+        2. Please update the app latest version.
+  - type: textarea
+    id: request
+    attributes:
+      label: What is your request?
+      description: Also tell us, what do you want us to add? Please Upload files to this section.
+      placeholder: Tell us what you want!
+      value: "Please add!"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your request✨ Check your title and request. Push "Submit new issue" to finish!
