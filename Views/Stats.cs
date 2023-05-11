@@ -260,8 +260,9 @@ namespace FallGuysStats {
             }
             
             foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-                this.StatDetails.Add(entry.Value);
                 this.StatLookup.Add(entry.Key, entry.Value);
+                if (entry.Value.Type == LevelType.Creative) continue;
+                this.StatDetails.Add(entry.Value);
             }
             
             this.BackImage = this.Icon.ToBitmap();

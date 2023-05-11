@@ -703,7 +703,7 @@ namespace FallGuysStats {
                         this.levelException = 2; // Level is like a "Team" level type (score info is most important)
                     }
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? this.lastRound.ShowNameId : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
@@ -811,7 +811,7 @@ namespace FallGuysStats {
                         this.lblDuration.TextRight = "-";
                     }
                 }
-                Invalidate();
+                this.Invalidate();
             }
         }
         protected override void OnPaint(PaintEventArgs e) {
