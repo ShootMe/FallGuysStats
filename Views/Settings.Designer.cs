@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using MetroFramework;
 
 namespace FallGuysStats {
     partial class Settings {
@@ -1339,6 +1340,7 @@ namespace FallGuysStats {
             // lbltpl4
             // 
             this.lbltpl4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbltpl4.FontSize = MetroLinkSize.Medium;
             this.lbltpl4.Location = new System.Drawing.Point(12, 735);
             this.lbltpl4.Name = "lbltpl4";
             this.lbltpl4.Size = new System.Drawing.Size(121, 23);
@@ -1351,6 +1353,7 @@ namespace FallGuysStats {
             // lbltpl3
             // 
             this.lbltpl3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbltpl3.FontSize = MetroLinkSize.Medium;
             this.lbltpl3.Location = new System.Drawing.Point(12, 706);
             this.lbltpl3.Name = "lbltpl3";
             this.lbltpl3.Size = new System.Drawing.Size(121, 23);
@@ -1363,6 +1366,7 @@ namespace FallGuysStats {
             // lbltpl2
             // 
             this.lbltpl2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbltpl2.FontSize = MetroLinkSize.Medium;
             this.lbltpl2.Location = new System.Drawing.Point(12, 677);
             this.lbltpl2.Name = "lbltpl2";
             this.lbltpl2.Size = new System.Drawing.Size(121, 23);
@@ -1385,6 +1389,7 @@ namespace FallGuysStats {
             // lbltpl1
             // 
             this.lbltpl1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbltpl1.FontSize = MetroLinkSize.Medium;
             this.lbltpl1.Location = new System.Drawing.Point(12, 650);
             this.lbltpl1.Name = "lbltpl1";
             this.lbltpl1.Size = new System.Drawing.Size(121, 23);
@@ -1482,12 +1487,11 @@ namespace FallGuysStats {
             // 
             this.fallalyticsLink.AutoSize = true;
             this.fallalyticsLink.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.fallalyticsLink.FontSize = MetroFramework.MetroLinkSize.Tall;
+            this.fallalyticsLink.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.fallalyticsLink.ForeColor = System.Drawing.Color.Black;
             this.fallalyticsLink.Location = new System.Drawing.Point(12, 112);
             this.fallalyticsLink.Name = "fallalyticsLink";
             this.fallalyticsLink.Size = new System.Drawing.Size(231, 22);
-            this.fallalyticsLink.Style = MetroFramework.MetroColorStyle.Teal;
             this.fallalyticsLink.TabIndex = 7;
             this.fallalyticsLink.Text = "Visit Fallalytics";
             this.fallalyticsLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
