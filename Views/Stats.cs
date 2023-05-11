@@ -107,6 +107,7 @@ namespace FallGuysStats {
         private static DateTime SessionStart = DateTime.UtcNow;
         public static bool InShow = false; 
         public static bool EndedShow = false;
+        public static bool IsPlaying = false;
         public static int LastServerPing = 0;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
@@ -1578,7 +1579,7 @@ namespace FallGuysStats {
                         break;
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void LogFile_OnError(string error) {
@@ -1787,7 +1788,7 @@ namespace FallGuysStats {
                     } catch { }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private bool IsInStatsFilter(DateTime showEnd) {
@@ -2044,7 +2045,7 @@ namespace FallGuysStats {
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
@@ -2142,7 +2143,7 @@ namespace FallGuysStats {
                 this.gridDetails.Setup("Longest",   pos++, this.GetDataGridViewColumnWidth("Longest", Multilingual.GetWord("main_longest")), Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
                 this.gridDetails.Setup("AveFinish", pos,   this.GetDataGridViewColumnWidth("AveFinish", Multilingual.GetWord("main_ave_finish")), Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -2299,7 +2300,7 @@ namespace FallGuysStats {
                         break;
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2318,7 +2319,7 @@ namespace FallGuysStats {
                         : Cursors.Default;
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2343,7 +2344,7 @@ namespace FallGuysStats {
                     this.ToggleWinPercentageDisplay();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2592,7 +2593,7 @@ namespace FallGuysStats {
             try {
                 Process.Start(@"https://github.com/ShootMe/FallGuysStats#table-of-contents");
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2657,7 +2658,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2717,7 +2718,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -2798,7 +2799,7 @@ namespace FallGuysStats {
             try {
                 this.ShowFinals();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2806,7 +2807,7 @@ namespace FallGuysStats {
             try {
                 this.ShowShows();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2814,7 +2815,7 @@ namespace FallGuysStats {
             try {
                 this.ShowRounds();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2822,7 +2823,7 @@ namespace FallGuysStats {
             try {
                 this.ShowWinGraph();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3071,7 +3072,7 @@ namespace FallGuysStats {
                 this.LogFile_OnParsedLogLines(rounds);
                 this.loadingExisting = false;
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3079,7 +3080,7 @@ namespace FallGuysStats {
             try {
                 this.CheckForUpdate(false);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_update_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3195,7 +3196,7 @@ namespace FallGuysStats {
                     this.EnableTrayMenu(true);
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3269,7 +3270,7 @@ namespace FallGuysStats {
                     this.ReloadProfileMenuItems();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3277,7 +3278,7 @@ namespace FallGuysStats {
             try {
                 this.LaunchGame(false);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

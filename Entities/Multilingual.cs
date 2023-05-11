@@ -292,6 +292,8 @@ namespace FallGuysStats {
                             {"overlay_ping", "PING"},
                             {"overlay_best", ""},
                             {"overlay_inning", ""},
+                            {"overlay_position_prefix", ""},
+                            {"overlay_position_suffix", ""},
 
                             {"profile_title", "Profile Settings"},
                             {"profile_list", "Profile List"},
@@ -614,6 +616,8 @@ namespace FallGuysStats {
                             {"overlay_ping", "PING"},
                             {"overlay_best", ""},
                             {"overlay_inning", ""},
+                            {"overlay_position_prefix", ""},
+                            {"overlay_position_suffix", ""},
 
                             {"profile_title", "Configuration des profils"},
                             {"profile_list", "Profil :"},
@@ -936,6 +940,8 @@ namespace FallGuysStats {
                             {"overlay_ping", "Ping"},
                             {"overlay_best", "최대 "},
                             {"overlay_inning", "회"},
+                            {"overlay_position_prefix", ""},
+                            {"overlay_position_suffix", "등"},
 
                             {"profile_title", "프로필 설정"},
                             {"profile_list", "프로필 목록"},
@@ -1258,6 +1264,8 @@ namespace FallGuysStats {
                             {"overlay_ping", "Ping"},
                             {"overlay_best", "最大 "},
                             {"overlay_inning", "回"},
+                            {"overlay_position_prefix", ""},
+                            {"overlay_position_suffix", "位"},
 
                             {"profile_title", "プロファイル設定"},
                             {"profile_list", "プロファイル一覧"},
@@ -1580,6 +1588,8 @@ namespace FallGuysStats {
                             {"overlay_ping", "延迟"},
                             {"overlay_best", ""},
                             {"overlay_inning", ""},
+                            {"overlay_position_prefix", "第"},
+                            {"overlay_position_suffix", "名"},
 
                             {"profile_title", "个人资料设置"},
                             {"profile_list", "个人资料列表"},
