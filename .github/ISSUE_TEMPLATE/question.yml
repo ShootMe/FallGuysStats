@@ -1,0 +1,26 @@
+name: Question
+description: Question about this app
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this question✨  
+        Please check below before submitting new issue:
+        1. Please check if there is an issue with the same content.
+        2. Please update the app latest version.
+        3. Please check `README.md`.
+  - type: textarea
+    id: question
+    attributes:
+      label: What is your question?
+      description: Tell us, what is your question? You can upload files to this section.
+      placeholder: Tell us what you ask!
+      value: "What is this?"
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your question✨ Check your title and text. Push "Submit new issue" to finish!
