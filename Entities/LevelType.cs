@@ -10,11 +10,13 @@ namespace FallGuysStats {
         Team,
         Invisibeans,
         Final,
+        Creative,
         Unknown
     }
     internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
             switch (type) {
+                case LevelType.Creative:
                 case LevelType.Race:
                 case LevelType.Hunt:
                 case LevelType.Invisibeans:
@@ -47,6 +49,8 @@ namespace FallGuysStats {
                     return Color.FromArgb(alpha, 250, 80, 0);
                 case LevelType.Invisibeans:
                     return Color.FromArgb(alpha, 0, 0, 0);
+                case LevelType.Creative:
+                    return Color.FromArgb(alpha, 255, 250, 250);
             }
             return Color.DarkGray;
         }
@@ -70,6 +74,8 @@ namespace FallGuysStats {
                     return Color.FromArgb(130, 40, 0);
                 case LevelType.Invisibeans:
                     return theme == MetroThemeStyle.Light ? Color.FromArgb(0, 0, 0) : Color.DarkGray;
+                case LevelType.Creative:
+                    return theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow;
             }
             return Color.FromArgb(60, 60, 60);
         }
