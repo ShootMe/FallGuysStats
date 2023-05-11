@@ -17,6 +17,9 @@
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
   </a>
   <br>
+  English
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">日本語</a>
+  <br>
   <b>This application is not affiliated with MediaTonic.<br>Images of FallGuys are the property of Mediatonic Limited.</b>
 </p>
 
