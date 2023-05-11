@@ -336,7 +336,11 @@ namespace FallGuysStats {
             DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
 
-            if (this.CurrentSettings.SystemTrayIcon) { this.trayIcon.Visible = true; }
+            if (this.CurrentSettings.SystemTrayIcon) {
+                this.trayIcon.Visible = true;
+            } else {
+                this.Show();
+            }
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
