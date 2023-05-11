@@ -1,3 +1,29 @@
+![Fall Guys Stats](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=300&section=header&text=Fall%20Guys%20Stats&desc=Fall%20Guys%20Stats%20Tracker&fontSize=70&descAlignY=70)
+
+<p align="center">
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/LICENSE">
+    <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-green.svg" />
+  </a>
+  <a href="https://github.com/ShootMe/FallGuysStats/actions">
+    <img alt="Tests Passing" src="https://github.com/ShootMe/FallGuysStats/actions/workflows/build_workflow.yml/badge.svg" />
+  </a>
+  <a href="https://github.com/ShootMe/FallGuysStats/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/ShootMe/FallGuysStats" />
+  </a>
+  <a href="https://github.com/ShootMe/FallGuysStats/pulls">
+    <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/ShootMe/FallGuysStats" />
+  </a>
+  <a href="https://github.com/ShootMe/FallGuysStats/releases/latest">
+    <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
+  </a>
+  <br>
+  <b>This application is not affiliated with MediaTonic.<br>Images of FallGuys are the property of Mediatonic Limited.</b>
+</p>
+
+Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.  
+
+![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
+
 # Table of Contents
   - [**Fall Guys Stats**](#-fall-guys-stats)
     - [**Download**](#download)
@@ -15,10 +41,7 @@
     - [**Deleting shows or moving shows to another profile**](#deleting-shows-or-moving-shows-to-another-profile)
   - [**Changelog**](#changelog)
 
-# [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/ShootMe/FallGuysStats/blob/master/LICENSE) Fall Guys Stats
-Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
-![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 ## Download
 　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](Resources/FallGuysStats-download.svg)</a>
@@ -125,6 +148,24 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - Highlight any number of shows and hit the `DEL` key or `right-click` to manage the show through the `Delete` and `Move show data` menus.
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+## FAQ
+### How to set "Launch FallGuys" option in Epic Games
+1. Open Epic Games Launcher (if you are playing FallGuys, close FallGuys)
+2. Click "Library"
+3. Click "..." of FallGuys
+4. Click "Manage"
+![IMG1](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_1.png)
+5. Click "CREATE"
+![IMG2](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_2.png)
+6. Open FallGuysStats (ver>=1.136)
+7. Click "Settings"
+8. Click "Launch Fall Guys"
+9. Click EpicGames Icon in "Platform"
+10. Click "Browse"
+![IMG3](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_3.png)
+11. Select shortcut of FallGuys in Desktop
+![IMG4](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_4.png)
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
