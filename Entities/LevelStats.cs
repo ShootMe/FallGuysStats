@@ -135,7 +135,7 @@ namespace FallGuysStats {
             // { "wle_s10_orig_round_027",           new LevelStats("Fan Frolics", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_028",           new LevelStats("Windmill Road", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_029",           new LevelStats("Conveyor Clash", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
-            // { "wle_s10_orig_round_032",           new LevelStats("Fortress Frolics", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
+            { "wle_s10_orig_round_032",           new LevelStats("Fortress Frolics", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_033",           new LevelStats("Super Door Dash", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_034",           new LevelStats("Spiral Of Woo", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_035",           new LevelStats("Tornado Trial", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
@@ -159,8 +159,8 @@ namespace FallGuysStats {
             { "wle_s10_round_006",                new LevelStats("Gigabyte Gauntlet", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             { "wle_s10_round_007",                new LevelStats("Cube Corruption", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             { "wle_s10_round_008",                new LevelStats("Wham Bam Boom", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
-            // { "wle_s10_round_010",                new LevelStats("Pixel Hearts", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
-            // { "wle_s10_round_011",                new LevelStats("Cyber Circuit", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
+            { "wle_s10_round_010",                new LevelStats("Pixel Hearts", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
+            { "wle_s10_round_011",                new LevelStats("Cyber Circuit", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             { "wle_s10_round_012",                new LevelStats("Boom Blaster Trial", LevelType.Race, true, false, 10, Properties.Resources.round_creative_icon) },
             
             { "wle_s10_orig_round_010",           new LevelStats("Square Up", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
@@ -171,7 +171,7 @@ namespace FallGuysStats {
             // { "wle_s10_orig_round_025",           new LevelStats("Mount Boom", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_030",           new LevelStats("Mega Monument", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
             // { "wle_s10_orig_round_031",           new LevelStats("Transfer Turnpike", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
-            // { "wle_s10_round_004",                new LevelStats("Parkour Panic", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
+            { "wle_s10_round_004",                new LevelStats("Parkour Panic", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
             { "wle_s10_round_009",                new LevelStats("Firewall Finale", LevelType.Race, true, true, 10, Properties.Resources.round_creative_icon) },
 
             { "round_biggestfan",                 new LevelStats("Big Fans", LevelType.Race, false, false, 2, Properties.Resources.round_big_fans_icon) },
