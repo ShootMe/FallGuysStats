@@ -602,19 +602,24 @@ namespace FallGuysStats {
                 round[0].ShowEnd = showEnd;
                 
                 if (logRound.Info.Finish.HasValue) {
-                    round[0].Qualified = true;
-                    round[0].Crown = true;
-                    if (logRound.Info.Position == 1) {
-                        round[0].Tier = 1;
-                    } else {
+                    if (logRound.Info.Position > 0) {
                         double rankPercentage = (((double)logRound.Info.Position / (double)logRound.Info.Players) * 100d);
-                        if (rankPercentage <= 20d) {
-                            round[0].Tier = 2;
+                        if (logRound.Info.Position == 1) {
+                            round[0].Tier = 1; //gold
+                        } else if (rankPercentage <= 20d) {
+                            round[0].Tier = 2; //silver
                         } else if (rankPercentage <= 50d) {
-                            round[0].Tier = 3;
+                            round[0].Tier = 3; //bronze
                         } else if (rankPercentage > 50d) {
-                            round[0].Tier = 0;
+                            round[0].Tier = 0; //pink
                         }
+                        round[0].Qualified = true;
+                        round[0].Crown = true;
+                    } else {
+                        round[0].Tier = 0;
+                        round[0].Qualified = false;
+                        round[0].Crown = false;
+                        round[0].Finish = null;
                     }
                 } else {
                     round[0].Tier = 0;
