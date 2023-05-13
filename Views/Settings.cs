@@ -32,6 +32,13 @@ namespace FallGuysStats {
         }
         public Settings() {
             this.InitializeComponent();
+            this.cboMultilingual.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboTheme.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboWinsFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboQualifyFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboFastestFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboOverlayBackground.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboOverlayColor.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
         }
         private void Settings_Load(object sender, EventArgs e) {
             this.SuspendLayout();
