@@ -337,15 +337,12 @@ namespace FallGuysStats {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
-            
-            this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
-
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
-
-            this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
+            Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
+            this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
             Stats.CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
                 this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
+            this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
@@ -693,7 +690,7 @@ namespace FallGuysStats {
 
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
-            this.Font = Overlay.GetMainFont(12, this.DisplayLang);
+            this.Font = Overlay.GetMainFont(12, FontStyle.Regular, this.DisplayLang);
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
 
