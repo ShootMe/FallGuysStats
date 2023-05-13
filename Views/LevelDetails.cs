@@ -435,6 +435,10 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
+                if ((int)e.Value == 0) {
+                    e.Value = "";
+                }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs4") {
                 gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
                 if ((int)e.Value == 0) {
