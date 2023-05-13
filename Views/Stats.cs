@@ -2152,7 +2152,7 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
 
                 LevelStats levelStats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                float fBrightness = 0.7F;
+                float fBrightness = 0.85F;
                 switch (this.gridDetails.Columns[e.ColumnIndex].Name) {
                     case "RoundIcon":
                         if (levelStats.IsFinal) {
@@ -2164,8 +2164,8 @@ namespace FallGuysStats {
                         switch (levelStats.Type) {
                             case LevelType.Creative:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.FromArgb(249, 70, 173)
-                                    : Color.FromArgb((int)(249 * fBrightness), (int)(70 * fBrightness), (int)(173 * fBrightness));
+                                    ? Color.FromArgb(227, 255, 144)
+                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
                                 break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -2216,8 +2216,8 @@ namespace FallGuysStats {
                         switch (levelStats.Type) {
                             case LevelType.Creative:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.FromArgb(249, 70, 173)
-                                    : Color.FromArgb((int)(249 * fBrightness), (int)(70 * fBrightness), (int)(173 * fBrightness));
+                                    ? Color.FromArgb(227, 255, 144)
+                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
                                 break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
