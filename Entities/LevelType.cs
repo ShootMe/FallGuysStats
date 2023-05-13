@@ -3,6 +3,7 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public enum LevelType {
+        Creative,
         Race,
         Survival,
         Hunt,
@@ -10,7 +11,6 @@ namespace FallGuysStats {
         Team,
         Invisibeans,
         Final,
-        Creative,
         Unknown
     }
     internal static class LevelTypeBehavior {
@@ -30,10 +30,10 @@ namespace FallGuysStats {
             return 1;
         }
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
-            if (isFinal) {
+            if (isFinal && type != LevelType.Creative) {
                 return Color.FromArgb(alpha, 250, 195, 0);
             }
-            if (isTeam) {
+            if (isTeam && type != LevelType.Creative) {
                 return Color.FromArgb(alpha, 250, 80, 0);
             }
             switch (type) {
@@ -50,15 +50,15 @@ namespace FallGuysStats {
                 case LevelType.Invisibeans:
                     return Color.FromArgb(alpha, 0, 0, 0);
                 case LevelType.Creative:
-                    return Color.FromArgb(alpha, 255, 250, 250);
+                    return Color.FromArgb(alpha, 249, 70, 173);
             }
             return Color.DarkGray;
         }
         public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
-            if (isFinal) {
+            if (isFinal && type != LevelType.Creative) {
                 return Color.FromArgb(130, 100, 0);
             }
-            if (isTeam) {
+            if (isTeam && type != LevelType.Creative) {
                 return Color.FromArgb(130, 40, 0);
             }
             switch (type) {
