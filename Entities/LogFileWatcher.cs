@@ -311,9 +311,7 @@ namespace FallGuysStats {
                     || roundName.IndexOf("wle_s10_orig_round_030", StringComparison.OrdinalIgnoreCase) != -1
                     || roundName.IndexOf("wle_s10_orig_round_031", StringComparison.OrdinalIgnoreCase) != -1
                     || roundName.IndexOf("wle_s10_round_004", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1)
-                
-                    || roundName.StartsWith("ugc-");
+                    || roundName.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         private bool GetIsRealFinalRound(string roundName) {
@@ -386,6 +384,12 @@ namespace FallGuysStats {
                 (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0)
             {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
+                if (this.selectedShowId.StartsWith("ugc-")) {
+                    this.selectedShowId = this.selectedShowId.Substring(4);
+                    this.useShareCode = true;
+                } else {
+                    this.useShareCode = false;
+                }
             }
             //else if (Stats.InShow && logRound.Info == null && 
             //          (index = line.Line.IndexOf("[FraggleSceneLoader] Loading level using share code.", StringComparison.OrdinalIgnoreCase)) > 0)
@@ -397,12 +401,6 @@ namespace FallGuysStats {
                 this.sessionId = line.Line.Substring(index + 33);
             }
             else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
-                if (this.selectedShowId.StartsWith("ugc-")) {
-                    this.selectedShowId = this.selectedShowId.Substring(4);
-                    this.useShareCode = true;
-                } else {
-                    this.useShareCode = false;
-                }
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode};
                 int index2 = line.Line.IndexOf(' ', index + 44);
                 if (index2 < 0) { index2 = line.Line.Length; }
@@ -424,7 +422,8 @@ namespace FallGuysStats {
                 int index2 = line.Line.IndexOf(". ", index + 62);
                 if (index2 < 0) { index2 = line.Line.Length; }
                 if (logRound.Info.UseShareCode) {
-                    logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
+                    //logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
+                    logRound.Info.Name = "wle_s10_user_creative_round";
                 } else {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
@@ -434,7 +433,7 @@ namespace FallGuysStats {
                 //bool isFinalException = this.GetIsFinalException(logRound.Info.Name);
                 //bool isTeamException = this.GetIsTeamException(logRound.Info.Name);
                 
-                if (this.GetIsCreativeFinalRound(logRound.Info.Name)) {
+                if (this.GetIsCreativeFinalRound(logRound.Info.Name) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
                 } else if (this.GetIsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;
@@ -549,8 +548,6 @@ namespace FallGuysStats {
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
-            //} else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0
-            //           || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateGameInProgress with FGClient.StateQualificationScreen", StringComparison.OrdinalIgnoreCase) > 0) {
             }
             else if (logRound.Info != null &&
                        (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) > 0
@@ -577,10 +574,60 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.InShow = false;
-            }
-            else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
+                if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
+                RoundInfo temp = null;
+                if (0 < round.Count) {
+                    temp = round[0];
+                    temp.ShowStart = temp.Start;
+                    temp.Playing = false;
+                    temp.Round = 1;
+                    logRound.PrivateLobby = temp.PrivateLobby;
+                    logRound.CurrentlyInParty = temp.InParty;
+                } else {
+                    return false;
+                }
+                
+                if (temp.End == DateTime.MinValue) {
+                    temp.End = line.Date;
+                }
+                if (temp.Start == DateTime.MinValue) {
+                    temp.Start = temp.End;
+                }
+                if (!temp.Finish.HasValue) {
+                    temp.Finish = temp.End;
+                }
+                
+                DateTime showEnd = logRound.Info.End;
+                round[0].ShowEnd = showEnd;
+                
+                if (logRound.Info.Finish.HasValue) {
+                    round[0].Qualified = true;
+                    round[0].Crown = true;
+                    if (logRound.Info.Position == 1) {
+                        round[0].Tier = 1;
+                    } else {
+                        double rankPercentage = (((double)logRound.Info.Position / (double)logRound.Info.Players) * 100d);
+                        if (rankPercentage <= 20d) {
+                            round[0].Tier = 2;
+                        } else if (rankPercentage <= 50d) {
+                            round[0].Tier = 3;
+                        } else if (rankPercentage > 50d) {
+                            round[0].Tier = 0;
+                        }
+                    }
+                } else {
+                    round[0].Tier = 0;
+                    round[0].Qualified = false;
+                    round[0].Crown = false;
+                }
+                
+                logRound.Info = null;
+                Stats.InShow = false;
+                Stats.EndedShow = true;
+                return true;
+            } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null) { return false; }
-
                 RoundInfo temp = null;
                 StringReader sr = new StringReader(line.Line);
                 string detail;
