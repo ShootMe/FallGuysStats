@@ -18,7 +18,10 @@
   </a>
   <br>
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">English</a>
-  日本語
+  |
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md">한국어</a>
+  |
+  <b>日本語</b>
   <br>
   <b>このアプリはMediaTonicによって承認されたものではありません。<br>FallGuysの画像はMediatonic Limitedの財産です。</b>
 </p>
@@ -152,18 +155,38 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 ## FAQ
 ### Epic Gamesで"Fall Guys を起動"オプションを設定する方法
 1. Epic Gamesランチャーを起動します。 (FallGuysを起動している場合、閉じてください)
-2. "ライブラリ"を押します。
-3. FallGuysの"..."を押します。
-4. "管理"を押します。
+
+
+2. `ライブラリ`を押します。
+
+
+3. FallGuysの`...`を押します。
+
+
+4. `管理`を押します。
 ![IMG1](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_1.png)
-5. "作成する"を押します。
+
+
+5. `作成する`を押します。
 ![IMG2](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_2.png)
+
+
 6. FallGuysStatsを起動します。
-7. "設定"を開きます。
-8. 左側の"Fall Guysを起動"を押します。
-9. "プラットフォーム"で、Epic Gamesを選択します。
-10. "選択"を押します。
+
+
+7. `設定`を開きます。
+
+
+8. 左側の`Fall Guysを起動`を押します。
+
+
+9. `プラットフォーム`で、Epic Gamesを選択します。
+
+
+10. `選択`を押します。
 ![IMG3](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_3.png)
+
+
 11. デスクトップに作成されたFallGuysのショートカットを選択します。
 ![IMG4](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_4.png)
 

@@ -17,23 +17,25 @@
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
   </a>
   <br>
-  English
+  <b>English</b>
+  |
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md">한국어</a>
+  |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">日本語</a>
   <br>
   <b>This application is not affiliated with MediaTonic.<br>Images of FallGuys are the property of Mediatonic Limited.</b>
 </p>
 
-Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.  
+Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
 ![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 # Table of Contents
-  - [**Fall Guys Stats**](#-fall-guys-stats)
-    - [**Download**](#download)
-    - [**Usage**](#usage)
-    - [**Theme**](#theme)
-      - [**Light Theme**](#light-theme)
-      - [**Dark Theme**](#dark-theme)
+  - [**Download**](#download)
+  - [**Usage**](#usage)
+  - [**Theme**](#theme)
+    - [**Light Theme**](#light-theme)
+    - [**Dark Theme**](#dark-theme)
   - [**Multilingual Support**](#multilingual-support)
   - [**Overlay**](#overlay)
     - [**Hotkey**](#hotkey)
@@ -42,6 +44,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - [**Profile**](#profile)
     - [**Linking Profiles and Shows**](#linking-profiles-and-shows)
     - [**Deleting shows or moving shows to another profile**](#deleting-shows-or-moving-shows-to-another-profile)
+  - [**FAQ**](#faq)
+    - [**How to set `Launch FallGuys` option in Epic Games**](#how-to-set-launch-fallguys-option-in-epic-games)
   - [**Changelog**](#changelog)
 
 
@@ -145,34 +149,54 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 
 ### Deleting shows or moving shows to another profile
-
-
   - On the main screen, click the Shows label at the top.
   - Highlight any number of shows and hit the `DEL` key or `right-click` to manage the show through the `Delete` and `Move show data` menus.
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
 ## FAQ
-### How to set "Launch FallGuys" option in Epic Games
+### How to set `Launch FallGuys` option in Epic Games
 1. Open Epic Games Launcher (if you are playing FallGuys, close FallGuys)
-2. Click "Library"
-3. Click "..." of FallGuys
-4. Click "Manage"
+
+
+2. Click `Library`
+
+
+3. Click `...` of FallGuys
+
+
+4. Click `Manage`
 ![IMG1](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_1.png)
-5. Click "CREATE"
+
+
+5. Click `CREATE`
 ![IMG2](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_2.png)
+
+
 6. Open FallGuysStats (ver>=1.136)
-7. Click "Settings"
-8. Click "Launch Fall Guys"
-9. Click EpicGames Icon in "Platform"
-10. Click "Browse"
+
+
+7. Click `Settings`
+
+
+8. Click `Launch Fall Guys`
+
+
+9. Click EpicGames Icon in `Platform`
+
+
+10. Click `Browse`
 ![IMG3](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_3.png)
+
+
 11. Select shortcut of FallGuys in Desktop
 ![IMG4](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_4.png)
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - `1.163`
+    - Save user creative round
   - `1.162`
     - Bug fixes
   - `1.161`
