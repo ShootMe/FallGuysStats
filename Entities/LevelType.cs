@@ -50,7 +50,7 @@ namespace FallGuysStats {
                 case LevelType.Invisibeans:
                     return Color.FromArgb(alpha, 0, 0, 0);
                 case LevelType.Creative:
-                    return Color.FromArgb(alpha, 249, 70, 173);
+                    return Color.FromArgb(alpha, 196, 236, 0);
             }
             return Color.DarkGray;
         }
