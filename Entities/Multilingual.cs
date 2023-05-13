@@ -1775,6 +1775,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1921,6 +1922,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2067,6 +2069,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "커스텀 폴크리 라운드"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2213,6 +2216,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2359,6 +2363,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
         };
