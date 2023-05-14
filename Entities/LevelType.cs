@@ -3,7 +3,7 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public enum LevelType {
-        Creative,
+        CreativeRace,
         Race,
         Survival,
         Hunt,
@@ -16,7 +16,7 @@ namespace FallGuysStats {
     internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
             switch (type) {
-                case LevelType.Creative:
+                case LevelType.CreativeRace:
                 case LevelType.Race:
                 case LevelType.Hunt:
                 case LevelType.Invisibeans:
@@ -30,10 +30,10 @@ namespace FallGuysStats {
             return 1;
         }
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
-            if (isFinal && type != LevelType.Creative) {
+            if (isFinal && type != LevelType.CreativeRace) {
                 return Color.FromArgb(alpha, 250, 195, 0);
             }
-            if (isTeam && type != LevelType.Creative) {
+            if (isTeam && type != LevelType.CreativeRace) {
                 return Color.FromArgb(alpha, 250, 80, 0);
             }
             switch (type) {
@@ -49,16 +49,16 @@ namespace FallGuysStats {
                     return Color.FromArgb(alpha, 250, 80, 0);
                 case LevelType.Invisibeans:
                     return Color.FromArgb(alpha, 0, 0, 0);
-                case LevelType.Creative:
+                case LevelType.CreativeRace:
                     return Color.FromArgb(alpha, 196, 236, 0);
             }
             return Color.DarkGray;
         }
         public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
-            if (isFinal && type != LevelType.Creative) {
+            if (isFinal && type != LevelType.CreativeRace) {
                 return Color.FromArgb(130, 100, 0);
             }
-            if (isTeam && type != LevelType.Creative) {
+            if (isTeam && type != LevelType.CreativeRace) {
                 return Color.FromArgb(130, 40, 0);
             }
             switch (type) {
@@ -74,7 +74,7 @@ namespace FallGuysStats {
                     return Color.FromArgb(130, 40, 0);
                 case LevelType.Invisibeans:
                     return theme == MetroThemeStyle.Light ? Color.FromArgb(0, 0, 0) : Color.DarkGray;
-                case LevelType.Creative:
+                case LevelType.CreativeRace:
                     return theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow;
             }
             return Color.FromArgb(60, 60, 60);
