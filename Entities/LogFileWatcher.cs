@@ -271,6 +271,11 @@ namespace FallGuysStats {
             {"round_tunnel_final_only_finals_v2_r2", "round_tunnel_final"},
             {"round_tunnel_final_only_finals_v2_r3_r4", "round_tunnel_final"},
             {"round_tunnel_final_only_finals_v2_final", "round_tunnel_final"},
+
+            {"round_thin_ice_only_finals_v2_r1", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_r2", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_r3_r4", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_final", "round_thin_ice"},
             
             // Hex-a-gone Trials
             {"round_floor_fall_event_only_01", "round_floor_fall"},
@@ -342,6 +347,7 @@ namespace FallGuysStats {
                    || roundName.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                    || roundName.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                    || roundName.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundName.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                    || roundName.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
                    || roundName.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
                    || roundName.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
@@ -360,6 +366,7 @@ namespace FallGuysStats {
                      || roundName.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundName.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundName.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundName.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundName.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
                      || roundName.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
                      || roundName.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
