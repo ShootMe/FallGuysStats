@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 namespace FallGuysStats {
-    partial class Overlay {
+    sealed partial class Overlay {
         /// <summary>
         /// Required designer variable.
         /// </summary>
