@@ -301,81 +301,89 @@ namespace FallGuysStats {
             {"round_blastball_arenasurvival_blast_ball_trials_fn", "round_blastball_arenasurvival_symphony_launch_show"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" } };
-        private bool GetIsCreativeFinalRound(string roundName) {
-            return (roundName.IndexOf("wle_s10_orig_round_010", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_011", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_017", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_018", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_024", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_025", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_030", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_orig_round_031", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_round_004", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundName.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1);
+        private bool GetIsCreativeFinalRound(string roundId, string showId) {
+            return (roundId.IndexOf("wle_s10_orig_round_010", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_011", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_017", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_018", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_024", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_025", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_030", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_orig_round_031", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_round_004", StringComparison.OrdinalIgnoreCase) != -1
+                    || roundId.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1)
+                
+                    || showId.StartsWith("show_wle_s10_wk01_srs_");
         }
 
-        private bool GetIsRealFinalRound(string roundName) {
-            return (roundName.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1
-                    && roundName.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
+        private bool GetIsRealFinalRound(string roundId) {
+            return (roundId.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1
+                    && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
 
-                   || (roundName.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundName.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
-                       && roundName.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1)
+                   || (roundId.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
+                       && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
+                       && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1)
 
-                   || (roundName.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundName.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+                   || (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
+                       && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
 
-                   || (roundName.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundName.Substring(roundName.Length - 6).ToLower() == "_final")
+                   || (roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
+                       && roundId.Substring(roundId.Length - 6).ToLower() == "_final")
 
-                   || roundName.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase);
+                   || roundId.EndsWith("_timeattack_final", StringComparison.OrdinalIgnoreCase)
+
+                   || roundId.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool GetIsModeException(string roundName) {
-            return roundName.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundName.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1;
+        private bool GetIsModeException(string roundId) {
+            return roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_drumtop_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1;
         }
 
-        private bool GetIsFinalException(string roundName) {
-            return ((roundName.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                     || roundName.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1)
-                         && roundName.Substring(roundName.Length - 6).ToLower() == "_final")
+        private bool GetIsFinalException(string roundId) {
+            return ((roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_drumtop_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                     || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1)
+                         && roundId.Substring(roundId.Length - 6).ToLower() == "_final")
 
-                     || (roundName.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
-                         && roundName.Substring(roundName.Length - 3).ToLower() == "_fn")
+                     || (roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
+                         && roundId.Substring(roundId.Length - 3).ToLower() == "_fn")
 
-                     || (roundName.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
-                         && roundName.Substring(roundName.Length - 3) == "_03");
+                     || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
+                         && roundId.Substring(roundId.Length - 3) == "_03");
         }
         
-        private bool GetIsTeamException(string roundName) {
-            return roundName.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
-                   && (roundName.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
-                       || roundName.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
+        private bool GetIsTeamException(string roundId) {
+            return roundId.IndexOf("ound_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
+                   && (roundId.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
+                       || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
@@ -427,13 +435,8 @@ namespace FallGuysStats {
                 } else {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
-
-                //bool isRealFinalRound = this.GetIsRealFinalRound(logRound.Info.Name);
-                //bool isModeException = this.GetIsModeException(logRound.Info.Name);
-                //bool isFinalException = this.GetIsFinalException(logRound.Info.Name);
-                //bool isTeamException = this.GetIsTeamException(logRound.Info.Name);
                 
-                if (this.GetIsCreativeFinalRound(logRound.Info.Name) || logRound.Info.UseShareCode) {
+                if (this.GetIsCreativeFinalRound(logRound.Info.Name, this.selectedShowId) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
                 } else if (this.GetIsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;

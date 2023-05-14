@@ -110,7 +110,7 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
-            { "wle_s10_user_creative_round",      new LevelStats("User Creative Round", LevelType.Creative, true, false, 10, Properties.Resources.round_creative_icon) },
+            { "wle_s10_user_creative_round",      new LevelStats("User Creative Round", LevelType.CreativeRace, true, false, 10, Properties.Resources.round_creative_icon) },
             
             { "wle_s10_orig_round_001",           new LevelStats("Beans Ahoy!", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon) },
             { "wle_s10_orig_round_002",           new LevelStats("Airborne Antics", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon) },
