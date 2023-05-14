@@ -272,6 +272,11 @@ namespace FallGuysStats {
             {"round_tunnel_final_only_finals_v2_r3_r4", "round_tunnel_final"},
             {"round_tunnel_final_only_finals_v2_final", "round_tunnel_final"},
             
+            {"round_thin_ice_only_finals_v2_r1", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_r2", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_r3_r4", "round_thin_ice"},
+            {"round_thin_ice_only_finals_v2_final", "round_thin_ice"},
+            
             // Hex-a-gone Trials
             {"round_floor_fall_event_only_01", "round_floor_fall"},
             {"round_floor_fall_event_only_02", "round_floor_fall"},
