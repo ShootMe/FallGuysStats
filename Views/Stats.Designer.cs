@@ -373,6 +373,7 @@ namespace FallGuysStats {
             // 
             // lblTotalTime
             // 
+            this.lblTotalTime.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblTotalTime.Image = global::FallGuysStats.Properties.Resources.clock_icon;
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 1, 20, 2);
             this.lblTotalTime.Name = "lblTotalTime";
@@ -381,6 +382,7 @@ namespace FallGuysStats {
             // 
             // lblGoldMedal
             // 
+            this.lblGoldMedal.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblGoldMedal.Image = global::FallGuysStats.Properties.Resources.medal_gold;
             this.lblGoldMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblGoldMedal.Name = "lblGoldMedal";
@@ -389,6 +391,7 @@ namespace FallGuysStats {
             // 
             // lblSilverMedal
             // 
+            this.lblSilverMedal.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblSilverMedal.Image = global::FallGuysStats.Properties.Resources.medal_silver;
             this.lblSilverMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblSilverMedal.Name = "lblSilverMedal";
@@ -397,6 +400,7 @@ namespace FallGuysStats {
             // 
             // lblBronzeMedal
             // 
+            this.lblBronzeMedal.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblBronzeMedal.Image = global::FallGuysStats.Properties.Resources.medal_bronze;
             this.lblBronzeMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblBronzeMedal.Name = "lblBronzeMedal";
@@ -405,6 +409,7 @@ namespace FallGuysStats {
             // 
             // lblPinkMedal
             // 
+            this.lblPinkMedal.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblPinkMedal.Image = global::FallGuysStats.Properties.Resources.medal_pink;
             this.lblPinkMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblPinkMedal.Name = "lblPinkMedal";
@@ -413,6 +418,7 @@ namespace FallGuysStats {
             // 
             // lblEliminatedMedal
             // 
+            this.lblEliminatedMedal.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblEliminatedMedal.Image = global::FallGuysStats.Properties.Resources.medal_eliminated;
             this.lblEliminatedMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblEliminatedMedal.Name = "lblEliminatedMedal";
@@ -421,6 +427,7 @@ namespace FallGuysStats {
             // 
             // lblKudos
             // 
+            this.lblKudos.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblKudos.Image = global::FallGuysStats.Properties.Resources.kudos_icon;
             this.lblKudos.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblKudos.Name = "lblKudos";

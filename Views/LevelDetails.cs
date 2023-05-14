@@ -288,6 +288,7 @@ namespace FallGuysStats {
             this.gridDetails.Columns["IsFinal"].Visible = false;
             this.gridDetails.Columns["IsTeam"].Visible = false;
             this.gridDetails.Columns["SessionId"].Visible = false;
+            this.gridDetails.Columns["UseShareCode"].Visible = false;
             if (this._showStats == 0) {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
@@ -431,9 +432,13 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.Value = Multilingual.GetShowName((string)e.Value);
+                    e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
+                if ((int)e.Value == 0) {
+                    e.Value = "";
+                }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs4") {
                 gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
                 if ((int)e.Value == 0) {
@@ -604,7 +609,8 @@ namespace FallGuysStats {
                     Close();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void moveShows_Click(object sender, EventArgs e) {

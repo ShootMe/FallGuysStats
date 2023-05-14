@@ -294,6 +294,7 @@ namespace FallGuysStats {
                             {"overlay_inning", ""},
                             {"overlay_position_prefix", ""},
                             {"overlay_position_suffix", ""},
+                            {"overlay_position_win", "Win"},
 
                             {"profile_title", "Profile Settings"},
                             {"profile_list", "Profile List"},
@@ -618,6 +619,7 @@ namespace FallGuysStats {
                             {"overlay_inning", ""},
                             {"overlay_position_prefix", ""},
                             {"overlay_position_suffix", ""},
+                            {"overlay_position_win", "Gagner"},
 
                             {"profile_title", "Configuration des profils"},
                             {"profile_list", "Profil :"},
@@ -942,6 +944,7 @@ namespace FallGuysStats {
                             {"overlay_inning", "회"},
                             {"overlay_position_prefix", ""},
                             {"overlay_position_suffix", "등"},
+                            {"overlay_position_win", "우승"},
 
                             {"profile_title", "프로필 설정"},
                             {"profile_list", "프로필 목록"},
@@ -997,7 +1000,7 @@ namespace FallGuysStats {
                             {"main_show_overlay", "オーバーレイを表示"},
                             {"main_hide_overlay", "オーバーレイを隠す"},
                             {"main_update", "更新"},
-                            {"main_manual_update_version", "マニュアル更新版"},
+                            {"main_manual_update_version", "手動更新版"},
                             {"main_help", "ヘルプ"},
                             {"main_launch_fall_guys", "Fall Guysを起動"},
                             {"main_exit_program", "終了"},
@@ -1154,8 +1157,8 @@ namespace FallGuysStats {
                             {"settings_display", "表示"},
                             {"settings_launch_fallguys", "Fall Guysを起動"},
                             {"settings_fallalytics", "Fallalytics"},
-                            {"settings_enter_fallalytics_api_key", "(オプション) Fallalytics APIキー入力"},
-                            {"settings_sends_info_about_rounds_played_to_fallalytics", "プレイしたラウンド情報をFallalyticsに送信"},
+                            {"settings_enter_fallalytics_api_key", "(任意) Fallalytics APIキー入力"},
+                            {"settings_sends_info_about_rounds_played_to_fallalytics", "プレイしたラウンド情報をFallalyticsに送信する"},
                             {"settings_visit_fallalytics", "Fallalyticsにアクセスする"},
                             {"settings_about", "このアプリについて"},
                             {"settings_log_path", "ログファイルパス"},
@@ -1239,9 +1242,9 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "プロファイルの自動生成"},
                             {"settings_select_language_button", "保存"},
                             {"settings_system_tray_icon", "システムトレイアイコンを使用する"},
-                            {"settings_prevent_mouse_cursor_bugs", "マウスカーソルの不具合を防ぐ（実験編）"},
+                            {"settings_prevent_mouse_cursor_bugs", "実験的な機能: マウスカーソルの不具合を防ぐ"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
-                            {"settings_issue_traker", "Issue Tracker"},
+                            {"settings_issue_traker", "バグトラッカー"},
 
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", "勝"},
@@ -1266,6 +1269,7 @@ namespace FallGuysStats {
                             {"overlay_inning", "回"},
                             {"overlay_position_prefix", ""},
                             {"overlay_position_suffix", "位"},
+                            {"overlay_position_win", "優勝"},
 
                             {"profile_title", "プロファイル設定"},
                             {"profile_list", "プロファイル一覧"},
@@ -1590,6 +1594,7 @@ namespace FallGuysStats {
                             {"overlay_inning", ""},
                             {"overlay_position_prefix", "第"},
                             {"overlay_position_suffix", "名"},
+                            {"overlay_position_win", "赢"},
 
                             {"profile_title", "个人资料设置"},
                             {"profile_list", "个人资料列表"},
@@ -1770,6 +1775,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1916,6 +1922,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2062,6 +2069,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "커스텀 폴크리 라운드"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2208,6 +2216,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2354,6 +2363,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
+                            {"wle_s10_user_creative_round", "User Creative Round"},
                         }
             },
         };

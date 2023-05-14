@@ -126,6 +126,8 @@ namespace FallGuysStats {
                     return (this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
                 case "lblQualifyChance":
                     return (this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                case "lblFinish":
+                    return (this.TextRight.Length > 14 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.78f : 1) : 1);
                 default:
                     return 1f;
             }

@@ -76,11 +76,12 @@ namespace FallGuysStats {
                 for (int i = 0; i < processes.Length; i++) {
                     if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
                     if (processCount > 1) {
-                        CurrentLanguage = sysLang == "fr" ? 1 :
-                                        sysLang == "ko" ? 2 :
-                                        sysLang == "ja" ? 3 :
-                                        sysLang == "zh" ? 4 : 0;
-                        MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        CurrentLanguage = string.Equals(sysLang, "fr", StringComparison.Ordinal) ? 1 :
+                                            string.Equals(sysLang, "ko", StringComparison.Ordinal) ? 2 :
+                                            string.Equals(sysLang, "ja", StringComparison.Ordinal) ? 3 :
+                                            string.Equals(sysLang, "zh", StringComparison.Ordinal) ? 4 : 0;
+                        MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"),
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
                     }
                 }
@@ -262,7 +263,7 @@ namespace FallGuysStats {
             
             foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
                 this.StatLookup.Add(entry.Key, entry.Value);
-                if (entry.Value.Type == LevelType.Creative) continue;
+                //if (entry.Value.Type == LevelType.Creative) continue;
                 this.StatDetails.Add(entry.Value);
             }
             
@@ -464,7 +465,7 @@ namespace FallGuysStats {
                                 case "lblCurrentProfile": tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
                                 case "lblTotalTime":
                                     tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
                                     break;
                                 case "lblTotalShows":
                                 case "lblTotalWins":
@@ -484,10 +485,10 @@ namespace FallGuysStats {
                                 case "lblPinkMedal":
                                 case "lblEliminatedMedal":
                                 case "lblKudos":
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
+                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                             }
                         } else if (tsi1 is ToolStripSeparator tss1) {
-                            tss1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray; break;
+                            tss1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                         }
                     }
                 }
@@ -1322,8 +1323,7 @@ namespace FallGuysStats {
             }
         }
         private void UpdateGridRoundName() {
-            Dictionary<string, string> rounds = Multilingual.GetRoundsDictionary();
-            foreach (KeyValuePair<string, string> item in rounds) {
+            foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
                 LevelStats level = StatLookup[item.Key];
                 level.Name = item.Value;
             }
@@ -1489,9 +1489,8 @@ namespace FallGuysStats {
                         await this.logFile.Stop();
                     }
                     this.StatsDB.Dispose();
-                } catch {
-                    //Application.ExitThread();
-                    //Environment.Exit(0);
+                } catch (Exception ex) {
+                    MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } else {
                 this.Hide();
@@ -1512,8 +1511,8 @@ namespace FallGuysStats {
                 this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"].PerformClick();
 
                 this.UpdateDates();
-            } catch {
-                // ignored
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void Stats_Shown(object sender, EventArgs e) {
@@ -1782,10 +1781,12 @@ namespace FallGuysStats {
                     }
                 }
 
-                if (!Disposing && !IsDisposed) {
+                if (!this.Disposing && !this.IsDisposed) {
                     try {
                         this.UpdateTotals();
-                    } catch { }
+                    } catch {
+                        // ignore
+                    }
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2151,7 +2152,7 @@ namespace FallGuysStats {
                 if (e.RowIndex < 0) { return; }
 
                 LevelStats levelStats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                float fBrightness = 0.7F;
+                float fBrightness = 0.85F;
                 switch (this.gridDetails.Columns[e.ColumnIndex].Name) {
                     case "RoundIcon":
                         if (levelStats.IsFinal) {
@@ -2161,6 +2162,11 @@ namespace FallGuysStats {
                             break;
                         }
                         switch (levelStats.Type) {
+                            case LevelType.Creative:
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
+                                    ? Color.FromArgb(227, 255, 144)
+                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
+                                break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
                                     ? Color.FromArgb(210, 255, 220)
@@ -2208,6 +2214,11 @@ namespace FallGuysStats {
                             break;
                         }
                         switch (levelStats.Type) {
+                            case LevelType.Creative:
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
+                                    ? Color.FromArgb(227, 255, 144)
+                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
+                                break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
                                     ? Color.FromArgb(210, 255, 220)
@@ -2526,27 +2537,36 @@ namespace FallGuysStats {
                     int currentShows = 0;
                     int currentFinals = 0;
                     int currentWins = 0;
-                    foreach (var info in rounds.Where(info => !info.PrivateLobby)) {
+                    bool incrementedShows = false;
+                    bool incrementedFinals = false;
+                    bool incrementedWins = false;
+                    for (int i = 0; i < rounds.Count; i++) {
+                        RoundInfo info = rounds[i];
+                        if (info.PrivateLobby) { continue; }
+
                         if (info.Round == 1) {
                             currentShows++;
+                            incrementedShows = true;
                         }
 
                         if (info.Crown || info.IsFinal) {
                             currentFinals++;
+                            incrementedFinals = true;
                             if (info.Qualified) {
                                 currentWins++;
+                                incrementedWins = true;
                             }
                         }
 
-                        if (start.Date != info.StartLocal.Date) {
+                        if (info.StartLocal.Date > start.Date && (incrementedShows || incrementedFinals)) {
                             dates.Add(start.Date.ToOADate());
-                            shows.Add(Convert.ToDouble(currentShows));
-                            finals.Add(Convert.ToDouble(currentFinals));
-                            wins.Add(Convert.ToDouble(currentWins));
+                            shows.Add(Convert.ToDouble(incrementedShows ? --currentShows : currentShows));
+                            finals.Add(Convert.ToDouble(incrementedFinals ? --currentFinals : currentFinals));
+                            wins.Add(Convert.ToDouble(incrementedWins ? --currentWins : currentWins));
 
-                            int missingCount = (int)(info.StartLocal.Date - start.Date).TotalDays;
-                            while (missingCount > 1) {
-                                missingCount--;
+                            int daysWithoutStats = (int)(info.StartLocal.Date - start.Date).TotalDays - 1;
+                            while (daysWithoutStats > 0) {
+                                daysWithoutStats--;
                                 start = start.Date.AddDays(1);
                                 dates.Add(start.ToOADate());
                                 shows.Add(0D);
@@ -2554,18 +2574,22 @@ namespace FallGuysStats {
                                 wins.Add(0D);
                             }
 
-                            currentShows = 0;
-                            currentFinals = 0;
-                            currentWins = 0;
+                            currentShows = incrementedShows ? 1 : 0;
+                            currentFinals = incrementedFinals ? 1 : 0;
+                            currentWins = incrementedWins ? 1 : 0;
                             start = info.StartLocal;
                         }
+
+                        incrementedShows = false;
+                        incrementedFinals = false;
+                        incrementedWins = false;
                     }
 
                     dates.Add(start.Date.ToOADate());
-                    shows.Add(Convert.ToDouble(currentShows + 1));
+                    shows.Add(Convert.ToDouble(currentShows));
                     finals.Add(Convert.ToDouble(currentFinals));
                     wins.Add(Convert.ToDouble(currentWins));
-                    
+
                     display.manualSpacing = (int)Math.Ceiling(dates.Count / 28D);
                     display.dates = (double[])dates.ToArray(typeof(double));
                     display.shows = (double[])shows.ToArray(typeof(double));
@@ -2576,12 +2600,12 @@ namespace FallGuysStats {
                     shows.Add(0D);
                     finals.Add(0D);
                     wins.Add(0D);
-                    
+
                     display.manualSpacing = 1;
-                    display.dates = null;
-                    display.shows = null;
-                    display.finals = null;
-                    display.wins = null;
+                    display.dates = (double[])dates.ToArray(typeof(double));
+                    display.shows = (double[])shows.ToArray(typeof(double));
+                    display.finals = (double[])finals.ToArray(typeof(double));
+                    display.wins = (double[])wins.ToArray(typeof(double));
                 }
 
                 this.EnableTrayMenu(false);
@@ -3309,6 +3333,7 @@ namespace FallGuysStats {
             this.menu.Font = Overlay.GetMainFont(12);
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
+            this.infoStrip2.Font = Overlay.GetMainFont(13, FontStyle.Bold);
             
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
