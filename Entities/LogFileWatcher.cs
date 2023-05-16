@@ -54,7 +54,8 @@ namespace FallGuysStats {
         private string selectedShowId;
         private bool useShareCode;
         private string sessionId;
-        private bool autoChangeProfile, preventMouseCursorBugs;
+        private bool autoChangeProfile;
+        //private bool preventMouseCursorBugs;
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
@@ -63,9 +64,9 @@ namespace FallGuysStats {
         public void SetAutoChangeProfile(bool option) {
             this.autoChangeProfile = option;
         }
-        public void SetPreventMouseCursorBugs(bool option) {
-            this.preventMouseCursorBugs = option;
-        }
+        //public void SetPreventMouseCursorBugs(bool option) {
+        //    this.preventMouseCursorBugs = option;
+        //}
 
         public void Start(string logDirectory, string fileName) {
             if (this.running) { return; }
@@ -179,15 +180,16 @@ namespace FallGuysStats {
                                 if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfile(this.selectedShowId, logRound.PrivateLobby, this.selectedShowId.StartsWith("show_wle_s10"));
                                 }
-                            } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
-                                Stats.IsPlaying = true;
-                                if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
-                                    this.StatsForm.PreventMouseCursorBug();
-                                }
                             }
+                            //else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
+                            //    Stats.IsPlaying = true;
+                            //    if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
+                            //        this.StatsForm.PreventMouseCursorBug();
+                            //    }
+                            //}
                         }
 
-                        if (logRound.LastPing != 0) {
+                        if (logRound.LastPing > 0) {
                             Stats.LastServerPing = logRound.LastPing;
                         }
                         this.OnParsedLogLinesCurrent?.Invoke(round);
@@ -436,7 +438,7 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
                 if (logRound.Info.UseShareCode) {
                     //logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
-                    logRound.Info.Name = "wle_s10_user_creative_round";
+                    logRound.Info.Name = "wle_s10_user_creative_race_round";
                 } else {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
@@ -540,8 +542,7 @@ namespace FallGuysStats {
                     logRound.Info.Position = position;
                 }
             }
-            else if (logRound.Info != null &&
-                       line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0)
+            else if (line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 index = line.Line.IndexOf("RTT: ");
                 if (index > 0) {
@@ -553,6 +554,7 @@ namespace FallGuysStats {
             else if (logRound.Info != null &&
                        line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0)
             {
+                Stats.IsPlaying = true;
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
@@ -584,61 +586,60 @@ namespace FallGuysStats {
                 Stats.InShow = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
-                RoundInfo temp = null;
                 if (0 < round.Count) {
-                    temp = round[0];
-                    temp.ShowStart = temp.Start;
-                    temp.Playing = false;
-                    temp.Round = 1;
-                    logRound.PrivateLobby = temp.PrivateLobby;
-                    logRound.CurrentlyInParty = temp.InParty;
-                } else {
-                    return false;
-                }
-                
-                if (temp.End == DateTime.MinValue) {
-                    temp.End = line.Date;
-                }
-                if (temp.Start == DateTime.MinValue) {
-                    temp.Start = temp.End;
-                }
-                if (!temp.Finish.HasValue) {
-                    temp.Finish = temp.End;
-                }
-                
-                DateTime showEnd = logRound.Info.End;
-                round[0].ShowEnd = showEnd;
-                
-                if (logRound.Info.Finish.HasValue) {
-                    if (logRound.Info.Position > 0) {
-                        double rankPercentage = (((double)logRound.Info.Position / (double)logRound.Info.Players) * 100d);
-                        if (logRound.Info.Position == 1) {
-                            round[0].Tier = 1; //gold
-                        } else if (rankPercentage <= 20d) {
-                            round[0].Tier = 2; //silver
-                        } else if (rankPercentage <= 50d) {
-                            round[0].Tier = 3; //bronze
-                        } else if (rankPercentage > 50d) {
-                            round[0].Tier = 0; //pink
+                    foreach (RoundInfo temp in round) {
+                        temp.ShowStart = temp.Start;
+                        temp.Playing = false;
+                        
+                        logRound.PrivateLobby = temp.PrivateLobby;
+                        logRound.CurrentlyInParty = temp.InParty;
+                        
+                        if (temp.End == DateTime.MinValue) {
+                            temp.End = line.Date;
                         }
-                        round[0].Qualified = true;
-                        round[0].Crown = true;
-                    } else {
-                        round[0].Tier = 0;
-                        round[0].Qualified = false;
-                        round[0].Crown = false;
-                        round[0].Finish = null;
+                        if (temp.Start == DateTime.MinValue) {
+                            temp.Start = temp.End;
+                        }
+                        if (!temp.Finish.HasValue) {
+                            temp.Finish = temp.End;
+                        }
+                        
+                        DateTime showEnd = temp.End;
+                        temp.ShowEnd = showEnd;
+                        
+                        if (temp.Finish.HasValue) {
+                            if (temp.Position > 0) {
+                                double rankPercentage = (((double)temp.Position / (double)temp.Players) * 100d);
+                                if (temp.Position == 1) {
+                                    temp.Tier = 1; //gold
+                                } else if (rankPercentage <= 20d) {
+                                    temp.Tier = 2; //silver
+                                } else if (rankPercentage <= 50d) {
+                                    temp.Tier = 3; //bronze
+                                } else if (rankPercentage > 50d) {
+                                    temp.Tier = 0; //pink
+                                }
+                                temp.Qualified = true;
+                                temp.Crown = true;
+                            } else {
+                                temp.Tier = 0;
+                                temp.Qualified = false;
+                                temp.Crown = false;
+                                temp.Finish = null;
+                            }
+                        } else {
+                            temp.Tier = 0;
+                            temp.Qualified = false;
+                            temp.Crown = false;
+                        }
                     }
-                } else {
-                    round[0].Tier = 0;
-                    round[0].Qualified = false;
-                    round[0].Crown = false;
+                    
+                    logRound.Info = null;
+                    Stats.InShow = false;
+                    Stats.EndedShow = true;
+                    return true;
                 }
-                
-                logRound.Info = null;
-                Stats.InShow = false;
-                Stats.EndedShow = true;
-                return true;
+                return false;
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null) { return false; }
                 RoundInfo temp = null;

@@ -112,6 +112,7 @@ namespace FallGuysStats {
                             {"level_date_format", "MMM d, yyyy (ddd)"},
                             {"level_detail_no_data", "The data does not exist."},
                             {"level_detail_no_data_caption", "No data"},
+                            {"level_detail_share_code_copied", "Share code copied!"},
 
                             {"profile_change_tooltiptext", "Click to change your current profile."},
                             {"shows_detail_tooltiptext", "Click to view shows stats."},
@@ -267,7 +268,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "Auto-generate profiles"},
                             {"settings_select_language_button", "Confirm"},
                             {"settings_system_tray_icon", "Use the system tray icon"},
-                            {"settings_prevent_mouse_cursor_bugs", "Prevent Mouse Cursor Bugs (Experimental)"},
+                            //{"settings_prevent_mouse_cursor_bugs", "Prevent Mouse Cursor Bugs (Experimental)"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 
@@ -437,6 +438,7 @@ namespace FallGuysStats {
                             {"level_date_format", "dd/MM/yyyy (ddd)"},
                             {"level_detail_no_data", "Les données n'existent pas."},
                             {"level_detail_no_data_caption", "pas de données"},
+                            {"level_detail_share_code_copied", "Code de partage copié !"},
 
                             {"profile_change_tooltiptext", "Cliquer pour changer de profil"},
                             {"shows_detail_tooltiptext", "Cliquer pour voir les stats des émissions"},
@@ -592,7 +594,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "Génération automatique de profils"},
                             {"settings_select_language_button", "Confirmer"},
                             {"settings_system_tray_icon", "Utiliser l'icône de la barre des tâches"},
-                            {"settings_prevent_mouse_cursor_bugs", "Prévenir les bogues du curseur de la souris (expérimental)"},
+                            //{"settings_prevent_mouse_cursor_bugs", "Prévenir les bogues du curseur de la souris (expérimental)"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 
@@ -661,7 +663,7 @@ namespace FallGuysStats {
                             {"main_settings", "설정"},
                             {"main_fall_guys_stats", "폴 가이즈 스탯츠"},
                             {"main_filters", "필터링"},
-                            {"main_stats", "통계"},
+                            {"main_stats", "통계 범위"},
                             {"main_all", "전체"},
                             {"main_season", "시즌"},
                             {"main_week", "주간"},
@@ -762,6 +764,7 @@ namespace FallGuysStats {
                             {"level_date_format", "yyyy년 M월 d일 (ddd)"},
                             {"level_detail_no_data", "데이터가 존재하지 않습니다."},
                             {"level_detail_no_data_caption", "데이터 없음"},
+                            {"level_detail_share_code_copied", "공유 코드가 복사되었습니다!"},
 
                             {"profile_change_tooltiptext", "현재 프로필을 변경하려면 클릭하세요."},
                             {"shows_detail_tooltiptext", "쇼 통계를 보려면 클릭하세요."},
@@ -856,7 +859,7 @@ namespace FallGuysStats {
                             {"settings_qualify__gold_filter", "완주 / 금메달 필터"},
                             {"settings_fastest__longest_filter", "최단 기록 / 최장 기록 필터"},
                             {"settings_all_time_stats", "전체 통계"},
-                            {"settings_stats_and_party_filter", "통계 및 파티 유형"},
+                            {"settings_stats_and_party_filter", "통계 범위 및 파티 유형"},
                             {"settings_season_stats", "시즌 통계"},
                             {"settings_week_stats", "주간 통계"},
                             {"settings_day_stats", "일일 통계"},
@@ -917,7 +920,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "프로필 자동 생성"},
                             {"settings_select_language_button", "확인"},
                             {"settings_system_tray_icon", "작업 표시줄 아이콘 사용"},
-                            {"settings_prevent_mouse_cursor_bugs", "마우스 커서 버그 방지 (실험)"},
+                            //{"settings_prevent_mouse_cursor_bugs", "마우스 커서 버그 방지 (실험)"},
                             {"settings_github", "깃허브 (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "이슈 추적"},
 
@@ -1087,6 +1090,7 @@ namespace FallGuysStats {
                             {"level_date_format", "yyyy/M/d (ddd)"},
                             {"level_detail_no_data", "データが存在しません。"},
                             {"level_detail_no_data_caption", "データなし"},
+                            {"level_detail_share_code_copied", "シェアコードをコピーした！"},
 
                             {"profile_change_tooltiptext", "クリックして現在のプロファイルを変更"},
                             {"shows_detail_tooltiptext", "クリックして全てのショーの記録を見る"},
@@ -1242,7 +1246,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "プロファイルの自動生成"},
                             {"settings_select_language_button", "保存"},
                             {"settings_system_tray_icon", "システムトレイアイコンを使用する"},
-                            {"settings_prevent_mouse_cursor_bugs", "実験的な機能: マウスカーソルの不具合を防ぐ"},
+                            //{"settings_prevent_mouse_cursor_bugs", "実験的な機能: マウスカーソルの不具合を防ぐ"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "バグトラッカー"},
 
@@ -1412,6 +1416,7 @@ namespace FallGuysStats {
                             {"level_date_format", "yyyy年 M月 d日 (ddd)"},
                             {"level_detail_no_data", "数据不存在。"},
                             {"level_detail_no_data_caption", "没有数据"},
+                            {"level_detail_share_code_copied", "分享代码已复制!"},
 
                             {"profile_change_tooltiptext", "点击更换当前的个人资料。"},
                             {"shows_detail_tooltiptext", "点击查看每场统计信息。"},
@@ -1567,7 +1572,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "自动生成配置文件"},
                             {"settings_select_language_button", "选择"},
                             {"settings_system_tray_icon", "使用系统托盘图标"},
-                            {"settings_prevent_mouse_cursor_bugs", "防止鼠标光标错误（实验性的）。"},
+                            //{"settings_prevent_mouse_cursor_bugs", "防止鼠标光标错误（实验性的）。"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 
@@ -1775,7 +1780,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
-                            {"wle_s10_user_creative_round", "User Creative Round"},
+                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1922,7 +1927,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
-                            {"wle_s10_user_creative_round", "User Creative Round"},
+                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2069,7 +2074,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
-                            {"wle_s10_user_creative_round", "커스텀 폴크리 라운드"},
+                            {"wle_s10_user_creative_race_round", "사용자 폴크리 레이스 라운드"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2216,7 +2221,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
-                            {"wle_s10_user_creative_round", "User Creative Round"},
+                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2363,7 +2368,7 @@ namespace FallGuysStats {
                             {"wle_s10_round_010", "Pixel Hearts"},
                             {"wle_s10_round_011", "Cyber Circuit"},
                             {"wle_s10_round_012", "Boom Blaster Trial"},
-                            {"wle_s10_user_creative_round", "User Creative Round"},
+                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
                         }
             },
         };
