@@ -302,7 +302,7 @@ namespace FallGuysStats {
             this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
             this.logFile.StatsForm = this;
             this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-            this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
+            //this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
             
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.SetFixedPosition(
@@ -406,9 +406,9 @@ namespace FallGuysStats {
             set { base.Text = value; }
         }
         
-        public void PreventMouseCursorBug() {
-            if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
-        }
+        //public void PreventMouseCursorBug() {
+        //    if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
+        //}
         public void SetCursorPositionCenter() {
             if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
                 Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
@@ -1230,7 +1230,7 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 27) {
-                this.CurrentSettings.PreventMouseCursorBugs = false;
+                //this.CurrentSettings.PreventMouseCursorBugs = false;
                 this.CurrentSettings.Version = 28;
                 this.SaveUserSettings();
             }
@@ -1244,6 +1244,23 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 29) {
                 this.CurrentSettings.SystemTrayIcon = true;
                 this.CurrentSettings.Version = 30;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 30) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+
+                    if (info.Name.Equals("wle_s10_user_creative_round")) {
+                        info.Name = "wle_s10_user_creative_race_round";
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 31;
                 this.SaveUserSettings();
             }
         }
@@ -1297,7 +1314,7 @@ namespace FallGuysStats {
                 AutoUpdate = false,
                 MaximizedWindowState = false,
                 SystemTrayIcon = true,
-                PreventMouseCursorBugs = false,
+                //PreventMouseCursorBugs = false,
                 FormLocationX = null,
                 FormLocationY = null,
                 FormWidth = null,
@@ -1313,7 +1330,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 30
+                Version = 31
             };
         }
         private void UpdateHoopsieLegends() {
@@ -1867,49 +1884,153 @@ namespace FallGuysStats {
             //MatchCollection matches = Regex.Matches(name, @"^(?:\d{4}(?:-?)){3}$");
             MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
             if (matches.Count > 0) { // user creative round
-                
-            } else {
+                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && r.Name.Equals("wle_s10_user_creative_race_round") && r.ShowNameId.Equals(name));
                 int lastShow = -1;
-                if (!this.StatLookup.TryGetValue(name ?? string.Empty, out LevelStats currentLevel)) {
+                if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
                     currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null);
                 }
-                int profile = this.currentProfile;
+                
+                for (int i = 0; i < filteredInfo.Count; i++) {
+                    RoundInfo info = filteredInfo[i];
+                    TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
+                    
+                    int startRoundShowId = info.ShowID;
+                    RoundInfo endRound = info;
+                    for (int j = i + 1; j < filteredInfo.Count; j++) {
+                        if (filteredInfo[j].ShowID != startRoundShowId) {
+                            break;
+                        }
+                        endRound = filteredInfo[j];
+                    }
+                    
+                    bool isInWinsFilter = (this.CurrentSettings.WinsFilter == 0 ||
+                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                            (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
+                                            (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
+                                            (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
+                                            (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
+                    bool isInQualifyFilter = (this.CurrentSettings.QualifyFilter == 0 ||
+                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                               (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
+                    bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
+                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                             (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
+                                             (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
+                                             (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
+                                             (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
+                    
+                    if (info.ShowID != lastShow) {
+                        lastShow = info.ShowID;
+                        if (isInWinsFilter) {
+                            summary.TotalShows++;
+                        }
+                    }
+                    
+                    if (isInQualifyFilter) {
+                        summary.TotalPlays++;
+                    }
+
+                    if (isInFastestFilter) {
+                        if ((currentLevel.Type == LevelType.Team || levelException == 2)
+                            && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
+                            summary.BestScore = info.Score;
+                        }
+                    }
+                    
+                    if (info == endRound && (currentLevel.IsFinal || info.Crown)) {
+                        if (info.IsFinal) {
+                            summary.CurrentFinalStreak++;
+                            if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
+                                summary.BestFinalStreak = summary.CurrentFinalStreak;
+                            }
+                        }
+                    }
+                    
+                    if (info.Qualified) {
+                        if (info.IsFinal || info.Crown) {
+                            summary.AllWins++;
+
+                            if (isInWinsFilter) {
+                                summary.TotalWins++;
+                                summary.TotalFinals++;
+                            }
+
+                            summary.CurrentStreak++;
+                            if (summary.CurrentStreak > summary.BestStreak) {
+                                summary.BestStreak = summary.CurrentStreak;
+                            }
+                        }
+
+                        if (isInQualifyFilter) {
+                            if (info.Tier == (int)QualifyTier.Gold) {
+                                summary.TotalGolds++;
+                            }
+                            summary.TotalQualify++;
+                        }
+
+                        if (isInFastestFilter) {
+                            if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
+                                summary.BestFinish = finishTime;
+                            }
+                            if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
+                                summary.LongestFinish = finishTime;
+                            }
+                        }
+
+                        if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
+                            summary.BestFinishOverall = finishTime;
+                        }
+                        if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
+                            summary.LongestFinishOverall = finishTime;
+                        }
+                    }
+                }
+            } else {
+                int lastShow = -1;
+                if (!this.StatLookup.TryGetValue(name, out LevelStats currentLevel)) {
+                    currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null);
+                }
 
                 for (int i = 0; i < this.AllStats.Count; i++) {
                     RoundInfo info = this.AllStats[i];
-                    if (info.Profile != profile) { continue; }
+                    if (info.Profile != this.currentProfile) { continue; }
 
                     TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                     bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
                     bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
 
-                    int currentShow = info.ShowID;
-                    RoundInfo endShow = info;
+                    int startRoundShowId = info.ShowID;
+                    RoundInfo endRound = info;
                     for (int j = i + 1; j < this.AllStats.Count; j++) {
-                        if (this.AllStats[j].ShowID != currentShow) {
+                        if (this.AllStats[j].ShowID != startRoundShowId) {
                             break;
                         }
-                        endShow = this.AllStats[j];
+                        endRound = this.AllStats[j];
                     }
 
-                    bool isInWinsFilter = !endShow.PrivateLobby && (this.CurrentSettings.WinsFilter == 0 ||
-                        (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
-                        (this.CurrentSettings.WinsFilter == 2 && endShow.Start > SeasonStart) ||
-                        (this.CurrentSettings.WinsFilter == 3 && endShow.Start > WeekStart) ||
-                        (this.CurrentSettings.WinsFilter == 4 && endShow.Start > DayStart) ||
-                        (this.CurrentSettings.WinsFilter == 5 && endShow.Start > SessionStart));
-                    bool isInQualifyFilter = !endShow.PrivateLobby && (this.CurrentSettings.QualifyFilter == 0 ||
-                        (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
-                        (this.CurrentSettings.QualifyFilter == 2 && endShow.Start > SeasonStart) ||
-                        (this.CurrentSettings.QualifyFilter == 3 && endShow.Start > WeekStart) ||
-                        (this.CurrentSettings.QualifyFilter == 4 && endShow.Start > DayStart) ||
-                        (this.CurrentSettings.QualifyFilter == 5 && endShow.Start > SessionStart));
+                    bool isInWinsFilter = !endRound.PrivateLobby &&
+                                          (this.CurrentSettings.WinsFilter == 0 ||
+                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                            (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
+                                            (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
+                                            (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
+                                            (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
+                    bool isInQualifyFilter = !endRound.PrivateLobby &&
+                                             (this.CurrentSettings.QualifyFilter == 0 ||
+                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                               (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
+                                               (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
                     bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                        (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endShow.Start) && this.IsInPartyFilter(info)) ||
-                        (this.CurrentSettings.FastestFilter == 2 && endShow.Start > SeasonStart) ||
-                        (this.CurrentSettings.FastestFilter == 3 && endShow.Start > WeekStart) ||
-                        (this.CurrentSettings.FastestFilter == 4 && endShow.Start > DayStart) ||
-                        (this.CurrentSettings.FastestFilter == 5 && endShow.Start > SessionStart);
+                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                             (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
+                                             (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
+                                             (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
+                                             (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
 
                     if (info.ShowID != lastShow) {
                         lastShow = info.ShowID;
@@ -1931,7 +2052,7 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (info == endShow && (levelDetails.IsFinal || info.Crown) && !endShow.PrivateLobby) {
+                    if (info == endRound && (levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby) {
                         if (info.IsFinal) {
                             summary.CurrentFinalStreak++;
                             if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
@@ -2057,6 +2178,12 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
+            this.trayIcon.BalloonTipTitle = title;
+            this.trayIcon.BalloonTipText = text;
+            this.trayIcon.BalloonTipIcon = toolTipIcon;
+            this.trayIcon.ShowBalloonTip(timeout);
+        }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
@@ -2172,8 +2299,8 @@ namespace FallGuysStats {
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.FromArgb(227, 255, 144)
-                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
+                                    ? Color.FromArgb(122, 201, 241)
+                                    : Color.FromArgb((int)(122 * fBrightness), (int)(201 * fBrightness), (int)(241 * fBrightness));
                                 break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -2224,8 +2351,8 @@ namespace FallGuysStats {
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.FromArgb(227, 255, 144)
-                                    : Color.FromArgb((int)(227 * fBrightness), (int)(255 * fBrightness), (int)(144 * fBrightness));
+                                    ? Color.FromArgb(122, 201, 241)
+                                    : Color.FromArgb((int)(122 * fBrightness), (int)(201 * fBrightness), (int)(241 * fBrightness));
                                 break;
                             case LevelType.Race:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -3205,7 +3332,7 @@ namespace FallGuysStats {
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.Refresh();
                         this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-                        this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
+                        //this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase)))
                         {

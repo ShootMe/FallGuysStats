@@ -278,14 +278,7 @@ namespace FallGuysStats {
                             this.FlipDisplay(true);
                             //this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X, 0);
-                            this.picPositionNE.Image = this.positionNeOnFocus;
-                            this.picPositionNW.Image = this.positionNwOffFocus;
-                            this.picPositionSE.Image = this.positionSeOffFocus;
-                            this.picPositionSW.Image = this.positionSwOffFocus;
-                            this.isFixedPositionNe = true;
-                            this.isFixedPositionNw = false;
-                            this.isFixedPositionSe = false;
-                            this.isFixedPositionSw = false;
+                            this.SetFocusPositionMenu("ne");
                             this.Cursor = Cursors.Default;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
@@ -318,14 +311,7 @@ namespace FallGuysStats {
                             this.FlipDisplay(false);
                             //this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, 0);
-                            this.picPositionNE.Image = this.positionNeOffFocus;
-                            this.picPositionNW.Image = this.positionNwOnFocus;
-                            this.picPositionSE.Image = this.positionSeOffFocus;
-                            this.picPositionSW.Image = this.positionSwOffFocus;
-                            this.isFixedPositionNe = false;
-                            this.isFixedPositionNw = true;
-                            this.isFixedPositionSe = false;
-                            this.isFixedPositionSw = false;
+                            this.SetFocusPositionMenu("nw");
                             this.Cursor = Cursors.Default;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
@@ -358,14 +344,7 @@ namespace FallGuysStats {
                             this.FlipDisplay(true);
                             //this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X, screenLocation.Y + screenSize.Height - this.Height);
-                            this.picPositionNE.Image = this.positionNeOffFocus;
-                            this.picPositionNW.Image = this.positionNwOffFocus;
-                            this.picPositionSE.Image = this.positionSeOnFocus;
-                            this.picPositionSW.Image = this.positionSwOffFocus;
-                            this.isFixedPositionNe = false;
-                            this.isFixedPositionNw = false;
-                            this.isFixedPositionSe = true;
-                            this.isFixedPositionSw = false;
+                            this.SetFocusPositionMenu("se");
                             this.Cursor = Cursors.Default;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
@@ -398,14 +377,7 @@ namespace FallGuysStats {
                             this.FlipDisplay(false);
                             //this.Background = this.RecreateBackground();
                             this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, screenLocation.Y + screenSize.Height - this.Height);
-                            this.picPositionNE.Image = this.positionNeOffFocus;
-                            this.picPositionNW.Image = this.positionNwOffFocus;
-                            this.picPositionSE.Image = this.positionSeOffFocus;
-                            this.picPositionSW.Image = this.positionSwOnFocus;
-                            this.isFixedPositionNe = false;
-                            this.isFixedPositionNw = false;
-                            this.isFixedPositionSe = false;
-                            this.isFixedPositionSw = true;
+                            this.SetFocusPositionMenu("sw");
                             this.Cursor = Cursors.Default;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionX = this.Location.X;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionY = this.Location.Y;
@@ -425,10 +397,7 @@ namespace FallGuysStats {
                             this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
                             this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
                             this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                            this.picPositionNE.Show();
-                            this.picPositionNW.Show();
-                            this.picPositionSE.Show();
-                            this.picPositionSW.Show();
+                            this.SetVisiblePositionMenu(true);
                         } else {
                             this.picPositionLock.Image = this.positionLockFocus;
                             this.isPositionLock = true;
@@ -439,10 +408,7 @@ namespace FallGuysStats {
                             this.StatsForm.CurrentSettings.OverlayFixedHeight = this.Height;
                             this.StatsForm.CurrentSettings.OverlayFixedPosition = "free";
                             this.StatsForm.CurrentSettings.FixedFlippedDisplay = this.flippedImage;
-                            this.picPositionNE.Hide();
-                            this.picPositionNW.Hide();
-                            this.picPositionSE.Hide();
-                            this.picPositionSW.Hide();
+                            this.SetVisiblePositionMenu(false);
                         }
                     }
                     this.StatsForm.SaveUserSettings();
@@ -455,16 +421,10 @@ namespace FallGuysStats {
                 if (this.isPositionLock) {
                     this.picPositionLock.Image = this.isPositionLock ? this.positionLockFocus : this.positionUnlockFocus;
                 } else {
-                    this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
-                    this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
-                    this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
-                    this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
+                    this.SetFocusPositionMenu();
                 }
             } else {
-                this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
-                this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
-                this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
-                this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
+                this.SetFocusPositionMenu();
                 this.picPositionLock.Image = this.isPositionLock ? this.positionLockFocus : this.positionUnlockFocus;
             }
             this.isPositionButtonMouseEnter = true;
@@ -475,44 +435,57 @@ namespace FallGuysStats {
                 if (this.isPositionLock) {
                     this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
                 } else {
-                    this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
-                    this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
-                    this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
-                    this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+                    this.SetBlurPositionMenu();
                 }
             } else {
-                this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
-                this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
-                this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
-                this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+                this.SetBlurPositionMenu();
                 this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
             }
             this.isPositionButtonMouseEnter = false;
+        }
+        private void SetBlurPositionMenu() {
+            this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
+            this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
+            this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
+            this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+        }
+        private void SetFocusPositionMenu() {
+            this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
+            this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
+            this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
+            this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
+        }
+        private void SetFocusPositionMenu(string flag) {
+            this.isFixedPositionNe = flag.Equals("ne");
+            this.isFixedPositionNw = flag.Equals("nw");
+            this.isFixedPositionSe = flag.Equals("se");
+            this.isFixedPositionSw = flag.Equals("sw");
+            this.picPositionNE.Image = flag.Equals("ne") ? this.positionNeOnFocus : this.positionNeOffFocus;
+            this.picPositionNW.Image = flag.Equals("nw") ? this.positionNwOnFocus : this.positionNwOffFocus;
+            this.picPositionSE.Image = flag.Equals("se") ? this.positionSeOnFocus : this.positionSeOffFocus;
+            this.picPositionSW.Image = flag.Equals("sw") ? this.positionSwOnFocus : this.positionSwOffFocus;
+        }
+        private void SetVisiblePositionMenu(bool visible) {
+            this.picPositionNE.Visible = visible;
+            this.picPositionNW.Visible = visible;
+            this.picPositionSE.Visible = visible;
+            this.picPositionSW.Visible = visible;
         }
         private void Overlay_GotFocus(object sender, EventArgs e) {
             this.isFocused = true;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {
                     this.picPositionLock.Show();
-                    this.picPositionNE.Hide();
-                    this.picPositionNW.Hide();
-                    this.picPositionSE.Hide();
-                    this.picPositionSW.Hide();
+                    this.SetVisiblePositionMenu(false);
                 } else {
                     this.picPositionLock.Hide();
-                    this.picPositionNE.Show();
-                    this.picPositionNW.Show();
-                    this.picPositionSE.Show();
-                    this.picPositionSW.Show();
+                    this.SetVisiblePositionMenu(true);
                     
                 }
             } else {
                 if (this.picPositionNE.Visible && this.picPositionNW.Visible &&
                     this.picPositionSE.Visible && this.picPositionSW.Visible && this.picPositionLock.Visible) return;
-                this.picPositionNE.Show();
-                this.picPositionNW.Show();
-                this.picPositionSE.Show();
-                this.picPositionSW.Show();
+                this.SetVisiblePositionMenu(true);
                 this.picPositionLock.Show();
             }
         }
@@ -520,10 +493,7 @@ namespace FallGuysStats {
             this.isFocused = false;
             if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
                     !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
-            this.picPositionNE.Hide();
-            this.picPositionNW.Hide();
-            this.picPositionSE.Hide();
-            this.picPositionSW.Hide();
+            this.SetVisiblePositionMenu(false);
             this.picPositionLock.Hide();
         }
         private void Overlay_MouseEnter(object sender, EventArgs e) {
@@ -657,7 +627,7 @@ namespace FallGuysStats {
                     this.lblPlayersSwitch.DrawVisible = false;
                     this.lblPlayersPc.DrawVisible = false;
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing != 0 ? $"{Stats.LastServerPing} ms" : "-";
+                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing > 0 ? $"{Stats.LastServerPing} ms" : "-";
                     break;
             }
         }
@@ -902,7 +872,7 @@ namespace FallGuysStats {
                         } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
                             colorOption = 0;
                         }
-                        SetBackgroundColor(colorOption);
+                        this.SetBackgroundColor(colorOption);
                         this.StatsForm.CurrentSettings.OverlayColor = colorOption;
                         this.StatsForm.SaveUserSettings();
                         break;
@@ -986,9 +956,9 @@ namespace FallGuysStats {
                 case Keys.D8:
                 case Keys.D9: {
                         if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
-                        int i = Convert.ToInt32(((char)e.KeyValue).ToString());
-                        if (i <= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[i-1].PerformClick();
+                        int index = Convert.ToInt32(((char)e.KeyValue).ToString());
+                        if (index <= this.StatsForm.ProfileMenuItems.Count) {
+                            this.StatsForm.ProfileMenuItems[index - 1].PerformClick();
                         }
 
                         break;
@@ -997,12 +967,12 @@ namespace FallGuysStats {
         }
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
-                case 0: BackColor = Color.FromArgb(224, 224, 224); break;
-                case 1: BackColor = Color.Black; break;
-                case 2: BackColor = Color.Magenta; break;
-                case 3: BackColor = Color.Red; break;
-                case 4: BackColor = Color.Green; break;
-                case 5: BackColor = Color.Blue; break;
+                case 0: this.BackColor = Color.FromArgb(224, 224, 224); break;
+                case 1: this.BackColor = Color.Black; break;
+                case 2: this.BackColor = Color.Magenta; break;
+                case 3: this.BackColor = Color.Red; break;
+                case 4: this.BackColor = Color.Green; break;
+                case 5: this.BackColor = Color.Blue; break;
             }
         }
         public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {
@@ -1343,10 +1313,7 @@ namespace FallGuysStats {
                 this.Height = height.Value;
             }
             
-            this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
-            this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
-            this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
-            this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
+            this.SetBlurPositionMenu();
             this.picPositionLock.Image = this.isPositionLock ? this.positionLockBlur : this.positionUnlockBlur;
             this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (showTabs ? 11 : -6));
             this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNW.Size.Height + 2) + (showTabs ? 11 : -6));
@@ -1458,7 +1425,7 @@ namespace FallGuysStats {
             }
             return count;
         }
-        private int GetCountEnglishlowercase(string s) {
+        private int GetCountEnglowercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
@@ -1473,7 +1440,7 @@ namespace FallGuysStats {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
             if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
-                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) -
+                offset = 22 - (int)(this.GetCountEnglowercase(s) * (-0.3F)) -
                          (int)(this.GetCountKorAlphabet(s) * (6.7F)) -
                          (int)(this.GetCountJpnAlphabet(s) * (0.8F)) -
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
@@ -1486,7 +1453,7 @@ namespace FallGuysStats {
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
             } else {
-                offset = 22 - (int)(this.GetCountEnglishlowercase(s) * (-0.3F)) -
+                offset = 22 - (int)(this.GetCountEnglowercase(s) * (-0.3F)) -
                          (int)(this.GetCountKorAlphabet(s) * (1.8F)) -
                          (int)(this.GetCountJpnAlphabet(s) * (1.8F)) -
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
@@ -1540,7 +1507,7 @@ namespace FallGuysStats {
                 return newImage;
             }
         }
-        public void DisplayTabs(bool showTabs) {
+        private void DisplayTabs(bool showTabs) {
             if (showTabs) {
                 this.drawHeight = 134;
                 this.lblFilter.Location = new Point(this.flippedImage ? -5 : this.drawWidth - 105, 9);
@@ -1550,7 +1517,7 @@ namespace FallGuysStats {
                 this.lblFilter.DrawVisible = false;
             }
         }
-        public void DisplayProfile(bool showProfile) {
+        private void DisplayProfile(bool showProfile) {
             if (showProfile) {
                 this.drawHeight = 134;
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);

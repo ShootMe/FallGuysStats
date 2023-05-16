@@ -48,6 +48,11 @@ namespace FallGuysStats {
             this.lblRound = new FallGuysStats.TransparentLabel();
             this.lblWins = new FallGuysStats.TransparentLabel();
             this.lblFinish = new FallGuysStats.TransparentLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionNE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionNW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionSE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionSW)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionLock)).BeginInit();
             this.SuspendLayout();
             // 
             // picPositionNE
@@ -413,6 +418,11 @@ namespace FallGuysStats {
             this.MouseLeave += new System.EventHandler(this.Overlay_MouseLeave);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseWheel);
             this.Resize += new System.EventHandler(this.Overlay_Resize);
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionNE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionNW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionSE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionSW)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPositionLock)).EndInit();
             this.ResumeLayout(false);
         }
 

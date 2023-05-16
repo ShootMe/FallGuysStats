@@ -88,7 +88,7 @@ namespace FallGuysStats {
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
             this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
-            this.chkPreventMouseCursorBugs = new MetroFramework.Controls.MetroCheckBox();
+            //this.chkPreventMouseCursorBugs = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
             this.txtPreviousWins = new MetroFramework.Controls.MetroTextBox();
@@ -897,15 +897,15 @@ namespace FallGuysStats {
             // 
             // chkPreventMouseCursorBugs
             // 
-            this.chkPreventMouseCursorBugs.AutoSize = true;
-            this.chkPreventMouseCursorBugs.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkPreventMouseCursorBugs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 250);
-            this.chkPreventMouseCursorBugs.Name = "chkPreventMouseCursorBugs";
-            this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(287, 19);
-            this.chkPreventMouseCursorBugs.TabIndex = 3;
-            this.chkPreventMouseCursorBugs.Text = "Prevent Mouse Cursor Bugs (Experimental)";
-            this.chkPreventMouseCursorBugs.UseSelectable = true;
+            //this.chkPreventMouseCursorBugs.AutoSize = true;
+            //this.chkPreventMouseCursorBugs.Cursor = System.Windows.Forms.Cursors.Hand;
+            //this.chkPreventMouseCursorBugs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            //this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 250);
+            //this.chkPreventMouseCursorBugs.Name = "chkPreventMouseCursorBugs";
+            //this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(287, 19);
+            //this.chkPreventMouseCursorBugs.TabIndex = 3;
+            //this.chkPreventMouseCursorBugs.Text = "Prevent Mouse Cursor Bugs (Experimental)";
+            //this.chkPreventMouseCursorBugs.UseSelectable = true;
             // 
             // lblPreviousWinsNote
             // 
@@ -1125,7 +1125,7 @@ namespace FallGuysStats {
             this.panelProgram.Controls.Add(this.cboMultilingual);
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
-            this.panelProgram.Controls.Add(this.chkPreventMouseCursorBugs);
+            //this.panelProgram.Controls.Add(this.chkPreventMouseCursorBugs);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
             this.panelProgram.Controls.Add(this.lblLogPathNote);
@@ -1654,7 +1654,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroComboBox cboTheme;
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
         private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
-        private MetroFramework.Controls.MetroCheckBox chkPreventMouseCursorBugs;
+        //private MetroFramework.Controls.MetroCheckBox chkPreventMouseCursorBugs;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;
         private MetroFramework.Controls.MetroComboBox cboOverlayColor;
