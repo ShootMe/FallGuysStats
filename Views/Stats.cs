@@ -1884,7 +1884,7 @@ namespace FallGuysStats {
             //MatchCollection matches = Regex.Matches(name, @"^(?:\d{4}(?:-?)){3}$");
             MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
             if (matches.Count > 0) { // user creative round
-                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && r.Name.Equals("wle_s10_user_creative_race_round") && r.ShowNameId.Equals(name));
+                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && r.Name.Equals("wle_s10_user_creative_race_round"));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
                     currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null);
@@ -1892,6 +1892,8 @@ namespace FallGuysStats {
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
                     RoundInfo info = filteredInfo[i];
+                    if (!info.ShowNameId.Equals(name)) { continue; }
+                    
                     TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                     bool hasLevelDetails = StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
                     bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
