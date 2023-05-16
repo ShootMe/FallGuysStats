@@ -95,7 +95,7 @@ namespace FallGuysStats {
             //this.chkShowProfile.Checked = this.CurrentSettings.ShowOverlayProfile;
             this.chkAutoUpdate.Checked = this.CurrentSettings.AutoUpdate;
             this.chkSystemTrayIcon.Checked = this.CurrentSettings.SystemTrayIcon;
-            this.chkPreventMouseCursorBugs.Checked = this.CurrentSettings.PreventMouseCursorBugs;
+            //this.chkPreventMouseCursorBugs.Checked = this.CurrentSettings.PreventMouseCursorBugs;
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
@@ -429,7 +429,7 @@ namespace FallGuysStats {
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
-            this.CurrentSettings.PreventMouseCursorBugs = this.chkPreventMouseCursorBugs.Checked;
+            //this.CurrentSettings.PreventMouseCursorBugs = this.chkPreventMouseCursorBugs.Checked;
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
@@ -854,7 +854,7 @@ namespace FallGuysStats {
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
-            this.chkPreventMouseCursorBugs.Text = Multilingual.GetWord("settings_prevent_mouse_cursor_bugs");
+            //this.chkPreventMouseCursorBugs.Text = Multilingual.GetWord("settings_prevent_mouse_cursor_bugs");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");

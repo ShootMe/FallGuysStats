@@ -698,5 +698,16 @@ namespace FallGuysStats {
                 }
             }
         }
+
+        private void gridDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
+            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
+                string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                if ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+                    Clipboard.SetText(shareCode, TextDataFormat.Text);
+                    this.StatsForm.ShowNotification(Multilingual.GetWord("level_detail_share_code_copied"), shareCode, ToolTipIcon.Info, 1000);
+                }
+            }
+        }
     }
 }
