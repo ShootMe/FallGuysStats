@@ -2197,10 +2197,17 @@ namespace FallGuysStats {
             }
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
-            this.trayIcon.BalloonTipTitle = title;
-            this.trayIcon.BalloonTipText = text;
-            this.trayIcon.BalloonTipIcon = toolTipIcon;
-            this.trayIcon.ShowBalloonTip(timeout);
+            if (this.trayIcon.Visible) {
+                this.trayIcon.BalloonTipTitle = title;
+                this.trayIcon.BalloonTipText = text;
+                this.trayIcon.BalloonTipIcon = toolTipIcon;
+                this.trayIcon.ShowBalloonTip(timeout);
+            } else {
+                MetroMessageBox.Show(this, text, title, MessageBoxButtons.OK, toolTipIcon == ToolTipIcon.None ? MessageBoxIcon.None :
+                                                                                            toolTipIcon == ToolTipIcon.Error ? MessageBoxIcon.Error :
+                                                                                            toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
+                                                                                            toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
+            }
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
