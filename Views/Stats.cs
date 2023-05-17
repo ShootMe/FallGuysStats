@@ -1601,7 +1601,7 @@ namespace FallGuysStats {
             if (!this.Disposing && !this.IsDisposed) {
                 try {
                     if (this.InvokeRequired) {
-                        Invoke((Action<string>)LogFile_OnError, error);
+                        this.Invoke((Action<string>)LogFile_OnError, error);
                     } else {
                         MetroMessageBox.Show(this, error, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
