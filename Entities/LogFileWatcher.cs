@@ -726,7 +726,6 @@ namespace FallGuysStats {
                     round[i].ShowEnd = showEnd;
                 }
                 if (logRound.Info.Qualified) {
-                    logRound.Info.Position = 1;
                     logRound.Info.Crown = true;
                 }
                 logRound.Info = null;
