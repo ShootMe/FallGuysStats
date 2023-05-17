@@ -407,17 +407,17 @@ namespace FallGuysStats {
         //public void PreventMouseCursorBug() {
         //    if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
         //}
-        public void SetCursorPositionCenter() {
-            if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
-                Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
-            } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
-                Cursor.Position = new Point(this.screenCenter.X * 2, 0); // SW
-            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
-                Cursor.Position = new Point(0, this.screenCenter.Y * 2); // NE
-            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
-                Cursor.Position = new Point(0, 0); // SE
-            }
-        }
+        //public void SetCursorPositionCenter() {
+        //    if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+        //        Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
+        //    } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+        //        Cursor.Position = new Point(this.screenCenter.X * 2, 0); // SW
+        //    } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+        //        Cursor.Position = new Point(0, this.screenCenter.Y * 2); // NE
+        //    } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+        //        Cursor.Position = new Point(0, 0); // SE
+        //    }
+        //}
 
         private void SetTheme(MetroThemeStyle theme) {
             if (this.Theme == theme) return;
