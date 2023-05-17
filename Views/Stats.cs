@@ -46,11 +46,10 @@ namespace FallGuysStats {
 
         // Import dwmapi.dll and define DwmSetWindowAttribute in C# corresponding to the native function.
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern long DwmSetWindowAttribute(IntPtr hWnd,
+        public static extern long DwmSetWindowAttribute(IntPtr hWnd,
             DWMWINDOWATTRIBUTE attribute,
             ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
             uint cbAttribute);
-        
         
         [STAThread]
         static void Main() {
@@ -227,6 +226,16 @@ namespace FallGuysStats {
             
             this.InitializeComponent();
             
+            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            this.menu.Renderer = new CustomArrowRenderer();
+            this.trayCMenu.Renderer = new CustomArrowRenderer();
+            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
+            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
+            
             this.ShowInTaskbar = false;
             this.Opacity = 0;
             
@@ -264,7 +273,6 @@ namespace FallGuysStats {
             
             foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
                 this.StatLookup.Add(entry.Key, entry.Value);
-                //if (entry.Value.Type == LevelType.Creative) continue;
                 this.StatDetails.Add(entry.Value);
             }
             
@@ -329,16 +337,6 @@ namespace FallGuysStats {
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
             
-            this.menu.Renderer = new CustomArrowRenderer();
-            this.trayCMenu.Renderer = new CustomArrowRenderer();
-            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
-            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
@@ -2617,7 +2615,8 @@ namespace FallGuysStats {
                                 Qualified = won,
                                 Round = roundCount,
                                 ShowID = info.ShowID,
-                                Tier = won ? 1 : 0
+                                Tier = won ? 1 : 0,
+                                PrivateLobby = info.PrivateLobby
                             });
                         roundCount = 0;
                         kudosTotal = 0;
@@ -2682,7 +2681,7 @@ namespace FallGuysStats {
             
             using (StatsDisplay display = new StatsDisplay {
                        StatsForm = this,
-                       Text = $"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
+                       Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
                        BackImage = Properties.Resources.crown_icon,
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
@@ -2700,10 +2699,7 @@ namespace FallGuysStats {
                     bool incrementedShows = false;
                     bool incrementedFinals = false;
                     bool incrementedWins = false;
-                    for (int i = 0; i < rounds.Count; i++) {
-                        RoundInfo info = rounds[i];
-                        if (info.PrivateLobby) { continue; }
-
+                    foreach (RoundInfo info in rounds.Where(info => !info.PrivateLobby)) {
                         if (info.Round == 1) {
                             currentShows++;
                             incrementedShows = true;

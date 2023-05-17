@@ -21,25 +21,8 @@ namespace FallGuysStats {
         public ToolStripMenuItem DeleteShows, MoveShows;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
-        public Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
-        private DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
-        public enum DWMWINDOWATTRIBUTE {
-            DWMWA_WINDOW_CORNER_PREFERENCE = 33
-        }
-        // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
-        // what value of the enum to set.
-        public enum DWM_WINDOW_CORNER_PREFERENCE {
-            DWMWCP_DEFAULT      = 0,
-            DWMWCP_DONOTROUND   = 1,
-            DWMWCP_ROUND        = 2,
-            DWMWCP_ROUNDSMALL   = 3
-        }
-        // Import dwmapi.dll and define DwmSetWindowAttribute in C# corresponding to the native function.
-        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        private static extern long DwmSetWindowAttribute(IntPtr hWnd,
-            DWMWINDOWATTRIBUTE attribute,
-            ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
-            uint cbAttribute);
+        private Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
+        private Stats.DWM_WINDOW_CORNER_PREFERENCE conerPreference = Stats.DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private class CustomColorTable : ProfessionalColorTable {
             public CustomColorTable() { UseSystemColors = false; }
             public override Color MenuBorder {
@@ -69,6 +52,8 @@ namespace FallGuysStats {
         }
         public Grid() {
             this.SetContextMenu();
+            Stats.DwmSetWindowAttribute(this.CMenu.Handle, Stats.DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
+            this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
             this.AllowUserToAddRows = false;
             this.AllowUserToOrderColumns = true;
             this.AllowUserToResizeRows = false;
@@ -86,8 +71,6 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
             this.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
-            DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
-            this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
         }
         public SortOrder GetSortOrder(string columnName) {
             this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
@@ -150,10 +133,10 @@ namespace FallGuysStats {
             if (!this.IsEditOnEnter) { return; }
             if (e.ColumnIndex == -1) {
                 this.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
-                EndEdit();
+                this.EndEdit();
             } else if (this.EditMode != DataGridViewEditMode.EditOnEnter) {
                 this.EditMode = DataGridViewEditMode.EditOnEnter;
-                BeginEdit(false);
+                this.BeginEdit(false);
             }
         }
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
@@ -242,19 +225,19 @@ namespace FallGuysStats {
 
         #region Export event handlers
         private void exportItemCSV_Click(object sender, EventArgs e) {
-            ExportCsv();
+            this.ExportCsv();
         }
 
         private void exportItemHTML_Click(object sender, EventArgs e) {
-            ExportHtml();
+            this.ExportHtml();
         }
 
         private void exportItemBBCODE_Click(object sender, EventArgs e) {
-            ExportBbCode();
+            this.ExportBbCode();
         }
 
         private void exportItemMD_Click(object sender, EventArgs e) {
-            ExportMarkdown();
+            this.ExportMarkdown();
         }
         #endregion
 
@@ -568,7 +551,7 @@ namespace FallGuysStats {
             this.ExportItemCsv.ShowShortcutKeys = true;
             this.ExportItemCsv.Image = Properties.Resources.export;
             this.ExportItemCsv.ShortcutKeys = Keys.Control | Keys.S;
-            this.ExportItemCsv.Click += new EventHandler(this.exportItemCSV_Click);
+            this.ExportItemCsv.Click += this.exportItemCSV_Click;
             // 
             // exportItemHTML
             // 
@@ -578,7 +561,7 @@ namespace FallGuysStats {
             this.ExportItemHtml.ShowShortcutKeys = true;
             this.ExportItemHtml.Image = Properties.Resources.export;
             this.ExportItemHtml.ShortcutKeys = Keys.Control | Keys.E;
-            this.ExportItemHtml.Click += new EventHandler(this.exportItemHTML_Click);
+            this.ExportItemHtml.Click += this.exportItemHTML_Click;
             // 
             // exportItemBBCODE
             // 
@@ -588,7 +571,7 @@ namespace FallGuysStats {
             this.ExportItemBbcode.ShowShortcutKeys = true;
             this.ExportItemBbcode.Image = Properties.Resources.export;
             this.ExportItemBbcode.ShortcutKeys = Keys.Control | Keys.B;
-            this.ExportItemBbcode.Click += new EventHandler(this.exportItemBBCODE_Click);
+            this.ExportItemBbcode.Click += this.exportItemBBCODE_Click;
             // 
             // exportItemMD
             // 
@@ -598,7 +581,7 @@ namespace FallGuysStats {
             this.ExportItemMd.ShowShortcutKeys = true;
             this.ExportItemMd.Image = Properties.Resources.export;
             this.ExportItemMd.ShortcutKeys = Keys.Control | Keys.M;
-            this.ExportItemMd.Click += new EventHandler(this.exportItemMD_Click);
+            this.ExportItemMd.Click += this.exportItemMD_Click;
             // 
             // saveFile
             // 
@@ -607,7 +590,7 @@ namespace FallGuysStats {
             // 
             // Grid
             // 
-            this.DataError += new DataGridViewDataErrorEventHandler(this.Grid_DataError);
+            this.DataError += this.Grid_DataError;
             this.CMenu.ResumeLayout(false);
             ((ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
