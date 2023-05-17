@@ -187,7 +187,6 @@ namespace FallGuysStats {
             { "round_drumtop",                    new LevelStats("Lily Leapers", LevelType.Race, false, false, 5, Properties.Resources.round_lily_leapers_icon) },
             { "round_gauntlet_08",                new LevelStats("Party Promenade", LevelType.Race, false, false, 6, Properties.Resources.round_party_promenade_icon) },
             { "round_pipedup_s6_launch",          new LevelStats("Pipe Dream", LevelType.Race, false, false, 6, Properties.Resources.round_pipe_dream_icon) },
-            { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Race, false, false, 8, Properties.Resources.round_pixel_painters_icon) },
             { "round_follow_the_line",            new LevelStats("Puzzle Path", LevelType.Race, false, false, 9, Properties.Resources.round_puzzle_path_icon) },
             { "round_tunnel_race",                new LevelStats("Roll On", LevelType.Race, false, false, 4, Properties.Resources.round_roll_on_icon) },
             { "round_see_saw",                    new LevelStats("See Saw", LevelType.Race, false, false, 1, Properties.Resources.round_see_saw_icon) },
@@ -231,6 +230,7 @@ namespace FallGuysStats {
             { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, false, 7, Properties.Resources.round_the_swiveller_icon) },
             { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, false, 7, Properties.Resources.round_volleyfall_icon) },
             
+            { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Logic, false, false, 8, Properties.Resources.round_pixel_painters_icon) },
             { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Logic, false, false, 1, Properties.Resources.round_perfect_match_icon) },
             { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Logic, false, false, 5, Properties.Resources.round_sum_fruit_icon) },
 

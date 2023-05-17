@@ -435,6 +435,9 @@
     <data name="round_treat_thieves_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\invisibeans\icon_Treat_Thieves.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="round_pixel_painters_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\logic\icon_Pixel_Painters.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="round_perfect_match_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\logic\icon_PerfectMatch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
@@ -479,9 +482,6 @@
     </data>
     <data name="round_pipe_dream_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\race\icon_Pipe_Dream.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-    </data>
-    <data name="round_pixel_painters_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-        <value>..\Resources\round_icon\race\icon_Pixel_Painters.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="round_puzzle_path_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\race\icon_Puzzle_Path.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
