@@ -407,6 +407,7 @@
     <None Include="Resources\round_icon\hunt\icon_Volleyfall.png" />
     <None Include="Resources\round_icon\invisibeans\icon_Sweet_Thieves.png" />
     <None Include="Resources\round_icon\invisibeans\icon_Treat_Thieves.png" />
+    <None Include="Resources\round_icon\logic\icon_Pixel_Painters.png" />
     <None Include="Resources\round_icon\logic\icon_PerfectMatch.png" />
     <None Include="Resources\round_icon\logic\icon_SumFruit.png" />
     <None Include="Resources\round_icon\race\icon_BigFans.png" />
@@ -422,7 +423,6 @@
     <None Include="Resources\round_icon\race\icon_LilyLeapers.png" />
     <None Include="Resources\round_icon\race\icon_Party_Promenade.png" />
     <None Include="Resources\round_icon\race\icon_Pipe_Dream.png" />
-    <None Include="Resources\round_icon\race\icon_Pixel_Painters.png" />
     <None Include="Resources\round_icon\race\icon_Puzzle_Path.png" />
     <None Include="Resources\round_icon\race\icon_RollOn.png" />
     <None Include="Resources\round_icon\race\icon_SeeSaw.png" />
