@@ -33,6 +33,7 @@ namespace FallGuysStats {
             this.lblEditShowslabel = new MetroFramework.Controls.MetroLabel();
             this.cboEditShows = new MetroFramework.Controls.MetroComboBox();
             this.lblEditShowsBackColor = new System.Windows.Forms.Label();
+            this.chkUseLinkedProfiles = new MetroFramework.Controls.MetroCheckBox();
             this.btnEditShowsSave = new MetroFramework.Controls.MetroButton();
             this.btnEditShowsCancel = new MetroFramework.Controls.MetroButton();
             ((System.ComponentModel.ISupportInitialize)(this.picEditShowsIcon)).BeginInit();
@@ -88,6 +89,22 @@ namespace FallGuysStats {
             this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 63);
             this.lblEditShowsBackColor.TabIndex = 3;
             // 
+            // chkUseLinkedProfiles
+            // 
+            this.chkUseLinkedProfiles.AutoSize = true;
+            this.chkUseLinkedProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
+            this.chkUseLinkedProfiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkUseLinkedProfiles.ForeColor = System.Drawing.Color.Teal;
+            this.chkUseLinkedProfiles.Location = new System.Drawing.Point(18, 218);
+            this.chkUseLinkedProfiles.Name = "chkUseLinkedProfiles";
+            this.chkUseLinkedProfiles.Size = new System.Drawing.Size(119, 15);
+            this.chkUseLinkedProfiles.TabIndex = 1;
+            this.chkUseLinkedProfiles.Text = "Use linked profiles";
+            this.chkUseLinkedProfiles.UseCustomBackColor = true;
+            this.chkUseLinkedProfiles.UseCustomForeColor = true;
+            this.chkUseLinkedProfiles.UseSelectable = true;
+            this.chkUseLinkedProfiles.CheckedChanged += new System.EventHandler(this.chkUseLinkedProfiles_CheckedChanged);
+            // 
             // btnEditShowsSave
             // 
             this.btnEditShowsSave.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -120,6 +137,7 @@ namespace FallGuysStats {
             this.Controls.Add(this.cboEditShows);
             this.Controls.Add(this.btnEditShowsSave);
             this.Controls.Add(this.btnEditShowsCancel);
+            this.Controls.Add(this.chkUseLinkedProfiles);
             this.Controls.Add(this.lblEditShowsBackColor);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -144,6 +162,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLabel lblEditShowslabel;
         private MetroFramework.Controls.MetroComboBox cboEditShows;
         private System.Windows.Forms.Label lblEditShowsBackColor;
+        private MetroFramework.Controls.MetroCheckBox chkUseLinkedProfiles;
         private MetroFramework.Controls.MetroButton btnEditShowsSave;
         private MetroFramework.Controls.MetroButton btnEditShowsCancel;
     }
