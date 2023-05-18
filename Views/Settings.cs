@@ -238,6 +238,8 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
+            this.overlayOpacityToolTip.Theme = theme;
+            this.cboOverlayBackground.mtt.Theme = theme;
             this.cboOverlayBackground_blur();
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
@@ -685,6 +687,7 @@ namespace FallGuysStats {
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
+            this.overlayOpacityToolTip.ToolTipIcon = ToolTipIcon.Info;
             this.overlayOpacityToolTip.SetToolTip(((MetroTrackBar)sender), ((MetroTrackBar)sender).Value.ToString());
             this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100D;
         }

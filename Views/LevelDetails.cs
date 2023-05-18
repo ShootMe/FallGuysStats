@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MetroFramework;
+
 namespace FallGuysStats {
     public partial class LevelDetails : MetroFramework.Forms.MetroForm {
         public string LevelName { get; set; }
@@ -440,6 +441,7 @@ namespace FallGuysStats {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
+                    if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
@@ -447,7 +449,7 @@ namespace FallGuysStats {
                     e.Value = "";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs4") {
-                gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
+                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
@@ -708,12 +710,12 @@ namespace FallGuysStats {
 
         private void gridDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
-            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
+            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-                if ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
-                    Clipboard.SetText(shareCode, TextDataFormat.Text);
-                    this.StatsForm.ShowNotification(Multilingual.GetWord("level_detail_share_code_copied"), shareCode, ToolTipIcon.Info, 1000);
-                }
+                Clipboard.SetText(shareCode, TextDataFormat.Text);
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+                this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
             }
         }
     }
