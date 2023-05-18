@@ -113,6 +113,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "The data does not exist."},
                             {"level_detail_no_data_caption", "No data"},
                             {"level_detail_share_code_copied", "Share code copied!"},
+                            {"level_detail_share_code_copied_tooltip", "Double-click to copy the share code."},
 
                             {"profile_change_tooltiptext", "Click to change your current profile."},
                             {"shows_detail_tooltiptext", "Click to view shows stats."},
@@ -439,6 +440,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "Les données n'existent pas."},
                             {"level_detail_no_data_caption", "pas de données"},
                             {"level_detail_share_code_copied", "Code de partage copié !"},
+                            {"level_detail_share_code_copied_tooltip", "Double-cliquez pour copier le code de partage."},
 
                             {"profile_change_tooltiptext", "Cliquer pour changer de profil"},
                             {"shows_detail_tooltiptext", "Cliquer pour voir les stats des émissions"},
@@ -765,6 +767,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "데이터가 존재하지 않습니다."},
                             {"level_detail_no_data_caption", "데이터 없음"},
                             {"level_detail_share_code_copied", "공유 코드가 복사되었습니다!"},
+                            {"level_detail_share_code_copied_tooltip", "더블클릭해서 공유 코드를 복사하세요."},
 
                             {"profile_change_tooltiptext", "현재 프로필을 변경하려면 클릭하세요."},
                             {"shows_detail_tooltiptext", "쇼 통계를 보려면 클릭하세요."},
@@ -1091,6 +1094,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "データが存在しません。"},
                             {"level_detail_no_data_caption", "データなし"},
                             {"level_detail_share_code_copied", "シェアコードをコピーした！"},
+                            {"level_detail_share_code_copied_tooltip", "ダブルクリックして共有コードをコピーしてください。"},
 
                             {"profile_change_tooltiptext", "クリックして現在のプロファイルを変更"},
                             {"shows_detail_tooltiptext", "クリックして全てのショーの記録を見る"},
@@ -1417,6 +1421,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "数据不存在。"},
                             {"level_detail_no_data_caption", "没有数据"},
                             {"level_detail_share_code_copied", "分享代码已复制!"},
+                            {"level_detail_share_code_copied_tooltip", "双击来复制共享代码。"},
 
                             {"profile_change_tooltiptext", "点击更换当前的个人资料。"},
                             {"shows_detail_tooltiptext", "点击查看每场统计信息。"},

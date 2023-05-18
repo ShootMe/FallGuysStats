@@ -175,6 +175,7 @@ namespace FallGuysStats {
         private bool isFocused;
         private bool isFormClosing;
         private bool shiftKeyToggle, ctrlKeyToggle;
+        private ToolTip tt = new ToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         
         public readonly string[] publicShowIdList = {
@@ -2206,6 +2207,9 @@ namespace FallGuysStats {
                                                                                             toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
                                                                                             toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
+        }
+        public void ShowTooltip(string message, IWin32Window window, Point position, int duration) {
+            tt.Show(message, window, position, duration);
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
