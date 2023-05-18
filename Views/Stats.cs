@@ -250,6 +250,7 @@ namespace FallGuysStats {
             if (this.Profiles.Count() == 0) {
                 using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
                     initLanguageForm.Icon = this.Icon;
+                    this.EnableInfoStrip(false);
                     this.EnableTrayMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
@@ -268,6 +269,7 @@ namespace FallGuysStats {
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show" });
                         }
                     }
+                    this.EnableInfoStrip(true);
                     this.EnableTrayMenu(true);
                 }
             }
@@ -640,8 +642,12 @@ namespace FallGuysStats {
         private void infoStrip_MouseEnter(object sender, EventArgs e) {
             this.Cursor = Cursors.Hand;
             if (sender is ToolStripLabel lblInfo) {
-                this.infoStripForeColor = lblInfo.ForeColor;
-                lblInfo.ForeColor = lblInfo.Name == "lblCurrentProfile"
+                //this.infoStripForeColor = lblInfo.ForeColor;
+                this.infoStripForeColor = lblInfo.Name.Equals("lblCurrentProfile")
+                    ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
+                    : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                
+                lblInfo.ForeColor = lblInfo.Name.Equals("lblCurrentProfile")
                     ? this.Theme == MetroThemeStyle.Light ? Color.FromArgb(245, 154, 168) : Color.FromArgb(231, 251, 255)
                     : this.Theme == MetroThemeStyle.Light ? Color.FromArgb(147, 174, 248) : Color.FromArgb(255, 250, 244);
             }
@@ -1663,6 +1669,7 @@ namespace FallGuysStats {
                                         editShows.Icon = this.Icon;
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
+                                        this.EnableInfoStrip(false);
                                         this.EnableTrayMenu(false);
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
@@ -1672,6 +1679,7 @@ namespace FallGuysStats {
                                         } else {
                                             this.askedPreviousShows = 2;
                                         }
+                                        this.EnableInfoStrip(true);
                                         this.EnableTrayMenu(true);
                                     }
                                 }
@@ -2509,8 +2517,10 @@ namespace FallGuysStats {
                         List<RoundInfo> rounds = stats.Stats;
                         rounds.Sort();
                         levelDetails.RoundDetails = rounds;
+                        this.EnableInfoStrip(false);
                         this.EnableTrayMenu(false);
                         levelDetails.ShowDialog(this);
+                        this.EnableInfoStrip(true);
                         this.EnableTrayMenu(true);
                     }
                 } else {
@@ -2519,6 +2529,8 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EnableInfoStrip(true);
+                this.EnableTrayMenu(true);
             }
         }
         private void SortGridDetails(int columnIndex, bool isInitialize) {
@@ -2629,8 +2641,10 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = shows;
                 levelDetails.StatsForm = this;
+                this.EnableInfoStrip(false);
                 this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableInfoStrip(true);
                 this.EnableTrayMenu(true);
             }
         }
@@ -2644,8 +2658,10 @@ namespace FallGuysStats {
                 rounds.Sort();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
+                this.EnableInfoStrip(false);
                 this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableInfoStrip(true);
                 this.EnableTrayMenu(true);
             }
         }
@@ -2671,8 +2687,10 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
+                this.EnableInfoStrip(false);
                 this.EnableTrayMenu(false);
                 levelDetails.ShowDialog(this);
+                this.EnableInfoStrip(true);
                 this.EnableTrayMenu(true);
             }
         }
@@ -2768,8 +2786,10 @@ namespace FallGuysStats {
                     display.wins = (double[])wins.ToArray(typeof(double));
                 }
 
+                this.EnableInfoStrip(false);
                 this.EnableTrayMenu(false);
                 display.ShowDialog(this);
+                this.EnableInfoStrip(true);
                 this.EnableTrayMenu(true);
             }
         }
@@ -2858,17 +2878,6 @@ namespace FallGuysStats {
                 this.SaveUserSettings();
             }
         }
-        public void EnableTrayMenu(bool enable) {
-            if (this.CurrentSettings.SystemTrayIcon) {
-                this.traySettings.Enabled = enable;
-                this.trayFilters.Enabled = enable;
-                this.trayProfile.Enabled = enable;
-                if (enable) {
-                    this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
-                }
-            }
-        }
         private string FindGameExeLocation() {
             try {
                 // get steam install folder
@@ -2908,6 +2917,29 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
+        private void EnableTrayMenu(bool enable) {
+            if (this.CurrentSettings.SystemTrayIcon) {
+                this.traySettings.Enabled = enable;
+                this.trayFilters.Enabled = enable;
+                this.trayProfile.Enabled = enable;
+                if (enable) {
+                    this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                }
+            }
+        }
+        private void EnableInfoStrip(bool enable) {
+            foreach (var tsi in this.infoStrip.Items) {
+                if (tsi is ToolStripLabel tsl) {
+                    tsl.Enabled = enable;
+                    if (enable) {
+                        tsl.ForeColor = tsl.Name.Equals("lblCurrentProfile")
+                            ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
+                            : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                    }
+                }
+            }
+        }
         private void Stats_KeyUp(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -2918,7 +2950,6 @@ namespace FallGuysStats {
                     break;
             }
         }
-
         private void Stats_KeyDown(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -3013,6 +3044,7 @@ namespace FallGuysStats {
         }
         private void menuStats_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
                 if (button == this.menuAllStats || button == this.menuSeasonStats || button == this.menuWeekStats || button == this.menuDayStats || button == this.menuSessionStats) {
                     if (!this.menuAllStats.Checked && !this.menuSeasonStats.Checked && !this.menuWeekStats.Checked && !this.menuDayStats.Checked && !this.menuSessionStats.Checked) {
@@ -3255,9 +3287,11 @@ namespace FallGuysStats {
                 this.loadingExisting = true;
                 this.LogFile_OnParsedLogLines(rounds);
                 this.loadingExisting = false;
+                this.EnableInfoStrip(true);
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EnableInfoStrip(true);
             }
         }
         private void menuUpdate_Click(object sender, EventArgs e) {
@@ -3337,6 +3371,7 @@ namespace FallGuysStats {
                     settings.StatsForm = this;
                     settings.Overlay = this.overlay;
                     string lastLogPath = this.CurrentSettings.LogPath;
+                    this.EnableInfoStrip(false);
                     this.EnableTrayMenu(false);
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
@@ -3377,11 +3412,14 @@ namespace FallGuysStats {
                     } else {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
+                    this.EnableInfoStrip(true);
                     this.EnableTrayMenu(true);
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EnableInfoStrip(true);
+                this.EnableTrayMenu(true);
             }
         }
         private void menuOverlay_Click(object sender, EventArgs e) {
@@ -3438,8 +3476,10 @@ namespace FallGuysStats {
                     editProfiles.StatsForm = this;
                     editProfiles.Profiles = this.AllProfiles;
                     editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
+                    this.EnableInfoStrip(false);
                     this.EnableTrayMenu(false);
                     editProfiles.ShowDialog(this);
+                    this.EnableInfoStrip(true);
                     this.EnableTrayMenu(true);
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
@@ -3456,6 +3496,8 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EnableInfoStrip(true);
+                this.EnableTrayMenu(true);
             }
         }
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
