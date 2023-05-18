@@ -155,8 +155,9 @@ namespace FallGuysStats {
         private const int COLOR_ITEM_MARGIN_HEIGHT = 4;
         private const int IMAGE_ITEM_MARGIN_WIDTH = 2;
         private const int IMAGE_ITEM_MARGIN_HEIGHT = 2;
-        private MetroFramework.Components.MetroToolTip toolTip = new MetroFramework.Components.MetroToolTip();
         #endregion
+        
+        public MetroFramework.Components.MetroToolTip mtt = new MetroFramework.Components.MetroToolTip();
 
         #region SetColorData(colorArray)
         public void SetColorData(Color[] colorArray) {
@@ -244,7 +245,7 @@ namespace FallGuysStats {
 
             ComboBox comboBox = sender as ComboBox;
             Image image = (Image)comboBox.Items[e.Index];
-            this.toolTip.SetToolTip(this, comboBox.SelectedText);
+            this.mtt.SetToolTip(this, comboBox.SelectedText);
             
             e.ItemHeight = image.Height + 2 * IMAGE_ITEM_MARGIN_HEIGHT;
             e.ItemWidth = image.Width  + 2 * IMAGE_ITEM_MARGIN_WIDTH;
@@ -257,7 +258,7 @@ namespace FallGuysStats {
 
             e.DrawBackground();
             ComboBox comboBox = sender as ComboBox;
-            this.toolTip.SetToolTip(this, comboBox.SelectedText);
+            this.mtt.SetToolTip(this, comboBox.SelectedText);
             Image image = (Image)comboBox.Items[e.Index];
 
             float height = e.Bounds.Height - 2 * IMAGE_ITEM_MARGIN_HEIGHT;
@@ -296,7 +297,7 @@ namespace FallGuysStats {
             
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
-            this.toolTip.SetToolTip(this, item.Text);
+            this.mtt.SetToolTip(this, item.Text);
             item.DrawItem(e, this.ForeColor);
         }
         #endregion
