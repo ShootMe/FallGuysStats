@@ -330,6 +330,7 @@ namespace FallGuysStats {
             this.overlay.StartTimer();
 
             this.UpdateGameExeLocation();
+            this.ChangeLaunchPlatformImage(this.CurrentSettings.LaunchPlatform);
 
             this.RemoveUpdateFiles();
             this.ReloadProfileMenuItems();
@@ -2795,7 +2796,7 @@ namespace FallGuysStats {
         }
         private void LaunchHelpInBrowser() {
             try {
-                Process.Start(@"https://github.com/ShootMe/FallGuysStats#table-of-contents");
+                Process.Start(@"https://github.com/ShootMe/FallGuysStats#readme");
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2889,9 +2890,9 @@ namespace FallGuysStats {
                     steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
                 }
 
-                string fallGuys = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
+                string fallGuysSteamPath = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
                 
-                if (File.Exists(fallGuys)) { return fallGuys; }
+                if (File.Exists(fallGuysSteamPath)) { return fallGuysSteamPath; }
                 // read libraryfolders.vdf from install folder to get games installation folder
                 // note: this parsing is terrible, but does technically work fine. There's a better way by specifying a schema and
                 // fully parsing the file or something like that. This is quick and dirty, for sure.
@@ -2903,9 +2904,9 @@ namespace FallGuysStats {
                             string libraryPath = library["path"].AsString();
                             if (!string.IsNullOrEmpty(libraryPath)) {
                                 // look for exe in standard location under library
-                                fallGuys = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
+                                fallGuysSteamPath = Path.Combine(libraryPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
                                 
-                                if (File.Exists(fallGuys)) { return fallGuys; }
+                                if (File.Exists(fallGuysSteamPath)) { return fallGuysSteamPath; }
                             }
                         }
                     }
@@ -3387,6 +3388,7 @@ namespace FallGuysStats {
                             this.UpdateGridRoundName();
                             this.overlay.ChangeLanguage();
                         }
+                        this.ChangeLaunchPlatformImage(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
@@ -3529,6 +3531,14 @@ namespace FallGuysStats {
             }
             return screen;
         }
+        private void ChangeLaunchPlatformImage(int launchPlatform) {
+            this.trayLaunchFallGuys.Image = launchPlatform == 0
+                ? Properties.Resources.epic_main_icon
+                : Properties.Resources.steam_main_icon;
+            this.menuLaunchFallGuys.Image = launchPlatform == 0
+                ? Properties.Resources.epic_main_icon
+                : Properties.Resources.steam_main_icon;
+        }
         private void ChangeMainLanguage() {
             this.currentLanguage = CurrentLanguage;
             this.trayIcon.Text = Multilingual.GetWord("main_fall_guys_stats");
@@ -3564,9 +3574,6 @@ namespace FallGuysStats {
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
             this.trayHelp.Text = Multilingual.GetWord("main_help");
             this.trayLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
-            this.trayLaunchFallGuys.Image = this.CurrentSettings.LaunchPlatform == 0
-                ? Properties.Resources.epic_main_icon
-                : Properties.Resources.steam_main_icon;
             this.trayExitProgram.Text = Multilingual.GetWord("main_exit_program");
             
             this.menuSettings.Text = Multilingual.GetWord("main_settings");
@@ -3591,9 +3598,6 @@ namespace FallGuysStats {
             this.menuUpdate.Text = Multilingual.GetWord("main_update");
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
-            this.menuLaunchFallGuys.Image = this.CurrentSettings.LaunchPlatform == 0
-                ? Properties.Resources.epic_main_icon
-                : Properties.Resources.steam_main_icon;
         }
     }
 }
