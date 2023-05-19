@@ -168,11 +168,12 @@ namespace FallGuysStats {
 
             switch (this.CurrentSettings.OverlayColor) {
                 case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
-                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
-                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
-                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
-                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
-                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
+                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_white"); break;
+                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
+                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
+                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
+                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 6: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
             switch (this.CurrentSettings.WinsFilter) {
                 case 0: this.cboWinsFilter.SelectedItem = Multilingual.GetWord("settings_all_time_stats"); break;
@@ -443,16 +444,18 @@ namespace FallGuysStats {
 
             if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_transparent")}") {
                 this.CurrentSettings.OverlayColor = 0;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_black")}") {
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_white")}") {
                 this.CurrentSettings.OverlayColor = 1;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_magenta")}") {
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_black")}") {
                 this.CurrentSettings.OverlayColor = 2;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_red")}") {
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_magenta")}") {
                 this.CurrentSettings.OverlayColor = 3;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_green")}") {
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_red")}") {
                 this.CurrentSettings.OverlayColor = 4;
-            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_green")}") {
                 this.CurrentSettings.OverlayColor = 5;
+            } else if ((string)this.cboOverlayColor.SelectedItem == $"{Multilingual.GetWord("settings_blue")}") {
+                this.CurrentSettings.OverlayColor = 6;
             }
 
             if ((string)this.cboWinsFilter.SelectedItem == $"{Multilingual.GetWord("settings_all_time_stats")}") {
@@ -754,6 +757,7 @@ namespace FallGuysStats {
             this.cboOverlayColor.Items.Clear();
             this.cboOverlayColor.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_transparent"),
+                Multilingual.GetWord("settings_white"),
                 Multilingual.GetWord("settings_black"),
                 Multilingual.GetWord("settings_magenta"),
                 Multilingual.GetWord("settings_red"),
@@ -762,11 +766,12 @@ namespace FallGuysStats {
             });
             switch (this.CurrentSettings.OverlayColor) {
                 case 0: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_transparent"); break;
-                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
-                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
-                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
-                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
-                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
+                case 1: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_white"); break;
+                case 2: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_black"); break;
+                case 3: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_magenta"); break;
+                case 4: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_red"); break;
+                case 5: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_green"); break;
+                case 6: this.cboOverlayColor.SelectedItem = Multilingual.GetWord("settings_blue"); break;
             }
 
             this.lblOverlayBackground.Text = Multilingual.GetWord("settings_background_image");
