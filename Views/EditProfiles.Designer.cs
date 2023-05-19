@@ -190,7 +190,7 @@ namespace FallGuysStats {
             this.AddPageTextbox.UseSelectable = true;
             this.AddPageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.AddPageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.AddPageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersend_KeyPress);
+            this.AddPageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
             // AddPageLabel1
             // 
@@ -259,7 +259,7 @@ namespace FallGuysStats {
             this.RenamePageTextbox.UseSelectable = true;
             this.RenamePageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.RenamePageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.RenamePageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersend_KeyPress);
+            this.RenamePageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
             // RenamePageLabel2
             // 

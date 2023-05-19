@@ -220,7 +220,7 @@ namespace FallGuysStats {
         //    e.Cancel = true;
         //}
 
-        private void DeleteAmpersend_KeyPress(object sender, KeyPressEventArgs e) {
+        private void DeleteAmpersand_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
         }
 
