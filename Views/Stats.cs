@@ -318,7 +318,7 @@ namespace FallGuysStats {
                 using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
                     initLanguageForm.Icon = this.Icon;
                     this.EnableInfoStrip(false);
-                    this.EnableTrayMenu(false);
+                    this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
                         Overlay.SetDefaultFont(CurrentLanguage, 18);
@@ -337,7 +337,7 @@ namespace FallGuysStats {
                         }
                     }
                     this.EnableInfoStrip(true);
-                    this.EnableTrayMenu(true);
+                    this.EnableMainMenu(true);
                 }
             }
             
@@ -787,7 +787,7 @@ namespace FallGuysStats {
                 
                 if (this.CurrentSettings.SelectedProfile == profile.ProfileId) {
                     this.SetCurrentProfileIcon(!string.IsNullOrEmpty(profile.LinkedShowId));
-                    menuItem.PerformClick();
+                    this.menuStats_Click(menuItem, null);
                 }
             }
         }
@@ -1605,7 +1605,7 @@ namespace FallGuysStats {
                     this.LaunchGame(true);
                 }
                 
-                this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"].PerformClick();
+                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], null);
 
                 this.UpdateDates();
             } catch (Exception ex) {
@@ -1744,7 +1744,7 @@ namespace FallGuysStats {
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
                                         this.EnableInfoStrip(false);
-                                        this.EnableTrayMenu(false);
+                                        this.EnableMainMenu(false);
                                         if (editShows.ShowDialog(this) == DialogResult.OK) {
                                             this.askedPreviousShows = 1;
                                             if (editShows.UseLinkedProfiles) {
@@ -1758,7 +1758,7 @@ namespace FallGuysStats {
                                             this.askedPreviousShows = 2;
                                         }
                                         this.EnableInfoStrip(true);
-                                        this.EnableTrayMenu(true);
+                                        this.EnableMainMenu(true);
                                     }
                                 }
 
@@ -1957,18 +1957,18 @@ namespace FallGuysStats {
                 if (isPrivateLobbies) {
                     if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
                         ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                        if (!item.Checked) { item.PerformClick(); break;}
+                        if (!item.Checked) { this.menuStats_Click(item, null); break;}
                     }
                 } else {
                     if (isCreativeShow) {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                            if (!item.Checked) { item.PerformClick(); break;}
+                            if (!item.Checked) { this.menuStats_Click(item, null); break;}
                         }
                     } else {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                            if (!item.Checked) { item.PerformClick(); break; }
+                            if (!item.Checked) { this.menuStats_Click(item, null); break; }
                         }
                     }
                 }
@@ -2625,10 +2625,10 @@ namespace FallGuysStats {
                         rounds.Sort();
                         levelDetails.RoundDetails = rounds;
                         this.EnableInfoStrip(false);
-                        this.EnableTrayMenu(false);
+                        this.EnableMainMenu(false);
                         levelDetails.ShowDialog(this);
                         this.EnableInfoStrip(true);
-                        this.EnableTrayMenu(true);
+                        this.EnableMainMenu(true);
                     }
                 } else {
                     this.ToggleWinPercentageDisplay();
@@ -2637,7 +2637,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void SortGridDetails(int columnIndex, bool isInitialize) {
@@ -2749,10 +2749,10 @@ namespace FallGuysStats {
                 levelDetails.RoundDetails = shows;
                 levelDetails.StatsForm = this;
                 this.EnableInfoStrip(false);
-                this.EnableTrayMenu(false);
+                this.EnableMainMenu(false);
                 levelDetails.ShowDialog(this);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void ShowRounds() {
@@ -2766,10 +2766,10 @@ namespace FallGuysStats {
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
                 this.EnableInfoStrip(false);
-                this.EnableTrayMenu(false);
+                this.EnableMainMenu(false);
                 levelDetails.ShowDialog(this);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void ShowFinals() {
@@ -2795,10 +2795,10 @@ namespace FallGuysStats {
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
                 this.EnableInfoStrip(false);
-                this.EnableTrayMenu(false);
+                this.EnableMainMenu(false);
                 levelDetails.ShowDialog(this);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void ShowWinGraph() {
@@ -2894,10 +2894,10 @@ namespace FallGuysStats {
                 }
 
                 this.EnableInfoStrip(false);
-                this.EnableTrayMenu(false);
+                this.EnableMainMenu(false);
                 display.ShowDialog(this);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void LaunchHelpInBrowser() {
@@ -3024,8 +3024,15 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
-        private void EnableTrayMenu(bool enable) {
-            if (this.CurrentSettings.SystemTrayIcon) {
+        private void EnableMainMenu(bool enable) {
+            this.menuSettings.Enabled = enable;
+            this.menuFilters.Enabled = enable;
+            this.menuProfile.Enabled = enable;
+            if (enable) {
+                this.menuSettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                this.menuSettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+            }
+            if (this.trayIcon.Visible) {
                 this.traySettings.Enabled = enable;
                 this.trayFilters.Enabled = enable;
                 this.trayProfile.Enabled = enable;
@@ -3075,28 +3082,20 @@ namespace FallGuysStats {
                     if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
                     if (this.shiftKeyToggle) {
                         if (menuItem.Checked && i - 1 >= 0) {
-                            this.ProfileMenuItems[i - 1].PerformClick();
-                            this.ProfileTrayItems[i].Checked = false;
-                            this.ProfileTrayItems[i - 1].Checked = true;
+                            this.menuStats_Click(this.ProfileMenuItems[i - 1], null);
                             break;
                         }
                         if (menuItem.Checked && i - 1 < 0) {
-                            this.ProfileMenuItems[this.ProfileMenuItems.Count - 1].PerformClick();
-                            this.ProfileTrayItems[0].Checked = false;
-                            this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = true;
+                            this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], null);
                             break;
                         }
                     } else {
                         if (menuItem.Checked && i + 1 < this.ProfileMenuItems.Count) {
-                            this.ProfileMenuItems[i + 1].PerformClick();
-                            this.ProfileTrayItems[i].Checked = false;
-                            this.ProfileTrayItems[i + 1].Checked = true;
+                            this.menuStats_Click(this.ProfileMenuItems[i + 1], null);
                             break;
                         }
                         if (menuItem.Checked && i + 1 >= this.ProfileMenuItems.Count) {
-                            this.ProfileMenuItems[0].PerformClick();
-                            this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = false;
-                            this.ProfileTrayItems[0].Checked = true;
+                            this.menuStats_Click(this.ProfileMenuItems[0], null);
                             break;
                         }
                     }
@@ -3105,15 +3104,11 @@ namespace FallGuysStats {
                 for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
                     if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i - 1 >= 0) {
-                        this.ProfileMenuItems[i - 1].PerformClick();
-                        this.ProfileTrayItems[i].Checked = false;
-                        this.ProfileTrayItems[i - 1].Checked = true;
+                        this.menuStats_Click(this.ProfileMenuItems[i - 1], null);
                         break;
                     }
                     if (menuItem.Checked && i - 1 < 0) {
-                        this.ProfileMenuItems[this.ProfileMenuItems.Count - 1].PerformClick();
-                        this.ProfileTrayItems[0].Checked = false;
-                        this.ProfileTrayItems[this.ProfileTrayItems.Count - 1].Checked = true;
+                        this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], null);
                         break;
                     }
                 }
@@ -3478,7 +3473,7 @@ namespace FallGuysStats {
                     settings.Overlay = this.overlay;
                     string lastLogPath = this.CurrentSettings.LogPath;
                     this.EnableInfoStrip(false);
-                    this.EnableTrayMenu(false);
+                    this.EnableMainMenu(false);
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
                         this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
@@ -3520,13 +3515,13 @@ namespace FallGuysStats {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
                     this.EnableInfoStrip(true);
-                    this.EnableTrayMenu(true);
+                    this.EnableMainMenu(true);
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void menuOverlay_Click(object sender, EventArgs e) {
@@ -3584,10 +3579,10 @@ namespace FallGuysStats {
                     editProfiles.Profiles = this.AllProfiles;
                     editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
                     this.EnableInfoStrip(false);
-                    this.EnableTrayMenu(false);
+                    this.EnableMainMenu(false);
                     editProfiles.ShowDialog(this);
                     this.EnableInfoStrip(true);
-                    this.EnableTrayMenu(true);
+                    this.EnableMainMenu(true);
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
                         this.AllProfiles = editProfiles.Profiles;
@@ -3604,7 +3599,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
-                this.EnableTrayMenu(true);
+                this.EnableMainMenu(true);
             }
         }
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
