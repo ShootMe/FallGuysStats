@@ -868,14 +868,16 @@ namespace FallGuysStats {
                         int colorOption = 0;
                         if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
                             colorOption = 1;
-                        } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
+                        } else if (BackColor.ToArgb() == Color.White.ToArgb()) {
                             colorOption = 2;
-                        } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                        } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
                             colorOption = 3;
-                        } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                        } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
                             colorOption = 4;
-                        } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                        } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
                             colorOption = 5;
+                        } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                            colorOption = 6;
                         } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
                             colorOption = 0;
                         }
@@ -974,11 +976,12 @@ namespace FallGuysStats {
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
                 case 0: this.BackColor = Color.FromArgb(224, 224, 224); break;
-                case 1: this.BackColor = Color.Black; break;
-                case 2: this.BackColor = Color.Magenta; break;
-                case 3: this.BackColor = Color.Red; break;
-                case 4: this.BackColor = Color.Green; break;
-                case 5: this.BackColor = Color.Blue; break;
+                case 1: this.BackColor = Color.White; break;
+                case 2: this.BackColor = Color.Black; break;
+                case 3: this.BackColor = Color.Magenta; break;
+                case 4: this.BackColor = Color.Red; break;
+                case 5: this.BackColor = Color.Green; break;
+                case 6: this.BackColor = Color.Blue; break;
             }
         }
         public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {

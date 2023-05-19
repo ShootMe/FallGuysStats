@@ -1270,6 +1270,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 31;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 31) {
+                this.CurrentSettings.OverlayColor = this.CurrentSettings.OverlayColor > 0 ? this.CurrentSettings.OverlayColor + 1 : this.CurrentSettings.OverlayColor;
+                this.CurrentSettings.Version = 32;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
