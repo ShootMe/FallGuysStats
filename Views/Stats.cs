@@ -1861,7 +1861,8 @@ namespace FallGuysStats {
             return this.currentProfile;
         }
         private string GetCurrentProfileLinkedShowId() {
-            return this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
+            string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
+            return !string.IsNullOrEmpty(currentProfileLinkedShowId) ? currentProfileLinkedShowId : string.Empty;
         }
         private int GetLinkedProfile(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (string.IsNullOrEmpty(showId)) return 0;
