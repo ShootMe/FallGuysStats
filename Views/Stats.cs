@@ -3640,7 +3640,7 @@ namespace FallGuysStats {
         }
         private void ChangeMainLanguage() {
             this.currentLanguage = CurrentLanguage;
-            this.trayIcon.Text = Multilingual.GetWord("main_fall_guys_stats");
+            this.trayIcon.Text = $@"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.Text = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.menu.Font = Overlay.GetMainFont(12);
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);

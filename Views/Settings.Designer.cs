@@ -445,6 +445,7 @@ namespace FallGuysStats {
             this.trkOverlayOpacity.BackColor = System.Drawing.Color.Transparent;
             this.trkOverlayOpacity.Cursor = System.Windows.Forms.Cursors.Hand;
             this.trkOverlayOpacity.Location = new System.Drawing.Point(203, 420);
+            this.trkOverlayOpacity.MouseWheelBarPartitions = 10000;
             this.trkOverlayOpacity.Name = "trkOverlayOpacity";
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
             this.trkOverlayOpacity.TabIndex = 23;
