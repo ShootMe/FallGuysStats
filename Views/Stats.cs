@@ -178,6 +178,7 @@ namespace FallGuysStats {
         private bool shiftKeyToggle, ctrlKeyToggle;
         private ToolTip tt = new ToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
+        private string mainWndTitle;
         
         public readonly string[] publicShowIdList = {
             "main_show",
@@ -271,6 +272,7 @@ namespace FallGuysStats {
         }
 
         private Stats() {
+            this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
@@ -1409,7 +1411,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 31
+                Version = 32
             };
         }
         private void UpdateHoopsieLegends() {
@@ -1510,12 +1512,10 @@ namespace FallGuysStats {
         }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                IntPtr hMainWnd = Process.GetProcessesByName("FallGuysStats")[0].MainWindowHandle;
-                //IntPtr hWnd = FindWindow(null, $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}");
                 if (this.Visible && this.WindowState == FormWindowState.Minimized) {
                     this.isFocused = true;
                     this.WindowState = this.maximizedForm ? FormWindowState.Maximized : FormWindowState.Normal;
-                    SetForegroundWindow(hMainWnd);
+                    SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                 } else if (this.Visible && this.WindowState != FormWindowState.Minimized) {
                     if (this.isFocused) {
                         this.isFocused = false;
@@ -1523,7 +1523,7 @@ namespace FallGuysStats {
                         //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
                     } else {
                         this.isFocused = true;
-                        SetForegroundWindow(hMainWnd);
+                        SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                     }
                 } else {
                     this.isFocused = true;
@@ -1536,7 +1536,7 @@ namespace FallGuysStats {
             this.isFocused = ActiveForm == this;
         }
         private void Stats_VisibleChanged(object sender, EventArgs e) {
-            SetForegroundWindow(Process.GetProcessesByName("FallGuysStats")[0].MainWindowHandle);
+            if (this.Visible) SetForegroundWindow(FindWindow(null, this.mainWndTitle));
         }
         private void Stats_Resize(object sender, EventArgs e) {
             this.isFocused = true;
@@ -3639,9 +3639,10 @@ namespace FallGuysStats {
                 : Properties.Resources.steam_main_icon;
         }
         private void ChangeMainLanguage() {
+            this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.currentLanguage = CurrentLanguage;
-            this.trayIcon.Text = $@"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
-            this.Text = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
+            this.trayIcon.Text = this.mainWndTitle.Trim();
+            this.Text = this.mainWndTitle;
             this.menu.Font = Overlay.GetMainFont(12);
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
