@@ -4202,13 +4202,13 @@ namespace FallGuysStats {
             }
             return lang;
         }
-        public static string GetWord(string keyWord) {
+        public static string GetWord(string keyword) {
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> wordsDictionary);
-            wordsDictionary?.TryGetValue(keyWord, out word);
+            wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        public static string GetWordWithLang(string keyWord, int lang) {
+        public static string GetWordWithLang(string keyword, int lang) {
             string word = string.Empty;
             string nation = string.Empty;
             switch (lang) {
@@ -4219,25 +4219,25 @@ namespace FallGuysStats {
                 case 4: nation = "chs"; break;
             }
             MultilingualDictionary.TryGetValue(nation, out Dictionary<string, string> wordsDictionary);
-            wordsDictionary?.TryGetValue(keyWord, out word);
+            wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        public static string GetWordWithLang(string keyWord, string lang) {
+        public static string GetWordWithLang(string keyword, string lang) {
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(lang, out Dictionary<string, string> wordsDictionary);
-            wordsDictionary?.TryGetValue(keyWord, out word);
+            wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        /*public static string GetRoundName (string keyWord) {
+        public static string GetRoundName(string keyword) {
             string name = string.Empty;
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundDictionary);
-            roundDictionary?.TryGetValue(keyWord, out name);
+            roundDictionary?.TryGetValue(keyword, out name);
             return name;
-        }*/
-        public static string GetShowName(string keyWord) {
+        }
+        public static string GetShowName(string keyword) {
             string name = string.Empty;
             MultilingualShowsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> showsDictionary);
-            showsDictionary?.TryGetValue(keyWord, out name);
+            showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
         public static Dictionary<string, string> GetRoundsDictionary() {
