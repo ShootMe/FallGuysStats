@@ -11,7 +11,7 @@
     <AssemblyName>FallGuysStats</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <ApplicationIcon>Resources\fall2.ico</ApplicationIcon>
     <LangVersion>7.3</LangVersion>
@@ -309,7 +309,6 @@
     <EmbeddedResource Include="Views\StatsDisplay.resx">
       <DependentUpon>StatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

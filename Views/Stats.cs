@@ -1692,7 +1692,7 @@ namespace FallGuysStats {
                         di = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
                         ij = resData.GetProperty("play_count").GetInt32();
                         break;
-                    } catch (Exception e) {
+                    } catch {
                         // ignore
                     }
                 }
@@ -1899,7 +1899,7 @@ namespace FallGuysStats {
                                         stat.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
                                         stat.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
                                         stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                    } catch (Exception e) {
+                                    } catch {
                                         // ignore
                                     }
                                 }
