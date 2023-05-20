@@ -685,7 +685,7 @@ namespace FallGuysStats {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
-                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException);
+                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException, this.lastRound.UseShareCode);
 
                     //if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
                     //    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
@@ -714,7 +714,7 @@ namespace FallGuysStats {
                         this.lblRound.ImageWidth = 0;
                         this.lblRound.ImageHeight = 0;
                     }
-                    this.lblRound.TextRight = this.StatsForm.GetRoundNameFromShareCode(roundName);
+                    this.lblRound.TextRight = roundName;
 
                     this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
