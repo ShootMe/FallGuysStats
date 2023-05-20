@@ -18,7 +18,7 @@ namespace FallGuysStats {
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
 
-            request.Content = new StringContent(this.RoundInfoToJSONString(stat), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToJsonString(stat), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -46,15 +46,15 @@ namespace FallGuysStats {
                 }
             }
             if (this.roundList.Count == finalRound && !foundMissMatch) {
-                this.showComplete(APIKey);
+                this.ShowComplete(APIKey);
             }
         }
-        public async void showComplete(string APIKey) {
+        private async void ShowComplete(string APIKey) {
             HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
             requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             string jsonArraystring = "[";
             foreach (RoundInfo game in this.roundList) {
-                jsonArraystring += this.RoundInfoToJSONString(game);
+                jsonArraystring += this.RoundInfoToJsonString(game);
                 jsonArraystring += ",";
             }
             jsonArraystring = jsonArraystring.Remove(jsonArraystring.Length - 1);
@@ -70,7 +70,7 @@ namespace FallGuysStats {
             
             this.roundList = new List<RoundInfo>();
         }
-        public string RoundInfoToJSONString(RoundInfo round) {
+        private string RoundInfoToJsonString(RoundInfo round) {
             string json = "";
             json += "{\"round\":\"" + round.Name + "\",";
             json += "\"index\":" + round.Round + ",";

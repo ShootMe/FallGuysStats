@@ -10,12 +10,13 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
+using System.Text.Json;
 using System.Threading;
 using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
+using MetroFramework.Components;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -171,14 +172,16 @@ namespace FallGuysStats {
         private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
-        private Point screenCenter;
+        //private Point screenCenter;
         private bool maximizedForm;
         private bool isFocused;
         private bool isFormClosing;
         private bool shiftKeyToggle, ctrlKeyToggle;
-        private ToolTip tt = new ToolTip();
+        private MetroToolTip mtt = new MetroToolTip();
+        private MetroToolTip cmtt = new MetroToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
+        private readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         
         public readonly string[] publicShowIdList = {
             "main_show",
@@ -205,71 +208,71 @@ namespace FallGuysStats {
             "private_lobbies"
         };
         
-        public string GetRoundNameFromShareCode(string shareCode) {
-            switch (shareCode) {
-                case "1127-0302-4545": return Multilingual.GetRoundName("wle_s10_orig_round_001");
-                case "2416-3885-2780": return Multilingual.GetRoundName("wle_s10_orig_round_002");
-                case "6212-4520-8328": return Multilingual.GetRoundName("wle_s10_orig_round_003");
-                case "2777-8402-7007": return Multilingual.GetRoundName("wle_s10_orig_round_004");
-                case "2384-0516-9077": return Multilingual.GetRoundName("wle_s10_orig_round_005");
-                case "0128-0546-8951": return Multilingual.GetRoundName("wle_s10_orig_round_006");
-                case "9189-7523-8901": return Multilingual.GetRoundName("wle_s10_orig_round_007");
-                case "0653-2576-5236": return Multilingual.GetRoundName("wle_s10_orig_round_008");
-                case "7750-7786-5732": return Multilingual.GetRoundName("wle_s10_orig_round_009");
-                case "1794-4080-7040": return Multilingual.GetRoundName("wle_s10_orig_round_012");
-                case "4446-4876-4968": return Multilingual.GetRoundName("wle_s10_orig_round_013");
-                case "7274-6756-2481": return Multilingual.GetRoundName("wle_s10_orig_round_014");
-                case "9426-4640-3293": return Multilingual.GetRoundName("wle_s10_orig_round_015");
-                case "7387-6177-4493": return Multilingual.GetRoundName("wle_s10_orig_round_016");
-                case "8685-7305-6864": return Multilingual.GetRoundName("wle_s10_orig_round_019");
-                case "4582-3265-6150": return Multilingual.GetRoundName("wle_s10_orig_round_020");
-                case "8300-9964-4945": return Multilingual.GetRoundName("wle_s10_orig_round_021");
-                case "9525-6213-8767": return Multilingual.GetRoundName("wle_s10_orig_round_022");
-                case "9078-2884-2372": return Multilingual.GetRoundName("wle_s10_orig_round_023");
-                case "1335-7488-1452": return Multilingual.GetRoundName("wle_s10_orig_round_026");
-                case "8145-6018-5093": return Multilingual.GetRoundName("wle_s10_orig_round_027");
-                case "0633-3680-7102": return Multilingual.GetRoundName("wle_s10_orig_round_028");
-                case "3207-5100-4977": return Multilingual.GetRoundName("wle_s10_orig_round_029");
-                case "0324-4730-9285": return Multilingual.GetRoundName("wle_s10_orig_round_032");
-                case "7488-7333-3120": return Multilingual.GetRoundName("wle_s10_orig_round_033");
-                case "0942-4996-5802": return Multilingual.GetRoundName("wle_s10_orig_round_034");
-                case "5673-8789-9890": return Multilingual.GetRoundName("wle_s10_orig_round_035");
-                case "1521-1552-6833": return Multilingual.GetRoundName("wle_s10_orig_round_036");
-                case "5608-1711-5644": return Multilingual.GetRoundName("wle_s10_orig_round_037");
-                case "6401-4333-5888": return Multilingual.GetRoundName("wle_s10_orig_round_038");
-                case "1920-3797-9890": return Multilingual.GetRoundName("wle_s10_orig_round_039");
-                case "1595-7489-8714": return Multilingual.GetRoundName("wle_s10_orig_round_040");
-                case "2019-5582-0500": return Multilingual.GetRoundName("wle_s10_orig_round_041");
-                case "0567-6834-7490": return Multilingual.GetRoundName("wle_s10_orig_round_042");
-                case "8398-4477-7834": return Multilingual.GetRoundName("wle_s10_orig_round_043");
-                case "2767-1753-8429": return Multilingual.GetRoundName("wle_s10_orig_round_044");
-                case "6748-6192-9739": return Multilingual.GetRoundName("wle_s10_orig_round_045");
-                case "9641-5398-7416": return Multilingual.GetRoundName("wle_s10_orig_round_046");
-                case "7895-4812-3429": return Multilingual.GetRoundName("wle_s10_orig_round_047");
-                case "1468-0990-4257": return Multilingual.GetRoundName("wle_s10_orig_round_048");
-                case "8058-9910-7007": return Multilingual.GetRoundName("wle_s10_round_001");
-                case "6546-9859-4336": return Multilingual.GetRoundName("wle_s10_round_002");
-                case "9366-4809-0021": return Multilingual.GetRoundName("wle_s10_round_003");
-                case "8895-2034-3061": return Multilingual.GetRoundName("wle_s10_round_005");
-                case "6970-1344-9780": return Multilingual.GetRoundName("wle_s10_round_006");
-                case "3541-3776-9131": return Multilingual.GetRoundName("wle_s10_round_007");
-                case "9335-2112-8890": return Multilingual.GetRoundName("wle_s10_round_008");
-                case "9014-0444-9613": return Multilingual.GetRoundName("wle_s10_round_010");
-                case "4409-6583-6207": return Multilingual.GetRoundName("wle_s10_round_011");
-                case "8113-7002-5798": return Multilingual.GetRoundName("wle_s10_round_012");
-                case "0733-6671-4871": return Multilingual.GetRoundName("wle_s10_orig_round_010");
-                case "6498-0353-5009": return Multilingual.GetRoundName("wle_s10_orig_round_011");
-                case "7774-2277-5742": return Multilingual.GetRoundName("wle_s10_orig_round_017");
-                case "2228-9895-3526": return Multilingual.GetRoundName("wle_s10_orig_round_018");
-                case "7652-0829-4538": return Multilingual.GetRoundName("wle_s10_orig_round_024");
-                case "1976-1259-2690": return Multilingual.GetRoundName("wle_s10_orig_round_025");
-                case "4694-8620-4972": return Multilingual.GetRoundName("wle_s10_orig_round_030");
-                case "6464-4069-3540": return Multilingual.GetRoundName("wle_s10_orig_round_031");
-                case "8993-4568-6925": return Multilingual.GetRoundName("wle_s10_round_004");
-                case "7495-5141-5265": return Multilingual.GetRoundName("wle_s10_round_009");
-            }
-            return shareCode;
-        }
+        //public string GetRoundNameFromShareCode(string shareCode) {
+        //    switch (shareCode) {
+        //        case "1127-0302-4545": return Multilingual.GetRoundName("wle_s10_orig_round_001");
+        //        case "2416-3885-2780": return Multilingual.GetRoundName("wle_s10_orig_round_002");
+        //        case "6212-4520-8328": return Multilingual.GetRoundName("wle_s10_orig_round_003");
+        //        case "2777-8402-7007": return Multilingual.GetRoundName("wle_s10_orig_round_004");
+        //        case "2384-0516-9077": return Multilingual.GetRoundName("wle_s10_orig_round_005");
+        //        case "0128-0546-8951": return Multilingual.GetRoundName("wle_s10_orig_round_006");
+        //        case "9189-7523-8901": return Multilingual.GetRoundName("wle_s10_orig_round_007");
+        //        case "0653-2576-5236": return Multilingual.GetRoundName("wle_s10_orig_round_008");
+        //        case "7750-7786-5732": return Multilingual.GetRoundName("wle_s10_orig_round_009");
+        //        case "1794-4080-7040": return Multilingual.GetRoundName("wle_s10_orig_round_012");
+        //        case "4446-4876-4968": return Multilingual.GetRoundName("wle_s10_orig_round_013");
+        //        case "7274-6756-2481": return Multilingual.GetRoundName("wle_s10_orig_round_014");
+        //        case "9426-4640-3293": return Multilingual.GetRoundName("wle_s10_orig_round_015");
+        //        case "7387-6177-4493": return Multilingual.GetRoundName("wle_s10_orig_round_016");
+        //        case "8685-7305-6864": return Multilingual.GetRoundName("wle_s10_orig_round_019");
+        //        case "4582-3265-6150": return Multilingual.GetRoundName("wle_s10_orig_round_020");
+        //        case "8300-9964-4945": return Multilingual.GetRoundName("wle_s10_orig_round_021");
+        //        case "9525-6213-8767": return Multilingual.GetRoundName("wle_s10_orig_round_022");
+        //        case "9078-2884-2372": return Multilingual.GetRoundName("wle_s10_orig_round_023");
+        //        case "1335-7488-1452": return Multilingual.GetRoundName("wle_s10_orig_round_026");
+        //        case "8145-6018-5093": return Multilingual.GetRoundName("wle_s10_orig_round_027");
+        //        case "0633-3680-7102": return Multilingual.GetRoundName("wle_s10_orig_round_028");
+        //        case "3207-5100-4977": return Multilingual.GetRoundName("wle_s10_orig_round_029");
+        //        case "0324-4730-9285": return Multilingual.GetRoundName("wle_s10_orig_round_032");
+        //        case "7488-7333-3120": return Multilingual.GetRoundName("wle_s10_orig_round_033");
+        //        case "0942-4996-5802": return Multilingual.GetRoundName("wle_s10_orig_round_034");
+        //        case "5673-8789-9890": return Multilingual.GetRoundName("wle_s10_orig_round_035");
+        //        case "1521-1552-6833": return Multilingual.GetRoundName("wle_s10_orig_round_036");
+        //        case "5608-1711-5644": return Multilingual.GetRoundName("wle_s10_orig_round_037");
+        //        case "6401-4333-5888": return Multilingual.GetRoundName("wle_s10_orig_round_038");
+        //        case "1920-3797-9890": return Multilingual.GetRoundName("wle_s10_orig_round_039");
+        //        case "1595-7489-8714": return Multilingual.GetRoundName("wle_s10_orig_round_040");
+        //        case "2019-5582-0500": return Multilingual.GetRoundName("wle_s10_orig_round_041");
+        //        case "0567-6834-7490": return Multilingual.GetRoundName("wle_s10_orig_round_042");
+        //        case "8398-4477-7834": return Multilingual.GetRoundName("wle_s10_orig_round_043");
+        //        case "2767-1753-8429": return Multilingual.GetRoundName("wle_s10_orig_round_044");
+        //        case "6748-6192-9739": return Multilingual.GetRoundName("wle_s10_orig_round_045");
+        //        case "9641-5398-7416": return Multilingual.GetRoundName("wle_s10_orig_round_046");
+        //        case "7895-4812-3429": return Multilingual.GetRoundName("wle_s10_orig_round_047");
+        //        case "1468-0990-4257": return Multilingual.GetRoundName("wle_s10_orig_round_048");
+        //        case "8058-9910-7007": return Multilingual.GetRoundName("wle_s10_round_001");
+        //        case "6546-9859-4336": return Multilingual.GetRoundName("wle_s10_round_002");
+        //        case "9366-4809-0021": return Multilingual.GetRoundName("wle_s10_round_003");
+        //        case "8895-2034-3061": return Multilingual.GetRoundName("wle_s10_round_005");
+        //        case "6970-1344-9780": return Multilingual.GetRoundName("wle_s10_round_006");
+        //        case "3541-3776-9131": return Multilingual.GetRoundName("wle_s10_round_007");
+        //        case "9335-2112-8890": return Multilingual.GetRoundName("wle_s10_round_008");
+        //        case "9014-0444-9613": return Multilingual.GetRoundName("wle_s10_round_010");
+        //        case "4409-6583-6207": return Multilingual.GetRoundName("wle_s10_round_011");
+        //        case "8113-7002-5798": return Multilingual.GetRoundName("wle_s10_round_012");
+        //        case "0733-6671-4871": return Multilingual.GetRoundName("wle_s10_orig_round_010");
+        //        case "6498-0353-5009": return Multilingual.GetRoundName("wle_s10_orig_round_011");
+        //        case "7774-2277-5742": return Multilingual.GetRoundName("wle_s10_orig_round_017");
+        //        case "2228-9895-3526": return Multilingual.GetRoundName("wle_s10_orig_round_018");
+        //        case "7652-0829-4538": return Multilingual.GetRoundName("wle_s10_orig_round_024");
+        //        case "1976-1259-2690": return Multilingual.GetRoundName("wle_s10_orig_round_025");
+        //        case "4694-8620-4972": return Multilingual.GetRoundName("wle_s10_orig_round_030");
+        //        case "6464-4069-3540": return Multilingual.GetRoundName("wle_s10_orig_round_031");
+        //        case "8993-4568-6925": return Multilingual.GetRoundName("wle_s10_round_004");
+        //        case "7495-5141-5265": return Multilingual.GetRoundName("wle_s10_round_009");
+        //    }
+        //    return shareCode;
+        //}
 
         private Stats() {
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
@@ -374,7 +377,7 @@ namespace FallGuysStats {
             Screen screen = this.GetCurrentScreen(this.overlay.Location);
             Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
             Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-            this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
+            //this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
             this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
@@ -410,11 +413,59 @@ namespace FallGuysStats {
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
             
+            this.cmtt.OwnerDraw = true;
+            this.cmtt.Draw += this.cmtt_Draw;
+            
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
                 this.Show();
             }
+        }
+        
+        [DllImport("User32.dll")]
+        static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
+        private void cmtt_Draw(object sender, DrawToolTipEventArgs e) {
+            // Draw the standard background.
+            //e.DrawBackground();
+            // Draw the custom background.
+            e.Graphics.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            
+            // Draw the standard border.
+            e.DrawBorder();
+            // Draw the custom border to appear 3-dimensional.
+            //e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
+            //    new Point (0, e.Bounds.Height - 1), 
+            //    new Point (0, 0), 
+            //    new Point (e.Bounds.Width - 1, 0)
+            //});
+            //e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
+            //    new Point (0, e.Bounds.Height - 1), 
+            //    new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
+            //    new Point (e.Bounds.Width - 1, 0)
+            //});
+            
+            // Draw the standard text with customized formatting options.
+            e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+            // Draw the custom text.
+            // The using block will dispose the StringFormat automatically.
+            //using (StringFormat sf = new StringFormat()) {
+            //    sf.Alignment = StringAlignment.Near;
+            //    sf.LineAlignment = StringAlignment.Near;
+            //    sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            //    sf.FormatFlags = StringFormatFlags.NoWrap;
+            //    e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+            //    //using (Font f = new Font("Tahoma", 9)) {
+            //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+            //    //}
+            //}
+            
+            MetroToolTip t = (MetroToolTip)sender;
+            PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
+            IntPtr handle = (IntPtr)h.GetValue(t);
+            Control c = e.AssociatedControl;
+            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
@@ -495,7 +546,7 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             if (this.Theme == theme) return;
             this.Theme = theme;
-            
+            this.mtt.Theme = theme;
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
                     foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
@@ -789,7 +840,7 @@ namespace FallGuysStats {
                 
                 if (this.CurrentSettings.SelectedProfile == profile.ProfileId) {
                     this.SetCurrentProfileIcon(!string.IsNullOrEmpty(profile.LinkedShowId));
-                    this.menuStats_Click(menuItem, null);
+                    this.menuStats_Click(menuItem, EventArgs.Empty);
                 }
             }
         }
@@ -1344,6 +1395,8 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 32;
                 this.SaveUserSettings();
             }
+
+            //this.Update_CreativeRoundInfo();
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1605,12 +1658,66 @@ namespace FallGuysStats {
                     this.LaunchGame(true);
                 }
                 
-                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], null);
+                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
 
                 this.UpdateDates();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void Update_CreativeRoundInfo() {
+            this.AllStats.AddRange(this.RoundDetails.FindAll());
+            this.StatsDB.BeginTrans();
+            string sa = string.Empty,
+                    sb = string.Empty,
+                    sc = string.Empty,
+                    se = string.Empty,
+                    sf = string.Empty,
+                    sh = string.Empty;
+            int id = 0, ig = 0, ij = 0;
+            DateTime di = DateTime.MinValue;
+            for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                RoundInfo info = this.AllStats[i];
+                if (info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) {
+                    try {
+                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{info.ShowNameId}.json");
+                        sa = info.ShowNameId;
+                        sb = resData.GetProperty("share_code").GetString();
+                        sc = resData.GetProperty("author").GetProperty("name_per_platform").GetProperty("eos").GetString();
+                        id = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
+                        se = resData.GetProperty("version_metadata").GetProperty("title").GetString();
+                        sf = resData.GetProperty("version_metadata").GetProperty("description").GetString();
+                        ig = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
+                        sh = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
+                        di = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                        ij = resData.GetProperty("play_count").GetInt32();
+                        break;
+                    } catch (Exception e) {
+                        // ignore
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(sa)) {
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (sa.Equals(info.ShowNameId) && info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) {
+                        info.CreativeShareCode = sb;
+                        info.CreativeAuthor = sc;
+                        info.CreativeVersion = id;
+                        info.CreativeTitle = se;
+                        info.CreativeDescription = sf;
+                        info.CreativeMaxPlayer = ig;
+                        info.CreativePlatformId = sh;
+                        info.CreativeLastModifiedDate = di;
+                        info.CreativePlayCount = ij;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+            }
+            
+            this.StatsDB.Commit();
+            this.AllStats.Clear();
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
@@ -1651,27 +1758,27 @@ namespace FallGuysStats {
                     case 0:
                         this.menuAllStats.Checked = true;
                         this.trayAllStats.Checked = true;
-                        this.menuStats_Click(this.menuAllStats, null);
+                        this.menuStats_Click(this.menuAllStats, EventArgs.Empty);
                         break;
                     case 1:
                         this.menuSeasonStats.Checked = true;
                         this.traySeasonStats.Checked = true;
-                        this.menuStats_Click(this.menuSeasonStats, null);
+                        this.menuStats_Click(this.menuSeasonStats, EventArgs.Empty);
                         break;
                     case 2:
                         this.menuWeekStats.Checked = true;
                         this.trayWeekStats.Checked = true;
-                        this.menuStats_Click(this.menuWeekStats, null);
+                        this.menuStats_Click(this.menuWeekStats, EventArgs.Empty);
                         break;
                     case 3:
                         this.menuDayStats.Checked = true;
                         this.trayDayStats.Checked = true;
-                        this.menuStats_Click(this.menuDayStats, null);
+                        this.menuStats_Click(this.menuDayStats, EventArgs.Empty);
                         break;
                     case 4:
                         this.menuSessionStats.Checked = true;
                         this.traySessionStats.Checked = true;
-                        this.menuStats_Click(this.menuSessionStats, null);
+                        this.menuStats_Click(this.menuSessionStats, EventArgs.Empty);
                         break;
                 }
             } catch (Exception ex) {
@@ -1693,7 +1800,7 @@ namespace FallGuysStats {
             if (SessionStart != newDate) {
                 SessionStart = newDate;
                 if (this.menuSessionStats.Checked) {
-                    this.menuStats_Click(this.menuSessionStats, null);
+                    this.menuStats_Click(this.menuSessionStats, EventArgs.Empty);
                 }
             }
         }
@@ -1768,7 +1875,7 @@ namespace FallGuysStats {
                                 }
                                 
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
-                                    profile = this.GetLinkedProfile(stat.ShowNameId, stat.PrivateLobby, stat.ShowNameId.StartsWith("show_wle_s10"));
+                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, stat.ShowNameId.StartsWith("show_wle_s10"));
                                     this.CurrentSettings.SelectedProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                 }
@@ -1779,15 +1886,33 @@ namespace FallGuysStats {
                                 }
                                 stat.ShowID = nextShowID;
                                 stat.Profile = profile;
+
+                                if (stat.UseShareCode) {
+                                    try {
+                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json");
+                                        stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                        stat.CreativeAuthor = resData.GetProperty("author").GetProperty("name_per_platform").GetProperty("eos").GetString();
+                                        stat.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
+                                        stat.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
+                                        stat.CreativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
+                                        stat.CreativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
+                                        stat.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
+                                        stat.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                                        stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                    } catch (Exception e) {
+                                        // ignore
+                                    }
+                                }
+
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);
-
+                                
                                 //Below is where reporting to fallaytics happen
                                 //Must have enabled the setting to enable tracking
                                 //Must not be a private lobby
                                 //Must be a game that is played after FallGuysStats started
-                                if (CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > startupTime) {
-                                    FallalyticsReporter.Report(stat, CurrentSettings.FallalyticsAPIKey);
+                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                    FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                 }
                             } else {
                                 continue;
@@ -1930,25 +2055,33 @@ namespace FallGuysStats {
             string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
             return !string.IsNullOrEmpty(currentProfileLinkedShowId) ? currentProfileLinkedShowId : string.Empty;
         }
-        private int GetLinkedProfile(string showId, bool isPrivateLobbies, bool isCreativeShow) {
+        private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (string.IsNullOrEmpty(showId)) return 0;
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
                     if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
-                        return this.AllProfiles.Count - 1 - i;
+                        return this.AllProfiles[i].ProfileId;
                     }
                 } else {
                     if (isCreativeShow) {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
-                            return this.AllProfiles.Count - 1 - i;
+                            return this.AllProfiles[i].ProfileId;
                         }
                     } else {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                            return this.AllProfiles.Count - 1 - i;
+                            return this.AllProfiles[i].ProfileId;
                         }
                     }
                 }
             }
+            if (isPrivateLobbies) { // return corresponding linked profile when possible if no linked "private_lobbies" profile was found
+                for (int j = 0; j < this.AllProfiles.Count; j++) {
+                    if (!string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) && showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                        return this.AllProfiles[j].ProfileId;
+                    }
+                }
+            }
+            // return ProfileId 0 if no linked profile was found/matched
             return 0;
         }
         public void SetLinkedProfile(string showId, bool isPrivateLobbies, bool isCreativeShow) {
@@ -1957,20 +2090,40 @@ namespace FallGuysStats {
                 if (isPrivateLobbies) {
                     if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
                         ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                        if (!item.Checked) { this.menuStats_Click(item, null); break;}
+                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                        return;
                     }
                 } else {
                     if (isCreativeShow) {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                            if (!item.Checked) { this.menuStats_Click(item, null); break;}
+                            if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                            return;
                         }
                     } else {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                            if (!item.Checked) { this.menuStats_Click(item, null); break; }
+                            if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                            return;
                         }
                     }
+                }
+            }
+            if (isPrivateLobbies) { // select corresponding linked profile when possible if no linked "private_lobbies" profile was found
+                for (int j = 0; j < this.AllProfiles.Count; j++) {
+                    if (!string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) && showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                        ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                        return;
+                    }
+                }
+            }
+            // select ProfileId 0 if no linked profile was found/matched
+            for (int k = 0; k < this.AllProfiles.Count; k++) {
+                if (this.AllProfiles[k].ProfileId == 0) {
+                    ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
+                    if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                    return;
                 }
             }
         }
@@ -1986,7 +2139,7 @@ namespace FallGuysStats {
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
         }
-        public StatSummary GetLevelInfo(string name, int levelException) {
+        public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
                 TotalShows = 0,
@@ -1995,9 +2148,9 @@ namespace FallGuysStats {
                 TotalFinals = 0
             };
             
-            //MatchCollection matches = Regex.Matches(name, @"^(?:\d{4}(?:-?)){3}$");
-            MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
-            if (matches.Count > 0) { // user creative round
+            //MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
+            //if (matches.Count > 0) { // user creative round
+            if (useShareCode) { // user creative round
                 List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && r.Name.Equals("wle_s10_user_creative_race_round"));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
@@ -2323,8 +2476,25 @@ namespace FallGuysStats {
                                                                                             toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
         }
-        public void ShowTooltip(string message, IWin32Window window, Point position, int duration) {
-            tt.Show(message, window, position, duration);
+        public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
+            if (duration == -1) {
+                this.cmtt.Show(message, window, position);
+            } else {
+                this.cmtt.Show(message, window, position, duration);
+            }
+        }
+        public void HideCustomTooltip(IWin32Window window) {
+            this.cmtt.Hide(window);
+        }
+        public void ShowTooltip(string message, IWin32Window window, Point position, int duration = -1) {
+            if (duration == -1) {
+                this.mtt.Show(message, window, position);
+            } else {
+                this.mtt.Show(message, window, position, duration);
+            }
+        }
+        public void HideTooltip(IWin32Window window) {
+            this.mtt.Hide(window);
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
@@ -3082,20 +3252,20 @@ namespace FallGuysStats {
                     if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
                     if (this.shiftKeyToggle) {
                         if (menuItem.Checked && i - 1 >= 0) {
-                            this.menuStats_Click(this.ProfileMenuItems[i - 1], null);
+                            this.menuStats_Click(this.ProfileMenuItems[i - 1], EventArgs.Empty);
                             break;
                         }
                         if (menuItem.Checked && i - 1 < 0) {
-                            this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], null);
+                            this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], EventArgs.Empty);
                             break;
                         }
                     } else {
                         if (menuItem.Checked && i + 1 < this.ProfileMenuItems.Count) {
-                            this.menuStats_Click(this.ProfileMenuItems[i + 1], null);
+                            this.menuStats_Click(this.ProfileMenuItems[i + 1], EventArgs.Empty);
                             break;
                         }
                         if (menuItem.Checked && i + 1 >= this.ProfileMenuItems.Count) {
-                            this.menuStats_Click(this.ProfileMenuItems[0], null);
+                            this.menuStats_Click(this.ProfileMenuItems[0], EventArgs.Empty);
                             break;
                         }
                     }
@@ -3104,11 +3274,11 @@ namespace FallGuysStats {
                 for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
                     if (!(this.ProfileMenuItems[i] is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i - 1 >= 0) {
-                        this.menuStats_Click(this.ProfileMenuItems[i - 1], null);
+                        this.menuStats_Click(this.ProfileMenuItems[i - 1], EventArgs.Empty);
                         break;
                     }
                     if (menuItem.Checked && i - 1 < 0) {
-                        this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], null);
+                        this.menuStats_Click(this.ProfileMenuItems[this.ProfileMenuItems.Count - 1], EventArgs.Empty);
                         break;
                     }
                 }
@@ -3403,7 +3573,17 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool CheckForUpdate(bool silent) {
+        private JsonElement GetApiData(string apiUrl, string apiEndPoint) {
+            JsonElement resData;
+            using (ApiWebClient web = new ApiWebClient()) {
+                string responseJsonString = web.DownloadString($"{apiUrl}{apiEndPoint}");
+                JsonDocument jdom = JsonDocument.Parse(responseJsonString);
+                JsonElement jroot = jdom.RootElement;
+                resData = jroot.GetProperty("data").GetProperty("snapshot");
+            }
+            return resData;
+        }
+        private bool CheckForUpdate(bool silent) {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
