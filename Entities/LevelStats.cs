@@ -10,6 +10,18 @@ namespace FallGuysStats {
         public int ShowID { get; set; }
         public string ShowNameId { get; set; }
         public bool UseShareCode { get; set; }
+        public string CreativeShareCode { get; set; }
+        public string CreativeAuthor { get; set; }
+        //public string CreativeNicknameContentId { get; set; }
+        //public string CreativeNameplateContentId { get; set; }
+        public int CreativeVersion { get; set; }
+        //public string CreativeStatus { get; set; }
+        public string CreativeTitle { get; set; }
+        public string CreativeDescription { get; set; }
+        public int CreativeMaxPlayer { get; set; }
+        public string CreativePlatformId { get; set; }
+        public DateTime CreativeLastModifiedDate { get; set; } = DateTime.MinValue;
+        public int CreativePlayCount { get; set; }
         public string SessionId { get; set; }
         public int Round { get; set; }
         public int Position { get; set; }
@@ -71,28 +83,29 @@ namespace FallGuysStats {
         }
         public override bool Equals(object obj) {
             return obj is RoundInfo info
-                && info.End == this.End
-                && info.Finish == this.Finish
-                && info.InParty == this.InParty
-                && info.Kudos == this.Kudos
-                && info.Players == this.Players
-                && info.PlayersPs4 == this.PlayersPs4
-                && info.PlayersPs5 == this.PlayersPs5
-                && info.PlayersXb1 == this.PlayersXb1
-                && info.PlayersXsx == this.PlayersXsx
-                && info.PlayersSw == this.PlayersSw
-                && info.PlayersPc == this.PlayersPc
-                && info.PlayersBots == this.PlayersBots
-                && info.PlayersEtc == this.PlayersEtc
-                && info.Position == this.Position
-                && info.Qualified == this.Qualified
-                && info.Round == this.Round
-                && info.Score == this.Score
-                && info.ShowID == this.ShowID
-                && info.Start == this.Start
-                && info.Tier == this.Tier
-                && info.Name == this.Name
-                && info.SessionId == this.SessionId;
+                   && info.End == this.End
+                   && info.Finish == this.Finish
+                   && info.InParty == this.InParty
+                   && info.Kudos == this.Kudos
+                   && info.Players == this.Players
+                   && info.PlayersPs4 == this.PlayersPs4
+                   && info.PlayersPs5 == this.PlayersPs5
+                   && info.PlayersXb1 == this.PlayersXb1
+                   && info.PlayersXsx == this.PlayersXsx
+                   && info.PlayersSw == this.PlayersSw
+                   && info.PlayersPc == this.PlayersPc
+                   && info.PlayersBots == this.PlayersBots
+                   && info.PlayersEtc == this.PlayersEtc
+                   && info.Position == this.Position
+                   && info.Qualified == this.Qualified
+                   && info.Round == this.Round
+                   && info.Score == this.Score
+                   && info.ShowID == this.ShowID
+                   && info.Start == this.Start
+                   && info.Tier == this.Tier
+                   && info.Name == this.Name
+                   && info.SessionId == this.SessionId
+                   && info.UseShareCode == this.UseShareCode;
         }
         public override int GetHashCode() {
             return Name.GetHashCode() ^ ShowID ^ Round;

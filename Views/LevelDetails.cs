@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using MetroFramework;
 
@@ -290,6 +291,18 @@ namespace FallGuysStats {
             this.gridDetails.Columns["IsTeam"].Visible = false;
             this.gridDetails.Columns["SessionId"].Visible = false;
             this.gridDetails.Columns["UseShareCode"].Visible = false;
+            this.gridDetails.Columns["CreativeShareCode"].Visible = false;
+            this.gridDetails.Columns["CreativeAuthor"].Visible = false;
+            //this.gridDetails.Columns["CreativeNicknameContentId"].Visible = false;
+            //this.gridDetails.Columns["CreativeNameplateContentId"].Visible = false;
+            this.gridDetails.Columns["CreativeVersion"].Visible = false;
+            //this.gridDetails.Columns["CreativeStatus"].Visible = false;
+            this.gridDetails.Columns["CreativeTitle"].Visible = false;
+            this.gridDetails.Columns["CreativeDescription"].Visible = false;
+            this.gridDetails.Columns["CreativeMaxPlayer"].Visible = false;
+            this.gridDetails.Columns["CreativePlatformId"].Visible = false;
+            this.gridDetails.Columns["CreativeLastModifiedDate"].Visible = false;
+            this.gridDetails.Columns["CreativePlayCount"].Visible = false;
             if (this._showStats == 0) {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
@@ -440,8 +453,9 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.Value = Multilingual.GetShowName((string)e.Value) ?? this.StatsForm.GetRoundNameFromShareCode((string)e.Value);
-                    if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
+                    //e.Value = Multilingual.GetShowName((string)e.Value) ?? this.StatsForm.GetRoundNameFromShareCode((string)e.Value);
+                    e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? info.CreativeTitle : Multilingual.GetShowName((string)e.Value) ?? e.Value;
+                    //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
@@ -717,6 +731,46 @@ namespace FallGuysStats {
                 Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
                 this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
             }
+        }
+
+        private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
+            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+                RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
+                if (info.CreativeLastModifiedDate == DateTime.MinValue) return;
+                StringBuilder strbuilder = new StringBuilder();
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(info.CreativeTitle);
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(info.CreativeDescription);
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_author")} : {info.CreativeAuthor}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : {info.CreativeVersion}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {info.CreativePlatformId}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount}");
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(Environment.NewLine);
+                strbuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
+                
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X, cursorPosition.Y);
+                this.StatsForm.ShowCustomTooltip(strbuilder.ToString(), this, position);
+            }
+        }
+
+        private void gridDetails_CellMouseLeave(object sender, DataGridViewCellEventArgs e) {
+            this.StatsForm.HideCustomTooltip(this);
         }
     }
 }
