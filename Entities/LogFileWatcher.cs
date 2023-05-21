@@ -337,6 +337,9 @@ namespace FallGuysStats {
 
                    || (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
                        && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+                   
+                   || (roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
+                       && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
 
                    || (roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
                        && roundId.Substring(roundId.Length - 6).ToLower() == "_final")
