@@ -351,7 +351,7 @@ namespace FallGuysStats {
                             {"custom_range_season", "Season"},
                             {"custom_range_legacy", "Legacy"},
                             {"custom_range_ffa", "FFA"},
-                            {"custom_not_set", "Not Set"},
+                            {"custom_range_not_set", "Not Set"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -702,7 +702,7 @@ namespace FallGuysStats {
                             {"custom_range_season", "Saison"},
                             {"custom_range_legacy", "Héritage"},
                             {"custom_range_ffa", "FFA"},
-                            {"custom_not_set", "pas de réglage"},
+                            {"custom_range_not_set", "pas de réglage"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1053,7 +1053,7 @@ namespace FallGuysStats {
                             {"custom_range_season", "계절"},
                             {"custom_range_legacy", "유산"},
                             {"custom_range_ffa", "FFA"},
-                            {"custom_not_set", "설정 없음"},
+                            {"custom_range_not_set", "설정 없음"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1755,7 +1755,7 @@ namespace FallGuysStats {
                             {"custom_range_season", "季节"},
                             {"custom_range_legacy", "季节"},
                             {"custom_range_ffa", "FFA"},
-                            {"custom_not_set", "没有设置"},
+                            {"custom_range_not_set", "没有设置"},
                         }
             },
         };
