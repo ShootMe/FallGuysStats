@@ -17,7 +17,6 @@ using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
 using MetroFramework.Components;
-using FallGuysStats.Entities;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
