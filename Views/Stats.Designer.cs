@@ -40,6 +40,7 @@ namespace FallGuysStats {
             this.menuWeekStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDayStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSessionStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuCustomRangeStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPartyFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuAllPartyStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSoloStats = new System.Windows.Forms.ToolStripMenuItem();
@@ -99,11 +100,19 @@ namespace FallGuysStats {
             // 
             // menu
             // 
-            this.menu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.menu.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.menu.AutoSize = false;
             this.menu.BackColor = System.Drawing.Color.Transparent;
             this.menu.Dock = System.Windows.Forms.DockStyle.None;
-            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys });
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuSettings,
+            this.menuFilters,
+            this.menuProfile,
+            this.menuOverlay,
+            this.menuUpdate,
+            this.menuHelp,
+            this.menuLaunchFallGuys});
             this.menu.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.menu.Location = new System.Drawing.Point(0, 65);
             this.menu.Name = "menu";
@@ -116,13 +125,15 @@ namespace FallGuysStats {
             this.menuSettings.Image = global::FallGuysStats.Properties.Resources.setting_icon;
             this.menuSettings.Name = "menuSettings";
             this.menuSettings.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.menuSettings.Size = new System.Drawing.Size(78, 20);
+            this.menuSettings.Size = new System.Drawing.Size(77, 20);
             this.menuSettings.Text = "Settings";
             this.menuSettings.Click += new System.EventHandler(this.menuSettings_Click);
             // 
             // menuFilters
             // 
-            this.menuFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuStatsFilter, this.menuPartyFilter });
+            this.menuFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuStatsFilter,
+            this.menuPartyFilter});
             this.menuFilters.Image = global::FallGuysStats.Properties.Resources.filter_icon;
             this.menuFilters.Name = "menuFilters";
             this.menuFilters.Size = new System.Drawing.Size(66, 20);
@@ -130,10 +141,16 @@ namespace FallGuysStats {
             // 
             // menuStatsFilter
             // 
-            this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuAllStats, this.menuSeasonStats, this.menuWeekStats, this.menuDayStats, this.menuSessionStats });
+            this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAllStats,
+            this.menuSeasonStats,
+            this.menuWeekStats,
+            this.menuDayStats,
+            this.menuSessionStats,
+            this.menuCustomRangeStats});
             this.menuStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             this.menuStatsFilter.Name = "menuStatsFilter";
-            this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
+            this.menuStatsFilter.Size = new System.Drawing.Size(180, 22);
             this.menuStatsFilter.Text = "Stats";
             // 
             // menuAllStats
@@ -142,8 +159,9 @@ namespace FallGuysStats {
             this.menuAllStats.CheckOnClick = true;
             this.menuAllStats.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menuAllStats.Name = "menuAllStats";
-            this.menuAllStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.A)));
-            this.menuAllStats.Size = new System.Drawing.Size(189, 22);
+            this.menuAllStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.A)));
+            this.menuAllStats.Size = new System.Drawing.Size(186, 22);
             this.menuAllStats.Text = "All";
             this.menuAllStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -151,8 +169,9 @@ namespace FallGuysStats {
             // 
             this.menuSeasonStats.CheckOnClick = true;
             this.menuSeasonStats.Name = "menuSeasonStats";
-            this.menuSeasonStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.S)));
-            this.menuSeasonStats.Size = new System.Drawing.Size(189, 22);
+            this.menuSeasonStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.menuSeasonStats.Size = new System.Drawing.Size(186, 22);
             this.menuSeasonStats.Text = "Season";
             this.menuSeasonStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -160,8 +179,9 @@ namespace FallGuysStats {
             // 
             this.menuWeekStats.CheckOnClick = true;
             this.menuWeekStats.Name = "menuWeekStats";
-            this.menuWeekStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.W)));
-            this.menuWeekStats.Size = new System.Drawing.Size(189, 22);
+            this.menuWeekStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.W)));
+            this.menuWeekStats.Size = new System.Drawing.Size(186, 22);
             this.menuWeekStats.Text = "Week";
             this.menuWeekStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -169,8 +189,9 @@ namespace FallGuysStats {
             // 
             this.menuDayStats.CheckOnClick = true;
             this.menuDayStats.Name = "menuDayStats";
-            this.menuDayStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.D)));
-            this.menuDayStats.Size = new System.Drawing.Size(189, 22);
+            this.menuDayStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.D)));
+            this.menuDayStats.Size = new System.Drawing.Size(186, 22);
             this.menuDayStats.Text = "Day";
             this.menuDayStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -178,17 +199,28 @@ namespace FallGuysStats {
             // 
             this.menuSessionStats.CheckOnClick = true;
             this.menuSessionStats.Name = "menuSessionStats";
-            this.menuSessionStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.G)));
-            this.menuSessionStats.Size = new System.Drawing.Size(189, 22);
+            this.menuSessionStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.G)));
+            this.menuSessionStats.Size = new System.Drawing.Size(186, 22);
             this.menuSessionStats.Text = "Session";
             this.menuSessionStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
+            // menuCustomRangeStats
+            // 
+            this.menuCustomRangeStats.Name = "menuCustomRangeStats";
+            this.menuCustomRangeStats.Size = new System.Drawing.Size(186, 22);
+            this.menuCustomRangeStats.Text = "Custom Range";
+            this.menuCustomRangeStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
             // menuPartyFilter
             // 
-            this.menuPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuAllPartyStats, this.menuSoloStats, this.menuPartyStats });
+            this.menuPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuAllPartyStats,
+            this.menuSoloStats,
+            this.menuPartyStats});
             this.menuPartyFilter.Image = global::FallGuysStats.Properties.Resources.player_icon;
             this.menuPartyFilter.Name = "menuPartyFilter";
-            this.menuPartyFilter.Size = new System.Drawing.Size(101, 22);
+            this.menuPartyFilter.Size = new System.Drawing.Size(180, 22);
             this.menuPartyFilter.Text = "Party";
             // 
             // menuAllPartyStats
@@ -197,8 +229,9 @@ namespace FallGuysStats {
             this.menuAllPartyStats.CheckOnClick = true;
             this.menuAllPartyStats.CheckState = System.Windows.Forms.CheckState.Checked;
             this.menuAllPartyStats.Name = "menuAllPartyStats";
-            this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.F)));
-            this.menuAllPartyStats.Size = new System.Drawing.Size(175, 22);
+            this.menuAllPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.F)));
+            this.menuAllPartyStats.Size = new System.Drawing.Size(173, 22);
             this.menuAllPartyStats.Text = "All";
             this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -206,8 +239,9 @@ namespace FallGuysStats {
             // 
             this.menuSoloStats.CheckOnClick = true;
             this.menuSoloStats.Name = "menuSoloStats";
-            this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.O)));
-            this.menuSoloStats.Size = new System.Drawing.Size(175, 22);
+            this.menuSoloStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.O)));
+            this.menuSoloStats.Size = new System.Drawing.Size(173, 22);
             this.menuSoloStats.Text = "Solo";
             this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -215,25 +249,27 @@ namespace FallGuysStats {
             // 
             this.menuPartyStats.CheckOnClick = true;
             this.menuPartyStats.Name = "menuPartyStats";
-            this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.P)));
-            this.menuPartyStats.Size = new System.Drawing.Size(175, 22);
+            this.menuPartyStats.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.P)));
+            this.menuPartyStats.Size = new System.Drawing.Size(173, 22);
             this.menuPartyStats.Text = "Party";
             this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
             // menuProfile
             // 
-            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuEditProfiles });
+            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuEditProfiles});
             this.menuProfile.Image = global::FallGuysStats.Properties.Resources.profile_icon;
             this.menuProfile.Name = "menuProfile";
-            this.menuProfile.Size = new System.Drawing.Size(76, 20);
-            this.menuProfile.Text = "Profiled";
+            this.menuProfile.Size = new System.Drawing.Size(68, 20);
+            this.menuProfile.Text = "Profile";
             // 
             // menuEditProfiles
             // 
             this.menuEditProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.menuEditProfiles.Image = global::FallGuysStats.Properties.Resources.setting_icon;
             this.menuEditProfiles.Name = "menuEditProfiles";
-            this.menuEditProfiles.Size = new System.Drawing.Size(155, 22);
+            this.menuEditProfiles.Size = new System.Drawing.Size(180, 22);
             this.menuEditProfiles.Text = "Profile Settings";
             this.menuEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
             // 
@@ -242,7 +278,7 @@ namespace FallGuysStats {
             this.menuOverlay.Image = global::FallGuysStats.Properties.Resources.stat_gray_icon;
             this.menuOverlay.Name = "menuOverlay";
             this.menuOverlay.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.menuOverlay.Size = new System.Drawing.Size(109, 20);
+            this.menuOverlay.Size = new System.Drawing.Size(107, 20);
             this.menuOverlay.Text = "Show Overlay";
             this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
             // 
@@ -268,19 +304,25 @@ namespace FallGuysStats {
             // 
             this.menuLaunchFallGuys.Image = global::FallGuysStats.Properties.Resources.fallguys_icon;
             this.menuLaunchFallGuys.Name = "menuLaunchFallGuys";
-            this.menuLaunchFallGuys.Size = new System.Drawing.Size(126, 20);
+            this.menuLaunchFallGuys.Size = new System.Drawing.Size(123, 20);
             this.menuLaunchFallGuys.Text = "Launch Fall Guys";
             this.menuLaunchFallGuys.Click += new System.EventHandler(this.menuLaunchFallGuys_Click);
             // 
             // infoStrip
             // 
-            this.infoStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoStrip.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.infoStrip.AutoSize = false;
             this.infoStrip.BackColor = System.Drawing.Color.Transparent;
             this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblCurrentProfile,
+            this.lblTotalShows,
+            this.lblTotalRounds,
+            this.lblTotalFinals,
+            this.lblTotalWins});
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 93);
             this.infoStrip.Name = "infoStrip";
@@ -295,7 +337,7 @@ namespace FallGuysStats {
             this.lblCurrentProfile.Image = global::FallGuysStats.Properties.Resources.profile2_icon;
             this.lblCurrentProfile.Margin = new System.Windows.Forms.Padding(4, 1, 20, 2);
             this.lblCurrentProfile.Name = "lblCurrentProfile";
-            this.lblCurrentProfile.Size = new System.Drawing.Size(47, 16);
+            this.lblCurrentProfile.Size = new System.Drawing.Size(46, 16);
             this.lblCurrentProfile.Text = "Solo";
             this.lblCurrentProfile.ToolTipText = "Click to change your current profile.";
             this.lblCurrentProfile.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblCurrentProfile_MouseDown);
@@ -308,7 +350,7 @@ namespace FallGuysStats {
             this.lblTotalShows.Image = global::FallGuysStats.Properties.Resources.show_icon;
             this.lblTotalShows.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblTotalShows.Name = "lblTotalShows";
-            this.lblTotalShows.Size = new System.Drawing.Size(30, 16);
+            this.lblTotalShows.Size = new System.Drawing.Size(29, 16);
             this.lblTotalShows.Text = "0";
             this.lblTotalShows.ToolTipText = "Click to view shows stats.";
             this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
@@ -321,7 +363,7 @@ namespace FallGuysStats {
             this.lblTotalRounds.Image = global::FallGuysStats.Properties.Resources.round_icon;
             this.lblTotalRounds.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblTotalRounds.Name = "lblTotalRounds";
-            this.lblTotalRounds.Size = new System.Drawing.Size(30, 16);
+            this.lblTotalRounds.Size = new System.Drawing.Size(29, 16);
             this.lblTotalRounds.Text = "0";
             this.lblTotalRounds.ToolTipText = "Click to view rounds stats.";
             this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
@@ -334,7 +376,7 @@ namespace FallGuysStats {
             this.lblTotalFinals.Image = global::FallGuysStats.Properties.Resources.final_icon;
             this.lblTotalFinals.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblTotalFinals.Name = "lblTotalFinals";
-            this.lblTotalFinals.Size = new System.Drawing.Size(69, 16);
+            this.lblTotalFinals.Size = new System.Drawing.Size(65, 16);
             this.lblTotalFinals.Text = "0 (0.0%)";
             this.lblTotalFinals.ToolTipText = "Click to view finals stats.";
             this.lblTotalFinals.Click += new System.EventHandler(this.lblTotalFinals_Click);
@@ -347,7 +389,7 @@ namespace FallGuysStats {
             this.lblTotalWins.Image = global::FallGuysStats.Properties.Resources.crown_icon;
             this.lblTotalWins.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblTotalWins.Name = "lblTotalWins";
-            this.lblTotalWins.Size = new System.Drawing.Size(69, 16);
+            this.lblTotalWins.Size = new System.Drawing.Size(65, 16);
             this.lblTotalWins.Text = "0 (0.0%)";
             this.lblTotalWins.ToolTipText = "Click to view wins stats.";
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
@@ -356,13 +398,21 @@ namespace FallGuysStats {
             // 
             // infoStrip2
             // 
-            this.infoStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.infoStrip2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.infoStrip2.AutoSize = false;
             this.infoStrip2.BackColor = System.Drawing.Color.Transparent;
             this.infoStrip2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip2.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblTotalTime, this.lblGoldMedal, this.lblSilverMedal, this.lblBronzeMedal, this.lblPinkMedal, this.lblEliminatedMedal, this.lblKudos });
+            this.infoStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblTotalTime,
+            this.lblGoldMedal,
+            this.lblSilverMedal,
+            this.lblBronzeMedal,
+            this.lblPinkMedal,
+            this.lblEliminatedMedal,
+            this.lblKudos});
             this.infoStrip2.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip2.Location = new System.Drawing.Point(0, 120);
             this.infoStrip2.Name = "infoStrip2";
@@ -377,7 +427,7 @@ namespace FallGuysStats {
             this.lblTotalTime.Image = global::FallGuysStats.Properties.Resources.clock_icon;
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 1, 20, 2);
             this.lblTotalTime.Name = "lblTotalTime";
-            this.lblTotalTime.Size = new System.Drawing.Size(64, 16);
+            this.lblTotalTime.Size = new System.Drawing.Size(59, 16);
             this.lblTotalTime.Text = "0:00:00";
             // 
             // lblGoldMedal
@@ -386,7 +436,7 @@ namespace FallGuysStats {
             this.lblGoldMedal.Image = global::FallGuysStats.Properties.Resources.medal_gold;
             this.lblGoldMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblGoldMedal.Name = "lblGoldMedal";
-            this.lblGoldMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblGoldMedal.Size = new System.Drawing.Size(29, 16);
             this.lblGoldMedal.Text = "0";
             // 
             // lblSilverMedal
@@ -395,7 +445,7 @@ namespace FallGuysStats {
             this.lblSilverMedal.Image = global::FallGuysStats.Properties.Resources.medal_silver;
             this.lblSilverMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblSilverMedal.Name = "lblSilverMedal";
-            this.lblSilverMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblSilverMedal.Size = new System.Drawing.Size(29, 16);
             this.lblSilverMedal.Text = "0";
             // 
             // lblBronzeMedal
@@ -404,7 +454,7 @@ namespace FallGuysStats {
             this.lblBronzeMedal.Image = global::FallGuysStats.Properties.Resources.medal_bronze;
             this.lblBronzeMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblBronzeMedal.Name = "lblBronzeMedal";
-            this.lblBronzeMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblBronzeMedal.Size = new System.Drawing.Size(29, 16);
             this.lblBronzeMedal.Text = "0";
             // 
             // lblPinkMedal
@@ -413,7 +463,7 @@ namespace FallGuysStats {
             this.lblPinkMedal.Image = global::FallGuysStats.Properties.Resources.medal_pink;
             this.lblPinkMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblPinkMedal.Name = "lblPinkMedal";
-            this.lblPinkMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblPinkMedal.Size = new System.Drawing.Size(29, 16);
             this.lblPinkMedal.Text = "0";
             // 
             // lblEliminatedMedal
@@ -422,7 +472,7 @@ namespace FallGuysStats {
             this.lblEliminatedMedal.Image = global::FallGuysStats.Properties.Resources.medal_eliminated;
             this.lblEliminatedMedal.Margin = new System.Windows.Forms.Padding(10, 1, 5, 2);
             this.lblEliminatedMedal.Name = "lblEliminatedMedal";
-            this.lblEliminatedMedal.Size = new System.Drawing.Size(30, 16);
+            this.lblEliminatedMedal.Size = new System.Drawing.Size(29, 16);
             this.lblEliminatedMedal.Text = "0";
             // 
             // lblKudos
@@ -431,18 +481,20 @@ namespace FallGuysStats {
             this.lblKudos.Image = global::FallGuysStats.Properties.Resources.kudos_icon;
             this.lblKudos.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
             this.lblKudos.Name = "lblKudos";
-            this.lblKudos.Size = new System.Drawing.Size(30, 16);
+            this.lblKudos.Size = new System.Drawing.Size(29, 16);
             this.lblKudos.Text = "0";
             // 
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
-            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
@@ -477,47 +529,66 @@ namespace FallGuysStats {
             // 
             // trayCMenu
             // 
-            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
+            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayOverlay,
+            this.traySeparator1,
+            this.traySettings,
+            this.traySeparator2,
+            this.trayFilters,
+            this.trayProfile,
+            this.traySeparator3,
+            this.trayUpdate,
+            this.trayHelp,
+            this.trayLaunchFallGuys,
+            this.traySeparator4,
+            this.trayExitProgram});
             this.trayCMenu.Name = "trayCMenu";
-            this.trayCMenu.Size = new System.Drawing.Size(166, 204);
+            this.trayCMenu.Size = new System.Drawing.Size(163, 204);
             // 
             // trayOverlay
             // 
             this.trayOverlay.Image = global::FallGuysStats.Properties.Resources.stat_gray_icon;
             this.trayOverlay.Name = "trayOverlay";
-            this.trayOverlay.Size = new System.Drawing.Size(165, 22);
+            this.trayOverlay.Size = new System.Drawing.Size(162, 22);
             this.trayOverlay.Text = "Show Overlay";
             this.trayOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
             // 
             // traySeparator1
             // 
             this.traySeparator1.Name = "traySeparator1";
-            this.traySeparator1.Size = new System.Drawing.Size(162, 6);
+            this.traySeparator1.Size = new System.Drawing.Size(159, 6);
             // 
             // traySettings
             // 
             this.traySettings.Image = global::FallGuysStats.Properties.Resources.setting_icon;
             this.traySettings.Name = "traySettings";
-            this.traySettings.Size = new System.Drawing.Size(165, 22);
+            this.traySettings.Size = new System.Drawing.Size(162, 22);
             this.traySettings.Text = "Settings";
             this.traySettings.Click += new System.EventHandler(this.menuSettings_Click);
             // 
             // traySeparator2
             // 
             this.traySeparator2.Name = "traySeparator2";
-            this.traySeparator2.Size = new System.Drawing.Size(162, 6);
+            this.traySeparator2.Size = new System.Drawing.Size(159, 6);
             // 
             // trayFilters
             // 
-            this.trayFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayStatsFilter, this.trayPartyFilter });
+            this.trayFilters.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayStatsFilter,
+            this.trayPartyFilter});
             this.trayFilters.Image = global::FallGuysStats.Properties.Resources.filter_icon;
             this.trayFilters.Name = "trayFilters";
-            this.trayFilters.Size = new System.Drawing.Size(165, 22);
+            this.trayFilters.Size = new System.Drawing.Size(162, 22);
             this.trayFilters.Text = "Filters";
             // 
             // trayStatsFilter
             // 
-            this.trayStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayAllStats, this.traySeasonStats, this.trayWeekStats, this.trayDayStats, this.traySessionStats });
+            this.trayStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayAllStats,
+            this.traySeasonStats,
+            this.trayWeekStats,
+            this.trayDayStats,
+            this.traySessionStats});
             this.trayStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             this.trayStatsFilter.Name = "trayStatsFilter";
             this.trayStatsFilter.Size = new System.Drawing.Size(101, 22);
@@ -529,7 +600,7 @@ namespace FallGuysStats {
             this.trayAllStats.CheckOnClick = true;
             this.trayAllStats.CheckState = System.Windows.Forms.CheckState.Checked;
             this.trayAllStats.Name = "trayAllStats";
-            this.trayAllStats.Size = new System.Drawing.Size(114, 22);
+            this.trayAllStats.Size = new System.Drawing.Size(113, 22);
             this.trayAllStats.Text = "All";
             this.trayAllStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -537,7 +608,7 @@ namespace FallGuysStats {
             // 
             this.traySeasonStats.CheckOnClick = true;
             this.traySeasonStats.Name = "traySeasonStats";
-            this.traySeasonStats.Size = new System.Drawing.Size(114, 22);
+            this.traySeasonStats.Size = new System.Drawing.Size(113, 22);
             this.traySeasonStats.Text = "Season";
             this.traySeasonStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -545,7 +616,7 @@ namespace FallGuysStats {
             // 
             this.trayWeekStats.CheckOnClick = true;
             this.trayWeekStats.Name = "trayWeekStats";
-            this.trayWeekStats.Size = new System.Drawing.Size(114, 22);
+            this.trayWeekStats.Size = new System.Drawing.Size(113, 22);
             this.trayWeekStats.Text = "Week";
             this.trayWeekStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -553,7 +624,7 @@ namespace FallGuysStats {
             // 
             this.trayDayStats.CheckOnClick = true;
             this.trayDayStats.Name = "trayDayStats";
-            this.trayDayStats.Size = new System.Drawing.Size(114, 22);
+            this.trayDayStats.Size = new System.Drawing.Size(113, 22);
             this.trayDayStats.Text = "Day";
             this.trayDayStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
@@ -561,13 +632,16 @@ namespace FallGuysStats {
             // 
             this.traySessionStats.CheckOnClick = true;
             this.traySessionStats.Name = "traySessionStats";
-            this.traySessionStats.Size = new System.Drawing.Size(114, 22);
+            this.traySessionStats.Size = new System.Drawing.Size(113, 22);
             this.traySessionStats.Text = "Session";
             this.traySessionStats.Click += new System.EventHandler(this.menuStats_Click);
             // 
             // trayPartyFilter
             // 
-            this.trayPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayAllPartyStats, this.traySoloStats, this.trayPartyStats });
+            this.trayPartyFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayAllPartyStats,
+            this.traySoloStats,
+            this.trayPartyStats});
             this.trayPartyFilter.Image = global::FallGuysStats.Properties.Resources.player_icon;
             this.trayPartyFilter.Name = "trayPartyFilter";
             this.trayPartyFilter.Size = new System.Drawing.Size(101, 22);
@@ -601,30 +675,31 @@ namespace FallGuysStats {
             // 
             // trayProfile
             // 
-            this.trayProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayEditProfiles });
+            this.trayProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.trayEditProfiles});
             this.trayProfile.Image = global::FallGuysStats.Properties.Resources.profile_icon;
             this.trayProfile.Name = "trayProfile";
-            this.trayProfile.Size = new System.Drawing.Size(165, 22);
+            this.trayProfile.Size = new System.Drawing.Size(162, 22);
             this.trayProfile.Text = "Profile";
             // 
             // trayEditProfiles
             // 
             this.trayEditProfiles.Image = global::FallGuysStats.Properties.Resources.setting_icon;
             this.trayEditProfiles.Name = "trayEditProfiles";
-            this.trayEditProfiles.Size = new System.Drawing.Size(155, 22);
+            this.trayEditProfiles.Size = new System.Drawing.Size(152, 22);
             this.trayEditProfiles.Text = "Profile Settings";
             this.trayEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
             // 
             // traySeparator3
             // 
             this.traySeparator3.Name = "traySeparator3";
-            this.traySeparator3.Size = new System.Drawing.Size(162, 6);
+            this.traySeparator3.Size = new System.Drawing.Size(159, 6);
             // 
             // trayUpdate
             // 
             this.trayUpdate.Image = global::FallGuysStats.Properties.Resources.github_icon;
             this.trayUpdate.Name = "trayUpdate";
-            this.trayUpdate.Size = new System.Drawing.Size(165, 22);
+            this.trayUpdate.Size = new System.Drawing.Size(162, 22);
             this.trayUpdate.Text = "Update";
             this.trayUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
             // 
@@ -632,7 +707,7 @@ namespace FallGuysStats {
             // 
             this.trayHelp.Image = global::FallGuysStats.Properties.Resources.github_icon;
             this.trayHelp.Name = "trayHelp";
-            this.trayHelp.Size = new System.Drawing.Size(165, 22);
+            this.trayHelp.Size = new System.Drawing.Size(162, 22);
             this.trayHelp.Text = "Help";
             this.trayHelp.Click += new System.EventHandler(this.menuHelp_Click);
             // 
@@ -640,27 +715,26 @@ namespace FallGuysStats {
             // 
             this.trayLaunchFallGuys.Image = global::FallGuysStats.Properties.Resources.fallguys_icon;
             this.trayLaunchFallGuys.Name = "trayLaunchFallGuys";
-            this.trayLaunchFallGuys.Size = new System.Drawing.Size(165, 22);
+            this.trayLaunchFallGuys.Size = new System.Drawing.Size(162, 22);
             this.trayLaunchFallGuys.Text = "Launch Fall Guys";
             this.trayLaunchFallGuys.Click += new System.EventHandler(this.menuLaunchFallGuys_Click);
             // 
             // traySeparator4
             // 
             this.traySeparator4.Name = "traySeparator4";
-            this.traySeparator4.Size = new System.Drawing.Size(162, 6);
+            this.traySeparator4.Size = new System.Drawing.Size(159, 6);
             // 
             // trayExitProgram
             // 
             this.trayExitProgram.Image = global::FallGuysStats.Properties.Resources.shutdown_icon;
             this.trayExitProgram.Name = "trayExitProgram";
-            this.trayExitProgram.Size = new System.Drawing.Size(165, 22);
+            this.trayExitProgram.Size = new System.Drawing.Size(162, 22);
             this.trayExitProgram.Text = "Exit";
             this.trayExitProgram.Click += new System.EventHandler(this.Stats_ExitProgram);
             // 
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(830, 830);
             this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.infoStrip2);
@@ -690,6 +764,7 @@ namespace FallGuysStats {
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.trayCMenu.ResumeLayout(false);
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -753,6 +828,7 @@ namespace FallGuysStats {
         private System.Windows.Forms.ToolStripMenuItem trayProfile;
         private System.Windows.Forms.ToolStripMenuItem trayEditProfiles;
         private System.Windows.Forms.ToolStripMenuItem trayOverlay;
+        private ToolStripMenuItem menuCustomRangeStats;
     }
 }
 
