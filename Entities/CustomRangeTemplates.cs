@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FallGuysStats.Entities {
+namespace FallGuysStats {
     public class CustomRangeTemplates {
         public int Name { get; set; }
         public DateTime Start { get; set; }
