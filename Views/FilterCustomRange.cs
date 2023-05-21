@@ -23,7 +23,7 @@ namespace FallGuysStats {
             this.lblTemplates.Text = Multilingual.GetWord("custom_range_templates");
             this.chkStartNotSet.Text = Multilingual.GetWord("custom_range_not_set");
             this.chkEndNotSet.Text = Multilingual.GetWord("custom_range_not_set");
-            this.btnFilter.Text = Multilingual.GetWord("main_filters");
+            this.btnFilter.Text = Multilingual.GetWord("custom_range_filter");
 
             this.templatesListBox.Items.Clear();
             for (int i = 0; i < Stats.Seasons.Count; i++) {
