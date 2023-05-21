@@ -2909,7 +2909,17 @@ namespace FallGuysStats {
                                 Round = roundCount,
                                 ShowID = info.ShowID,
                                 Tier = won ? 1 : 0,
-                                PrivateLobby = info.PrivateLobby
+                                PrivateLobby = info.PrivateLobby,
+                                UseShareCode = info.UseShareCode,
+                                CreativeAuthor = info.CreativeAuthor,
+                                CreativeShareCode = info.CreativeShareCode,
+                                CreativeTitle = info.CreativeTitle,
+                                CreativeDescription = info.CreativeDescription,
+                                CreativeVersion = info.CreativeVersion,
+                                CreativeMaxPlayer = info.CreativeMaxPlayer,
+                                CreativePlatformId = info.CreativePlatformId,
+                                CreativePlayCount = info.CreativePlayCount,
+                                CreativeLastModifiedDate = info.CreativeLastModifiedDate,
                             });
                         roundCount = 0;
                         kudosTotal = 0;
