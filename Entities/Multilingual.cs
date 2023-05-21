@@ -352,6 +352,7 @@ namespace FallGuysStats {
                             {"custom_range_legacy", "Legacy"},
                             {"custom_range_ffa", "FFA"},
                             {"custom_range_not_set", "Not Set"},
+                            {"custom_range_filter", "Filter"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -703,6 +704,7 @@ namespace FallGuysStats {
                             {"custom_range_legacy", "Héritage"},
                             {"custom_range_ffa", "FFA"},
                             {"custom_range_not_set", "pas de réglage"},
+                            {"custom_range_filter", "Filtre"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1054,6 +1056,7 @@ namespace FallGuysStats {
                             {"custom_range_legacy", "유산"},
                             {"custom_range_ffa", "FFA"},
                             {"custom_range_not_set", "설정 없음"},
+                            {"custom_range_filter", "필터링"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1405,6 +1408,7 @@ namespace FallGuysStats {
                             {"custom_range_legacy", "旧"},
                             {"custom_range_ffa", "FFA"},
                             {"custom_range_not_set", "設定しない"},
+                            {"custom_range_filter", "フィルタ"},
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -1756,6 +1760,7 @@ namespace FallGuysStats {
                             {"custom_range_legacy", "季节"},
                             {"custom_range_ffa", "FFA"},
                             {"custom_range_not_set", "没有设置"},
+                            {"custom_range_filter", "筛选"},
                         }
             },
         };
