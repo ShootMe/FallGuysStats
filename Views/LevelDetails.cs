@@ -750,15 +750,15 @@ namespace FallGuysStats {
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
                 strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : {info.CreativeVersion}");
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
                 strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}");
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {info.CreativePlatformId}");
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
                 strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount}");
+                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount}{Multilingual.GetWord("level_detail_creative_inning")}");
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
