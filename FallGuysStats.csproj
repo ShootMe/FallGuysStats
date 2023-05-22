@@ -211,6 +211,7 @@
     <Compile Include="Entities\ApiWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Entities\CustomRangeTemplates.cs" />
     <Compile Include="Entities\FallalyticsReporter.cs" />
     <Compile Include="Entities\ImageItem.cs" />
     <Compile Include="Entities\Json.cs" />
@@ -231,6 +232,12 @@
     </Compile>
     <Compile Include="Views\EditProfiles.Designer.cs">
       <DependentUpon>EditProfiles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FilterCustomRange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FilterCustomRange.Designer.cs">
+      <DependentUpon>FilterCustomRange.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\SelectLanguage.cs">
       <SubType>Form</SubType>
@@ -279,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\EditProfiles.resx">
       <DependentUpon>EditProfiles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FilterCustomRange.resx">
+      <DependentUpon>FilterCustomRange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SelectLanguage.resx">
       <DependentUpon>SelectLanguage.cs</DependentUpon>
