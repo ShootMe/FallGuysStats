@@ -235,6 +235,9 @@ namespace FallGuysStats {
             // 
             // RenamePageTextbox
             // 
+            // 
+            // 
+            // 
             this.RenamePageTextbox.CustomButton.Image = null;
             this.RenamePageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
             this.RenamePageTextbox.CustomButton.Name = "";
@@ -400,7 +403,7 @@ namespace FallGuysStats {
             this.RemoveProfileCombobox.FormattingEnabled = true;
             this.RemoveProfileCombobox.Location = new System.Drawing.Point(96, 7);
             this.RemoveProfileCombobox.Name = "RemoveProfileCombobox";
-            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 22);
+            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 20);
             this.RemoveProfileCombobox.TabIndex = 1;
             this.RemoveProfileCombobox.UseSelectable = true;
             // 
@@ -446,6 +449,7 @@ namespace FallGuysStats {
             this.RemoveTabPage.ResumeLayout(false);
             this.RemoveTabPage.PerformLayout();
             this.ResumeLayout(false);
+
         }
 
         #endregion
