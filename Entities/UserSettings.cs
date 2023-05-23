@@ -1,4 +1,6 @@
-﻿namespace FallGuysStats {
+﻿using System;
+
+namespace FallGuysStats {
     public class UserSettings {
         public int ID { get; set; }
         public int Multilingual { get; set; }
@@ -6,6 +8,9 @@
         public int Theme { get; set; }
         public bool Visible { get; set; }
         public int FilterType { get; set; }
+        public DateTime CustomFilterRangeStart { get; set; }
+        public DateTime CustomFilterRangeEnd { get; set; }
+        public int SelectedCustomTemplateSeason { get; set; }
         public int SelectedProfile { get; set; }
         public int? OverlayLocationX { get; set; }
         public int? OverlayLocationY { get; set; }

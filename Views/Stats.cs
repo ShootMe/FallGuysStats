@@ -67,7 +67,7 @@ namespace FallGuysStats {
                     Application.Run(new Stats());
                 }
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private static bool IsAlreadyRunning(string sysLang) {
@@ -88,7 +88,7 @@ namespace FallGuysStats {
                 }
                 return false;
             } catch (Exception ex) {
-                MessageBox.Show(ex.Message, @"Process Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), @"Process Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
         }
@@ -143,8 +143,9 @@ namespace FallGuysStats {
         private bool loadingExisting;
         private bool updateFilterType;
         private bool updateFilterRange;
-        private DateTime rangeFilterStart;
-        private DateTime rangeFilterEnd;
+        private DateTime customfilterRangeStart = DateTime.MinValue;
+        private DateTime customfilterRangeEnd = DateTime.MaxValue;
+        private int selectedCustomTemplateSeason;
         private bool updateSelectedProfile;
         private bool useLinkedProfiles;
         public LiteDatabase StatsDB;
@@ -185,6 +186,7 @@ namespace FallGuysStats {
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
         private readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
+        private bool isStartUp = true;
         
         public readonly string[] publicShowIdList = {
             "main_show",
@@ -301,17 +303,7 @@ namespace FallGuysStats {
             this.StatsDB.Commit();
             
             this.InitializeComponent();
-            
-            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            this.menu.Renderer = new CustomArrowRenderer();
-            this.trayCMenu.Renderer = new CustomArrowRenderer();
-            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
-            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-            
+
             this.ShowInTaskbar = false;
             this.Opacity = 0;
             
@@ -324,7 +316,7 @@ namespace FallGuysStats {
 
             if (this.Profiles.Count() == 0) {
                 using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
-                    initLanguageForm.Icon = this.Icon;
+                    //initLanguageForm.Icon = this.Icon;
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
@@ -377,9 +369,9 @@ namespace FallGuysStats {
 
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
-            Screen screen = this.GetCurrentScreen(this.overlay.Location);
-            Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
-            Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+            //Screen screen = this.GetCurrentScreen(this.overlay.Location);
+            //Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+            //Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
             //this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
@@ -418,12 +410,27 @@ namespace FallGuysStats {
             
             this.cmtt.OwnerDraw = true;
             this.cmtt.Draw += this.cmtt_Draw;
+            //this.mtt.OwnerDraw = true;
+            //this.mtt.Draw += this.mtt_Draw;
             
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
                 this.Show();
             }
+            
+            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
+            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
+            DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
         
         [DllImport("User32.dll")]
@@ -470,15 +477,26 @@ namespace FallGuysStats {
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
             MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
-        
+        //private void mtt_Draw(object sender, DrawToolTipEventArgs e) {
+        //    e.DrawBackground();
+        //    e.DrawBorder();
+        //    e.DrawText();
+        //    MetroToolTip t = (MetroToolTip)sender;
+        //    PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
+        //    IntPtr handle = (IntPtr)h.GetValue(t);
+        //    Control c = e.AssociatedControl;
+        //    Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+        //    MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+        //}
+
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) {
                 //base.OnRenderToolStripBorder(e);
             }
         }
         
-        public class CustomArrowRenderer : ToolStripProfessionalRenderer {
-            public CustomArrowRenderer() : base(new CustomColorTable()) { }
+        public class CustomLightArrowRenderer : ToolStripProfessionalRenderer {
+            public CustomLightArrowRenderer() : base(new CustomLightColorTable()) { }
             protected override void OnRenderArrow (ToolStripArrowRenderEventArgs e) {
                 //var tsMenuItem = e.Item as ToolStripMenuItem;
                 //if (tsMenuItem != null) e.ArrowColor = CurrentTheme == MetroThemeStyle.Dark ? Color.DarkGray : Color.FromArgb(17, 17, 17);
@@ -490,21 +508,70 @@ namespace FallGuysStats {
                 //    new Point(point.X + 2, point.Y)
                 //};
                 //e.Graphics.FillPolygon(Brushes.DarkGray, points);
-                e.ArrowColor = CurrentTheme == MetroThemeStyle.Dark ? Color.DarkGray : Color.FromArgb(17, 17, 17);
+                e.ArrowColor = Color.FromArgb(17, 17, 17);
                 base.OnRenderArrow(e);
             }
         }
         
-        private class CustomColorTable : ProfessionalColorTable {
-            public CustomColorTable() { UseSystemColors = false; }
+        public class CustomDarkArrowRenderer : ToolStripProfessionalRenderer {
+            public CustomDarkArrowRenderer() : base(new CustomDarkColorTable()) { }
+            protected override void OnRenderArrow (ToolStripArrowRenderEventArgs e) {
+                //var tsMenuItem = e.Item as ToolStripMenuItem;
+                //if (tsMenuItem != null) e.ArrowColor = CurrentTheme == MetroThemeStyle.Dark ? Color.DarkGray : Color.FromArgb(17, 17, 17);
+                //Point point = new Point(e.ArrowRectangle.Left + e.ArrowRectangle.Width / 2, e.ArrowRectangle.Top + e.ArrowRectangle.Height / 2);
+                //Point[] points = new Point[3]
+                //{
+                //    new Point(point.X - 2, point.Y - 4),
+                //    new Point(point.X - 2, point.Y + 4),
+                //    new Point(point.X + 2, point.Y)
+                //};
+                //e.Graphics.FillPolygon(Brushes.DarkGray, points);
+                e.ArrowColor = Color.DarkGray;
+                base.OnRenderArrow(e);
+            }
+        }
+        
+        private class CustomLightColorTable : ProfessionalColorTable {
+            public CustomLightColorTable() { UseSystemColors = false; }
             //public override Color ToolStripBorder {
             //    get { return Color.Red; }
             //}
             public override Color MenuBorder {
-                get { return CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+                get { return Color.White; }
             }
             public override Color ToolStripDropDownBackground {
-                get { return CurrentTheme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17); }
+                get { return Color.White; }
+            }
+            public override Color MenuItemBorder {
+                get { return Color.DarkSeaGreen; }
+            }
+            public override Color MenuItemSelected {
+                get { return Color.LightGreen; }
+            }
+            //public override Color MenuItemSelectedGradientBegin {
+            //    get { return Color.LawnGreen; }
+            //}
+            //public override Color MenuItemSelectedGradientEnd {
+            //    get { return Color.MediumSeaGreen; }
+            //}
+            //public override Color MenuStripGradientBegin {
+            //    get { return Color.AliceBlue; }
+            //}
+            //public override Color MenuStripGradientEnd {
+            //    get { return Color.DodgerBlue; }
+            //}
+        }
+        
+        private class CustomDarkColorTable : ProfessionalColorTable {
+            public CustomDarkColorTable() { UseSystemColors = false; }
+            //public override Color ToolStripBorder {
+            //    get { return Color.Red; }
+            //}
+            public override Color MenuBorder {
+                get { return Color.FromArgb(17, 17, 17); }
+            }
+            public override Color ToolStripDropDownBackground {
+                get { return Color.FromArgb(17, 17, 17); }
             }
             public override Color MenuItemBorder {
                 get { return Color.DarkSeaGreen; }
@@ -550,6 +617,8 @@ namespace FallGuysStats {
             if (this.Theme == theme) return;
             this.Theme = theme;
             this.mtt.Theme = theme;
+            this.menu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
+            this.trayCMenu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
                     foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
@@ -576,6 +645,7 @@ namespace FallGuysStats {
                             tsmi2.MouseEnter += this.menu_MouseEnter;
                             tsmi2.MouseLeave += this.menu_MouseLeave;
                             foreach (ToolStripMenuItem tsmi3 in tsmi2.DropDownItems) {
+                                if (tsmi3.Name.Equals("menuCustomRangeStats")) { tsmi3.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
                                 tsmi3.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                 tsmi3.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                 tsmi3.MouseEnter += this.menu_MouseEnter;
@@ -671,6 +741,7 @@ namespace FallGuysStats {
 
                             foreach (var subItem2 in stsmi1.DropDownItems) {
                                 if (subItem2 is ToolStripMenuItem stsmi2) {
+                                    if (stsmi2.Name.Equals("trayCustomRangeStats")) { stsmi2.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
                                     stsmi2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                     stsmi2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     stsmi2.MouseEnter += this.CMenu_MouseEnter;
@@ -704,6 +775,7 @@ namespace FallGuysStats {
                         tsi.Image = Properties.Resources.export; break;
                     case "traySettings": tsi.Image = Properties.Resources.setting_icon; break;
                     case "trayFilters": tsi.Image = Properties.Resources.filter_icon; break;
+                    case "trayCustomRangeStats": tsi.Image = Properties.Resources.calendar_icon; break;
                     case "trayProfile": tsi.Image = Properties.Resources.profile_icon; break;
                     case "trayUpdate":
                     case "trayHelp":
@@ -724,6 +796,7 @@ namespace FallGuysStats {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray; break;
                     case "traySettings": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
                     case "trayFilters": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
+                    case "trayCustomRangeStats": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
                     case "trayProfile": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                     case "trayUpdate":
                     case "trayHelp":
@@ -738,6 +811,7 @@ namespace FallGuysStats {
             switch (tsmi.Name) {
                 case "menuSettings": tsmi.Image = Properties.Resources.setting_icon; break;
                 case "menuFilters": tsmi.Image = Properties.Resources.filter_icon; break;
+                case "menuCustomRangeStats": tsmi.Image = Properties.Resources.calendar_icon; break;
                 case "menuProfile": tsmi.Image = Properties.Resources.profile_icon; break;
                 //case "menuOverlay": break;
                 case "menuUpdate":
@@ -753,6 +827,7 @@ namespace FallGuysStats {
             switch (tsmi.Name) {
                 case "menuSettings": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
                 case "menuFilters": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
+                case "menuCustomRangeStats": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
                 case "menuProfile": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                 //case "menuOverlay": break;
                 case "menuUpdate":
@@ -1399,6 +1474,15 @@ namespace FallGuysStats {
                 this.SaveUserSettings();
             }
 
+            if (this.CurrentSettings.Version == 32) {
+                this.CurrentSettings.FilterType += 1;
+                this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
+                this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
+                this.CurrentSettings.Version = 33;
+                this.SaveUserSettings();
+            }
+
             //this.Update_CreativeRoundInfo();
         }
         private UserSettings GetDefaultSettings() {
@@ -1406,7 +1490,10 @@ namespace FallGuysStats {
                 ID = 1,
                 Theme = 0,
                 CycleTimeSeconds = 5,
-                FilterType = 0,
+                FilterType = 1,
+                CustomFilterRangeStart = DateTime.MinValue,
+                CustomFilterRangeEnd = DateTime.MaxValue,
+                SelectedCustomTemplateSeason = -1,
                 SelectedProfile = 0,
                 FlippedDisplay = false,
                 LogPath = null,
@@ -1467,7 +1554,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 32
+                Version = 33
             };
         }
         private void UpdateHoopsieLegends() {
@@ -1535,7 +1622,7 @@ namespace FallGuysStats {
                             info.ToLocalTime();
                             if (info.Profile != profile) { continue; }
 
-                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info.Start) && IsInPartyFilter(info))) {
+                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
                                 lastAddedShowID = info.ShowID;
                                 rounds.Add(info);
                             }
@@ -1635,7 +1722,7 @@ namespace FallGuysStats {
             if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
                     if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
-                        //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 0 : this.menuSeasonStats.Checked ? 1 : this.menuWeekStats.Checked ? 2 : this.menuDayStats.Checked ? 3 : 4;
+                        //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 1 : this.menuSeasonStats.Checked ? 2 : this.menuWeekStats.Checked ? 3 : this.menuDayStats.Checked ? 4 : 5;
                         //this.CurrentSettings.SelectedProfile = this.currentProfile;
                         if (!this.isUpdate) { this.SaveWindowState(); }
                         this.SaveUserSettings();
@@ -1643,7 +1730,7 @@ namespace FallGuysStats {
                     }
                     this.StatsDB.Dispose();
                 } catch (Exception ex) {
-                    MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } else {
                 this.Hide();
@@ -1665,7 +1752,7 @@ namespace FallGuysStats {
 
                 this.UpdateDates();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void Update_CreativeRoundInfo() {
@@ -1683,7 +1770,7 @@ namespace FallGuysStats {
                 RoundInfo info = this.AllStats[i];
                 if (info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) {
                     try {
-                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{info.ShowNameId}.json");
+                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{info.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                         sa = info.ShowNameId;
                         sb = resData.GetProperty("share_code").GetString();
                         sc = resData.GetProperty("author").GetProperty("name_per_platform").GetProperty("eos").GetString();
@@ -1757,35 +1844,49 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
 
                 this.menuAllStats.Checked = false;
+                this.selectedCustomTemplateSeason = this.CurrentSettings.SelectedCustomTemplateSeason;
+                this.customfilterRangeStart = this.CurrentSettings.CustomFilterRangeStart;
+                this.customfilterRangeEnd = this.CurrentSettings.CustomFilterRangeEnd;
+                
+                Console.WriteLine(this.customfilterRangeStart);
+                Console.WriteLine(this.customfilterRangeEnd);
+                
                 switch (this.CurrentSettings.FilterType) {
                     case 0:
+                        this.menuCustomRangeStats.Checked = true;
+                        this.trayCustomRangeStats.Checked = true;
+                        this.menuStats_Click(this.menuCustomRangeStats, EventArgs.Empty);
+                        break;
+                    case 1:
                         this.menuAllStats.Checked = true;
                         this.trayAllStats.Checked = true;
                         this.menuStats_Click(this.menuAllStats, EventArgs.Empty);
                         break;
-                    case 1:
+                    case 2:
                         this.menuSeasonStats.Checked = true;
                         this.traySeasonStats.Checked = true;
                         this.menuStats_Click(this.menuSeasonStats, EventArgs.Empty);
                         break;
-                    case 2:
+                    case 3:
                         this.menuWeekStats.Checked = true;
                         this.trayWeekStats.Checked = true;
                         this.menuStats_Click(this.menuWeekStats, EventArgs.Empty);
                         break;
-                    case 3:
+                    case 4:
                         this.menuDayStats.Checked = true;
                         this.trayDayStats.Checked = true;
                         this.menuStats_Click(this.menuDayStats, EventArgs.Empty);
                         break;
-                    case 4:
+                    case 5:
                         this.menuSessionStats.Checked = true;
                         this.traySessionStats.Checked = true;
                         this.menuStats_Click(this.menuSessionStats, EventArgs.Empty);
                         break;
                 }
+
+                this.isStartUp = false;
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void LogFile_OnError(string error) {
@@ -1850,7 +1951,7 @@ namespace FallGuysStats {
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 0) {
                                     using (EditShows editShows = new EditShows()) {
                                         editShows.FunctionFlag = "add";
-                                        editShows.Icon = this.Icon;
+                                        //editShows.Icon = this.Icon;
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
                                         this.EnableInfoStrip(false);
@@ -1863,6 +1964,7 @@ namespace FallGuysStats {
                                                 profile = editShows.SelectedProfileId;
                                                 this.CurrentSettings.SelectedProfile = profile;
                                                 //this.ReloadProfileMenuItems();
+                                                this.SetProfileMenu(profile);
                                             }
                                         } else {
                                             this.askedPreviousShows = 2;
@@ -1881,6 +1983,7 @@ namespace FallGuysStats {
                                     profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, stat.ShowNameId.StartsWith("show_wle_s10"));
                                     this.CurrentSettings.SelectedProfile = profile;
                                     //this.ReloadProfileMenuItems();
+                                    this.SetProfileMenu(profile);
                                 }
 
                                 if (stat.Round == 1) {
@@ -1892,7 +1995,7 @@ namespace FallGuysStats {
 
                                 if (stat.UseShareCode) {
                                     try {
-                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json");
+                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                                         stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
                                         stat.CreativeAuthor = resData.GetProperty("author").GetProperty("name_per_platform").GetProperty("eos").GetString();
                                         stat.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
@@ -2027,32 +2130,43 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private bool IsInStatsFilter(DateTime showEnd) {
-            return this.menuAllStats.Checked ||
-                   (this.menuSeasonStats.Checked && showEnd > SeasonStart) ||
-                   (this.menuWeekStats.Checked && showEnd > WeekStart) ||
-                   (this.menuDayStats.Checked && showEnd > DayStart) ||
-                   (this.menuSessionStats.Checked && showEnd > SessionStart);
+        private bool IsInStatsFilter(RoundInfo info) {
+            return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
+                    this.menuAllStats.Checked ||
+                   (this.menuSeasonStats.Checked && info.Start > SeasonStart) ||
+                   (this.menuWeekStats.Checked && info.Start > WeekStart) ||
+                   (this.menuDayStats.Checked && info.Start > DayStart) ||
+                   (this.menuSessionStats.Checked && info.Start > SessionStart);
         }
         private bool IsInPartyFilter(RoundInfo info) {
             return this.menuAllPartyStats.Checked ||
                    (this.menuSoloStats.Checked && !info.InParty) ||
                    (this.menuPartyStats.Checked && info.InParty);
         }
-        public string GetCurrentFilter() {
-            return this.menuAllStats.Checked ? Multilingual.GetWord("main_all") :
-                this.menuSeasonStats.Checked ? Multilingual.GetWord("main_season") :
-                this.menuWeekStats.Checked ? Multilingual.GetWord("main_week") :
-                this.menuDayStats.Checked ? Multilingual.GetWord("main_day") : Multilingual.GetWord("main_session");
+        public string GetCurrentFilterName() {
+            if (this.menuCustomRangeStats.Checked && this.selectedCustomTemplateSeason > -1) {
+                return (this.selectedCustomTemplateSeason >= 0 && this.selectedCustomTemplateSeason <= 5) ? $"S{this.selectedCustomTemplateSeason + 1}" :
+                        (this.selectedCustomTemplateSeason > 5) ? $"SS{this.selectedCustomTemplateSeason - 5}" :
+                        Multilingual.GetWord("main_custom_range");
+            } else {
+                return this.menuCustomRangeStats.Checked ? Multilingual.GetWord("main_custom_range") :
+                        this.menuAllStats.Checked ? Multilingual.GetWord("main_all") :
+                        this.menuSeasonStats.Checked ? Multilingual.GetWord("main_season") :
+                        this.menuWeekStats.Checked ? Multilingual.GetWord("main_week") :
+                        this.menuDayStats.Checked ? Multilingual.GetWord("main_day") : Multilingual.GetWord("main_session");
+            }
         }
-        public string GetCurrentProfile() {
-            return this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"].Text;
+        public string GetCurrentProfileName() {
+            return this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).ProfileName;
         }
         public int GetCurrentProfileId() {
             return this.currentProfile;
+        }
+        private int GetCurrentProfileId(string profileName) {
+            return this.AllProfiles.Find(p => p.ProfileName.Equals(profileName)).ProfileId;
         }
         private string GetCurrentProfileLinkedShowId() {
             string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
@@ -2087,7 +2201,7 @@ namespace FallGuysStats {
             // return ProfileId 0 if no linked profile was found/matched
             return 0;
         }
-        public void SetLinkedProfile(string showId, bool isPrivateLobbies, bool isCreativeShow) {
+        public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (string.IsNullOrEmpty(showId) && this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
@@ -2130,7 +2244,11 @@ namespace FallGuysStats {
                 }
             }
         }
-        public void SetCurrentProfileIcon(bool linked) {
+        private void SetProfileMenu(int profile) {
+            if (this.GetCurrentProfileId() == profile) return;
+            this.menuStats_Click(this.menuProfile.DropDownItems[this.AllProfiles.Find(p => p.ProfileId == profile).ProfileOrder], EventArgs.Empty);
+        }
+        private void SetCurrentProfileIcon(bool linked) {
             if (this.CurrentSettings.AutoChangeProfile) {
                 this.lblCurrentProfile.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
                 this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow
@@ -2178,19 +2296,19 @@ namespace FallGuysStats {
                     }
                     
                     bool isInWinsFilter = (this.CurrentSettings.WinsFilter == 0 ||
-                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                             (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
                                             (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
                                             (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
                                             (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
                     bool isInQualifyFilter = (this.CurrentSettings.QualifyFilter == 0 ||
-                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                                (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
                                                (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
                                                (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
                                                (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
                     bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                              (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
                                              (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
                                              (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
@@ -2301,20 +2419,20 @@ namespace FallGuysStats {
 
                     bool isInWinsFilter = !endRound.PrivateLobby &&
                                           (this.CurrentSettings.WinsFilter == 0 ||
-                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                             (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
                                             (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
                                             (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
                                             (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
                     bool isInQualifyFilter = !endRound.PrivateLobby &&
                                              (this.CurrentSettings.QualifyFilter == 0 ||
-                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                                (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
                                                (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
                                                (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
                                                (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
                     bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound.Start) && this.IsInPartyFilter(info)) ||
+                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                              (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
                                              (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
                                              (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
@@ -2428,7 +2546,7 @@ namespace FallGuysStats {
         }
         private void UpdateTotals() {
             try {
-                this.lblCurrentProfile.Text = $"{GetCurrentProfile()}";
+                this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName()}";
                 this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
                 this.lblTotalShows.Text = $"{this.Shows}{Multilingual.GetWord("main_inning")}";
                 if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
@@ -2463,7 +2581,7 @@ namespace FallGuysStats {
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
@@ -2594,7 +2712,7 @@ namespace FallGuysStats {
                 this.gridDetails.Setup("Longest",   pos++, this.GetDataGridViewColumnWidth("Longest", Multilingual.GetWord("main_longest")), Multilingual.GetWord("main_longest"), DataGridViewContentAlignment.MiddleRight);
                 this.gridDetails.Setup("AveFinish", pos,   this.GetDataGridViewColumnWidth("AveFinish", Multilingual.GetWord("main_ave_finish")), Multilingual.GetWord("main_ave_finish"), DataGridViewContentAlignment.MiddleRight);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -2761,7 +2879,7 @@ namespace FallGuysStats {
                         break;
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2780,7 +2898,7 @@ namespace FallGuysStats {
                         : Cursors.Default;
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -2807,7 +2925,7 @@ namespace FallGuysStats {
                     this.ToggleWinPercentageDisplay();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
@@ -2993,7 +3111,7 @@ namespace FallGuysStats {
             
             using (StatsDisplay display = new StatsDisplay {
                        StatsForm = this,
-                       Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfile()}",
+                       Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfileName()}",
                        BackImage = Properties.Resources.crown_icon,
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
@@ -3087,7 +3205,7 @@ namespace FallGuysStats {
             try {
                 Process.Start(@"https://github.com/ShootMe/FallGuysStats#readme");
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3152,7 +3270,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3201,7 +3319,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -3301,7 +3419,7 @@ namespace FallGuysStats {
             try {
                 this.ShowFinals();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3309,7 +3427,7 @@ namespace FallGuysStats {
             try {
                 this.ShowShows();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3317,7 +3435,7 @@ namespace FallGuysStats {
             try {
                 this.ShowRounds();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3325,49 +3443,56 @@ namespace FallGuysStats {
             try {
                 this.ShowWinGraph();
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
-                
-                if (button == this.menuCustomRangeStats) {
-                    try {
-                        using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
-                            filterCustomRange.Icon = this.Icon;
-                            this.EnableInfoStrip(false);
-                            this.EnableMainMenu(false);
-                            filterCustomRange.ShowDialog(this);
+
+                if (this.isStartUp && (button == this.menuCustomRangeStats)) {
+                    this.updateFilterRange = true;
+                } else if (!this.isStartUp && (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats)) {
+                    using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
+                        //filterCustomRange.Icon = this.Icon;
+                        filterCustomRange.StatsForm = this;
+                        filterCustomRange.startDate = this.customfilterRangeStart;
+                        filterCustomRange.endDate = this.customfilterRangeEnd;
+                        filterCustomRange.selectedCustomTemplateSeason = this.selectedCustomTemplateSeason;
+                        this.EnableInfoStrip(false);
+                        this.EnableMainMenu(false);
+                        if (filterCustomRange.ShowDialog(this) == DialogResult.OK) {
+                            this.menuCustomRangeStats.Checked = true;
+                            this.menuAllStats.Checked = false;
+                            this.menuSeasonStats.Checked = false;
+                            this.menuWeekStats.Checked = false;
+                            this.menuDayStats.Checked = false;
+                            this.menuSessionStats.Checked = false;
+                            this.trayCustomRangeStats.Checked = true;
+                            this.trayAllStats.Checked = false;
+                            this.traySeasonStats.Checked = false;
+                            this.trayWeekStats.Checked = false;
+                            this.trayDayStats.Checked = false;
+                            this.traySessionStats.Checked = false;
+                            this.selectedCustomTemplateSeason = filterCustomRange.selectedCustomTemplateSeason;
+                            this.customfilterRangeStart = filterCustomRange.startDate;
+                            this.customfilterRangeEnd = filterCustomRange.endDate;
+                            this.updateFilterRange = true;
+                        } else {
                             this.EnableInfoStrip(true);
                             this.EnableMainMenu(true);
-                            if (filterCustomRange.startTime == DateTime.MinValue && filterCustomRange.endTime == DateTime.MaxValue) {
-                                return;
-                            } else {
-                                this.menuAllStats.Checked = false;
-                                this.menuSeasonStats.Checked = false;
-                                this.menuWeekStats.Checked = false;
-                                this.menuDayStats.Checked = false;
-                                this.menuSessionStats.Checked = false;
-                                this.menuCustomRangeStats.Checked = true;
-                                this.rangeFilterStart = filterCustomRange.startTime;
-                                this.rangeFilterEnd = filterCustomRange.endTime;
-                                this.updateFilterRange = true;
-                            }
+                            return;
                         }
-                    } catch (Exception ex) {
-                        MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                         this.EnableInfoStrip(true);
                         this.EnableMainMenu(true);
                     }
-                }
-
-                if (button == this.menuAllStats || button == this.menuSeasonStats || button == this.menuWeekStats || button == this.menuDayStats || button == this.menuSessionStats) {
+                } else if (button == this.menuAllStats || button == this.menuSeasonStats || button == this.menuWeekStats || button == this.menuDayStats || button == this.menuSessionStats) {
                     if (!this.menuAllStats.Checked && !this.menuSeasonStats.Checked && !this.menuWeekStats.Checked && !this.menuDayStats.Checked && !this.menuSessionStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
+                            case "menuCustomRangeStats":
+                                this.trayCustomRangeStats.Checked = true; break;
                             case "menuAllStats":
                                 this.trayAllStats.Checked = true; break;
                             case "menuSeasonStats":
@@ -3389,6 +3514,8 @@ namespace FallGuysStats {
                         if (menuItem != null && menuItem.Checked && menuItem != button) {
                             menuItem.Checked = false;
                             switch (menuItem.Name) {
+                                case "menuCustomRangeStats":
+                                    this.trayCustomRangeStats.Checked = false; break;
                                 case "menuAllStats":
                                     this.trayAllStats.Checked = false; break;
                                 case "menuSeasonStats":
@@ -3404,6 +3531,8 @@ namespace FallGuysStats {
                         
                         if (menuItem.Checked) {
                             switch (menuItem.Name) {
+                                case "menuCustomRangeStats":
+                                    this.trayCustomRangeStats.Checked = true; break;
                                 case "menuAllStats":
                                     this.trayAllStats.Checked = true; break;
                                 case "menuSeasonStats":
@@ -3466,12 +3595,15 @@ namespace FallGuysStats {
                         this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                         this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                     }
-                    this.currentProfile = int.Parse(button.Name.Substring(11));
+
+                    this.currentProfile = this.GetCurrentProfileId(button.Text);
                     this.updateSelectedProfile = true;
                 } else if (button == this.trayAllStats || button == this.traySeasonStats || button == this.trayWeekStats || button == this.trayDayStats || button == this.traySessionStats) {
                     if (!this.trayAllStats.Checked && !this.traySeasonStats.Checked && !this.trayWeekStats.Checked && !this.trayDayStats.Checked && !this.traySessionStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
+                            case "trayCustomRangeStats":
+                                this.menuCustomRangeStats.Checked = true; break;
                             case "trayAllStats":
                                 this.menuAllStats.Checked = true; break;
                             case "traySeasonStats":
@@ -3493,6 +3625,8 @@ namespace FallGuysStats {
                         if (menuItem != null && menuItem.Checked && menuItem != button) {
                             menuItem.Checked = false;
                             switch (menuItem.Name) {
+                                case "trayCustomRangeStats":
+                                    this.menuCustomRangeStats.Checked = false; break;
                                 case "trayAllStats":
                                     this.menuAllStats.Checked = false; break;
                                 case "traySeasonStats":
@@ -3508,6 +3642,8 @@ namespace FallGuysStats {
                         
                         if (menuItem.Checked) {
                             switch (menuItem.Name) {
+                                case "trayCustomRangeStats":
+                                    this.menuCustomRangeStats.Checked = true; break;
                                 case "trayAllStats":
                                     this.menuAllStats.Checked = true; break;
                                 case "traySeasonStats":
@@ -3568,7 +3704,8 @@ namespace FallGuysStats {
                         this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                         this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                     }
-                    this.currentProfile = int.Parse(button.Name.Substring(11));
+                    
+                    this.currentProfile = this.GetCurrentProfileId(button.Text);
                     this.updateSelectedProfile = true;
                 }
                 
@@ -3584,28 +3721,40 @@ namespace FallGuysStats {
                 List<RoundInfo> rounds;
                 if (this.updateFilterRange) {
                     rounds = this.AllStats.Where(roundInfo => {
-                        return roundInfo.Start >= rangeFilterStart && roundInfo.Start < (rangeFilterEnd == DateTime.MaxValue ? rangeFilterEnd : rangeFilterEnd.AddDays(1)) && roundInfo.Profile == profile && IsInPartyFilter(roundInfo);
+                        return roundInfo.Start >= this.customfilterRangeStart &&
+                               roundInfo.Start <= this.customfilterRangeEnd &&
+                               roundInfo.Profile == profile && this.IsInPartyFilter(roundInfo);
                     }).ToList();
                 } else {
                     DateTime compareDate = this.menuAllStats.Checked ? DateTime.MinValue :
-                    this.menuSeasonStats.Checked ? SeasonStart :
-                    this.menuWeekStats.Checked ? WeekStart :
-                    this.menuDayStats.Checked ? DayStart : SessionStart;
+                                            this.menuSeasonStats.Checked ? SeasonStart :
+                                            this.menuWeekStats.Checked ? WeekStart :
+                                            this.menuDayStats.Checked ? DayStart : SessionStart;
                     rounds = this.AllStats.Where(roundInfo => {
-                        return roundInfo.Start > compareDate && roundInfo.Profile == profile && IsInPartyFilter(roundInfo);
+                        return roundInfo.Start > compareDate && roundInfo.Profile == profile && this.IsInPartyFilter(roundInfo);
                     }).ToList();
                 }
 
                 rounds.Sort();
 
-                if (this.updateFilterType) {
+                if (!this.isStartUp && this.updateFilterType) {
                     this.updateFilterType = false;
-                    this.CurrentSettings.FilterType = this.menuSeasonStats.Checked ? 1 :
-                        this.menuWeekStats.Checked ? 2 :
-                        this.menuDayStats.Checked ? 3 :
-                        this.menuSessionStats.Checked ? 4 : 0;
+                    this.CurrentSettings.FilterType = this.menuSeasonStats.Checked ? 2 :
+                                                        this.menuWeekStats.Checked ? 3 :
+                                                        this.menuDayStats.Checked ? 4 :
+                                                        this.menuSessionStats.Checked ? 5 : 1;
+                    this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                    this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
+                    this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
                     this.SaveUserSettings();
-                } else if (this.updateSelectedProfile) {
+                } else if (!this.isStartUp && this.updateFilterRange) {
+                    this.updateFilterRange = false;
+                    this.CurrentSettings.FilterType = 0;
+                    this.CurrentSettings.SelectedCustomTemplateSeason = this.selectedCustomTemplateSeason;
+                    this.CurrentSettings.CustomFilterRangeStart = this.customfilterRangeStart;
+                    this.CurrentSettings.CustomFilterRangeEnd = this.customfilterRangeEnd;
+                    this.SaveUserSettings();
+                } else if (!this.isStartUp && this.updateSelectedProfile) {
                     this.updateSelectedProfile = false;
                     this.CurrentSettings.SelectedProfile = profile;
                     this.SaveUserSettings();
@@ -3615,7 +3764,7 @@ namespace FallGuysStats {
                 this.LogFile_OnParsedLogLines(rounds);
                 this.loadingExisting = false;
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3623,19 +3772,18 @@ namespace FallGuysStats {
             try {
                 this.CheckForUpdate(false);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_update_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private JsonElement GetApiData(string apiUrl, string apiEndPoint) {
-            JsonElement resData;
+            JsonElement resJroot;
             using (ApiWebClient web = new ApiWebClient()) {
                 string responseJsonString = web.DownloadString($"{apiUrl}{apiEndPoint}");
                 JsonDocument jdom = JsonDocument.Parse(responseJsonString);
-                JsonElement jroot = jdom.RootElement;
-                resData = jroot.GetProperty("data").GetProperty("snapshot");
+                resJroot = jdom.RootElement;
             }
-            return resData;
+            return resJroot;
         }
         private bool CheckForUpdate(bool silent) {
 #if AllowUpdate
@@ -3701,7 +3849,7 @@ namespace FallGuysStats {
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
-                    settings.Icon = this.Icon;
+                    //settings.Icon = this.Icon;
                     settings.CurrentSettings = this.CurrentSettings;
                     settings.StatsForm = this;
                     settings.Overlay = this.overlay;
@@ -3752,7 +3900,7 @@ namespace FallGuysStats {
                     this.EnableMainMenu(true);
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
@@ -3808,7 +3956,7 @@ namespace FallGuysStats {
         private void menuEditProfiles_Click(object sender, EventArgs e) {
             try {
                 using (EditProfiles editProfiles = new EditProfiles()) {
-                    editProfiles.Icon = this.Icon;
+                    //editProfiles.Icon = this.Icon;
                     editProfiles.StatsForm = this;
                     editProfiles.Profiles = this.AllProfiles;
                     editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
@@ -3830,7 +3978,7 @@ namespace FallGuysStats {
                     this.ReloadProfileMenuItems();
                 }
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
@@ -3840,7 +3988,7 @@ namespace FallGuysStats {
             try {
                 this.LaunchGame(false);
             } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -3889,6 +4037,7 @@ namespace FallGuysStats {
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");
             this.trayStatsFilter.Text = Multilingual.GetWord("main_stats");
+            this.trayCustomRangeStats.Text = Multilingual.GetWord("main_custom_range");
             this.trayAllStats.Text = Multilingual.GetWord("main_all");
             this.traySeasonStats.Text = Multilingual.GetWord("main_season");
             this.trayWeekStats.Text = Multilingual.GetWord("main_week");
@@ -3913,12 +4062,12 @@ namespace FallGuysStats {
             this.menuSettings.Text = Multilingual.GetWord("main_settings");
             this.menuFilters.Text = Multilingual.GetWord("main_filters");
             this.menuStatsFilter.Text = Multilingual.GetWord("main_stats");
+            this.menuCustomRangeStats.Text = Multilingual.GetWord("main_custom_range");
             this.menuAllStats.Text = Multilingual.GetWord("main_all");
             this.menuSeasonStats.Text = Multilingual.GetWord("main_season");
             this.menuWeekStats.Text = Multilingual.GetWord("main_week");
             this.menuDayStats.Text = Multilingual.GetWord("main_day");
             this.menuSessionStats.Text = Multilingual.GetWord("main_session");
-            this.menuCustomRangeStats.Text = Multilingual.GetWord("main_custom_range");
             this.menuPartyFilter.Text = Multilingual.GetWord("main_party_type");
             this.menuAllPartyStats.Text = Multilingual.GetWord("main_all");
             this.menuSoloStats.Text = Multilingual.GetWord("main_solo");
