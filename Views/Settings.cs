@@ -239,6 +239,9 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
+            this.BackMaxSize = 32;
+            this.BackImagePadding = new Padding(20, 19, 0, 0);
+            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             this.overlayOpacityToolTip.Theme = theme;
             this.cboOverlayBackground.mtt.Theme = theme;
             this.cboOverlayBackground_blur();
@@ -707,6 +710,7 @@ namespace FallGuysStats {
             int tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
 
+            this.Text = $"     {Multilingual.GetWord("settings_title")}";
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
             this.overlayFontSerialized = string.Empty;
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -873,7 +877,6 @@ namespace FallGuysStats {
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
-            this.Text = Multilingual.GetWord("settings_title");
 
             this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
             this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 22);
