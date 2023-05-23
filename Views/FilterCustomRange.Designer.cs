@@ -22,77 +22,81 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
-            this.dtStart = new MetroFramework.Controls.MetroDateTime();
+        private void InitializeComponent()
+        {
+            this.mdtpStart = new MetroFramework.Controls.MetroDateTime();
             this.lblTilde = new MetroFramework.Controls.MetroLabel();
-            this.dtEnd = new MetroFramework.Controls.MetroDateTime();
-            this.templatesListBox = new System.Windows.Forms.ListBox();
-            this.lblCustomRange = new MetroFramework.Controls.MetroLabel();
-            this.lblTemplates = new MetroFramework.Controls.MetroLabel();
+            this.mdtpEnd = new MetroFramework.Controls.MetroDateTime();
+            this.grpTemplates = new System.Windows.Forms.GroupBox();
+            this.lbTemplatesList = new System.Windows.Forms.ListBox();
             this.btnFilter = new MetroFramework.Controls.MetroButton();
             this.btnSaveTemplate = new MetroFramework.Controls.MetroButton();
             this.txtTemplateName = new MetroFramework.Controls.MetroTextBox();
             this.lblTemplateName = new MetroFramework.Controls.MetroLabel();
-            this.chkEndNotSet = new MetroFramework.Controls.MetroCheckBox();
-            this.chkStartNotSet = new MetroFramework.Controls.MetroCheckBox();
+            this.picStartDate = new System.Windows.Forms.PictureBox();
+            this.picEndDate = new System.Windows.Forms.PictureBox();
+            this.grpTemplates.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picStartDate)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEndDate)).BeginInit();
             this.SuspendLayout();
             // 
-            // dtStart
+            // mdtpStart
             // 
-            this.dtStart.Location = new System.Drawing.Point(23, 107);
-            this.dtStart.MinimumSize = new System.Drawing.Size(0, 29);
-            this.dtStart.Name = "dtStart";
-            this.dtStart.Size = new System.Drawing.Size(200, 29);
-            this.dtStart.TabIndex = 0;
+            this.mdtpStart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mdtpStart.Location = new System.Drawing.Point(64, 78);
+            this.mdtpStart.MinimumSize = new System.Drawing.Size(0, 29);
+            this.mdtpStart.Name = "mdtpStart";
+            this.mdtpStart.Size = new System.Drawing.Size(200, 29);
+            this.mdtpStart.TabIndex = 0;
+            this.mdtpStart.CloseUp += new System.EventHandler(this.dtStart_CloseUp);
             // 
             // lblTilde
             // 
             this.lblTilde.AutoSize = true;
-            this.lblTilde.Location = new System.Drawing.Point(229, 111);
+            this.lblTilde.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblTilde.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.lblTilde.Location = new System.Drawing.Point(268, 80);
             this.lblTilde.Name = "lblTilde";
-            this.lblTilde.Size = new System.Drawing.Size(18, 19);
+            this.lblTilde.Size = new System.Drawing.Size(25, 25);
+            this.lblTilde.Style = MetroFramework.MetroColorStyle.Teal;
             this.lblTilde.TabIndex = 1;
             this.lblTilde.Text = "~";
             // 
-            // dtEnd
+            // mdtpEnd
             // 
-            this.dtEnd.Location = new System.Drawing.Point(253, 107);
-            this.dtEnd.MinimumSize = new System.Drawing.Size(0, 29);
-            this.dtEnd.Name = "dtEnd";
-            this.dtEnd.Size = new System.Drawing.Size(200, 29);
-            this.dtEnd.TabIndex = 2;
+            this.mdtpEnd.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mdtpEnd.Location = new System.Drawing.Point(339, 78);
+            this.mdtpEnd.MinimumSize = new System.Drawing.Size(0, 29);
+            this.mdtpEnd.Name = "mdtpEnd";
+            this.mdtpEnd.Size = new System.Drawing.Size(200, 29);
+            this.mdtpEnd.TabIndex = 2;
+            this.mdtpEnd.CloseUp += new System.EventHandler(this.dtEnd_CloseUp);
             // 
-            // templatesListBox
+            // grpTemplates
             // 
-            this.templatesListBox.FormattingEnabled = true;
-            this.templatesListBox.ItemHeight = 12;
-            this.templatesListBox.Location = new System.Drawing.Point(459, 85);
-            this.templatesListBox.Name = "templatesListBox";
-            this.templatesListBox.Size = new System.Drawing.Size(268, 256);
-            this.templatesListBox.TabIndex = 3;
-            this.templatesListBox.SelectedValueChanged += new System.EventHandler(this.templatesListBox_SelectedValueChanged);
+            this.grpTemplates.Controls.Add(this.lbTemplatesList);
+            this.grpTemplates.Location = new System.Drawing.Point(25, 130);
+            this.grpTemplates.Name = "grpTemplates";
+            this.grpTemplates.Size = new System.Drawing.Size(514, 227);
+            this.grpTemplates.TabIndex = 5;
+            this.grpTemplates.TabStop = false;
+            this.grpTemplates.Text = "Templates List";
             // 
-            // lblCustomRange
+            // lbTemplatesList
             // 
-            this.lblCustomRange.AutoSize = true;
-            this.lblCustomRange.Location = new System.Drawing.Point(23, 60);
-            this.lblCustomRange.Name = "lblCustomRange";
-            this.lblCustomRange.Size = new System.Drawing.Size(46, 19);
-            this.lblCustomRange.TabIndex = 4;
-            this.lblCustomRange.Text = "Range";
-            // 
-            // lblTemplates
-            // 
-            this.lblTemplates.AutoSize = true;
-            this.lblTemplates.Location = new System.Drawing.Point(459, 60);
-            this.lblTemplates.Name = "lblTemplates";
-            this.lblTemplates.Size = new System.Drawing.Size(67, 19);
-            this.lblTemplates.TabIndex = 5;
-            this.lblTemplates.Text = "Templates";
+            this.lbTemplatesList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbTemplatesList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbTemplatesList.ItemHeight = 12;
+            this.lbTemplatesList.Location = new System.Drawing.Point(7, 17);
+            this.lbTemplatesList.Name = "lbTemplatesList";
+            this.lbTemplatesList.Size = new System.Drawing.Size(501, 218);
+            this.lbTemplatesList.TabIndex = 3;
+            this.lbTemplatesList.SelectedValueChanged += new System.EventHandler(this.lbTemplatesList_SelectedValueChanged);
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(378, 318);
+            this.btnFilter.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFilter.Location = new System.Drawing.Point(464, 367);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(75, 23);
             this.btnFilter.TabIndex = 6;
@@ -102,7 +106,7 @@
             // 
             // btnSaveTemplate
             // 
-            this.btnSaveTemplate.Location = new System.Drawing.Point(351, 142);
+            this.btnSaveTemplate.Location = new System.Drawing.Point(321, 61);
             this.btnSaveTemplate.Name = "btnSaveTemplate";
             this.btnSaveTemplate.Size = new System.Drawing.Size(102, 23);
             this.btnSaveTemplate.TabIndex = 7;
@@ -125,7 +129,7 @@
             this.txtTemplateName.CustomButton.UseSelectable = true;
             this.txtTemplateName.CustomButton.Visible = false;
             this.txtTemplateName.Lines = new string[0];
-            this.txtTemplateName.Location = new System.Drawing.Point(185, 142);
+            this.txtTemplateName.Location = new System.Drawing.Point(321, 29);
             this.txtTemplateName.MaxLength = 32767;
             this.txtTemplateName.Name = "txtTemplateName";
             this.txtTemplateName.PasswordChar = '\0';
@@ -144,74 +148,82 @@
             // lblTemplateName
             // 
             this.lblTemplateName.AutoSize = true;
-            this.lblTemplateName.Location = new System.Drawing.Point(74, 144);
+            this.lblTemplateName.Location = new System.Drawing.Point(210, 31);
             this.lblTemplateName.Name = "lblTemplateName";
             this.lblTemplateName.Size = new System.Drawing.Size(105, 19);
             this.lblTemplateName.TabIndex = 9;
             this.lblTemplateName.Text = "Template Name:";
             this.lblTemplateName.Visible = false;
             // 
-            // chkEndNotSet
+            // picStartDate
             // 
-            this.chkEndNotSet.AutoSize = true;
-            this.chkEndNotSet.Location = new System.Drawing.Point(253, 86);
-            this.chkEndNotSet.Name = "chkEndNotSet";
-            this.chkEndNotSet.Size = new System.Drawing.Size(62, 15);
-            this.chkEndNotSet.TabIndex = 11;
-            this.chkEndNotSet.Text = "Not Set";
-            this.chkEndNotSet.UseSelectable = true;
-            this.chkEndNotSet.CheckedChanged += new System.EventHandler(this.chkEndNotSet_CheckedChanged);
+            this.picStartDate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picStartDate.Image = global::FallGuysStats.Properties.Resources.calendar_on_icon;
+            this.picStartDate.Location = new System.Drawing.Point(25, 78);
+            this.picStartDate.Name = "picStartDate";
+            this.picStartDate.Size = new System.Drawing.Size(29, 29);
+            this.picStartDate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picStartDate.TabIndex = 13;
+            this.picStartDate.TabStop = false;
+            this.picStartDate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picStartDate_MouseClick);
             // 
-            // chkStartNotSet
+            // picEndDate
             // 
-            this.chkStartNotSet.AutoSize = true;
-            this.chkStartNotSet.Location = new System.Drawing.Point(23, 86);
-            this.chkStartNotSet.Name = "chkStartNotSet";
-            this.chkStartNotSet.Size = new System.Drawing.Size(62, 15);
-            this.chkStartNotSet.TabIndex = 12;
-            this.chkStartNotSet.Text = "Not Set";
-            this.chkStartNotSet.UseSelectable = true;
-            this.chkStartNotSet.CheckedChanged += new System.EventHandler(this.chkStartNotSet_CheckedChanged);
+            this.picEndDate.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picEndDate.Image = global::FallGuysStats.Properties.Resources.calendar_on_icon;
+            this.picEndDate.Location = new System.Drawing.Point(299, 78);
+            this.picEndDate.Name = "picEndDate";
+            this.picEndDate.Size = new System.Drawing.Size(29, 29);
+            this.picEndDate.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picEndDate.TabIndex = 14;
+            this.picEndDate.TabStop = false;
+            this.picEndDate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picEndDate_MouseClick);
             // 
             // FilterCustomRange
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(751, 358);
-            this.Controls.Add(this.chkStartNotSet);
-            this.Controls.Add(this.chkEndNotSet);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(565, 402);
+            this.Controls.Add(this.picStartDate);
+            this.Controls.Add(this.picEndDate);
             this.Controls.Add(this.lblTemplateName);
             this.Controls.Add(this.txtTemplateName);
             this.Controls.Add(this.btnSaveTemplate);
             this.Controls.Add(this.btnFilter);
-            this.Controls.Add(this.lblTemplates);
-            this.Controls.Add(this.lblCustomRange);
-            this.Controls.Add(this.templatesListBox);
-            this.Controls.Add(this.dtEnd);
+            this.Controls.Add(this.grpTemplates);
+            this.Controls.Add(this.mdtpEnd);
             this.Controls.Add(this.lblTilde);
-            this.Controls.Add(this.dtStart);
+            this.Controls.Add(this.mdtpStart);
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FilterCustomRange";
+            this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 20);
+            this.Resizable = false;
+            this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
+            this.ShowInTaskbar = false;
+            this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Custom Range";
+            this.Load += new System.EventHandler(this.FilterCustomRange_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FilterCustomRange_KeyDown);
+            this.grpTemplates.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picStartDate)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picEndDate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
 
-        private MetroFramework.Controls.MetroDateTime dtStart;
+        private MetroFramework.Controls.MetroDateTime mdtpStart;
         private MetroFramework.Controls.MetroLabel lblTilde;
-        private MetroFramework.Controls.MetroDateTime dtEnd;
-        private System.Windows.Forms.ListBox templatesListBox;
-        private MetroFramework.Controls.MetroLabel lblCustomRange;
-        private MetroFramework.Controls.MetroLabel lblTemplates;
+        private MetroFramework.Controls.MetroDateTime mdtpEnd;
+        private System.Windows.Forms.GroupBox grpTemplates;
+        private System.Windows.Forms.ListBox lbTemplatesList;
         private MetroFramework.Controls.MetroButton btnFilter;
         private MetroFramework.Controls.MetroButton btnSaveTemplate;
         private MetroFramework.Controls.MetroTextBox txtTemplateName;
         private MetroFramework.Controls.MetroLabel lblTemplateName;
-        private MetroFramework.Controls.MetroCheckBox chkEndNotSet;
-        private MetroFramework.Controls.MetroCheckBox chkStartNotSet;
+        private System.Windows.Forms.PictureBox picStartDate;
+        private System.Windows.Forms.PictureBox picEndDate;
     }
 }

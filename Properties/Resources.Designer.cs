@@ -312,6 +312,46 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap calendar_gray_icon {
+            get {
+                object obj = ResourceManager.GetObject("calendar_gray_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap calendar_icon {
+            get {
+                object obj = ResourceManager.GetObject("calendar_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap calendar_off_icon {
+            get {
+                object obj = ResourceManager.GetObject("calendar_off_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap calendar_on_icon {
+            get {
+                object obj = ResourceManager.GetObject("calendar_on_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap checkmark_icon {
             get {
                 object obj = ResourceManager.GetObject("checkmark_icon", resourceCulture);

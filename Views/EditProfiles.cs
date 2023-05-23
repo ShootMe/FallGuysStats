@@ -34,6 +34,10 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
             
+            this.BackMaxSize = 32;
+            this.BackImagePadding = new Padding(20, 19, 0, 0);
+            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+            
             if (this.Theme == MetroThemeStyle.Light) {
                 this.dataGridViewCellStyle1.BackColor = Color.LightGray;
                 this.dataGridViewCellStyle1.ForeColor = Color.Black;
@@ -95,17 +99,14 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (c1 is GroupBox gb1) {
-                    if (this.Theme == MetroThemeStyle.Dark) {
-                        gb1.ForeColor = Color.DarkGray;
-                    } else if (this.Theme == MetroThemeStyle.Light) {
-                        gb1.ForeColor = Color.Black;
-                    }
+                    gb1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroButton ml2) {
                             ml2.Theme = theme;
-                        } else if (c2 is DataGridView dgv2) {
-                            //dgv2.Theme = theme;
                         }
+                        //else if (c2 is DataGridView dgv2) {
+                        //    dgv2.Theme = theme;
+                        //}
                     }
                 }
             }
@@ -346,7 +347,7 @@ namespace FallGuysStats {
 
         private void ChangeLanguage() {
             this.Font = Overlay.GetMainFont(12);
-            this.Text = Multilingual.GetWord("profile_title");
+            this.Text = $"     {Multilingual.GetWord("profile_title")}";
             this.groupBox1.Text = Multilingual.GetWord("profile_list");
             this.AddTabPage.Text = Multilingual.GetWord("profile_add_tab");
             this.AddPageButton.Text = Multilingual.GetWord("profile_add_tab_button");

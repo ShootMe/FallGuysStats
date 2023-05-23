@@ -71,6 +71,7 @@ namespace FallGuysStats {
             this.ProfileList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.ProfileList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.ProfileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.ProfileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ProfileList.ColumnHeadersVisible = false;
             this.ProfileList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ProfileList.Location = new System.Drawing.Point(7, 20);
@@ -87,9 +88,9 @@ namespace FallGuysStats {
             // ProfileListUp
             // 
             this.ProfileListUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListUp.Location = new System.Drawing.Point(375, 19);
+            this.ProfileListUp.Location = new System.Drawing.Point(375, 21);
             this.ProfileListUp.Name = "ProfileListUp";
-            this.ProfileListUp.Size = new System.Drawing.Size(20, 50);
+            this.ProfileListUp.Size = new System.Drawing.Size(20, 120);
             this.ProfileListUp.TabIndex = 3;
             this.ProfileListUp.Text = "∧";
             this.ProfileListUp.UseSelectable = true;
@@ -98,9 +99,9 @@ namespace FallGuysStats {
             // ProfileListDown
             // 
             this.ProfileListDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListDown.Location = new System.Drawing.Point(375, 218);
+            this.ProfileListDown.Location = new System.Drawing.Point(375, 147);
             this.ProfileListDown.Name = "ProfileListDown";
-            this.ProfileListDown.Size = new System.Drawing.Size(20, 50);
+            this.ProfileListDown.Size = new System.Drawing.Size(20, 120);
             this.ProfileListDown.TabIndex = 4;
             this.ProfileListDown.Text = "∨";
             this.ProfileListDown.UseSelectable = true;
@@ -403,7 +404,7 @@ namespace FallGuysStats {
             this.RemoveProfileCombobox.FormattingEnabled = true;
             this.RemoveProfileCombobox.Location = new System.Drawing.Point(96, 7);
             this.RemoveProfileCombobox.Name = "RemoveProfileCombobox";
-            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 20);
+            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 22);
             this.RemoveProfileCombobox.TabIndex = 1;
             this.RemoveProfileCombobox.UseSelectable = true;
             // 
@@ -449,7 +450,6 @@ namespace FallGuysStats {
             this.RemoveTabPage.ResumeLayout(false);
             this.RemoveTabPage.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion

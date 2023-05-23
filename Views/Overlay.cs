@@ -666,8 +666,8 @@ namespace FallGuysStats {
                     this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
                 }
 
-                this.lblFilter.Text = this.StatsForm.GetCurrentFilter();
-                this.lblProfile.Text = this.StatsForm.GetCurrentProfile();
+                this.lblFilter.Text = this.StatsForm.GetCurrentFilterName();
+                this.lblProfile.Text = this.StatsForm.GetCurrentProfileName();
                 this.Background = this.RecreateBackground();
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
 
@@ -722,7 +722,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
                         this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
                     } else {
-                        this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 0
+                        this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
                             ? $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
                             : $"　{levelInfo.TotalWins}{winChanceDisplay}";
                     }
