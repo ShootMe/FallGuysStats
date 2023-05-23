@@ -1847,10 +1847,6 @@ namespace FallGuysStats {
                 this.selectedCustomTemplateSeason = this.CurrentSettings.SelectedCustomTemplateSeason;
                 this.customfilterRangeStart = this.CurrentSettings.CustomFilterRangeStart;
                 this.customfilterRangeEnd = this.CurrentSettings.CustomFilterRangeEnd;
-                
-                Console.WriteLine(this.customfilterRangeStart);
-                Console.WriteLine(this.customfilterRangeEnd);
-                
                 switch (this.CurrentSettings.FilterType) {
                     case 0:
                         this.menuCustomRangeStats.Checked = true;
