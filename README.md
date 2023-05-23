@@ -197,9 +197,11 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ## Changelog
   - `1.171`
     - Add custom range filter, seasonal stats
+    - Add a new show id
     - Bugfix and program optimization
   - `1.170`
     - Add information about rounds played with shared code via fallguysdb
+    - Add final exception (basketfall)
     - Bugfix and program optimization
   - `1.169`
     - Bugfix and program optimization
