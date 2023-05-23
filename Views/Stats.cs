@@ -3447,10 +3447,11 @@ namespace FallGuysStats {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
 
-                if (this.isStartUp && (button == this.menuCustomRangeStats)) {
-                    this.updateFilterRange = true;
-                } else if (!this.isStartUp && (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats)) {
-                    using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
+                if (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats) {
+                    if (this.isStartUp) {
+                        this.updateFilterRange = true;
+                    } else {
+                        using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
                         //filterCustomRange.Icon = this.Icon;
                         filterCustomRange.StatsForm = this;
                         filterCustomRange.startDate = this.customfilterRangeStart;
@@ -3482,6 +3483,7 @@ namespace FallGuysStats {
                         }
                         this.EnableInfoStrip(true);
                         this.EnableMainMenu(true);
+                    }
                     }
                 } else if (button == this.menuAllStats || button == this.menuSeasonStats || button == this.menuWeekStats || button == this.menuDayStats || button == this.menuSessionStats) {
                     if (!this.menuAllStats.Checked && !this.menuSeasonStats.Checked && !this.menuWeekStats.Checked && !this.menuDayStats.Checked && !this.menuSessionStats.Checked) {
@@ -3715,7 +3717,7 @@ namespace FallGuysStats {
                 int profile = this.currentProfile;
 
                 List<RoundInfo> rounds;
-                if (this.updateFilterRange) {
+                if (this.menuCustomRangeStats.Checked) {
                     rounds = this.AllStats.Where(roundInfo => {
                         return roundInfo.Start >= this.customfilterRangeStart &&
                                roundInfo.Start <= this.customfilterRangeEnd &&
