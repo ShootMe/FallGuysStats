@@ -63,6 +63,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "Export MarkDown"},
                             {"main_delete_shows", "Delete"},
                             {"main_move_shows", "Move show data"},
+                            {"main_update_shows", "Update information"},
 
                             {"level_detail_medal", "Medal"},
                             {"level_detail_is_final", "Final"},
@@ -186,7 +187,12 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "Save as CSV file"},
                             {"message_update_error_caption", "Error Updating"},
                             {"message_program_error_caption", "Program Error"},
-
+                            {"message_update_creative_show_caption", "Update creative show information"},
+                            {"message_update_creative_show_prefix", "Would you like to update the share code \""},
+                            {"message_update_creative_show_suffix", "\"?"},
+                            {"message_update_creative_show_error_caption", "Update error"},
+                            {"message_update_creative_show_error", "Show information does not exist."},
+                            
                             {"numeric_suffix", ""},
                             {"message_question_mark", "?"},
                             {"message_full_stop", "."},
@@ -417,6 +423,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "Exporter en MarkDown"},
                             {"main_delete_shows", "Supprimer"},
                             {"main_move_shows", "Déplacer les données"},
+                            {"main_update_shows", "Mettre à jour les informations"},
 
                             {"level_detail_medal", "Médaille"},
                             {"level_detail_is_final", "Finale"},
@@ -540,6 +547,11 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "Enregistrer sous un fichier CSV"},
                             {"message_update_error_caption", "Erreur MAJ"},
                             {"message_program_error_caption", "Erreur Tracker"},
+                            {"message_update_creative_show_caption", "Mettre à jour le spectacle créatif"},
+                            {"message_update_creative_show_prefix", "Mettre à jour le code de partage \""},
+                            {"message_update_creative_show_suffix", "\" ?"},
+                            {"message_update_creative_show_error_caption", "Erreur de mise à jour"},
+                            {"message_update_creative_show_error", "les informations sur les d'émissions n'existent pas."},
 
                             {"numeric_suffix", ""},
                             {"message_question_mark", " ?"},
@@ -771,6 +783,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "클립보드로 내보내기 (MarkDown)"},
                             {"main_delete_shows", "삭제"},
                             {"main_move_shows", "쇼 데이터 이동"},
+                            {"main_update_shows", "정보 업데이트"},
 
                             {"level_detail_medal", "메달"},
                             {"level_detail_is_final", "결승"},
@@ -894,6 +907,12 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "CSV 파일로 저장"},
                             {"message_update_error_caption", "업데이트 오류"},
                             {"message_program_error_caption", "프로그램 오류"},
+                            {"message_update_creative_show_caption", "크리에이티브 쇼 정보 업데이트"},
+                            {"message_update_creative_show_prefix", "공유 코드 \""},
+                            {"message_update_creative_show_suffix", "\"를 업데이트하시겠습니까?"},
+                            {"message_update_creative_show_error_caption", "업데이트 에러"},
+                            {"message_update_creative_show_error", "쇼 정보가 존재하지 않습니다."},
+
 
                             {"numeric_suffix", "개"},
                             {"message_question_mark", ""},
@@ -1124,6 +1143,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "クリップボードにコピー (MarkDown)"},
                             {"main_delete_shows", "ショーを削除"},
                             {"main_move_shows", "ショーを移動"},
+                            {"main_update_shows", "情報の更新"},
 
                             {"level_detail_medal", "メダル"},
                             {"level_detail_is_final", "決勝"},
@@ -1247,6 +1267,11 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "CSVファイルとして保存"},
                             {"message_update_error_caption", "アップデートエラー"},
                             {"message_program_error_caption", "プログラムエラー"},
+                            {"message_update_creative_show_caption", "クリエイティブショー情報の更新"},
+                            {"message_update_creative_show_prefix", "共有コード「"},
+                            {"message_update_creative_show_suffix", "」を更新しますか？"},
+                            {"message_update_creative_show_error_caption", "アップデートエラー"},
+                            {"message_update_creative_show_error", "ショー情報は存在しません。"},
 
                             {"numeric_suffix", "つ"},
                             {"message_question_mark", ""},
@@ -1478,6 +1503,7 @@ namespace FallGuysStats {
                             {"main_export_markdown", "导出 MarkDown"},
                             {"main_delete_shows", "删除"},
                             {"main_move_shows", "移动游玩场次数据"},
+                            {"main_update_shows", "更新信息"},
 
                             {"level_detail_medal", "勋章"},
                             {"level_detail_is_final", "决赛"},
@@ -1590,7 +1616,7 @@ namespace FallGuysStats {
                             {"message_delete_profile_suffix", "确定要继续吗？"},
                             {"message_save_profile_caption", "保存个人资料"},
                             {"message_save_profile_prefix", "确定保存当前资料至 "},
-                            {"message_save_profile_suffix", " 个人资料中吗?"},
+                            {"message_save_profile_suffix", " 个人资料中吗？"},
                             {"message_execution_caption", "启动糖豆人"},
                             {"message_execution_question", "确定要启动糖豆人吗？"},
                             {"message_update_question_caption", "升级程序"},
@@ -1601,6 +1627,11 @@ namespace FallGuysStats {
                             {"message_save_csv_file_caption", "保存为 CSV"},
                             {"message_update_error_caption", "升级错误"},
                             {"message_program_error_caption", "程序错误"},
+                            {"message_update_creative_show_caption", "更新创意专题信息"},
+                            {"message_update_creative_show_prefix", "您想更新共享代码“"},
+                            {"message_update_creative_show_suffix", "”吗？"},
+                            {"message_update_creative_show_error_caption", "更新错误"},
+                            {"message_update_creative_show_error", "专题信息不存在。"},
 
                             {"numeric_suffix", ""},
                             {"message_question_mark", "？"},
