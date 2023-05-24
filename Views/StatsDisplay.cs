@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MetroFramework;
-using MetroFramework.Controls;
 using ScottPlot;
 
 namespace FallGuysStats {
@@ -14,6 +13,8 @@ namespace FallGuysStats {
         public StatsDisplay() {
             this.InitializeComponent();
         }
+
+        private int switchGraphStyle;
         private double yMax;
         private ScottPlot.Plottable.ScatterPlot MyScatterPlot1, MyScatterPlot2, MyScatterPlot3;
         private ScottPlot.Plottable.BarPlot MyBarPlot1, MyBarPlot2, MyBarPlot3;
@@ -70,14 +71,16 @@ namespace FallGuysStats {
                 this.MyBarPlot3.IsVisible = false;
                 
                 this.chkWins.Checked = true;
-                this.tgGraph.Checked = this.StatsForm.CurrentSettings.WinPerDayGraphStyle != 0;
+                this.switchGraphStyle = this.StatsForm.CurrentSettings.WinPerDayGraphStyle;
+                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
+                this.ChangeFormsPlotStyle(this.switchGraphStyle);
             } else {
                 this.formsPlot.Refresh();
             }
         }
 
-        private void ChangeFormsPlotStyle(bool style) {
-            if (style) { // BarPlot
+        private void ChangeFormsPlotStyle(int style) {
+            if (style == 1) { // BarPlot
                 this.StatsForm.CurrentSettings.WinPerDayGraphStyle = 1;
                 this.MyBarPlot1.IsVisible = this.chkShows.Checked;
                 this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
@@ -246,10 +249,7 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            this.tgGraph.Theme = theme;
-            this.picGraph.Image = this.tgGraph.Checked ? 
-                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.bar_plot_icon : Properties.Resources.bar_plot_gray_icon) : 
-                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.scatter_plot_icon : Properties.Resources.scatter_plot_gray_icon);
+            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 1 ? Properties.Resources.bar_plot_teal_icon : Properties.Resources.scatter_plot_teal_icon;
             this.chkWins.Theme = theme;
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
@@ -273,16 +273,15 @@ namespace FallGuysStats {
                 this.Close();
             }
         }
-        private void tgGraph_CheckStateChanged(object sender, EventArgs e) {
-            this.picGraph.Image = ((MetroToggle)sender).Checked ? 
-                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.bar_plot_icon : Properties.Resources.bar_plot_gray_icon) : 
-                (this.Theme == MetroThemeStyle.Light ? Properties.Resources.scatter_plot_icon : Properties.Resources.scatter_plot_gray_icon);
+        private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
+            this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
+            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
             if (this.dates == null) { return; }
-            this.ChangeFormsPlotStyle(((MetroToggle)sender).Checked);
+            this.ChangeFormsPlotStyle(this.switchGraphStyle);
         }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            if (this.tgGraph.Checked) {
+            if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot3.IsVisible = chkWins.Checked;
                 this.MyBarPlot3.IsVisible = chkWins.Checked;
             } else {
@@ -292,7 +291,7 @@ namespace FallGuysStats {
         }
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            if (this.tgGraph.Checked) {
+            if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot2.IsVisible = chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = chkFinals.Checked;
             } else {
@@ -302,7 +301,7 @@ namespace FallGuysStats {
         }
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
-            if (this.tgGraph.Checked) {
+            if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot1.IsVisible = chkShows.Checked;
                 this.MyBarPlot1.IsVisible = chkShows.Checked;
             } else {
