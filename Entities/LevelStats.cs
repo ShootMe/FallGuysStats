@@ -11,6 +11,7 @@ namespace FallGuysStats {
         public string ShowNameId { get; set; }
         public bool UseShareCode { get; set; }
         public string CreativeShareCode { get; set; }
+        public string CreativeStatus { get; set; }
         public string CreativeAuthor { get; set; }
         //public string CreativeNicknameContentId { get; set; }
         //public string CreativeNameplateContentId { get; set; }
@@ -343,7 +344,7 @@ namespace FallGuysStats {
             { "FallGuy_PipedUp",                   "round_pipedup_s6_launch" },
             { "FallGuy_Invisibeans",               "round_invisibeans" },
 
-            { "FallGuy_BlueJay_UNPACKED",          "round_bluejay" },
+            { "FallGuy_BlueJay",                   "round_bluejay" },
             { "FallGuy_HoopsRevenge",              "round_hoops_revenge_symphony_launch_show" },
             { "FallGuy_ShortCircuit2",             "round_short_circuit_2_symphony_launch_show" },
             { "FallGuy_Gauntlet_09",               "round_gauntlet_09_symphony_launch_show" },

@@ -350,6 +350,8 @@
     <None Include="Resources\delete_gray.png" />
     <None Include="Resources\move.png" />
     <None Include="Resources\move_gray.png" />
+    <None Include="Resources\update.png" />
+    <None Include="Resources\update_gray.png" />
     <None Include="Resources\fall.ico" />
     <None Include="Resources\fall2.ico" />
     <None Include="Resources\medal_silver.png" />
