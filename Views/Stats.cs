@@ -1856,11 +1856,12 @@ namespace FallGuysStats {
                     this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
                     this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
-
-                this.menuAllStats.Checked = false;
+                
                 this.selectedCustomTemplateSeason = this.CurrentSettings.SelectedCustomTemplateSeason;
                 this.customfilterRangeStart = this.CurrentSettings.CustomFilterRangeStart;
                 this.customfilterRangeEnd = this.CurrentSettings.CustomFilterRangeEnd;
+                this.menuAllStats.Checked = false;
+                this.trayAllStats.Checked = false;
                 switch (this.CurrentSettings.FilterType) {
                     case 0:
                         this.menuCustomRangeStats.Checked = true;
