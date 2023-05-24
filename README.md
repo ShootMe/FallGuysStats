@@ -195,6 +195,10 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - `1.172`
+    - Add manual update menu for creative show information
+    - Fix round id (Bean Hill Zone)
+    - Bugfix and program optimization
   - `1.171`
     - Add custom range filter, seasonal stats
     - Add a new show id
