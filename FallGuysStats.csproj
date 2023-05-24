@@ -414,12 +414,14 @@
     <None Include="Resources\transform_gray_icon.png" />
     <None Include="Resources\bar_plot_icon.png" />
     <None Include="Resources\bar_plot_gray_icon.png" />
+    <None Include="Resources\bar_plot_teal_icon.png" />
     <None Include="Resources\calendar_icon.png" />
     <None Include="Resources\calendar_gray_icon.png" />
     <None Include="Resources\calendar_off_icon.png" />
     <None Include="Resources\calendar_on_icon.png" />
     <None Include="Resources\scatter_plot_icon.png" />
     <None Include="Resources\scatter_plot_gray_icon.png" />
+    <None Include="Resources\scatter_plot_teal_icon.png" />
     <None Include="Resources\shutdown_gray_icon.png" />
     <None Include="Resources\shutdown_icon.png" />
     <None Include="Resources\round_icon\creative\icon_Creative.png" />

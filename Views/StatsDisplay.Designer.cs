@@ -28,42 +28,27 @@ namespace FallGuysStats {
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatsDisplay));
-            this.picGraph = new System.Windows.Forms.PictureBox();
-            this.tgGraph = new MetroFramework.Controls.MetroToggle();
+            this.picSwitchGraphStyle = new System.Windows.Forms.PictureBox();
             this.chkWins = new MetroFramework.Controls.MetroCheckBox();
             this.chkFinals = new MetroFramework.Controls.MetroCheckBox();
             this.chkShows = new MetroFramework.Controls.MetroCheckBox();
             this.formsPlot = new ScottPlot.FormsPlot();
-            ((System.ComponentModel.ISupportInitialize)(this.picGraph)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSwitchGraphStyle)).BeginInit();
             this.SuspendLayout();
             // 
-            // picGraph
+            // picSwitchGraphStyle
             // 
-            this.picGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picGraph.BackColor = System.Drawing.Color.Transparent;
-            this.picGraph.Image = global::FallGuysStats.Properties.Resources.scatter_plot_icon;
-            this.picGraph.Location = new System.Drawing.Point(882, 33);
-            this.picGraph.Name = "picGraph";
-            this.picGraph.Size = new System.Drawing.Size(20, 20);
-            this.picGraph.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picGraph.TabIndex = 0;
-            // 
-            // tgGraph
-            // 
-            this.tgGraph.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tgGraph.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.tgGraph.DisplayStatus = false;
-            this.tgGraph.ForeColor = System.Drawing.Color.Red;
-            this.tgGraph.Location = new System.Drawing.Point(848, 37);
-            this.tgGraph.Name = "tgGraph";
-            this.tgGraph.Size = new System.Drawing.Size(25, 16);
-            this.tgGraph.TabIndex = 1;
-            this.tgGraph.Text = "Off";
-            this.tgGraph.UseCustomBackColor = true;
-            this.tgGraph.UseCustomForeColor = true;
-            this.tgGraph.UseSelectable = true;
-            this.tgGraph.UseStyleColors = true;
-            this.tgGraph.CheckStateChanged += new System.EventHandler(this.tgGraph_CheckStateChanged);
+            this.picSwitchGraphStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picSwitchGraphStyle.BackColor = System.Drawing.Color.Transparent;
+            this.picSwitchGraphStyle.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picSwitchGraphStyle.Image = global::FallGuysStats.Properties.Resources.scatter_plot_icon;
+            this.picSwitchGraphStyle.Location = new System.Drawing.Point(880, 28);
+            this.picSwitchGraphStyle.Name = "picSwitchGraphStyle";
+            this.picSwitchGraphStyle.Size = new System.Drawing.Size(27, 27);
+            this.picSwitchGraphStyle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picSwitchGraphStyle.TabIndex = 0;
+            this.picSwitchGraphStyle.TabStop = false;
+            this.picSwitchGraphStyle.MouseClick += new System.Windows.Forms.MouseEventHandler(this.picSwitchGraphStyle_MouseClick);
             // 
             // chkWins
             // 
@@ -127,8 +112,7 @@ namespace FallGuysStats {
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1294, 720);
             this.Controls.Add(this.formsPlot);
-            this.Controls.Add(this.picGraph);
-            this.Controls.Add(this.tgGraph);
+            this.Controls.Add(this.picSwitchGraphStyle);
             this.Controls.Add(this.chkShows);
             this.Controls.Add(this.chkFinals);
             this.Controls.Add(this.chkWins);
@@ -145,15 +129,14 @@ namespace FallGuysStats {
             this.Text = "Stats Display";
             this.Load += new System.EventHandler(this.StatsDisplay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StatsDisplay_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.picGraph)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picSwitchGraphStyle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
         
         #endregion
         private ScottPlot.FormsPlot formsPlot;
-        private System.Windows.Forms.PictureBox picGraph;
-        private MetroFramework.Controls.MetroToggle tgGraph;
+        private System.Windows.Forms.PictureBox picSwitchGraphStyle;
         private MetroFramework.Controls.MetroCheckBox chkWins;
         private MetroFramework.Controls.MetroCheckBox chkFinals;
         private MetroFramework.Controls.MetroCheckBox chkShows;
