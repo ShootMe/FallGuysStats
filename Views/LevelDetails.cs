@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Windows.Forms;
 using MetroFramework;
 
@@ -149,21 +151,25 @@ namespace FallGuysStats {
             this.BackImagePadding = new Padding(20, 20, 0, 0);
             if (this.LevelName == "Shows") {
                 this.gridDetails.Name = "gridShowsStats";
+                this.gridDetails.MultiSelect = true;
                 this.BackImage = Properties.Resources.fallguys_icon;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName()}";
                 this._showStats = 2;
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
+                this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName()}";
                 this._showStats = 1;
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
+                this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName()}";
                 this._showStats = 1;
             } else {
                 this.gridDetails.Name = "gridRoundStats";
+                this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
                 this._showStats = 0;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName}";
@@ -176,7 +182,8 @@ namespace FallGuysStats {
             
             if (this._showStats == 2 && this.gridDetails.RowCount > 0) {
                 // add separator
-                this.gridDetails.CMenu.Items.Add("-");
+                this.gridDetails.MenuSeparator = new ToolStripSeparator();
+                this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
 
                 if (this.StatsForm.AllProfiles.Count > 1) {
                     // 
@@ -209,6 +216,26 @@ namespace FallGuysStats {
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
             }
 
+            if (this._showStats != 2 && this.gridDetails.RowCount > 0) {
+                // add separator
+                this.gridDetails.MenuSeparator = new ToolStripSeparator();
+                this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+                
+                // 
+                // updateCreativeShows
+                // 
+                this.gridDetails.UpdateCreativeShows = new ToolStripMenuItem {
+                    Name = "updateCreativeShows",
+                    Size = new Size(134, 22),
+                    Text = Multilingual.GetWord("main_update_shows"),
+                    ShowShortcutKeys = true,
+                    Image = Properties.Resources.update,
+                    ShortcutKeys = Keys.Control | Keys.U
+                };
+                this.gridDetails.UpdateCreativeShows.Click += this.updateShows_Click;
+                this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
+            }
+
             foreach (object item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
                     tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
@@ -227,6 +254,8 @@ namespace FallGuysStats {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
                     } else if (tsi.Name.Equals("deleteShows")) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
+                    } else if (tsi.Name.Equals("updateCreativeShows")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.update : Properties.Resources.update_gray;
                     }
                 } else if (item is ToolStripSeparator tss) {
                     tss.Paint += this.CustomToolStripSeparator_Paint;
@@ -292,6 +321,7 @@ namespace FallGuysStats {
             this.gridDetails.Columns["SessionId"].Visible = false;
             this.gridDetails.Columns["UseShareCode"].Visible = false;
             this.gridDetails.Columns["CreativeShareCode"].Visible = false;
+            this.gridDetails.Columns["CreativeStatus"].Visible = false;
             this.gridDetails.Columns["CreativeAuthor"].Visible = false;
             //this.gridDetails.Columns["CreativeNicknameContentId"].Visible = false;
             //this.gridDetails.Columns["CreativeNameplateContentId"].Visible = false;
@@ -586,7 +616,27 @@ namespace FallGuysStats {
         }
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0) {
-                this.gridDetails.ClearSelection();
+                if (((DataGridView)sender).SelectedRows.Count == 1) {
+                    RoundInfo info = this.gridDetails.Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
+                    if (info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) {
+                        if (this.gridDetails.MenuSeparator != null && !this.gridDetails.CMenu.Items.Contains(this.gridDetails.MenuSeparator)) {
+                            this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+                        }
+                        if (this.gridDetails.UpdateCreativeShows != null && !this.gridDetails.CMenu.Items.Contains(this.gridDetails.UpdateCreativeShows)) {
+                            this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
+                        }
+                    } else {
+                        this.gridDetails.ClearSelection();
+                        if (this.gridDetails.MenuSeparator != null && this.gridDetails.CMenu.Items.Contains(this.gridDetails.MenuSeparator)) {
+                            this.gridDetails.CMenu.Items.Remove(this.gridDetails.MenuSeparator);
+                        }
+                        if (this.gridDetails.UpdateCreativeShows != null && this.gridDetails.CMenu.Items.Contains(this.gridDetails.UpdateCreativeShows)) {
+                            this.gridDetails.CMenu.Items.Remove(this.gridDetails.UpdateCreativeShows);
+                        }
+                    }
+                } else {
+                    this.gridDetails.ClearSelection();
+                }
             }
         }
         private void LevelDetails_KeyDown(object sender, KeyEventArgs e) {
@@ -677,6 +727,101 @@ namespace FallGuysStats {
                         }
 
                         this.StatsForm.ResetStats();
+                    }
+                }
+            }
+        }
+        private void updateShows_Click(object sender, EventArgs e) {
+            if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
+                RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
+                if (ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) {
+                    if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{ri.ShowNameId}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
+                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                        try {
+                            JsonElement resData = this.StatsForm
+                                .GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json")
+                                .GetProperty("data").GetProperty("snapshot");
+                            List<RoundInfo> rows = this.RoundDetails.FindAll(r =>
+                                r.ShowNameId.Equals(ri.ShowNameId) && r.CreativeLastModifiedDate != DateTime.MinValue);
+                            int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                            this.gridDetails.DataSource = null;
+                            lock (this.StatsForm.StatsDB) {
+                                this.StatsForm.StatsDB.BeginTrans();
+                                for (int i = rows.Count - 1; i >= 0; i--) {
+                                    RoundInfo temp = rows[i];
+                                    temp.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                    temp.CreativeAuthor = resData.GetProperty("author").GetProperty("name_per_platform")
+                                        .GetProperty("eos").GetString();
+                                    temp.CreativeVersion = resData.GetProperty("version_metadata")
+                                        .GetProperty("version").GetInt32();
+                                    temp.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status")
+                                        .GetString();
+                                    temp.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title")
+                                        .GetString();
+                                    temp.CreativeDescription = resData.GetProperty("version_metadata")
+                                        .GetProperty("description").GetString();
+                                    temp.CreativeMaxPlayer = resData.GetProperty("version_metadata")
+                                        .GetProperty("max_player_count").GetInt32();
+                                    temp.CreativePlatformId = resData.GetProperty("version_metadata")
+                                        .GetProperty("platform_id").GetString();
+                                    temp.CreativeLastModifiedDate = resData.GetProperty("version_metadata")
+                                        .GetProperty("last_modified_date").GetDateTime();
+                                    temp.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                    this.StatsForm.RoundDetails.Update(temp);
+                                }
+
+                                for (int i = this.RoundDetails.Count - 1; i >= 0; i--) {
+                                    RoundInfo temp = this.RoundDetails[i];
+                                    if (temp.ShowNameId.Equals(ri.ShowNameId)) {
+                                        temp.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                        temp.CreativeAuthor = resData.GetProperty("author")
+                                            .GetProperty("name_per_platform").GetProperty("eos").GetString();
+                                        temp.CreativeVersion = resData.GetProperty("version_metadata")
+                                            .GetProperty("version").GetInt32();
+                                        temp.CreativeStatus = resData.GetProperty("version_metadata")
+                                            .GetProperty("status").GetString();
+                                        temp.CreativeTitle = resData.GetProperty("version_metadata")
+                                            .GetProperty("title").GetString();
+                                        temp.CreativeDescription = resData.GetProperty("version_metadata")
+                                            .GetProperty("description").GetString();
+                                        temp.CreativeMaxPlayer = resData.GetProperty("version_metadata")
+                                            .GetProperty("max_player_count").GetInt32();
+                                        temp.CreativePlatformId = resData.GetProperty("version_metadata")
+                                            .GetProperty("platform_id").GetString();
+                                        temp.CreativeLastModifiedDate = resData.GetProperty("version_metadata")
+                                            .GetProperty("last_modified_date").GetDateTime();
+                                        temp.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                        this.StatsForm.RoundDetails.Update(temp);
+                                    }
+                                }
+
+                                this.StatsForm.StatsDB.Commit();
+                            }
+
+                            this.gridDetails.DataSource = this.RoundDetails;
+                            if (minIndex < this.RoundDetails.Count) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                            } else if (this.RoundDetails.Count > 0) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
+                            }
+                        } catch (WebException wex) {
+                            if (wex.Status == WebExceptionStatus.ProtocolError) {
+                                int statusCode = (int)((HttpWebResponse)wex.Response).StatusCode;
+                                switch (statusCode) {
+                                    case 500:
+                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_creative_show_error_caption")}",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        break;
+                                    default:
+                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_creative_show_error_caption")}",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        break;
+                                }
+                            }
+                        } catch (Exception ex) {
+                            MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
             }

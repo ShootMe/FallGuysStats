@@ -18,7 +18,8 @@ namespace FallGuysStats {
         private IContainer components;
         private SaveFileDialog _saveFile;
         private ToolStripMenuItem ExportItemCsv, ExportItemHtml, ExportItemBbcode, ExportItemMd;
-        public ToolStripMenuItem DeleteShows, MoveShows;
+        public ToolStripMenuItem DeleteShows, MoveShows, UpdateCreativeShows;
+        public ToolStripSeparator MenuSeparator;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         private Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
