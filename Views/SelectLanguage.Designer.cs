@@ -105,6 +105,7 @@ namespace FallGuysStats {
             this.Name = "SelectLanguage";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
+            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Title";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectLanguage_FormClosing);
