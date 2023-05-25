@@ -1506,6 +1506,10 @@ namespace FallGuysStats {
                         this.RoundDetails.Update(info);
                     }
                 }
+                this.CurrentSettings.FilterType = 1;
+                this.CurrentSettings.SelectedCustomTemplateSeason = -1;
+                this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
+                this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
                 this.CurrentSettings.Version = 35;
                 this.SaveUserSettings();
             }
