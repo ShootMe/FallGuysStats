@@ -13,6 +13,7 @@ namespace FallGuysStats {
         public string CreativeShareCode { get; set; }
         public string CreativeStatus { get; set; }
         public string CreativeAuthor { get; set; }
+        public string CreativeOnlinePlatformId { get; set; }
         //public string CreativeNicknameContentId { get; set; }
         //public string CreativeNameplateContentId { get; set; }
         public int CreativeVersion { get; set; }
