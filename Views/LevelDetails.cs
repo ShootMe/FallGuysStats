@@ -323,10 +323,8 @@ namespace FallGuysStats {
             this.gridDetails.Columns["CreativeShareCode"].Visible = false;
             this.gridDetails.Columns["CreativeStatus"].Visible = false;
             this.gridDetails.Columns["CreativeAuthor"].Visible = false;
-            //this.gridDetails.Columns["CreativeNicknameContentId"].Visible = false;
-            //this.gridDetails.Columns["CreativeNameplateContentId"].Visible = false;
+            this.gridDetails.Columns["CreativeOnlinePlatformId"].Visible = false;
             this.gridDetails.Columns["CreativeVersion"].Visible = false;
-            //this.gridDetails.Columns["CreativeStatus"].Visible = false;
             this.gridDetails.Columns["CreativeTitle"].Visible = false;
             this.gridDetails.Columns["CreativeDescription"].Visible = false;
             this.gridDetails.Columns["CreativeMaxPlayer"].Visible = false;
