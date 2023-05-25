@@ -17,20 +17,6 @@ namespace FallGuysStats {
         }
 
         private void FilterCustomRange_Load(object sender, EventArgs e) {
-            if (this.startDate != DateTime.MinValue) this.mdtpStart.Value = DateTime.UtcNow;
-            if (this.endDate != DateTime.MaxValue) this.mdtpEnd.Value = DateTime.UtcNow;
-            
-            //this.mdtpStart.MinDate = DateTime.MinValue;
-            //this.mdtpStart.MaxDate = this.mdtpEnd.Value;
-            //this.mdtpEnd.MinDate = this.mdtpStart.Value;
-            //this.mdtpEnd.MaxDate = DateTime.MaxValue;
-            
-            this.picStartDate.Image = this.isStartNotSet ? Properties.Resources.calendar_off_icon : Properties.Resources.calendar_on_icon;
-            this.picEndDate.Image = this.isEndNotSet ? Properties.Resources.calendar_off_icon : Properties.Resources.calendar_on_icon;
-            
-            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
-            this.ChangeLanguage();
-            
             this.lbTemplatesList.Items.Clear();
             for (int i = 0; i < Stats.Seasons.Count; i++) {
                 if (Stats.Seasons.Count - 1 == i) {
@@ -44,16 +30,38 @@ namespace FallGuysStats {
                 }
             }
             
-            if (this.selectedCustomTemplateSeason != -1) {
+            if (this.startDate == DateTime.MinValue && this.endDate == DateTime.MaxValue) {
+                this.mdtpStart.Value = DateTime.Now;
+                this.mdtpEnd.Value = DateTime.Now;
+            } else if (this.selectedCustomTemplateSeason > -1) {
                 this.lbTemplatesList.SetSelected(this.selectedCustomTemplateSeason, true);
+            } else {
+                try {
+                    if (this.startDate != DateTime.MinValue) {
+                        this.mdtpStart.Value = this.startDate.ToLocalTime();
+                    } else {
+                        this.picStartDate_MouseClick(this.picStartDate, new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
+                    }
+                    if (this.endDate != DateTime.MaxValue) {
+                        this.mdtpEnd.Value = this.endDate.ToLocalTime();
+                    } else {
+                        this.picEndDate_MouseClick(this.picEndDate, new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
+                    }
+                } catch {
+                    this.mdtpStart.Value = DateTime.Now;
+                    this.mdtpEnd.Value = DateTime.Now;
+                }
             }
+
+            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.ChangeLanguage();
         }
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 17, 0, 0);
-            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
+            this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -70,15 +78,28 @@ namespace FallGuysStats {
                 } else if (c1 is MetroDateTime mdt1) {
                     mdt1.Theme = theme;
                 } else if (c1 is GroupBox gb1) {
-                    gb1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    gb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is ListBox lb1) {
-                            if (this.Theme == MetroThemeStyle.Dark) {
+                            if (theme == MetroThemeStyle.Dark) {
                                 lb1.BackColor = Color.FromArgb(21, 21, 21);
                                 lb1.ForeColor = Color.WhiteSmoke;
                             }
                         }
                     }
+                }
+            }
+        }
+        
+        private void FixDates() {
+            if (this.startDate != DateTime.MinValue) {
+                this.startDate = new DateTime(this.startDate.Year, this.startDate.Month, this.startDate.Day, 0, 0, 0, this.selectedCustomTemplateSeason > -1 ? DateTimeKind.Utc : DateTimeKind.Local);
+            }
+            if (this.endDate != DateTime.MaxValue) {
+                if (this.selectedCustomTemplateSeason > -1) {
+                    this.endDate = new DateTime(this.endDate.Year, this.endDate.Month, this.endDate.Day - 1, 23, 59, 59, DateTimeKind.Utc);
+                } else {
+                    this.endDate = new DateTime(this.endDate.Year, this.endDate.Month, this.endDate.Day, 23, 59, 59, DateTimeKind.Local);
                 }
             }
         }
@@ -173,6 +194,7 @@ namespace FallGuysStats {
         private void btnFilter_Click(object sender, EventArgs e) {
             this.startDate = this.isStartNotSet ? DateTime.MinValue : this.mdtpStart.Value;
             this.endDate = this.isEndNotSet ? DateTime.MaxValue : this.mdtpEnd.Value;
+            this.FixDates();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
