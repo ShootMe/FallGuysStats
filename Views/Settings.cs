@@ -238,10 +238,7 @@ namespace FallGuysStats {
         }
 
         private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
-            this.BackMaxSize = 32;
-            this.BackImagePadding = new Padding(20, 19, 0, 0);
-            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+            this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             this.overlayOpacityToolTip.Theme = theme;
             this.cboOverlayBackground.mtt.Theme = theme;
             this.cboOverlayBackground_blur();
@@ -278,7 +275,7 @@ namespace FallGuysStats {
                         } else if (c2 is MetroTrackBar mtrb2) {
                             mtrb2.Theme = theme;
                         } else if (c2 is GroupBox gb2) {
-                            gb2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            gb2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             foreach (Control c3 in gb2.Controls) {
                                 if (c3 is MetroRadioButton mrb3) {
                                     mrb3.Theme = theme;
@@ -287,7 +284,7 @@ namespace FallGuysStats {
                                         ColorConverter colorConverter = new ColorConverter();
                                         lb3.ForeColor = (Color)colorConverter.ConvertFromString(this.overlayFontColorSerialized);
                                     } else {
-                                        lb3.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                        lb3.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     }
                                 }
                             }
@@ -295,6 +292,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+            this.Theme = theme;
         }
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
@@ -740,10 +738,14 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_theme_light"),
                 Multilingual.GetWord("settings_theme_dark"),
             });
-            switch (this.CurrentSettings.Theme) {
-                case 0: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_light"); break;
-                case 1: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_dark"); break;
-            }
+            //switch (this.CurrentSettings.Theme) {
+            //    case 0: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_light"); break;
+            //    case 1: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_dark"); break;
+            //}
+            this.cboTheme.SelectedItem = this.Theme == MetroThemeStyle.Light
+                ? Multilingual.GetWord("settings_theme_light")
+                : Multilingual.GetWord("settings_theme_dark");
+
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
