@@ -110,7 +110,7 @@ namespace FallGuysStats {
         public static bool InShow = false; 
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
-        public static int LastServerPing = 0;
+        public static long LastServerPing = 0;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();

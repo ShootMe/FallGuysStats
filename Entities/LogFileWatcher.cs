@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace FallGuysStats {
         public bool IsFinal;
         public bool HasIsFinal;
         public string CurrentPlayerID;
-        public int LastPing;
+        public long LastPing;
         public int Duration;
         public RoundInfo Info;
     }
@@ -55,6 +56,8 @@ namespace FallGuysStats {
         private string sessionId;
         private bool autoChangeProfile;
         //private bool preventMouseCursorBugs;
+        private Ping pingSender = new Ping();
+        private PingReply reply;
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
@@ -538,11 +541,25 @@ namespace FallGuysStats {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
                 }
-            } else if (line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                int ipIndex = line.Line.IndexOf("IP: ");
+                int portIndex = line.Line.IndexOf("port: ");
+                byte[] bufferArray = new byte[32];
+                int timeout = 1000;
+                // port: {line.Line.Substring(portIndex + 6)}
+                this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
+                if (this.reply.Status == IPStatus.Success) {
+                    logRound.LastPing = this.reply.RoundtripTime;
+                } else if (this.reply.Status == IPStatus.TimedOut) {
+                    logRound.LastPing = 0;
+                } else {
+                    logRound.LastPing = 0;
+                }
+            } else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
                 index = line.Line.IndexOf("RTT: ");
                 if (index > 0) {
                     int msIndex = line.Line.IndexOf("ms", index);
-                    logRound.LastPing = int.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
+                    logRound.LastPing = long.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
                 }
             //} else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Precountdown to Countdown", StringComparison.OrdinalIgnoreCase) > 0) {
             } else if (logRound.Info != null &&
