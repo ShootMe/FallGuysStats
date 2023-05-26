@@ -1687,7 +1687,7 @@ namespace FallGuysStats {
         private void menuTodaysShow_MouseEnter(object sender, EventArgs e) {
             this.Cursor = Cursors.Hand;
             Point cursorPosition = this.PointToClient(Cursor.Position);
-            Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+            Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
         }
         private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
