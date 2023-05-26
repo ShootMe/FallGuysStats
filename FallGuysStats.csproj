@@ -344,6 +344,7 @@
     <None Include="Resources\stat_icon.png" />
     <None Include="Resources\stat_gray_icon.png" />
     <None Include="Resources\fallguys_icon.png" />
+    <None Include="Resources\fallguys_db_logo.png" />
     <None Include="Resources\export.png" />
     <None Include="Resources\export_gray.png" />
     <None Include="Resources\delete.png" />
