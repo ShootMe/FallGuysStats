@@ -148,7 +148,7 @@ namespace FallGuysStats {
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
             this.ProfilesData.Clear();
             foreach (Profiles profile in this.Profiles) {
-                this.ProfilesData.Rows.Add($"{profile.ProfileName} [{AllStats.FindAll(r => r.Profile == profile.ProfileId).Count} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
+                this.ProfilesData.Rows.Add($"{profile.ProfileName} [{this.AllStats.FindAll(r => r.Profile == profile.ProfileId).Count} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
             }
             this.Profiles = this.Profiles.OrderByDescending(p => p.ProfileOrder).ToList();
             this.AddPageTextbox.Text = "";
@@ -161,10 +161,10 @@ namespace FallGuysStats {
                 if (this.Profiles[i].ProfileOrder == 0) { this.Profiles[i].ProfileOrder = this.Profiles.Count - i; }
                 this.RenamePageCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 this.MoveToCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
-                if (AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
+                if (this.AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
                     this.MoveFromCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
-                /*if (Profiles[i].ProfileID != 0 && AllStats.FindAll(r => r.Profile == Profiles[i].ProfileID).Count == 0) {
+                /*if (Profiles[i].ProfileID != 0 && this.AllStats.FindAll(r => r.Profile == Profiles[i].ProfileID).Count == 0) {
                     RemoveProfileCombobox.Items.Insert(0, Profiles[i].ProfileName);
                 }*/
                 if (this.Profiles[i].ProfileId != 0) {
