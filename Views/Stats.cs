@@ -1935,6 +1935,7 @@ namespace FallGuysStats {
                                             } else {
                                                 profile = editShows.SelectedProfileId;
                                                 this.CurrentSettings.SelectedProfile = profile;
+                                                this.currentProfile = profile;
                                                 //this.ReloadProfileMenuItems();
                                                 this.SetProfileMenu(profile);
                                             }
@@ -1954,6 +1955,7 @@ namespace FallGuysStats {
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
                                     profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, stat.ShowNameId.StartsWith("show_wle_s10"));
                                     this.CurrentSettings.SelectedProfile = profile;
+                                    this.currentProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
                                 }
@@ -1970,8 +1972,8 @@ namespace FallGuysStats {
                                         JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                                         string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
                                         stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                        stat.CreativeAuthor = onlinePlatformInfo[0];
-                                        stat.CreativeOnlinePlatformId = onlinePlatformInfo[1];
+                                        stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                        stat.CreativeAuthor = onlinePlatformInfo[1];
                                         stat.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
                                         stat.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
                                         stat.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
@@ -3755,13 +3757,12 @@ namespace FallGuysStats {
             }
         }
         public string[] FindCreativeAuthor(JsonElement authorData) {
-            string[] validKeys = { "eos", "steam", "psn", "xbl", "nso" };
             string[] onlinePlatformInfo = { "N/A", "N/A" };
-            foreach (string validKey in validKeys) {
-                if (authorData.TryGetProperty(validKey, out JsonElement authorInfo)) {
-                    onlinePlatformInfo[0] = authorInfo.GetString();
-                    onlinePlatformInfo[1] = validKey;
-                    return onlinePlatformInfo;
+            using (JsonElement.ObjectEnumerator objectEnumerator = authorData.EnumerateObject()) {
+                while (objectEnumerator.MoveNext()) {
+                    JsonProperty current = objectEnumerator.Current;
+                    onlinePlatformInfo[0] = current.Name;
+                    onlinePlatformInfo[1] = current.Value.GetString();
                 }
             }
             return onlinePlatformInfo;
@@ -3960,9 +3961,12 @@ namespace FallGuysStats {
                         this.AllProfiles = editProfiles.Profiles;
                         this.Profiles.DeleteAll();
                         this.Profiles.InsertBulk(this.AllProfiles);
-                        this.AllStats = editProfiles.AllStats;
-                        this.RoundDetails.DeleteAll();
-                        this.RoundDetails.InsertBulk(this.AllStats);
+                        if (editProfiles.AllStats.Count != this.RoundDetails.Count()) {
+                            this.AllStats = editProfiles.AllStats;
+                            this.RoundDetails.DeleteAll();
+                            this.RoundDetails.InsertBulk(this.AllStats);
+                            this.AllStats.Clear();
+                        }
                         this.StatsDB.Commit();
                     }
                     this.ReloadProfileMenuItems();

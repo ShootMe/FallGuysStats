@@ -746,8 +746,8 @@ namespace FallGuysStats {
                                     RoundInfo temp = rows[i];
                                     string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
                                     temp.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                    temp.CreativeAuthor = onlinePlatformInfo[0];
-                                    temp.CreativeOnlinePlatformId = onlinePlatformInfo[1];
+                                    temp.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                    temp.CreativeAuthor = onlinePlatformInfo[1];
                                     temp.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
                                     temp.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
                                     temp.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
