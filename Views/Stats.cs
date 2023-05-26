@@ -3862,6 +3862,8 @@ namespace FallGuysStats {
                 using (Settings settings = new Settings()) {
                     //settings.Icon = this.Icon;
                     settings.CurrentSettings = this.CurrentSettings;
+                    settings.BackMaxSize = 32;
+                    settings.BackImagePadding = new Padding(20, 19, 0, 0);
                     settings.StatsForm = this;
                     settings.Overlay = this.overlay;
                     string lastLogPath = this.CurrentSettings.LogPath;
