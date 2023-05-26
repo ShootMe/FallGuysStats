@@ -207,7 +207,7 @@ namespace FallGuysStats {
                         currentFilePath = filePath;
                     }
                 } catch (Exception ex) {
-                    this.OnError?.Invoke(ex.Message);
+                    this.OnError?.Invoke(ex.ToString());
                 }
                 Thread.Sleep(UpdateDelay);
             }
@@ -236,7 +236,7 @@ namespace FallGuysStats {
                         this.lines.Clear();
                     }
                 } catch (Exception ex) {
-                    this.OnError?.Invoke(ex.Message);
+                    this.OnError?.Invoke(ex.ToString());
                 }
                 Thread.Sleep(UpdateDelay);
             }
@@ -542,18 +542,20 @@ namespace FallGuysStats {
                     logRound.Info.Position = position;
                 }
             } else if (line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
-                int ipIndex = line.Line.IndexOf("IP: ");
-                int portIndex = line.Line.IndexOf("port: ");
-                byte[] bufferArray = new byte[32];
-                int timeout = 1000;
-                // port: {line.Line.Substring(portIndex + 6)}
-                this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
-                if (this.reply.Status == IPStatus.Success) {
-                    logRound.LastPing = this.reply.RoundtripTime;
-                } else if (this.reply.Status == IPStatus.TimedOut) {
-                    logRound.LastPing = 0;
-                } else {
-                    logRound.LastPing = 0;
+                lock (this.pingSender) {
+                    int ipIndex = line.Line.IndexOf("IP: ");
+                    int portIndex = line.Line.IndexOf("port: ");
+                    byte[] bufferArray = new byte[32];
+                    int timeout = 1000;
+                    // port: {line.Line.Substring(portIndex + 6)}
+                    this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
+                    if (this.reply.Status == IPStatus.Success) {
+                        logRound.LastPing = this.reply.RoundtripTime;
+                    } else if (this.reply.Status == IPStatus.TimedOut) {
+                        logRound.LastPing = 0;
+                    } else {
+                        logRound.LastPing = 0;
+                    }
                 }
             } else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
                 index = line.Line.IndexOf("RTT: ");
