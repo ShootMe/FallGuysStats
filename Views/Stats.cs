@@ -756,7 +756,6 @@ namespace FallGuysStats {
                     tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
             }
-
             this.Refresh();
         }
         private void menuToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
@@ -901,6 +900,8 @@ namespace FallGuysStats {
                 menuItem.Text = profile.ProfileName;
                 menuItem.Click += this.menuStats_Click;
                 menuItem.Paint += this.menuProfile_Paint;
+                menuItem.MouseMove += this.SetCursor_MouseMove;
+                menuItem.MouseLeave += this.SetCursor_MouseLeave;
                 this.menuProfile.DropDownItems.Add(menuItem);
                 this.ProfileMenuItems.Add(menuItem);
                 
@@ -1681,6 +1682,25 @@ namespace FallGuysStats {
             this.loadingExisting = true;
             this.LogFile_OnParsedLogLines(rounds);
             this.loadingExisting = false;
+        }
+        
+        private void menuTodaysShow_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = Cursors.Hand;
+            Point cursorPosition = this.PointToClient(Cursor.Position);
+            Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+            this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
+        }
+        private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
+            this.HideTooltip(this);
+            this.Cursor = Cursors.Default;
+        }
+        
+        private void SetCursor_MouseMove(object sender, MouseEventArgs e) {
+            this.Cursor = Cursors.Hand;
+        }
+
+        private void SetCursor_MouseLeave(object sender, EventArgs e) {
+            this.Cursor = Cursors.Default;
         }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
@@ -3986,6 +4006,14 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void menuTodaysShow_Click(object sender, EventArgs e) {
+            try {
+                Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         public bool IsOnScreen(int x, int y, int w) {
             Screen[] screens = Screen.AllScreens;
             foreach (Screen screen in screens) {
@@ -4076,6 +4104,7 @@ namespace FallGuysStats {
             this.menuUpdate.Text = Multilingual.GetWord("main_update");
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
+            this.menuTodaysShow.Text = Multilingual.GetWord("main_todays_show");
         }
     }
 }
