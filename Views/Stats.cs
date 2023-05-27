@@ -2245,7 +2245,7 @@ namespace FallGuysStats {
         }
         private void SetProfileMenu(int profile) {
             Profiles currentP = this.AllProfiles.Find(p => p.ProfileId == profile);
-            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[currentP.ProfileOrder] as ToolStripMenuItem;
+            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[currentP.ProfileOrder - 1] as ToolStripMenuItem;
             if (tsmi.Checked) return;
             this.SetCurrentProfileIcon(!string.IsNullOrEmpty(currentP.LinkedShowId));
             this.menuStats_Click(tsmi, EventArgs.Empty);
