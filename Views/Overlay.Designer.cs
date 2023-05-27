@@ -245,8 +245,8 @@ namespace FallGuysStats {
             // 
             // lblPingIcon
             // 
-            this.lblPingIcon.ImageHeight = 16;
-            this.lblPingIcon.ImageWidth = 22;
+            this.lblPingIcon.ImageHeight = 15;
+            this.lblPingIcon.ImageWidth = 21;
             this.lblPingIcon.ImageX = 0;
             this.lblPingIcon.ImageY = 0;
             this.lblPingIcon.LevelColor = System.Drawing.Color.Empty;
