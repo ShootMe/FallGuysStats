@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9DDF7BD8-3C77-43D4-A229-F79CE082C6E8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>FallGuysStats</RootNamespace>
     <AssemblyName>FallGuysStats</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -398,6 +398,8 @@
     <None Include="Resources\round_icon.png" />
     <None Include="Resources\round_gray_icon.png" />
     <None Include="Resources\show_icon.png" />
+    <None Include="Resources\ping_100_icon.png" />
+    <None Include="Resources\ping_200_icon.png" />
     <None Include="Resources\position_ne_off_icon.png" />
     <None Include="Resources\position_nw_off_icon.png" />
     <None Include="Resources\position_se_off_icon.png" />

@@ -40,6 +40,7 @@ namespace FallGuysStats {
             this.lblQualifyChance = new FallGuysStats.TransparentLabel();
             this.lblFastest = new FallGuysStats.TransparentLabel();
             this.lblDuration = new FallGuysStats.TransparentLabel();
+            this.lblPingIcon = new FallGuysStats.TransparentLabel();
             this.lblPlayers = new FallGuysStats.TransparentLabel();
             this.lblPlayersPc = new FallGuysStats.TransparentLabel();
             this.lblPlayersPs = new FallGuysStats.TransparentLabel();
@@ -242,6 +243,22 @@ namespace FallGuysStats {
             this.lblDuration.TextRight = "-";
             this.lblDuration.Visible = false;
             // 
+            // lblPingIcon
+            // 
+            this.lblPingIcon.ImageHeight = 16;
+            this.lblPingIcon.ImageWidth = 22;
+            this.lblPingIcon.ImageX = 0;
+            this.lblPingIcon.ImageY = 0;
+            this.lblPingIcon.LevelColor = System.Drawing.Color.Empty;
+            this.lblPingIcon.Location = new System.Drawing.Point(685, 12);
+            this.lblPingIcon.Name = "lblPingIcon";
+            this.lblPingIcon.Size = new System.Drawing.Size(225, 22);
+            this.lblPingIcon.TabIndex = 12;
+            this.lblPingIcon.Text = "";
+            this.lblPingIcon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblPingIcon.TextRight = "";
+            this.lblPingIcon.Visible = false;
+            // 
             // lblPlayers
             // 
             this.lblPlayers.ImageHeight = 22;
@@ -389,6 +406,7 @@ namespace FallGuysStats {
             this.Controls.Add(this.lblQualifyChance);
             this.Controls.Add(this.lblFastest);
             this.Controls.Add(this.lblDuration);
+            this.Controls.Add(this.lblPingIcon);
             this.Controls.Add(this.lblPlayers);
             this.Controls.Add(this.lblPlayersPc);
             this.Controls.Add(this.lblPlayersPs);
@@ -435,6 +453,7 @@ namespace FallGuysStats {
         private TransparentLabel lblWins;
         private TransparentLabel lblFinals;
         private TransparentLabel lblPlayers;
+        private TransparentLabel lblPingIcon;
 
         private TransparentLabel lblPlayersPc;
         private TransparentLabel lblPlayersPs;

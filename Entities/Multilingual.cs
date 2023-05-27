@@ -297,7 +297,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "Auto-generate profiles"},
                             {"settings_select_language_button", "Confirm"},
                             {"settings_system_tray_icon", "Use the system tray icon"},
-                            //{"settings_prevent_mouse_cursor_bugs", "Prevent Mouse Cursor Bugs (Experimental)"},
+                            {"settings_prevent_overlay_mouse_clicks", "Prevent overlay mouse clicks"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 
@@ -664,7 +664,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "Créer un profil pour chaque émission"},
                             {"settings_select_language_button", "Confirmer"},
                             {"settings_system_tray_icon", "Utiliser l'icône de la barre des tâches"},
-                            //{"settings_prevent_mouse_cursor_bugs", "Prévenir les bogues du curseur de la souris (expérimental)"},
+                            {"settings_prevent_overlay_mouse_clicks", "Prévenir les bogues du curseur de la souris"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 
@@ -1032,7 +1032,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "프로필 자동 생성"},
                             {"settings_select_language_button", "확인"},
                             {"settings_system_tray_icon", "작업 표시줄 아이콘 사용"},
-                            //{"settings_prevent_mouse_cursor_bugs", "마우스 커서 버그 방지 (실험)"},
+                            {"settings_prevent_overlay_mouse_clicks", "오버레이 마우스 클릭 방지"},
                             {"settings_github", "깃허브 (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "이슈 추적"},
 
@@ -1398,7 +1398,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "プロファイルの自動生成"},
                             {"settings_select_language_button", "保存"},
                             {"settings_system_tray_icon", "システムトレイアイコンを使用する"},
-                            //{"settings_prevent_mouse_cursor_bugs", "実験的な機能: マウスカーソルの不具合を防ぐ"},
+                            {"settings_prevent_overlay_mouse_clicks", "マウスカーソルの不具合を防ぐ"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "バグトラッカー"},
 
@@ -1765,7 +1765,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "自动生成配置文件"},
                             {"settings_select_language_button", "选择"},
                             {"settings_system_tray_icon", "使用系统托盘图标"},
-                            //{"settings_prevent_mouse_cursor_bugs", "防止鼠标光标错误（实验性的）。"},
+                            {"settings_prevent_overlay_mouse_clicks", "防止鼠标光标错误"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
 

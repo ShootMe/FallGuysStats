@@ -88,7 +88,7 @@ namespace FallGuysStats {
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
             this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
-            //this.chkPreventMouseCursorBugs = new MetroFramework.Controls.MetroCheckBox();
+            this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
             this.txtPreviousWins = new MetroFramework.Controls.MetroTextBox();
@@ -880,7 +880,7 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Location = new System.Drawing.Point(8, 80);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
             this.chkAutoUpdate.Size = new System.Drawing.Size(161, 19);
-            this.chkAutoUpdate.TabIndex = 3;
+            this.chkAutoUpdate.TabIndex = 4;
             this.chkAutoUpdate.Text = "Auto Update Program";
             this.chkAutoUpdate.UseSelectable = true;
             // 
@@ -892,21 +892,21 @@ namespace FallGuysStats {
             this.chkSystemTrayIcon.Location = new System.Drawing.Point(8, 110);
             this.chkSystemTrayIcon.Name = "chkSystemTrayIcon";
             this.chkSystemTrayIcon.Size = new System.Drawing.Size(161, 19);
-            this.chkSystemTrayIcon.TabIndex = 3;
+            this.chkSystemTrayIcon.TabIndex = 5;
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
             this.chkSystemTrayIcon.UseSelectable = true;
             // 
-            // chkPreventMouseCursorBugs
+            // chkPreventOverlayMouseClicks
             // 
-            //this.chkPreventMouseCursorBugs.AutoSize = true;
-            //this.chkPreventMouseCursorBugs.Cursor = System.Windows.Forms.Cursors.Hand;
-            //this.chkPreventMouseCursorBugs.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            //this.chkPreventMouseCursorBugs.Location = new System.Drawing.Point(8, 250);
-            //this.chkPreventMouseCursorBugs.Name = "chkPreventMouseCursorBugs";
-            //this.chkPreventMouseCursorBugs.Size = new System.Drawing.Size(287, 19);
-            //this.chkPreventMouseCursorBugs.TabIndex = 3;
-            //this.chkPreventMouseCursorBugs.Text = "Prevent Mouse Cursor Bugs (Experimental)";
-            //this.chkPreventMouseCursorBugs.UseSelectable = true;
+            this.chkPreventOverlayMouseClicks.AutoSize = true;
+            this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(8, 265);
+            this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
+            this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(287, 19);
+            this.chkPreventOverlayMouseClicks.TabIndex = 6;
+            this.chkPreventOverlayMouseClicks.Text = "Prevent overlay mouse clicks";
+            this.chkPreventOverlayMouseClicks.UseSelectable = true;
             // 
             // lblPreviousWinsNote
             // 
@@ -1126,7 +1126,7 @@ namespace FallGuysStats {
             this.panelProgram.Controls.Add(this.cboMultilingual);
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
-            //this.panelProgram.Controls.Add(this.chkPreventMouseCursorBugs);
+            this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
             this.panelProgram.Controls.Add(this.lblLogPathNote);
@@ -1135,11 +1135,11 @@ namespace FallGuysStats {
             this.panelProgram.HorizontalScrollbarSize = 10;
             this.panelProgram.Location = new System.Drawing.Point(29, 15);
             this.panelProgram.Name = "panelProgram";
-            this.panelProgram.Size = new System.Drawing.Size(660, 270);
+            this.panelProgram.Size = new System.Drawing.Size(660, 450);
             this.panelProgram.TabIndex = 10;
             this.panelProgram.VerticalScrollbarBarColor = true;
             this.panelProgram.VerticalScrollbarHighlightOnWheel = false;
-            this.panelProgram.VerticalScrollbarSize = 10;
+            this.panelProgram.VerticalScrollbarSize = 15;
             // 
             // panelDisplay
             // 
@@ -1157,7 +1157,7 @@ namespace FallGuysStats {
             this.panelDisplay.TabIndex = 11;
             this.panelDisplay.VerticalScrollbarBarColor = true;
             this.panelDisplay.VerticalScrollbarHighlightOnWheel = false;
-            this.panelDisplay.VerticalScrollbarSize = 10;
+            this.panelDisplay.VerticalScrollbarSize = 15;
             // 
             // tileDisplay
             // 
@@ -1220,7 +1220,7 @@ namespace FallGuysStats {
             this.panelOverlay.VerticalScrollbar = true;
             this.panelOverlay.VerticalScrollbarBarColor = true;
             this.panelOverlay.VerticalScrollbarHighlightOnWheel = false;
-            this.panelOverlay.VerticalScrollbarSize = 10;
+            this.panelOverlay.VerticalScrollbarSize = 15;
             // 
             // cboOverlayBackground
             // 
@@ -1286,7 +1286,7 @@ namespace FallGuysStats {
             this.panelFallGuys.TabIndex = 16;
             this.panelFallGuys.VerticalScrollbarBarColor = true;
             this.panelFallGuys.VerticalScrollbarHighlightOnWheel = false;
-            this.panelFallGuys.VerticalScrollbarSize = 10;
+            this.panelFallGuys.VerticalScrollbarSize = 15;
             // 
             // tileAbout
             // 
@@ -1327,7 +1327,7 @@ namespace FallGuysStats {
             this.panelAbout.VerticalScrollbar = true;
             this.panelAbout.VerticalScrollbarBarColor = true;
             this.panelAbout.VerticalScrollbarHighlightOnWheel = false;
-            this.panelAbout.VerticalScrollbarSize = 10;
+            this.panelAbout.VerticalScrollbarSize = 15;
             // 
             // lblupdateNote
             // 
@@ -1482,7 +1482,7 @@ namespace FallGuysStats {
             this.panelFallalytics.TabIndex = 19;
             this.panelFallalytics.VerticalScrollbarBarColor = true;
             this.panelFallalytics.VerticalScrollbarHighlightOnWheel = false;
-            this.panelFallalytics.VerticalScrollbarSize = 10;
+            this.panelFallalytics.VerticalScrollbarSize = 15;
             // 
             // fallalyticsLink
             // 
@@ -1655,7 +1655,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroComboBox cboTheme;
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
         private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
-        //private MetroFramework.Controls.MetroCheckBox chkPreventMouseCursorBugs;
+        private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;
         private MetroFramework.Controls.MetroComboBox cboOverlayColor;
