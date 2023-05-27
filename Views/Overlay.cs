@@ -618,6 +618,7 @@ namespace FallGuysStats {
                         this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount}");
                         this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
                         this.lblPlayersPc.DrawVisible = true;
+                        this.lblPingIcon.DrawVisible = false;
                     } else {
                         this.lblPlayers.Image = null;
                         this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_players")} :";
@@ -625,6 +626,7 @@ namespace FallGuysStats {
                         this.lblPlayersXbox.DrawVisible = false;
                         this.lblPlayersSwitch.DrawVisible = false;
                         this.lblPlayersPc.DrawVisible = false;
+                        this.lblPingIcon.DrawVisible = false;
                     }
                     break;
                 case 1:
@@ -633,8 +635,15 @@ namespace FallGuysStats {
                     this.lblPlayersXbox.DrawVisible = false;
                     this.lblPlayersSwitch.DrawVisible = false;
                     this.lblPlayersPc.DrawVisible = false;
+                    this.lblPingIcon.DrawVisible = true;
+                    this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 1000 > Stats.LastServerPing) ? -9
+                                                : Stats.IsPrePlaying && Stats.LastServerPing > 999 ? -18 : 0;
+                    this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ?
+                                                Properties.Resources.ping_100_icon :
+                                                (Stats.IsPrePlaying && Stats.LastServerPing >= 200) ?
+                                                Properties.Resources.ping_200_icon : null;
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                    this.lblPlayers.TextRight = Stats.InShow && Stats.LastServerPing > 0 ? $"{Stats.LastServerPing} ms" : "-";
+                    this.lblPlayers.TextRight = Stats.IsPrePlaying && Stats.LastServerPing > 0 ? $"{Stats.LastServerPing} ms" : "-";
                     break;
             }
         }
@@ -1030,6 +1039,8 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(thirdColumnX, 10 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
+                    this.lblPingIcon.Location = new Point(thirdColumnX + 143, 13 + heightOffset);
+                    this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                         this.lblPlayersPs.Location = new Point(thirdColumnX + 52, 13 + heightOffset);
@@ -1085,6 +1096,8 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(secondColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
+                    this.lblPingIcon.Location = new Point(secondColumnX + 200, 35 + heightOffset);
+                    this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                         this.lblPlayersPs.Location = new Point(secondColumnX + 49, 35 + heightOffset);
@@ -1131,6 +1144,7 @@ namespace FallGuysStats {
                     this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
+                    this.lblPingIcon.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
                     this.lblPlayersXbox.DrawVisible = false;
                     this.lblPlayersSwitch.DrawVisible = false;
@@ -1160,6 +1174,7 @@ namespace FallGuysStats {
                     this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
+                    this.lblPingIcon.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
                     this.lblPlayersXbox.DrawVisible = false;
                     this.lblPlayersSwitch.DrawVisible = false;
@@ -1190,6 +1205,8 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX + secondColumnWidth + 6, 9 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
+                    this.lblPingIcon.Location = new Point(firstColumnX + secondColumnWidth + 6 + 143, 12 + heightOffset);
+                    this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                         this.lblPlayersPs.Location = new Point(firstColumnX + secondColumnWidth + 6 + 49, 12 + heightOffset);
@@ -1238,6 +1255,8 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
+                    this.lblPingIcon.Location = new Point(firstColumnX + 200, 35 + heightOffset);
+                    this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                         this.lblPlayersPs.Location = new Point(firstColumnX + 49, 35 + heightOffset);
@@ -1285,6 +1304,7 @@ namespace FallGuysStats {
                     this.lblRound.DrawVisible = false;
                     this.lblQualifyChance.DrawVisible = false;
                     this.lblPlayers.DrawVisible = false;
+                    this.lblPingIcon.DrawVisible = false;
                     this.lblPlayersPs.DrawVisible = false;
                     this.lblPlayersXbox.DrawVisible = false;
                     this.lblPlayersSwitch.DrawVisible = false;
