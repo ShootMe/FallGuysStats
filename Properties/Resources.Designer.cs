@@ -782,6 +782,26 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ping_100_icon {
+            get {
+                object obj = ResourceManager.GetObject("ping_100_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ping_200_icon {
+            get {
+                object obj = ResourceManager.GetObject("ping_200_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap player_icon {
             get {
                 object obj = ResourceManager.GetObject("player_icon", resourceCulture);

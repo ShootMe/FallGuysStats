@@ -102,7 +102,6 @@ namespace FallGuysStats {
                                         g.DrawImage(this.RoundIcon, (this.ClientRectangle.Width - widthOfText - this.ImageWidth) - 5, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                 }
-
                                 brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                 this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 //g.DrawString(this.TextRight, this.GetFontForLongText(this.TextRight), brFore, this.ClientRectangle, stringFormat);

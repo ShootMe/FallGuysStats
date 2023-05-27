@@ -110,6 +110,8 @@ namespace FallGuysStats {
         public static bool InShow = false; 
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
+        public static bool IsPrePlaying = false;
+        public static int PingSwitcher = 1;
         public static long LastServerPing = 0;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
@@ -176,7 +178,7 @@ namespace FallGuysStats {
         private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
 
-        //private Point screenCenter;
+        private Point screenCenter;
         private bool maximizedForm;
         private bool isFocused;
         private bool isFormClosing;
@@ -369,10 +371,10 @@ namespace FallGuysStats {
 
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
-            //Screen screen = this.GetCurrentScreen(this.overlay.Location);
-            //Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
-            //Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-            //this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
+            Screen screen = this.GetCurrentScreen(this.overlay.Location);
+            Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
+            Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
+            this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
             this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
@@ -380,7 +382,7 @@ namespace FallGuysStats {
             this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
             this.logFile.StatsForm = this;
             this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-            //this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
+            this.logFile.SetPreventOverlayMouseClicks(this.CurrentSettings.PreventOverlayMouseClicks);
             
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.SetFixedPosition(
@@ -598,20 +600,20 @@ namespace FallGuysStats {
             set { base.Text = value; }
         }
         
-        //public void PreventMouseCursorBug() {
-        //    if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
-        //}
-        //public void SetCursorPositionCenter() {
-        //    if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
-        //        Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
-        //    } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
-        //        Cursor.Position = new Point(this.screenCenter.X * 2, 0); // SW
-        //    } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
-        //        Cursor.Position = new Point(0, this.screenCenter.Y * 2); // NE
-        //    } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
-        //        Cursor.Position = new Point(0, 0); // SE
-        //    }
-        //}
+        public void PreventOverlayMouseClicks() {
+            if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
+        }
+        public void SetCursorPositionCenter() {
+            if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+                Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
+            } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+                Cursor.Position = new Point(this.screenCenter.X * 2, 0); // SW
+            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
+                Cursor.Position = new Point(0, this.screenCenter.Y * 2); // NE
+            } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
+                Cursor.Position = new Point(0, 0); // SE
+            }
+        }
 
         private void SetTheme(MetroThemeStyle theme) {
             if (this.Theme == theme) return;
@@ -1435,7 +1437,7 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 27) {
-                //this.CurrentSettings.PreventMouseCursorBugs = false;
+                this.CurrentSettings.PreventOverlayMouseClicks = false;
                 this.CurrentSettings.Version = 28;
                 this.SaveUserSettings();
             }
@@ -1568,7 +1570,7 @@ namespace FallGuysStats {
                 AutoUpdate = false,
                 MaximizedWindowState = false,
                 SystemTrayIcon = true,
-                //PreventMouseCursorBugs = false,
+                PreventOverlayMouseClicks = false,
                 FormLocationX = null,
                 FormLocationY = null,
                 FormWidth = null,
@@ -1957,7 +1959,6 @@ namespace FallGuysStats {
                                             } else {
                                                 profile = editShows.SelectedProfileId;
                                                 this.CurrentSettings.SelectedProfile = profile;
-                                                this.currentProfile = profile;
                                                 //this.ReloadProfileMenuItems();
                                                 this.SetProfileMenu(profile);
                                             }
@@ -1977,7 +1978,6 @@ namespace FallGuysStats {
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
                                     profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, stat.ShowNameId.StartsWith("show_wle_s10"));
                                     this.CurrentSettings.SelectedProfile = profile;
-                                    this.currentProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
                                 }
@@ -2244,8 +2244,11 @@ namespace FallGuysStats {
             }
         }
         private void SetProfileMenu(int profile) {
-            if (this.GetCurrentProfileId() == profile) return;
-            this.menuStats_Click(this.menuProfile.DropDownItems[this.AllProfiles.Find(p => p.ProfileId == profile).ProfileOrder], EventArgs.Empty);
+            Profiles currentP = this.AllProfiles.Find(p => p.ProfileId == profile);
+            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[currentP.ProfileOrder] as ToolStripMenuItem;
+            if (tsmi.Checked) return;
+            this.SetCurrentProfileIcon(!string.IsNullOrEmpty(currentP.LinkedShowId));
+            this.menuStats_Click(tsmi, EventArgs.Empty);
         }
         private void SetCurrentProfileIcon(bool linked) {
             if (this.CurrentSettings.AutoChangeProfile) {
@@ -3891,7 +3894,7 @@ namespace FallGuysStats {
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.Refresh();
                         this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-                        //this.logFile.SetPreventMouseCursorBugs(this.CurrentSettings.PreventMouseCursorBugs);
+                        this.logFile.SetPreventOverlayMouseClicks(this.CurrentSettings.PreventOverlayMouseClicks);
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase)))
                         {

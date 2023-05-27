@@ -55,7 +55,7 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         private bool autoChangeProfile;
-        //private bool preventMouseCursorBugs;
+        private bool preventOverlayMouseClicks;
         private Ping pingSender = new Ping();
         private PingReply reply;
         public event Action<List<RoundInfo>> OnParsedLogLines;
@@ -66,9 +66,9 @@ namespace FallGuysStats {
         public void SetAutoChangeProfile(bool option) {
             this.autoChangeProfile = option;
         }
-        //public void SetPreventMouseCursorBugs(bool option) {
-        //    this.preventMouseCursorBugs = option;
-        //}
+        public void SetPreventOverlayMouseClicks(bool option) {
+            this.preventOverlayMouseClicks = option;
+        }
 
         public void Start(string logDirectory, string fileName) {
             if (this.running) { return; }
@@ -178,26 +178,24 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
-                                       || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0) {
+                                       || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
+                                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
-                                //if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) > 0) Stats.IsPlaying = false;
                             } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.selectedShowId.StartsWith("show_wle_s10"));
                                 }
+                            } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
+                                if (this.preventOverlayMouseClicks && Stats.InShow && !Stats.EndedShow) {
+                                    this.StatsForm.PreventOverlayMouseClicks();
+                                }
                             }
-                            //else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
-                            //    Stats.IsPlaying = true;
-                            //    if (this.preventMouseCursorBugs && Stats.InShow && !Stats.EndedShow) {
-                            //        this.StatsForm.PreventMouseCursorBug();
-                            //    }
-                            //}
                         }
 
-                        if (logRound.LastPing > 0) {
-                            Stats.LastServerPing = logRound.LastPing;
-                        }
+                        //if (logRound.LastPing > 0) {
+                        //    Stats.LastServerPing = logRound.LastPing;
+                        //}
                         this.OnParsedLogLinesCurrent?.Invoke(round);
                     }
 
@@ -404,8 +402,7 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (Stats.InShow && logRound.Info == null && 
-                (index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0)
+            if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0)
             {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.selectedShowId.StartsWith("ugc-")) {
@@ -439,6 +436,7 @@ namespace FallGuysStats {
                 }
                 logRound.FindingPosition = false;
                 round.Add(logRound.Info);
+                Stats.IsPrePlaying = true;
             }
             else if (logRound.Info != null &&
                        (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -541,20 +539,35 @@ namespace FallGuysStats {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
                 }
-            } else if (line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (Stats.IsPrePlaying && line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
                 lock (this.pingSender) {
-                    int ipIndex = line.Line.IndexOf("IP: ");
-                    int portIndex = line.Line.IndexOf("port: ");
-                    byte[] bufferArray = new byte[32];
-                    int timeout = 1000;
-                    // port: {line.Line.Substring(portIndex + 6)}
-                    this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
-                    if (this.reply.Status == IPStatus.Success) {
-                        logRound.LastPing = this.reply.RoundtripTime;
-                    } else if (this.reply.Status == IPStatus.TimedOut) {
-                        logRound.LastPing = 0;
-                    } else {
-                        logRound.LastPing = 0;
+                    if (Stats.PingSwitcher++ % 3 == 0) {
+                        Stats.PingSwitcher = 1;
+                        int ipIndex = line.Line.IndexOf("IP: ");
+                        int portIndex = line.Line.IndexOf("port: ");
+                        byte[] bufferArray = new byte[32];
+                        int timeout = 1000;
+                        // port: {line.Line.Substring(portIndex + 6)}
+                        try {
+                            this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
+                            if (this.reply.Status == IPStatus.Success) {
+                                //logRound.LastPing = this.reply.RoundtripTime;
+                                Stats.LastServerPing = this.reply.RoundtripTime;
+                                Console.WriteLine(Stats.LastServerPing);
+                            } else if (this.reply.Status == IPStatus.TimedOut) {
+                                //logRound.LastPing = 0;
+                                Stats.LastServerPing = this.reply.RoundtripTime;
+                                Console.WriteLine(Stats.LastServerPing);
+                            } else {
+                                //logRound.LastPing = 0;
+                                Stats.LastServerPing = this.reply.RoundtripTime;
+                                Console.WriteLine(Stats.LastServerPing);
+                            }
+                        } catch {
+                            //logRound.LastPing = 0;
+                            Stats.LastServerPing = 0;
+                            Console.WriteLine(0);
+                        }
                     }
                 }
             } else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -593,7 +606,10 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.InShow = false;
-            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0) { 
+            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
+                        || line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
+                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
+                Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
