@@ -57,7 +57,7 @@ namespace FallGuysStats {
         private bool autoChangeProfile;
         private bool preventOverlayMouseClicks;
         private Ping pingSender = new Ping();
-        private PingReply reply;
+        private PingReply pingReply;
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
@@ -402,8 +402,7 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0)
-            {
+            if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.selectedShowId.StartsWith("ugc-")) {
                     this.selectedShowId = this.selectedShowId.Substring(4);
@@ -411,6 +410,7 @@ namespace FallGuysStats {
                 } else {
                     this.useShareCode = false;
                 }
+                Stats.IsPrePlaying = true;
             }
             //else if (Stats.InShow && logRound.Info == null && 
             //          (index = line.Line.IndexOf("[FraggleSceneLoader] Loading level using share code.", StringComparison.OrdinalIgnoreCase)) > 0)
@@ -436,7 +436,6 @@ namespace FallGuysStats {
                 }
                 logRound.FindingPosition = false;
                 round.Add(logRound.Info);
-                Stats.IsPrePlaying = true;
             }
             else if (logRound.Info != null &&
                        (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -539,38 +538,63 @@ namespace FallGuysStats {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
                 }
-            } else if (Stats.IsPrePlaying && line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
+                Stats.IsPrePlaying = true;
+            } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 lock (this.pingSender) {
                     if (Stats.PingSwitcher++ % 3 == 0) {
                         Stats.PingSwitcher = 1;
-                        int ipIndex = line.Line.IndexOf("IP: ");
-                        int portIndex = line.Line.IndexOf("port: ");
+                        string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         byte[] bufferArray = new byte[32];
                         int timeout = 1000;
-                        // port: {line.Line.Substring(portIndex + 6)}
                         try {
-                            this.reply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
-                            if (this.reply.Status == IPStatus.Success) {
+                            this.pingReply = pingSender.Send($"{host.Substring(0, host.IndexOf(":"))}", timeout, bufferArray);
+                            if (this.pingReply.Status == IPStatus.Success) {
                                 //logRound.LastPing = this.reply.RoundtripTime;
-                                Stats.LastServerPing = this.reply.RoundtripTime;
-                                Console.WriteLine(Stats.LastServerPing);
-                            } else if (this.reply.Status == IPStatus.TimedOut) {
+                                Stats.LastServerPing = this.pingReply.RoundtripTime;
+                            } else if (this.pingReply.Status == IPStatus.TimedOut) {
                                 //logRound.LastPing = 0;
-                                Stats.LastServerPing = this.reply.RoundtripTime;
-                                Console.WriteLine(Stats.LastServerPing);
+                                Stats.LastServerPing = this.pingReply.RoundtripTime;
                             } else {
                                 //logRound.LastPing = 0;
-                                Stats.LastServerPing = this.reply.RoundtripTime;
-                                Console.WriteLine(Stats.LastServerPing);
+                                Stats.LastServerPing = this.pingReply.RoundtripTime;
                             }
                         } catch {
                             //logRound.LastPing = 0;
                             Stats.LastServerPing = 0;
-                            Console.WriteLine(0);
                         }
                     }
                 }
-            } else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            }
+            //else if (line.Line.IndexOf("[StateMatchmaking] Found game on -> server IP: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            //    lock (this.pingSender) {
+            //        if (Stats.PingSwitcher++ % 3 == 0) {
+            //            Stats.PingSwitcher = 1;
+            //            int ipIndex = line.Line.IndexOf("IP: ");
+            //            int portIndex = line.Line.IndexOf("port: ");
+            //            byte[] bufferArray = new byte[32];
+            //            int timeout = 1000;
+            //            // port: {line.Line.Substring(portIndex + 6)}
+            //            try {
+            //                this.pingReply = pingSender.Send($"{line.Line.Substring(ipIndex + 4, portIndex - ipIndex - 5)}", timeout, bufferArray);
+            //                if (this.pingReply.Status == IPStatus.Success) {
+            //                    //logRound.LastPing = this.reply.RoundtripTime;
+            //                    Stats.LastServerPing = this.pingReply.RoundtripTime;
+            //                } else if (this.pingReply.Status == IPStatus.TimedOut) {
+            //                    //logRound.LastPing = 0;
+            //                    Stats.LastServerPing = this.pingReply.RoundtripTime;
+            //                } else {
+            //                    //logRound.LastPing = 0;
+            //                    Stats.LastServerPing = this.pingReply.RoundtripTime;
+            //                }
+            //            } catch {
+            //                //logRound.LastPing = 0;
+            //                Stats.LastServerPing = 0;
+            //            }
+            //        }
+            //    }
+            //}
+            else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
                 index = line.Line.IndexOf("RTT: ");
                 if (index > 0) {
                     int msIndex = line.Line.IndexOf("ms", index);
@@ -606,8 +630,10 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.InShow = false;
+                Stats.IsPrePlaying = false;
+                Stats.IsPlaying = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
-                        || line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
+                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
                         || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
@@ -664,6 +690,8 @@ namespace FallGuysStats {
                     logRound.Info = null;
                     Stats.InShow = false;
                     Stats.EndedShow = true;
+                    Stats.IsPrePlaying = false;
+                    Stats.IsPlaying = false;
                     return true;
                 }
                 return false;
@@ -758,6 +786,8 @@ namespace FallGuysStats {
                 logRound.Info = null;
                 Stats.InShow = false;
                 Stats.EndedShow = true;
+                Stats.IsPrePlaying = false;
+                Stats.IsPlaying = false;
                 return true;
             }
             return false;
