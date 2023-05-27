@@ -3889,6 +3889,14 @@ namespace FallGuysStats {
                         }
                         this.ChangeLaunchPlatformImage(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
+                        this.overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
+                        if (this.overlay.Visible) {
+                            this.overlay.Hide();
+                            this.overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
+                            this.overlay.Show();
+                        } else {
+                            this.overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
+                        }
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
@@ -3943,8 +3951,9 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayVisible = false;
                 this.SaveUserSettings();
             } else {
-                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
                 overlay.Show();
+                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
+                overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
                 this.menuOverlay.Image = Properties.Resources.stat_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_icon;
