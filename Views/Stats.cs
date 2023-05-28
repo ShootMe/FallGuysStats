@@ -1691,7 +1691,7 @@ namespace FallGuysStats {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuTodaysShow.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 65);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 66);
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
         }
         private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
@@ -2261,6 +2261,10 @@ namespace FallGuysStats {
                 this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
+        }
+        public string GetRoundNameFromShareCode(string shareCode) {
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
+            return filteredInfo.Count > 0 ? filteredInfo[filteredInfo.Count - 1].CreativeTitle : shareCode;
         }
         public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode) {
             StatSummary summary = new StatSummary {
