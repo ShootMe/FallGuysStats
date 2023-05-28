@@ -864,6 +864,7 @@ namespace FallGuysStats {
             this.menuProfile.DropDownItems.Clear();
             this.menuProfile.DropDownItems.Add(this.menuEditProfiles);
             
+            this.ProfileTrayItems.Clear();
             this.trayProfile.DropDownItems.Clear();
             this.trayProfile.DropDownItems.Add(this.trayEditProfiles);
             
@@ -902,8 +903,8 @@ namespace FallGuysStats {
                 menuItem.Text = profile.ProfileName;
                 menuItem.Click += this.menuStats_Click;
                 menuItem.Paint += this.menuProfile_Paint;
-                menuItem.MouseMove += this.SetCursor_MouseMove;
-                menuItem.MouseLeave += this.SetCursor_MouseLeave;
+                menuItem.MouseMove += this.setCursor_MouseMove;
+                menuItem.MouseLeave += this.setCursor_MouseLeave;
                 this.menuProfile.DropDownItems.Add(menuItem);
                 this.ProfileMenuItems.Add(menuItem);
                 
@@ -1699,11 +1700,11 @@ namespace FallGuysStats {
             this.Cursor = Cursors.Default;
         }
         
-        private void SetCursor_MouseMove(object sender, MouseEventArgs e) {
+        private void setCursor_MouseMove(object sender, MouseEventArgs e) {
             this.Cursor = Cursors.Hand;
         }
 
-        private void SetCursor_MouseLeave(object sender, EventArgs e) {
+        private void setCursor_MouseLeave(object sender, EventArgs e) {
             this.Cursor = Cursors.Default;
         }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
@@ -3708,9 +3709,11 @@ namespace FallGuysStats {
                     }
                 } else if (this.ProfileTrayItems.Contains(button)) {
                     for (int i = this.ProfileTrayItems.Count - 1; i >= 0; i--) {
-                        if (this.ProfileTrayItems[i].Name == button.Name) this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
-                            return p.ProfileName == this.ProfileTrayItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
-                        }) != -1);
+                        if (this.ProfileTrayItems[i].Name == button.Name) {
+                            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
+                                return p.ProfileName == this.ProfileTrayItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
+                            }) != -1);
+                        }
                         this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                         this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                     }
@@ -4097,6 +4100,7 @@ namespace FallGuysStats {
             } else {
                 this.trayOverlay.Text = Multilingual.GetWord("main_hide_overlay");
             }
+            this.trayTodaysShow.Text = Multilingual.GetWord("main_todays_show");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
             this.trayHelp.Text = Multilingual.GetWord("main_help");
             this.trayLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");

@@ -88,6 +88,7 @@ namespace FallGuysStats {
             this.trayProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.trayEditProfiles = new System.Windows.Forms.ToolStripMenuItem();
             this.traySeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayTodaysShow = new System.Windows.Forms.ToolStripMenuItem();
             this.trayUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.trayHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.trayLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,8 +122,8 @@ namespace FallGuysStats {
             this.menuSettings.Size = new System.Drawing.Size(78, 25);
             this.menuSettings.Text = "Settings";
             this.menuSettings.Click += new System.EventHandler(this.menuSettings_Click);
-            this.menuSettings.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuSettings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuSettings.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuSettings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuFilters
             // 
@@ -148,8 +149,8 @@ namespace FallGuysStats {
             this.menuCustomRangeStats.Size = new System.Drawing.Size(228, 25);
             this.menuCustomRangeStats.Text = "Custom Range";
             this.menuCustomRangeStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuCustomRangeStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuCustomRangeStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuCustomRangeStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuCustomRangeStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuAllStats
             // 
@@ -161,8 +162,8 @@ namespace FallGuysStats {
             this.menuAllStats.Size = new System.Drawing.Size(228, 25);
             this.menuAllStats.Text = "All";
             this.menuAllStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuAllStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuAllStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuAllStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuAllStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeasonStats
             // 
@@ -172,8 +173,8 @@ namespace FallGuysStats {
             this.menuSeasonStats.Size = new System.Drawing.Size(228, 25);
             this.menuSeasonStats.Text = "Season";
             this.menuSeasonStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuSeasonStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuSeasonStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuSeasonStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuSeasonStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuWeekStats
             // 
@@ -183,8 +184,8 @@ namespace FallGuysStats {
             this.menuWeekStats.Size = new System.Drawing.Size(228, 25);
             this.menuWeekStats.Text = "Week";
             this.menuWeekStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuWeekStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuWeekStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuWeekStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuWeekStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuDayStats
             // 
@@ -194,8 +195,8 @@ namespace FallGuysStats {
             this.menuDayStats.Size = new System.Drawing.Size(228, 25);
             this.menuDayStats.Text = "Day";
             this.menuDayStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuDayStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuDayStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuDayStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuDayStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSessionStats
             // 
@@ -205,8 +206,8 @@ namespace FallGuysStats {
             this.menuSessionStats.Size = new System.Drawing.Size(228, 25);
             this.menuSessionStats.Text = "Session";
             this.menuSessionStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuSessionStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuSessionStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuSessionStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuSessionStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuPartyFilter
             // 
@@ -226,8 +227,8 @@ namespace FallGuysStats {
             this.menuAllPartyStats.Size = new System.Drawing.Size(175, 25);
             this.menuAllPartyStats.Text = "All";
             this.menuAllPartyStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuAllPartyStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuAllPartyStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuAllPartyStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuAllPartyStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSoloStats
             // 
@@ -237,8 +238,8 @@ namespace FallGuysStats {
             this.menuSoloStats.Size = new System.Drawing.Size(175, 25);
             this.menuSoloStats.Text = "Solo";
             this.menuSoloStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuSoloStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuSoloStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuSoloStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuSoloStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuPartyStats
             // 
@@ -248,8 +249,8 @@ namespace FallGuysStats {
             this.menuPartyStats.Size = new System.Drawing.Size(175, 25);
             this.menuPartyStats.Text = "Party";
             this.menuPartyStats.Click += new System.EventHandler(this.menuStats_Click);
-            this.menuPartyStats.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuPartyStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuPartyStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuPartyStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuProfile
             // 
@@ -267,8 +268,8 @@ namespace FallGuysStats {
             this.menuEditProfiles.Size = new System.Drawing.Size(155, 25);
             this.menuEditProfiles.Text = "Profile Settings";
             this.menuEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
-            this.menuEditProfiles.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuEditProfiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuEditProfiles.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuEditProfiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuOverlay
             // 
@@ -278,8 +279,8 @@ namespace FallGuysStats {
             this.menuOverlay.Size = new System.Drawing.Size(109, 25);
             this.menuOverlay.Text = "Show Overlay";
             this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
-            this.menuOverlay.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuOverlay.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuUpdate
             // 
@@ -289,8 +290,8 @@ namespace FallGuysStats {
             this.menuUpdate.Size = new System.Drawing.Size(73, 25);
             this.menuUpdate.Text = "Update";
             this.menuUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
-            this.menuUpdate.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuUpdate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuUpdate.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuUpdate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuHelp
             // 
@@ -300,8 +301,8 @@ namespace FallGuysStats {
             this.menuHelp.Size = new System.Drawing.Size(60, 25);
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
-            this.menuHelp.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuHelp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuHelp.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuHelp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuLaunchFallGuys
             // 
@@ -310,8 +311,8 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys.Size = new System.Drawing.Size(126, 25);
             this.menuLaunchFallGuys.Text = "Launch Fall Guys";
             this.menuLaunchFallGuys.Click += new System.EventHandler(this.menuLaunchFallGuys_Click);
-            this.menuLaunchFallGuys.MouseLeave += new System.EventHandler(this.SetCursor_MouseLeave);
-            this.menuLaunchFallGuys.MouseMove += new System.Windows.Forms.MouseEventHandler(this.SetCursor_MouseMove);
+            this.menuLaunchFallGuys.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuLaunchFallGuys.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuTodaysShow
             // 
@@ -528,7 +529,7 @@ namespace FallGuysStats {
             // 
             // trayCMenu
             // 
-            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
+            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayTodaysShow, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
             this.trayCMenu.Name = "trayCMenu";
             this.trayCMenu.Size = new System.Drawing.Size(166, 204);
             // 
@@ -680,6 +681,14 @@ namespace FallGuysStats {
             this.traySeparator3.Name = "traySeparator3";
             this.traySeparator3.Size = new System.Drawing.Size(162, 6);
             // 
+            // trayTodaysShow
+            // 
+            this.trayTodaysShow.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
+            this.trayTodaysShow.Name = "trayTodaysShow";
+            this.trayTodaysShow.Size = new System.Drawing.Size(165, 22);
+            this.trayTodaysShow.Text = "Today's Show!";
+            this.trayTodaysShow.Click += new System.EventHandler(this.menuTodaysShow_Click);
+            // 
             // trayUpdate
             // 
             this.trayUpdate.Image = global::FallGuysStats.Properties.Resources.github_icon;
@@ -802,6 +811,7 @@ namespace FallGuysStats {
         private System.Windows.Forms.ToolStripMenuItem trayPartyFilter;
         private System.Windows.Forms.ToolStripMenuItem trayStatsFilter;
         private System.Windows.Forms.ToolStripSeparator traySeparator3;
+        private System.Windows.Forms.ToolStripMenuItem trayTodaysShow;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;
         private System.Windows.Forms.ToolStripMenuItem trayLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem trayHelp;
