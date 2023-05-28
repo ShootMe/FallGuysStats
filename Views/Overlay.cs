@@ -696,6 +696,10 @@ namespace FallGuysStats {
                     
                     StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException, this.lastRound.UseShareCode);
 
+                    if (this.lastRound.UseShareCode) {
+                        roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
+                    }
+
                     //if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
                     //    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
                     //} else {
@@ -750,9 +754,9 @@ namespace FallGuysStats {
                         this.switchCount++;
                     }
 
-                    DateTime Start = this.lastRound.Start;
-                    DateTime End = this.lastRound.End;
-                    DateTime? Finish = this.lastRound.Finish;
+                    DateTime start = this.lastRound.Start;
+                    DateTime end = this.lastRound.End;
+                    DateTime? finish = this.lastRound.Finish;
 
                     if (this.lastRound.Playing != this.startedPlaying) {
                         if (this.lastRound.Playing) {
@@ -762,28 +766,27 @@ namespace FallGuysStats {
                     }
 
                     this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
-                    if (Finish.HasValue) {
-                        TimeSpan Time = Finish.GetValueOrDefault(End) - Start;
-                        //lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
+                    if (finish.HasValue) {
+                        TimeSpan time = finish.GetValueOrDefault(end) - start;
                         if (this.lastRound.Crown) {
-                            this.lblFinish.TextRight = $"# {Multilingual.GetWord("overlay_position_win")}! - {Time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"# {Multilingual.GetWord("overlay_position_win")}! - {time:m\\:ss\\.ff}";
                         } else {
-                            this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {Time:m\\:ss\\.ff}" : $"{Time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                         }
 
                         if (levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
-                            if (Time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && Time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                            if (time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
-                            } else if (Time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                            } else if (time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.Gold;
                             }
-                        } else if (Time > levelInfo.LongestFinish && Time < levelInfo.LongestFinishOverall) {
+                        } else if (time > levelInfo.LongestFinish && time < levelInfo.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.LightGreen;
-                        } else if (Time > levelInfo.LongestFinishOverall) {
+                        } else if (time > levelInfo.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.Gold;
                         }
                     } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                        this.lblFinish.TextRight = Start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - Start:m\\:ss}";
+                        this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                     } else {
                         this.lblFinish.TextRight = "-";
                         this.lblFinish.ForeColor = this.ForeColor;
@@ -793,10 +796,10 @@ namespace FallGuysStats {
                         ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
                         : $"{Multilingual.GetWord("overlay_duration")} :";
 
-                    if (End != DateTime.MinValue) {
-                        this.lblDuration.TextRight = $"{End - Start:m\\:ss\\.ff}";
+                    if (end != DateTime.MinValue) {
+                        this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                     } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                        this.lblDuration.TextRight = Start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - Start:m\\:ss}";
+                        this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                     } else {
                         this.lblDuration.TextRight = "-";
                     }

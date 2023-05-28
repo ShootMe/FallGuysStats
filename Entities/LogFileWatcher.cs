@@ -594,14 +594,15 @@ namespace FallGuysStats {
             //        }
             //    }
             //}
-            else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
-                index = line.Line.IndexOf("RTT: ");
-                if (index > 0) {
-                    int msIndex = line.Line.IndexOf("ms", index);
-                    logRound.LastPing = long.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
-                }
+            //else if (logRound.Info != null && line.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+            //    index = line.Line.IndexOf("RTT: ");
+            //    if (index > 0) {
+            //        int msIndex = line.Line.IndexOf("ms", index);
+            //        logRound.LastPing = long.Parse(line.Line.Substring(index + 5, msIndex - index - 5));
+            //    }
             //} else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Precountdown to Countdown", StringComparison.OrdinalIgnoreCase) > 0) {
-            } else if (logRound.Info != null &&
+            //}
+            else if (logRound.Info != null &&
                        line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.IsPlaying = true;
                 logRound.Info.Start = line.Date;
