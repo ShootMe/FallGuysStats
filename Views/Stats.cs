@@ -1692,7 +1692,7 @@ namespace FallGuysStats {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuTodaysShow.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 66);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 67);
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
         }
         private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
@@ -2245,10 +2245,10 @@ namespace FallGuysStats {
             }
         }
         private void SetProfileMenu(int profile) {
-            Profiles currentP = this.AllProfiles.Find(p => p.ProfileId == profile);
-            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[currentP.ProfileOrder - 1] as ToolStripMenuItem;
+            //Profiles cp = this.AllProfiles.Find(p => p.ProfileId == profile);
+            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
             if (tsmi.Checked) return;
-            this.SetCurrentProfileIcon(!string.IsNullOrEmpty(currentP.LinkedShowId));
+            //this.SetCurrentProfileIcon(!string.IsNullOrEmpty(cp.LinkedShowId));
             this.menuStats_Click(tsmi, EventArgs.Empty);
         }
         private void SetCurrentProfileIcon(bool linked) {
