@@ -151,6 +151,7 @@ namespace FallGuysStats {
 
             this.SetBackground();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+            this.Focus();
         }
         public void SetFixedPosition(bool positionNe, bool positionNw, bool positionSe, bool positionSw, bool positionFree) {
             this.isFixedPositionNe = positionNe;
