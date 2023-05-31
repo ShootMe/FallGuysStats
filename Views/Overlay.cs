@@ -34,8 +34,8 @@ namespace FallGuysStats {
         private DateTime startTime;
         private bool shiftKeyToggle, ctrlKeyToggle;
         private new Size DefaultSize;
-        private Bitmap customizedBackground;
-        private string backgroundResourceNameCache;
+        private Bitmap customizedBackground, customizedTab;
+        private string backgroundResourceNameCache, tabResourceNameCache;
 
         private bool isPositionButtonMouseEnter;
         private readonly Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
@@ -1513,7 +1513,6 @@ namespace FallGuysStats {
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {
                 this.Background?.Dispose();
-
                 bool tabsDisplayed = this.StatsForm.CurrentSettings.ShowOverlayTabs;
                 //bool profileDisplayed = StatsForm.CurrentSettings.ShowOverlayProfile;
                 bool overlayCustomized = this.StatsForm.CurrentSettings.IsOverlayBackgroundCustomized;
@@ -1523,9 +1522,15 @@ namespace FallGuysStats {
                     if (string.IsNullOrEmpty(this.BackgroundResourceName)) {
                         background = Properties.Resources.background;
                     } else {
-                        background = overlayCustomized
-                            ? File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? new Bitmap($"Overlay/{this.BackgroundResourceName}.png") : Properties.Resources.background
-                            : (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
+                        if (overlayCustomized) {
+                            if (!this.BackgroundResourceName.Equals(this.backgroundResourceNameCache)) {
+                                this.customizedBackground = new Bitmap($"Overlay/{this.BackgroundResourceName}.png");
+                                this.backgroundResourceNameCache = this.BackgroundResourceName;
+                            }
+                            background = File.Exists($"Overlay/{this.BackgroundResourceName}.png") ? this.customizedBackground : Properties.Resources.background;
+                        } else {
+                            background = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.BackgroundResourceName) ?? Properties.Resources.background;
+                        }
                     }
                     g.DrawImage(background, 0, tabsDisplayed ? 35 : 0);
                     
@@ -1534,9 +1539,15 @@ namespace FallGuysStats {
                         if (string.IsNullOrEmpty(this.TabResourceName)) {
                             tab = Properties.Resources.tab_unselected;
                         } else {
-                            tab = overlayCustomized
-                                ? File.Exists($"Overlay/{this.TabResourceName}.png") ? new Bitmap($"Overlay/{this.TabResourceName}.png") : Properties.Resources.tab_unselected
-                                : (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
+                            if (overlayCustomized) {
+                                if (!this.TabResourceName.Equals(this.tabResourceNameCache)) {
+                                    this.customizedTab = new Bitmap($"Overlay/{this.TabResourceName}.png");
+                                    this.tabResourceNameCache = this.TabResourceName;
+                                }
+                                tab = File.Exists($"Overlay/{this.TabResourceName}.png") ? this.customizedTab : Properties.Resources.tab_unselected;
+                            } else {
+                                tab = (Bitmap)Properties.Resources.ResourceManager.GetObject(this.TabResourceName) ?? Properties.Resources.tab_unselected;
+                            }
                         }
                         g.DrawImage(tab, this.drawWidth - 170 - this.GetOverlayProfileOffset(this.lblProfile.Text), 0);
                         g.DrawImage(tab, this.drawWidth - 110, 0);
