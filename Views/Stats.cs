@@ -111,8 +111,9 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
         public static bool IsPrePlaying = false;
-        public static int PingSwitcher = 1;
+        public static int PingSwitcher = 5;
         public static long LastServerPing = 0;
+        public static string LastCountryCode = String.Empty;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
@@ -190,6 +191,7 @@ namespace FallGuysStats {
         private bool isStartUp = true;
         
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
+        public readonly string IP2C_ORG_URL = "https://ip2c.org/";
         public readonly string[] publicShowIdList = {
             "main_show",
             "squads_2player_template",
@@ -3800,6 +3802,17 @@ namespace FallGuysStats {
                 }
             }
             return onlinePlatformInfo;
+        }
+        public string GetCountryCode(string host) {
+            string code = string.Empty;
+            using (ApiWebClient web = new ApiWebClient()) {
+                string resStr = web.DownloadString($"{this.IP2C_ORG_URL}{host}");
+                string[] resArr = resStr.Split(';');
+                if ("1".Equals(resArr[0])) {
+                    code = resArr[2];
+                }
+            }
+            return code;
         }
         public JsonElement GetApiData(string apiUrl, string apiEndPoint) {
             JsonElement resJroot;

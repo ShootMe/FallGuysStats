@@ -777,4 +777,751 @@
     <data name="tab_unselected_wallpaper_03" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\tab_unselected_wallpaper_03.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="country_abw_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ABW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_afg_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AFG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ago_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AGO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_aia_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AIA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ala_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ALA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_alb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ALB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_and_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_are_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ARE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_arg_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ARG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_arm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ARM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_asm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ASM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ata_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ATA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_atf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ATF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_atg_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ATG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_aus_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AUS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_aut_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AUT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_aze_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\AZE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bdi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BDI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bel_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BEL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ben_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bes_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BES.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bfa_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BFA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bgd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BGD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bgr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BGR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bhr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BHR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bhs_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BHS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bih_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BIH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_blm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BLM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_blr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BLR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_blz_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BLZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bmu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BMU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bol_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BOL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bra_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BRA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_brb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BRB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_brn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BRN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_btn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BTN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bvt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BVT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_bwa_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\BWA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_caf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CAF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_can_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CAN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cck_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CCK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_che_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CHE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_chl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CHL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_chn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CHN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_civ_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CIV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cmr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CMR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cod_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\COD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cog_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\COG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cok_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\COK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_col_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\COL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_com_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\COM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cpv_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CPV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cri_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CRI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cub_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CUB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cuw_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CUW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cxr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CXR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cym_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CYM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cyp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CYP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_cze_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\CZE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_deu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DEU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_dji_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DJI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_dma_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DMA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_dnk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DNK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_dom_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DOM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_dza_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\DZA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ecu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ECU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_egy_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\EGY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_eri_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ERI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_esh_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ESH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_esp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ESP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_est_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\EST.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_eth_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ETH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_fin_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FIN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_fji_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FJI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_flk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FLK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_fra_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FRA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_fro_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FRO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_fsm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\FSM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gab_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GAB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gbr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GBR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_geo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GEO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ggy_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GGY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gha_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GHA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gib_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GIB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gin_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GIN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_glp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GLP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gmb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GMB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gnb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GNB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gnq_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GNQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_grc_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GRC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_grd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GRD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_grl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GRL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gtm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GTM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_guf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GUF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_gum_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GUM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_guy_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\GUY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hkg_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HKG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hmd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HMD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hnd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hrv_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HRV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hti_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HTI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_hun_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\HUN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_idn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IDN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_imn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IMN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ind_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IND.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_iot_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IOT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_irl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IRL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_irn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IRN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_irq_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\IRQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_isl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ISL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_isr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ISR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ita_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ITA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_jam_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\JAM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_jey_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\JEY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_jor_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\JOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_jpn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\JPN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kaz_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KAZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ken_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kgz_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KGZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_khm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KHM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kir_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KIR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kna_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KNA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kor_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_kwt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\KWT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lao_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LAO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lbn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LBN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lbr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LBR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lby_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LBY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lca_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LCA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lie_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LIE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lka_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LKA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lso_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LSO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ltu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LTU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lux_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LUX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_lva_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\LVA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mac_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MAC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_maf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MAF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mar_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MAR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mco_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MCO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mda_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MDA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mdg_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MDG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mdv_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MDV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mex_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MEX.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mhl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MHL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mkd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MKD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mli_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MLI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mlt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MLT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mmr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MMR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mne_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MNE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mng_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mnp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MNP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_moz_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MOZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mrt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MRT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_msr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MSR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mtq_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MTQ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mus_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MUS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mwi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MWI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_mys_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MYS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_myt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\MYT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nam_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NAM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ncl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NCL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ner_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NER.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nfk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NFK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nga_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NGA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nic_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NIC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_niu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NIU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nld_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NLD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nor_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NOR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_npl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NPL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nru_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NRU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_nzl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\NZL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_omn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\OMN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pak_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PAK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pan_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PAN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pcn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PCN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_per_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PER.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_phl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PHL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_plw_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PLW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_png_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PNG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pol_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\POL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pri_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PRI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_prk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PRK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_prt_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PRT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pry_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PRY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pse_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PSE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_pyf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\PYF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_qat_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\QAT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_reu_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\REU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_rou_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ROU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_rus_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\RUS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_rwa_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\RWA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sau_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SAU.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sdn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SDN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sen_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sgp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SGP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sgs_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SGS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_shn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SHN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sjm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SJM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_slb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SLB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sle_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SLE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_slv_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SLV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_smr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SMR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_som_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SOM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_spm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SPM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_srb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SRB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ssd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SSD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_stp_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\STP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sur_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SUR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_svk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SVK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_svn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SVN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_swe_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SWE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_swz_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SWZ.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_sxm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SXM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_syc_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SYC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_syr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\SYR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tca_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TCA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tcd_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TCD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tgo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TGO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tha_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\THA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tjk_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TJK.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tkl_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TKL.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tkm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TKM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tls_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TLS.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ton_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TON.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tto_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TTO.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tun_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TUN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tur_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TUR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tuv_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TUV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_twn_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TWN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_tza_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\TZA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_uga_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\UGA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ukr_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\UKR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_umi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\UMI.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ury_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\URY.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_usa_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\USA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_uzb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\UZB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vat_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VAT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vct_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VCT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_ven_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VEN.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vgb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VGB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vir_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VIR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vnm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VNM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_vut_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\VUT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_wlf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\WLF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_wsm_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\WSM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_yem_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\YEM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_zaf_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ZAF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_zmb_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ZMB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="country_zwe_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\country_icon\ZWE.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
 </root>
