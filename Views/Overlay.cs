@@ -127,34 +127,15 @@ namespace FallGuysStats {
         
         public Overlay() {
             this.InitializeComponent();
+        }
+
+        private void Overlay_Load(object sender, EventArgs e) {
             this.ChangeLanguage();
-
-            //this.picPositionNE.Image = this.positionNeOffBlur;
-            //this.picPositionNW.Image = this.positionNwOffBlur;
-            //this.picPositionSE.Image = this.positionSeOffBlur;
-            //this.picPositionSW.Image = this.positionSwOffBlur;
-            //this.picPositionLock.Image = this.positionUnlockBlur;
-            
-            //this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2));
-            //this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNW.Size.Height + 2));
-            //this.picPositionSE.Location = new Point((this.Width / 2) - (this.picPositionSE.Size.Width + 2), (this.Height / 2) + 2);
-            //this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2);
-            //this.picPositionLock.Location = new Point(this.Location.X - 2, this.Location.Y - 8);
-            
-            //foreach (Control c in Controls) {
-            //    if (c is TransparentLabel label) {
-            //        label.Parent = this;
-            //        label.BackColor = Color.Transparent;
-            //    }
-            //    c.MouseDown += Overlay_MouseDown;
-            //}
-
-            //SetFonts(this);
-
             this.SetBackground();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
             this.Focus();
         }
+
         public void SetFixedPosition(bool positionNe, bool positionNw, bool positionSe, bool positionSw, bool positionFree) {
             this.isFixedPositionNe = positionNe;
             this.isFixedPositionNw = positionNw;
