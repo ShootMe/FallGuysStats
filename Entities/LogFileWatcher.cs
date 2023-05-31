@@ -56,6 +56,7 @@ namespace FallGuysStats {
         private string sessionId;
         private bool autoChangeProfile;
         private bool preventOverlayMouseClicks;
+        private bool RequestApi = false;
         private Ping pingSender = new Ping();
         private PingReply pingReply;
         public event Action<List<RoundInfo>> OnParsedLogLines;
@@ -424,13 +425,19 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = true;
             } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 lock (this.pingSender) {
-                    if (Stats.PingSwitcher++ % 3 == 0) {
+                    string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
+                    string ip = host.Substring(0, host.IndexOf(":"));
+                    if (!this.RequestApi) {
+                        this.RequestApi = true;
+                        Stats.LastCountryCode = this.StatsForm.GetCountryCode(ip).ToLower();
+                    }
+                    
+                    if (Stats.PingSwitcher++ % 5 == 0) {
                         Stats.PingSwitcher = 1;
-                        string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         byte[] bufferArray = new byte[32];
                         int timeout = 1000;
                         try {
-                            this.pingReply = pingSender.Send($"{host.Substring(0, host.IndexOf(":"))}", timeout, bufferArray);
+                            this.pingReply = pingSender.Send(ip, timeout, bufferArray);
                             if (this.pingReply.Status == IPStatus.Success) {
                                 //logRound.LastPing = this.reply.RoundtripTime;
                                 Stats.LastServerPing = this.pingReply.RoundtripTime;
@@ -444,6 +451,7 @@ namespace FallGuysStats {
                         } catch {
                             //logRound.LastPing = 0;
                             Stats.LastServerPing = 0;
+                            Stats.LastCountryCode = String.Empty;
                         }
                     }
                 }
@@ -598,15 +606,19 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.LastServerPing = 0;
+                Stats.LastCountryCode = String.Empty;
                 Stats.InShow = false;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                this.RequestApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
-                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
-                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
+                       //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
+                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.LastServerPing = 0;
+                Stats.LastCountryCode = String.Empty;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                this.RequestApi = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (0 < round.Count) {
@@ -659,10 +671,12 @@ namespace FallGuysStats {
                     
                     logRound.Info = null;
                     Stats.LastServerPing = 0;
+                    Stats.LastCountryCode = String.Empty;
                     Stats.InShow = false;
                     Stats.EndedShow = true;
                     Stats.IsPrePlaying = false;
                     Stats.IsPlaying = false;
+                    this.RequestApi = false;
                     return true;
                 }
                 return false;
@@ -756,10 +770,12 @@ namespace FallGuysStats {
                 }
                 logRound.Info = null;
                 Stats.LastServerPing = 0;
+                Stats.LastCountryCode = String.Empty;
                 Stats.InShow = false;
                 Stats.EndedShow = true;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                this.RequestApi = false;
                 return true;
             }
             return false;

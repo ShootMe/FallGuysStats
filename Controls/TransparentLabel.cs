@@ -40,7 +40,7 @@ namespace FallGuysStats {
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth, this.ImageHeight);
+                    g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.PlatformIcon.Width : this.ImageWidth, this.ImageHeight == 0 ? this.PlatformIcon.Height : this.ImageHeight);
                     if (this.TextRight != null) {
                         g.DrawString(this.TextRight, new Font(this.Font.FontFamily, 12, this.Font.Style, GraphicsUnit.Pixel), brFore, this.ClientRectangle, stringFormat);
                     }
@@ -87,7 +87,7 @@ namespace FallGuysStats {
                         }
 
                         if (this.Image != null) {
-                            g.DrawImage(this.Image, this.ImageX, this.ImageY, this.ImageWidth, this.ImageHeight);
+                            g.DrawImage(this.Image, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.Image.Width : this.ImageWidth, this.ImageHeight == 0 ? this.Image.Height : this.ImageHeight);
                         }
 
                         if (!string.IsNullOrEmpty(this.TextRight)) {
