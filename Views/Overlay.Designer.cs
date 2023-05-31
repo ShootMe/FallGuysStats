@@ -41,6 +41,7 @@ namespace FallGuysStats {
             this.lblFastest = new FallGuysStats.TransparentLabel();
             this.lblDuration = new FallGuysStats.TransparentLabel();
             this.lblPingIcon = new FallGuysStats.TransparentLabel();
+            this.lblCountryIcon = new FallGuysStats.TransparentLabel();
             this.lblPlayers = new FallGuysStats.TransparentLabel();
             this.lblPlayersPc = new FallGuysStats.TransparentLabel();
             this.lblPlayersPs = new FallGuysStats.TransparentLabel();
@@ -259,6 +260,22 @@ namespace FallGuysStats {
             this.lblPingIcon.TextRight = "";
             this.lblPingIcon.Visible = false;
             // 
+            // lblCountryIcon
+            // 
+            this.lblCountryIcon.ImageHeight = 0;
+            this.lblCountryIcon.ImageWidth = 0;
+            this.lblCountryIcon.ImageX = 0;
+            this.lblCountryIcon.ImageY = 0;
+            this.lblCountryIcon.LevelColor = System.Drawing.Color.Empty;
+            this.lblCountryIcon.Location = new System.Drawing.Point(640, 12);
+            this.lblCountryIcon.Name = "lblCountryIcon";
+            this.lblCountryIcon.Size = new System.Drawing.Size(225, 22);
+            this.lblCountryIcon.TabIndex = 12;
+            this.lblCountryIcon.Text = "";
+            this.lblCountryIcon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCountryIcon.TextRight = "";
+            this.lblCountryIcon.Visible = false;
+            // 
             // lblPlayers
             // 
             this.lblPlayers.ImageHeight = 22;
@@ -407,6 +424,7 @@ namespace FallGuysStats {
             this.Controls.Add(this.lblFastest);
             this.Controls.Add(this.lblDuration);
             this.Controls.Add(this.lblPingIcon);
+            this.Controls.Add(this.lblCountryIcon);
             this.Controls.Add(this.lblPlayers);
             this.Controls.Add(this.lblPlayersPc);
             this.Controls.Add(this.lblPlayersPs);
@@ -454,6 +472,7 @@ namespace FallGuysStats {
         private TransparentLabel lblFinals;
         private TransparentLabel lblPlayers;
         private TransparentLabel lblPingIcon;
+        private TransparentLabel lblCountryIcon;
 
         private TransparentLabel lblPlayersPc;
         private TransparentLabel lblPlayersPs;
