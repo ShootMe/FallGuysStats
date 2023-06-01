@@ -513,8 +513,6 @@ namespace FallGuysStats {
         }
         private void Overlay_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                //this.Overlay_GotFocus(this, EventArgs.Empty);
-                
                 if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                     Rectangle rectangle = this.lblCountryIcon.Bounds;
                     Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));

@@ -851,7 +851,13 @@ namespace FallGuysStats {
                 strbuilder.Append(info.CreativeDescription);
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_author")} : {info.CreativeAuthor} ({this.GetCreativeOnlinePlatformName(info.CreativeOnlinePlatformId)})");
+                string[] createAuthorArr = info.CreativeAuthor.Split(';');
+                string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
+                for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
+                    strbuilder.Append(i == 0
+                        ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
+                        : $"{Environment.NewLine}            {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
+                }
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
                 strbuilder.Append(Environment.NewLine);
