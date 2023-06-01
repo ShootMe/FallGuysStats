@@ -133,9 +133,8 @@ namespace FallGuysStats {
             this.ChangeLanguage();
             this.SetBackground();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
-            this.Focus();
         }
-
+        
         public void SetFixedPosition(bool positionNe, bool positionNw, bool positionSe, bool positionSw, bool positionFree) {
             this.isFixedPositionNe = positionNe;
             this.isFixedPositionNw = positionNw;
@@ -251,7 +250,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
                         this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Show();
+                        this.SetVisiblePositionLockButton(true);
                     } else {
                         if (!this.IsFixed()) {
                             this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
@@ -269,7 +268,7 @@ namespace FallGuysStats {
                         //this.StatsForm.CurrentSettings.FlippedDisplay = true;
                         this.StatsForm.CurrentSettings.OverlayFixedPosition = "ne";
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
-                        this.picPositionLock.Hide();
+                        this.SetVisiblePositionLockButton(false);
                     }
                 } else if (iconName.Equals("picPositionNW")) {
                     if (this.isFixedPositionNw) {
@@ -284,7 +283,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
                         this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Show();
+                        this.SetVisiblePositionLockButton(true);
                     } else {
                         if (!this.IsFixed()) {
                             this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
@@ -302,7 +301,7 @@ namespace FallGuysStats {
                         //this.StatsForm.CurrentSettings.FlippedDisplay = false;
                         this.StatsForm.CurrentSettings.OverlayFixedPosition = "nw";
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Hide();
+                        this.SetVisiblePositionLockButton(false);
                     }
                 } else if (iconName.Equals("picPositionSE")) {
                     if (this.isFixedPositionSe) {
@@ -317,7 +316,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
                         this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Show();
+                        this.SetVisiblePositionLockButton(true);
                     } else {
                         if (!this.IsFixed()) {
                             this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
@@ -335,7 +334,7 @@ namespace FallGuysStats {
                         //this.StatsForm.CurrentSettings.FlippedDisplay = true;
                         this.StatsForm.CurrentSettings.OverlayFixedPosition = "se";
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
-                        this.picPositionLock.Hide();
+                        this.SetVisiblePositionLockButton(false);
                     }
                 } else if (iconName.Equals("picPositionSW")) {
                     if (this.isFixedPositionSw) {
@@ -350,7 +349,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
                         this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Show();
+                        this.SetVisiblePositionLockButton(true);
                     } else {
                         if (!this.IsFixed()) {
                             this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
@@ -368,7 +367,7 @@ namespace FallGuysStats {
                         //this.StatsForm.CurrentSettings.FlippedDisplay = false;
                         this.StatsForm.CurrentSettings.OverlayFixedPosition = "sw";
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
-                        this.picPositionLock.Hide();
+                        this.SetVisiblePositionLockButton(false);
                     }
                 } else if (iconName.Equals("picPositionLock")) {
                     if (this.isPositionLock) {
@@ -453,7 +452,7 @@ namespace FallGuysStats {
             this.picPositionSE.Image = flag.Equals("se") ? this.positionSeOnFocus : this.positionSeOffFocus;
             this.picPositionSW.Image = flag.Equals("sw") ? this.positionSwOnFocus : this.positionSwOffFocus;
         }
-        private void SetVisiblePositionMenu(bool visible) {
+        public void SetVisiblePositionMenu(bool visible) {
             if (visible) {
                 this.picPositionNE.Show();
                 this.picPositionNW.Show();
@@ -466,14 +465,21 @@ namespace FallGuysStats {
                 this.picPositionSW.Hide();
             }
         }
+        public void SetVisiblePositionLockButton(bool visible) {
+            if (visible) {
+                this.picPositionLock.Show();
+            } else {
+                this.picPositionLock.Hide();
+            }
+        }
         private void Overlay_GotFocus(object sender, EventArgs e) {
             this.isFocused = true;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {
-                    this.picPositionLock.Show();
+                    this.SetVisiblePositionLockButton(true);
                     this.SetVisiblePositionMenu(false);
                 } else {
-                    this.picPositionLock.Hide();
+                    this.SetVisiblePositionLockButton(false);
                     this.SetVisiblePositionMenu(true);
                     
                 }
@@ -481,7 +487,7 @@ namespace FallGuysStats {
                 if (this.picPositionNE.Visible && this.picPositionNW.Visible &&
                     this.picPositionSE.Visible && this.picPositionSW.Visible && this.picPositionLock.Visible) return;
                 this.SetVisiblePositionMenu(true);
-                this.picPositionLock.Show();
+                this.SetVisiblePositionLockButton(true);
             }
         }
         private void Overlay_LostFocus(object sender, EventArgs e) {
@@ -489,13 +495,32 @@ namespace FallGuysStats {
             if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
                     !this.picPositionSE.Visible && !this.picPositionSW.Visible && !this.picPositionLock.Visible) return;
             this.SetVisiblePositionMenu(false);
-            this.picPositionLock.Hide();
+            this.SetVisiblePositionLockButton(false);
         }
         private void Overlay_MouseEnter(object sender, EventArgs e) {
             this.isMouseEnter = true;
+            if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                Rectangle rectangle = this.lblCountryIcon.Bounds;
+                Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));
+                this.StatsForm.ShowOverlayCustomTooltip(Stats.LastCountryFullName, this, position);
+            }
         }
         private void Overlay_MouseLeave(object sender, EventArgs e) {
             this.isMouseEnter = false;
+            if (Stats.IsPrePlaying && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                this.StatsForm.HideOverlayCustomTooltip(this);
+            }
+        }
+        private void Overlay_MouseClick(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                //this.Overlay_GotFocus(this, EventArgs.Empty);
+                
+                if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                    Rectangle rectangle = this.lblCountryIcon.Bounds;
+                    Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));
+                    this.StatsForm.ShowOverlayCustomTooltip(Stats.LastCountryFullName, this, position);
+                }
+            }
         }
         private void Overlay_Resize(object sender, EventArgs e) {
             this.SetLocationPositionMenu(this.drawHeight > 99, this.StatsForm.CurrentSettings.FlippedDisplay);
