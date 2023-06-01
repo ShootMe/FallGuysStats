@@ -269,7 +269,7 @@ namespace FallGuysStats {
             this.lblCountryIcon.LevelColor = System.Drawing.Color.Empty;
             this.lblCountryIcon.Location = new System.Drawing.Point(640, 12);
             this.lblCountryIcon.Name = "lblCountryIcon";
-            this.lblCountryIcon.Size = new System.Drawing.Size(225, 22);
+            this.lblCountryIcon.Size = new System.Drawing.Size(225, 23);
             this.lblCountryIcon.TabIndex = 12;
             this.lblCountryIcon.Text = "";
             this.lblCountryIcon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -448,6 +448,7 @@ namespace FallGuysStats {
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
+            this.MouseClick += new MouseEventHandler(this.Overlay_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
             this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
             this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);

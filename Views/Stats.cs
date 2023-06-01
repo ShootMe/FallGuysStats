@@ -111,9 +111,10 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
         public static bool IsPrePlaying = false;
-        public static int PingSwitcher = 5;
+        public static int PingSwitcher = 4;
         public static long LastServerPing = 0;
         public static string LastCountryCode = String.Empty;
+        public static string LastCountryFullName = String.Empty;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
@@ -186,9 +187,11 @@ namespace FallGuysStats {
         private bool shiftKeyToggle, ctrlKeyToggle;
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
+        private MetroToolTip omtt = new MetroToolTip();
+        private MetroToolTip ocmtt = new MetroToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
-        private bool isStartUp = true;
+        private bool isStartingUp = true;
         
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         public readonly string IP2C_ORG_URL = "https://ip2c.org/";
@@ -414,8 +417,8 @@ namespace FallGuysStats {
             
             this.cmtt.OwnerDraw = true;
             this.cmtt.Draw += this.cmtt_Draw;
-            //this.mtt.OwnerDraw = true;
-            //this.mtt.Draw += this.mtt_Draw;
+            this.ocmtt.OwnerDraw = true;
+            this.ocmtt.Draw += this.ocmtt_Draw;
             
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
@@ -480,6 +483,38 @@ namespace FallGuysStats {
             Control c = e.AssociatedControl;
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
             MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+        }
+        private void ocmtt_Draw(object sender, DrawToolTipEventArgs e) {
+            // Draw the standard background.
+            //e.DrawBackground();
+            // Draw the custom background.
+            e.Graphics.FillRectangle(Brushes.Teal, e.Bounds);
+            
+            // Draw the standard border.
+            //e.DrawBorder();
+            // Draw the custom border to appear 3-dimensional.
+            e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
+                new Point (0, e.Bounds.Height - 1), 
+                new Point (0, 0), 
+                new Point (e.Bounds.Width - 1, 0)
+            });
+            e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
+                new Point (0, e.Bounds.Height - 1), 
+                new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
+                new Point (e.Bounds.Width - 1, 0)
+            });
+            
+            // Draw the standard text with customized formatting options.
+            //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+            // Draw the custom text.
+            // The using block will dispose the StringFormat automatically.
+            using (StringFormat sf = new StringFormat()) {
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+                sf.FormatFlags = StringFormatFlags.NoWrap;
+                e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+            }
         }
         //private void mtt_Draw(object sender, DrawToolTipEventArgs e) {
         //    e.DrawBackground();
@@ -621,6 +656,7 @@ namespace FallGuysStats {
             if (this.Theme == theme) return;
             this.Theme = theme;
             this.mtt.Theme = theme;
+            this.omtt.Theme = theme;
             this.menu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
             this.trayCMenu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
             foreach (Control c1 in Controls) {
@@ -1694,7 +1730,7 @@ namespace FallGuysStats {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuTodaysShow.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 67);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
         }
         private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
@@ -1883,7 +1919,7 @@ namespace FallGuysStats {
                         break;
                 }
 
-                this.isStartUp = false;
+                this.isStartingUp = false;
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -1992,7 +2028,7 @@ namespace FallGuysStats {
                                 stat.ShowID = nextShowID;
                                 stat.Profile = profile;
 
-                                if (stat.UseShareCode) {
+                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode)) {
                                     try {
                                         JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                                         string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
@@ -2607,6 +2643,29 @@ namespace FallGuysStats {
                                                                                             toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
                                                                                             toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
+        }
+        public void AllocOverlayCustomTooltip() {
+            this.ocmtt = new MetroToolTip();
+        }
+        public void ShowOverlayCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
+            if (duration == -1) {
+                this.ocmtt.Show(message, window, position);
+            } else {
+                this.ocmtt.Show(message, window, position, duration);
+            }
+        }
+        public void HideOverlayCustomTooltip(IWin32Window window) {
+            this.ocmtt.Hide(window);
+        }
+        public void ShowOverlayTooltip(string message, IWin32Window window, Point position, int duration = -1) {
+            if (duration == -1) {
+                this.omtt.Show(message, window, position);
+            } else {
+                this.omtt.Show(message, window, position, duration);
+            }
+        }
+        public void HideOverlayTooltip(IWin32Window window) {
+            this.omtt.Hide(window);
         }
         public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -3464,7 +3523,7 @@ namespace FallGuysStats {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
 
                 if (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats) {
-                    if (this.isStartUp) {
+                    if (this.isStartingUp) {
                         this.updateFilterRange = true;
                     } else {
                         using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
@@ -3753,7 +3812,7 @@ namespace FallGuysStats {
 
                 rounds.Sort();
 
-                if (!this.isStartUp && this.updateFilterType) {
+                if (!this.isStartingUp && this.updateFilterType) {
                     this.updateFilterType = false;
                     this.CurrentSettings.FilterType = this.menuSeasonStats.Checked ? 2 :
                                                         this.menuWeekStats.Checked ? 3 :
@@ -3763,14 +3822,14 @@ namespace FallGuysStats {
                     this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
                     this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
                     this.SaveUserSettings();
-                } else if (!this.isStartUp && this.updateFilterRange) {
+                } else if (!this.isStartingUp && this.updateFilterRange) {
                     this.updateFilterRange = false;
                     this.CurrentSettings.FilterType = 0;
                     this.CurrentSettings.SelectedCustomTemplateSeason = this.selectedCustomTemplateSeason;
                     this.CurrentSettings.CustomFilterRangeStart = this.customfilterRangeStart;
                     this.CurrentSettings.CustomFilterRangeEnd = this.customfilterRangeEnd;
                     this.SaveUserSettings();
-                } else if (!this.isStartUp && this.updateSelectedProfile) {
+                } else if (!this.isStartingUp && this.updateSelectedProfile) {
                     this.updateSelectedProfile = false;
                     this.CurrentSettings.SelectedProfile = profile;
                     this.SaveUserSettings();
@@ -3803,13 +3862,14 @@ namespace FallGuysStats {
             }
             return onlinePlatformInfo;
         }
-        public string GetCountryCode(string host) {
-            string code = string.Empty;
+        public string[] GetCountryCode(string host) {
+            string[] code = { string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = web.DownloadString($"{this.IP2C_ORG_URL}{host}");
                 string[] resArr = resStr.Split(';');
                 if ("1".Equals(resArr[0])) {
-                    code = resArr[2];
+                    code[0] = resArr[2];
+                    code[1] = resArr[3];
                 }
             }
             return code;
@@ -3994,8 +4054,8 @@ namespace FallGuysStats {
                     }
                 } else {
                     overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width)
-                        ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
-                        : this.Location;
+                                        ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
+                                        : this.Location;
                 }
             }
         }

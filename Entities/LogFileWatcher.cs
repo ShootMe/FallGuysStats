@@ -56,7 +56,7 @@ namespace FallGuysStats {
         private string sessionId;
         private bool autoChangeProfile;
         private bool preventOverlayMouseClicks;
-        private bool RequestApi = false;
+        private bool toggleRequestIp2cApi, toggleRequestFgdbApi;
         private Ping pingSender = new Ping();
         private PingReply pingReply;
         public event Action<List<RoundInfo>> OnParsedLogLines;
@@ -427,12 +427,7 @@ namespace FallGuysStats {
                 lock (this.pingSender) {
                     string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                     string ip = host.Substring(0, host.IndexOf(":"));
-                    if (!this.RequestApi) {
-                        this.RequestApi = true;
-                        Stats.LastCountryCode = this.StatsForm.GetCountryCode(ip).ToLower();
-                    }
-                    
-                    if (Stats.PingSwitcher++ % 5 == 0) {
+                    if (Stats.PingSwitcher++ % 4 == 0) {
                         Stats.PingSwitcher = 1;
                         byte[] bufferArray = new byte[32];
                         int timeout = 1000;
@@ -448,10 +443,23 @@ namespace FallGuysStats {
                                 //logRound.LastPing = 0;
                                 Stats.LastServerPing = this.pingReply.RoundtripTime;
                             }
+                            
+                            if (!this.toggleRequestIp2cApi) {
+                                try {
+                                    this.toggleRequestIp2cApi = true;
+                                    string[] countryArr = this.StatsForm.GetCountryCode(ip);
+                                    Stats.LastCountryCode = countryArr[0].ToLower();
+                                    Stats.LastCountryFullName = countryArr[1];
+                                    this.StatsForm.AllocOverlayCustomTooltip();
+                                } catch {
+                                    this.toggleRequestIp2cApi = false;
+                                    Stats.LastCountryCode = string.Empty;
+                                    Stats.LastCountryFullName = string.Empty;
+                                }
+                            }
                         } catch {
                             //logRound.LastPing = 0;
                             Stats.LastServerPing = 0;
-                            Stats.LastCountryCode = String.Empty;
                         }
                     }
                 }
@@ -606,19 +614,23 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.LastServerPing = 0;
-                Stats.LastCountryCode = String.Empty;
+                Stats.LastCountryCode = string.Empty;
+                Stats.LastCountryFullName = string.Empty;
                 Stats.InShow = false;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
-                this.RequestApi = false;
+                this.toggleRequestIp2cApi = false;
+                this.toggleRequestFgdbApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.LastServerPing = 0;
-                Stats.LastCountryCode = String.Empty;
+                Stats.LastCountryCode = string.Empty;
+                Stats.LastCountryFullName = string.Empty;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
-                this.RequestApi = false;
+                this.toggleRequestIp2cApi = false;
+                this.toggleRequestFgdbApi = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (0 < round.Count) {
@@ -671,12 +683,14 @@ namespace FallGuysStats {
                     
                     logRound.Info = null;
                     Stats.LastServerPing = 0;
-                    Stats.LastCountryCode = String.Empty;
+                    Stats.LastCountryCode = string.Empty;
+                    Stats.LastCountryFullName = string.Empty;
                     Stats.InShow = false;
                     Stats.EndedShow = true;
                     Stats.IsPrePlaying = false;
                     Stats.IsPlaying = false;
-                    this.RequestApi = false;
+                    this.toggleRequestIp2cApi = false;
+                    this.toggleRequestFgdbApi = false;
                     return true;
                 }
                 return false;
@@ -770,12 +784,14 @@ namespace FallGuysStats {
                 }
                 logRound.Info = null;
                 Stats.LastServerPing = 0;
-                Stats.LastCountryCode = String.Empty;
+                Stats.LastCountryCode = string.Empty;
+                Stats.LastCountryFullName = string.Empty;
                 Stats.InShow = false;
                 Stats.EndedShow = true;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
-                this.RequestApi = false;
+                this.toggleRequestIp2cApi = false;
+                this.toggleRequestFgdbApi = false;
                 return true;
             }
             return false;
