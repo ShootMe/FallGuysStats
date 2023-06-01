@@ -32,36 +32,20 @@ namespace FallGuysStats {
         }
         
         private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
-            
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 19, 0, 0);
-            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+            this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
             
-            if (this.Theme == MetroThemeStyle.Light) {
-                this.dataGridViewCellStyle1.BackColor = Color.LightGray;
-                this.dataGridViewCellStyle1.ForeColor = Color.Black;
-                this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
-                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            
-                this.dataGridViewCellStyle2.BackColor = Color.White;
-                this.dataGridViewCellStyle2.ForeColor = Color.Black;
-                this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
-                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            } else if (this.Theme == MetroThemeStyle.Dark) {
-                this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2, 2, 2);
-                this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
-                this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
-                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            
-                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49, 51, 56);
-                this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
-                this.dataGridViewCellStyle2.SelectionBackColor = Color.PaleGreen;
-                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-                
-                this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-                this.ProfileList.AlternatingRowsDefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            }
+            this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
+            this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
+            //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
+            this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.PaleGreen;
+            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            this.ProfileList.AlternatingRowsDefaultCellStyle.BackColor = theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            this.ProfileList.AlternatingRowsDefaultCellStyle.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
             
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
@@ -99,7 +83,7 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (c1 is GroupBox gb1) {
-                    gb1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    gb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroButton ml2) {
                             ml2.Theme = theme;
@@ -110,6 +94,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+            this.Theme = theme;
         }
 
         private void InitProfileList() {

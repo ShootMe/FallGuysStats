@@ -357,7 +357,7 @@ namespace FallGuysStats {
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
-
+            
             this.RoundDetails.EnsureIndex(x => x.Name);
             this.RoundDetails.EnsureIndex(x => x.ShowID);
             this.RoundDetails.EnsureIndex(x => x.Round);
@@ -374,7 +374,7 @@ namespace FallGuysStats {
             this.UpdateHoopsieLegends();
             
             this.CurrentRound = new List<RoundInfo>();
-
+            
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
             Screen screen = this.GetCurrentScreen(this.overlay.Location);
@@ -403,10 +403,10 @@ namespace FallGuysStats {
             this.overlay.Show();
             this.overlay.Hide();
             this.overlay.StartTimer();
-
+            
             this.UpdateGameExeLocation();
             this.ChangeLaunchPlatformImage(this.CurrentSettings.LaunchPlatform);
-
+            
             this.RemoveUpdateFiles();
             this.ReloadProfileMenuItems();
             
@@ -517,18 +517,7 @@ namespace FallGuysStats {
                 e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
             }
         }
-        //private void mtt_Draw(object sender, DrawToolTipEventArgs e) {
-        //    e.DrawBackground();
-        //    e.DrawBorder();
-        //    e.DrawText();
-        //    MetroToolTip t = (MetroToolTip)sender;
-        //    PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
-        //    IntPtr handle = (IntPtr)h.GetValue(t);
-        //    Control c = e.AssociatedControl;
-        //    Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-        //    MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
-        //}
-
+        
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) {
                 //base.OnRenderToolStripBorder(e);
@@ -632,7 +621,7 @@ namespace FallGuysStats {
             //    get { return Color.DodgerBlue; }
             //}
         }
-
+        
         public sealed override string Text {
             get { return base.Text; }
             set { base.Text = value; }
@@ -652,43 +641,43 @@ namespace FallGuysStats {
                 Cursor.Position = new Point(0, 0); // SE
             }
         }
-
+        
         private void SetTheme(MetroThemeStyle theme) {
             if (this.Theme == theme) return;
             this.Theme = theme;
             this.mtt.Theme = theme;
             this.omtt.Theme = theme;
-            this.menu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
-            this.trayCMenu.Renderer = this.Theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
+            this.menu.Renderer = theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
+            this.trayCMenu.Renderer = theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
                     foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
                         switch (tsmi1.Name) {
                             case "menuSettings":
-                                tsmi1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
                             case "menuFilters":
-                                tsmi1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
                             case "menuProfile":
-                                tsmi1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                             //case "menuOverlay": break;
                             case "menuUpdate":
                             case "menuHelp":
-                                tsmi1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                             //case "menuLaunchFallGuys": break;
                         }
-                        tsmi1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                        tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                         tsmi1.MouseEnter += this.menu_MouseEnter;
                         tsmi1.MouseLeave += this.menu_MouseLeave;
                         foreach (ToolStripMenuItem tsmi2 in tsmi1.DropDownItems) {
-                            if (tsmi2.Name.Equals("menuEditProfiles")) { tsmi2.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
-                            tsmi2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                            tsmi2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                            if (tsmi2.Name.Equals("menuEditProfiles")) { tsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
+                            tsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            tsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                             tsmi2.MouseEnter += this.menu_MouseEnter;
                             tsmi2.MouseLeave += this.menu_MouseLeave;
                             foreach (ToolStripMenuItem tsmi3 in tsmi2.DropDownItems) {
-                                if (tsmi3.Name.Equals("menuCustomRangeStats")) { tsmi3.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
-                                tsmi3.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                                tsmi3.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                if (tsmi3.Name.Equals("menuCustomRangeStats")) { tsmi3.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
+                                tsmi3.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                tsmi3.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                 tsmi3.MouseEnter += this.menu_MouseEnter;
                                 tsmi3.MouseLeave += this.menu_MouseLeave;
                             }
@@ -699,22 +688,22 @@ namespace FallGuysStats {
                     foreach (var tsi1 in ts1.Items) {
                         if (tsi1 is ToolStripLabel tsl1) {
                             switch (tsl1.Name) {
-                                case "lblCurrentProfile": tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
+                                case "lblCurrentProfile": tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
                                 case "lblTotalTime":
-                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
+                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
                                     break;
                                 case "lblTotalShows":
                                 case "lblTotalWins":
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalRounds":
-                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalFinals":
-                                    tsl1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblGoldMedal":
                                 case "lblSilverMedal":
@@ -722,10 +711,10 @@ namespace FallGuysStats {
                                 case "lblPinkMedal":
                                 case "lblEliminatedMedal":
                                 case "lblKudos":
-                                    tsl1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                             }
                         } else if (tsi1 is ToolStripSeparator tss1) {
-                            tss1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
+                            tss1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                         }
                     }
                 }
@@ -733,8 +722,8 @@ namespace FallGuysStats {
             
             foreach (object item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
-                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tsi.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tsi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     tsi.MouseEnter += this.CMenu_MouseEnter;
                     tsi.MouseLeave += this.CMenu_MouseLeave;
                     switch (tsi.Name) {
@@ -742,49 +731,49 @@ namespace FallGuysStats {
                         case "exportItemHTML":
                         case "exportItemBBCODE":
                         case "exportItemMD":
-                            tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray; break;
+                            tsi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray; break;
                     }
                 }
             }
 
-            this.dataGridViewCellStyle1.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
-            this.dataGridViewCellStyle1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            this.dataGridViewCellStyle1.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
+            this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
+            this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
             //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            this.dataGridViewCellStyle2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
-            this.dataGridViewCellStyle2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            this.dataGridViewCellStyle2.SelectionBackColor = this.Theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.PaleGreen;
-            this.dataGridViewCellStyle2.SelectionForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Black;
+            this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
+            this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.PaleGreen;
+            this.dataGridViewCellStyle2.SelectionForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.Black;
 
             foreach (var item in this.trayCMenu.Items) {
                 if (item is ToolStripMenuItem tsmi) {
-                    tsmi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tsmi.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     tsmi.MouseEnter += this.CMenu_MouseEnter;
                     tsmi.MouseLeave += this.CMenu_MouseLeave;
                     switch (tsmi.Name) {
-                        case "traySettings": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                        case "trayFilters": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                        case "trayProfile": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
+                        case "traySettings": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
+                        case "trayFilters": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
+                        case "trayProfile": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                         case "trayUpdate":
                         case "trayHelp":
-                            tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                        case "trayExitProgram": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
+                            tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
+                        case "trayExitProgram": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
                     }
 
                     foreach (var subItem1 in tsmi.DropDownItems) {
                         if (subItem1 is ToolStripMenuItem stsmi1) {
-                            if (stsmi1.Name.Equals("trayEditProfiles")) { stsmi1.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
-                            stsmi1.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                            stsmi1.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            if (stsmi1.Name.Equals("trayEditProfiles")) { stsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
+                            stsmi1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                            stsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             stsmi1.MouseEnter += this.CMenu_MouseEnter;
                             stsmi1.MouseLeave += this.CMenu_MouseLeave;
 
                             foreach (var subItem2 in stsmi1.DropDownItems) {
                                 if (subItem2 is ToolStripMenuItem stsmi2) {
-                                    if (stsmi2.Name.Equals("trayCustomRangeStats")) { stsmi2.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
-                                    stsmi2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                                    stsmi2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                    if (stsmi2.Name.Equals("trayCustomRangeStats")) { stsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
+                                    stsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                    stsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     stsmi2.MouseEnter += this.CMenu_MouseEnter;
                                     stsmi2.MouseLeave += this.CMenu_MouseLeave;
                                 }
@@ -793,8 +782,8 @@ namespace FallGuysStats {
                     }
                 } else if (item is ToolStripSeparator tss) {
                     tss.Paint += this.menuToolStripSeparatorCustom_Paint;
-                    tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tss.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tss.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
             }
             this.Refresh();
