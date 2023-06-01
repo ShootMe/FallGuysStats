@@ -3853,12 +3853,18 @@ namespace FallGuysStats {
         }
         public string[] FindCreativeAuthor(JsonElement authorData) {
             string[] onlinePlatformInfo = { "N/A", "N/A" };
+            string onlinePlatformId = String.Empty;
+            string onlinePlatformNickname = String.Empty;
             using (JsonElement.ObjectEnumerator objectEnumerator = authorData.EnumerateObject()) {
                 while (objectEnumerator.MoveNext()) {
                     JsonProperty current = objectEnumerator.Current;
-                    onlinePlatformInfo[0] = current.Name;
-                    onlinePlatformInfo[1] = current.Value.GetString();
+                    if (!string.IsNullOrEmpty(onlinePlatformId)) onlinePlatformId += ";";
+                    onlinePlatformId += current.Name;
+                    if (!string.IsNullOrEmpty(onlinePlatformNickname)) onlinePlatformNickname += ";";
+                    onlinePlatformNickname += current.Value.GetString();
                 }
+                onlinePlatformInfo[0] = onlinePlatformId;
+                onlinePlatformInfo[1] = onlinePlatformNickname;
             }
             return onlinePlatformInfo;
         }
