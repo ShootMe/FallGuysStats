@@ -336,14 +336,13 @@ namespace FallGuysStats {
                        && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
                        && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1)
 
-                   || (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
-                   
-                   || (roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+                   || ((roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
+                        || roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1)
+                            && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
 
-                   || (roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
-                       && roundId.Substring(roundId.Length - 6).ToLower() == "_final")
+                   || ((roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
+                        || roundId.IndexOf("round_robotrampage", StringComparison.OrdinalIgnoreCase) != -1)
+                            && roundId.Substring(roundId.Length - 6).ToLower() == "_final")
 
                    || roundId.EndsWith("_timeattack_final", StringComparison.OrdinalIgnoreCase)
 
@@ -425,7 +424,7 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = true;
             } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
-                if (timeDiff.TotalMinutes < 35) {
+                if (timeDiff.TotalMinutes <= 45) {
                     lock (this.pingSender) {
                         string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         string ip = host.Substring(0, host.IndexOf(":"));
@@ -438,12 +437,15 @@ namespace FallGuysStats {
                                 if (this.pingReply.Status == IPStatus.Success) {
                                     //logRound.LastPing = this.reply.RoundtripTime;
                                     Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                    Stats.IsBadPing = false;
                                 } else if (this.pingReply.Status == IPStatus.TimedOut) {
                                     //logRound.LastPing = 0;
                                     Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                    Stats.IsBadPing = true;
                                 } else {
                                     //logRound.LastPing = 0;
                                     Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                    Stats.IsBadPing = true;
                                 }
                                 
                                 if (!this.toggleRequestIp2cApi) {
@@ -462,6 +464,7 @@ namespace FallGuysStats {
                             } catch {
                                 //logRound.LastPing = 0;
                                 Stats.LastServerPing = 0;
+                                Stats.IsBadPing = true;
                             }
                         }
                     }
@@ -617,6 +620,7 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
                 Stats.LastServerPing = 0;
+                Stats.IsBadPing = false;
                 Stats.LastCountryCode = string.Empty;
                 Stats.LastCountryFullName = string.Empty;
                 Stats.InShow = false;
@@ -628,6 +632,7 @@ namespace FallGuysStats {
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.LastServerPing = 0;
+                Stats.IsBadPing = false;
                 Stats.LastCountryCode = string.Empty;
                 Stats.LastCountryFullName = string.Empty;
                 Stats.IsPrePlaying = false;
@@ -686,6 +691,7 @@ namespace FallGuysStats {
                     
                     logRound.Info = null;
                     Stats.LastServerPing = 0;
+                    Stats.IsBadPing = false;
                     Stats.LastCountryCode = string.Empty;
                     Stats.LastCountryFullName = string.Empty;
                     Stats.InShow = false;
@@ -787,6 +793,7 @@ namespace FallGuysStats {
                 }
                 logRound.Info = null;
                 Stats.LastServerPing = 0;
+                Stats.IsBadPing = false;
                 Stats.LastCountryCode = string.Empty;
                 Stats.LastCountryFullName = string.Empty;
                 Stats.InShow = false;
