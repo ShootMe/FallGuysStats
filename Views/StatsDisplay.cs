@@ -254,9 +254,9 @@ namespace FallGuysStats {
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
             if (theme == MetroThemeStyle.Light) {
-                this.chkWins.ForeColor =  Color.Goldenrod;
-                this.chkFinals.ForeColor =  Color.DeepPink;
-                this.chkShows.ForeColor =  Color.RoyalBlue;
+                this.chkWins.ForeColor = Color.Goldenrod;
+                this.chkFinals.ForeColor = Color.DeepPink;
+                this.chkShows.ForeColor = Color.RoyalBlue;
             } else if (theme == MetroThemeStyle.Dark) {
                 this.chkWins.ForeColor = Color.Gold;
                 this.chkFinals.ForeColor = Color.DeepPink;
