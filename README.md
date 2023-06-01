@@ -195,8 +195,12 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - `1.185`
+    - When the country icon is visible, click the overlay to show the country's full name
+    - Optimized for country and ping display
+    - Bugfix and program optimization
   - `1.184`
-    - Displays the icon of the country where the server is located.
+    - Displays the icon of the country where the server is located
     - Bugfix and program optimization
   - `1.183`
     - Add a new show id
