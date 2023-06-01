@@ -424,42 +424,45 @@ namespace FallGuysStats {
             } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.IsPrePlaying = true;
             } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
-                lock (this.pingSender) {
-                    string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
-                    string ip = host.Substring(0, host.IndexOf(":"));
-                    if (Stats.PingSwitcher++ % 4 == 0) {
-                        Stats.PingSwitcher = 1;
-                        byte[] bufferArray = new byte[32];
-                        int timeout = 1000;
-                        try {
-                            this.pingReply = pingSender.Send(ip, timeout, bufferArray);
-                            if (this.pingReply.Status == IPStatus.Success) {
-                                //logRound.LastPing = this.reply.RoundtripTime;
-                                Stats.LastServerPing = this.pingReply.RoundtripTime;
-                            } else if (this.pingReply.Status == IPStatus.TimedOut) {
-                                //logRound.LastPing = 0;
-                                Stats.LastServerPing = this.pingReply.RoundtripTime;
-                            } else {
-                                //logRound.LastPing = 0;
-                                Stats.LastServerPing = this.pingReply.RoundtripTime;
-                            }
-                            
-                            if (!this.toggleRequestIp2cApi) {
-                                try {
-                                    this.toggleRequestIp2cApi = true;
-                                    string[] countryArr = this.StatsForm.GetCountryCode(ip);
-                                    Stats.LastCountryCode = countryArr[0].ToLower();
-                                    Stats.LastCountryFullName = countryArr[1];
-                                    this.StatsForm.AllocOverlayCustomTooltip();
-                                } catch {
-                                    this.toggleRequestIp2cApi = false;
-                                    Stats.LastCountryCode = string.Empty;
-                                    Stats.LastCountryFullName = string.Empty;
+                TimeSpan timeDiff = DateTime.UtcNow - line.Date;
+                if (timeDiff.TotalMinutes < 35) {
+                    lock (this.pingSender) {
+                        string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
+                        string ip = host.Substring(0, host.IndexOf(":"));
+                        if (Stats.PingSwitcher++ % 4 == 0) {
+                            Stats.PingSwitcher = 1;
+                            byte[] bufferArray = new byte[32];
+                            int timeout = 1000;
+                            try {
+                                this.pingReply = pingSender.Send(ip, timeout, bufferArray);
+                                if (this.pingReply.Status == IPStatus.Success) {
+                                    //logRound.LastPing = this.reply.RoundtripTime;
+                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                } else if (this.pingReply.Status == IPStatus.TimedOut) {
+                                    //logRound.LastPing = 0;
+                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                } else {
+                                    //logRound.LastPing = 0;
+                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
                                 }
+                                
+                                if (!this.toggleRequestIp2cApi) {
+                                    try {
+                                        this.toggleRequestIp2cApi = true;
+                                        string[] countryArr = this.StatsForm.GetCountryCode(ip);
+                                        Stats.LastCountryCode = countryArr[0].ToLower();
+                                        Stats.LastCountryFullName = countryArr[1];
+                                        this.StatsForm.AllocOverlayCustomTooltip();
+                                    } catch {
+                                        this.toggleRequestIp2cApi = false;
+                                        Stats.LastCountryCode = string.Empty;
+                                        Stats.LastCountryFullName = string.Empty;
+                                    }
+                                }
+                            } catch {
+                                //logRound.LastPing = 0;
+                                Stats.LastServerPing = 0;
                             }
-                        } catch {
-                            //logRound.LastPing = 0;
-                            Stats.LastServerPing = 0;
                         }
                     }
                 }
