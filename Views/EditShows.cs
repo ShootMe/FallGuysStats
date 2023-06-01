@@ -45,7 +45,6 @@ namespace FallGuysStats {
         }
         
         private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -82,11 +81,7 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (c1 is GroupBox gb1) {
-                    if (this.Theme == MetroThemeStyle.Dark) {
-                        gb1.ForeColor = Color.DarkGray;
-                    } else if (this.Theme == MetroThemeStyle.Light) {
-                        gb1.ForeColor = Color.Black;
-                    }
+                    gb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
                         if (c2 is MetroLabel ml2) {
                             ml2.Theme = theme;
@@ -101,11 +96,7 @@ namespace FallGuysStats {
                         } else if (c2 is MetroComboBox mcbo2) {
                             mcbo2.Theme = theme;
                         } else if (c2 is GroupBox gb2) {
-                            if (this.Theme == MetroThemeStyle.Dark) {
-                                gb2.ForeColor = Color.DarkGray;
-                            } else if (this.Theme == MetroThemeStyle.Light) {
-                                gb2.ForeColor = Color.Black;
-                            }
+                            gb2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             foreach (Control c3 in gb2.Controls) {
                                 if (c3 is MetroRadioButton mrb3) {
                                     mrb3.Theme = theme;
@@ -115,6 +106,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+            this.Theme = theme;
         }
         
         private void cboEditShows_Changed(object sender, EventArgs e) {

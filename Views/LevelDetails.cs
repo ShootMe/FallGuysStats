@@ -22,7 +22,7 @@ namespace FallGuysStats {
         }
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            if (this.Theme == MetroThemeStyle.Light) {
+            if (theme == MetroThemeStyle.Light) {
                 this.dataGridViewCellStyle1.BackColor = Color.LightGray;
                 this.dataGridViewCellStyle1.ForeColor = Color.Black;
                 this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
@@ -32,7 +32,7 @@ namespace FallGuysStats {
                 this.dataGridViewCellStyle2.ForeColor = Color.Black;
                 this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
                 this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            } else if (this.Theme == MetroThemeStyle.Dark) {
+            } else if (theme == MetroThemeStyle.Dark) {
                 this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2, 2, 2);
                 this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
                 //this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
