@@ -195,7 +195,7 @@ namespace FallGuysStats {
         private bool isStartingUp = true;
         
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        public readonly string IP2C_ORG_URL = "https://ip2c.org/";
+        public readonly string IP2C_ORG_URL = "http://ip2c.org/";
         public readonly string[] publicShowIdList = {
             "main_show",
             "squads_2player_template",
