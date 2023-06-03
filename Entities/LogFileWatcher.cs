@@ -424,7 +424,7 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = true;
             } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
-                if (timeDiff.TotalMinutes <= 45) {
+                if (timeDiff.TotalMinutes <= 40) {
                     lock (this.pingSender) {
                         string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         string ip = host.Substring(0, host.IndexOf(":"));
@@ -438,10 +438,6 @@ namespace FallGuysStats {
                                     //logRound.LastPing = this.reply.RoundtripTime;
                                     Stats.LastServerPing = this.pingReply.RoundtripTime;
                                     Stats.IsBadPing = false;
-                                } else if (this.pingReply.Status == IPStatus.TimedOut) {
-                                    //logRound.LastPing = 0;
-                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
-                                    Stats.IsBadPing = true;
                                 } else {
                                     //logRound.LastPing = 0;
                                     Stats.LastServerPing = this.pingReply.RoundtripTime;
