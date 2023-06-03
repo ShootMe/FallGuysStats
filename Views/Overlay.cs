@@ -647,17 +647,17 @@ namespace FallGuysStats {
                     
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblCountryIcon.ImageY = 1;
-                    this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 100)
-                                                  ? (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0)
-                                                  : 0;
+                    this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 100 && !Stats.IsBadPing)
+                                                  ? (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? 43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? 33 : 0)
+                                                  : (Stats.IsBadPing ? 49 : 0);
                     this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && (Stats.LastServerPing > 0 || Stats.IsBadPing)
                                                         ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon")
                                                         : null);
                     
                     this.lblPingIcon.DrawVisible = true;
-                    this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 1000 > Stats.LastServerPing)
+                    this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 1000 > Stats.LastServerPing && !Stats.IsBadPing)
                                                ? -9
-                                               : (Stats.IsPrePlaying && Stats.LastServerPing > 999 ? -18 : 0);
+                                               : (Stats.IsPrePlaying && Stats.LastServerPing > 999 && !Stats.IsBadPing ? -18 : (Stats.IsBadPing ? 40 : 0));
                     this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing)
                                               ? Properties.Resources.ping_100_icon
                                               : (Stats.IsPrePlaying && (Stats.LastServerPing >= 200 || Stats.IsBadPing) ? Properties.Resources.ping_200_icon : null);
