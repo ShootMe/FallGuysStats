@@ -860,6 +860,7 @@ namespace FallGuysStats {
                         : $"{Environment.NewLine}{indent}{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
                 }
                 strbuilder.Append(Environment.NewLine);
+                strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
@@ -874,7 +875,8 @@ namespace FallGuysStats {
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
-                
+
+                this.StatsForm.AllocCustomTooltip();
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strbuilder.ToString(), this, position);
