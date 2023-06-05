@@ -51,25 +51,20 @@ namespace FallGuysStats {
         private bool stop;
         private Thread watcher, parser;
         public Stats StatsForm { get; set; }
+        public bool autoChangeProfile;
+        public bool preventOverlayMouseClicks;
+        public bool isDisplayPing;
         private string selectedShowId;
         private bool useShareCode;
         private string sessionId;
-        private bool autoChangeProfile;
-        private bool preventOverlayMouseClicks;
-        private bool toggleRequestIp2cApi, toggleRequestFgdbApi;
+        private bool toggleRequestIp2cApi;
         private Ping pingSender = new Ping();
         private PingReply pingReply;
+        
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
         public event Action<string> OnError;
-
-        public void SetAutoChangeProfile(bool option) {
-            this.autoChangeProfile = option;
-        }
-        public void SetPreventOverlayMouseClicks(bool option) {
-            this.preventOverlayMouseClicks = option;
-        }
 
         public void Start(string logDirectory, string fileName) {
             if (this.running) { return; }
@@ -422,7 +417,7 @@ namespace FallGuysStats {
                 this.sessionId = line.Line.Substring(index + 33);
             } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.IsPrePlaying = true;
-            } else if (line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (this.isDisplayPing && Stats.InShow && line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
                 if (timeDiff.TotalMinutes <= 40) {
                     lock (this.pingSender) {
@@ -450,7 +445,6 @@ namespace FallGuysStats {
                                         string[] countryArr = this.StatsForm.GetCountryCode(ip);
                                         Stats.LastCountryCode = countryArr[0].ToLower();
                                         Stats.LastCountryFullName = countryArr[1];
-                                        this.StatsForm.AllocOverlayCustomTooltip();
                                     } catch {
                                         this.toggleRequestIp2cApi = false;
                                         Stats.LastCountryCode = string.Empty;
@@ -623,7 +617,6 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
                 this.toggleRequestIp2cApi = false;
-                this.toggleRequestFgdbApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -634,7 +627,6 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
                 this.toggleRequestIp2cApi = false;
-                this.toggleRequestFgdbApi = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (0 < round.Count) {
@@ -695,10 +687,8 @@ namespace FallGuysStats {
                     Stats.IsPrePlaying = false;
                     Stats.IsPlaying = false;
                     this.toggleRequestIp2cApi = false;
-                    this.toggleRequestFgdbApi = false;
                     return true;
                 }
-                return false;
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null) { return false; }
                 RoundInfo temp = null;
@@ -797,7 +787,6 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
                 this.toggleRequestIp2cApi = false;
-                this.toggleRequestFgdbApi = false;
                 return true;
             }
             return false;
