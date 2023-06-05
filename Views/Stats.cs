@@ -189,7 +189,7 @@ namespace FallGuysStats {
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
         private MetroToolTip omtt = new MetroToolTip();
-        private MetroToolTip ocmtt = new MetroToolTip();
+        //private MetroToolTip ocmtt = new MetroToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
         private bool isStartingUp = true;
@@ -387,8 +387,9 @@ namespace FallGuysStats {
             this.logFile.OnError += this.LogFile_OnError;
             this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
             this.logFile.StatsForm = this;
-            this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-            this.logFile.SetPreventOverlayMouseClicks(this.CurrentSettings.PreventOverlayMouseClicks);
+            this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
+            this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
+            this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
             
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.SetFixedPosition(
@@ -418,8 +419,8 @@ namespace FallGuysStats {
             
             this.cmtt.OwnerDraw = true;
             this.cmtt.Draw += this.cmtt_Draw;
-            this.ocmtt.OwnerDraw = true;
-            this.ocmtt.Draw += this.ocmtt_Draw;
+            //this.ocmtt.OwnerDraw = true;
+            //this.ocmtt.Draw += this.ocmtt_Draw;
             
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
@@ -485,38 +486,38 @@ namespace FallGuysStats {
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
             MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
-        private void ocmtt_Draw(object sender, DrawToolTipEventArgs e) {
-            // Draw the standard background.
-            //e.DrawBackground();
-            // Draw the custom background.
-            e.Graphics.FillRectangle(Brushes.Teal, e.Bounds);
-            
-            // Draw the standard border.
-            //e.DrawBorder();
-            // Draw the custom border to appear 3-dimensional.
-            e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
-                new Point (0, e.Bounds.Height - 1), 
-                new Point (0, 0), 
-                new Point (e.Bounds.Width - 1, 0)
-            });
-            e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
-                new Point (0, e.Bounds.Height - 1), 
-                new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
-                new Point (e.Bounds.Width - 1, 0)
-            });
-            
-            // Draw the standard text with customized formatting options.
-            //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
-            // Draw the custom text.
-            // The using block will dispose the StringFormat automatically.
-            using (StringFormat sf = new StringFormat()) {
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-                sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-                sf.FormatFlags = StringFormatFlags.NoWrap;
-                e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
-            }
-        }
+        // private void ocmtt_Draw(object sender, DrawToolTipEventArgs e) {
+        //     // Draw the standard background.
+        //     //e.DrawBackground();
+        //     // Draw the custom background.
+        //     e.Graphics.FillRectangle(Brushes.Teal, e.Bounds);
+        //     
+        //     // Draw the standard border.
+        //     //e.DrawBorder();
+        //     // Draw the custom border to appear 3-dimensional.
+        //     e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
+        //         new Point (0, e.Bounds.Height - 1), 
+        //         new Point (0, 0), 
+        //         new Point (e.Bounds.Width - 1, 0)
+        //     });
+        //     e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
+        //         new Point (0, e.Bounds.Height - 1), 
+        //         new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
+        //         new Point (e.Bounds.Width - 1, 0)
+        //     });
+        //     
+        //     // Draw the standard text with customized formatting options.
+        //     //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+        //     // Draw the custom text.
+        //     // The using block will dispose the StringFormat automatically.
+        //     using (StringFormat sf = new StringFormat()) {
+        //         sf.Alignment = StringAlignment.Center;
+        //         sf.LineAlignment = StringAlignment.Center;
+        //         sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+        //         sf.FormatFlags = StringFormatFlags.NoWrap;
+        //         e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+        //     }
+        // }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) {
@@ -1545,6 +1546,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 35;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 35) {
+                this.CurrentSettings.AutoUpdate = true;
+                this.CurrentSettings.Version = 36;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1596,7 +1603,7 @@ namespace FallGuysStats {
                 HideTimeInfo = false,
                 ShowOverlayTabs = false,
                 ShowPercentages = false,
-                AutoUpdate = false,
+                AutoUpdate = true,
                 MaximizedWindowState = false,
                 SystemTrayIcon = true,
                 PreventOverlayMouseClicks = false,
@@ -1615,7 +1622,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 35
+                Version = 36
             };
         }
         private void UpdateHoopsieLegends() {
@@ -2634,18 +2641,23 @@ namespace FallGuysStats {
                                                                                             toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
         }
-        public void AllocOverlayCustomTooltip() {
-            this.ocmtt = new MetroToolTip();
-        }
-        public void ShowOverlayCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
-            if (duration == -1) {
-                this.ocmtt.Show(message, window, position);
-            } else {
-                this.ocmtt.Show(message, window, position, duration);
-            }
-        }
-        public void HideOverlayCustomTooltip(IWin32Window window) {
-            this.ocmtt.Hide(window);
+        // public void AllocOverlayCustomTooltip() {
+        //     this.ocmtt = new MetroToolTip();
+        //     this.ocmtt.OwnerDraw = true;
+        //     this.ocmtt.Draw += this.ocmtt_Draw;
+        // }
+        // public void ShowOverlayCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
+        //     if (duration == -1) {
+        //         this.ocmtt.Show(message, window, position);
+        //     } else {
+        //         this.ocmtt.Show(message, window, position, duration);
+        //     }
+        // }
+        // public void HideOverlayCustomTooltip(IWin32Window window) {
+        //     this.ocmtt.Hide(window);
+        // }
+        public void AllocOverlayTooltip() {
+            this.omtt = new MetroToolTip();
         }
         public void ShowOverlayTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -2656,6 +2668,11 @@ namespace FallGuysStats {
         }
         public void HideOverlayTooltip(IWin32Window window) {
             this.omtt.Hide(window);
+        }
+        public void AllocCustomTooltip() {
+            this.cmtt = new MetroToolTip();
+            this.cmtt.OwnerDraw = true;
+            this.cmtt.Draw += this.cmtt_Draw;
         }
         public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -3979,8 +3996,9 @@ namespace FallGuysStats {
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.Refresh();
-                        this.logFile.SetAutoChangeProfile(this.CurrentSettings.AutoChangeProfile);
-                        this.logFile.SetPreventOverlayMouseClicks(this.CurrentSettings.PreventOverlayMouseClicks);
+                        this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
+                        this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
+                        this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase)))
                         {
