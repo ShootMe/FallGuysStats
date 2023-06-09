@@ -100,7 +100,7 @@ namespace FallGuysStats {
             
             RadialGaugePlot gauges = this.formsPlot.Plot.AddRadialGauge(values);
             gauges.OrderInsideOut = false;
-            gauges.Clockwise = false;
+            //gauges.Clockwise = false;
             gauges.SpaceFraction = .1;
             //gauges.BackgroundTransparencyFraction = .3;
             gauges.EndCap = System.Drawing.Drawing2D.LineCap.Round;

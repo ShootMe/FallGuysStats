@@ -218,6 +218,7 @@
             this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Round Stats Display";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RoundStatsDisplay_KeyDown);
             this.Load += new System.EventHandler(this.RoundStatsDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picRoundIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGoldMedalIcon)).EndInit();
