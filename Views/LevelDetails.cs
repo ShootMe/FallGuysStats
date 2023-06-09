@@ -153,26 +153,26 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridShowsStats";
                 this.gridDetails.MultiSelect = true;
                 this.BackImage = Properties.Resources.fallguys_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName()}";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 2;
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName()}";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 1;
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName()}";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 1;
             } else {
                 this.gridDetails.Name = "gridRoundStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
                 this._showStats = 0;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName}";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName} ({StatsForm.GetCurrentFilterName()})";
             }
 
             this.gridDetails.DataSource = RoundDetails;

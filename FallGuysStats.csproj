@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9DDF7BD8-3C77-43D4-A229-F79CE082C6E8}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>FallGuysStats</RootNamespace>
     <AssemblyName>FallGuysStats</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
@@ -115,6 +115,12 @@
     <Compile Include="Views\FilterCustomRange.Designer.cs">
       <DependentUpon>FilterCustomRange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\RoundStatsDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\RoundStatsDisplay.Designer.cs">
+      <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\SelectLanguage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FilterCustomRange.resx">
       <DependentUpon>FilterCustomRange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\RoundStatsDisplay.resx">
+      <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SelectLanguage.resx">
       <DependentUpon>SelectLanguage.cs</DependentUpon>
@@ -231,10 +240,15 @@
     <None Include="Resources\fall.ico" />
     <None Include="Resources\fall2.ico" />
     <None Include="Resources\medal_silver.png" />
+    <None Include="Resources\medal_silver_original.png" />
     <None Include="Resources\medal_pink.png" />
+    <None Include="Resources\medal_pink_original.png" />
     <None Include="Resources\medal_gold.png" />
+    <None Include="Resources\medal_gold_original.png" />
     <None Include="Resources\medal_eliminated.png" />
+    <None Include="Resources\medal_eliminated_original.png" />
     <None Include="Resources\medal_bronze.png" />
+    <None Include="Resources\medal_bronze_original.png" />
     <None Include="Resources\number_0.png" />
     <None Include="Resources\number_1.png" />
     <None Include="Resources\number_2.png" />
@@ -386,6 +400,90 @@
     <None Include="Resources\round_icon\team\icon_RocknRoll.png" />
     <None Include="Resources\round_icon\team\icon_SnowyScrap.png" />
     <None Include="Resources\round_icon\team\icon_TeamTailTag.png" />
+    <None Include="Resources\round_icon\creative\icon_Creative_big.png" />
+    <None Include="Resources\round_icon\creative\icon_Gauntlet_big.png" />
+    <None Include="Resources\round_icon\final\icon_Blast_Ball_big.png" />
+    <None Include="Resources\round_icon\final\icon_FallMountain_big.png" />
+    <None Include="Resources\round_icon\final\icon_Hex-A-Ring_big.png" />
+    <None Include="Resources\round_icon\final\icon_Hex-A-Terrestrial_big.png" />
+    <None Include="Resources\round_icon\final\icon_HexAGone_big.png" />
+    <None Include="Resources\round_icon\final\icon_JumpShowdown_big.png" />
+    <None Include="Resources\round_icon\final\icon_Kraken_Slam_big.png" />
+    <None Include="Resources\round_icon\final\icon_LostTemple_big.png" />
+    <None Include="Resources\round_icon\final\icon_RollOff_big.png" />
+    <None Include="Resources\round_icon\final\icon_RoyalFumble_big.png" />
+    <None Include="Resources\round_icon\final\icon_ThinIce_big.png" />
+    <None Include="Resources\round_icon\final\icon_TipToeFinale_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Airtime_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Bean_Hill_Zone_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Bounce_Party_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_BubbleTrouble_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_ButtonBashers_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Frantic_Factory_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_HoopsieLegends_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Hoop_Chute_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Leading_Light_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_PegwinPoolParty_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_TailTag_big.png" />
+    <None Include="Resources\round_icon\hunt\icon_Volleyfall_big.png" />
+    <None Include="Resources\round_icon\invisibeans\icon_Sweet_Thieves_big.png" />
+    <None Include="Resources\round_icon\invisibeans\icon_Treat_Thieves_big.png" />
+    <None Include="Resources\round_icon\logic\icon_PerfectMatch_big.png" />
+    <None Include="Resources\round_icon\logic\icon_Pixel_Painters_big.png" />
+    <None Include="Resources\round_icon\logic\icon_SumFruit_big.png" />
+    <None Include="Resources\round_icon\race\icon_BigFans_big.png" />
+    <None Include="Resources\round_icon\race\icon_CosmicHighway_big.png" />
+    <None Include="Resources\round_icon\race\icon_DizzyHeights_big.png" />
+    <None Include="Resources\round_icon\race\icon_DoorDash_big.png" />
+    <None Include="Resources\round_icon\race\icon_FreezyPeak_big.png" />
+    <None Include="Resources\round_icon\race\icon_FruitChute_big.png" />
+    <None Include="Resources\round_icon\race\icon_Full_Tilt_big.png" />
+    <None Include="Resources\round_icon\race\icon_GateCrash_big.png" />
+    <None Include="Resources\round_icon\race\icon_HitParade_big.png" />
+    <None Include="Resources\round_icon\race\icon_KnightFever_big.png" />
+    <None Include="Resources\round_icon\race\icon_LilyLeapers_big.png" />
+    <None Include="Resources\round_icon\race\icon_Party_Promenade_big.png" />
+    <None Include="Resources\round_icon\race\icon_Pipe_Dream_big.png" />
+    <None Include="Resources\round_icon\race\icon_Puzzle_Path_big.png" />
+    <None Include="Resources\round_icon\race\icon_RollOn_big.png" />
+    <None Include="Resources\round_icon\race\icon_SeeSaw_big.png" />
+    <None Include="Resources\round_icon\race\icon_ShortCircuit_big.png" />
+    <None Include="Resources\round_icon\race\icon_SkiFall_big.png" />
+    <None Include="Resources\round_icon\race\icon_SkylineStumble_big.png" />
+    <None Include="Resources\round_icon\race\icon_SlimeClimb_big.png" />
+    <None Include="Resources\round_icon\race\icon_SpaceRace_big.png" />
+    <None Include="Resources\round_icon\race\icon_Speed_Circuit_big.png" />
+    <None Include="Resources\round_icon\race\icon_Speed_Slider_big.png" />
+    <None Include="Resources\round_icon\race\icon_Starchart_big.png" />
+    <None Include="Resources\round_icon\race\icon_TheSlimescraper_big.png" />
+    <None Include="Resources\round_icon\race\icon_TheWhirlygig_big.png" />
+    <None Include="Resources\round_icon\race\icon_TipToe_big.png" />
+    <None Include="Resources\round_icon\race\icon_Track_Attack_big.png" />
+    <None Include="Resources\round_icon\race\icon_TreetopTumble_big.png" />
+    <None Include="Resources\round_icon\race\icon_TundraRun_big.png" />
+    <None Include="Resources\round_icon\race\icon_WallGuys_big.png" />
+    <None Include="Resources\round_icon\survival\icon_BigShots_big.png" />
+    <None Include="Resources\round_icon\survival\icon_Blastlantis_big.png" />
+    <None Include="Resources\round_icon\survival\icon_BlockParty_big.png" />
+    <None Include="Resources\round_icon\survival\icon_HoverboardHeroes_big.png" />
+    <None Include="Resources\round_icon\survival\icon_Hyperdrive_Heroes_big.png" />
+    <None Include="Resources\round_icon\survival\icon_JumpClub_big.png" />
+    <None Include="Resources\round_icon\survival\icon_RollOut_big.png" />
+    <None Include="Resources\round_icon\survival\icon_SnowballSurvival_big.png" />
+    <None Include="Resources\round_icon\survival\icon_StompinGround_big.png" />
+    <None Include="Resources\round_icon\survival\icon_The_Swiveller_big.png" />
+    <None Include="Resources\round_icon\team\icon_Basketfall_big.png" />
+    <None Include="Resources\round_icon\team\icon_EggScramble_big.png" />
+    <None Include="Resources\round_icon\team\icon_EggSiege_big.png" />
+    <None Include="Resources\round_icon\team\icon_FallBall_big.png" />
+    <None Include="Resources\round_icon\team\icon_Hoarders_big.png" />
+    <None Include="Resources\round_icon\team\icon_HoopsieDaisy_big.png" />
+    <None Include="Resources\round_icon\team\icon_Jinxed_big.png" />
+    <None Include="Resources\round_icon\team\icon_PegwinPursuit_big.png" />
+    <None Include="Resources\round_icon\team\icon_PowerTrip_big.png" />
+    <None Include="Resources\round_icon\team\icon_RocknRoll_big.png" />
+    <None Include="Resources\round_icon\team\icon_SnowyScrap_big.png" />
+    <None Include="Resources\round_icon\team\icon_TeamTailTag_big.png" />
     <None Include="Resources\overlay\background_candycane.png" />
     <None Include="Resources\overlay\background_coffee.png" />
     <None Include="Resources\overlay\tab_unselected_dove.png" />
