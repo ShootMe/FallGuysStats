@@ -740,7 +740,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                         this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
-                        this.lblRound.RoundIcon = level?.RoundIcon;
+                        this.lblRound.RoundIcon = level?.RoundBigIcon;
                         if (this.lblRound.RoundIcon.Height != 23) {
                             this.lblRound.ImageHeight = 23;
                             this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);

@@ -425,12 +425,15 @@ namespace FallGuysStats {
             // 
             // lblTotalTime
             // 
-            this.lblTotalTime.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.lblTotalTime.ForeColor = System.Drawing.Color.Blue;
             this.lblTotalTime.Image = global::FallGuysStats.Properties.Resources.clock_icon;
             this.lblTotalTime.Margin = new System.Windows.Forms.Padding(10, 1, 20, 2);
             this.lblTotalTime.Name = "lblTotalTime";
             this.lblTotalTime.Size = new System.Drawing.Size(64, 16);
             this.lblTotalTime.Text = "0:00:00";
+            this.lblTotalTime.Click += new System.EventHandler(this.lblTotalTime_Click);
+            this.lblTotalTime.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblTotalTime.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
             // lblGoldMedal
             // 
