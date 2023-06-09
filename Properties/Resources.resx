@@ -120,17 +120,32 @@
     <data name="medal_pink" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_pink.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_pink_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_pink_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_gold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="medal_gold_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_gold_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="medal_bronze" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_bronze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_bronze_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_bronze_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_eliminated" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_eliminated.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_eliminated_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_eliminated_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_silver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="medal_silver_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_silver_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -635,6 +650,258 @@
     </data>
     <data name="round_team_tail_tag_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\team\icon_TeamTailTag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_creative_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\creative\icon_Creative_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_gauntlet_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\creative\icon_Gauntlet_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_blast_ball_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_Blast_Ball_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_fall_mountain_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_FallMountain_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hex_a_gone_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_HexAGone_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hex_a_ring_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_Hex-A-Ring_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hex_a_terrestrial_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_Hex-A-Terrestrial_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_jump_showdown_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_JumpShowdown_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_kraken_slam_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_Kraken_Slam_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_lost_temple_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_LostTemple_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_roll_off_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_RollOff_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_royal_fumble_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_RoyalFumble_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_thin_ice_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_ThinIce_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_tip_toe_finale_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\final\icon_TipToeFinale_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_airtime_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Airtime_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_bean_hill_zone_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Bean_Hill_Zone_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_bounce_party_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Bounce_Party_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_bubble_trouble_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_BubbleTrouble_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_button_bashers_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_ButtonBashers_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_frantic_factory_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Frantic_Factory_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hoop_chute_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Hoop_Chute_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hoopsie_legends_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_HoopsieLegends_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_leading_light_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Leading_Light_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_pegwin_pool_party_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_PegwinPoolParty_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_tail_tag_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_TailTag_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_volleyfall_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\hunt\icon_Volleyfall_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_sweet_thieves_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\invisibeans\icon_Sweet_Thieves_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_treat_thieves_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\invisibeans\icon_Treat_Thieves_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_pixel_painters_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\logic\icon_Pixel_Painters_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_perfect_match_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\logic\icon_PerfectMatch_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_sum_fruit_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\logic\icon_SumFruit_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_big_fans_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_BigFans_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_cosmic_highway_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_CosmicHighway_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_dizzy_heights_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_DizzyHeights_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_door_dash_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_DoorDash_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_freezy_peak_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_FreezyPeak_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_fruit_chute_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_FruitChute_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_full_tilt_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Full_Tilt_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_gate_crash_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_GateCrash_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hit_parade_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_HitParade_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_knight_fever_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_KnightFever_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_lily_leapers_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_LilyLeapers_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_party_promenade_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Party_Promenade_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_pipe_dream_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Pipe_Dream_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_puzzle_path_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Puzzle_Path_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_roll_on_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_RollOn_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_see_saw_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_SeeSaw_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_short_circuit_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_ShortCircuit_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_ski_fall_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_SkiFall_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_skyline_stumble_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_SkylineStumble_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_slime_climb_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_SlimeClimb_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_space_race_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_SpaceRace_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_speed_circuit_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Speed_Circuit_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_speed_slider_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Speed_Slider_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_starchart_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Starchart_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_the_slimescraper_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_TheSlimescraper_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_the_whirlygig_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_TheWhirlygig_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_tip_toe_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_TipToe_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_track_attack_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_Track_Attack_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_treetop_tumble_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_TreetopTumble_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_tundra_run_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_TundraRun_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_wall_guys_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\race\icon_WallGuys_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_big_shots_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_BigShots_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_blastlantis_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_Blastlantis_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_block_party_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_BlockParty_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hoverboard_heroes_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_HoverboardHeroes_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hyperdrive_heroes_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_Hyperdrive_Heroes_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_jump_club_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_JumpClub_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_roll_out_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_RollOut_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_snowball_survival_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_SnowballSurvival_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_stompin_ground_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_StompinGround_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_the_swiveller_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\survival\icon_The_Swiveller_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_basketfall_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_Basketfall_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_egg_scramble_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_EggScramble_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_egg_siege_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_EggSiege_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_fall_ball_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_FallBall_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hoarders_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_Hoarders_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_hoopsie_daisy_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_HoopsieDaisy_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_jinxed_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_Jinxed_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_pegwin_pursuit_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_PegwinPursuit_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_power_trip_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_PowerTrip_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_rock_n_roll_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_RocknRoll_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_snowy_scrap_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_SnowyScrap_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="round_team_tail_tag_big_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\team\icon_TeamTailTag_big.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="background" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\background.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
