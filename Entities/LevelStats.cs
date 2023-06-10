@@ -236,6 +236,7 @@ namespace FallGuysStats {
             { "round_follow-the-leader_s6_launch",new LevelStats("Leading Light", LevelType.Hunt, false, false, 6, Properties.Resources.round_leading_light_icon, Properties.Resources.round_leading_light_big_icon) },
             { "round_penguin_solos",              new LevelStats("Pegwin Pool Party", LevelType.Hunt, false, false, 5, Properties.Resources.round_pegwin_pool_party_icon, Properties.Resources.round_pegwin_pool_party_big_icon) },
             { "round_skeefall",                   new LevelStats("Ski Fall", LevelType.Hunt, false, false, 3, Properties.Resources.round_ski_fall_icon, Properties.Resources.round_ski_fall_big_icon) },
+            { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Hunt, false, false, 7, Properties.Resources.round_volleyfall_icon, Properties.Resources.round_volleyfall_big_icon) },
 
             { "round_fruitpunch_s4_show",         new LevelStats("Big Shots", LevelType.Survival, false, false, 4, Properties.Resources.round_big_shots_icon, Properties.Resources.round_big_shots_big_icon) },
             { "round_blastballruins",             new LevelStats("Blastlantis", LevelType.Survival, false, false, 9, Properties.Resources.round_blastlantis_icon, Properties.Resources.round_blastlantis_big_icon) },
@@ -248,8 +249,7 @@ namespace FallGuysStats {
             { "round_robotrampage_arena_2",       new LevelStats("Stompin' Ground", LevelType.Survival, false, false, 5, Properties.Resources.round_stompin_ground_icon, Properties.Resources.round_stompin_ground_big_icon) },
             { "round_tail_tag",                   new LevelStats("Tail Tag", LevelType.Survival, false, false, 1, Properties.Resources.round_tail_tag_icon, Properties.Resources.round_tail_tag_big_icon) },
             { "round_spin_ring_symphony_launch_show", new LevelStats("The Swiveller", LevelType.Survival, false, false, 7, Properties.Resources.round_the_swiveller_icon, Properties.Resources.round_the_swiveller_big_icon) },
-            { "round_1v1_volleyfall_symphony_launch_show", new LevelStats("Volleyfall", LevelType.Survival, false, false, 7, Properties.Resources.round_volleyfall_icon, Properties.Resources.round_volleyfall_big_icon) },
-            
+
             { "round_pixelperfect_almond",        new LevelStats("Pixel Painters", LevelType.Logic, false, false, 8, Properties.Resources.round_pixel_painters_icon, Properties.Resources.round_pixel_painters_big_icon) },
             { "round_match_fall",                 new LevelStats("Perfect Match", LevelType.Logic, false, false, 1, Properties.Resources.round_perfect_match_icon, Properties.Resources.round_perfect_match_big_icon) },
             { "round_fruit_bowl",                 new LevelStats("Sum Fruit", LevelType.Logic, false, false, 5, Properties.Resources.round_sum_fruit_icon, Properties.Resources.round_sum_fruit_big_icon) },

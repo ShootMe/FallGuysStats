@@ -29,6 +29,48 @@ namespace FallGuysStats {
             }
             return 1;
         }
+        public static string LevelTitle(this LevelType type, bool isFinal) {
+            if (isFinal) {
+                return Multilingual.GetWord("level_detail_final");
+            }
+            switch (type) {
+                case LevelType.CreativeRace:
+                case LevelType.Race:
+                    return Multilingual.GetWord("level_detail_race");
+                case LevelType.Hunt:
+                    return Multilingual.GetWord("level_detail_hunt");
+                case LevelType.Invisibeans:
+                    return Multilingual.GetWord("level_detail_invisibeans");
+                case LevelType.Survival:
+                    return Multilingual.GetWord("level_detail_survival");
+                case LevelType.Logic:
+                    return Multilingual.GetWord("level_detail_logic");
+                case LevelType.Team:
+                    return Multilingual.GetWord("level_detail_team");
+            }
+            return "Unknown";
+        }
+        public static Color LevelDefaultColor(this LevelType type, bool isFinal) {
+            if (isFinal) {
+                return Color.FromArgb(251, 198, 0);
+            }
+            switch (type) {
+                case LevelType.CreativeRace:
+                case LevelType.Race:
+                    return Color.FromArgb(0, 236, 106);
+                case LevelType.Hunt:
+                    return Color.FromArgb(45, 101, 186);
+                case LevelType.Invisibeans:
+                    return Color.FromArgb(0, 0, 0);
+                case LevelType.Survival:
+                    return Color.FromArgb(184, 21, 213);
+                case LevelType.Logic:
+                    return Color.FromArgb(91, 181, 189);
+                case LevelType.Team:
+                    return Color.FromArgb(248, 82, 0);
+            }
+            return Color.FromArgb(255, 255, 255);
+        }
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
             if (isFinal && type != LevelType.CreativeRace) {
                 return Color.FromArgb(alpha, 250, 195, 0);

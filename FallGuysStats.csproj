@@ -81,6 +81,7 @@
     <Compile Include="Controls\Grid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\RoundLabel.cs" />
     <Compile Include="Controls\TransparentLabel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -157,11 +158,11 @@
     <Compile Include="Entities\ZipWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\StatsDisplay.cs">
+    <Compile Include="Views\WinStatsDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\StatsDisplay.Designer.cs">
-      <DependentUpon>StatsDisplay.cs</DependentUpon>
+    <Compile Include="Views\WinStatsDisplay.Designer.cs">
+      <DependentUpon>WinStatsDisplay.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Views\EditShows.resx">
       <DependentUpon>EditShows.cs</DependentUpon>
@@ -201,8 +202,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Views\StatsDisplay.resx">
-      <DependentUpon>StatsDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="Views\WinStatsDisplay.resx">
+      <DependentUpon>WinStatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
