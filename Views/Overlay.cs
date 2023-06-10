@@ -862,10 +862,12 @@ namespace FallGuysStats {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                     if (!(item is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i > 0) {
-                        this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
+                        //this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
+                        this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
                         break;
                     } else if (menuItem.Checked && i == 0) {
-                        this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
+                        //this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
+                        this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1], EventArgs.Empty);
                         break;
                     }
                 }
@@ -874,10 +876,12 @@ namespace FallGuysStats {
                     ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                     if (!(item is ToolStripMenuItem menuItem)) { continue; }
                     if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
-                        this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                        //this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                        this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
                         break;
                     } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
-                        this.StatsForm.ProfileMenuItems[0].PerformClick();
+                        //this.StatsForm.ProfileMenuItems[0].PerformClick();
+                        this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[0], EventArgs.Empty);
                         break;
                     }
                 }
@@ -902,7 +906,7 @@ namespace FallGuysStats {
                     this.ctrlKeyToggle = true;
                     break;
                 case Keys.D:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) this.Size = this.DefaultSize;
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.Size = this.DefaultSize; }
                     break;
                 case Keys.T: {
                         int colorOption = 0;
@@ -936,30 +940,32 @@ namespace FallGuysStats {
                     this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
                     this.StatsForm.SaveUserSettings();
                     this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
-                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
-                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
-                    return;
+                                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
+                                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
+                                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                    break;
                 case Keys.R:
                     this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
                     this.StatsForm.SaveUserSettings();
                     this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
-                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
-                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
-                    return;
+                                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
+                                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
+                                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                    break;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
-                    return;
+                    break;
                 case Keys.P: {
                         for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                             ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                             if (!(item is ToolStripMenuItem menuItem)) { continue; }
 
                             if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
-                                this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                                //this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                                this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
                                 break;
                             } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
-                                this.StatsForm.ProfileMenuItems[0].PerformClick();
+                                //this.StatsForm.ProfileMenuItems[0].PerformClick();
+                                this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[0], EventArgs.Empty);
                                 break;
                             }
                         }
@@ -967,30 +973,34 @@ namespace FallGuysStats {
                     }
                 case Keys.Up:
                 case Keys.Left:
-                    if (this.shiftKeyToggle == false) { return; }
+                    if (!this.shiftKeyToggle) { break; }
                     for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                         if (!(item is ToolStripMenuItem menuItem)) { continue; }
                         if (menuItem.Checked && i > 0) {
-                            this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
+                            //this.StatsForm.ProfileMenuItems[i - 1].PerformClick();
+                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
                             break;
                         } else if (menuItem.Checked && i == 0) {
-                            this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
+                            //this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1].PerformClick();
+                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1], EventArgs.Empty);
                             break;
                         }
                     }
                     break;
                 case Keys.Down:
                 case Keys.Right:
-                    if (this.shiftKeyToggle == false) { return; }
+                    if (!this.shiftKeyToggle) { break; }
                     for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                         if (!(item is ToolStripMenuItem menuItem)) { continue; }
                         if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                            //this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
+                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
                             break;
                         } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[0].PerformClick();
+                            //this.StatsForm.ProfileMenuItems[0].PerformClick();
+                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[0], EventArgs.Empty);
                             break;
                         }
                     }
@@ -1004,10 +1014,11 @@ namespace FallGuysStats {
                 case Keys.D7:
                 case Keys.D8:
                 case Keys.D9: {
-                        if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
+                        if (this.StatsForm.ProfileMenuItems.Count <= 1) { break; }
                         int index = Convert.ToInt32(((char)e.KeyValue).ToString());
                         if (index <= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.ProfileMenuItems[index - 1].PerformClick();
+                            //this.StatsForm.ProfileMenuItems[index - 1].PerformClick();
+                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[index - 1], EventArgs.Empty);
                         }
                         break;
                     }

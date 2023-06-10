@@ -180,8 +180,7 @@ namespace FallGuysStats {
         private readonly Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
         private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
         private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
-
-        private Point screenCenter;
+        
         private bool maximizedForm;
         private bool isFocused;
         private bool isFormClosing;
@@ -194,6 +193,7 @@ namespace FallGuysStats {
         private string mainWndTitle;
         private bool isStartingUp = true;
         
+        public Point screenCenter;
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         public readonly string IP2C_ORG_URL = "http://ip2c.org/";
         public readonly string[] publicShowIdList = {
@@ -3548,6 +3548,14 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
+                case Keys.C:
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) {
+                        this.overlay.Location = this.screenCenter;
+                        this.CurrentSettings.OverlayLocationX = this.overlay.Location.X;
+                        this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
+                        this.SaveUserSettings();
+                    }
+                    break;
             }
         }
         private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
@@ -3628,7 +3636,7 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void menuStats_Click(object sender, EventArgs e) {
+        public void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
 
