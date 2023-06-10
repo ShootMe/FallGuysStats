@@ -6,11 +6,11 @@ using MetroFramework;
 using ScottPlot;
 
 namespace FallGuysStats {
-    public partial class StatsDisplay : MetroFramework.Forms.MetroForm {
+    public partial class WinStatsDisplay : MetroFramework.Forms.MetroForm {
         public double[] dates, shows, finals, wins;
         public int manualSpacing = 1;
         public Stats StatsForm { get; set; }
-        public StatsDisplay() {
+        public WinStatsDisplay() {
             this.InitializeComponent();
         }
 
@@ -21,7 +21,7 @@ namespace FallGuysStats {
         private ScottPlot.Plottable.MarkerPlot HighlightedPoint;
         private ScottPlot.Plottable.Tooltip tooltip;
 
-        private void StatsDisplay_Load(object sender, EventArgs e) {
+        private void WinStatsDisplay_Load(object sender, EventArgs e) {
             this.SuspendLayout();
             this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.ResumeLayout(false);
@@ -132,6 +132,7 @@ namespace FallGuysStats {
                     xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
                 );
             }
+            this.formsPlot.Plot.AxisZoom(.9, .9);
             this.formsPlot.Refresh();
         }
 
@@ -268,7 +269,7 @@ namespace FallGuysStats {
                 this.formsPlot.Plot.Style(tick: Color.WhiteSmoke);
             }
         }
-        private void StatsDisplay_KeyDown(object sender, KeyEventArgs e) {
+        private void WinStatsDisplay_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Escape) {
                 this.Close();
             }

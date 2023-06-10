@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 
 namespace FallGuysStats {
-    partial class StatsDisplay {
+    partial class WinStatsDisplay {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -27,7 +27,7 @@ namespace FallGuysStats {
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StatsDisplay));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinStatsDisplay));
             this.picSwitchGraphStyle = new System.Windows.Forms.PictureBox();
             this.chkWins = new MetroFramework.Controls.MetroCheckBox();
             this.chkFinals = new MetroFramework.Controls.MetroCheckBox();
@@ -121,14 +121,14 @@ namespace FallGuysStats {
             this.KeyPreview = true;
             this.Location = new System.Drawing.Point(15, 15);
             this.MinimumSize = new System.Drawing.Size(720, 360);
-            this.Name = "StatsDisplay";
+            this.Name = "WinStatsDisplay";
             this.Padding = new System.Windows.Forms.Padding(20, 60, 20, 0);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Stats Display";
-            this.Load += new System.EventHandler(this.StatsDisplay_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StatsDisplay_KeyDown);
+            this.Load += new System.EventHandler(this.WinStatsDisplay_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WinStatsDisplay_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picSwitchGraphStyle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
