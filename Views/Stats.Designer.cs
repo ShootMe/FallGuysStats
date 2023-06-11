@@ -279,7 +279,8 @@ namespace FallGuysStats {
             this.menuOverlay.Size = new System.Drawing.Size(109, 25);
             this.menuOverlay.Text = "Show Overlay";
             this.menuOverlay.Click += new System.EventHandler(this.menuOverlay_Click);
-            this.menuOverlay.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuOverlay.MouseEnter += new System.EventHandler(this.menuOverlay_MouseEnter);
+            this.menuOverlay.MouseLeave += new System.EventHandler(this.menuOverlay_MouseLeave);
             this.menuOverlay.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuUpdate

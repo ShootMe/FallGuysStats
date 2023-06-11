@@ -1729,13 +1729,26 @@ namespace FallGuysStats {
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuTodaysShow.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
-            this.ShowTooltip(Multilingual.GetWord("main_todays_show_description"), this, position);
+            this.AllocTooltip();
+            this.ShowTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
         }
         private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
             this.HideTooltip(this);
             this.Cursor = Cursors.Default;
         }
-        
+
+        private void menuOverlay_MouseEnter(object sender, EventArgs e) {
+            this.Cursor = Cursors.Hand;
+            Rectangle rectangle = this.menuOverlay.Bounds;
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
+            this.AllocTooltip();
+            this.ShowTooltip(Multilingual.GetWord("main_overlay_tooltip"), this, position);
+        }
+        private void menuOverlay_MouseLeave(object sender, EventArgs e) {
+            this.HideTooltip(this);
+            this.Cursor = Cursors.Default;
+        }
+
         private void setCursor_MouseMove(object sender, MouseEventArgs e) {
             this.Cursor = Cursors.Hand;
         }
@@ -1862,7 +1875,7 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.FormWidth.HasValue) {
                     this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
                 }
-                if (this.CurrentSettings.FormLocationX.HasValue && IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width)) {
+                if (this.CurrentSettings.FormLocationX.HasValue && IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width, this.Height)) {
                     this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
                 }
                 
@@ -2684,6 +2697,9 @@ namespace FallGuysStats {
         }
         public void HideCustomTooltip(IWin32Window window) {
             this.cmtt.Hide(window);
+        }
+        public void AllocTooltip() {
+            this.mtt = new MetroToolTip();
         }
         public void ShowTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -4169,7 +4185,7 @@ namespace FallGuysStats {
 
                 if (overlay.IsFixed()) {
                     if (this.CurrentSettings.OverlayFixedPositionX.HasValue &&
-                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width))
+                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
                     {
                         overlay.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
                         overlay.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
@@ -4177,7 +4193,7 @@ namespace FallGuysStats {
                         overlay.Location = this.Location;
                     }
                 } else {
-                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width)
+                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
                                         ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                         : this.Location;
                 }
@@ -4236,10 +4252,10 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool IsOnScreen(int x, int y, int w) {
+        public bool IsOnScreen(int x, int y, int w, int h) {
             Screen[] screens = Screen.AllScreens;
             foreach (Screen screen in screens) {
-                if (screen.WorkingArea.Contains(new Point(x, y)) || screen.WorkingArea.Contains(new Point(x + w, y))) {
+                if (screen.WorkingArea.Contains(new Point(x, y)) || screen.WorkingArea.Contains(new Point(x + w, y + h))) {
                     return true;
                 }
             }
