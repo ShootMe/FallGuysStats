@@ -396,6 +396,13 @@ namespace FallGuysStats {
             }
         }
         private void Position_MouseEnter(object sender, EventArgs e) {
+            if (!this.IsFixed()) {
+                Rectangle rectangle = ((PictureBox)sender).Bounds;
+                Point position = new Point(rectangle.Right + 5, rectangle.Top);
+                this.StatsForm.AllocTooltip();
+                this.StatsForm.ShowTooltip(Multilingual.GetWord($"overlay_{((PictureBox)sender).Name}_tooltip"), this, position);
+            }
+            
             if (this.isPositionButtonMouseEnter) return;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {
@@ -410,6 +417,9 @@ namespace FallGuysStats {
             this.isPositionButtonMouseEnter = true;
         }
         private void Position_MouseLeave(object sender, EventArgs e) {
+            
+            this.StatsForm.HideTooltip(this);
+            
             if (!this.isPositionButtonMouseEnter) return;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {

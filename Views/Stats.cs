@@ -2672,6 +2672,7 @@ namespace FallGuysStats {
         // }
         public void AllocOverlayTooltip() {
             this.omtt = new MetroToolTip();
+            this.omtt.Theme = this.Theme;
         }
         public void ShowOverlayTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -2700,6 +2701,7 @@ namespace FallGuysStats {
         }
         public void AllocTooltip() {
             this.mtt = new MetroToolTip();
+            this.mtt.Theme = this.Theme;
         }
         public void ShowTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
