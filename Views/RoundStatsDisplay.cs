@@ -109,7 +109,7 @@ namespace FallGuysStats {
             }
 
             TimeSpan duration = this.roundDurationData[roundId];
-            this.lblRoundTime.Text = $"{(int)duration.TotalHours}{Multilingual.GetWord("main_hour")}{duration:mm}{Multilingual.GetWord("main_min")}{duration:ss}{Multilingual.GetWord("main_sec")}";
+            this.lblRoundTime.Text = $"{Multilingual.GetWord("level_played_prefix")} {(int)duration.TotalHours}{Multilingual.GetWord("main_hour")}{duration:mm}{Multilingual.GetWord("main_min")}{duration:ss}{Multilingual.GetWord("main_sec")} {Multilingual.GetWord("level_played_suffix")}";
             double[] values = this.roundGraphData[roundId];
             
             this.formsPlot.Plot.Palette = new CustomPalette();
