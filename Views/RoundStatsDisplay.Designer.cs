@@ -229,7 +229,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(976, 583);
+            this.ClientSize = new System.Drawing.Size(990, 580);
             this.Controls.Add(this.formsPlot);
             this.Controls.Add(this.picRoundIcon);
             this.Controls.Add(this.cboRoundList);
