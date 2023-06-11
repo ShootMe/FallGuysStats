@@ -417,9 +417,8 @@ namespace FallGuysStats {
             this.isPositionButtonMouseEnter = true;
         }
         private void Position_MouseLeave(object sender, EventArgs e) {
-            
             this.StatsForm.HideTooltip(this);
-            
+
             if (!this.isPositionButtonMouseEnter) return;
             if (this.IsFixed()) {
                 if (this.isPositionLock) {
@@ -805,14 +804,14 @@ namespace FallGuysStats {
 
                     this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
                     if (finish.HasValue) {
-                        TimeSpan time = finish.GetValueOrDefault(end) - start;
+                        TimeSpan time = finish.GetValueOrDefault(start) - start;
                         if (this.lastRound.Crown) {
-                            this.lblFinish.TextRight = $"# {Multilingual.GetWord("overlay_position_win")}! - {time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! - {time:m\\:ss\\.ff}";
                         } else {
                             this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                         }
 
-                        if (levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
+                        if (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
                             if (time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
