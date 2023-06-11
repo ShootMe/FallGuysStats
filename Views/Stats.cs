@@ -3394,7 +3394,13 @@ namespace FallGuysStats {
         }
         private void LaunchHelpInBrowser() {
             try {
-                Process.Start(@"https://github.com/ShootMe/FallGuysStats#readme");
+                if (CurrentLanguage == 2) { // Korean
+                    Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md#%EB%AA%A9%EC%B0%A8");
+                } else if (CurrentLanguage == 3) { // Japanese
+                    Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md#%E7%9B%AE%E6%AC%A1");
+                } else {
+                    Process.Start("https://github.com/ShootMe/FallGuysStats#table-of-contents");
+                }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
