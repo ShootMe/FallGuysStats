@@ -396,6 +396,7 @@ namespace FallGuysStats {
             }
         }
         private void Position_MouseEnter(object sender, EventArgs e) {
+            this.StatsForm.HideTooltip(this);
             if (!this.IsFixed()) {
                 Rectangle rectangle = ((PictureBox)sender).Bounds;
                 Point position = new Point(rectangle.Right + 5, rectangle.Top);
@@ -508,6 +509,7 @@ namespace FallGuysStats {
         }
         private void Overlay_MouseEnter(object sender, EventArgs e) {
             this.isMouseEnter = true;
+            this.StatsForm.HideOverlayTooltip(this);
             if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                 Rectangle rectangle = this.lblCountryIcon.Bounds;
                 Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));
@@ -516,9 +518,10 @@ namespace FallGuysStats {
         }
         private void Overlay_MouseLeave(object sender, EventArgs e) {
             this.isMouseEnter = false;
-            if (Stats.IsPrePlaying && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
-                this.StatsForm.HideOverlayTooltip(this);
-            }
+            this.StatsForm.HideOverlayTooltip(this);
+            //if (Stats.IsPrePlaying && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+            //    this.StatsForm.HideOverlayTooltip(this);
+            //}
         }
         private void Overlay_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
