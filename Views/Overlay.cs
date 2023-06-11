@@ -938,10 +938,7 @@ namespace FallGuysStats {
                     break;
                 case Keys.C:
                     if (this.shiftKeyToggle && this.ctrlKeyToggle) {
-                        this.Location = this.StatsForm.screenCenter;
-                        this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
-                        this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
-                        this.StatsForm.SaveUserSettings();
+                        this.ResetOverlayLocation(true);
                     } else {
                         this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
                         this.StatsForm.SaveUserSettings();
@@ -965,7 +962,6 @@ namespace FallGuysStats {
                         for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                             ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                             if (!(item is ToolStripMenuItem menuItem)) { continue; }
-
                             if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
                                 //this.StatsForm.ProfileMenuItems[i + 1].PerformClick();
                                 this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
@@ -1030,6 +1026,21 @@ namespace FallGuysStats {
                         break;
                     }
             }
+        }
+        public void ResetOverlayLocation(bool visible) {
+            this.Location = this.StatsForm.screenCenter;
+            this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
+            this.StatsForm.CurrentSettings.OverlayLocationY = this.Location.Y;
+            this.StatsForm.CurrentSettings.OverlayFixedPosition = string.Empty;
+            this.StatsForm.CurrentSettings.OverlayFixedPositionX = null;
+            this.StatsForm.CurrentSettings.OverlayFixedPositionY = null;
+            this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
+            this.StatsForm.SaveUserSettings();
+            this.SetFixedPosition(false, false, false, false, false);
+            this.SetBlurPositionMenu();
+            this.picPositionLock.Image = this.positionUnlockBlur;
+            this.SetVisiblePositionMenu(visible);
+            this.SetVisiblePositionLockButton(visible);
         }
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
