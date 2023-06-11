@@ -2329,7 +2329,7 @@ namespace FallGuysStats {
             //MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
             //if (matches.Count > 0) { // user creative round
             if (useShareCode) { // user creative round
-                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && r.Name.Equals("wle_s10_user_creative_race_round"));
+                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && "wle_s10_user_creative_race_round".Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
                     currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null, null);
@@ -2337,7 +2337,7 @@ namespace FallGuysStats {
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
                     RoundInfo info = filteredInfo[i];
-                    if (!info.ShowNameId.Equals(name)) { continue; }
+                    //if (!info.ShowNameId.Equals(name)) { continue; }
                     
                     TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                     bool hasLevelDetails = this.StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
