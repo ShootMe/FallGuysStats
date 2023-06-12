@@ -666,17 +666,21 @@ namespace FallGuysStats {
             this.dlgOverlayFont.ShowColor = true;
             this.dlgOverlayFont.Color = string.IsNullOrEmpty(this.overlayFontColorSerialized) ? Color.White : this.lblOverlayFontExample.ForeColor;
 
-            if (this.dlgOverlayFont.ShowDialog(this) == DialogResult.OK) {
-                if (this.dlgOverlayFont.Color == Color.White) {
-                    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    this.overlayFontColorSerialized = string.Empty;
-                } else {
-                    this.lblOverlayFontExample.ForeColor = this.dlgOverlayFont.Color;
-                    this.overlayFontColorSerialized = new ColorConverter().ConvertToString(this.lblOverlayFontExample.ForeColor);
-                }
+            try {
+                if (this.dlgOverlayFont.ShowDialog(this) == DialogResult.OK) {
+                    if (this.dlgOverlayFont.Color == Color.White) {
+                        this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                        this.overlayFontColorSerialized = string.Empty;
+                    } else {
+                        this.lblOverlayFontExample.ForeColor = this.dlgOverlayFont.Color;
+                        this.overlayFontColorSerialized = new ColorConverter().ConvertToString(this.lblOverlayFontExample.ForeColor);
+                    }
 
-                this.lblOverlayFontExample.Font = new Font(this.dlgOverlayFont.Font.FontFamily, this.dlgOverlayFont.Font.Size, this.dlgOverlayFont.Font.Style, GraphicsUnit.Pixel, ((byte)(1)));
-                this.overlayFontSerialized = new FontConverter().ConvertToString(this.lblOverlayFontExample.Font);
+                    this.lblOverlayFontExample.Font = new Font(this.dlgOverlayFont.Font.FontFamily, this.dlgOverlayFont.Font.Size, this.dlgOverlayFont.Font.Style, GraphicsUnit.Pixel, ((byte)(1)));
+                    this.overlayFontSerialized = new FontConverter().ConvertToString(this.lblOverlayFontExample.Font);
+                }
+            } catch {
+                MetroMessageBox.Show(this, $"{Multilingual.GetWord("settings_font_need_to_be_installed_message")}", $"{Multilingual.GetWord("settings_font_need_to_be_installed_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
