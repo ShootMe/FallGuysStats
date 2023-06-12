@@ -312,6 +312,8 @@ namespace FallGuysStats {
                             {"settings_prevent_overlay_mouse_clicks", "Prevent overlay mouse clicks"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
+                            {"settings_font_need_to_be_installed_caption", "Fonts need to be installed"},
+                            {"settings_font_need_to_be_installed_message", "Install the font files found in the Fall Guys Stats folder."},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -697,6 +699,8 @@ namespace FallGuysStats {
                             {"settings_prevent_overlay_mouse_clicks", "Prévenir les bogues du curseur de la souris"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "Issue Tracker"},
+                            {"settings_font_need_to_be_installed_caption", "Les polices doivent être installées"},
+                            {"settings_font_need_to_be_installed_message", "Installez les fichiers de police trouvés dans le dossier Fall Guys Stats."},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -1083,6 +1087,8 @@ namespace FallGuysStats {
                             {"settings_prevent_overlay_mouse_clicks", "오버레이 마우스 클릭 방지"},
                             {"settings_github", "깃허브 (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "이슈 추적"},
+                            {"settings_font_need_to_be_installed_caption", "폰트 설치 필요함"},
+                            {"settings_font_need_to_be_installed_message", "폴 가이즈 스탯츠 폴더의 폰트 파일을 설치해 주세요."},
 
                             {"overlay_streak", "연승"},
                             {"overlay_streak_suffix", "연승"},
@@ -1467,6 +1473,8 @@ namespace FallGuysStats {
                             {"settings_prevent_overlay_mouse_clicks", "マウスカーソルの不具合を防ぐ"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "バグトラッカー"},
+                            {"settings_font_need_to_be_installed_caption", "フォントのインストールが必要です。"},
+                            {"settings_font_need_to_be_installed_message", "Fall Guys Stats フォルダのフォントファイルをインストールしてください。"},
 
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", "勝"},
@@ -1851,7 +1859,9 @@ namespace FallGuysStats {
                             {"settings_system_tray_icon", "使用系统托盘图标"},
                             {"settings_prevent_overlay_mouse_clicks", "防止鼠标光标错误"},
                             {"settings_github", "GitHub (ShootMe/FallGuysStats)"},
-                            {"settings_issue_traker", "Issue Tracker"},
+                            {"settings_issue_traker", "问题追踪器"},
+                            {"settings_font_need_to_be_installed_caption", "需要安装字体"},
+                            {"settings_font_need_to_be_installed_message", "安装 Fall Guys Stats 文件夹中的字体文件。"},
 
                             {"overlay_streak", "连胜"},
                             {"overlay_streak_suffix", ""},
