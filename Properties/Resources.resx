@@ -930,6 +930,9 @@
     <data name="background_mockingbird" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\background_mockingbird.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="background_monarch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\overlay\background_monarch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="background_newlove" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\background_newlove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
@@ -1001,6 +1004,9 @@
     </data>
     <data name="tab_unselected_mockingbird" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\tab_unselected_mockingbird.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="tab_unselected_monarch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\overlay\tab_unselected_monarch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="tab_unselected_newlove" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\overlay\tab_unselected_newlove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
