@@ -487,12 +487,12 @@
     <None Include="Resources\round_icon\team\icon_TeamTailTag_big.png" />
     <None Include="Resources\overlay\background_candycane.png" />
     <None Include="Resources\overlay\background_coffee.png" />
-    <None Include="Resources\overlay\tab_unselected_dove.png" />
     <None Include="Resources\overlay\background_fall_guys_logo.png" />
     <None Include="Resources\overlay\background_helter_skelter.png" />
     <None Include="Resources\overlay\background_hex_a_thon.png" />
     <None Include="Resources\overlay\background_ill_be_slime.png" />
     <None Include="Resources\overlay\background_mockingbird.png" />
+    <None Include="Resources\overlay\background_monarch.png" />
     <None Include="Resources\overlay\background_newlove.png" />
     <None Include="Resources\overlay\background_parade_guy.png" />
     <None Include="Resources\overlay\background_party_pegwin.png" />
@@ -511,11 +511,13 @@
     <None Include="Resources\overlay\tab_selected.png" />
     <None Include="Resources\overlay\tab_unselected_candycane.png" />
     <None Include="Resources\overlay\tab_unselected_coffee.png" />
+    <None Include="Resources\overlay\tab_unselected_dove.png" />
     <None Include="Resources\overlay\tab_unselected_fall_guys_logo.png" />
     <None Include="Resources\overlay\tab_unselected_helter_skelter.png" />
     <None Include="Resources\overlay\tab_unselected_hex_a_thon.png" />
     <None Include="Resources\overlay\tab_unselected_ill_be_slime.png" />
     <None Include="Resources\overlay\tab_unselected_mockingbird.png" />
+    <None Include="Resources\overlay\tab_unselected_monarch.png" />
     <None Include="Resources\overlay\tab_unselected_newlove.png" />
     <None Include="Resources\overlay\tab_unselected_parade_guy.png" />
     <None Include="Resources\overlay\tab_unselected_party_pegwin.png" />

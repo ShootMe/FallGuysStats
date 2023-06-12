@@ -152,6 +152,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap background_monarch {
+            get {
+                object obj = ResourceManager.GetObject("background_monarch", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap background_newlove {
             get {
                 object obj = ResourceManager.GetObject("background_newlove", resourceCulture);
@@ -5435,6 +5445,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap tab_unselected_mockingbird {
             get {
                 object obj = ResourceManager.GetObject("tab_unselected_mockingbird", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap tab_unselected_monarch {
+            get {
+                object obj = ResourceManager.GetObject("tab_unselected_monarch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

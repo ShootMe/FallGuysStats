@@ -123,6 +123,7 @@ namespace FallGuysStats {
             int customizedBacgroundCount = imageItemArray.Count;
             ImageItem[] imageItems = {
                 new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
+                new ImageItem(Properties.Resources.background_monarch, new[] { "background_monarch", "tab_unselected_monarch" }, "Monarch", this.Font, false),
                 new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
                 new ImageItem(Properties.Resources.background_coffee, new[] { "background_coffee", "tab_unselected_coffee" }, "Coffee", this.Font, false),
                 new ImageItem(Properties.Resources.background_dove, new[] { "background_dove", "tab_unselected_dove" }, "Dove", this.Font, false),
