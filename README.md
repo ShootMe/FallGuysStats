@@ -195,6 +195,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - `1.194`
+    - Updated new show and round names
+    - Bugfix and program optimization
   - `1.193`
     - Bugfix and program optimization
   - `1.192`
