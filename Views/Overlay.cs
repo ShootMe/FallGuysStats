@@ -723,11 +723,12 @@ namespace FallGuysStats {
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     string roundName = this.lastRound.VerifiedName();
                     this.levelException = 0;
-                    if (roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
+                    if (roundName == "round_pixelperfect_almond" || roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
                         this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
                     } else if (roundName == "round_1v1_button_basher" || roundName == "round_1v1_volleyfall_symphony_launch_show") {
                         this.levelException = 2; // Level is like a "Team" level type (score info is most important)
                     }
+                    
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
                         roundName = this.lastRound.UseShareCode ? this.lastRound.ShowNameId : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
@@ -1008,7 +1009,7 @@ namespace FallGuysStats {
                 case Keys.Down:
                 case Keys.Right:
                     if (!this.shiftKeyToggle) { break; }
-                    for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                    for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                         ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                         if (!(item is ToolStripMenuItem menuItem)) { continue; }
                         if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
