@@ -132,7 +132,10 @@ namespace FallGuysStats {
             }
         }
         private Font GetFontForLongText(string text) {
-            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && text.Length > 9) || Stats.CurrentLanguage == 2 && text.Length > 9 || Stats.CurrentLanguage == 3 && text.Length > 9)
+            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && ((!this.IsCreativeRound && text.Length > 12) || (this.IsCreativeRound && text.Length > 9))) ||
+                    (Stats.CurrentLanguage == 2 && ((!this.IsCreativeRound && text.Length > 12) || (this.IsCreativeRound && text.Length > 9))) ||
+                    (Stats.CurrentLanguage == 3 && text.Length > 9) ||
+                    (Stats.CurrentLanguage == 4 && (this.IsCreativeRound && text.Length > 9)))
                     ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length, 21), this.Font.Style, GraphicsUnit.Pixel)
                     : this.Font;
         }
