@@ -769,7 +769,7 @@ namespace FallGuysStats {
                         this.lblRound.ImageWidth = 0;
                         this.lblRound.ImageHeight = 0;
                     }
-                    this.lblRound.TextRight = "踮脚大师锦标赛踮脚大标踮脚锦标踮赛锦赛大标标踮赛踮脚大赛标";
+                    this.lblRound.TextRight = roundName;
 
                     this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
