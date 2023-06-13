@@ -180,7 +180,7 @@ namespace FallGuysStats {
                                 lastDate = line.Date;
                             } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
-                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.selectedShowId.StartsWith("show_wle_s10"));
+                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.selectedShowId.StartsWith("show_wle_s10") || this.selectedShowId.StartsWith("wle_s10_player_round"));
                                 }
                             } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.preventOverlayMouseClicks && Stats.InShow && !Stats.EndedShow) {
@@ -237,6 +237,7 @@ namespace FallGuysStats {
         }
         private readonly Dictionary<string, string> _roundNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             {"round_follow-the-leader_ss2_launch", "round_follow-the-leader_s6_launch"},
+            {"round_follow-the-leader_ss2_parrot", "round_follow-the-leader_s6_launch"},
             
             // Finals Marathon
             {"round_kraken_attack_only_finals_v2_r1", "round_kraken_attack"},
@@ -320,7 +321,7 @@ namespace FallGuysStats {
                     || roundId.IndexOf("wle_s10_round_004", StringComparison.OrdinalIgnoreCase) != -1
                     || roundId.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1)
                 
-                    || showId.StartsWith("show_wle_s10_wk01_srs_");
+                    || (showId.StartsWith("show_wle_s10_wk") || showId.StartsWith("wle_s10_player_round"));
         }
 
         private bool GetIsRealFinalRound(string roundId) {
