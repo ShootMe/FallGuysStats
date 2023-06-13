@@ -745,7 +745,7 @@ namespace FallGuysStats {
                     //} else {
                     //    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
                     //}
-                    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
+                    if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
                     this.lblRound.IsCreativeRound = (level != null && level.isCreative);
@@ -761,13 +761,15 @@ namespace FallGuysStats {
                             this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
                         }
                     } else {
-                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
+                        this.lblRound.Text = this.lastRound.UseShareCode ?
+                                            $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :" :
+                                            $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
                         this.lblRound.LevelColor = Color.Empty;
                         this.lblRound.RoundIcon = null;
                         this.lblRound.ImageWidth = 0;
                         this.lblRound.ImageHeight = 0;
                     }
-                    this.lblRound.TextRight = roundName;
+                    this.lblRound.TextRight = "踮脚大师锦标赛踮脚大标踮脚锦标踮赛锦赛大标标踮赛踮脚大赛标";
 
                     this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
@@ -809,7 +811,7 @@ namespace FallGuysStats {
                     if (finish.HasValue) {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
                         if (this.lastRound.Crown) {
-                            this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! - {time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}!   {time:m\\:ss\\.ff}";
                         } else {
                             this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                         }
