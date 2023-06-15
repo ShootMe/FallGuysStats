@@ -83,7 +83,7 @@ namespace FallGuysStats {
                         }
 
                         if (!string.IsNullOrEmpty(this.Text)) {
-                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size, this.Text, stringFormat);
+                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }
 
                         if (this.Image != null) {
@@ -126,7 +126,7 @@ namespace FallGuysStats {
                 case "lblQualifyChance":
                     return (this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
                 case "lblFinish":
-                    return (this.TextRight.Length > 14 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.86f : 1) : 1);
+                    return (this.TextRight.Length > 14 ? (Stats.CurrentLanguage == 0 ? 0.78f : Stats.CurrentLanguage == 1 ? 0.74f : Stats.CurrentLanguage == 4 ? 0.96f : 1) : 1);
                 default:
                     return 1f;
             }
