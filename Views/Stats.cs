@@ -212,7 +212,7 @@ namespace FallGuysStats {
             "event_only_slime_climb",
             "event_only_jump_club_template",
             "event_walnut_template",
-            "event_only_survival_ss2_3009_0210_2022",
+            "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
             "event_le_anchovy_template",
             "event_pixel_palooza_template",
@@ -899,7 +899,8 @@ namespace FallGuysStats {
             this.trayProfile.DropDownItems.Add(this.trayEditProfiles);
             
             this.AllProfiles.Clear();
-            this.AllProfiles = this.Profiles.FindAll().ToList();
+            //this.AllProfiles = this.Profiles.FindAll().ToList();
+            this.AllProfiles.AddRange(this.Profiles.FindAll());
             int profileNumber = 0; 
             for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
                 Profiles profile = this.AllProfiles[i];
@@ -1568,6 +1569,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 37;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 37) {
+                this.StatsDB.BeginTrans();
+                this.AllProfiles.AddRange(this.Profiles.FindAll());
+                for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
+                    Profiles profiles = this.AllProfiles[i];
+                    if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("event_only_survival_ss2_3009_0210_2022")) {
+                        profiles.LinkedShowId = "survival_of_the_fittest";
+                    }
+                }
+                this.Profiles.DeleteAll();
+                this.Profiles.InsertBulk(this.AllProfiles);
+                this.StatsDB.Commit();
+                this.AllProfiles.Clear();
+                this.CurrentSettings.Version = 38;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1638,7 +1656,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 37
+                Version = 38
             };
         }
         private void UpdateHoopsieLegends() {
