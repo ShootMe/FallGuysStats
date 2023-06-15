@@ -309,7 +309,7 @@ namespace FallGuysStats {
             this.ProfileList[0, profileListIndex + 1].Selected = true;
         }
 
-        private void RenameComboxChanged(object sender, EventArgs e) {
+        private void RenameComboboxChanged(object sender, EventArgs e) {
             this.RenamePageTextbox.Text = this.RenamePageCombobox.SelectedItem.ToString();
         }
 

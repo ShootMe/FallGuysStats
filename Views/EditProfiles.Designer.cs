@@ -285,7 +285,7 @@ namespace FallGuysStats {
             this.RenamePageCombobox.Size = new System.Drawing.Size(192, 29);
             this.RenamePageCombobox.TabIndex = 1;
             this.RenamePageCombobox.UseSelectable = true;
-            this.RenamePageCombobox.SelectedIndexChanged += new System.EventHandler(this.RenameComboxChanged);
+            this.RenamePageCombobox.SelectedIndexChanged += new System.EventHandler(this.RenameComboboxChanged);
             // 
             // RenamePageLabel1
             // 
