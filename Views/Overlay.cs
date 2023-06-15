@@ -746,7 +746,7 @@ namespace FallGuysStats {
                     //} else {
                     //    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
                     //}
-                    if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
+                    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
                     this.lblRound.IsCreativeRound = (level != null && level.isCreative);
@@ -762,9 +762,10 @@ namespace FallGuysStats {
                             this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
                         }
                     } else {
-                        this.lblRound.Text = this.lastRound.UseShareCode ?
-                                            $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :" :
-                                            $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
+                        //this.lblRound.Text = this.lblRound.IsCreativeRound ?
+                        //                    $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :" :
+                        //                    $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
+                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
                         this.lblRound.LevelColor = Color.Empty;
                         this.lblRound.RoundIcon = null;
                         this.lblRound.ImageWidth = 0;
@@ -966,10 +967,10 @@ namespace FallGuysStats {
                 case Keys.R:
                     this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
                     this.StatsForm.SaveUserSettings();
-                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
-                                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
-                                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                    // this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
+                    //                     this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
+                    //                     this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
+                    //                     this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
                     break;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
                     break;
