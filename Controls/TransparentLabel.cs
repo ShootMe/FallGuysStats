@@ -132,127 +132,175 @@ namespace FallGuysStats {
             }
         }
         private Font GetFontForLongText(string text) {
-            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && ((!this.IsCreativeRound && text.Length > 12) || (this.IsCreativeRound && text.Length > 9))) ||
-                    (Stats.CurrentLanguage == 2 && ((!this.IsCreativeRound && text.Length > 12) || (this.IsCreativeRound && text.Length > 9))) ||
-                    (Stats.CurrentLanguage == 3 && text.Length > 9) ||
-                    (Stats.CurrentLanguage == 4 && (this.IsCreativeRound && text.Length > 9)))
-                    ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length, 21), this.Font.Style, GraphicsUnit.Pixel)
-                    : this.Font;
+            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && (text.Length >= 17)) ||
+                    (Stats.CurrentLanguage == 2 && (text.Length >= 12)) ||
+                    (Stats.CurrentLanguage == 3 && (text.Length >= 10)) ||
+                    (Stats.CurrentLanguage == 4 && (text.Length >= 10)))
+                    ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length), this.Font.Style, GraphicsUnit.Pixel) : this.Font;
         }
-        private float GetRoundNameFontSize(int textLength, int offset) {
+        private float GetRoundNameFontSize(int textLength) {
             float weight = 1.0F;
-            if (this.IsCreativeRound) {
-                offset += 9;
-                if (textLength == 10) {
-                    weight = 0.87F;
-                } else if (textLength == 11) {
-                    weight = 0.86F;
-                } else if (textLength == 12) {
-                    weight = 0.85F;
-                } else if (textLength == 13) {
-                    weight = 0.83F;
-                } else if (textLength == 14) {
-                    weight = 0.81F;
-                } else if (textLength == 15) {
-                    weight = 0.8F;
-                } else if (textLength == 16) {
-                    weight = 0.8F;
-                } else if (textLength == 17) {
-                    weight = 0.8F;
+            if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) &&
+                this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English, French
+                if (textLength == 17) {
+                    weight = this.LevelColor.IsEmpty ? 1.33F : 1.36F;
                 } else if (textLength == 18) {
-                    weight = 0.84F;
+                    weight = this.LevelColor.IsEmpty ? 1.35F : 1.38F;
                 } else if (textLength == 19) {
-                    weight = 0.87F;
+                    weight = this.LevelColor.IsEmpty ? 1.4F : 1.45F;
                 } else if (textLength == 20) {
-                    weight = 0.9F;
+                    weight = this.LevelColor.IsEmpty ? 1.46F : 1.6F;
                 } else if (textLength == 21) {
-                    weight = 0.96F;
+                    weight = this.LevelColor.IsEmpty ? 1.49F : 1.62F;
                 } else if (textLength == 22) {
-                    weight = 1.02F;
+                    weight = this.LevelColor.IsEmpty ? 1.62F : 1.83F;
                 } else if (textLength == 23) {
-                    weight = 1.12F;
+                    weight = this.LevelColor.IsEmpty ? 1.78F : 1.94F;
                 } else if (textLength == 24) {
-                    weight = 1.25F;
+                    weight = this.LevelColor.IsEmpty ? 1.98F : 2.25F;
                 } else if (textLength == 25) {
-                    weight = 1.44F;
+                    weight = this.LevelColor.IsEmpty ? 2.26F : 2.6F;
                 } else if (textLength == 26) {
-                    weight = 1.72F;
+                    weight = this.LevelColor.IsEmpty ? 2.72F : 2.99F;
                 } else if (textLength == 27) {
-                    weight = 2.25F;
+                    weight = this.LevelColor.IsEmpty ? 3.48F : 3.98F;
                 } else if (textLength == 28) {
-                    weight = 3.25F;
+                    weight = this.LevelColor.IsEmpty ? 5.1F : 5.95F; 
                 } else if (textLength == 29) {
-                    weight = 6.25F;
+                    weight = this.LevelColor.IsEmpty ? 9.8F : 10.65F; 
                 }
-            } else {
-                if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
-                    offset += 9;
-                    if (textLength == 13) {
-                        weight = 0.95F;
-                    } else if (textLength == 14) {
-                        weight = 1.05F;
-                    } else if (textLength == 15) {
-                        weight = 1.05F;
-                    } else if (textLength == 16) {
-                        weight = 1.05F;
-                    } else if (textLength == 17) {
-                        weight = 1.05F;
-                    } else if (textLength == 18) {
-                        weight = 1.05F;
-                    } else if (textLength == 19) {
-                        weight = 1.05F;
-                    } else if (textLength == 20) {
-                        weight = 1.1F;
-                    } else if (textLength == 21) {
-                        weight = 1.2F;
-                    } else if (textLength == 22) {
-                        weight = 1.4F;
-                    } else if (textLength == 23) {
-                        weight = 1.6F;
-                    } else if (textLength == 24) {
-                        weight = 1.8F;
-                    } else if (textLength == 25) {
-                        weight = 2.0F;
-                    } else if (textLength == 26) {
-                        weight = 2.2F;
-                    } else if (textLength == 27) {
-                        weight = 3.4F;
-                    } else if (textLength == 28) {
-                        weight = 4.7F;
-                    } else if (textLength == 29) {
-                        weight = 9.7F;
-                    }
-                } else if (Stats.CurrentLanguage == 2) { // Korean
-                    offset += 3;
-                    if (textLength == 13) {
-                        weight = 1.15F;
-                    } else if (textLength == 14) {
-                        weight = 1.2F;
-                    } else if (textLength == 15) {
-                        weight = 1.225F;
-                    }
-                } else if (Stats.CurrentLanguage == 3) { // Japanese
-                    if (textLength == 10) {
-                        weight = 1.075F;
-                    } else if (textLength == 11) {
-                        weight = 1.1F;
-                    } else if (textLength == 12) {
-                        weight = 1.15F;
-                    } else if (textLength == 13) {
-                        weight = 1.2F;
-                    } else if (textLength == 14) {
-                        weight = 1.25F;
-                    } else if (textLength == 15) {
-                        weight = 1.35F;
-                    }
+            } else if (Stats.CurrentLanguage == 2 &&
+                       this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) { // Korean
+                if (textLength == 12) {
+                    weight = 0.94F;
+                } else if (textLength == 13) {
+                    weight = this.LevelColor.IsEmpty ? 0.92F : 0.94F;
+                } else if (textLength == 14) {
+                    weight = this.LevelColor.IsEmpty ? 0.91F : 0.93F;
+                } else if (textLength == 15) {
+                    weight = this.LevelColor.IsEmpty ? 0.91F : 0.93F;
+                } else if (textLength == 16) {
+                    weight = this.LevelColor.IsEmpty ? 0.91F : 0.92F;
+                } else if (textLength == 17) {
+                    weight = this.LevelColor.IsEmpty ? 0.93F : 0.98F;
+                } else if (textLength == 18) {
+                    weight = this.LevelColor.IsEmpty ? 0.94F : 0.98F;
+                } else if (textLength == 19) {
+                    weight = 0.98F;
+                } else if (textLength == 20) {
+                    weight = this.LevelColor.IsEmpty ? 1.03F : 1.08F;
+                } else if (textLength == 21) {
+                    weight = this.LevelColor.IsEmpty ? 1.09F : 1.07F;
+                } else if (textLength == 22) {
+                    weight = this.LevelColor.IsEmpty ? 1.17F : 1.2F;
+                } else if (textLength == 23) {
+                    weight = this.LevelColor.IsEmpty ? 1.27F : 1.38F;
+                } else if (textLength == 24) {
+                    weight = 1.44F;
+                } else if (textLength == 25) {
+                    weight = this.LevelColor.IsEmpty ? 1.66F : 1.72F;
+                } else if (textLength == 26) {
+                    weight = this.LevelColor.IsEmpty ? 2F : 1.88F;
+                } else if (textLength == 27) {
+                    weight = this.LevelColor.IsEmpty ? 2.58F : 2.5F;
+                } else if (textLength == 28) {
+                    weight = this.LevelColor.IsEmpty ? 3.7F : 3.76F;
+                } else if (textLength == 29) {
+                    weight = this.LevelColor.IsEmpty ? 7.18F :7.5F;
+                }
+            } else if (Stats.CurrentLanguage == 3 &&
+                       this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(3).Name)) { // Japanese
+                if (textLength == 10) {
+                    weight = this.LevelColor.IsEmpty ? 0.8F : 0.94F;
+                } else if (textLength == 11) {
+                    weight = this.LevelColor.IsEmpty ? 0.78F : 0.88F;
+                } else if (textLength == 12) {
+                    weight = this.LevelColor.IsEmpty ? 0.75F : 0.88F;
+                } else if (textLength == 13) {
+                    weight = this.LevelColor.IsEmpty ? 0.73F : 0.88F;
+                } else if (textLength == 14) {
+                    weight = this.LevelColor.IsEmpty ? 0.72F : 0.86F;
+                } else if (textLength == 15) {
+                    weight = this.LevelColor.IsEmpty ? 0.72F : 0.86F;
+                } else if (textLength == 16) {
+                    weight = this.LevelColor.IsEmpty ? 0.73F : 0.84F;
+                } else if (textLength == 17) {
+                    weight = this.LevelColor.IsEmpty ? 0.75F : 0.83F;
+                } else if (textLength == 18) {
+                    weight = this.LevelColor.IsEmpty ? 0.76F : 0.9F;
+                } else if (textLength == 19) {
+                    weight = this.LevelColor.IsEmpty ? 0.8F : 0.9F;
+                } else if (textLength == 20) {
+                    weight = this.LevelColor.IsEmpty ? 0.84F : 0.98F;
+                } else if (textLength == 21) {
+                    weight = this.LevelColor.IsEmpty ? 0.89F : 0.98F;
+                } else if (textLength == 22) {
+                    weight = this.LevelColor.IsEmpty ? 0.96F : 1.11F;
+                } else if (textLength == 23) {
+                    weight = this.LevelColor.IsEmpty ? 1.05F : 1.27F;
+                } else if (textLength == 24) {
+                    weight = this.LevelColor.IsEmpty ? 1.17F : 1.31F;
+                } else if (textLength == 25) {
+                    weight = this.LevelColor.IsEmpty ? 1.35F : 1.57F;
+                } else if (textLength == 26) {
+                    weight = this.LevelColor.IsEmpty ? 1.63F : 1.96F;
+                } else if (textLength == 27) {
+                    weight = this.LevelColor.IsEmpty ? 2.11F : 2.3F;
+                } else if (textLength == 28) {
+                    weight = this.LevelColor.IsEmpty ? 3F : 3.45F;
+                } else if (textLength == 29) {
+                    weight = this.LevelColor.IsEmpty ? 5.9F : 6.9F;
+                }
+            } else if (Stats.CurrentLanguage == 4 &&
+                       this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese
+                if (textLength == 10) {
+                    weight = this.LevelColor.IsEmpty ? 0.92F : 0.85F;
+                } else if (textLength == 11) {
+                    weight = this.LevelColor.IsEmpty ? 0.92F : 0.83F;
+                } else if (textLength == 12) {
+                    weight = this.LevelColor.IsEmpty ? 0.89F : 0.77F;
+                } else if (textLength == 13) {
+                    weight = this.LevelColor.IsEmpty ? 0.88F : 0.76F;
+                } else if (textLength == 14) {
+                    weight = this.LevelColor.IsEmpty ? 0.87F : 0.74F;
+                } else if (textLength == 15) {
+                    weight = this.LevelColor.IsEmpty ? 0.86F : 0.73F;
+                } else if (textLength == 16) {
+                    weight = this.LevelColor.IsEmpty ? 0.88F : 0.78F;
+                } else if (textLength == 17) {
+                    weight = this.LevelColor.IsEmpty ? 0.9F : 0.76F;
+                } else if (textLength == 18) {
+                    weight = this.LevelColor.IsEmpty ? 0.93F : 0.82F;
+                } else if (textLength == 19) {
+                    weight = this.LevelColor.IsEmpty ? 0.96F : 0.81F;
+                } else if (textLength == 20) {
+                    weight = this.LevelColor.IsEmpty ? 1.01F : 0.89F;
+                } else if (textLength == 21) {
+                    weight = this.LevelColor.IsEmpty ? 1.07F : 0.87F;
+                } else if (textLength == 22) {
+                    weight = this.LevelColor.IsEmpty ? 1.14F : 0.99F;
+                } else if (textLength == 23) {
+                    weight = this.LevelColor.IsEmpty ? 1.26F : 1.12F;
+                } else if (textLength == 24) {
+                    weight = this.LevelColor.IsEmpty ? 1.41F : 1.15F;
+                } else if (textLength == 25) {
+                    weight = this.LevelColor.IsEmpty ? 1.61F : 1.38F;
+                } else if (textLength == 26) {
+                    weight = this.LevelColor.IsEmpty ? 1.94F : 1.73F;
+                } else if (textLength == 27) {
+                    weight = this.LevelColor.IsEmpty ? 2.5F : 1.98F;
+                } else if (textLength == 28) {
+                    weight = this.LevelColor.IsEmpty ? 3.64F : 2.97F;
+                } else if (textLength == 29) {
+                    weight = this.LevelColor.IsEmpty ? 6.96F : 5.96F;
                 }
             }
-            
-            return (offset - textLength) * weight;
+            return (30 - textLength) * weight;
         }
         private int GetFontOffsetForCreativeRound(string s) {
             int offset = 0;
-            if (this.IsCreativeRound && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English, French
+            if (this.IsCreativeRound &&
+                this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English, French
                 if (s.Length < 10) {
                     offset += (this.GetCountKorAlphabet(s) * 7) +
                               (int)(this.GetCountJpnAlphabet(s) * 3.3F) +
