@@ -817,7 +817,7 @@ namespace FallGuysStats {
                     if (finish.HasValue) {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
                         if (this.lastRound.Crown) {
-                            this.lblFinish.TextRight = $"25{Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.ff}";
+                            this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
                         } else {
                             if (levelType == LevelType.Survival) {
                                 this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{this.lastRound.Position}{Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";    

@@ -120,13 +120,13 @@ namespace FallGuysStats {
         private float GetFontSizeFactor() {
             switch (this.Name) {
                 case "lblFinals":
-                    return (this.TextRight.Length > 15 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                    return this.TextRight.Length > 15 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
                 case "lblStreak":
-                    return (this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                    return this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
                 case "lblQualifyChance":
-                    return (this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1);
+                    return this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
                 case "lblFinish":
-                    return (this.TextRight.Length > 14 ? (Stats.CurrentLanguage == 0 ? 0.78f : Stats.CurrentLanguage == 1 ? 0.74f : Stats.CurrentLanguage == 4 ? 0.96f : 1) : 1);
+                    return (this.TextRight.Length > 15 && Stats.CurrentLanguage == 0) ? 0.77f : (this.TextRight.Length > 15 && Stats.CurrentLanguage == 1) ? 0.73f : (this.TextRight.Length == 15 && Stats.CurrentLanguage == 1) ? 0.92f : (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4) ? 0.96f : 1;
                 default:
                     return 1f;
             }
