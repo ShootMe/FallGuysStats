@@ -741,12 +741,16 @@ namespace FallGuysStats {
                         roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
                     }
 
-                    //if (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) { // English, French
-                    //    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
-                    //} else {
-                    //    if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
-                    //}
-                    if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
+                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) ||
+                         (Stats.CurrentLanguage == 2 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name)) ||
+                         (Stats.CurrentLanguage == 3 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name)) ||
+                         (Stats.CurrentLanguage == 4 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name)))
+                    {
+                        if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
+                    } else {
+                        if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+                    }
+                    //if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
                     this.lblRound.IsCreativeRound = (level != null && level.isCreative);

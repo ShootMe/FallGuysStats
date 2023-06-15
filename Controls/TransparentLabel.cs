@@ -132,10 +132,10 @@ namespace FallGuysStats {
             }
         }
         private Font GetFontForLongText(string text) {
-            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && (text.Length >= 17)) ||
-                    (Stats.CurrentLanguage == 2 && (text.Length >= 12)) ||
-                    (Stats.CurrentLanguage == 3 && (text.Length >= 10)) ||
-                    (Stats.CurrentLanguage == 4 && (text.Length >= 10)))
+            return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && (text.Length >= 17) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) ||
+                    (Stats.CurrentLanguage == 2 && (text.Length >= 12) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) ||
+                    (Stats.CurrentLanguage == 3 && (text.Length >= 10) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(3).Name)) ||
+                    (Stats.CurrentLanguage == 4 && (text.Length >= 10) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)))
                     ? new Font(this.Font.FontFamily, this.GetRoundNameFontSize(text.Length), this.Font.Style, GraphicsUnit.Pixel) : this.Font;
         }
         private float GetRoundNameFontSize(int textLength) {
