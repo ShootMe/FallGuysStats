@@ -11,9 +11,7 @@ body:
         1. Please check if there is an issue with the same content.
         2. Please update the app latest version.
         3. Please upload the log if the issue is related to log reading.
-          **Log location:**
-          Steam: `%PROGRAMFILES(X86)%\Steam\steamapps\common\Fall Guys`
-          Epic Games: `%LOCALAPPDATA%Low\Mediatonic\FallGuys_client`
+          **Log location:** `%LOCALAPPDATA%Low\Mediatonic\FallGuys_client`
           Saved to `Player.log` or `Player-prev.log`(previous session) of the directory.
           Also, the time or line number helps us!
         4. Please upload the image if the error has showed.
