@@ -124,7 +124,6 @@ namespace FallGuysStats {
             this.btnCheckUpdates = new MetroFramework.Controls.MetroButton();
             this.lblVersion = new MetroFramework.Controls.MetroLabel();
             this.lblLicence = new MetroFramework.Controls.MetroLabel();
-            this.overlayOpacityToolTip = new MetroFramework.Components.MetroToolTip();
             this.panelFallalytics = new MetroFramework.Controls.MetroPanel();
             this.fallalyticsLink = new MetroFramework.Controls.MetroLink();
             this.fallalyticsAPIKeyLable = new MetroFramework.Controls.MetroLabel();
@@ -449,8 +448,8 @@ namespace FallGuysStats {
             this.trkOverlayOpacity.Name = "trkOverlayOpacity";
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
             this.trkOverlayOpacity.TabIndex = 23;
-            this.overlayOpacityToolTip.SetToolTip(this.trkOverlayOpacity, "100");
             this.trkOverlayOpacity.Value = 100;
+            this.trkOverlayOpacity.MouseLeave += new System.EventHandler(this.trkOverlayOpacity_MouseLeave);
             this.trkOverlayOpacity.ValueChanged += new System.EventHandler(this.trkOverlayOpacity_ValueChanged);
             // 
             // chkFlipped
@@ -1461,12 +1460,6 @@ namespace FallGuysStats {
             this.lblLicence.TabIndex = 5;
             this.lblLicence.Text = resources.GetString("lblLicence.Text");
             // 
-            // overlayOpacityToolTip
-            // 
-            this.overlayOpacityToolTip.Style = MetroFramework.MetroColorStyle.Blue;
-            this.overlayOpacityToolTip.StyleManager = null;
-            this.overlayOpacityToolTip.Theme = MetroFramework.MetroThemeStyle.Light;
-            // 
             // panelFallalytics
             // 
             this.panelFallalytics.Controls.Add(this.fallalyticsLink);
@@ -1722,7 +1715,6 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroLink lbltpl4;
         private MetroFramework.Controls.MetroLink lbltpl3;
         private MetroFramework.Controls.MetroLabel lblupdateNote;
-        private MetroFramework.Components.MetroToolTip overlayOpacityToolTip;
         private MetroFramework.Controls.MetroPanel panelFallalytics;
         private MetroFramework.Controls.MetroLabel fallalyticsAPIKeyLable;
         private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
