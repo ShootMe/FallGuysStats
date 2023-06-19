@@ -680,9 +680,7 @@ namespace FallGuysStats {
                                                    (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
                                                    (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
                         
-                        if (this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name)
-                            || this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name)
-                            || this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name)) {
+                        if (!this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
                             this.lblCountryIcon.ImageX += 7;
                             this.lblPingIcon.ImageX += 7;
                         }

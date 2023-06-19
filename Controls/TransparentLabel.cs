@@ -103,8 +103,12 @@ namespace FallGuysStats {
                                         g.DrawImage(this.RoundIcon, (roundRect.X - 6f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
-                                    stringFormat.Alignment = StringAlignment.Near;
-                                    this.DrawOutlineText(g, new RectangleF(roundRect.X, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
+                                    if (this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) {
+                                        this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
+                                    } else {
+                                        stringFormat.Alignment = StringAlignment.Near;
+                                        this.DrawOutlineText(g, new RectangleF(roundRect.X, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
+                                    }
                                 } else {
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);

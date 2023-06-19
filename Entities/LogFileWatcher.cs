@@ -452,7 +452,7 @@ namespace FallGuysStats {
                     lock (this.pingSender) {
                         string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         string ip = host.Substring(0, host.IndexOf(":"));
-                        if (Stats.PingSwitcher++ % 4 == 0) {
+                        if (Stats.PingSwitcher++ % 8 == 0) {
                             Stats.PingSwitcher = 1;
                             byte[] bufferArray = new byte[32];
                             int timeout = 1000;
@@ -645,6 +645,7 @@ namespace FallGuysStats {
                 Stats.InShow = false;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                Stats.PingSwitcher = 8;
                 this.toggleRequestIp2cApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
@@ -655,6 +656,7 @@ namespace FallGuysStats {
                 Stats.LastCountryFullName = string.Empty;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                Stats.PingSwitcher = 8;
                 this.toggleRequestIp2cApi = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
@@ -715,6 +717,7 @@ namespace FallGuysStats {
                     Stats.EndedShow = true;
                     Stats.IsPrePlaying = false;
                     Stats.IsPlaying = false;
+                    Stats.PingSwitcher = 8;
                     this.toggleRequestIp2cApi = false;
                     return true;
                 }
@@ -815,6 +818,7 @@ namespace FallGuysStats {
                 Stats.EndedShow = true;
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
+                Stats.PingSwitcher = 8;
                 this.toggleRequestIp2cApi = false;
                 return true;
             }
