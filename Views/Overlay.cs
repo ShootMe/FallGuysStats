@@ -667,18 +667,25 @@ namespace FallGuysStats {
                         this.lblPingIcon.ImageX = 40;
                         this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                     } else {
+                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon") : null);
                         this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
-                                                        ? (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? 43 :
-                                                           Stats.LastServerPing > 9 && 199 >= Stats.LastServerPing ? 33 :
-                                                           Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? 30 : 0) : 0;
-                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0
-                                                            ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon") : null);
-
-                        this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -9 :
-                                                   (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -13 :
-                                                   (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -18 : 0;
+                                                        ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
+                                                           Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
+                                                           Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
+                                                           Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) : -12;
+                        
                         this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
                                                   (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                        this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -14 :
+                                                   (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
+                                                   (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
+                        
+                        if (this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name)
+                            || this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name)
+                            || this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name)) {
+                            this.lblCountryIcon.ImageX += 7;
+                            this.lblPingIcon.ImageX += 7;
+                        }
                     }
                     
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
