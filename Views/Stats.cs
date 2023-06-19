@@ -111,7 +111,7 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
         public static bool IsPrePlaying = false;
-        public static int PingSwitcher = 4;
+        public static int PingSwitcher = 8;
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;
         public static string LastCountryCode = String.Empty;
