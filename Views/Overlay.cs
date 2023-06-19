@@ -790,8 +790,8 @@ namespace FallGuysStats {
                         this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
                     } else {
                         this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
-                                                 ? $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
-                                                 : $"　{levelInfo.TotalWins}{winChanceDisplay}";
+                                                 ? $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
+                                                 : $"{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
                     this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
