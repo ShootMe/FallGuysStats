@@ -445,13 +445,15 @@ namespace FallGuysStats {
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.Activated += new System.EventHandler(this.Overlay_GotFocus);
+            this.Deactivate += new System.EventHandler(this.Overlay_LostFocus);
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
             this.MouseClick += new MouseEventHandler(this.Overlay_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
-            this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
-            this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
+            //this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
+            //this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
             this.MouseEnter += new System.EventHandler(this.Overlay_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.Overlay_MouseLeave);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseWheel);
