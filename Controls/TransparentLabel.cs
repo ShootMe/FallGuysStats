@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -99,7 +100,7 @@ namespace FallGuysStats {
                                     //float widthOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
                                     RectangleF roundRect = this.FillRoundedRectangleF(g, null, new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, widthOfText, 22f, 10f);
                                     if (this.RoundIcon != null) {
-                                        g.DrawImage(this.RoundIcon, (this.ClientRectangle.Width - widthOfText - this.ImageWidth - 5f), this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
+                                        g.DrawImage(this.RoundIcon, (roundRect.X - 6f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                     stringFormat.Alignment = StringAlignment.Near;
@@ -123,17 +124,19 @@ namespace FallGuysStats {
         }
         private float GetFontSizeFactor() {
             switch (this.Name) {
+                case "lblWins":
+                    return this.TextRight.Length == 19 ? (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1 ? 0.94f : 1f) : this.TextRight.Length > 19 ? (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1 ? 0.87f : 1f) : 1f;
                 case "lblFinals":
-                    return this.TextRight.Length > 15 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
+                    return this.TextRight.Length > 15 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1f) : 1f;
                 case "lblStreak":
-                    return this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
+                    return this.TextRight.Length > 9 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1f) : 1f;
                 case "lblQualifyChance":
-                    return this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1) : 1;
+                    return this.TextRight.Length > 18 ? (Stats.CurrentLanguage == 0 ? 0.92f : Stats.CurrentLanguage == 1 ? 0.87f : 1f) : 1f;
                 case "lblFinish":
                     return (this.TextRight.Length > 14 && Stats.CurrentLanguage == 0) ? 0.81f :
                             (this.TextRight.Length > 15 && Stats.CurrentLanguage == 1) ? 0.77f :
                             (this.TextRight.Length == 15 && Stats.CurrentLanguage == 1) ? 0.92f :
-                            (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4) ? 0.96f : 1;
+                            (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4) ? 0.96f : 1f;
                 default:
                     return 1f;
             }
