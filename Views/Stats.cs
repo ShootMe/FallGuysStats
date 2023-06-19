@@ -4025,8 +4025,8 @@ namespace FallGuysStats {
         }
         public string[] FindCreativeAuthor(JsonElement authorData) {
             string[] onlinePlatformInfo = { "N/A", "N/A" };
-            string onlinePlatformId = String.Empty;
-            string onlinePlatformNickname = String.Empty;
+            string onlinePlatformId = string.Empty;
+            string onlinePlatformNickname = string.Empty;
             using (JsonElement.ObjectEnumerator objectEnumerator = authorData.EnumerateObject()) {
                 while (objectEnumerator.MoveNext()) {
                     JsonProperty current = objectEnumerator.Current;

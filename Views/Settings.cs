@@ -240,7 +240,6 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
-            this.overlayOpacityToolTip.Theme = theme;
             this.cboOverlayBackground.mtt.Theme = theme;
             this.cboOverlayBackground_blur();
             foreach (Control c1 in Controls) {
@@ -685,10 +684,8 @@ namespace FallGuysStats {
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
             this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
-
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;
-
             this.overlayFontSerialized = string.Empty;
         }
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
@@ -696,14 +693,17 @@ namespace FallGuysStats {
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
-            this.overlayOpacityToolTip.ToolTipIcon = ToolTipIcon.Info;
-            this.overlayOpacityToolTip.SetToolTip(((MetroTrackBar)sender), ((MetroTrackBar)sender).Value.ToString());
+            if (((MetroTrackBar)sender).Value == this.Overlay.Opacity * 100D) { return; }
+            Point cursorPosition = this.PointToClient(Cursor.Position);
+            Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+            this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position);
             this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100D;
         }
+        private void trkOverlayOpacity_MouseLeave(object sender, EventArgs e) {
+            this.StatsForm.HideTooltip(this);
+        }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
-            if (keyData == Keys.Tab) {
-                SendKeys.Send("%");
-            }
+            if (keyData == Keys.Tab) { SendKeys.Send("%"); }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
