@@ -832,6 +832,7 @@ namespace FallGuysStats {
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);
+                this.StatsForm.AllocTooltip();
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
                 this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
