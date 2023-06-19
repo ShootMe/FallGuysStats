@@ -667,19 +667,18 @@ namespace FallGuysStats {
                         this.lblPingIcon.ImageX = 40;
                         this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                     } else {
-                        this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 100)
-                                                        ? (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? 43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? 33 : 0)
-                                                        : 0;
+                        this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
+                                                        ? (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? 43 :
+                                                           Stats.LastServerPing > 9 && 199 >= Stats.LastServerPing ? 33 :
+                                                           Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? 30 : 0) : 0;
                         this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0
-                                                            ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon")
-                                                            : null);
+                                                            ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon") : null);
 
-                        this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 1000 > Stats.LastServerPing)
-                                                    ? -9
-                                                    : Stats.IsPrePlaying && Stats.LastServerPing > 999 ? -18 : 0;
-                        this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing)
-                                                    ? Properties.Resources.ping_100_icon
-                                                    : (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                        this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -9 :
+                                                   (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -13 :
+                                                   (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -18 : 0;
+                        this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
+                                                  (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
                     }
                     
                     this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
@@ -740,20 +739,20 @@ namespace FallGuysStats {
                     if (this.lastRound.UseShareCode) {
                         roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
                     }
-
-                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) ||
-                         (Stats.CurrentLanguage == 2 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name)) ||
-                         (Stats.CurrentLanguage == 3 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name)) ||
-                         (Stats.CurrentLanguage == 4 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name)))
-                    {
-                        if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
+                    
+                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
+                        || (Stats.CurrentLanguage == 2 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
+                        || (Stats.CurrentLanguage == 3 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
+                        || (Stats.CurrentLanguage == 4 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
+                        || this.lastRound.UseShareCode) {
+                        if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
                     } else {
-                        if (roundName.Length > 15) { roundName = roundName.Substring(0, 15); }
+                        if (roundName.Length > 21) { roundName = roundName.Substring(0, 21); }
                     }
-                    //if (roundName.Length > 29) { roundName = roundName.Substring(0, 29); }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
-                    this.lblRound.IsCreativeRound = (level != null && level.isCreative);
+                    //this.lblRound.IsCreativeRound = (level != null && level.isCreative);
+                    this.lblRound.UseShareCode = this.lastRound.UseShareCode;
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                         this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
@@ -784,8 +783,8 @@ namespace FallGuysStats {
                         this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
                     } else {
                         this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
-                            ? $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
-                            : $"　{levelInfo.TotalWins}{winChanceDisplay}";
+                                                 ? $"　{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
+                                                 : $"　{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
                     this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
