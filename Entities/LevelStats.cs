@@ -183,13 +183,19 @@ namespace FallGuysStats {
             { "wle_s10_round_011",                new LevelStats("Cyber Circuit", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_round_012",                new LevelStats("Boom Blaster Trial", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
+            { "wle_s10_player_round_wk3_03",      new LevelStats("Full Speed Sliding (FSS) - Jelly Road", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk3_04",      new LevelStats("Sky High Run", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk3_06",      new LevelStats("Spiral Upheaval", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk3_07",      new LevelStats("Creative Descent", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk3_11",      new LevelStats("Rainbow dash", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk3_14",      new LevelStats("Tower of Fall", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk3_15",      new LevelStats("Parkour Party", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk3_16",      new LevelStats("Catastrophe Climb", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk3_17",      new LevelStats("Yeet Golf", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk4_13",      new LevelStats("Piso resbaloso", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk4_19",      new LevelStats("SOLO FULL-TILT RAGE", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_fp2_wk6_01",                   new LevelStats("Broken Course", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            
+
             { "wle_s10_orig_round_010",           new LevelStats("Square Up", LevelType.Race, true, true, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_orig_round_011",           new LevelStats("Slide Showdown", LevelType.Race, true, true, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_orig_round_017",           new LevelStats("Bellyflop Battlers", LevelType.Race, true, true, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
