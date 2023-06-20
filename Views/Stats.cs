@@ -3575,6 +3575,8 @@ namespace FallGuysStats {
         }
         private void EnableInfoStrip(bool enable) {
             this.infoStrip.Enabled = enable;
+            this.lblTotalTime.Enabled = enable;
+            if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
             foreach (var tsi in this.infoStrip.Items) {
                 if (tsi is ToolStripLabel tsl) {
                     tsl.Enabled = enable;
