@@ -344,12 +344,18 @@ namespace FallGuysStats {
                         showId.IndexOf("show_wle_s10_wk05_srs_long_03", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("show_wle_s10_wk05_srs_long_04", StringComparison.OrdinalIgnoreCase) != -1 ||
                         
+                        showId.IndexOf("wle_s10_player_round_wk3_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                        showId.IndexOf("wle_s10_player_round_wk3_04", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("wle_s10_player_round_wk3_06", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("wle_s10_player_round_wk3_07", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("wle_s10_player_round_wk3_11", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("wle_s10_player_round_wk3_13", StringComparison.OrdinalIgnoreCase) != -1 ||
+                        showId.IndexOf("wle_s10_player_round_wk3_14", StringComparison.OrdinalIgnoreCase) != -1 ||
                         showId.IndexOf("wle_s10_player_round_wk3_15", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_17", StringComparison.OrdinalIgnoreCase) != -1);
+                        showId.IndexOf("wle_s10_player_round_wk3_16", StringComparison.OrdinalIgnoreCase) != -1 ||
+                        showId.IndexOf("wle_s10_player_round_wk3_17", StringComparison.OrdinalIgnoreCase) != -1 ||
+                        showId.IndexOf("wle_s10_player_round_wk4_13", StringComparison.OrdinalIgnoreCase) != -1 ||
+                        showId.IndexOf("wle_s10_player_round_wk4_19", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         private bool GetIsRealFinalRound(string roundId) {
