@@ -231,6 +231,14 @@ namespace FallGuysStats {
         public bool IsFixed() {
             return this.isFixedPositionNe || this.isFixedPositionNw || this.isFixedPositionSe || this.isFixedPositionSw || this.isPositionLock;
         }
+        // public void ShowCountryName(string message, int duration) {
+        //     if (this.lblPlayers.DrawVisible) {
+        //         this.StatsForm.AllocOverlayTooltip();
+        //         Rectangle rectangle = this.lblPlayers.Bounds;
+        //         Point position = new Point(rectangle.X, rectangle.Y);
+        //         this.StatsForm.ShowOverlayTooltip(message, this, position, duration);
+        //     }
+        // }
         private void Position_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 string iconName = ((PictureBox)sender).Name;
@@ -462,7 +470,7 @@ namespace FallGuysStats {
             this.picPositionSE.Image = flag.Equals("se") ? this.positionSeOnFocus : this.positionSeOffFocus;
             this.picPositionSW.Image = flag.Equals("sw") ? this.positionSwOnFocus : this.positionSwOffFocus;
         }
-        public void SetVisiblePositionMenu(bool visible) {
+        private void SetVisiblePositionMenu(bool visible) {
             if (visible) {
                 this.picPositionNE.Show();
                 this.picPositionNW.Show();
@@ -475,12 +483,9 @@ namespace FallGuysStats {
                 this.picPositionSW.Hide();
             }
         }
-        public void SetVisiblePositionLockButton(bool visible) {
-            if (visible) {
-                this.picPositionLock.Show();
-            } else {
-                this.picPositionLock.Hide();
-            }
+        private void SetVisiblePositionLockButton(bool visible) {
+            if (visible) { this.picPositionLock.Show(); }
+            else { this.picPositionLock.Hide(); }
         }
         private void Overlay_GotFocus(object sender, EventArgs e) {
             this.isFocused = true;
@@ -511,24 +516,34 @@ namespace FallGuysStats {
             this.isMouseEnter = true;
             this.StatsForm.HideOverlayTooltip(this);
             if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                this.StatsForm.AllocOverlayTooltip();
                 Rectangle rectangle = this.lblCountryIcon.Bounds;
-                Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));
+                Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
+                                           + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
+                                               Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
+                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
+                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) 
+                                           + (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
+                    rectangle.Top - (rectangle.Height / 2));
                 this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
             }
         }
         private void Overlay_MouseLeave(object sender, EventArgs e) {
             this.isMouseEnter = false;
             this.StatsForm.HideOverlayTooltip(this);
-            //if (Stats.IsPrePlaying && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
-            //    this.StatsForm.HideOverlayTooltip(this);
-            //}
         }
         private void Overlay_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                     this.StatsForm.AllocOverlayTooltip();
                     Rectangle rectangle = this.lblCountryIcon.Bounds;
-                    Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6 + (Stats.LastServerPing > 0 && 10 > Stats.LastServerPing ? +43 : Stats.LastServerPing > 9 && 100 > Stats.LastServerPing ? +33 : 0), rectangle.Top - (rectangle.Height / 2));
+                    Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
+                                               + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
+                                                   Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
+                                                   Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
+                                                   Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
+                                               + (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
+                        rectangle.Top - (rectangle.Height / 2));
                     this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
                 }
             }
@@ -538,13 +553,11 @@ namespace FallGuysStats {
         }
         private void Overlay_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button != MouseButtons.Left) return;
-
             if ((sender.GetType() == this.picPositionNE.GetType()) ||
                 (sender.GetType() == this.picPositionNW.GetType()) ||
                 (sender.GetType() == this.picPositionSE.GetType()) ||
                 (sender.GetType() == this.picPositionSW.GetType()) ||
                 (sender.GetType() == this.picPositionLock.GetType())) return;
-
             if (this.IsFixed()) return;
             ReleaseCapture();
             SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
@@ -680,7 +693,7 @@ namespace FallGuysStats {
                                                    (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
                                                    (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
                         
-                        if (!this.lblPingIcon.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
+                        if (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
                             this.lblCountryIcon.ImageX += 7;
                             this.lblPingIcon.ImageX += 7;
                         }
