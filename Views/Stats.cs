@@ -314,6 +314,7 @@ namespace FallGuysStats {
 
             this.ShowInTaskbar = false;
             this.Opacity = 0;
+            this.trayCMenu.Opacity = 0;
             
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
             
@@ -1839,6 +1840,18 @@ namespace FallGuysStats {
         private void setCursor_MouseLeave(object sender, EventArgs e) {
             this.Cursor = Cursors.Default;
         }
+        
+        private void trayCMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e) {
+            this.trayCMenu.Opacity = 0;
+        }
+        private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Right) {
+                int cursorPositionX = Cursor.Position.X;
+                int menuPositionY = Screen.PrimaryScreen.WorkingArea.Height - this.trayCMenu.Height - 1;
+                this.trayCMenu.Location = new Point(cursorPositionX, menuPositionY);
+                this.trayCMenu.Opacity = 100;
+            }
+        }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 if (this.Visible && this.WindowState == FormWindowState.Minimized) {
@@ -1860,7 +1873,6 @@ namespace FallGuysStats {
                 }
             }
         }
-        
         private void trayIcon_MouseMove(object sender, MouseEventArgs e) {
             this.isFocused = ActiveForm == this;
         }

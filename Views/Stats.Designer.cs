@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Forms;
 
@@ -530,12 +531,14 @@ namespace FallGuysStats {
             this.trayIcon.Text = "trayIcon";
             this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             this.trayIcon.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseMove);
+            this.trayIcon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseUp);
             // 
             // trayCMenu
             // 
             this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayTodaysShow, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
             this.trayCMenu.Name = "trayCMenu";
             this.trayCMenu.Size = new System.Drawing.Size(166, 204);
+            this.trayCMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.trayCMenu_Closing);
             // 
             // trayOverlay
             // 
