@@ -311,51 +311,41 @@ namespace FallGuysStats {
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        private bool GetIsCreativeFinalRound(string roundId, string showId) {
-            return (roundId.IndexOf("wle_s10_orig_round_010", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_011", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_017", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_018", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_024", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_025", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_030", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_orig_round_031", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_round_004", StringComparison.OrdinalIgnoreCase) != -1
-                    || roundId.IndexOf("wle_s10_round_009", StringComparison.OrdinalIgnoreCase) != -1)
-                
-                    || (showId.IndexOf("show_wle_s10_wk01_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk01_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk01_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk01_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk02_srs_05", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk02_srs_06", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk02_srs_07", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk02_srs_08", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk03_srs_9", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk03_srs_10", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk03_srs_11", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk03_srs_12", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk04_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk04_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk04_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk04_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk05_srs_long_01", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk05_srs_long_02", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk05_srs_long_03", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("show_wle_s10_wk05_srs_long_04", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        
-                        showId.IndexOf("wle_s10_player_round_wk3_03", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_04", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_06", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_07", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_11", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_13", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_14", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_15", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_16", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk3_17", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk4_13", StringComparison.OrdinalIgnoreCase) != -1 ||
-                        showId.IndexOf("wle_s10_player_round_wk4_19", StringComparison.OrdinalIgnoreCase) != -1);
+        private bool GetIsCreativeFinalRound(string showId) {
+            return (showId.IndexOf("show_wle_s10_wk01_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk01_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk01_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk01_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk02_srs_05", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk02_srs_06", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk02_srs_07", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk02_srs_08", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk03_srs_9", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk03_srs_10", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk03_srs_11", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk03_srs_12", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk04_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk04_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk04_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk04_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk05_srs_long_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk05_srs_long_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk05_srs_long_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk05_srs_long_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    
+                    showId.IndexOf("wle_s10_player_round_wk3_06", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_07", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_11", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_13", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_15", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_17", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    
+                    showId.IndexOf("show_wle_s10_wk07_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk07_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk07_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk07_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk07_srs_05", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk07_srs_06", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
         private bool GetIsRealFinalRound(string roundId) {
@@ -520,7 +510,7 @@ namespace FallGuysStats {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
                 
-                if (this.GetIsCreativeFinalRound(logRound.Info.Name, this.selectedShowId) || logRound.Info.UseShareCode) {
+                if (this.GetIsCreativeFinalRound(this.selectedShowId) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
                 } else if (this.GetIsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;
