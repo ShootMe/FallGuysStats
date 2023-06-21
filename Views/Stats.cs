@@ -1586,6 +1586,54 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 38;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 38) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if ("show_wle_s10_wk01_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk01_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk01_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk01_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk02_srs_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk02_srs_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk02_srs_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk02_srs_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk03_srs_9".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk03_srs_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk03_srs_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk03_srs_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk04_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk04_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk04_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk04_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk05_srs_long_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk05_srs_long_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk05_srs_long_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk05_srs_long_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_13".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "wle_s10_player_round_wk3_17".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
+                        "show_wle_s10_wk07_srs_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        info.IsFinal = true;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 39;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1656,7 +1704,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 38
+                Version = 39
             };
         }
         private void UpdateHoopsieLegends() {
