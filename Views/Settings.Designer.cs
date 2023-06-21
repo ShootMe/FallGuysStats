@@ -88,6 +88,7 @@ namespace FallGuysStats {
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
             this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
+            this.chkNotifyServerConnected = new MetroFramework.Controls.MetroCheckBox();
             this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
@@ -173,9 +174,6 @@ namespace FallGuysStats {
             // txtLogPath
             // 
             this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // 
-            // 
             this.txtLogPath.CustomButton.Image = null;
             this.txtLogPath.CustomButton.Location = new System.Drawing.Point(520, 2);
             this.txtLogPath.CustomButton.Name = "";
@@ -828,7 +826,7 @@ namespace FallGuysStats {
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(49, 192);
+            this.cboMultilingual.Location = new System.Drawing.Point(49, 222);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -839,7 +837,7 @@ namespace FallGuysStats {
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(8, 155);
+            this.lblTheme.Location = new System.Drawing.Point(8, 185);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(49, 19);
             this.lblTheme.TabIndex = 5;
@@ -864,7 +862,7 @@ namespace FallGuysStats {
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(63, 150);
+            this.cboTheme.Location = new System.Drawing.Point(63, 180);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -895,12 +893,24 @@ namespace FallGuysStats {
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
             this.chkSystemTrayIcon.UseSelectable = true;
             // 
+            // chkNotifyServerConnected
+            // 
+            this.chkNotifyServerConnected.AutoSize = true;
+            this.chkNotifyServerConnected.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkNotifyServerConnected.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkNotifyServerConnected.Location = new System.Drawing.Point(8, 140);
+            this.chkNotifyServerConnected.Name = "chkNotifyServerConnected";
+            this.chkNotifyServerConnected.Size = new System.Drawing.Size(161, 19);
+            this.chkNotifyServerConnected.TabIndex = 5;
+            this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
+            this.chkNotifyServerConnected.UseSelectable = true;
+            // 
             // chkPreventOverlayMouseClicks
             // 
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(8, 265);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(8, 295);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(287, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
@@ -929,9 +939,6 @@ namespace FallGuysStats {
             this.lblPreviousWins.Text = "Previous Win(s)";
             // 
             // txtPreviousWins
-            // 
-            // 
-            // 
             // 
             this.txtPreviousWins.CustomButton.Image = null;
             this.txtPreviousWins.CustomButton.Location = new System.Drawing.Point(20, 1);
@@ -974,9 +981,6 @@ namespace FallGuysStats {
             // 
             // txtGameExeLocation
             // 
-            // 
-            // 
-            // 
             this.txtGameExeLocation.CustomButton.Image = null;
             this.txtGameExeLocation.CustomButton.Location = new System.Drawing.Point(369, 1);
             this.txtGameExeLocation.CustomButton.Name = "";
@@ -1005,9 +1009,6 @@ namespace FallGuysStats {
             this.txtGameExeLocation.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // txtGameShortcutLocation
-            // 
-            // 
-            // 
             // 
             this.txtGameShortcutLocation.CustomButton.Image = null;
             this.txtGameShortcutLocation.CustomButton.Location = new System.Drawing.Point(381, 1);
@@ -1064,7 +1065,7 @@ namespace FallGuysStats {
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(11, 192);
+            this.picLanguageSelection.Location = new System.Drawing.Point(11, 222);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1125,6 +1126,7 @@ namespace FallGuysStats {
             this.panelProgram.Controls.Add(this.cboMultilingual);
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
+            this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
@@ -1648,6 +1650,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroComboBox cboTheme;
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
         private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
+        private MetroFramework.Controls.MetroCheckBox chkNotifyServerConnected;
         private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;

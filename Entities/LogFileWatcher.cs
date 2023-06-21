@@ -475,6 +475,12 @@ namespace FallGuysStats {
                                         Stats.LastCountryCode = string.Empty;
                                         Stats.LastCountryFullName = string.Empty;
                                     }
+
+                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
+                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                    }
                                 }
                             } catch {
                                 //logRound.LastPing = 0;
