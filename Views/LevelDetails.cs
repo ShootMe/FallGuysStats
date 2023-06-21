@@ -772,11 +772,11 @@ namespace FallGuysStats {
                                 int statusCode = (int)((HttpWebResponse)wex.Response).StatusCode;
                                 switch (statusCode) {
                                     case 500:
-                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_creative_show_error_caption")}",
+                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         break;
                                     default:
-                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_creative_show_error_caption")}",
+                                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
                                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         break;
                                 }
