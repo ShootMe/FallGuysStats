@@ -469,7 +469,7 @@ namespace FallGuysStats {
                                         this.toggleRequestIp2cApi = true;
                                         string[] countryArr = this.StatsForm.GetCountryCode(ip);
                                         Stats.LastCountryCode = countryArr[0].ToLower();
-                                        Stats.LastCountryFullName = countryArr[1];
+                                        Stats.LastCountryFullName = string.IsNullOrEmpty(Multilingual.GetCountryName(countryArr[0])) ? countryArr[1] : Multilingual.GetCountryName(countryArr[0]);
                                     } catch {
                                         this.toggleRequestIp2cApi = false;
                                         Stats.LastCountryCode = string.Empty;
