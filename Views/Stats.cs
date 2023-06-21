@@ -1590,6 +1590,7 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 38) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
+                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if ("show_wle_s10_wk01_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
@@ -1652,6 +1653,7 @@ namespace FallGuysStats {
                 OverlayTabResourceName = string.Empty,
                 OverlayBackgroundOpacity = 100,
                 IsOverlayBackgroundCustomized = false,
+                NotifyServerConnected = false,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -2715,7 +2717,6 @@ namespace FallGuysStats {
                 this.lblBronzeMedal.Visible = this.BronzeMedals != 0 || this.CustomBronzeMedals != 0;
                 this.lblPinkMedal.Visible = this.PinkMedals != 0 || this.CustomPinkMedals != 0;
                 this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomEliminatedMedals != 0;
-                
                 this.lblKudos.Text = $"{this.Kudos}";
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
@@ -2736,21 +2737,6 @@ namespace FallGuysStats {
                                                                                             toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
         }
-        // public void AllocOverlayCustomTooltip() {
-        //     this.ocmtt = new MetroToolTip();
-        //     this.ocmtt.OwnerDraw = true;
-        //     this.ocmtt.Draw += this.ocmtt_Draw;
-        // }
-        // public void ShowOverlayCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
-        //     if (duration == -1) {
-        //         this.ocmtt.Show(message, window, position);
-        //     } else {
-        //         this.ocmtt.Show(message, window, position, duration);
-        //     }
-        // }
-        // public void HideOverlayCustomTooltip(IWin32Window window) {
-        //     this.ocmtt.Hide(window);
-        // }
         public void AllocOverlayTooltip() {
             this.omtt = new MetroToolTip();
             this.omtt.Theme = this.Theme;
