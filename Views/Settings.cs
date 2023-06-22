@@ -892,7 +892,7 @@ namespace FallGuysStats {
             this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 22);
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 12);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
-            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 180);
+            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 200);
             //this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 162);
             //this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
             //this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
