@@ -782,7 +782,7 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (item is ToolStripSeparator tss) {
-                    tss.Paint += this.menuToolStripSeparatorCustom_Paint;
+                    tss.Paint += this.CustomToolStripSeparatorCustom_Paint;
                     tss.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tss.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
@@ -791,7 +791,7 @@ namespace FallGuysStats {
             this.ResumeLayout(false);
             this.Refresh();
         }
-        private void menuToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
+        private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
