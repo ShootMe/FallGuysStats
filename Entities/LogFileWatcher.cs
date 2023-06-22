@@ -170,10 +170,11 @@ namespace FallGuysStats {
                                 }
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
                                        //|| line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0
-                                       //|| line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) > 0) {
+                                       //|| line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
+                                       || line.Line.IndexOf("[Hazel] [HazelNetworkTransport] Disconnect request received for connection 0. Reason: The remote sent a disconnect request", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
@@ -442,7 +443,7 @@ namespace FallGuysStats {
                 this.sessionId = line.Line.Substring(index + 33);
             } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.IsPrePlaying = true;
-            } else if (this.isDisplayPing && Stats.InShow && line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
+            } else if (this.isDisplayPing && Stats.InShow && !Stats.EndedShow && line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
                 if (timeDiff.TotalMinutes <= 40) {
                     lock (this.pingSender) {
@@ -475,8 +476,8 @@ namespace FallGuysStats {
                                         Stats.LastCountryCode = string.Empty;
                                         Stats.LastCountryFullName = string.Empty;
                                     }
-
-                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
+                                    
+                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                                         this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
                                             $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                                             System.Windows.Forms.ToolTipIcon.Info, 2000);
@@ -651,6 +652,7 @@ namespace FallGuysStats {
                 this.toggleRequestIp2cApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
+                       || line.Line.IndexOf("[Hazel] [HazelNetworkTransport] Disconnect request received for connection 0. Reason: The remote sent a disconnect request", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
                 Stats.LastServerPing = 0;
                 Stats.IsBadPing = false;
@@ -659,7 +661,6 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
                 Stats.PingSwitcher = 8;
-                this.toggleRequestIp2cApi = false;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (0 < round.Count) {
@@ -720,7 +721,6 @@ namespace FallGuysStats {
                     Stats.IsPrePlaying = false;
                     Stats.IsPlaying = false;
                     Stats.PingSwitcher = 8;
-                    this.toggleRequestIp2cApi = false;
                     return true;
                 }
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -821,7 +821,6 @@ namespace FallGuysStats {
                 Stats.IsPrePlaying = false;
                 Stats.IsPlaying = false;
                 Stats.PingSwitcher = 8;
-                this.toggleRequestIp2cApi = false;
                 return true;
             }
             return false;
