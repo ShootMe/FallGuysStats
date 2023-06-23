@@ -1866,7 +1866,7 @@ namespace FallGuysStats {
                 int menuPositionX = 0, menuPositionY = 0;
                 switch (this.GetTaskbarPosition()) {
                     case TaskbarPosition.Bottom:
-                        menuPositionX = MousePosition.X - this.trayCMenu.Width;
+                        menuPositionX = MousePosition.X;
                         menuPositionY = this.trayCMenu.Location.Y - 10;
                         break;
                     case TaskbarPosition.Left:
@@ -1878,7 +1878,7 @@ namespace FallGuysStats {
                         menuPositionY = this.trayCMenu.Location.Y;
                         break;
                     case TaskbarPosition.Top:
-                        menuPositionX = MousePosition.X - this.trayCMenu.Width;
+                        menuPositionX = MousePosition.X;
                         menuPositionY = this.trayCMenu.Location.Y + 10;
                         break;
                 }
