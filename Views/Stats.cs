@@ -627,6 +627,23 @@ namespace FallGuysStats {
             set { base.Text = value; }
         }
         
+        private enum TaskbarPosition { Top, Bottom, Left, Right }
+        private TaskbarPosition GetTaskbarPosition() {
+            TaskbarPosition taskbarPosition = TaskbarPosition.Bottom;
+            Rectangle screenBounds = Screen.GetBounds(Cursor.Position);
+            Rectangle workingArea = Screen.GetWorkingArea(Cursor.Position);
+            if (workingArea.Width == screenBounds.Width) {
+                if (workingArea.Top > 0) { taskbarPosition = TaskbarPosition.Top; }
+            } else {
+                if (workingArea.Left > screenBounds.Left) {
+                    taskbarPosition = TaskbarPosition.Left;
+                } else if (workingArea.Right < screenBounds.Right) {
+                    taskbarPosition = TaskbarPosition.Right;
+                }
+            }
+            return taskbarPosition;
+        }
+        
         public void PreventOverlayMouseClicks() {
             if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
         }
@@ -1846,9 +1863,26 @@ namespace FallGuysStats {
         }
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
-                int cursorPositionX = Cursor.Position.X;
-                int menuPositionY = Screen.PrimaryScreen.WorkingArea.Height - this.trayCMenu.Height - 1;
-                this.trayCMenu.Location = new Point(cursorPositionX, menuPositionY);
+                int menuPositionX = 0, menuPositionY = 0;
+                switch (this.GetTaskbarPosition()) {
+                    case TaskbarPosition.Bottom:
+                        menuPositionX = MousePosition.X - this.trayCMenu.Width;
+                        menuPositionY = this.trayCMenu.Location.Y - 10;
+                        break;
+                    case TaskbarPosition.Left:
+                        menuPositionX = MousePosition.X + 10;
+                        menuPositionY = this.trayCMenu.Location.Y;
+                        break;
+                    case TaskbarPosition.Right:
+                        menuPositionX = MousePosition.X - this.trayCMenu.Width - 10;
+                        menuPositionY = this.trayCMenu.Location.Y;
+                        break;
+                    case TaskbarPosition.Top:
+                        menuPositionX = MousePosition.X - this.trayCMenu.Width;
+                        menuPositionY = this.trayCMenu.Location.Y + 10;
+                        break;
+                }
+                this.trayCMenu.Location = new Point(menuPositionX, menuPositionY);
                 this.trayCMenu.Opacity = 100;
             }
         }
@@ -4349,10 +4383,10 @@ namespace FallGuysStats {
         }
         public Screen GetCurrentScreen(Point location) {
             Screen[] scr = Screen.AllScreens;
-            Screen screen = null;
-            for (int i = 0; i < scr.Length; i++) {
-                if (scr[i].WorkingArea.Contains(location)) {
-                    screen = scr[i];
+            Screen screen = Screen.PrimaryScreen;
+            foreach (Screen s in scr) {
+                if (s.WorkingArea.Contains(location)) {
+                    screen = s;
                     break;
                 }
             }
