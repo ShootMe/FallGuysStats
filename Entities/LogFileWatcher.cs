@@ -332,14 +332,58 @@ namespace FallGuysStats {
                     showId.IndexOf("show_wle_s10_wk05_srs_long_02", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk05_srs_long_03", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk05_srs_long_04", StringComparison.OrdinalIgnoreCase) != -1 ||
-                    
+
+                    showId.IndexOf("wle_s10_player_round_wk3_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_02", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_06", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_07", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_08", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_09", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_10", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_11", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_12", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_13", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_15", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("wle_s10_player_round_wk3_17", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_18", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_19", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk3_20", StringComparison.OrdinalIgnoreCase) != -1 ||
                     
+                    showId.IndexOf("show_wle_s10_player_round_wk4_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_05", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_06", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_07", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_08", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_09", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_10", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_11", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_12", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_15", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_18", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_20", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_21", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_player_round_wk4_22", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    
+                    showId.IndexOf("wle_s10_player_round_wk5_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_05", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_06", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_07", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_08", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_10", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_11", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_12", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_13", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_14", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_15", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_16", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_17", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("wle_s10_player_round_wk5_18", StringComparison.OrdinalIgnoreCase) != -1 ||
+
                     showId.IndexOf("show_wle_s10_wk07_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk07_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk07_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
