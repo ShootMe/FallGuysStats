@@ -311,7 +311,7 @@ namespace FallGuysStats {
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        private bool GetIsCreativeFinalRound(string showId) {
+        private bool GetIsCreativeFinalRound(string showId, string roundId) {
             return (showId.IndexOf("show_wle_s10_wk01_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk01_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk01_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
@@ -389,7 +389,10 @@ namespace FallGuysStats {
                     showId.IndexOf("show_wle_s10_wk07_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk07_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk07_srs_05", StringComparison.OrdinalIgnoreCase) != -1 ||
-                    showId.IndexOf("show_wle_s10_wk07_srs_06", StringComparison.OrdinalIgnoreCase) != -1);
+                    showId.IndexOf("show_wle_s10_wk07_srs_06", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    
+                    (showId.IndexOf("wle_mrs_bagel", StringComparison.OrdinalIgnoreCase) != -1 && roundId.StartsWith("wle_mrs_bagel_final"))
+                );
         }
 
         private bool GetIsRealFinalRound(string roundId) {
@@ -560,7 +563,7 @@ namespace FallGuysStats {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
                 
-                if (this.GetIsCreativeFinalRound(this.selectedShowId) || logRound.Info.UseShareCode) {
+                if (this.GetIsCreativeFinalRound(this.selectedShowId, logRound.Info.Name) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
                 } else if (this.GetIsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;
