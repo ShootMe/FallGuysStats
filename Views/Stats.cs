@@ -1712,6 +1712,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 40;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 40) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                this.CurrentSettings.NotifyServerConnected = false;
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if ("wle_mrs_bagel".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) && info.Name.StartsWith("wle_mrs_bagel_final")) {
+                        info.IsFinal = true;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 41;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1783,7 +1800,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 40
+                Version = 41
             };
         }
         private void UpdateHoopsieLegends() {
