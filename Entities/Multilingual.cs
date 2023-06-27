@@ -2171,6 +2171,17 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
+                            {"wle_mrs_bagel_opener_1", "Pink Parade"},
+                            {"wle_mrs_bagel_opener_1", "Prideful Path"},
+                            {"wle_mrs_bagel_opener_1", "Coming Together"},
+                            {"wle_mrs_bagel_opener_1", "Clifftop Capers"},
+                            {"wle_mrs_bagel_opener_1", "Waveway Splits"},
+                            {"wle_mrs_bagel_opener_1", "In the Groove"},
+                            {"wle_mrs_bagel_opener_1", "Heartfall Heat"},
+                            {"wle_mrs_bagel_opener_1", "Rainbow Rise"},
+                            {"wle_mrs_bagel_opener_1", "Out and About"},
                         }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2379,6 +2390,17 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
+                            {"wle_mrs_bagel_opener_1", "Pink Parade"},
+                            {"wle_mrs_bagel_opener_1", "Prideful Path"},
+                            {"wle_mrs_bagel_opener_1", "Coming Together"},
+                            {"wle_mrs_bagel_opener_1", "Clifftop Capers"},
+                            {"wle_mrs_bagel_opener_1", "Waveway Splits"},
+                            {"wle_mrs_bagel_opener_1", "In the Groove"},
+                            {"wle_mrs_bagel_opener_1", "Heartfall Heat"},
+                            {"wle_mrs_bagel_opener_1", "Rainbow Rise"},
+                            {"wle_mrs_bagel_opener_1", "Out and About"},
                         }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2587,6 +2609,17 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
+                            {"wle_mrs_bagel_opener_1", "Pink Parade"},
+                            {"wle_mrs_bagel_opener_1", "Prideful Path"},
+                            {"wle_mrs_bagel_opener_1", "Coming Together"},
+                            {"wle_mrs_bagel_opener_1", "Clifftop Capers"},
+                            {"wle_mrs_bagel_opener_1", "Waveway Splits"},
+                            {"wle_mrs_bagel_opener_1", "In the Groove"},
+                            {"wle_mrs_bagel_opener_1", "Heartfall Heat"},
+                            {"wle_mrs_bagel_opener_1", "Rainbow Rise"},
+                            {"wle_mrs_bagel_opener_1", "Out and About"},
                         }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2795,6 +2828,17 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
+                            {"wle_mrs_bagel_opener_1", "Pink Parade"},
+                            {"wle_mrs_bagel_opener_1", "Prideful Path"},
+                            {"wle_mrs_bagel_opener_1", "Coming Together"},
+                            {"wle_mrs_bagel_opener_1", "Clifftop Capers"},
+                            {"wle_mrs_bagel_opener_1", "Waveway Splits"},
+                            {"wle_mrs_bagel_opener_1", "In the Groove"},
+                            {"wle_mrs_bagel_opener_1", "Heartfall Heat"},
+                            {"wle_mrs_bagel_opener_1", "Rainbow Rise"},
+                            {"wle_mrs_bagel_opener_1", "Out and About"},
                         }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -3003,6 +3047,17 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
+                            {"wle_mrs_bagel_opener_1", "Pink Parade"},
+                            {"wle_mrs_bagel_opener_1", "Prideful Path"},
+                            {"wle_mrs_bagel_opener_1", "Coming Together"},
+                            {"wle_mrs_bagel_opener_1", "Clifftop Capers"},
+                            {"wle_mrs_bagel_opener_1", "Waveway Splits"},
+                            {"wle_mrs_bagel_opener_1", "In the Groove"},
+                            {"wle_mrs_bagel_opener_1", "Heartfall Heat"},
+                            {"wle_mrs_bagel_opener_1", "Rainbow Rise"},
+                            {"wle_mrs_bagel_opener_1", "Out and About"},
                         }
             },
         };
@@ -3391,6 +3446,8 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"wle_mrs_bagel", "Rainbow Rally"},
                     
                     {"slime_survivors", "Slime Survivors"},
                     {"solo_show_pl_all_rounds", "Solo Variety Show"},
@@ -3820,6 +3877,8 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"wle_mrs_bagel", "Festival Arc-en-ciel"},
 
                     {"slime_survivors", "Survivants de la gélatine"},
                     {"solo_show_pl_all_rounds", "Émission de variété solo"},
@@ -4250,6 +4309,8 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
+                    {"wle_mrs_bagel", "레인보우 랠리"},
+                    
                     {"slime_survivors", "슬라임 서바이벌"},
                     {"solo_show_pl_all_rounds", "솔로 버라이어티 쇼"},
                     {"solo_show_ss2_launch", "Solo Show SS2"},
@@ -4679,6 +4740,8 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
+                    {"wle_mrs_bagel", "レインボーラリー"},
+                    
                     {"slime_survivors", "スライム・サバイバー"},
                     {"solo_show_pl_all_rounds", "ソロバラエティショー"},
                     {"solo_show_ss2_launch", "Solo Show SS2"},
@@ -5107,6 +5170,8 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"wle_mrs_bagel", "彩虹拉力赛"},
                     
                     {"slime_survivors", "黏液求生"},
                     {"solo_show_pl_all_rounds", "单人精选专题"},
