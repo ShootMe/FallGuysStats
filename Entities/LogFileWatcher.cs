@@ -391,6 +391,11 @@ namespace FallGuysStats {
                     showId.IndexOf("show_wle_s10_wk07_srs_05", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk07_srs_06", StringComparison.OrdinalIgnoreCase) != -1 ||
                     
+                    showId.IndexOf("show_wle_s10_wk08_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk08_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk08_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    showId.IndexOf("show_wle_s10_wk08_srs_04", StringComparison.OrdinalIgnoreCase) != -1 ||
+                    
                     (showId.IndexOf("wle_mrs_bagel", StringComparison.OrdinalIgnoreCase) != -1 && roundId.StartsWith("wle_mrs_bagel_final"))
                 );
         }
