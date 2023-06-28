@@ -1647,7 +1647,7 @@ namespace FallGuysStats {
                         background = Properties.Resources.background;
                     } else {
                         if (overlayCustomized) {
-                            if (!this.BackgroundResourceName.Equals(this.backgroundResourceNameCache)) {
+                            if (!this.BackgroundResourceName.Equals(this.backgroundResourceNameCache) && File.Exists($"Overlay/{this.BackgroundResourceName}.png")) {
                                 this.customizedBackground = new Bitmap($"Overlay/{this.BackgroundResourceName}.png");
                                 this.backgroundResourceNameCache = this.BackgroundResourceName;
                             }
@@ -1664,7 +1664,7 @@ namespace FallGuysStats {
                             tab = Properties.Resources.tab_unselected;
                         } else {
                             if (overlayCustomized) {
-                                if (!this.TabResourceName.Equals(this.tabResourceNameCache)) {
+                                if (!this.TabResourceName.Equals(this.tabResourceNameCache) && File.Exists($"Overlay/{this.TabResourceName}.png")) {
                                     this.customizedTab = new Bitmap($"Overlay/{this.TabResourceName}.png");
                                     this.tabResourceNameCache = this.TabResourceName;
                                 }
