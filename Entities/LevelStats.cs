@@ -240,6 +240,11 @@ namespace FallGuysStats {
             { "wle_s10_player_round_wk5_17",      new LevelStats("Big Bookcase", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk5_18",      new LevelStats("Digital Doom", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
+            { "wle_s10_bt_round_001",             new LevelStats("Push Ups", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_bt_round_002",             new LevelStats("Heave & Haul", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_bt_round_003",             new LevelStats("Stepping Stones", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_bt_round_004",             new LevelStats("Double Trouble", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            
             { "wle_mrs_bagel_opener_1",           new LevelStats("Tunnel of Love", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_mrs_bagel_opener_2",           new LevelStats("Pink Parade", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_mrs_bagel_opener_3",           new LevelStats("Prideful Path", LevelType.Race, true, false, 10, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },

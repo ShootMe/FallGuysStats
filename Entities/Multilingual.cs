@@ -2172,6 +2172,11 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
+                            {"wle_s10_bt_round_001", "Push Ups"},
+                            {"wle_s10_bt_round_002", "Heave & Haul"},
+                            {"wle_s10_bt_round_003", "Stepping Stones"},
+                            {"wle_s10_bt_round_004", "Double Trouble"},
+                            
                             {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
                             {"wle_mrs_bagel_opener_2", "Pink Parade"},
                             {"wle_mrs_bagel_opener_3", "Prideful Path"},
@@ -2390,6 +2395,11 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_s10_bt_round_001", "Push Ups"},
+                            {"wle_s10_bt_round_002", "Heave & Haul"},
+                            {"wle_s10_bt_round_003", "Stepping Stones"},
+                            {"wle_s10_bt_round_004", "Double Trouble"},
                             
                             {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
                             {"wle_mrs_bagel_opener_2", "Pink Parade"},
@@ -2610,6 +2620,11 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
+                            {"wle_s10_bt_round_001", "Push Ups"},
+                            {"wle_s10_bt_round_002", "Heave & Haul"},
+                            {"wle_s10_bt_round_003", "Stepping Stones"},
+                            {"wle_s10_bt_round_004", "Double Trouble"},
+                            
                             {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
                             {"wle_mrs_bagel_opener_2", "Pink Parade"},
                             {"wle_mrs_bagel_opener_3", "Prideful Path"},
@@ -2829,6 +2844,11 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
+                            {"wle_s10_bt_round_001", "Push Ups"},
+                            {"wle_s10_bt_round_002", "Heave & Haul"},
+                            {"wle_s10_bt_round_003", "Stepping Stones"},
+                            {"wle_s10_bt_round_004", "Double Trouble"},
+                            
                             {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
                             {"wle_mrs_bagel_opener_2", "Pink Parade"},
                             {"wle_mrs_bagel_opener_3", "Prideful Path"},
@@ -3047,6 +3067,11 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_16", "Metroplis"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
+                            
+                            {"wle_s10_bt_round_001", "Push Ups"},
+                            {"wle_s10_bt_round_002", "Heave & Haul"},
+                            {"wle_s10_bt_round_003", "Stepping Stones"},
+                            {"wle_s10_bt_round_004", "Double Trouble"},
                             
                             {"wle_mrs_bagel_opener_1", "Tunnel of Love"},
                             {"wle_mrs_bagel_opener_2", "Pink Parade"},
@@ -3446,6 +3471,11 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"show_wle_s10_wk08_srs_01", "Push Ups"},
+                    {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
+                    {"show_wle_s10_wk08_srs_03", "Stepping Stones"},
+                    {"show_wle_s10_wk08_srs_04", "Double Trouble"},
                     
                     {"wle_mrs_bagel", "Rainbow Rally"},
                     
@@ -3878,6 +3908,11 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
+                    {"show_wle_s10_wk08_srs_01", "Push Ups"},
+                    {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
+                    {"show_wle_s10_wk08_srs_03", "Stepping Stones"},
+                    {"show_wle_s10_wk08_srs_04", "Double Trouble"},
+                    
                     {"wle_mrs_bagel", "Festival Arc-en-ciel"},
 
                     {"slime_survivors", "Survivants de la gélatine"},
@@ -4308,6 +4343,11 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"show_wle_s10_wk08_srs_01", "Push Ups"},
+                    {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
+                    {"show_wle_s10_wk08_srs_03", "Stepping Stones"},
+                    {"show_wle_s10_wk08_srs_04", "Double Trouble"},
                     
                     {"wle_mrs_bagel", "레인보우 랠리"},
                     
@@ -4740,6 +4780,11 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
+                    {"show_wle_s10_wk08_srs_01", "Push Ups"},
+                    {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
+                    {"show_wle_s10_wk08_srs_03", "Stepping Stones"},
+                    {"show_wle_s10_wk08_srs_04", "Double Trouble"},
+                    
                     {"wle_mrs_bagel", "レインボーラリー"},
                     
                     {"slime_survivors", "スライム・サバイバー"},
@@ -5170,6 +5215,11 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_04", "Catastrophe Climb"},
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
+                    
+                    {"show_wle_s10_wk08_srs_01", "Push Ups"},
+                    {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
+                    {"show_wle_s10_wk08_srs_03", "Stepping Stones"},
+                    {"show_wle_s10_wk08_srs_04", "Double Trouble"},
                     
                     {"wle_mrs_bagel", "彩虹拉力赛"},
                     
