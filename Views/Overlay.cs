@@ -747,7 +747,7 @@ namespace FallGuysStats {
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.lastRound.ShowNameId : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetRoundNameFromShareCode(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
@@ -864,6 +864,9 @@ namespace FallGuysStats {
                     // this.lblDuration.Text = this.lastRound.GameDuration > 0
                     //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
                     //     : $"{Multilingual.GetWord("overlay_duration")} :";
+                    if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
+                        this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId);
+                    }
                     this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
                         ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}):"
                         : $"{Multilingual.GetWord("overlay_duration")} :";

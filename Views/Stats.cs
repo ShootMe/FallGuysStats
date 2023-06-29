@@ -2561,10 +2561,13 @@ namespace FallGuysStats {
             }
         }
         public string GetRoundNameFromShareCode(string shareCode) {
-            //List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
             return filteredInfo.Count > 0 ? (string.IsNullOrEmpty(filteredInfo[filteredInfo.Count - 1].CreativeTitle) ? shareCode : filteredInfo[filteredInfo.Count - 1].CreativeTitle)
                                           : shareCode;
+        }
+        public int GetTimeLimitSecondsFromShareCode(string shareCode) {
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
+            return filteredInfo.Count > 0 ? filteredInfo[filteredInfo.Count - 1].CreativeTimeLimitSeconds : 0;
         }
         public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode) {
             StatSummary summary = new StatSummary {
