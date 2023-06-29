@@ -523,7 +523,7 @@ namespace FallGuysStats {
                                                Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
                                                Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
                                                Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) 
-                                           + (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
+                                           + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
                     rectangle.Top - (rectangle.Height / 2));
                 this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
             }
@@ -542,7 +542,7 @@ namespace FallGuysStats {
                                                    Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
                                                    Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
                                                    Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
-                                               + (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
+                                               + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
                         rectangle.Top - (rectangle.Height / 2));
                     this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
                 }
@@ -693,7 +693,7 @@ namespace FallGuysStats {
                                                    (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
                                                    (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
                         
-                        if (!this.lblPlayers.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
+                        if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
                             this.lblCountryIcon.ImageX += 7;
                             this.lblPingIcon.ImageX += 7;
                         }
@@ -747,21 +747,21 @@ namespace FallGuysStats {
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? this.lastRound.ShowNameId : level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.lastRound.ShowNameId : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
                     StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException, this.lastRound.UseShareCode);
 
-                    if (this.lastRound.UseShareCode) {
-                        roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
-                    }
+                    //if (this.lastRound.UseShareCode) {
+                    //    roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
+                    //}
                     
-                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
-                        || (Stats.CurrentLanguage == 2 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
-                        || (Stats.CurrentLanguage == 3 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
-                        || (Stats.CurrentLanguage == 4 && this.lblRound.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
+                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
+                        || (Stats.CurrentLanguage == 2 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
+                        || (Stats.CurrentLanguage == 3 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
+                        || (Stats.CurrentLanguage == 4 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
                         || this.lastRound.UseShareCode) {
                         if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
                     } else {
@@ -861,8 +861,11 @@ namespace FallGuysStats {
                         this.lblFinish.ForeColor = this.ForeColor;
                     }
 
-                    this.lblDuration.Text = this.lastRound.GameDuration > 0
-                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
+                    // this.lblDuration.Text = this.lastRound.GameDuration > 0
+                    //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
+                    //     : $"{Multilingual.GetWord("overlay_duration")} :";
+                    this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
+                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}):"
                         : $"{Multilingual.GetWord("overlay_duration")} :";
 
                     if (end != DateTime.MinValue) {
@@ -1611,16 +1614,16 @@ namespace FallGuysStats {
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
             int offset;
-            if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
+            if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
                 offset = 22 - (int)(this.GetCountEngLowercase(s) * (-0.3F)) -
                          (int)(this.GetCountKorAlphabet(s) * (6.7F)) -
                          (int)(this.GetCountJpnAlphabet(s) * (0.8F)) -
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
+            } else if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
                 offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.lblProfile.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
+            } else if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
                 offset = 22 - (this.GetCountKorAlphabet(s) * 2) -
                          (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
                          (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
