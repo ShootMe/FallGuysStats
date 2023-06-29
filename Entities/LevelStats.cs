@@ -24,6 +24,8 @@ namespace FallGuysStats {
         public string CreativePlatformId { get; set; }
         public DateTime CreativeLastModifiedDate { get; set; } = DateTime.MinValue;
         public int CreativePlayCount { get; set; }
+        public int CreativeQualificationPercent { get; set; }
+        public int CreativeTimeLimitSeconds { get; set; }
         public string SessionId { get; set; }
         public int Round { get; set; }
         public int Position { get; set; }

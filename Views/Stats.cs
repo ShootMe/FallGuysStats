@@ -114,8 +114,8 @@ namespace FallGuysStats {
         public static int PingSwitcher = 8;
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;
-        public static string LastCountryCode = String.Empty;
-        public static string LastCountryFullName = String.Empty;
+        public static string LastCountryCode = string.Empty;
+        public static string LastCountryFullName = string.Empty;
         public static int CurrentLanguage = 0;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
@@ -2285,25 +2285,27 @@ namespace FallGuysStats {
                                 stat.ShowID = nextShowID;
                                 stat.Profile = profile;
 
-                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode)) {
-                                    try {
-                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
-                                        string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
-                                        stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                        stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                        stat.CreativeAuthor = onlinePlatformInfo[1];
-                                        stat.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
-                                        stat.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
-                                        stat.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
-                                        stat.CreativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
-                                        stat.CreativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
-                                        stat.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
-                                        stat.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
-                                        stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                    } catch {
-                                        // ignore
-                                    }
-                                }
+                                // if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode)) {
+                                //     try {
+                                //         JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
+                                //         string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
+                                //         stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                //         stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                //         stat.CreativeAuthor = onlinePlatformInfo[1];
+                                //         stat.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
+                                //         stat.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
+                                //         stat.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
+                                //         stat.CreativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
+                                //         stat.CreativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
+                                //         stat.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
+                                //         stat.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                                //         stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                //         stat.CreativeQualificationPercent = resData.GetProperty("version_metadata").GetProperty("qualification_percent").GetInt32();
+                                //         stat.CreativeTimeLimitSeconds = resData.GetProperty("version_metadata").GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                //     } catch {
+                                //         // ignore
+                                //     }
+                                // }
 
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);

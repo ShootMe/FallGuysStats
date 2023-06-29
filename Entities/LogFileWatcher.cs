@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -37,7 +38,6 @@ namespace FallGuysStats {
         public bool IsFinal;
         public bool HasIsFinal;
         public string CurrentPlayerID;
-        public long LastPing;
         public int Duration;
         public RoundInfo Info;
     }
@@ -58,8 +58,26 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         private bool toggleRequestIp2cApi;
+        private bool toggleFgdbCreativeApi;
+        
+        private string creativeShareCode;
+        private string creativeOnlinePlatformId;
+        private string creativeAuthor;
+        private int creativeVersion;
+        private string creativeStatus;
+        private string creativeTitle;
+        private string creativeDescription;
+        private int creativeMaxPlayer;
+        private string creativePlatformId;
+        private DateTime creativeLastModifiedDate;
+        private int creativePlayCount;
+        private int creativeQualificationPercent;
+        private int creativeTimeLimitSeconds;
+        
         private Ping pingSender = new Ping();
         private PingReply pingReply;
+        private readonly object pingCheckLock = new object();
+        private readonly object fgdbCreativeApiLock = new object();
         
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
@@ -176,6 +194,7 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) > 0
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
+                                
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -472,6 +491,16 @@ namespace FallGuysStats {
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
+        private void InitStaticVariable() {
+            Stats.LastServerPing = 0;
+            Stats.IsBadPing = false;
+            Stats.LastCountryCode = string.Empty;
+            Stats.LastCountryFullName = string.Empty;
+            Stats.IsPrePlaying = false;
+            Stats.IsPlaying = false;
+            Stats.PingSwitcher = 8;
+        }
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
@@ -497,7 +526,7 @@ namespace FallGuysStats {
             } else if (this.isDisplayPing && Stats.InShow && !Stats.EndedShow && line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
                 if (timeDiff.TotalMinutes <= 40) {
-                    lock (this.pingSender) {
+                    lock (this.pingCheckLock) {
                         string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         string ip = host.Substring(0, host.IndexOf(":"));
                         if (Stats.PingSwitcher++ % 8 == 0) {
@@ -550,6 +579,32 @@ namespace FallGuysStats {
                 logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
+                    TimeSpan timeDiff = DateTime.UtcNow - line.Date;
+                    if (timeDiff.TotalMinutes <= 15) {
+                        lock (this.fgdbCreativeApiLock) {
+                            if (!this.toggleFgdbCreativeApi) {
+                                this.toggleFgdbCreativeApi = true;
+                                try {
+                                    JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{logRound.Info.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
+                                    this.creativeOnlinePlatformId = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"))[0];
+                                    this.creativeAuthor = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"))[1];
+                                    this.creativeShareCode = resData.GetProperty("share_code").GetString();
+                                    this.creativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
+                                    this.creativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
+                                    this.creativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
+                                    this.creativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
+                                    this.creativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
+                                    this.creativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
+                                    this.creativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                                    this.creativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                    this.creativeQualificationPercent = resData.GetProperty("version_metadata").GetProperty("qualification_percent").GetInt32();
+                                    this.creativeTimeLimitSeconds = resData.GetProperty("version_metadata").GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                } catch {
+                                    this.toggleFgdbCreativeApi = false;
+                                }
+                            }
+                        }
+                    }
                 } else {
                     if (_sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
                         logRound.Info.SceneName = newName;
@@ -557,13 +612,25 @@ namespace FallGuysStats {
                 }
                 logRound.FindingPosition = false;
                 round.Add(logRound.Info);
-            } else if (logRound.Info != null &&
-                       (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
+            } else if (logRound.Info != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) > 0) {
                 int index2 = line.Line.IndexOf(". ", index + 62);
                 if (index2 < 0) { index2 = line.Line.Length; }
                 if (logRound.Info.UseShareCode) {
                     //logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
                     logRound.Info.Name = "wle_s10_user_creative_race_round";
+                    logRound.Info.CreativeShareCode = this.creativeShareCode;
+                    logRound.Info.CreativeOnlinePlatformId = this.creativeOnlinePlatformId;
+                    logRound.Info.CreativeAuthor = this.creativeAuthor;
+                    logRound.Info.CreativeVersion = this.creativeVersion;
+                    logRound.Info.CreativeStatus = this.creativeStatus;
+                    logRound.Info.CreativeTitle = this.creativeTitle;
+                    logRound.Info.CreativeDescription = this.creativeDescription;
+                    logRound.Info.CreativeMaxPlayer = this.creativeMaxPlayer;
+                    logRound.Info.CreativePlatformId = this.creativePlatformId;
+                    logRound.Info.CreativeLastModifiedDate = this.creativeLastModifiedDate;
+                    logRound.Info.CreativePlayCount = this.creativePlayCount;
+                    logRound.Info.CreativeQualificationPercent = this.creativeQualificationPercent;
+                    logRound.Info.CreativeTimeLimitSeconds = this.creativeTimeLimitSeconds;
                 } else {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
@@ -591,8 +658,7 @@ namespace FallGuysStats {
                 logRound.Info.PrivateLobby = logRound.PrivateLobby;
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
-            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) > 0)
+            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) > 0 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) > 0)
                        //|| line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0)
             {
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) > 0;
@@ -615,11 +681,9 @@ namespace FallGuysStats {
                 index = line.Line.IndexOf("isFinalRound=True", StringComparison.OrdinalIgnoreCase);
                 logRound.IsFinal = index > 0;
             } else if (logRound.Info != null && logRound.CountingPlayers &&
-                       (line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) > 0
-                        || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0)) {
+                       (line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) > 0 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) > 0)) {
                 logRound.Info.Players++;
-            } else if (logRound.Info != null && logRound.CountingPlayers &&
-                       (line.Line.IndexOf("[CameraDirector] Adding Spectator target", StringComparison.OrdinalIgnoreCase) > 0)) {
+            } else if (logRound.Info != null && logRound.CountingPlayers && (line.Line.IndexOf("[CameraDirector] Adding Spectator target", StringComparison.OrdinalIgnoreCase) > 0)) {
                 if (line.Line.IndexOf("ps4", StringComparison.OrdinalIgnoreCase) > 0) {
                     logRound.Info.PlayersPs4++;
                 } else if (line.Line.IndexOf("ps5", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -692,25 +756,14 @@ namespace FallGuysStats {
                 }
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
-                Stats.LastServerPing = 0;
-                Stats.IsBadPing = false;
-                Stats.LastCountryCode = string.Empty;
-                Stats.LastCountryFullName = string.Empty;
+                this.InitStaticVariable();
                 Stats.InShow = false;
-                Stats.IsPrePlaying = false;
-                Stats.IsPlaying = false;
-                Stats.PingSwitcher = 8;
                 this.toggleRequestIp2cApi = false;
-            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) > 0
+                this.toggleFgdbCreativeApi = false;
+            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) > 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) > 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) > 0) {
-                Stats.LastServerPing = 0;
-                Stats.IsBadPing = false;
-                Stats.LastCountryCode = string.Empty;
-                Stats.LastCountryFullName = string.Empty;
-                Stats.IsPrePlaying = false;
-                Stats.IsPlaying = false;
-                Stats.PingSwitcher = 8;
+                this.InitStaticVariable();
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (0 < round.Count) {
@@ -762,15 +815,9 @@ namespace FallGuysStats {
                     }
                     
                     logRound.Info = null;
-                    Stats.LastServerPing = 0;
-                    Stats.IsBadPing = false;
-                    Stats.LastCountryCode = string.Empty;
-                    Stats.LastCountryFullName = string.Empty;
+                    this.InitStaticVariable();
                     Stats.InShow = false;
                     Stats.EndedShow = true;
-                    Stats.IsPrePlaying = false;
-                    Stats.IsPlaying = false;
-                    Stats.PingSwitcher = 8;
                     return true;
                 }
             } else if (line.Line.IndexOf(" == [CompletedEpisodeDto] ==", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -862,15 +909,9 @@ namespace FallGuysStats {
                     logRound.Info.Crown = true;
                 }
                 logRound.Info = null;
-                Stats.LastServerPing = 0;
-                Stats.IsBadPing = false;
-                Stats.LastCountryCode = string.Empty;
-                Stats.LastCountryFullName = string.Empty;
+                this.InitStaticVariable();
                 Stats.InShow = false;
                 Stats.EndedShow = true;
-                Stats.IsPrePlaying = false;
-                Stats.IsPlaying = false;
-                Stats.PingSwitcher = 8;
                 return true;
             }
             return false;
