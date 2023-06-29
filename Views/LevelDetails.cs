@@ -756,6 +756,8 @@ namespace FallGuysStats {
                                     temp.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
                                     temp.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
                                     temp.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                    temp.CreativeQualificationPercent = resData.GetProperty("version_metadata").GetProperty("qualification_percent").GetInt32();
+                                    temp.CreativeTimeLimitSeconds = resData.GetProperty("version_metadata").GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                     this.StatsForm.RoundDetails.Update(temp);
                                 }
                                 this.StatsForm.StatsDB.Commit();
