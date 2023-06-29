@@ -17,7 +17,6 @@ namespace FallGuysStats {
         //public string CreativeNicknameContentId { get; set; }
         //public string CreativeNameplateContentId { get; set; }
         public int CreativeVersion { get; set; }
-        //public string CreativeStatus { get; set; }
         public string CreativeTitle { get; set; }
         public string CreativeDescription { get; set; }
         public int CreativeMaxPlayer { get; set; }
