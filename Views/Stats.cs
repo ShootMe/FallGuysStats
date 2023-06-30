@@ -1984,20 +1984,40 @@ namespace FallGuysStats {
                 int menuPositionX = 0, menuPositionY = 0;
                 switch (this.GetTaskbarPosition()) {
                     case TaskbarPosition.Bottom:
-                        menuPositionX = MousePosition.X;
-                        menuPositionY = this.trayCMenu.Location.Y - 10;
+                        if (MousePosition.Y >= Screen.GetWorkingArea(MousePosition).Height) {
+                            menuPositionX = MousePosition.X;
+                            menuPositionY = Screen.GetWorkingArea(MousePosition).Height - this.trayCMenu.Height;
+                        } else {
+                            menuPositionX = MousePosition.X + 5;
+                            menuPositionY = this.trayCMenu.Location.Y - 5;
+                        }
                         break;
                     case TaskbarPosition.Left:
-                        menuPositionX = MousePosition.X + 10;
-                        menuPositionY = this.trayCMenu.Location.Y;
+                        if (MousePosition.X <= (Screen.GetBounds(MousePosition).Width - Screen.GetWorkingArea(MousePosition).Width)) {
+                            menuPositionX = Screen.GetBounds(MousePosition).Width - Screen.GetWorkingArea(MousePosition).Width;
+                            menuPositionY = this.trayCMenu.Location.Y;
+                        } else {
+                            menuPositionX = MousePosition.X + 5;
+                            menuPositionY = this.trayCMenu.Location.Y - 5;
+                        }
                         break;
                     case TaskbarPosition.Right:
-                        menuPositionX = MousePosition.X - this.trayCMenu.Width - 10;
-                        menuPositionY = this.trayCMenu.Location.Y;
+                        if (MousePosition.X >= Screen.GetWorkingArea(MousePosition).Width) {
+                            menuPositionX = Screen.GetWorkingArea(MousePosition).Width - this.trayCMenu.Width;
+                            menuPositionY = MousePosition.Y - this.trayCMenu.Height;
+                        } else {
+                            menuPositionX = MousePosition.X - this.trayCMenu.Width - 5;
+                            menuPositionY = this.trayCMenu.Location.Y - 5;
+                        }
                         break;
                     case TaskbarPosition.Top:
-                        menuPositionX = MousePosition.X;
-                        menuPositionY = this.trayCMenu.Location.Y + 10;
+                        if (MousePosition.Y <= (Screen.GetBounds(MousePosition).Height - Screen.GetWorkingArea(MousePosition).Height)) {
+                            menuPositionX = MousePosition.X - this.trayCMenu.Width;
+                            menuPositionY = Screen.GetBounds(MousePosition).Height - Screen.GetWorkingArea(MousePosition).Height;
+                        } else {
+                            menuPositionX = MousePosition.X - this.trayCMenu.Width - 5;
+                            menuPositionY = this.trayCMenu.Location.Y + 5;
+                        }
                         break;
                 }
                 this.trayCMenu.Location = new Point(menuPositionX, menuPositionY);
