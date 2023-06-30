@@ -867,14 +867,23 @@ namespace FallGuysStats {
                     if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId);
                     }
-                    this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
-                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}):"
-                        : $"{Multilingual.GetWord("overlay_duration")} :";
+                    // this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
+                    //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}):"
+                    //     : $"{Multilingual.GetWord("overlay_duration")} :";
 
                     if (end != DateTime.MinValue) {
+                        // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
+                        //     this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                        // } else {
+                        //     this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                        // }
                         this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                     } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                        this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                        if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - start):m\\:ss}";
+                        } else {
+                            this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                        }
                     } else {
                         this.lblDuration.TextRight = "-";
                     }
