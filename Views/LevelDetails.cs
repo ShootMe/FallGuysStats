@@ -618,7 +618,7 @@ namespace FallGuysStats {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0) {
                 if (((DataGridView)sender).SelectedRows.Count == 1) {
                     RoundInfo info = this.gridDetails.Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
-                    if (info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) {
+                    if ((info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) || (info.UseShareCode && info.CreativeQualificationPercent == 0 && info.CreativeTimeLimitSeconds == 0)) {
                         if (this.gridDetails.MenuSeparator != null && !this.gridDetails.CMenu.Items.Contains(this.gridDetails.MenuSeparator)) {
                             this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
                         }
@@ -734,13 +734,14 @@ namespace FallGuysStats {
         private void updateShows_Click(object sender, EventArgs e) {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
                 RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
-                if (ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) {
+                if ((ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) || (ri.UseShareCode && ri.CreativeQualificationPercent == 0 && ri.CreativeTimeLimitSeconds == 0)) {
                     if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{ri.ShowNameId}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                         try {
                             JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                             JsonElement versionMetadata = resData.GetProperty("version_metadata");
-                            List<RoundInfo> rows = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) && r.CreativeLastModifiedDate == DateTime.MinValue);
+                            List<RoundInfo> rows = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
+                                                                                (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.DataSource = null;
                             lock (this.StatsForm.StatsDB) {
@@ -874,6 +875,10 @@ namespace FallGuysStats {
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
                 strbuilder.Append(Environment.NewLine);
+                if (info.CreativeTimeLimitSeconds > 0) {
+                    strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_time_limit")} : {TimeSpan.FromSeconds(info.CreativeTimeLimitSeconds):m\\:ss}");
+                    strbuilder.Append(Environment.NewLine);
+                }
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
