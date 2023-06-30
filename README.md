@@ -195,6 +195,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=auto&height=200&section=footer)
 
 ## Changelog
+  - `1.212`
+    - Improved display of time limits on user creative maps
   - `1.211`
     - Display the user creative map's time limit
     - Bugfix and program optimization
