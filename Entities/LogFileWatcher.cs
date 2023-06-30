@@ -586,19 +586,21 @@ namespace FallGuysStats {
                                 this.toggleFgdbCreativeApi = true;
                                 try {
                                     JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{logRound.Info.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
+                                    JsonElement versionMetadata = resData.GetProperty("version_metadata");
                                     this.creativeOnlinePlatformId = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"))[0];
                                     this.creativeAuthor = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"))[1];
                                     this.creativeShareCode = resData.GetProperty("share_code").GetString();
-                                    this.creativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
-                                    this.creativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
-                                    this.creativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
-                                    this.creativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
-                                    this.creativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
-                                    this.creativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
-                                    this.creativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                                    this.creativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                    this.creativeStatus = versionMetadata.GetProperty("status").GetString();
+                                    this.creativeTitle = versionMetadata.GetProperty("title").GetString();
+                                    this.creativeDescription = versionMetadata.GetProperty("description").GetString();
+                                    this.creativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                    this.creativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                    this.creativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                                     this.creativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                    this.creativeQualificationPercent = resData.GetProperty("version_metadata").GetProperty("qualification_percent").GetInt32();
-                                    this.creativeTimeLimitSeconds = resData.GetProperty("version_metadata").GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                    this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                    //this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                    this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                 } catch {
                                     this.toggleFgdbCreativeApi = false;
                                 }

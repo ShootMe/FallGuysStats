@@ -739,6 +739,7 @@ namespace FallGuysStats {
                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                         try {
                             JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
+                            JsonElement versionMetadata = resData.GetProperty("version_metadata");
                             List<RoundInfo> rows = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) && r.CreativeLastModifiedDate == DateTime.MinValue);
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.DataSource = null;
@@ -750,16 +751,17 @@ namespace FallGuysStats {
                                     temp.CreativeShareCode = resData.GetProperty("share_code").GetString();
                                     temp.CreativeOnlinePlatformId = onlinePlatformInfo[0];
                                     temp.CreativeAuthor = onlinePlatformInfo[1];
-                                    temp.CreativeVersion = resData.GetProperty("version_metadata").GetProperty("version").GetInt32();
-                                    temp.CreativeStatus = resData.GetProperty("version_metadata").GetProperty("status").GetString();
-                                    temp.CreativeTitle = resData.GetProperty("version_metadata").GetProperty("title").GetString();
-                                    temp.CreativeDescription = resData.GetProperty("version_metadata").GetProperty("description").GetString();
-                                    temp.CreativeMaxPlayer = resData.GetProperty("version_metadata").GetProperty("max_player_count").GetInt32();
-                                    temp.CreativePlatformId = resData.GetProperty("version_metadata").GetProperty("platform_id").GetString();
-                                    temp.CreativeLastModifiedDate = resData.GetProperty("version_metadata").GetProperty("last_modified_date").GetDateTime();
+                                    temp.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                    temp.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                    temp.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                    temp.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                    temp.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                    temp.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                    temp.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                                     temp.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                    temp.CreativeQualificationPercent = resData.GetProperty("version_metadata").GetProperty("qualification_percent").GetInt32();
-                                    temp.CreativeTimeLimitSeconds = resData.GetProperty("version_metadata").GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                    temp.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                    //temp.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                    temp.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                     this.StatsForm.RoundDetails.Update(temp);
                                 }
                                 this.StatsForm.StatsDB.Commit();
