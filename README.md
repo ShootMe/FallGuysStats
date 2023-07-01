@@ -63,6 +63,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
 ![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
 
+> **[Information]** **Certificates for Windows programs cost between $200 and $400 per year.**
+
 ## Usage
   - Extract zip to it's own folder
   - Run the program while playing Fall Guys to see new stats.
