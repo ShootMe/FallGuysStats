@@ -867,9 +867,9 @@ namespace FallGuysStats {
                     if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId);
                     }
-                    // this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
-                    //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}):"
-                    //     : $"{Multilingual.GetWord("overlay_duration")} :";
+                    this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
+                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
+                        : $"{Multilingual.GetWord("overlay_duration")} :";
 
                     if (end != DateTime.MinValue) {
                         // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
