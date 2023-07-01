@@ -61,7 +61,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 
   - When running the program for the first time, refer to the screenshot below.
 
-![Fall Guys Stats](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
+![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
 
 ## Usage
   - Extract zip to it's own folder
