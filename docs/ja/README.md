@@ -32,6 +32,7 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 
 # 目次
   - [**ダウンロード**](#ダウンロード)
+    - [**初めて実行**](#初めて実行)
   - [**使用方法**](#使用方法)
   - [**テーマ**](#テーマ)
     - [**ライトテーマ**](#ライトテーマ)
@@ -53,6 +54,12 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
   - ウイルス対策ソフトに誤検知される場合は、自動アップデートを無効にしたバージョンを使用することができます:
 
 　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
+
+### 初めて実行
+
+- プログラムを初めて実行するときは、以下のスクリーンショットを参照してください。
+
+![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
 
 ## 使用方法
   - ダウンロードしたzipファイルを展開します。
