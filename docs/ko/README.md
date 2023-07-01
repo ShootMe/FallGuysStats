@@ -63,6 +63,8 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
 
 ![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
 
+> [정보] Windows 프로그램에 대한 인증서 비용은 연간 $200에서 $400 정도입니다.
+
 ## 사용 방법
   - 다운로드 받은 ZIP 파일을 자체 폴더로 압축 해제
   - 폴 가이즈를 플레이하는 동안 프로그램을 실행하면 통계를 저장하고 확인할 수 있습니다.
