@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -49,7 +50,7 @@ namespace FallGuysStats {
             this.ChangeLanguage();
             
             this.isStartingUp = true;
-            this.cboRoundList.DataSource = new BindingSource(roundList, null);
+            this.cboRoundList.DataSource = new BindingSource(this.roundList, null);
             this.cboRoundList.DisplayMember = "Value";
             this.cboRoundList.ValueMember = "Key";
 
@@ -83,11 +84,11 @@ namespace FallGuysStats {
         private void SetGraph() {
             //this.formsPlot.Plot.Grid(false);
             //this.formsPlot.Plot.Frameless();
-            //KeyValuePair<string, string> selectedPair = (KeyValuePair<string, string>)this.cboRoundList.SelectedItem;
-            string roundId = (string)this.cboRoundList.SelectedValue;
-
+            KeyValuePair<string, string> selectedRoundPair = (KeyValuePair<string, string>)this.cboRoundList.SelectedItem;
+            //string roundId = (string)this.cboRoundList.SelectedValue;
+            string roundId = selectedRoundPair.Key;
             if (this.StatsForm.StatLookup.TryGetValue(roundId, out LevelStats level)) {
-                this.picRoundIcon.Size = new Size(level.RoundBigIcon.Width, level.RoundBigIcon.Height);
+                this.picRoundIcon.Size = level.RoundBigIcon.Size;
                 this.picRoundIcon.Image = level.RoundBigIcon;
                 this.formsPlot.Plot.Title(level.Name);
                 
@@ -96,7 +97,6 @@ namespace FallGuysStats {
                 this.lblRoundType.borderColor = levelType.LevelDefaultColor(level.IsFinal);
                 this.lblRoundType.backColor = levelType.LevelDefaultColor(level.IsFinal);
                 this.lblRoundType.Width = TextRenderer.MeasureText(this.lblRoundType.Text, this.lblRoundType.Font).Width + 12;
-
                 int recordType = ("round_pixelperfect_almond".Equals(roundId) ||
                                   "round_hoverboardsurvival_s4_show".Equals(roundId) ||
                                   "round_hoverboardsurvival2_almond".Equals(roundId) ||
@@ -114,6 +114,30 @@ namespace FallGuysStats {
                 this.lblWorstRecord.Text = recordType == 0 ? $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.ff}" :
                                             recordType == 1 ? $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.ff}" :
                                             recordType == 2 ? $"{Multilingual.GetWord("overlay_worst_score")} : {this.roundScoreData[roundId][1]}" : "-";
+            } else {
+                MatchCollection matches = Regex.Matches(roundId, @"^\d{4}-\d{4}-\d{4}$");
+                if (matches.Count > 0) { // user creative round
+                    if (this.StatsForm.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats creativeLevel)) {
+                        this.picRoundIcon.Size = creativeLevel.RoundBigIcon.Size;
+                        this.picRoundIcon.Image = creativeLevel.RoundBigIcon;
+                        this.formsPlot.Plot.Title(selectedRoundPair.Value);
+                        
+                        LevelType levelType = (creativeLevel?.Type).GetValueOrDefault();
+                        this.lblRoundType.Text = levelType.LevelTitle(creativeLevel.IsFinal);
+                        this.lblRoundType.borderColor = levelType.LevelDefaultColor(creativeLevel.IsFinal);
+                        this.lblRoundType.backColor = levelType.LevelDefaultColor(creativeLevel.IsFinal);
+                        this.lblRoundType.Width = TextRenderer.MeasureText(this.lblRoundType.Text, this.lblRoundType.Font).Width + 12;
+                        int recordType = levelType.FastestLabel();
+                        this.lblBestRecord.Left = this.lblRoundType.Right + 12;
+                        this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
+                        this.lblBestRecord.Text = recordType == 0 ? $"{Multilingual.GetWord("overlay_longest")} : {creativeLevel.Longest:m\\:ss\\.ff}" :
+                            recordType == 1 ? $"{Multilingual.GetWord("overlay_fastest")} : {creativeLevel.Fastest:m\\:ss\\.ff}" :
+                            recordType == 2 ? $"{Multilingual.GetWord("overlay_best_score")} : {this.roundScoreData[roundId][0]}" : "-";
+                        this.lblWorstRecord.Text = recordType == 0 ? $"{Multilingual.GetWord("overlay_fastest")} : {creativeLevel.Fastest:m\\:ss\\.ff}" :
+                            recordType == 1 ? $"{Multilingual.GetWord("overlay_longest")} : {creativeLevel.Longest:m\\:ss\\.ff}" :
+                            recordType == 2 ? $"{Multilingual.GetWord("overlay_worst_score")} : {this.roundScoreData[roundId][1]}" : "-";
+                    }
+                }
             }
 
             TimeSpan duration = this.roundDurationData[roundId];
