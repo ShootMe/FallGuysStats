@@ -61,6 +61,8 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 
 ![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
 
+> [情報] Windows プログラムの証明書の費用は年間 200 ドルから 400 ドルです。
+
 ## 使用方法
   - ダウンロードしたzipファイルを展開します。
   - プログラムを起動し、Fall Guysをプレイすると記録が確認できます。
