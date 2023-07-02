@@ -482,10 +482,7 @@ namespace FallGuysStats {
                          && roundId.EndsWith("_fn"))
 
                      || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
-                         && roundId.EndsWith("_03"))
-                     
-                     || (roundId.IndexOf("round_invisibeans", StringComparison.OrdinalIgnoreCase) != -1)
-                     || (roundId.IndexOf("round_pumpkin_pie", StringComparison.OrdinalIgnoreCase) != -1);
+                         && roundId.EndsWith("_03"));
         }
         
         private bool IsTeamException(string roundId) {
