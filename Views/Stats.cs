@@ -2406,7 +2406,7 @@ namespace FallGuysStats {
                                 roundName = roundName.Substring(6).Replace('_', ' ');
                             }
 
-                            LevelStats newLevel = new LevelStats(this.textInfo.ToTitleCase(roundName), LevelType.Unknown, false, false, 0, null, null);
+                            LevelStats newLevel = new LevelStats(this.textInfo.ToTitleCase(roundName), LevelType.Unknown, false, false, 0, 0, null, null);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -2606,7 +2606,7 @@ namespace FallGuysStats {
                 List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && "wle_s10_user_creative_race_round".Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null, null);
+                    currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, 0, null, null);
                 }
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
@@ -2728,7 +2728,7 @@ namespace FallGuysStats {
             } else {
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue(name, out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, null, null);
+                    currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, 0, null, null);
                 }
 
                 for (int i = 0; i < this.AllStats.Count; i++) {

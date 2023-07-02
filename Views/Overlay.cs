@@ -769,7 +769,6 @@ namespace FallGuysStats {
                     }
 
                     LevelType levelType = (level?.Type).GetValueOrDefault();
-                    //this.lblRound.IsCreativeRound = (level != null && level.isCreative);
                     this.lblRound.UseShareCode = this.lastRound.UseShareCode;
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
@@ -867,9 +866,14 @@ namespace FallGuysStats {
                     if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId);
                     }
-                    this.lblDuration.Text = this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0
-                        ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
-                        : $"{Multilingual.GetWord("overlay_duration")} :";
+
+                    if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :";
+                    } else if (!this.lastRound.UseShareCode && this.lastRound.IsFinal && level.TimeLimitSeconds > 0) {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
+                    } else {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
+                    }
 
                     if (end != DateTime.MinValue) {
                         // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
@@ -882,7 +886,11 @@ namespace FallGuysStats {
                         if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
                             this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - start):m\\:ss}";
                         } else {
-                            this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                            if (this.lastRound.IsFinal && level.TimeLimitSeconds > 0) {
+                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - start):m\\:ss}";
+                            } else {
+                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                            }
                         }
                     } else {
                         this.lblDuration.TextRight = "-";
