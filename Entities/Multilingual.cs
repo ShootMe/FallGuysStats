@@ -2476,7 +2476,7 @@ namespace FallGuysStats {
                             {"round_1v1_volleyfall_symphony_launch_show", "배구"},
                             {"round_blastballruins", "블라스틀란티스"},
                             {"round_basketfall_s4_show", "농구"},
-                            {"round_egg_grab", "알 쟁탈전"},
+                            {"round_egg_grab", "알 점령전"},
                             {"round_egg_grab_02", "알 공성전"},
                             {"round_fall_ball_60_players", "공 떨어져유"},
                             {"round_ballhogs", "수집왕"},
