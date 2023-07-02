@@ -876,21 +876,20 @@ namespace FallGuysStats {
                     }
 
                     if (end != DateTime.MinValue) {
-                        // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
-                        //     this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                        // } else {
-                        //     this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
-                        // }
-                        this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                        if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                        } else if (!this.lastRound.UseShareCode && this.lastRound.IsFinal && level.TimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                        } else {
+                            this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                        }
                     } else if (this.lastRound.Playing && Stats.IsPlaying) {
                         if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds > 0) {
                             this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - start):m\\:ss}";
+                        } else if (!this.lastRound.UseShareCode && this.lastRound.IsFinal && level.TimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - start):m\\:ss}";
                         } else {
-                            if (this.lastRound.IsFinal && level.TimeLimitSeconds > 0) {
-                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - start):m\\:ss}";
-                            } else {
-                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
-                            }
+                            this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                         }
                     } else {
                         this.lblDuration.TextRight = "-";
