@@ -330,7 +330,7 @@ namespace FallGuysStats {
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        private bool GetIsCreativeFinalRound(string showId, string roundId) {
+        private bool IsCreativeFinalRound(string showId, string roundId) {
             return (showId.IndexOf("show_wle_s10_wk01_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk01_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
                     showId.IndexOf("show_wle_s10_wk01_srs_03", StringComparison.OrdinalIgnoreCase) != -1 ||
@@ -419,7 +419,7 @@ namespace FallGuysStats {
                 );
         }
 
-        private bool GetIsRealFinalRound(string roundId) {
+        private bool IsRealFinalRound(string roundId) {
             return (roundId.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1
                     && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
 
@@ -440,27 +440,7 @@ namespace FallGuysStats {
                    || roundId.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool GetIsModeException(string roundId) {
-            return roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_drumtop_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1;
-        }
-
-        private bool GetIsFinalException(string roundId) {
+        private bool IsFinalException(string roundId) {
             return ((roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
                      || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
@@ -482,10 +462,13 @@ namespace FallGuysStats {
                          && roundId.EndsWith("_fn"))
 
                      || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
-                         && roundId.EndsWith("_03"));
+                         && roundId.EndsWith("_03"))
+                     
+                     || (roundId.IndexOf("round_invisibeans", StringComparison.OrdinalIgnoreCase) != -1)
+                     || (roundId.IndexOf("round_pumpkin_pie", StringComparison.OrdinalIgnoreCase) != -1);
         }
         
-        private bool GetIsTeamException(string roundId) {
+        private bool IsTeamException(string roundId) {
             return roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
                    && (roundId.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
@@ -637,19 +620,19 @@ namespace FallGuysStats {
                     logRound.Info.Name = line.Line.Substring(index + 62, index2 - index - 62);
                 }
                 
-                if (this.GetIsCreativeFinalRound(this.selectedShowId, logRound.Info.Name) || logRound.Info.UseShareCode) {
+                if (this.IsCreativeFinalRound(this.selectedShowId, logRound.Info.Name) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
-                } else if (this.GetIsRealFinalRound(logRound.Info.Name)) {
+                } else if (this.IsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;
-                } else if (this.GetIsModeException(logRound.Info.Name)) {
-                    logRound.Info.IsFinal = this.GetIsFinalException(logRound.Info.Name);
+                } else if (this.IsFinalException(logRound.Info.Name)) {
+                    logRound.Info.IsFinal = true;
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || 
                                             (!logRound.HasIsFinal
                                              && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string roundName)
                                              && LevelStats.ALL.TryGetValue(roundName, out LevelStats levelStats) && levelStats.IsFinal);
                 }
-                logRound.Info.IsTeam = this.GetIsTeamException(logRound.Info.Name);
+                logRound.Info.IsTeam = this.IsTeamException(logRound.Info.Name);
 
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
