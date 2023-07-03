@@ -326,6 +326,14 @@ namespace FallGuysStats {
             {"round_blastball_arenasurvival_blast_ball_trials_01", "round_blastball_arenasurvival_symphony_launch_show"},
             {"round_blastball_arenasurvival_blast_ball_trials_02", "round_blastball_arenasurvival_symphony_launch_show"},
             {"round_blastball_arenasurvival_blast_ball_trials_fn", "round_blastball_arenasurvival_symphony_launch_show"},
+            
+            // Squad Celebration
+            {"s10_pixelperfect_squads_squadcelebration", "round_pixelperfect_almond"},
+            {"s10_snowyscrap_squads_squadcelebration", "round_snowy_scrap"},
+            {"s10_conveyorarena_squads_squadcelebration", "round_conveyor_arena"},
+            {"s10_basketfall_squads_squadcelebration_final", "round_basketfall_s4_show"},
+            {"s10_fallball_squads_squadcelebration_final", "round_fall_ball_60_players"},
+            {"s10_jinxed_squads_squadcelebration_final", "round_jinxed"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
@@ -437,7 +445,10 @@ namespace FallGuysStats {
 
                    || roundId.EndsWith("_timeattack_final", StringComparison.OrdinalIgnoreCase)
 
-                   || roundId.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase);
+                   || roundId.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase)
+                   
+                   || (roundId.IndexOf("_squads_squadcelebration", StringComparison.OrdinalIgnoreCase) != -1
+                       && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
         }
         
         private bool IsModeException(string roundId) {
