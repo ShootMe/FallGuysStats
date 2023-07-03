@@ -876,8 +876,8 @@ namespace FallGuysStats {
                     } else if (!this.lastRound.UseShareCode) {
                         if ("main_show".Equals(this.lastRound.ShowNameId) && level.TimeLimitSeconds > 0) {
                             this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
-                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForTeam > 0) {
-                            this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForTeam):m\\:ss}) :";
+                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                            this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
                         } else {
                             this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
                         }
@@ -893,8 +893,8 @@ namespace FallGuysStats {
                         } else if (!this.lastRound.UseShareCode) {
                             if ("main_show".Equals(this.lastRound.ShowNameId) && level.TimeLimitSeconds > 0) {
                                 this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForTeam > 0) {
-                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForTeam) - (end - start):m\\:ss\\.ff}";
+                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
                             } else {
                                 this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                             }
@@ -909,8 +909,8 @@ namespace FallGuysStats {
                         } else if (!this.lastRound.UseShareCode) {
                             if ("main_show".Equals(this.lastRound.ShowNameId) && level.TimeLimitSeconds > 0) {
                                 this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - start):m\\:ss}";
-                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForTeam > 0) {
-                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForTeam)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForTeam)) - (DateTime.UtcNow - start):m\\:ss}";
+                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                                this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - startTime):m\\:ss}" : $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - start):m\\:ss}";
                             } else {
                                 this.lblDuration.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                             }
