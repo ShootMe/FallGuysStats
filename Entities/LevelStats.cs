@@ -466,7 +466,7 @@ namespace FallGuysStats {
         public bool isCreative;
         public bool IsFinal;
         public int TimeLimitSeconds;
-        public int TimeLimitSecondsForTeam;
+        public int TimeLimitSecondsForSquad;
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
         public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
         public TimeSpan Duration;
@@ -475,7 +475,7 @@ namespace FallGuysStats {
         public int Season;
         public int FinishedCount;
 
-        public LevelStats(string levelName, LevelType type, bool isCreative, bool isFinal, int season, int timeLimitSeconds, int timeLimitSecondsForTeam, Image roundIcon, Image roundBigIcon) {
+        public LevelStats(string levelName, LevelType type, bool isCreative, bool isFinal, int season, int timeLimitSeconds, int timeLimitSecondsForSquad, Image roundIcon, Image roundBigIcon) {
             this.RoundIcon = roundIcon;
             this.RoundBigIcon = roundBigIcon;
             this.Name = levelName;
@@ -484,7 +484,7 @@ namespace FallGuysStats {
             this.isCreative = isCreative;
             this.IsFinal = isFinal;
             this.TimeLimitSeconds = timeLimitSeconds;
-            this.TimeLimitSecondsForTeam = timeLimitSecondsForTeam;
+            this.TimeLimitSecondsForSquad = timeLimitSecondsForSquad;
             this.Stats = new List<RoundInfo>();
             this.Clear();
         }
