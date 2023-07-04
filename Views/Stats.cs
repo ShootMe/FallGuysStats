@@ -162,7 +162,6 @@ namespace FallGuysStats {
         public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
         public UserSettings CurrentSettings;
         public Overlay overlay;
-        public bool isUpdate;
         private DateTime lastAddedShow = DateTime.MinValue;
         private DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
@@ -192,6 +191,7 @@ namespace FallGuysStats {
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
         private bool isStartingUp = true;
+        public bool isUpdate;
         
         public Point screenCenter;
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
@@ -2091,19 +2091,17 @@ namespace FallGuysStats {
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
-                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
-                        //this.CurrentSettings.FilterType = this.menuAllStats.Checked ? 1 : this.menuSeasonStats.Checked ? 2 : this.menuWeekStats.Checked ? 3 : this.menuDayStats.Checked ? 4 : 5;
-                        //this.CurrentSettings.SelectedProfile = this.currentProfile;
-                        if (!this.isUpdate) { this.SaveWindowState(); }
+                    if (!this.isUpdate && !this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                        this.SaveWindowState();
                         this.SaveUserSettings();
                     }
-                    this.StatsDB.Dispose();
+                    this.StatsDB?.Dispose();
                 } catch (Exception ex) {
                     MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } else {
-                this.Hide();
                 e.Cancel = true;
+                this.Hide();
             }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -4357,7 +4355,7 @@ namespace FallGuysStats {
             }
             return resJroot;
         }
-        private bool CheckForUpdate(bool silent) {
+        private bool CheckForUpdate(bool isSilent) {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
@@ -4372,23 +4370,28 @@ namespace FallGuysStats {
                                 $"{Multilingual.GetWord("message_update_question_caption")}",
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                         {
-                            this.SaveWindowState();
+                            if (!isSilent) {
+                                if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                                    this.SaveWindowState();
+                                }
+                            }
+                            this.SaveUserSettings();
                             this.Hide();
-                            this.overlay.Hide();
+                            this.overlay?.Hide();
                             this.DownloadNewVersion(web);
                             this.isUpdate = true;
                             this.Stats_ExitProgram(this, null);
                             return true;
                         }
-                    } else if (!silent) {
+                    } else if (!isSilent) {
                         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_latest_version")}",
-                            $"{Multilingual.GetWord("message_update_question_caption")}", MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                            $"{Multilingual.GetWord("message_update_question_caption")}",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                } else if (!silent) {
+                } else if (!isSilent) {
                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}",
-                        $"{Multilingual.GetWord("message_update_error_caption")}", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        $"{Multilingual.GetWord("message_update_error_caption")}",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 #else
@@ -4398,6 +4401,7 @@ namespace FallGuysStats {
         }
 #if AllowUpdate
         public void DownloadNewVersion(ZipWebClient web) {
+            this.StatsDB?.Dispose();
             byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
             string exeName = null;
             using (MemoryStream ms = new MemoryStream(data)) {
@@ -4406,7 +4410,10 @@ namespace FallGuysStats {
                         if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
                             exeName = entry.Name;
                         }
-                        if (File.Exists(entry.Name)) File.Move(entry.Name, $"{entry.Name}.bak");
+
+                        if (File.Exists(entry.Name)) {
+                            File.Move(entry.Name, $"{entry.Name}.bak");
+                        }
                         entry.ExtractToFile(entry.Name, true);
                     }
                 }
