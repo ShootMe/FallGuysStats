@@ -462,13 +462,14 @@ namespace FallGuysStats {
         public TimeSpan Fastest { get; set; }
         public TimeSpan Longest { get; set; }
         public int AveKudos { get { return this.Kudos / (this.Played == 0 ? 1 : this.Played); } }
+        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
+        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
         public LevelType Type;
         public bool isCreative;
         public bool IsFinal;
         public int TimeLimitSeconds;
         public int TimeLimitSecondsForSquad;
-        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
-        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
+        
         public TimeSpan Duration;
         public TimeSpan FinishTime;
         public List<RoundInfo> Stats;
