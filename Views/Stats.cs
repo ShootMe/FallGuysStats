@@ -349,12 +349,7 @@ namespace FallGuysStats {
                     this.EnableMainMenu(true);
                 }
             }
-            
-            foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-                this.StatLookup.Add(entry.Key, entry.Value);
-                this.StatDetails.Add(entry.Value);
-            }
-            
+
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
@@ -368,12 +363,16 @@ namespace FallGuysStats {
             
             this.UpdateDatabaseVersion();
             
-            this.InitMainDataGridView();
-            this.ChangeMainLanguage();
+            foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
+                this.StatLookup.Add(entry.Key, entry.Value);
+                this.StatDetails.Add(entry.Value);
+            }
             
+            this.ChangeMainLanguage();
+            this.InitMainDataGridView();
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
-            
+
             this.CurrentRound = new List<RoundInfo>();
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
@@ -411,9 +410,7 @@ namespace FallGuysStats {
             
             this.RemoveUpdateFiles();
             this.ReloadProfileMenuItems();
-            
-            this.SortGridDetails(0, true);
-            
+
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             
             this.cmtt.OwnerDraw = true;
@@ -2049,7 +2046,10 @@ namespace FallGuysStats {
             this.isFocused = ActiveForm == this;
         }
         private void Stats_VisibleChanged(object sender, EventArgs e) {
-            if (this.Visible) SetForegroundWindow(FindWindow(null, this.mainWndTitle));
+            if (this.Visible) {
+                SetForegroundWindow(FindWindow(null, this.mainWndTitle));
+                this.SetMainDataGridViewOrder();
+            }
         }
         private void Stats_Resize(object sender, EventArgs e) {
             this.isFocused = true;
@@ -2135,7 +2135,8 @@ namespace FallGuysStats {
                     this.ShowInTaskbar = true;
                     this.Opacity = 100;
                 }
-                
+                this.SetMainDataGridViewOrder();
+
                 if (this.WindowState != FormWindowState.Minimized) {
                     this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;
                 }
@@ -3043,7 +3044,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.gridDetails.RowTemplate.Height = 25;
-            
+
             this.gridDetails.DataSource = this.StatDetails;
         }
         private void SetMainDataGridView() {
@@ -3069,6 +3070,20 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void SetMainDataGridViewOrder() {
+            int pos = 0;
+            this.gridDetails.Columns["RoundIcon"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Name"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Played"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Qualified"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Gold"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Silver"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Bronze"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Kudos"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Fastest"].DisplayIndex = pos++;
+            this.gridDetails.Columns["Longest"].DisplayIndex = pos++;
+            this.gridDetails.Columns["AveFinish"].DisplayIndex = pos;
         }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             try {
@@ -4611,7 +4626,7 @@ namespace FallGuysStats {
             
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
-            this.SetMainDataGridView();
+            //this.SetMainDataGridView();
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

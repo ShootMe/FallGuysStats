@@ -200,7 +200,7 @@ namespace FallGuysStats {
             get { return base.EditMode; }
             set { base.EditMode = value; }
         }
-        [DefaultValue(typeof(Color), "234,242,251")]
+        [DefaultValue(typeof(Color), "234, 242, 251")]
         public new Color BackgroundColor {
             get { return base.BackgroundColor; }
             set { base.BackgroundColor = value; }

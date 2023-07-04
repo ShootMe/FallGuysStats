@@ -47,7 +47,7 @@ namespace FallGuysStats {
                             {"main_sec", " s"},
                             {"main_round_name", "Round Name"},
                             {"main_played", "Played"},
-                            {"main_qualified", "Qualifie"},
+                            {"main_qualified", "Qualified"},
                             {"main_gold", "Gold"},
                             {"main_silver", "Silver"},
                             {"main_bronze", "Bronze"},
