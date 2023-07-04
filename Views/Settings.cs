@@ -1051,8 +1051,9 @@ namespace FallGuysStats {
                          {
                              this.Hide();
                              this.StatsForm.SaveWindowState();
+                             this.StatsForm.SaveUserSettings();
                              this.StatsForm.Hide();
-                             this.StatsForm.overlay.Hide();
+                             this.StatsForm.overlay?.Hide();
                              this.StatsForm.DownloadNewVersion(web);
                              this.StatsForm.isUpdate = true;
                              this.StatsForm.Stats_ExitProgram(this, null);
