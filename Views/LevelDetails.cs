@@ -49,13 +49,13 @@ namespace FallGuysStats {
             int lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
-                    return this.Width - (lang == 0 ? -13 : lang == 1 ? -46 : lang == 2 ? 28 : lang == 3 ? -23 : 46);
+                    return this.Width - (lang == 0 ? -80 : lang == 1 ? -113 : lang == 2 ? -39 : lang == -64 ? -90 : -21);
                 case "Rounds":
-                    return this.Width + (lang == 0 ? 816 : lang == 1 ? 858 : lang == 2 ? 733 : lang == 3 ? 800 : 739);
+                    return this.Width + (lang == 0 ? 900 : lang == 1 ? 942 : lang == 2 ? 817 : lang == 3 ? 884 : 823);
                 case "Finals":
-                    return this.Width + (lang == 0 ? 816 : lang == 1 ? 858 : lang == 2 ? 733 : lang == 3 ? 800 : 739);
+                    return this.Width + (lang == 0 ? 900 : lang == 1 ? 942 : lang == 2 ? 817 : lang == 3 ? 884 : 823);
                 default:
-                    return this.Width + (lang == 0 ? 667 : lang == 1 ? 709 : lang == 2 ? 584 : lang == 3 ? 651 : 590);
+                    return this.Width + (lang == 0 ? 751 : lang == 1 ? 793 : lang == 2 ? 668 : lang == 3 ? 735 : 674);
             }
         }
         private int GetDataGridViewColumnWidth(string columnName, string columnText) {
@@ -73,12 +73,12 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "ShowNameId":
-                    return 150;
+                    return 0;
                 case "Round":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Name":
-                    return 150;
+                    return 0;
                 case "Players":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
@@ -104,7 +104,7 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Start":
-                    return 120;
+                    return 0;
                 case "End":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
@@ -420,7 +420,8 @@ namespace FallGuysStats {
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "End") {
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Start") {
-                e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
+                //e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
+                e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 if (info.Finish.HasValue) {
                     e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.ff");
