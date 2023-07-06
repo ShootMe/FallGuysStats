@@ -214,6 +214,8 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 <details>
     <summary>Details</summary>
 
+  - `1.223`
+    - Bugfix and program optimization
   - `1.222`
     - Bugfix and program optimization
   - `1.221`
