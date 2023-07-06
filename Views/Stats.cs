@@ -2106,11 +2106,11 @@ namespace FallGuysStats {
         }
         private void Stats_Load(object sender, EventArgs e) {
             try {
-#if AllowUpdate
-                if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
-                    return;
-                }
-#endif
+// #if AllowUpdate
+//                 if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
+//                     return;
+//                 }
+// #endif
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
                     this.LaunchGame(true);
                 }
@@ -2196,6 +2196,12 @@ namespace FallGuysStats {
                 }
 
                 this.isStartingUp = false;
+                
+#if AllowUpdate
+                if (this.CurrentSettings.AutoUpdate) {
+                    this.CheckForUpdate(true);
+                }
+#endif
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
