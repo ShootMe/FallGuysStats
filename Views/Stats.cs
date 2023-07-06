@@ -2520,6 +2520,7 @@ namespace FallGuysStats {
             return 0;
         }
         public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
+            if ("squadcelebration".Equals(showId)) showId = "squads_4player";
             if (string.IsNullOrEmpty(showId) && this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
