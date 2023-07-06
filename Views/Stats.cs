@@ -4404,7 +4404,8 @@ namespace FallGuysStats {
 #if AllowUpdate
         public void DownloadNewVersion(ZipWebClient web) {
             this.StatsDB?.Dispose();
-            byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
+            //byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
+            byte[] data = web.DownloadData("https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip");
             string exeName = null;
             using (MemoryStream ms = new MemoryStream(data)) {
                 using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
