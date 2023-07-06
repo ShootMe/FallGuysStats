@@ -57,7 +57,10 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
 
 　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
 
-- 파일을 다운로드 하는 중 웹브라우저가 악성코드로 의심하여 다운로드를 중단시키는 경우 아래 스크린샷을 참조하세요.
+---
+
+  - 파일을 다운로드 하는 중 웹브라우저가 악성코드로 의심하여 다운로드를 중단시키는 경우 아래 스크린샷을 참조하세요.
+  - 폴 가이즈 스탯츠는 오픈소스이므로, 누구나 코드를 볼 수 있습니다. 그러니 안심하고 다운로드하세요.
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/download.png)
 
