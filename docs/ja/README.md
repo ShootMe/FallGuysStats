@@ -55,7 +55,10 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 
 　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
 
-- ファイルのダウンロード中にWebブラウザがマルウェアと疑われてダウンロードを中止する場合は、下のスクリーンショットをご覧ください。
+---
+
+  - ファイルのダウンロード中にWebブラウザがマルウェアと疑われてダウンロードを中止する場合は、下のスクリーンショットをご覧ください。
+  - FallGuysStatsはオープンソースなので、誰でもコードを見ることができます。 だから安心してダウンロードしてください。
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/download.png)
 
