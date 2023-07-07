@@ -3366,6 +3366,8 @@ namespace FallGuysStats {
             this.gridDetails.Invalidate();
         }
         private void ShowShows() {
+            this.EnableInfoStrip(false);
+            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3426,14 +3428,15 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = shows;
                 levelDetails.StatsForm = this;
-                this.EnableInfoStrip(false);
-                this.EnableMainMenu(false);
+                
                 levelDetails.ShowDialog(this);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
             }
+            this.EnableInfoStrip(true);
+            this.EnableMainMenu(true);
         }
         private void ShowRounds() {
+            this.EnableInfoStrip(false);
+            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3443,14 +3446,15 @@ namespace FallGuysStats {
                 rounds.Sort();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
-                this.EnableInfoStrip(false);
-                this.EnableMainMenu(false);
+                
                 levelDetails.ShowDialog(this);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
             }
+            this.EnableInfoStrip(true);
+            this.EnableMainMenu(true);
         }
         private void ShowFinals() {
+            this.EnableInfoStrip(false);
+            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3472,14 +3476,16 @@ namespace FallGuysStats {
 
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
-                this.EnableInfoStrip(false);
-                this.EnableMainMenu(false);
+                
                 levelDetails.ShowDialog(this);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
             }
+            this.EnableInfoStrip(true);
+            this.EnableMainMenu(true);
         }
         private void ShowWinGraph() {
+            this.EnableInfoStrip(false);
+            this.EnableMainMenu(false);
+            
             List<RoundInfo> rounds = new List<RoundInfo>();
             for (int i = 0; i < this.StatDetails.Count; i++) {
                 rounds.AddRange(this.StatDetails[i].Stats);
@@ -3570,15 +3576,16 @@ namespace FallGuysStats {
                     display.finals = (double[])finals.ToArray(typeof(double));
                     display.wins = (double[])wins.ToArray(typeof(double));
                 }
-
-                this.EnableInfoStrip(false);
-                this.EnableMainMenu(false);
+                
                 display.ShowDialog(this);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
             }
+            this.EnableInfoStrip(true);
+            this.EnableMainMenu(true);
         }
         private void ShowRoundGraph() {
+            this.EnableInfoStrip(false);
+            this.EnableMainMenu(false);
+            
             using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
                        StatsForm = this,
                        Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName()} ({this.GetCurrentFilterName()})",
@@ -3717,13 +3724,11 @@ namespace FallGuysStats {
                 roundStatsDisplay.roundDurationData = roundDurationData;
                 roundStatsDisplay.roundScoreData = roundScoreData;
                 roundStatsDisplay.roundGraphData = roundGraphData;
-
-                this.EnableInfoStrip(false);
-                this.EnableMainMenu(false);
+                
                 roundStatsDisplay.ShowDialog(this);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
             }
+            this.EnableInfoStrip(true);
+            this.EnableMainMenu(true);
         }
         private void LaunchHelpInBrowser() {
             try {
@@ -3875,6 +3880,7 @@ namespace FallGuysStats {
         }
         private void EnableInfoStrip(bool enable) {
             this.infoStrip.Enabled = enable;
+            this.infoStrip2.Enabled = enable;
             this.lblTotalTime.Enabled = enable;
             if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
             foreach (var tsi in this.infoStrip.Items) {
