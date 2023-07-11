@@ -312,21 +312,21 @@ namespace FallGuysStats {
         private void RenameComboboxChanged(object sender, EventArgs e) {
             this.RenamePageTextbox.Text = this.RenamePageCombobox.SelectedItem.ToString();
         }
-
-        /*private void ApplyChangeButton_Click(object sender, EventArgs e) {
-            this.DialogResult = DialogResult.OK;
-            this.Close();
-        }*/
-        
-        /*private void UndoChangeButton_Click(object sender, EventArgs e) {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
-        }*/
         
         private void EditProfile_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Escape) {
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
+            }
+        }
+        
+        private void ProfileList_SelectionChanged(object sender, EventArgs e) {
+            if (((DataGridView)sender).SelectedRows.Count <= 0) {
+                this.ProfileListUp.Enabled = false;
+                this.ProfileListDown.Enabled = false;
+            } else {
+                this.ProfileListUp.Enabled = true;
+                this.ProfileListDown.Enabled = true;
             }
         }
 

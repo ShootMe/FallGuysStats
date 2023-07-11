@@ -74,23 +74,24 @@ namespace FallGuysStats {
             this.ProfileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ProfileList.ColumnHeadersVisible = false;
             this.ProfileList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileList.Location = new System.Drawing.Point(7, 20);
+            this.ProfileList.Location = new System.Drawing.Point(4, 19);
             this.ProfileList.MultiSelect = false;
             this.ProfileList.Name = "ProfileList";
             this.ProfileList.RowHeadersVisible = false;
             this.ProfileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ProfileList.Size = new System.Drawing.Size(365, 248);
+            this.ProfileList.Size = new System.Drawing.Size(367, 271);
             this.ProfileList.TabIndex = 0;
             this.ProfileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProfileList_CellClick);
             this.ProfileList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
             this.ProfileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ProfileList_EditingControlShowing);
+            this.ProfileList.SelectionChanged += new System.EventHandler(this.ProfileList_SelectionChanged);
             // 
             // ProfileListUp
             // 
             this.ProfileListUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListUp.Location = new System.Drawing.Point(375, 21);
+            this.ProfileListUp.Location = new System.Drawing.Point(375, 20);
             this.ProfileListUp.Name = "ProfileListUp";
-            this.ProfileListUp.Size = new System.Drawing.Size(20, 120);
+            this.ProfileListUp.Size = new System.Drawing.Size(20, 133);
             this.ProfileListUp.TabIndex = 3;
             this.ProfileListUp.Text = "∧";
             this.ProfileListUp.UseSelectable = true;
@@ -99,9 +100,9 @@ namespace FallGuysStats {
             // ProfileListDown
             // 
             this.ProfileListDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListDown.Location = new System.Drawing.Point(375, 147);
+            this.ProfileListDown.Location = new System.Drawing.Point(375, 157);
             this.ProfileListDown.Name = "ProfileListDown";
-            this.ProfileListDown.Size = new System.Drawing.Size(20, 120);
+            this.ProfileListDown.Size = new System.Drawing.Size(20, 133);
             this.ProfileListDown.TabIndex = 4;
             this.ProfileListDown.Text = "∨";
             this.ProfileListDown.UseSelectable = true;
@@ -114,7 +115,7 @@ namespace FallGuysStats {
             this.groupBox1.Controls.Add(this.ProfileListDown);
             this.groupBox1.Location = new System.Drawing.Point(9, 238);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(400, 275);
+            this.groupBox1.Size = new System.Drawing.Size(400, 295);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Profile List";
@@ -163,9 +164,6 @@ namespace FallGuysStats {
             this.AddPageButton.Click += new System.EventHandler(this.AddPageButton_Click);
             // 
             // AddPageTextbox
-            // 
-            // 
-            // 
             // 
             this.AddPageTextbox.CustomButton.Image = null;
             this.AddPageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
@@ -235,9 +233,6 @@ namespace FallGuysStats {
             this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
             // 
             // RenamePageTextbox
-            // 
-            // 
-            // 
             // 
             this.RenamePageTextbox.CustomButton.Image = null;
             this.RenamePageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
@@ -421,7 +416,7 @@ namespace FallGuysStats {
             // EditProfiles
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(419, 520);
+            this.ClientSize = new System.Drawing.Size(419, 542);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.Color.Black;
@@ -453,7 +448,6 @@ namespace FallGuysStats {
         }
 
         #endregion
-        //private System.Windows.Forms.ListBox ProfileList;
         private System.Windows.Forms.DataGridView ProfileList;
         private MetroFramework.Controls.MetroButton ProfileListUp;
         private MetroFramework.Controls.MetroButton ProfileListDown;
@@ -473,11 +467,8 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroButton RemovePageButton;
         private MetroFramework.Controls.MetroComboBox RemoveProfileCombobox;
         private MetroFramework.Controls.MetroLabel RemovePageLabel1;
-        //private MetroFramework.Controls.MetroLabel RemovePageLabel2;
         private MetroFramework.Controls.MetroTabPage RenameTabPage;
         private MetroFramework.Controls.MetroButton RenameButton;
-        //private MetroFramework.Controls.MetroButton ApplyChangeButton;
-        //private MetroFramework.Controls.MetroButton UndoChangeButton;
         private MetroFramework.Controls.MetroTextBox RenamePageTextbox;
         private MetroFramework.Controls.MetroLabel RenamePageLabel2;
         private MetroFramework.Controls.MetroComboBox RenamePageCombobox;
