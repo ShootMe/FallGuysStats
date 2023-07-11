@@ -146,7 +146,7 @@ namespace FallGuysStats {
             
             this.gridDetails.CurrentCell = null;
             this.gridDetails.ClearSelection();
-            this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 86);
+            this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 226);
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 20, 0, 0);
             if (this.LevelName == "Shows") {

@@ -3366,8 +3366,6 @@ namespace FallGuysStats {
             this.gridDetails.Invalidate();
         }
         private void ShowShows() {
-            this.EnableInfoStrip(false);
-            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3431,12 +3429,8 @@ namespace FallGuysStats {
                 
                 levelDetails.ShowDialog(this);
             }
-            this.EnableInfoStrip(true);
-            this.EnableMainMenu(true);
         }
         private void ShowRounds() {
-            this.EnableInfoStrip(false);
-            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3449,12 +3443,8 @@ namespace FallGuysStats {
                 
                 levelDetails.ShowDialog(this);
             }
-            this.EnableInfoStrip(true);
-            this.EnableMainMenu(true);
         }
         private void ShowFinals() {
-            this.EnableInfoStrip(false);
-            this.EnableMainMenu(false);
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
                 List<RoundInfo> rounds = new List<RoundInfo>();
@@ -3479,13 +3469,8 @@ namespace FallGuysStats {
                 
                 levelDetails.ShowDialog(this);
             }
-            this.EnableInfoStrip(true);
-            this.EnableMainMenu(true);
         }
         private void ShowWinGraph() {
-            this.EnableInfoStrip(false);
-            this.EnableMainMenu(false);
-            
             List<RoundInfo> rounds = new List<RoundInfo>();
             for (int i = 0; i < this.StatDetails.Count; i++) {
                 rounds.AddRange(this.StatDetails[i].Stats);
@@ -3579,13 +3564,8 @@ namespace FallGuysStats {
                 
                 display.ShowDialog(this);
             }
-            this.EnableInfoStrip(true);
-            this.EnableMainMenu(true);
         }
         private void ShowRoundGraph() {
-            this.EnableInfoStrip(false);
-            this.EnableMainMenu(false);
-            
             using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
                        StatsForm = this,
                        Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName()} ({this.GetCurrentFilterName()})",
@@ -3727,8 +3707,6 @@ namespace FallGuysStats {
                 
                 roundStatsDisplay.ShowDialog(this);
             }
-            this.EnableInfoStrip(true);
-            this.EnableMainMenu(true);
         }
         private void LaunchHelpInBrowser() {
             try {
@@ -3960,40 +3938,70 @@ namespace FallGuysStats {
         }
         private void lblTotalTime_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
                 this.ShowRoundGraph();
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lblTotalFinals_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
                 this.ShowFinals();
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lblTotalShows_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
                 this.ShowShows();
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lblTotalRounds_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
                 this.ShowRounds();
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void lblTotalWins_Click(object sender, EventArgs e) {
             try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
                 this.ShowWinGraph();
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
             } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -4001,7 +4009,6 @@ namespace FallGuysStats {
         public void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
-
                 if (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats) {
                     if (this.isStartingUp) {
                         this.updateFilterRange = true;
