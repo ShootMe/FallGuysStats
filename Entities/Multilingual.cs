@@ -146,7 +146,7 @@ namespace FallGuysStats {
                             {"level_played_prefix", "Played for"},
                             {"level_played_suffix", ""},
 
-                            {"profile_change_tooltiptext", "Click to change your current profile."},
+                            {"profile_change_tooltiptext", "Change the current profile with a left or right click."},
                             {"shows_detail_tooltiptext", "Click to view shows stats."},
                             {"rounds_detail_tooltiptext", "Click to view rounds stats."},
                             {"wins_detail_tooltiptext", "Click to view wins stats."},
@@ -540,7 +540,7 @@ namespace FallGuysStats {
                             {"level_played_prefix", "Joué pendant"},
                             {"level_played_suffix", ""},
 
-                            {"profile_change_tooltiptext", "Cliquer pour changer de profil"},
+                            {"profile_change_tooltiptext", "Changer le profil actuel avec un clic gauche ou droit"},
                             {"shows_detail_tooltiptext", "Cliquer pour voir les stats des émissions"},
                             {"rounds_detail_tooltiptext", "Cliquer pour voir les stats des manches"},
                             {"wins_detail_tooltiptext", "Cliquer pour voir les stats des victoires"},
@@ -934,7 +934,7 @@ namespace FallGuysStats {
                             {"level_played_prefix", ""},
                             {"level_played_suffix", "플레이함"},
 
-                            {"profile_change_tooltiptext", "현재 프로필을 변경하려면 클릭하세요."},
+                            {"profile_change_tooltiptext", "오른쪽 클릭 또는 왼쪽 클릭으로 현재 프로필을 변경하세요."},
                             {"shows_detail_tooltiptext", "쇼 통계를 보려면 클릭하세요."},
                             {"rounds_detail_tooltiptext", "라운드 통계를 보려면 클릭하세요."},
                             {"wins_detail_tooltiptext", "우승 통계를 보려면 클릭하세요."},
@@ -1327,7 +1327,7 @@ namespace FallGuysStats {
                             {"level_played_prefix", ""},
                             {"level_played_suffix", "プレイする。"},
 
-                            {"profile_change_tooltiptext", "クリックして現在のプロファイルを変更"},
+                            {"profile_change_tooltiptext", "右クリックまたは左クリックで現在のプロフィールを変更します"},
                             {"shows_detail_tooltiptext", "クリックして全てのショーの記録を見る"},
                             {"rounds_detail_tooltiptext", "クリックして全てのラウンドの記録を見る"},
                             {"wins_detail_tooltiptext", "クリックして勝利の記録を見る"},
@@ -1721,7 +1721,7 @@ namespace FallGuysStats {
                             {"level_played_prefix", "播放了"},
                             {"level_played_suffix", ""},
 
-                            {"profile_change_tooltiptext", "点击更换当前的个人资料。"},
+                            {"profile_change_tooltiptext", "通过左键或右键单击更改当前配置文件。"},
                             {"shows_detail_tooltiptext", "点击查看每场统计信息。"},
                             {"rounds_detail_tooltiptext", "点击查看每轮统计信息。"},
                             {"wins_detail_tooltiptext", "点击查看获胜统计信息。"},
