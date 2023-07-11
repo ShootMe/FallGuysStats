@@ -77,7 +77,7 @@
             this.grpTemplates.Controls.Add(this.lbTemplatesList);
             this.grpTemplates.Location = new System.Drawing.Point(25, 130);
             this.grpTemplates.Name = "grpTemplates";
-            this.grpTemplates.Size = new System.Drawing.Size(514, 227);
+            this.grpTemplates.Size = new System.Drawing.Size(514, 222);
             this.grpTemplates.TabIndex = 5;
             this.grpTemplates.TabStop = false;
             this.grpTemplates.Text = "Templates List";
@@ -87,18 +87,18 @@
             this.lbTemplatesList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbTemplatesList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbTemplatesList.ItemHeight = 12;
-            this.lbTemplatesList.Location = new System.Drawing.Point(7, 17);
+            this.lbTemplatesList.Location = new System.Drawing.Point(3, 16);
             this.lbTemplatesList.Name = "lbTemplatesList";
-            this.lbTemplatesList.Size = new System.Drawing.Size(501, 218);
+            this.lbTemplatesList.Size = new System.Drawing.Size(508, 221);
             this.lbTemplatesList.TabIndex = 3;
             this.lbTemplatesList.SelectedValueChanged += new System.EventHandler(this.lbTemplatesList_SelectedValueChanged);
             // 
             // btnFilter
             // 
             this.btnFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFilter.Location = new System.Drawing.Point(464, 367);
+            this.btnFilter.Location = new System.Drawing.Point(464, 361);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(75, 23);
+            this.btnFilter.Size = new System.Drawing.Size(75, 24);
             this.btnFilter.TabIndex = 6;
             this.btnFilter.Text = "Filter";
             this.btnFilter.UseSelectable = true;
@@ -115,9 +115,6 @@
             this.btnSaveTemplate.Visible = false;
             // 
             // txtTemplateName
-            // 
-            // 
-            // 
             // 
             this.txtTemplateName.CustomButton.Image = null;
             this.txtTemplateName.CustomButton.Location = new System.Drawing.Point(138, 1);
@@ -182,7 +179,7 @@
             // FilterCustomRange
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(565, 402);
+            this.ClientSize = new System.Drawing.Size(565, 396);
             this.Controls.Add(this.picStartDate);
             this.Controls.Add(this.picEndDate);
             this.Controls.Add(this.lblTemplateName);
