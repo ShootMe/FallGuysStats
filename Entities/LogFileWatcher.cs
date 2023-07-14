@@ -520,7 +520,7 @@ namespace FallGuysStats {
             Stats.LastCountryFullName = string.Empty;
             Stats.IsPrePlaying = false;
             Stats.IsPlaying = false;
-            Stats.PingSwitcher = 8;
+            Stats.PingSwitcher = 10;
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
@@ -551,7 +551,7 @@ namespace FallGuysStats {
                     lock (this.pingCheckLock) {
                         string host = line.Line.Substring(line.Line.IndexOf("Host = ") + 7);
                         string ip = host.Substring(0, host.IndexOf(":"));
-                        if (Stats.PingSwitcher++ % 8 == 0) {
+                        if (Stats.PingSwitcher++ % 10 == 0) {
                             Stats.PingSwitcher = 1;
                             byte[] bufferArray = new byte[32];
                             int timeout = 1000;
