@@ -576,18 +576,18 @@ namespace FallGuysStats {
                                             string[] countryArr = this.StatsForm.GetCountryCode(ip);
                                             Stats.LastCountryCode = countryArr[0].ToLower();
                                             Stats.LastCountryFullName = string.IsNullOrEmpty(Multilingual.GetCountryName(countryArr[0])) ? countryArr[1] : Multilingual.GetCountryName(countryArr[0]);
+                                            
+                                            if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                                                this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                    System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                            }
                                         } catch {
                                             this.toggleRequestIp2cApi = false;
                                             Stats.LastCountryCode = string.Empty;
                                             Stats.LastCountryFullName = string.Empty;
                                         }
                                     });
-                                    
-                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
-                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
-                                    }
                                 }
                             } catch {
                                 //logRound.LastPing = 0;
