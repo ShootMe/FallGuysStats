@@ -556,28 +556,32 @@ namespace FallGuysStats {
                             byte[] bufferArray = new byte[32];
                             int timeout = 1000;
                             try {
-                                this.pingReply = pingSender.Send(ip, timeout, bufferArray);
-                                if (this.pingReply.Status == IPStatus.Success) {
-                                    //logRound.LastPing = this.reply.RoundtripTime;
-                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
-                                    Stats.IsBadPing = false;
-                                } else {
-                                    //logRound.LastPing = 0;
-                                    Stats.LastServerPing = this.pingReply.RoundtripTime;
-                                    Stats.IsBadPing = true;
-                                }
-                                
-                                if (!this.toggleRequestIp2cApi) {
-                                    try {
-                                        this.toggleRequestIp2cApi = true;
-                                        string[] countryArr = this.StatsForm.GetCountryCode(ip);
-                                        Stats.LastCountryCode = countryArr[0].ToLower();
-                                        Stats.LastCountryFullName = string.IsNullOrEmpty(Multilingual.GetCountryName(countryArr[0])) ? countryArr[1] : Multilingual.GetCountryName(countryArr[0]);
-                                    } catch {
-                                        this.toggleRequestIp2cApi = false;
-                                        Stats.LastCountryCode = string.Empty;
-                                        Stats.LastCountryFullName = string.Empty;
+                                Task.Run(() => {
+                                    this.pingReply = pingSender.Send(ip, timeout, bufferArray);
+                                    if (this.pingReply.Status == IPStatus.Success) {
+                                        //logRound.LastPing = this.reply.RoundtripTime;
+                                        Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                        Stats.IsBadPing = false;
+                                    } else {
+                                        //logRound.LastPing = 0;
+                                        Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                        Stats.IsBadPing = true;
                                     }
+                                });
+
+                                if (!this.toggleRequestIp2cApi) {
+                                    this.toggleRequestIp2cApi = true;
+                                    Task.Run(() => {
+                                        try {
+                                            string[] countryArr = this.StatsForm.GetCountryCode(ip);
+                                            Stats.LastCountryCode = countryArr[0].ToLower();
+                                            Stats.LastCountryFullName = string.IsNullOrEmpty(Multilingual.GetCountryName(countryArr[0])) ? countryArr[1] : Multilingual.GetCountryName(countryArr[0]);
+                                        } catch {
+                                            this.toggleRequestIp2cApi = false;
+                                            Stats.LastCountryCode = string.Empty;
+                                            Stats.LastCountryFullName = string.Empty;
+                                        }
+                                    });
                                     
                                     if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                                         this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
