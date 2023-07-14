@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
@@ -2342,7 +2343,7 @@ namespace FallGuysStats {
                                 //Must not be a private lobby
                                 //Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
-                                    FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
+                                    Task.Run(() => { FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey); });
                                 }
                             } else {
                                 continue;
