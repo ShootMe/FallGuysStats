@@ -62,7 +62,7 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 >ファイルのダウンロード中にWebブラウザがマルウェアと疑われてダウンロードを中止する場合は、下のスクリーンショットをご覧ください。
 FallGuysStatsはオープンソースなので、誰でもコードを見ることができます。 だから安心してダウンロードしてください。
 
-![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/download.png)
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ja/download.png)
 
 ### 初めて実行
 
