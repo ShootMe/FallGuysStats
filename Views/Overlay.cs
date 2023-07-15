@@ -837,7 +837,7 @@ namespace FallGuysStats {
                         } else {
                             if (levelType == LevelType.Survival) {
                                 this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{this.lastRound.Position}{Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
-                            } else if (levelType == LevelType.Logic) {
+                            } else if (levelType == LevelType.Logic || levelType == LevelType.Hunt || levelType == LevelType.Team || levelType == LevelType.Invisibeans) {
                                 this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                             } else {
                                 this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
