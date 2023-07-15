@@ -64,7 +64,7 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 >If, while downloading a file, your web browser suspects it to be malware and stops the download, refer to the screenshot below.
 FallGuysStats is open source, meaning anyone can view the code, so download it with confidence.
 
-![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/download.png)
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/download.png)
 
 ### First Run
 
