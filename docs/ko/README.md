@@ -66,6 +66,8 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ko/download.png)
 
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ko/download2.png)
+
 ### 처음 실행
 
 - 프로그램을 처음 실행할 때는 아래 스크린샷을 참조하세요.

@@ -66,6 +66,8 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/download.png)
 
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/download2.png)
+
 ### First Run
 
   - When running the program for the first time, refer to the screenshot below.
