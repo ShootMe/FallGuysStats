@@ -312,6 +312,11 @@ namespace FallGuysStats {
             this.StatsDB.Commit();
             
             this.InitializeComponent();
+            
+#if !AllowUpdate
+            this.menu.Items.Remove(this.menuUpdate);
+            this.trayCMenu.Items.Remove(this.trayUpdate);
+#endif
 
             this.ShowInTaskbar = false;
             this.Opacity = 0;
@@ -326,7 +331,6 @@ namespace FallGuysStats {
 
             if (this.Profiles.Count() == 0) {
                 using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
-                    //initLanguageForm.Icon = this.Icon;
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
@@ -2572,10 +2576,8 @@ namespace FallGuysStats {
             }
         }
         private void SetProfileMenu(int profile) {
-            //Profiles cp = this.AllProfiles.Find(p => p.ProfileId == profile);
             ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
             if (tsmi.Checked) return;
-            //this.SetCurrentProfileIcon(!string.IsNullOrEmpty(cp.LinkedShowId));
             this.menuStats_Click(tsmi, EventArgs.Empty);
         }
         private void SetCurrentProfileIcon(bool linked) {
