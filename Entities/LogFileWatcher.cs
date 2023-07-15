@@ -534,13 +534,7 @@ namespace FallGuysStats {
                     this.useShareCode = false;
                 }
                 Stats.IsPrePlaying = true;
-            }
-            //else if (Stats.InShow && logRound.Info == null && 
-            //          (index = line.Line.IndexOf("[FraggleSceneLoader] Loading level using share code.", StringComparison.OrdinalIgnoreCase)) > 0)
-            //{
-            //    this.isCreativeCustom = this.selectedShowId.StartsWith("ugc-");
-            //}
-            else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) > 0) {
+            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) > 0) {
                 //Store SessionID to prevent duplicates
                 this.sessionId = line.Line.Substring(index + 33);
             } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
@@ -559,11 +553,9 @@ namespace FallGuysStats {
                                 Task.Run(() => {
                                     this.pingReply = pingSender.Send(ip, timeout, bufferArray);
                                     if (this.pingReply.Status == IPStatus.Success) {
-                                        //logRound.LastPing = this.reply.RoundtripTime;
                                         Stats.LastServerPing = this.pingReply.RoundtripTime;
                                         Stats.IsBadPing = false;
                                     } else {
-                                        //logRound.LastPing = 0;
                                         Stats.LastServerPing = this.pingReply.RoundtripTime;
                                         Stats.IsBadPing = true;
                                     }
@@ -590,7 +582,6 @@ namespace FallGuysStats {
                                     });
                                 }
                             } catch {
-                                //logRound.LastPing = 0;
                                 Stats.LastServerPing = 0;
                                 Stats.IsBadPing = true;
                             }
@@ -625,7 +616,6 @@ namespace FallGuysStats {
                                     this.creativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                                     this.creativePlayCount = resData.GetProperty("play_count").GetInt32();
                                     this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                    //this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                     this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                 } catch {
                                     this.toggleFgdbCreativeApi = false;
