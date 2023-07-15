@@ -64,6 +64,8 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ja/download.png)
 
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ja/download2.png)
+
 ### 初めて実行
 
 - プログラムを初めて実行するときは、以下のスクリーンショットを参照してください。
