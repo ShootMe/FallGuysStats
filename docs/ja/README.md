@@ -19,6 +19,8 @@
   <br>
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">English</a>
   |
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">Français</a>
+  |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md">한국어</a>
   |
   <b>日本語</b>
@@ -133,22 +135,25 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 
 
 ### オーバーレイの画像を変更する方法
-  - **Step 1.** 必要に応じてOverlayフォルダの`background.png`と`tab.png`を編集します。
+  - **Step 1.** オーバーレイのオリジナル画像を[ダウンロード](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip)してください。
 
 
-  - **Step 2.** 編集した画像ファイルを次のように名前を変更します。
+  - **Step 2.** `background.png`と`tab.png`ファイルを[ここで](https://www.photopea.com/)好きなように編集します。
+
+
+  - **Step 3.** 編集した画像ファイルを次のように名前を変更します。
     - `{画像名}`はどちらとも同じ名前である必要があります。
       - background_**{画像名}**.png
       - tab_**{画像名}**.png
 
 
-  - **Step 3.** Overlayフォルダに画像ファイルを移動します。
+  - **Step 4.** Overlayフォルダに画像ファイルを移動します。
 
 
-  - **Step 4.** 追加した画像が、設定のオーバーレイ項目の背景画像の最初に表示されます。
+  - **Step 5.** 追加した画像が、設定のオーバーレイ項目の背景画像の最初に表示されます。
 
 
-  - **Step 5.** 追加した画像を選択し保存します。
+  - **Step 6.** 追加した画像を選択し保存します。
 
 ## プロファイル
 

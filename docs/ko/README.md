@@ -19,6 +19,8 @@
   <br>
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">English</a>
   |
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">Français</a>
+  |
   <b>한국어</b>
   |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">日本語</a>
@@ -135,22 +137,25 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
 
 
 ### 사용자 지정 배경 이미지로 변경하는 방법
-  - **1단계.** 폴 가이즈 스탯츠 폴더의 Overlay 폴더 안에 있는 `background.png`와 `tab.png`를 원하는 대로 편집합니다.
+  - **1단계.** 오버레이의 원본 이미지를 [다운로드](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip) 받습니다.
 
 
-  - **2단계.** 편집한 2개의 이미지 이름을 아래와 같이 변경합니다.
+  - **2단계.** `background.png`와 `tab.png` 파일을 [이곳](https://www.photopea.com/)에서 원하는 대로 편집합니다.
+
+
+  - **3단계.** 편집한 2개의 이미지 이름을 아래와 같이 변경합니다.
     - `{my_image_name}`은 두 파일 모두 동일해야 합니다.
       - background_**{my_image_name}**.png
       - tab_**{my_image_name}**.png
 
 
-  - **3단계.** 이미지를 폴 가이즈 스탯츠 폴더의 Overlay 폴더 안에 넣습니다.
+  - **4단계.** 이미지를 폴 가이즈 스탯츠 폴더의 Overlay 폴더 안에 넣습니다.
 
 
-  - **4단계.** 추가한 배경 이미지가 `설정 - 통계표시 설정 - 통계창 배경 이미지`에 가장 먼저 표시되는 것을 볼 수 있습니다.
+  - **5단계.** 추가한 배경 이미지가 `설정 - 통계표시 설정 - 통계창 배경 이미지`에 가장 먼저 표시되는 것을 볼 수 있습니다.
 
 
-  - **Step 5.** 추가된 이미지를 선택하고 저장합니다.
+  - **6단계.** 추가된 이미지를 선택하고 저장합니다.
 
 ## 프로필
 

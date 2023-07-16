@@ -19,6 +19,8 @@
   <br>
   <b>English</b>
   |
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">Français</a>
+  |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md">한국어</a>
   |
   <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">日本語</a>
@@ -135,22 +137,25 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 
 
 ### How to Overlay Background Image Customized
-  - **Step 1.** Edit the `background.png` and `tab.png` in the Overlay folder of the FallGuysStats folder as desired.
+  - **Setp 1.** [Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip) the original image of the overlay.
 
 
-  - **Step 2.** Rename the edited image as below.
+  - **Step 2.** Edit the `background.png` and `tab.png` files [here](https://www.photopea.com/) to your liking.
+
+
+  - **Step 3.** Rename the edited image as below.
     - `{my_image_name}` must be the same for both files.
-      - background_**{my_image_name}**.png
-      - tab_**{my_image_name}**.png
+        - background_**{my_image_name}**.png
+        - tab_**{my_image_name}**.png
 
 
-  - **Step 3.** Place the image inside the Overlay folder in the FallGuysStats folder.
+  - **Step 4.** Place the image inside the Overlay folder in the FallGuysStats folder.
 
 
-  - **Step 4.** You can see that the background image you added appears first in the Background Image of the Overlay item in Settings.
+  - **Step 5.** You can see that the background image you added appears first in the Background Image of the Overlay item in Settings.
 
 
-  - **Step 5.** Select and save the added image.
+  - **Step 6.** Select and save the added image.
 
 ## Profile
 
