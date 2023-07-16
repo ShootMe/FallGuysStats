@@ -130,7 +130,7 @@ namespace FallGuysStats {
             this.tabControl1.Location = new System.Drawing.Point(9, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(311, 165);
+            this.tabControl1.Size = new System.Drawing.Size(350, 165);
             this.tabControl1.TabIndex = 6;
             this.tabControl1.UseSelectable = true;
             // 
