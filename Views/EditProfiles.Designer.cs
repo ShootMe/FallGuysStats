@@ -79,7 +79,7 @@ namespace FallGuysStats {
             this.ProfileList.Name = "ProfileList";
             this.ProfileList.RowHeadersVisible = false;
             this.ProfileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ProfileList.Size = new System.Drawing.Size(367, 271);
+            this.ProfileList.Size = new System.Drawing.Size(498, 325);
             this.ProfileList.TabIndex = 0;
             this.ProfileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProfileList_CellClick);
             this.ProfileList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
@@ -89,9 +89,9 @@ namespace FallGuysStats {
             // ProfileListUp
             // 
             this.ProfileListUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListUp.Location = new System.Drawing.Point(375, 20);
+            this.ProfileListUp.Location = new System.Drawing.Point(506, 20);
             this.ProfileListUp.Name = "ProfileListUp";
-            this.ProfileListUp.Size = new System.Drawing.Size(20, 133);
+            this.ProfileListUp.Size = new System.Drawing.Size(20, 160);
             this.ProfileListUp.TabIndex = 3;
             this.ProfileListUp.Text = "∧";
             this.ProfileListUp.UseSelectable = true;
@@ -100,9 +100,9 @@ namespace FallGuysStats {
             // ProfileListDown
             // 
             this.ProfileListDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListDown.Location = new System.Drawing.Point(375, 157);
+            this.ProfileListDown.Location = new System.Drawing.Point(506, 184);
             this.ProfileListDown.Name = "ProfileListDown";
-            this.ProfileListDown.Size = new System.Drawing.Size(20, 133);
+            this.ProfileListDown.Size = new System.Drawing.Size(20, 160);
             this.ProfileListDown.TabIndex = 4;
             this.ProfileListDown.Text = "∨";
             this.ProfileListDown.UseSelectable = true;
@@ -115,7 +115,7 @@ namespace FallGuysStats {
             this.groupBox1.Controls.Add(this.ProfileListDown);
             this.groupBox1.Location = new System.Drawing.Point(9, 238);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(400, 295);
+            this.groupBox1.Size = new System.Drawing.Size(531, 349);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Profile List";
@@ -130,7 +130,7 @@ namespace FallGuysStats {
             this.tabControl1.Location = new System.Drawing.Point(9, 65);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(382, 165);
+            this.tabControl1.Size = new System.Drawing.Size(311, 165);
             this.tabControl1.TabIndex = 6;
             this.tabControl1.UseSelectable = true;
             // 
@@ -145,7 +145,7 @@ namespace FallGuysStats {
             this.AddTabPage.Location = new System.Drawing.Point(4, 38);
             this.AddTabPage.Name = "AddTabPage";
             this.AddTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.AddTabPage.Size = new System.Drawing.Size(374, 123);
+            this.AddTabPage.Size = new System.Drawing.Size(303, 123);
             this.AddTabPage.TabIndex = 0;
             this.AddTabPage.Text = "Add";
             this.AddTabPage.VerticalScrollbarBarColor = true;
@@ -164,6 +164,9 @@ namespace FallGuysStats {
             this.AddPageButton.Click += new System.EventHandler(this.AddPageButton_Click);
             // 
             // AddPageTextbox
+            // 
+            // 
+            // 
             // 
             this.AddPageTextbox.CustomButton.Image = null;
             this.AddPageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
@@ -214,7 +217,7 @@ namespace FallGuysStats {
             this.RenameTabPage.Location = new System.Drawing.Point(4, 38);
             this.RenameTabPage.Name = "RenameTabPage";
             this.RenameTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.RenameTabPage.Size = new System.Drawing.Size(374, 123);
+            this.RenameTabPage.Size = new System.Drawing.Size(344, 123);
             this.RenameTabPage.TabIndex = 3;
             this.RenameTabPage.Text = "Rename";
             this.RenameTabPage.VerticalScrollbarBarColor = true;
@@ -233,6 +236,9 @@ namespace FallGuysStats {
             this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
             // 
             // RenamePageTextbox
+            // 
+            // 
+            // 
             // 
             this.RenamePageTextbox.CustomButton.Image = null;
             this.RenamePageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
@@ -305,7 +311,7 @@ namespace FallGuysStats {
             this.MoveTabPage.Location = new System.Drawing.Point(4, 38);
             this.MoveTabPage.Name = "MoveTabPage";
             this.MoveTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.MoveTabPage.Size = new System.Drawing.Size(374, 123);
+            this.MoveTabPage.Size = new System.Drawing.Size(344, 123);
             this.MoveTabPage.TabIndex = 1;
             this.MoveTabPage.Text = "Move";
             this.MoveTabPage.VerticalScrollbarBarColor = true;
@@ -375,7 +381,7 @@ namespace FallGuysStats {
             this.RemoveTabPage.HorizontalScrollbarSize = 10;
             this.RemoveTabPage.Location = new System.Drawing.Point(4, 38);
             this.RemoveTabPage.Name = "RemoveTabPage";
-            this.RemoveTabPage.Size = new System.Drawing.Size(374, 123);
+            this.RemoveTabPage.Size = new System.Drawing.Size(344, 123);
             this.RemoveTabPage.TabIndex = 2;
             this.RemoveTabPage.Text = "Remove";
             this.RemoveTabPage.VerticalScrollbarBarColor = true;
@@ -416,7 +422,7 @@ namespace FallGuysStats {
             // EditProfiles
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(419, 542);
+            this.ClientSize = new System.Drawing.Size(548, 596);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox1);
             this.ForeColor = System.Drawing.Color.Black;
