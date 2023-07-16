@@ -17,13 +17,13 @@
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
   </a>
   <br>
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">English</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">🇺🇸 English</a>
   |
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">Français</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">🇫🇷 Français</a>
   |
-  <b>한국어</b>
+  <b>🇰🇷 한국어</b>
   |
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">日本語</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md">🇯🇵 日本語</a>
   <br>
   <b>이 애플리케이션은 미디어토닉과 관련이 없습니다.<br>FallGuys의 이미지는 Mediatonic Limited의 자산입니다.</b>
 </p>
