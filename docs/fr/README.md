@@ -66,15 +66,15 @@ Programme simple pour générer des statistiques pour le jeu Fall Guys. Lit le f
 >Si, lors du téléchargement d'un fichier, votre navigateur Web soupçonne qu'il s'agit d'un logiciel malveillant et arrête le téléchargement, reportez-vous à la capture d'écran ci-dessous.
 FallGuysStats est open source, ce qui signifie que tout le monde peut voir le code, alors téléchargez-le en toute confiance.
 
-![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/download.png)
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/fr/download.png)
 
-![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/download2.png)
+![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/fr/download2.png)
 
 ### Première exécution
 
   - Lorsque vous exécutez le programme pour la première fois, reportez-vous à la capture d'écran ci-dessous.
 
-![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/firstRun.png)
+![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/fr/firstRun.png)
 
 > **[Information]** **Les certificats pour les programmes Windows coûtent entre 200 $ et 400 $ par an.**
 
