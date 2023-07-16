@@ -280,7 +280,7 @@ namespace FallGuysStats {
             // 
             this.lblPlayers.ImageHeight = 22;
             this.lblPlayers.ImageWidth = 28;
-            this.lblPlayers.ImageX = 5;
+            this.lblPlayers.ImageX = 4;
             this.lblPlayers.ImageY = -1;
             this.lblPlayers.LevelColor = System.Drawing.Color.Empty;
             this.lblPlayers.Location = new System.Drawing.Point(557, 10);
@@ -301,7 +301,7 @@ namespace FallGuysStats {
             this.lblPlayersPc.ImageX = 0;
             this.lblPlayersPc.ImageY = 0;
             this.lblPlayersPc.LevelColor = System.Drawing.Color.Empty;
-            this.lblPlayersPc.Location = new System.Drawing.Point(723, 12);
+            this.lblPlayersPc.Location = new System.Drawing.Point(719, 12);
             this.lblPlayersPc.Name = "lblPlayersPc";
             this.lblPlayersPc.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersPc.TabIndex = 24;
@@ -317,7 +317,7 @@ namespace FallGuysStats {
             this.lblPlayersPs.ImageX = 0;
             this.lblPlayersPs.ImageY = 0;
             this.lblPlayersPs.LevelColor = System.Drawing.Color.Empty;
-            this.lblPlayersPs.Location = new System.Drawing.Point(609, 12);
+            this.lblPlayersPs.Location = new System.Drawing.Point(605, 12);
             this.lblPlayersPs.Name = "lblPlayersPs";
             this.lblPlayersPs.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersPs.TabIndex = 25;
@@ -333,7 +333,7 @@ namespace FallGuysStats {
             this.lblPlayersXbox.ImageX = 0;
             this.lblPlayersXbox.ImageY = 0;
             this.lblPlayersXbox.LevelColor = System.Drawing.Color.Empty;
-            this.lblPlayersXbox.Location = new System.Drawing.Point(647, 12);
+            this.lblPlayersXbox.Location = new System.Drawing.Point(643, 12);
             this.lblPlayersXbox.Name = "lblPlayersXbox";
             this.lblPlayersXbox.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersXbox.TabIndex = 26;
@@ -349,7 +349,7 @@ namespace FallGuysStats {
             this.lblPlayersSwitch.ImageX = 0;
             this.lblPlayersSwitch.ImageY = 0;
             this.lblPlayersSwitch.LevelColor = System.Drawing.Color.Empty;
-            this.lblPlayersSwitch.Location = new System.Drawing.Point(685, 12);
+            this.lblPlayersSwitch.Location = new System.Drawing.Point(681, 12);
             this.lblPlayersSwitch.Name = "lblPlayersSwitch";
             this.lblPlayersSwitch.Size = new System.Drawing.Size(26, 16);
             this.lblPlayersSwitch.TabIndex = 27;
