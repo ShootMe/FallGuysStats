@@ -17,11 +17,11 @@
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
   </a>
   <br>
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md">🇺🇸 English</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/README.md#table-of-contents">🇺🇸 English</a>
   |
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md">🇫🇷 Français</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md#table-des-matières">🇫🇷 Français</a>
   |
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md">🇰🇷 한국어</a>
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md#목차">🇰🇷 한국어</a>
   |
   <b>🇯🇵 日本語</b>
   <br>
