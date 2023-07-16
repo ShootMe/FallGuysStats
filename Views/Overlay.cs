@@ -207,7 +207,7 @@ namespace FallGuysStats {
             this.ForeColor = color;
         }
         public static void SetDefaultFont(int language, float emSize) {
-            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, FontStyle.Regular, GraphicsUnit.Pixel);
+            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static Font GetDefaultFont(int language, float emSize) {
             return new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
