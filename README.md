@@ -72,7 +72,7 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 
   - When running the program for the first time, refer to the screenshot below.
 
-![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
+![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/firstRun.png)
 
 > **[Information]** **Certificates for Windows programs cost between $200 and $400 per year.**
 
