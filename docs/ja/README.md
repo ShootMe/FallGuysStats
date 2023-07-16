@@ -70,7 +70,7 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 
 - プログラムを初めて実行するときは、以下のスクリーンショットを参照してください。
 
-![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/firstRun.png)
+![First Run](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ja/firstRun.png)
 
 > [情報] Windows プログラムの証明書の費用は年間 200 ドルから 400 ドルです。
 
