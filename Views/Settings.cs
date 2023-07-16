@@ -915,7 +915,7 @@ namespace FallGuysStats {
             this.fallalyticsLink.Text = Multilingual.GetWord("settings_visit_fallalytics");
             
             this.fglink1.Text = Multilingual.GetWord("settings_github");
-            this.fglink2.Text = Multilingual.GetWord("settings_issue_traker");
+            this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
 #if AllowUpdate
             this.lblVersion.Text = $"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";

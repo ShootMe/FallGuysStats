@@ -1409,7 +1409,7 @@ namespace FallGuysStats {
             this.fglink2.Name = "fglink2";
             this.fglink2.Size = new System.Drawing.Size(93, 22);
             this.fglink2.TabIndex = 7;
-            this.fglink2.Text = "Issue Tracker";
+            this.fglink2.Text = "Issue Tracker & Translation";
             this.fglink2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.fglink2.UseSelectable = true;
             this.fglink2.Click += new System.EventHandler(this.link_Click);
