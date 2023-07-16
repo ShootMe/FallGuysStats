@@ -198,7 +198,7 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 ![IMG2](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/en/epic_2.png)
 
 
-6. Open FallGuysStats (ver>=1.136)
+6. Open FallGuysStats (ver >= 1.136)
 
 
 7. Click `Settings`
