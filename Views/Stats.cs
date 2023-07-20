@@ -413,7 +413,6 @@ namespace FallGuysStats {
             this.UpdateGameExeLocation();
             this.ChangeLaunchPlatformImage(this.CurrentSettings.LaunchPlatform);
             
-            this.RemoveUpdateFiles();
             this.ReloadProfileMenuItems();
 
             this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
@@ -2111,11 +2110,6 @@ namespace FallGuysStats {
         }
         private void Stats_Load(object sender, EventArgs e) {
             try {
-// #if AllowUpdate
-//                 if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
-//                     return;
-//                 }
-// #endif
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
                     this.LaunchGame(true);
                 }
@@ -2129,6 +2123,14 @@ namespace FallGuysStats {
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
+#if AllowUpdate
+                if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
+                    this.Stats_ExitProgram(this, null);
+                    return;
+                }
+#endif
+                this.RemoveUpdateFiles();
+                
                 if (this.CurrentSettings.Visible) {
                     this.Show();
                     this.ShowInTaskbar = true;
@@ -2202,11 +2204,11 @@ namespace FallGuysStats {
 
                 this.isStartingUp = false;
                 
-#if AllowUpdate
-                if (this.CurrentSettings.AutoUpdate) {
-                    this.CheckForUpdate(true);
-                }
-#endif
+// #if AllowUpdate
+//                 if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
+//                     this.Stats_ExitProgram(this, null);
+//                 }
+// #endif
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -4404,7 +4406,7 @@ namespace FallGuysStats {
                             this.overlay?.Hide();
                             this.DownloadNewVersion(web);
                             this.isUpdate = true;
-                            this.Stats_ExitProgram(this, null);
+                            //this.Stats_ExitProgram(this, null);
                             return true;
                         }
                     } else if (!isSilent) {
