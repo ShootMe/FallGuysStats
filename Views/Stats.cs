@@ -2076,10 +2076,10 @@ namespace FallGuysStats {
             }
             
             if (this.WindowState != FormWindowState.Normal) {
-                this.CurrentSettings.FormLocationX = RestoreBounds.Location.X;
-                this.CurrentSettings.FormLocationY = RestoreBounds.Location.Y;
-                this.CurrentSettings.FormWidth = RestoreBounds.Size.Width;
-                this.CurrentSettings.FormHeight = RestoreBounds.Size.Height;
+                this.CurrentSettings.FormLocationX = this.RestoreBounds.Location.X;
+                this.CurrentSettings.FormLocationY = this.RestoreBounds.Location.Y;
+                this.CurrentSettings.FormWidth = this.RestoreBounds.Size.Width;
+                this.CurrentSettings.FormHeight = this.RestoreBounds.Size.Height;
                 this.CurrentSettings.MaximizedWindowState = this.WindowState == FormWindowState.Maximized;
             } else {
                 this.CurrentSettings.FormLocationX = this.Location.X;
@@ -2156,9 +2156,9 @@ namespace FallGuysStats {
                 }
                 this.logFile.Start(logPath, LOGNAME);
 
-                this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
+                this.overlay.ArrangeDisplay(overlay.IsFixed() ? this.CurrentSettings.FixedFlippedDisplay : this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                     this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                    this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
+                    this.CurrentSettings.OverlayColor, overlay.IsFixed() ? this.CurrentSettings.OverlayFixedWidth : this.CurrentSettings.OverlayWidth, overlay.IsFixed() ? this.CurrentSettings.OverlayFixedHeight : this.CurrentSettings.OverlayHeight,
                     this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
                 
