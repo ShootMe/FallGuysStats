@@ -311,6 +311,8 @@ namespace FallGuysStats {
             }
             this.StatsDB.Commit();
             
+            this.RemoveUpdateFiles();
+            
             this.InitializeComponent();
             
 #if !AllowUpdate
