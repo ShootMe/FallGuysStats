@@ -2679,7 +2679,7 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (info == endRound && (levelDetails.IsFinal || info.Crown)) {
+                    if (ReferenceEquals(info, endRound) && (info.IsFinal || info.Crown)) {
                         if (info.IsFinal) {
                             summary.CurrentFinalStreak++;
                             if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
@@ -2803,7 +2803,7 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (info == endRound && (levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby) {
+                    if (ReferenceEquals(info, endRound) && (levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby) {
                         if (info.IsFinal) {
                             summary.CurrentFinalStreak++;
                             if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
