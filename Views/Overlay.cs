@@ -752,7 +752,7 @@ namespace FallGuysStats {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
-                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(roundName, this.levelException, this.lastRound.UseShareCode);
+                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, this.levelException, this.lastRound.UseShareCode);
 
                     //if (this.lastRound.UseShareCode) {
                     //    roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
