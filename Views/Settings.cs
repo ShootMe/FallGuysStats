@@ -990,7 +990,7 @@ namespace FallGuysStats {
                             this.lblupdateNote.UseCustomForeColor = true;
                             this.btnCheckUpdates.Visible = true;
                         } else {
-                            this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang);
+                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang)}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}";
                         }
                     } else {
                         this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_not_determine_version", this.DisplayLang);
@@ -998,6 +998,8 @@ namespace FallGuysStats {
                         this.lblupdateNote.UseCustomForeColor = true;
                     }
                 }
+#else
+                 this.lblupdateNote.Text = $"{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}";
 #endif
             }
         }
@@ -1059,7 +1061,11 @@ namespace FallGuysStats {
                              this.StatsForm.Stats_ExitProgram(this, null);
                          }
                      } else {
-                         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_latest_version")}", $"{Multilingual.GetWord("message_update_question_caption")}",
+                         MetroMessageBox.Show(this,
+                             $"{Multilingual.GetWord("message_update_latest_version")}" +
+                             $"{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
+                             $"{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                             $"{Multilingual.GetWord("message_update_question_caption")}",
                              MessageBoxButtons.OK, MessageBoxIcon.Information);
                      }
                  } else {
