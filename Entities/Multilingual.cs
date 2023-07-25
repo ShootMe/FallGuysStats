@@ -2070,7 +2070,7 @@ namespace FallGuysStats {
                             {"round_thin_ice", "Thin Ice"},
                             {"round_tiptoefinale_almond", "Tip Toe Finale"},
                             
-                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
+                            {"user_creative_race_round", "User Creative Race Round"},
                             {"wle_s10_orig_round_001", "Beans Ahoy!"},
                             {"wle_s10_orig_round_002", "Airborne Antics"},
                             {"wle_s10_orig_round_003", "Scythes & Roundabouts"},
@@ -2294,7 +2294,7 @@ namespace FallGuysStats {
                             {"round_thin_ice", "Fonte des Glaces"},
                             {"round_tiptoefinale_almond", "Finale sur la Pointe des Pieds"},
                             
-                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
+                            {"user_creative_race_round", "User Creative Race Round"},
                             {"wle_s10_orig_round_001", "Beans Ahoy!"},
                             {"wle_s10_orig_round_002", "Airborne Antics"},
                             {"wle_s10_orig_round_003", "Scythes & Roundabouts"},
@@ -2518,7 +2518,7 @@ namespace FallGuysStats {
                             {"round_tiptoefinale_almond", "살금 살금 피날레"},
                             {"round_kraken_attack", "크라켄 슬램"},
                             
-                            {"wle_s10_user_creative_race_round", "사용자 폴크리 레이스 라운드"},
+                            {"user_creative_race_round", "사용자 폴크리 레이스 라운드"},
                             {"wle_s10_orig_round_001", "Beans Ahoy!"},
                             {"wle_s10_orig_round_002", "Airborne Antics"},
                             {"wle_s10_orig_round_003", "Scythes & Roundabouts"},
@@ -2742,7 +2742,7 @@ namespace FallGuysStats {
                             {"round_thin_ice", "パキパキアイス"},
                             {"round_tiptoefinale_almond", "ヒヤヒヤロードファイナル"},
                             
-                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
+                            {"user_creative_race_round", "User Creative Race Round"},
                             {"wle_s10_orig_round_001", "Beans Ahoy!"},
                             {"wle_s10_orig_round_002", "Airborne Antics"},
                             {"wle_s10_orig_round_003", "Scythes & Roundabouts"},
@@ -2966,7 +2966,7 @@ namespace FallGuysStats {
                             {"round_thin_ice", "如履薄冰"},
                             {"round_tiptoefinale_almond", "决胜之踮"},
                             
-                            {"wle_s10_user_creative_race_round", "User Creative Race Round"},
+                            {"user_creative_race_round", "User Creative Race Round"},
                             {"wle_s10_orig_round_001", "Beans Ahoy!"},
                             {"wle_s10_orig_round_002", "Airborne Antics"},
                             {"wle_s10_orig_round_003", "Scythes & Roundabouts"},

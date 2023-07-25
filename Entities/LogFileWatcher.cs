@@ -635,7 +635,7 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
                 if (logRound.Info.UseShareCode) {
                     //logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
-                    logRound.Info.Name = "wle_s10_user_creative_race_round";
+                    logRound.Info.Name = "user_creative_race_round";
                     logRound.Info.CreativeShareCode = this.creativeShareCode;
                     logRound.Info.CreativeOnlinePlatformId = this.creativeOnlinePlatformId;
                     logRound.Info.CreativeAuthor = this.creativeAuthor;
