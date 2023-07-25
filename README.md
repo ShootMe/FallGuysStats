@@ -16,6 +16,9 @@
   <a href="https://github.com/ShootMe/FallGuysStats/releases/latest">
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total">
   </a>
+  <a href="https://github.com/ShootMe/FallGuysStats">
+    <img alt="" src="https://img.shields.io/github/stars/shootme/fallguysstats">
+  </a>
   <br>
   <br>
   <b>🇺🇸 English</b>
