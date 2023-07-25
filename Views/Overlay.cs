@@ -988,8 +988,8 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
-                case Keys.D:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.Size = this.DefaultSize; }
+                case Keys.X:
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.ResetOverlaySize(); }
                     break;
                 case Keys.T: {
                         int colorOption = 0;
@@ -1097,6 +1097,9 @@ namespace FallGuysStats {
                         break;
                     }
             }
+        }
+        public void ResetOverlaySize() {
+            this.Size = this.DefaultSize;
         }
         public void ResetOverlayLocation(bool visible) {
             this.Location = this.StatsForm.screenCenter;

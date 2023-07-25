@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
@@ -447,39 +449,43 @@ namespace FallGuysStats {
         [DllImport("User32.dll")]
         static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
         private void cmtt_Draw(object sender, DrawToolTipEventArgs e) {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             // Draw the standard background.
             //e.DrawBackground();
             // Draw the custom background.
-            e.Graphics.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            g.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
             // Draw the custom border to appear 3-dimensional.
-            //e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
+            //g.DrawLines(SystemPens.ControlLightLight, new[] {
             //    new Point (0, e.Bounds.Height - 1), 
             //    new Point (0, 0), 
             //    new Point (e.Bounds.Width - 1, 0)
             //});
-            //e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
+            //g.DrawLines(SystemPens.ControlDarkDark, new[] {
             //    new Point (0, e.Bounds.Height - 1), 
             //    new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
             //    new Point (e.Bounds.Width - 1, 0)
             //});
             
             // Draw the standard text with customized formatting options.
-            e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+            //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
             // Draw the custom text.
             // The using block will dispose the StringFormat automatically.
-            //using (StringFormat sf = new StringFormat()) {
-            //    sf.Alignment = StringAlignment.Near;
-            //    sf.LineAlignment = StringAlignment.Near;
-            //    sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-            //    sf.FormatFlags = StringFormatFlags.NoWrap;
-            //    e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
-            //    //using (Font f = new Font("Tahoma", 9)) {
-            //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
-            //    //}
-            //}
+            using (StringFormat sf = new StringFormat()) {
+                //sf.Alignment = StringAlignment.Near;
+                //sf.LineAlignment = StringAlignment.Near;
+                //sf.HotkeyPrefix = HotkeyPrefix.None;
+                //sf.FormatFlags = StringFormatFlags.NoWrap;
+                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12.5f), SystemBrushes.ActiveCaptionText, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
+                //using (Font f = new Font("Tahoma", 9)) {
+                //    g.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+                //}
+            }
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -1979,11 +1985,11 @@ namespace FallGuysStats {
             this.Cursor = Cursors.Hand;
             Rectangle rectangle = this.menuOverlay.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
-            this.AllocTooltip();
-            this.ShowTooltip(Multilingual.GetWord("main_overlay_tooltip"), this, position);
+            this.AllocCustomTooltip();
+            this.ShowCustomTooltip(Multilingual.GetWord("main_overlay_tooltip"), this, position);
         }
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
-            this.HideTooltip(this);
+            this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
         }
 
@@ -3918,10 +3924,11 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
+                case Keys.X:
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.overlay.ResetOverlaySize(); }
+                    break;
                 case Keys.C:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) {
-                        this.overlay.ResetOverlayLocation(false);
-                    }
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.overlay.ResetOverlayLocation(false); }
                     break;
             }
         }
