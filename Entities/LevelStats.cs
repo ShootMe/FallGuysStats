@@ -126,7 +126,7 @@ namespace FallGuysStats {
     }
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
-            { "wle_s10_user_creative_race_round", new LevelStats("User Creative Race Round", LevelType.CreativeRace, true, false, 10, 0, 0, Properties.Resources.round_creative_icon, Properties.Resources.round_creative_big_icon) },
+            { "user_creative_race_round", new LevelStats("User Creative Race Round", LevelType.CreativeRace, true, false, 10, 0, 0, Properties.Resources.round_creative_icon, Properties.Resources.round_creative_big_icon) },
             
             { "wle_s10_orig_round_001",           new LevelStats("Beans Ahoy!", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_orig_round_002",           new LevelStats("Airborne Antics", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
@@ -448,7 +448,7 @@ namespace FallGuysStats {
             { "FallGuy_SlippySlide",               "round_slippy_slide" },
             { "FallGuy_SlideChute",                "round_slide_chute" },
             
-            { "FallGuy_UseShareCode",              "wle_s10_user_creative_race_round" },
+            { "FallGuy_UseShareCode",              "user_creative_race_round" },
         };
         public Image RoundIcon { get; set; }
         public Image RoundBigIcon { get; set; }
@@ -465,7 +465,7 @@ namespace FallGuysStats {
         public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
         public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
         public LevelType Type;
-        public bool isCreative;
+        public bool IsCreative;
         public bool IsFinal;
         public int TimeLimitSeconds;
         public int TimeLimitSecondsForSquad;
@@ -482,7 +482,7 @@ namespace FallGuysStats {
             this.Name = levelName;
             this.Type = type;
             this.Season = season;
-            this.isCreative = isCreative;
+            this.IsCreative = isCreative;
             this.IsFinal = isFinal;
             this.TimeLimitSeconds = timeLimitSeconds;
             this.TimeLimitSecondsForSquad = timeLimitSecondsForSquad;
