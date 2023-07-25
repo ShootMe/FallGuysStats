@@ -292,7 +292,8 @@ namespace FallGuysStats {
             this.menuUpdate.Size = new System.Drawing.Size(73, 25);
             this.menuUpdate.Text = "Update";
             this.menuUpdate.Click += new System.EventHandler(this.menuUpdate_Click);
-            this.menuUpdate.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuUpdate.MouseEnter += new System.EventHandler(this.menuUpdate_MouseEnter);
+            this.menuUpdate.MouseLeave += new System.EventHandler(this.menuUpdate_MouseLeave);
             this.menuUpdate.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuHelp
@@ -303,7 +304,8 @@ namespace FallGuysStats {
             this.menuHelp.Size = new System.Drawing.Size(60, 25);
             this.menuHelp.Text = "Help";
             this.menuHelp.Click += new System.EventHandler(this.menuHelp_Click);
-            this.menuHelp.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuHelp.MouseEnter += new System.EventHandler(this.menuUpdate_MouseEnter);
+            this.menuHelp.MouseLeave += new System.EventHandler(this.menuUpdate_MouseLeave);
             this.menuHelp.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuLaunchFallGuys

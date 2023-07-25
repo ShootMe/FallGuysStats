@@ -1343,7 +1343,7 @@ namespace FallGuysStats {
             // 
             this.lbltpl4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl4.FontSize = MetroLinkSize.Medium;
-            this.lbltpl4.Location = new System.Drawing.Point(12, 735);
+            this.lbltpl4.Location = new System.Drawing.Point(12, 785);
             this.lbltpl4.Name = "lbltpl4";
             this.lbltpl4.Size = new System.Drawing.Size(121, 23);
             this.lbltpl4.TabIndex = 13;
@@ -1356,7 +1356,7 @@ namespace FallGuysStats {
             // 
             this.lbltpl3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl3.FontSize = MetroLinkSize.Medium;
-            this.lbltpl3.Location = new System.Drawing.Point(12, 706);
+            this.lbltpl3.Location = new System.Drawing.Point(12, 756);
             this.lbltpl3.Name = "lbltpl3";
             this.lbltpl3.Size = new System.Drawing.Size(121, 23);
             this.lbltpl3.TabIndex = 12;
@@ -1369,7 +1369,7 @@ namespace FallGuysStats {
             // 
             this.lbltpl2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl2.FontSize = MetroLinkSize.Medium;
-            this.lbltpl2.Location = new System.Drawing.Point(12, 677);
+            this.lbltpl2.Location = new System.Drawing.Point(12, 727);
             this.lbltpl2.Name = "lbltpl2";
             this.lbltpl2.Size = new System.Drawing.Size(121, 23);
             this.lbltpl2.TabIndex = 11;
@@ -1382,7 +1382,7 @@ namespace FallGuysStats {
             // 
             this.lblthirdpartyLicences.AutoSize = true;
             this.lblthirdpartyLicences.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblthirdpartyLicences.Location = new System.Drawing.Point(8, 625);
+            this.lblthirdpartyLicences.Location = new System.Drawing.Point(8, 675);
             this.lblthirdpartyLicences.Name = "lblthirdpartyLicences";
             this.lblthirdpartyLicences.Size = new System.Drawing.Size(126, 19);
             this.lblthirdpartyLicences.TabIndex = 9;
@@ -1392,7 +1392,7 @@ namespace FallGuysStats {
             // 
             this.lbltpl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl1.FontSize = MetroLinkSize.Medium;
-            this.lbltpl1.Location = new System.Drawing.Point(12, 650);
+            this.lbltpl1.Location = new System.Drawing.Point(12, 700);
             this.lbltpl1.Name = "lbltpl1";
             this.lbltpl1.Size = new System.Drawing.Size(121, 23);
             this.lbltpl1.TabIndex = 8;
@@ -1456,7 +1456,7 @@ namespace FallGuysStats {
             // 
             this.lblLicence.AutoSize = true;
             this.lblLicence.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblLicence.Location = new System.Drawing.Point(9, 175);
+            this.lblLicence.Location = new System.Drawing.Point(9, 225);
             this.lblLicence.Name = "lblLicence";
             this.lblLicence.Size = new System.Drawing.Size(577, 418);
             this.lblLicence.TabIndex = 5;
