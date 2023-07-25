@@ -1774,6 +1774,22 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 43;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 43) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (info.Name.Equals("wle_s10_user_creative_race_round")) {
+                        info.Name = "user_creative_race_round";
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 44;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1845,7 +1861,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 Visible = true,
-                Version = 43
+                Version = 44
             };
         }
         private void UpdateHoopsieLegends() {
@@ -2596,16 +2612,16 @@ namespace FallGuysStats {
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
         }
-        public string GetRoundNameFromShareCode(string shareCode) {
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
+        public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId));
             return filteredInfo.Count > 0 ? (string.IsNullOrEmpty(filteredInfo[filteredInfo.Count - 1].CreativeTitle) ? shareCode : filteredInfo[filteredInfo.Count - 1].CreativeTitle)
                                           : shareCode;
         }
-        public int GetTimeLimitSecondsFromShareCode(string shareCode) {
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => "wle_s10_user_creative_race_round".Equals(r.Name) && shareCode.Equals(r.ShowNameId));
+        public int GetTimeLimitSecondsFromShareCode(string shareCode, LevelType levelType) {
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId));
             return filteredInfo.Count > 0 ? filteredInfo[filteredInfo.Count - 1].CreativeTimeLimitSeconds : 0;
         }
-        public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode) {
+        public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode, LevelType levelType) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
                 TotalShows = 0,
@@ -2617,9 +2633,9 @@ namespace FallGuysStats {
             //MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
             //if (matches.Count > 0) { // user creative round
             if (useShareCode) { // user creative round
-                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && "wle_s10_user_creative_race_round".Equals(r.Name) && name.Equals(r.ShowNameId));
+                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelType.CreativeLevelTypeId().Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
-                if (!this.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats currentLevel)) {
+                if (!this.StatLookup.TryGetValue(levelType.CreativeLevelTypeId(), out LevelStats currentLevel)) {
                     currentLevel = new LevelStats(name, LevelType.Unknown, false, false, 0, 0, 0, null, null);
                 }
                 
@@ -3588,14 +3604,16 @@ namespace FallGuysStats {
                         return ri.Start >= this.customfilterRangeStart &&
                                ri.Start <= this.customfilterRangeEnd &&
                                ri.Profile == this.GetCurrentProfileId() &&
-                               !"wle_s10_user_creative_race_round".Equals(ri.Name) &&
+                               //!"user_creative_race_round".Equals(ri.Name) &&
+                               !ri.UseShareCode &&
                                this.IsInPartyFilter(ri);
                     }).OrderBy(ri => ri.Name).ToList();
                     userCreativeRounds = this.AllStats.Where(ri => {
                         return ri.Start >= this.customfilterRangeStart &&
                                ri.Start <= this.customfilterRangeEnd &&
                                ri.Profile == this.GetCurrentProfileId() &&
-                               "wle_s10_user_creative_race_round".Equals(ri.Name) &&
+                               //"user_creative_race_round".Equals(ri.Name) &&
+                               ri.UseShareCode &&
                                this.IsInPartyFilter(ri);
                     }).OrderBy(ri => ri.ShowNameId).ToList();
                 } else {
@@ -3606,13 +3624,15 @@ namespace FallGuysStats {
                     rounds = this.AllStats.Where(ri => {
                         return ri.Start > compareDate &&
                                ri.Profile == this.GetCurrentProfileId() &&
-                               !"wle_s10_user_creative_race_round".Equals(ri.Name) &&
+                               //!"user_creative_race_round".Equals(ri.Name) &&
+                               !ri.UseShareCode &&
                                this.IsInPartyFilter(ri);
                     }).OrderBy(ri => ri.Name).ToList();
                     userCreativeRounds = this.AllStats.Where(ri => {
                         return ri.Start > compareDate &&
                                ri.Profile == this.GetCurrentProfileId() &&
-                               "wle_s10_user_creative_race_round".Equals(ri.Name) &&
+                               //"user_creative_race_round".Equals(ri.Name) &&
+                               ri.UseShareCode &&
                                this.IsInPartyFilter(ri);
                     }).OrderBy(ri => ri.ShowNameId).ToList();
                 }

@@ -3,15 +3,19 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public enum LevelType {
+        Unknown,
         CreativeRace,
+        CreativeSurvival,
+        CreativeHunt,
+        CreativeLogic,
+        CreativeTeam,
         Race,
         Survival,
         Hunt,
         Logic,
         Team,
         Invisibeans,
-        Final,
-        Unknown
+        Final
     }
     internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
@@ -28,6 +32,21 @@ namespace FallGuysStats {
                     return 2; // HIGH_SCORE
             }
             return 1;
+        }
+        public static string CreativeLevelTypeId(this LevelType type) {
+            switch (type) {
+                case LevelType.CreativeRace:
+                    return "user_creative_race_round";
+                case LevelType.CreativeSurvival:
+                    return "user_creative_survival_round";
+                case LevelType.CreativeHunt:
+                    return "user_creative_hunt_round";
+                case LevelType.CreativeLogic:
+                    return "user_creative_logic_round";
+                case LevelType.CreativeTeam:
+                    return "user_creative_team_round";
+            }
+            return "Unknown";
         }
         public static string LevelTitle(this LevelType type, bool isFinal) {
             if (isFinal) {

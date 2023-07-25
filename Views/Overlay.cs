@@ -747,12 +747,14 @@ namespace FallGuysStats {
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetRoundNameFromShareCode(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetRoundNameFromShareCode(this.lastRound.ShowNameId, (level?.Type).GetValueOrDefault()) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
-                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, this.levelException, this.lastRound.UseShareCode);
+                    LevelType levelType = (level?.Type).GetValueOrDefault();
+                    
+                    StatSummary levelInfo = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, this.levelException, this.lastRound.UseShareCode, levelType);
 
                     //if (this.lastRound.UseShareCode) {
                     //    roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
@@ -767,8 +769,7 @@ namespace FallGuysStats {
                     } else {
                         if (roundName.Length > 21) { roundName = roundName.Substring(0, 21); }
                     }
-
-                    LevelType levelType = (level?.Type).GetValueOrDefault();
+                    
                     this.lblRound.UseShareCode = this.lastRound.UseShareCode;
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
@@ -866,7 +867,7 @@ namespace FallGuysStats {
                     //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
                     //     : $"{Multilingual.GetWord("overlay_duration")} :";
                     if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
-                        this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId);
+                        this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
                     }
 
                     if (this.lastRound.UseShareCode) {

@@ -91,7 +91,7 @@ namespace FallGuysStats {
                 this.picRoundIcon.Image = level.RoundBigIcon;
                 this.formsPlot.Plot.Title(level.Name);
                 
-                LevelType levelType = (level?.Type).GetValueOrDefault();
+                LevelType levelType = level.Type;
                 this.lblRoundType.Text = levelType.LevelTitle(level.IsFinal);
                 this.lblRoundType.borderColor = levelType.LevelDefaultColor(level.IsFinal);
                 this.lblRoundType.backColor = levelType.LevelDefaultColor(level.IsFinal);
@@ -116,12 +116,12 @@ namespace FallGuysStats {
             } else {
                 MatchCollection matches = Regex.Matches(roundId, @"^\d{4}-\d{4}-\d{4}$");
                 if (matches.Count > 0) { // user creative round
-                    if (this.StatsForm.StatLookup.TryGetValue("wle_s10_user_creative_race_round", out LevelStats creativeLevel)) {
+                    if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.AllStats.Find(ri => roundId.Equals(ri.ShowNameId)).Name, out LevelStats creativeLevel)) {
                         this.picRoundIcon.Size = creativeLevel.RoundBigIcon.Size;
                         this.picRoundIcon.Image = creativeLevel.RoundBigIcon;
                         this.formsPlot.Plot.Title(selectedRoundPair.Value);
                         
-                        LevelType levelType = (creativeLevel?.Type).GetValueOrDefault();
+                        LevelType levelType = creativeLevel.Type;
                         this.lblRoundType.Text = levelType.LevelTitle(creativeLevel.IsFinal);
                         this.lblRoundType.borderColor = levelType.LevelDefaultColor(creativeLevel.IsFinal);
                         this.lblRoundType.backColor = levelType.LevelDefaultColor(creativeLevel.IsFinal);
