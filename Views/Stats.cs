@@ -2099,7 +2099,7 @@ namespace FallGuysStats {
             }
         }
         private int CountLineBreaks(string s) {
-            string[] lines = s.Split('\n');
+            string[] lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             return lines.Length - 1;
         }
         private void Stats_Shown(object sender, EventArgs e) {
@@ -2109,19 +2109,20 @@ namespace FallGuysStats {
                     this.Stats_ExitProgram(this, null);
                     return;
                 }
-                
+                this.CurrentSettings.ShowChangelog = true;
                 if (this.CurrentSettings.ShowChangelog) {
                     this.CurrentSettings.ShowChangelog = false;
                     this.SaveUserSettings();
                     
-                    string newLine = string.Empty;
-                    int lineBreaks = 4 - this.CountLineBreaks(Multilingual.GetWord("message_changelog"));
+                    string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                    changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
+                    int lineBreaks = 4 - this.CountLineBreaks(changelog);
                     for (int i = 0; i < lineBreaks; i++) {
-                        newLine += Environment.NewLine;
+                        changelog += Environment.NewLine;
                     }
                     
                     MetroMessageBox.Show(this,
-                        $"{Multilingual.GetWord("message_changelog")}{newLine}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                        $"{changelog}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
                         $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
