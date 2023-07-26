@@ -2098,9 +2098,19 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private int CountLineBreaks(string s) {
+        private string TranslateChangelog(string s) {
             string[] lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            return lines.Length - 1;
+            string rtnStr = string.Empty;
+            for (int i = 0; i < lines.Length; i++) {
+                if (i > 0) rtnStr += Environment.NewLine;
+                rtnStr += CurrentLanguage == 0 || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
+                            ? lines[i]
+                            : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
+            }
+            for (int i = 0; i < 5 - lines.Length; i++) {
+                rtnStr += Environment.NewLine;
+            }
+            return rtnStr;
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
@@ -2116,13 +2126,9 @@ namespace FallGuysStats {
                     
                     string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
                     changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
-                    int lineBreaks = 4 - this.CountLineBreaks(changelog);
-                    for (int i = 0; i < lineBreaks; i++) {
-                        changelog += Environment.NewLine;
-                    }
                     
                     MetroMessageBox.Show(this,
-                        $"{changelog}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                        $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
                         $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
