@@ -66,7 +66,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/github_star.png">
+  <a href="https://github.com/ShootMe/FallGuysStats">
+    <img alt="" src="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/github_star.png">
+  </a>
   <br>
   <b>If you want FallGuysStats to continue to be updated, don't forget to star the GitHub repo!</b>
   <br>
