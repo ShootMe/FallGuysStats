@@ -2109,7 +2109,7 @@ namespace FallGuysStats {
                     this.Stats_ExitProgram(this, null);
                     return;
                 }
-                this.CurrentSettings.ShowChangelog = true;
+                
                 if (this.CurrentSettings.ShowChangelog) {
                     this.CurrentSettings.ShowChangelog = false;
                     this.SaveUserSettings();
