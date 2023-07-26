@@ -835,7 +835,7 @@ namespace FallGuysStats {
                             {"main_todays_show_tooltip", "현재 이용 가능한 쇼를 확인하세요"},
                             {"main_overlay_tooltip", "  (Ctrl+Shift+X)를 누르면 통계창의 크기가 재설정됩니다\n  (Ctrl+Shift+C)를 누르면 통계창의 위치가 재설정됩니다"},
                             {"main_update_prefix_tooltip", " 폴 가이즈 스탯츠가 지속적으로 업데이트되기를 원하신다면, "},
-                            {"main_update_suffix_tooltip", "GitHub 저장소에서 별표를 누르는 것을 잊지 마세요!"},
+                            {"main_update_suffix_tooltip", "GitHub 저장소에서 별 누르는 것을 잊지 마세요!"},
                             {"main_exit_program", "종료"},
                             {"main_plays", "플레이"},
                             {"main_shows", "쇼"},
