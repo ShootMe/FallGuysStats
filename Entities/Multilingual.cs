@@ -219,6 +219,8 @@ namespace FallGuysStats {
                             {"message_connected_to_server_prefix", "You are connected to a ("},
                             {"message_connected_to_server_suffix", ") server."},
                             {"message_changelog_caption", "Changelog"},
+                            {"message_changelog_bugfix_and_program_optimization", "Bugfix and program optimization"},
+                            {"message_changelog_updated_new_show_and_round_names", "Updated new show and round names"},
                             //{"message_changelog", "    - Bugfix and program optimization"},
                             //{"message_changelog", "    - Updated new show and round names\n    - Bugfix and program optimization"},
                             
@@ -620,6 +622,8 @@ namespace FallGuysStats {
                             {"message_connected_to_server_prefix", "Vous êtes connecté à un serveur ("},
                             {"message_connected_to_server_suffix", ")."},
                             {"message_changelog_caption", "journal des modifications"},
+                            {"message_changelog_bugfix_and_program_optimization", "Correction de bugs et optimisation du programme"},
+                            {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de rondes mis à jour"},
                             //{"message_changelog", "    - Correction de bugs et optimisation du programme"},
                             //{"message_changelog", "    - Nouveaux noms de spectacles et de rondes mis à jour\n    - Correction de bugs et optimisation du programme"},
 
@@ -1021,6 +1025,8 @@ namespace FallGuysStats {
                             {"message_connected_to_server_prefix", "("},
                             {"message_connected_to_server_suffix", ") 서버에 연결되었습니다."},
                             {"message_changelog_caption", "변경 로그"},
+                            {"message_changelog_bugfix_and_program_optimization", "버그 수정 및 프로그램 최적화"},
+                            {"message_changelog_updated_new_show_and_round_names", "새로운 쇼 및 라운드 이름 업데이트"},
                             //{"message_changelog", "    - 버그 수정 및 프로그램 최적화"},
                             //{"message_changelog", "    - 새로운 쇼 및 라운드 이름 업데이트\n    - 버그 수정 및 프로그램 최적화"},
 
@@ -1422,6 +1428,8 @@ namespace FallGuysStats {
                             {"message_connected_to_server_prefix", "あなたは（"},
                             {"message_connected_to_server_suffix", "）サーバーに接続しています。"},
                             {"message_changelog_caption", "変更履歴"},
+                            {"message_changelog_bugfix_and_program_optimization", "バグ修正とプログラムの最適化。"},
+                            {"message_changelog_updated_new_show_and_round_names", "新しいショーとラウンド名を更新しました。"},
                             //{"message_changelog", "    - バグ修正とプログラムの最適化。"},
                             //{"message_changelog", "    - 新しいショーとラウンド名を更新しました。\n    - バグ修正とプログラムの最適化。"},
 
@@ -1823,6 +1831,8 @@ namespace FallGuysStats {
                             {"message_connected_to_server_prefix", "您已连接到（"},
                             {"message_connected_to_server_suffix", "）服务器。"},
                             {"message_changelog_caption", "变更日志"},
+                            {"message_changelog_bugfix_and_program_optimization", "Bug修复和程序优化。"},
+                            {"message_changelog_updated_new_show_and_round_names", "更新了新的节目和回合名称。"},
                             //{"message_changelog", "    - Bug修复和程序优化。"},
                             //{"message_changelog", "    - 更新了新的节目和回合名称。\n    - Bug修复和程序优化。"},
 
