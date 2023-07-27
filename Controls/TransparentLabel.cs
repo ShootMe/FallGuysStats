@@ -144,7 +144,7 @@ namespace FallGuysStats {
                     return (this.TextRight.Length > 14 && Stats.CurrentLanguage == 0) ? 0.81f :
                             (this.TextRight.Length > 16 && Stats.CurrentLanguage == 1) ? 0.77f :
                             (this.TextRight.Length >= 15 && 16 >= this.TextRight.Length && Stats.CurrentLanguage == 1) ? 0.92f :
-                            (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4) ? 0.96f : 1f;
+                            (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? 0.96f : 1f;
                 default:
                     return 1f;
             }
@@ -153,7 +153,7 @@ namespace FallGuysStats {
             // return (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && (text.Length >= 13) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) ||
             //         (Stats.CurrentLanguage == 2 && (text.Length >= 12) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) ||
             //         (Stats.CurrentLanguage == 3 && (text.Length >= 10) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(3).Name)) ||
-            //         (Stats.CurrentLanguage == 4 && (text.Length >= 10) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name))) ||
+            //         ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && (text.Length >= 10) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name))) ||
             //         this.UseShareCode
             //         ? new Font(this.Font.FontFamily, this.Font.Size * this.GetFontSizeFactorForRoundName(text), this.Font.Style, GraphicsUnit.Pixel) : this.Font;
             return new Font(this.Font.FontFamily, this.Font.Size * this.GetFontSizeFactorForRoundName(text), this.Font.Style, GraphicsUnit.Pixel);
@@ -466,7 +466,7 @@ namespace FallGuysStats {
                         factor = 0.32f; factorOffsetForSpace = 0.0085f; factorOffsetForEngAlphabet = 0.0062f;
                     }
                     factor += (this.GetCountSpace(text) * factorOffsetForSpace) + (this.GetCountEngAlphabet(text) * factorOffsetForEngAlphabet);
-                } else if (Stats.CurrentLanguage == 4 && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese
+                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese
                     if (text.Length == 10) {
                         factor = 0.9f; factorOffsetForSpace = 0.01f; factorOffsetForEngAlphabet = 0.002f;
                     } else if (text.Length == 11) {
@@ -604,7 +604,7 @@ namespace FallGuysStats {
                             factor = 0.45f; factorOffsetForSpace = 0.018f; factorOffsetForEngAlphabet = 0.012f;
                         }
                         factor += (this.GetCountSpace(text) * factorOffsetForSpace) + (this.GetCountEngAlphabet(text) * factorOffsetForEngAlphabet);
-                    } else if (Stats.CurrentLanguage == 4) {
+                    } else if (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) {
                         if (text.Length == 10) {
                             factor = 0.9f; factorOffsetForSpace = 0.01f; factorOffsetForEngAlphabet = 0.002f;
                         } else if (text.Length == 11) {

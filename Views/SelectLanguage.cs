@@ -11,7 +11,8 @@ namespace FallGuysStats {
             this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.Ordinal) ? 1 :
                                     string.Equals(sysLang, "ko", StringComparison.Ordinal) ? 2 :
                                     string.Equals(sysLang, "ja", StringComparison.Ordinal) ? 3 :
-                                    string.Equals(sysLang, "zh", StringComparison.Ordinal) ? 4 : 0;
+                                    string.Equals(sysLang, "zh-chs", StringComparison.Ordinal) ? 4 :
+                                    string.Equals(sysLang, "zh-cht", StringComparison.Ordinal) ? 5 : 0;
             this.InitializeComponent();
         }
 
