@@ -144,7 +144,7 @@ FallGuysStats est open source, ce qui signifie que tout le monde peut voir le co
 
 
 ### Comment Overlay l'image d'arrière-plan personnalisée
-  - **Étape 1.** [Téléchargez](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip) l'image originale de l'overlay.
+  - **Étape 1.** [Télécharger](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip) l'image originale de l'overlay.
 
 
   - **Étape 2.** Modifiez les fichiers `background.png` et `tab.png` [ici](https://www.photopea.com/) à votre guise.
