@@ -825,7 +825,7 @@ namespace FallGuysStats {
             // 
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
-            this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文" });
+            this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
             this.cboMultilingual.Location = new System.Drawing.Point(49, 242);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
