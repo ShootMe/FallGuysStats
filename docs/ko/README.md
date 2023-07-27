@@ -121,6 +121,7 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
     - 🇰🇷 `한국어`
     - 🇯🇵 `일본어`
     - 🇨🇳 `중국어 간체`
+    - 🇨🇳 `중국어 번체`
 
 ## 통계 창
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
