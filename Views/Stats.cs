@@ -268,7 +268,10 @@ namespace FallGuysStats {
             this.StatsDB.BeginTrans();
 
             if (this.Profiles.Count() == 0) {
-                using (SelectLanguage initLanguageForm = new SelectLanguage(CultureInfo.CurrentUICulture.Name.Substring(0, 2))) {
+                string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh")
+                    ? CultureInfo.CurrentUICulture.Name
+                    : CultureInfo.CurrentUICulture.Name.Substring(0, 2);
+                using (SelectLanguage initLanguageForm = new SelectLanguage(sysLang)) {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
@@ -2997,34 +3000,34 @@ namespace FallGuysStats {
                     break;
                 case "Qualified":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 2 || CurrentLanguage == 4 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == 2 || CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
                     break;
                 case "Gold":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 1 ? 12 : CurrentLanguage == 4 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == 1 ? 12 : CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
                     break;
                 case "Silver":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
                     break;
                 case "Bronze":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
                     break;
                 case "Kudos":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Fastest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
                     break;
                 case "Longest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
                     break;
                 case "AveFinish":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
                     break;
                 default:
                     return 0;

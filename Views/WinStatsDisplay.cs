@@ -330,7 +330,7 @@ namespace FallGuysStats {
                 this.chkShows.Location =  new Point(1147, 38);
                 this.chkFinals.Location = new Point(1048, 38);
                 this.chkWins.Location =   new Point(961, 38);
-            } else if (Stats.CurrentLanguage == 4) { // Simplified Chinese
+            } else if (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) { // Simplified Chinese & Traditional Chinese
                 this.chkShows.Location =  new Point(1147, 38);
                 this.chkFinals.Location = new Point(1053, 38);
                 this.chkWins.Location =   new Point(961, 38);

@@ -207,20 +207,20 @@ namespace FallGuysStats {
             this.ForeColor = color;
         }
         public static void SetDefaultFont(int language, float emSize) {
-            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, (language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static Font GetDefaultFont(int language, float emSize) {
-            return new Font(GetDefaultFontFamilies(language), emSize, language == 4 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            return new Font(GetDefaultFontFamilies(language), emSize, (language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(int language = 0) {
             return language <= 1 ? DefaultFontCollection.Families[2] :
-                language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+                (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
         public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, int language = 0) {
             return new Font(GetMainFontFamilies(language), emSize, fontStyle, GraphicsUnit.Pixel);
         }
         public static FontFamily GetMainFontFamilies(int language) {
-            return language == 4 ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+            return (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
         public bool IsFocused() {
             return this.isFocused;
@@ -763,7 +763,7 @@ namespace FallGuysStats {
                     if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
                         || (Stats.CurrentLanguage == 2 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
                         || (Stats.CurrentLanguage == 3 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
-                        || (Stats.CurrentLanguage == 4 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
+                        || ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
                         || this.lastRound.UseShareCode) {
                         if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
                     } else {
