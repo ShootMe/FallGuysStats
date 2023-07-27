@@ -988,6 +988,9 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
+                case Keys.O:
+                    if (this.ctrlKeyToggle) { this.StatsForm.ToggleOverlay(this); }
+                    break;
                 case Keys.X:
                     if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.ResetOverlaySize(); }
                     break;
