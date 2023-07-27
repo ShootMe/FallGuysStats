@@ -121,6 +121,7 @@ FallGuysStats est open source, ce qui signifie que tout le monde peut voir le co
     - 🇰🇷 `Coréen`
     - 🇯🇵 `Japonais`
     - 🇨🇳 `Chinois Simplifié`
+    - 🇨🇳 `Chinois traditionnel`
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)

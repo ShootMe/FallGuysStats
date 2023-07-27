@@ -119,6 +119,7 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
     - 🇰🇷 `韓国語`
     - 🇯🇵 `日本語`
     - 🇨🇳 `簡体字中国語`
+    - 🇨🇳 `繁体字中国語`
 
 ## オーバーレイ
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)

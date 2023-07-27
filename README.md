@@ -129,6 +129,7 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
     - 🇰🇷 `Korean`
     - 🇯🇵 `Japanese`
     - 🇨🇳 `Simplified Chinese`
+    - 🇨🇳 `Traditional Chinese`
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
@@ -236,6 +237,9 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.232`
+    - Add language (Traditional Chinese)
+    - Bugfix and program optimization
   - `1.231`
     - Bugfix and program optimization
   - `1.230`
