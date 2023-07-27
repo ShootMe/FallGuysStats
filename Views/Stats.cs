@@ -1939,7 +1939,7 @@ namespace FallGuysStats {
             Rectangle rectangle = this.menuOverlay.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.AllocCustomTooltip();
-            this.ShowCustomTooltip(Multilingual.GetWord("main_overlay_tooltip"), this, position);
+            this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_tooltip")}", this, position);
         }
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
@@ -2119,7 +2119,7 @@ namespace FallGuysStats {
                     this.Stats_ExitProgram(this, null);
                     return;
                 }
-                this.CurrentSettings.ShowChangelog = true;
+                
                 if (this.CurrentSettings.ShowChangelog) {
                     this.CurrentSettings.ShowChangelog = false;
                     this.SaveUserSettings();
@@ -4532,7 +4532,7 @@ namespace FallGuysStats {
         private void menuOverlay_Click(object sender, EventArgs e) {
             this.ToggleOverlay(this.overlay);
         }
-        private void ToggleOverlay(Overlay overlay) {
+        public void ToggleOverlay(Overlay overlay) {
             if (overlay.Visible) {
                 overlay.Hide();
                 this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
