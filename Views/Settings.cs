@@ -1052,6 +1052,7 @@ namespace FallGuysStats {
                                  MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                          {
                              this.Hide();
+                             this.StatsForm.CurrentSettings.ShowChangelog = true;
                              this.StatsForm.SaveWindowState();
                              this.StatsForm.SaveUserSettings();
                              this.StatsForm.Hide();
