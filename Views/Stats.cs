@@ -2124,16 +2124,20 @@ namespace FallGuysStats {
                 }
                 
                 if (this.CurrentSettings.ShowChangelog) {
-                    this.CurrentSettings.ShowChangelog = false;
-                    this.SaveUserSettings();
-                    
-                    string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
-                    changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
-                    
-                    MetroMessageBox.Show(this,
-                        $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
-                        $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    try {
+                        string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                        changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
+                        
+                        MetroMessageBox.Show(this,
+                            $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                            $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        
+                        this.CurrentSettings.ShowChangelog = false;
+                        this.SaveUserSettings();
+                    } catch {
+                        // ignored
+                    }
                 }
 #endif
                 this.RemoveUpdateFiles();
@@ -2338,7 +2342,7 @@ namespace FallGuysStats {
                                         //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                         stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                     } catch {
-                                        // ignore
+                                        // ignored
                                     }
                                 }
 
@@ -2458,7 +2462,7 @@ namespace FallGuysStats {
                     try {
                         this.UpdateTotals();
                     } catch {
-                        // ignore
+                        // ignored
                     }
                 }
             } catch (Exception ex) {
@@ -4413,7 +4417,6 @@ namespace FallGuysStats {
                             this.overlay?.Hide();
                             this.DownloadNewVersion(web);
                             this.isUpdate = true;
-                            //this.Stats_ExitProgram(this, null);
                             return true;
                         }
                     } else if (!isSilent) {
