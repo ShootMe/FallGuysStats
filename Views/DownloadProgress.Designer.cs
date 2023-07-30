@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
-    partial class UpdateProgress {
+    partial class DownloadProgress {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -64,7 +64,7 @@ namespace FallGuysStats {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Movable = false;
-            this.Name = "UpdateProgress";
+            this.Name = "DownloadProgress";
             this.Padding = new System.Windows.Forms.Padding(20, 30, 20, 20);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
