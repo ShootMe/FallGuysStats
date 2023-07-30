@@ -116,11 +116,11 @@
     <Compile Include="Views\FilterCustomRange.Designer.cs">
       <DependentUpon>FilterCustomRange.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\UpdateProgress.cs">
+    <Compile Include="Views\DownloadProgress.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\UpdateProgress.Designer.cs">
-      <DependentUpon>UpdateProgress.cs</DependentUpon>
+    <Compile Include="Views\DownloadProgress.Designer.cs">
+      <DependentUpon>DownloadProgress.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\RoundStatsDisplay.cs">
       <SubType>Form</SubType>
@@ -179,8 +179,8 @@
     <EmbeddedResource Include="Views\FilterCustomRange.resx">
       <DependentUpon>FilterCustomRange.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\UpdateProgress.resx">
-      <DependentUpon>UpdateProgress.cs</DependentUpon>
+    <EmbeddedResource Include="Views\DownloadProgress.resx">
+      <DependentUpon>DownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\RoundStatsDisplay.resx">
       <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
