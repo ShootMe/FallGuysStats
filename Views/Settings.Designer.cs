@@ -777,7 +777,7 @@ namespace FallGuysStats {
             this.grpLaunchPlatform.Margin = new System.Windows.Forms.Padding(0);
             this.grpLaunchPlatform.Name = "grpLaunchPlatform";
             this.grpLaunchPlatform.Padding = new System.Windows.Forms.Padding(2);
-            this.grpLaunchPlatform.Size = new System.Drawing.Size(120, 60);
+            this.grpLaunchPlatform.Size = new System.Drawing.Size(95, 60);
             this.grpLaunchPlatform.TabIndex = 36;
             this.grpLaunchPlatform.TabStop = false;
             this.grpLaunchPlatform.Text = "Platform";
