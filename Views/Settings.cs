@@ -1057,7 +1057,14 @@ namespace FallGuysStats {
                              this.StatsForm.SaveUserSettings();
                              this.StatsForm.Hide();
                              this.StatsForm.overlay?.Hide();
-                             this.StatsForm.DownloadNewVersion(web);
+                             //this.StatsForm.DownloadNewVersion(web);
+                             using (UpdateProgress progress = new UpdateProgress()) {
+                                 this.StatsForm.StatsDB?.Dispose();
+                                 progress.StatsForm = this.StatsForm;
+                                 progress.ZipWebClient = web;
+                                 progress.FileName = "FallGuysStats.zip";
+                                 progress.ShowDialog(this);
+                             }
                              this.StatsForm.isUpdate = true;
                              this.StatsForm.Stats_ExitProgram(this, null);
                          }
