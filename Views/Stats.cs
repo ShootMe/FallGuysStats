@@ -3724,7 +3724,9 @@ namespace FallGuysStats {
         }
         private void LaunchHelpInBrowser() {
             try {
-                if (CurrentLanguage == 2) { // Korean
+                if (CurrentLanguage == 1) { // French
+                    Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md#table-des-mati%C3%A8res");
+                } else if (CurrentLanguage == 2) { // Korean
                     Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md#%EB%AA%A9%EC%B0%A8");
                 } else if (CurrentLanguage == 3) { // Japanese
                     Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md#%E7%9B%AE%E6%AC%A1");
