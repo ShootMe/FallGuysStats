@@ -71,6 +71,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "Delete"},
                             {"main_move_shows", "Move show data"},
                             {"main_update_shows", "Update information"},
+                            {"main_update_program", "Update Fall Guys Stats"},
+                            {"main_updating_program", "Downloading..."},
+                            {"main_update_complete", "Update completed"},
 
                             {"level_detail_medal", "Medal"},
                             {"level_detail_is_final", "Final"},
@@ -475,6 +478,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "Supprimer"},
                             {"main_move_shows", "Déplacer les données"},
                             {"main_update_shows", "Mettre à jour les infos"},
+                            {"main_update_program", "Mettre à jour Tracker Fall Guys"},
+                            {"main_updating_program", "Téléchargement..."},
+                            {"main_update_complete", "Mise à jour terminée"},
 
                             {"level_detail_medal", "Médaille"},
                             {"level_detail_is_final", "Finale"},
@@ -879,6 +885,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "삭제"},
                             {"main_move_shows", "쇼 데이터 이동"},
                             {"main_update_shows", "정보 업데이트"},
+                            {"main_update_program", "폴 가이즈 스탯츠 업데이트"},
+                            {"main_updating_program", "다운로드 중..."},
+                            {"main_update_complete", "업데이트 완료"},
 
                             {"level_detail_medal", "메달"},
                             {"level_detail_is_final", "결승"},
@@ -1283,6 +1292,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "ショーを削除"},
                             {"main_move_shows", "ショーを移動"},
                             {"main_update_shows", "情報の更新"},
+                            {"main_update_program", "Fall Guys Stats アップデート"},
+                            {"main_updating_program", "ダウンロード中..."},
+                            {"main_update_complete", "アップデート完了"},
 
                             {"level_detail_medal", "メダル"},
                             {"level_detail_is_final", "決勝"},
@@ -1687,6 +1699,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "删除"},
                             {"main_move_shows", "移动游玩场次数据"},
                             {"main_update_shows", "更新信息"},
+                            {"main_update_program", "更新 Fall Guys Stats"},
+                            {"main_updating_program", "正在下载..."},
+                            {"main_update_complete", "更新完成"},
 
                             {"level_detail_medal", "勋章"},
                             {"level_detail_is_final", "决赛"},
@@ -2091,6 +2106,9 @@ namespace FallGuysStats {
                             {"main_delete_shows", "刪除"},
                             {"main_move_shows", "移動遊玩場次數據"},
                             {"main_update_shows", "更新信息"},
+                            {"main_update_program", "更新 Fall Guys Stats"},
+                            {"main_updating_program", "正在下載..."},
+                            {"main_update_complete", "更新完成"},
 
                             {"level_detail_medal", "勳章"},
                             {"level_detail_is_final", "決賽"},

@@ -8,7 +8,6 @@ using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -4347,7 +4346,9 @@ namespace FallGuysStats {
         }
         private void menuUpdate_Click(object sender, EventArgs e) {
             try {
-                this.CheckForUpdate(false);
+                if (this.CheckForUpdate(false)) {
+                    this.Stats_ExitProgram(this, null);
+                }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4415,7 +4416,15 @@ namespace FallGuysStats {
                             this.SaveUserSettings();
                             this.Hide();
                             this.overlay?.Hide();
-                            this.DownloadNewVersion(web);
+                            
+                            using (UpdateProgress progress = new UpdateProgress()) {
+                                this.StatsDB?.Dispose();
+                                progress.StatsForm = this;
+                                progress.ZipWebClient = web;
+                                progress.FileName = "FallGuysStats.zip";
+                                progress.ShowDialog(this);
+                            }
+
                             this.isUpdate = true;
                             return true;
                         }
@@ -4439,27 +4448,40 @@ namespace FallGuysStats {
             return false;
         }
 #if AllowUpdate
-        public void DownloadNewVersion(ZipWebClient web) {
-            this.StatsDB?.Dispose();
-            //byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
-            byte[] data = web.DownloadData("https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip");
-            string exeName = null;
-            using (MemoryStream ms = new MemoryStream(data)) {
-                using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
-                    foreach (var entry in zipFile.Entries) {
-                        if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
-                            exeName = entry.Name;
-                        }
+        // private void web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
+        //     this.progress.SetProgressPercentage(e.ProgressPercentage);
+        // }
+        // private void web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
+        //     
+        // }
 
-                        if (File.Exists(entry.Name)) {
-                            File.Move(entry.Name, $"{entry.Name}.bak");
-                        }
-                        entry.ExtractToFile(entry.Name, true);
-                    }
-                }
-            }
-            Process.Start(new ProcessStartInfo(exeName));
-        }
+        // private Progress progress;
+        // public void DownloadNewVersion(ZipWebClient web) {
+        //     this.StatsDB?.Dispose();
+        //     using (this.progress = new Progress()) {
+        //         web.DownloadProgressChanged += web_DownloadProgressChanged;
+        //         //web.DownloadFileCompleted += web_DownloadFileCompleted;
+        //         Task.Run(() => { this.progress.ShowDialog(this); });
+        //         //byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
+        //         byte[] data = web.DownloadData("https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip");
+        //         string exeName = null;
+        //         using (MemoryStream ms = new MemoryStream(data)) {
+        //             using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
+        //                 foreach (var entry in zipFile.Entries) {
+        //                     if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
+        //                         exeName = entry.Name;
+        //                     }
+        //
+        //                     if (File.Exists(entry.Name)) {
+        //                         File.Move(entry.Name, $"{entry.Name}.bak");
+        //                     }
+        //                     entry.ExtractToFile(entry.Name, true);
+        //                 }
+        //             }
+        //         }
+        //         Process.Start(new ProcessStartInfo(exeName));
+        //     }
+        // }
 #endif
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
