@@ -13,6 +13,7 @@ namespace FallGuysStats {
         public ZipWebClient ZipWebClient { get; set; }
         public string FileName { get; set; }
         private int percentage;
+        private readonly string downloadUri = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
 
         public UpdateProgress() => this.InitializeComponent();
 
@@ -57,9 +58,9 @@ namespace FallGuysStats {
         }
         
         private void DownloadNewVersion() {
-            ZipWebClient.DownloadProgressChanged += web_DownloadProgressChanged;
-            ZipWebClient.DownloadFileCompleted += web_DownloadFileCompleted;
-            ZipWebClient.DownloadFileAsync(new Uri("https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip"), this.FileName);
+            this.ZipWebClient.DownloadProgressChanged += this.web_DownloadProgressChanged;
+            this.ZipWebClient.DownloadFileCompleted += this.web_DownloadFileCompleted;
+            this.ZipWebClient.DownloadFileAsync(new Uri(this.downloadUri), this.FileName);
         }
 
         private void ChangeLanguage() {
