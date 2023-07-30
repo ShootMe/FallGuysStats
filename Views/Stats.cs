@@ -4447,42 +4447,6 @@ namespace FallGuysStats {
 #endif
             return false;
         }
-#if AllowUpdate
-        // private void web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-        //     this.progress.SetProgressPercentage(e.ProgressPercentage);
-        // }
-        // private void web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
-        //     
-        // }
-
-        // private Progress progress;
-        // public void DownloadNewVersion(ZipWebClient web) {
-        //     this.StatsDB?.Dispose();
-        //     using (this.progress = new Progress()) {
-        //         web.DownloadProgressChanged += web_DownloadProgressChanged;
-        //         //web.DownloadFileCompleted += web_DownloadFileCompleted;
-        //         Task.Run(() => { this.progress.ShowDialog(this); });
-        //         //byte[] data = web.DownloadData($"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip");
-        //         byte[] data = web.DownloadData("https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip");
-        //         string exeName = null;
-        //         using (MemoryStream ms = new MemoryStream(data)) {
-        //             using (ZipArchive zipFile = new ZipArchive(ms, ZipArchiveMode.Read)) {
-        //                 foreach (var entry in zipFile.Entries) {
-        //                     if (entry.Name.IndexOf(".exe", StringComparison.OrdinalIgnoreCase) > 0) {
-        //                         exeName = entry.Name;
-        //                     }
-        //
-        //                     if (File.Exists(entry.Name)) {
-        //                         File.Move(entry.Name, $"{entry.Name}.bak");
-        //                     }
-        //                     entry.ExtractToFile(entry.Name, true);
-        //                 }
-        //             }
-        //         }
-        //         Process.Start(new ProcessStartInfo(exeName));
-        //     }
-        // }
-#endif
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
             if (!enable && !this.Visible) { this.Visible = true; }
