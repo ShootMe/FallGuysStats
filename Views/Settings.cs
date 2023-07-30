@@ -634,6 +634,7 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = true;
                 this.txtGameExeLocation.Visible = false;
 
+                this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_location", this.DisplayLang);
                 this.txtGameShortcutLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
@@ -647,6 +648,7 @@ namespace FallGuysStats {
                 this.txtGameShortcutLocation.Visible = false;
                 this.txtGameExeLocation.Visible = true;
 
+                this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWordWithLang("settings_fall_guys_exe_location", this.DisplayLang);
                 this.txtGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
@@ -728,7 +730,7 @@ namespace FallGuysStats {
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
 
-            this.lblGameExeLocation.Text = Multilingual.GetWord(this.LaunchPlatform == 0 ? "settings_fall_guys_shortcut_location" : "settings_fall_guys_exe_location");
+            //this.lblGameExeLocation.Text = Multilingual.GetWord(this.LaunchPlatform == 0 ? "settings_fall_guys_shortcut_location" : "settings_fall_guys_exe_location");
 
             this.tileProgram.Text = Multilingual.GetWord("settings_program");
             this.tileDisplay.Text = Multilingual.GetWord("settings_display");
@@ -902,10 +904,12 @@ namespace FallGuysStats {
             //this.lblOverlayBackground.Location = new Point(15, 353);
             //this.lblOverlayColor.Location = new Point(15, 370);
             if (this.LaunchPlatform == 0) {
+                this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
                 this.txtGameShortcutLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameShortcutLocation.Size = new Size(567 - this.txtGameShortcutLocation.Location.X, 25);
             } else {
+                this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_exe_location");
                 this.txtGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 8, 46);
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
