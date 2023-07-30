@@ -882,6 +882,7 @@ namespace FallGuysStats {
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
+            this.grpLaunchPlatform.Width = lang == 3 ? 120 : 95;
             //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
             this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
