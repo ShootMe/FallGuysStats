@@ -196,6 +196,7 @@ namespace FallGuysStats {
         public bool isUpdate;
         
         public Point screenCenter;
+        public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         public readonly string IP2C_ORG_URL = "http://ip2c.org/";
         public readonly string[] publicShowIdList = {
@@ -4417,10 +4418,10 @@ namespace FallGuysStats {
                             this.Hide();
                             this.overlay?.Hide();
                             
-                            using (UpdateProgress progress = new UpdateProgress()) {
+                            using (DownloadProgress progress = new DownloadProgress()) {
                                 this.StatsDB?.Dispose();
-                                progress.StatsForm = this;
                                 progress.ZipWebClient = web;
+                                progress.DownloadUrl = this.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                 progress.FileName = "FallGuysStats.zip";
                                 progress.ShowDialog(this);
                             }

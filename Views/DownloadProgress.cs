@@ -8,17 +8,16 @@ using System.Net;
 using MetroFramework;
 
 namespace FallGuysStats {
-    public partial class UpdateProgress : MetroFramework.Forms.MetroForm {
-        public Stats StatsForm { get; set; }
+    public partial class DownloadProgress : MetroFramework.Forms.MetroForm {
         public ZipWebClient ZipWebClient { get; set; }
         public string FileName { get; set; }
-        private int percentage;
-        private readonly string downloadUri = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
+        public string DownloadUrl { get; set; }
+        private int _percentage;
 
-        public UpdateProgress() => this.InitializeComponent();
+        public DownloadProgress() => this.InitializeComponent();
 
         private void Progress_Load(object sender, EventArgs e) {
-            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.SetTheme(Stats.CurrentTheme);
             this.ChangeLanguage();
             this.DownloadNewVersion();
         }
@@ -29,17 +28,15 @@ namespace FallGuysStats {
             this.mpbProgressBar.Theme = theme;
         }
         
-        private void web_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-            if (this.percentage != e.ProgressPercentage) {
-                this.percentage = e.ProgressPercentage;
+        private void zipWebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
+            if (this._percentage != e.ProgressPercentage) {
+                this._percentage = e.ProgressPercentage;
                 this.mpbProgressBar.Value = e.ProgressPercentage;
                 this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
                 this.Refresh();
             }
         }
-        private void web_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
-            this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
-            this.Refresh();
+        private void zipWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
             string exeName = null;
             using (ZipArchive zipFile = new ZipArchive(new FileStream(this.FileName, FileMode.Open), ZipArchiveMode.Read)) {
                 foreach (var entry in zipFile.Entries) {
@@ -52,15 +49,17 @@ namespace FallGuysStats {
                     entry.ExtractToFile(entry.Name, true);
                 }
             }
+            this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
+            this.Refresh();
             File.Delete(this.FileName);
             Process.Start(new ProcessStartInfo(exeName));
             this.Close();
         }
         
         private void DownloadNewVersion() {
-            this.ZipWebClient.DownloadProgressChanged += this.web_DownloadProgressChanged;
-            this.ZipWebClient.DownloadFileCompleted += this.web_DownloadFileCompleted;
-            this.ZipWebClient.DownloadFileAsync(new Uri(this.downloadUri), this.FileName);
+            this.ZipWebClient.DownloadProgressChanged += this.zipWebClient_DownloadProgressChanged;
+            this.ZipWebClient.DownloadFileCompleted += this.zipWebClient_DownloadFileCompleted;
+            this.ZipWebClient.DownloadFileAsync(new Uri(this.DownloadUrl), this.FileName);
         }
 
         private void ChangeLanguage() {

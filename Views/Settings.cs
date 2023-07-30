@@ -1061,11 +1061,10 @@ namespace FallGuysStats {
                              this.StatsForm.SaveUserSettings();
                              this.StatsForm.Hide();
                              this.StatsForm.overlay?.Hide();
-                             //this.StatsForm.DownloadNewVersion(web);
-                             using (UpdateProgress progress = new UpdateProgress()) {
+                             using (DownloadProgress progress = new DownloadProgress()) {
                                  this.StatsForm.StatsDB?.Dispose();
-                                 progress.StatsForm = this.StatsForm;
                                  progress.ZipWebClient = web;
+                                 progress.DownloadUrl = this.StatsForm.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                  progress.FileName = "FallGuysStats.zip";
                                  progress.ShowDialog(this);
                              }
