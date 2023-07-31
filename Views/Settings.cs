@@ -628,7 +628,7 @@ namespace FallGuysStats {
             }
         }
         private void launchPlatform_Click(object sender, EventArgs e) {
-            this.StatsForm.UpdateGameExeLocation();
+            //this.StatsForm.UpdateGameExeLocation();
             if ((bool)((PictureBox)sender)?.Name.Equals("picEpicGames")) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
