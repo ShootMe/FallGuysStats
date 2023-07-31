@@ -17,7 +17,7 @@ namespace FallGuysStats {
 
         private void EditShows_Load(object sender, EventArgs e) {
             this.SuspendLayout();
-            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.SetTheme(Stats.CurrentTheme);
             this.ResumeLayout(false);
             this.ChangeLanguage();
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();

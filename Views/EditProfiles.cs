@@ -23,7 +23,7 @@ namespace FallGuysStats {
             this.ProfileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.ProfileList.DefaultCellStyle = dataGridViewCellStyle2;
             this.SuspendLayout();
-            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.SetTheme(Stats.CurrentTheme);
             this.ResumeLayout(false);
             this.ChangeLanguage();
             this.InitProfileList();
