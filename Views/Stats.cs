@@ -3740,6 +3740,7 @@ namespace FallGuysStats {
         }
         private void LaunchGame(bool ignoreExisting) {
             try {
+                this.UpdateGameExeLocation();
                 if (CurrentSettings.LaunchPlatform == 0) {
                     if (!string.IsNullOrEmpty(this.CurrentSettings.GameShortcutLocation)) {
                         Process[] processes = Process.GetProcesses();
@@ -3769,7 +3770,6 @@ namespace FallGuysStats {
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 } else {
-                    this.UpdateGameExeLocation();
                     if (!string.IsNullOrEmpty(CurrentSettings.GameExeLocation) && File.Exists(CurrentSettings.GameExeLocation)) {
                         Process[] processes = Process.GetProcesses();
                         string fallGuysProcessName = Path.GetFileNameWithoutExtension(CurrentSettings.GameExeLocation);
@@ -3804,18 +3804,47 @@ namespace FallGuysStats {
             }
         }
         public void UpdateGameExeLocation() {
-            if (!string.IsNullOrEmpty(this.CurrentSettings.GameExeLocation)) { return; }
+            string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();
+            string fallGuysExeLocation = this.FindSteamExeLocation();
 
-            string fallGuysExeLocation = this.FindGameExeLocation();
-            if (!string.IsNullOrEmpty(fallGuysExeLocation)) {
+            if (string.IsNullOrEmpty(fallGuysShortcutLocation) && !string.IsNullOrEmpty(fallGuysExeLocation)) {
                 this.menuLaunchFallGuys.Image = Properties.Resources.steam_main_icon;
                 this.trayLaunchFallGuys.Image = Properties.Resources.steam_main_icon;
                 this.CurrentSettings.LaunchPlatform = 1;
-                this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
-                this.SaveUserSettings();
+            } else {
+                this.menuLaunchFallGuys.Image = Properties.Resources.epic_main_icon;
+                this.trayLaunchFallGuys.Image = Properties.Resources.epic_main_icon;
+                this.CurrentSettings.LaunchPlatform = 0;
             }
+            
+            this.CurrentSettings.GameShortcutLocation = fallGuysShortcutLocation;
+            this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
+            this.SaveUserSettings();
         }
-        private string FindGameExeLocation() {
+        private string FindEpicGamesShortcutLocation() {
+            try {
+                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
+                string epicGamesPath = Path.Combine((string)regValue, "Manifests");
+                
+                if (Directory.Exists(epicGamesPath)) {
+                    DirectoryInfo di = new DirectoryInfo(epicGamesPath);
+                    foreach (FileInfo file in di.GetFiles()) {
+                        if (!".item".Equals(file.Extension)) continue;
+                        JsonClass json = Json.Read(File.ReadAllText(file.FullName)) as JsonClass;
+                        string displayName = json["DisplayName"].AsString();
+                        if ("Fall Guys".Equals(displayName)) {
+                            return "com.epicgames.launcher://apps/50118b7f954e450f8823df1614b24e80%3A38ec4849ea4f4de6aa7b6fb0f2d278e1%3A0a2d9f6403244d12969e11da6713137b?action=launch&silent=true";
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return string.Empty;
+        }
+        private string FindSteamExeLocation() {
             try {
                 // get steam install folder
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
