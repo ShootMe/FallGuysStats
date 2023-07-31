@@ -42,7 +42,7 @@ namespace FallGuysStats {
         }
         private void Settings_Load(object sender, EventArgs e) {
             this.SuspendLayout();
-            this.SetTheme(this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.SetTheme(Stats.CurrentTheme);
             this.ResumeLayout(false);
 
             this.ChangeTab(this.tileProgram, null);
@@ -352,9 +352,9 @@ namespace FallGuysStats {
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
             Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
             this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
-            Stats.CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
-                this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
+            Stats.CurrentTheme = this.cboTheme.SelectedIndex == 0 ? MetroThemeStyle.Light :
+                this.cboTheme.SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
@@ -628,7 +628,7 @@ namespace FallGuysStats {
             }
         }
         private void launchPlatform_Click(object sender, EventArgs e) {
-            //this.StatsForm.UpdateGameExeLocation();
+            this.StatsForm.UpdateGameExeLocation();
             if ((bool)((PictureBox)sender)?.Name.Equals("picEpicGames")) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
