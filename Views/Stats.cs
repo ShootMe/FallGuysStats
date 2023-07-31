@@ -360,8 +360,6 @@ namespace FallGuysStats {
             
             this.cmtt.OwnerDraw = true;
             this.cmtt.Draw += this.cmtt_Draw;
-            //this.ocmtt.OwnerDraw = true;
-            //this.ocmtt.Draw += this.ocmtt_Draw;
             
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
@@ -386,42 +384,62 @@ namespace FallGuysStats {
         [DllImport("User32.dll")]
         static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
         private void cmtt_Draw(object sender, DrawToolTipEventArgs e) {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             // Draw the standard background.
             //e.DrawBackground();
+            
             // Draw the custom background.
-            g.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            e.Graphics.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
             // Draw the custom border to appear 3-dimensional.
-            //g.DrawLines(SystemPens.ControlLightLight, new[] {
+            //e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
             //    new Point (0, e.Bounds.Height - 1), 
             //    new Point (0, 0), 
             //    new Point (e.Bounds.Width - 1, 0)
             //});
-            //g.DrawLines(SystemPens.ControlDarkDark, new[] {
+            //e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
             //    new Point (0, e.Bounds.Height - 1), 
             //    new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
             //    new Point (e.Bounds.Width - 1, 0)
             //});
             
             // Draw the standard text with customized formatting options.
-            //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+            e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
             // Draw the custom text.
             // The using block will dispose the StringFormat automatically.
+            //using (StringFormat sf = new StringFormat()) {
+            //    sf.Alignment = StringAlignment.Near;
+            //    sf.LineAlignment = StringAlignment.Near;
+            //    sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
+            //    sf.FormatFlags = StringFormatFlags.NoWrap;
+            //    e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+            //    //using (Font f = new Font("Tahoma", 9)) {
+            //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
+            //    //}
+            //}
+            
+            MetroToolTip t = (MetroToolTip)sender;
+            PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
+            IntPtr handle = (IntPtr)h.GetValue(t);
+            Control c = e.AssociatedControl;
+            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+        }
+        private void cmtt2_Draw(object sender, DrawToolTipEventArgs e) {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            
+            // Draw the custom background.
+            g.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            
+            // Draw the standard border.
+            e.DrawBorder();
+            
             using (StringFormat sf = new StringFormat()) {
-                //sf.Alignment = StringAlignment.Near;
-                //sf.LineAlignment = StringAlignment.Near;
-                //sf.HotkeyPrefix = HotkeyPrefix.None;
-                //sf.FormatFlags = StringFormatFlags.NoWrap;
                 g.DrawString(e.ToolTipText, Overlay.GetMainFont(12.5f), SystemBrushes.ActiveCaptionText, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
-                //using (Font f = new Font("Tahoma", 9)) {
-                //    g.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
-                //}
             }
             
             MetroToolTip t = (MetroToolTip)sender;
@@ -431,38 +449,6 @@ namespace FallGuysStats {
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
             MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
-        // private void ocmtt_Draw(object sender, DrawToolTipEventArgs e) {
-        //     // Draw the standard background.
-        //     //e.DrawBackground();
-        //     // Draw the custom background.
-        //     e.Graphics.FillRectangle(Brushes.Teal, e.Bounds);
-        //     
-        //     // Draw the standard border.
-        //     //e.DrawBorder();
-        //     // Draw the custom border to appear 3-dimensional.
-        //     e.Graphics.DrawLines(SystemPens.ControlLightLight, new[] {
-        //         new Point (0, e.Bounds.Height - 1), 
-        //         new Point (0, 0), 
-        //         new Point (e.Bounds.Width - 1, 0)
-        //     });
-        //     e.Graphics.DrawLines(SystemPens.ControlDarkDark, new[] {
-        //         new Point (0, e.Bounds.Height - 1), 
-        //         new Point (e.Bounds.Width - 1, e.Bounds.Height - 1), 
-        //         new Point (e.Bounds.Width - 1, 0)
-        //     });
-        //     
-        //     // Draw the standard text with customized formatting options.
-        //     //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
-        //     // Draw the custom text.
-        //     // The using block will dispose the StringFormat automatically.
-        //     using (StringFormat sf = new StringFormat()) {
-        //         sf.Alignment = StringAlignment.Center;
-        //         sf.LineAlignment = StringAlignment.Center;
-        //         sf.HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.None;
-        //         sf.FormatFlags = StringFormatFlags.NoWrap;
-        //         e.Graphics.DrawString(e.ToolTipText, Overlay.GetMainFont(12), SystemBrushes.ActiveCaptionText, e.Bounds, sf);
-        //     }
-        // }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
             protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e) {
@@ -1941,7 +1927,7 @@ namespace FallGuysStats {
             this.Cursor = Cursors.Hand;
             Rectangle rectangle = this.menuOverlay.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
-            this.AllocCustomTooltip();
+            this.AllocCustomTooltip(1);
             this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_tooltip")}", this, position);
         }
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
@@ -2959,10 +2945,11 @@ namespace FallGuysStats {
         public void HideOverlayTooltip(IWin32Window window) {
             this.omtt.Hide(window);
         }
-        public void AllocCustomTooltip() {
+        public void AllocCustomTooltip(int drawFunc) {
             this.cmtt = new MetroToolTip();
             this.cmtt.OwnerDraw = true;
-            this.cmtt.Draw += this.cmtt_Draw;
+            if (drawFunc == 0) this.cmtt.Draw += this.cmtt_Draw;
+            else if (drawFunc == 1) this.cmtt.Draw += this.cmtt2_Draw;
         }
         public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
