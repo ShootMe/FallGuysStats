@@ -53,7 +53,7 @@ namespace FallGuysStats {
                 }
             }
 
-            this.SetTheme(this.StatsForm.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : this.StatsForm.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
+            this.SetTheme(Stats.CurrentTheme);
             this.ChangeLanguage();
         }
 
