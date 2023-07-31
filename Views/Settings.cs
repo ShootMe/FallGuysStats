@@ -595,7 +595,7 @@ namespace FallGuysStats {
                                 }
                             }
 
-                            if (url.ToLower().StartsWith("com.epicgames.launcher://apps") && url.IndexOf(epicGamesFallGuysApp) > 0) {
+                            if (url.ToLower().StartsWith("com.epicgames.launcher://apps/") && url.IndexOf(epicGamesFallGuysApp) > 0) {
                                 this.txtGameShortcutLocation.Text = url;
                             } else {
                                 MetroMessageBox.Show(this, Multilingual.GetWordWithLang("message_wrong_selected_file_epicgames", this.DisplayLang), Multilingual.GetWordWithLang("message_wrong_selected_file_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -628,6 +628,7 @@ namespace FallGuysStats {
             }
         }
         private void launchPlatform_Click(object sender, EventArgs e) {
+            this.StatsForm.UpdateGameExeLocation();
             if ((bool)((PictureBox)sender)?.Name.Equals("picEpicGames")) { // Epic Games
                 this.picPlatformCheck.Parent = this.picEpicGames;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Epic Games");
@@ -641,7 +642,6 @@ namespace FallGuysStats {
 
                 this.LaunchPlatform = 0;
             } else if (((PictureBox)sender).Name.Equals("picSteam")) { // Steam
-                this.StatsForm.UpdateGameExeLocation();
                 this.txtGameExeLocation.Text = this.CurrentSettings.GameExeLocation;
                 this.picPlatformCheck.Parent = this.picSteam;
                 this.platformToolTip.SetToolTip(this.picPlatformCheck, "Steam");
