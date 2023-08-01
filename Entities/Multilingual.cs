@@ -2695,10 +2695,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -2970,10 +2970,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -3245,10 +3245,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -3520,10 +3520,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -3795,10 +3795,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -4070,10 +4070,10 @@ namespace FallGuysStats {
                             {"current_wle_fp3_10_28", "SLIP-SAW"},
                             {"current_wle_fp3_10_29", "Bbq bacon burger"},
                             
-                            {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                            {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                            {"current_wle_current_fp4_10_12", "Chickens run away"},
-                            {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                            {"current_wle_fp4_10_08", "Wall Breaker"},
+                            {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                            {"current_wle_fp4_10_12", "Chickens run away"},
+                            {"current_wle_fp4_10_20", "Co-op and CO"},
                             
                             {"wle_s10_bt_round_001", "Push Ups"},
                             {"wle_s10_bt_round_002", "Heave & Haul"},
@@ -4526,10 +4526,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
@@ -5014,10 +5014,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
@@ -5502,10 +5502,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
@@ -5990,10 +5990,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
@@ -6478,10 +6478,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
@@ -6966,10 +6966,10 @@ namespace FallGuysStats {
                     {"show_wle_s10_wk07_srs_05", "Sky High Run"},
                     {"show_wle_s10_wk07_srs_06", "Full Speed Sliding (FSS) - Jelly Road"},
                     
-                    {"current_wle_current_fp4_10_08", "Wall Breaker"},
-                    {"current_wle_current_fp4_10_11", "HOARDER BLOCKS"},
-                    {"current_wle_current_fp4_10_12", "Chickens run away"},
-                    {"current_wle_current_fp4_10_20", "Co-op and CO"},
+                    {"current_wle_fp4_10_08", "Wall Breaker"},
+                    {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
+                    {"current_wle_fp4_10_12", "Chickens run away"},
+                    {"current_wle_fp4_10_20", "Co-op and CO"},
                     
                     {"show_wle_s10_wk08_srs_01", "Push Ups"},
                     {"show_wle_s10_wk08_srs_02", "Heave & Haul"},
