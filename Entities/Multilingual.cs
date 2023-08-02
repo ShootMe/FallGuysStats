@@ -2645,7 +2645,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -2920,7 +2920,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -3195,7 +3195,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -3470,7 +3470,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -3745,7 +3745,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -4020,7 +4020,7 @@ namespace FallGuysStats {
                             {"wle_s10_player_round_wk5_13", "Dessert Village"},
                             {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                             {"wle_s10_player_round_wk5_15", "Beast Route"},
-                            {"wle_s10_player_round_wk5_16", "Metroplis"},
+                            {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                             {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                             {"wle_s10_player_round_wk5_18", "Digital Doom"},
                             
@@ -4468,7 +4468,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
@@ -4956,7 +4956,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
@@ -5444,7 +5444,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
@@ -5932,7 +5932,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
@@ -6420,7 +6420,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
@@ -6908,7 +6908,7 @@ namespace FallGuysStats {
                     {"wle_s10_player_round_wk5_13", "Dessert Village"},
                     {"wle_s10_player_round_wk5_14", "Extreme Trampoline Jumping"},
                     {"wle_s10_player_round_wk5_15", "Beast Route"},
-                    {"wle_s10_player_round_wk5_16", "Metroplis"},
+                    {"wle_s10_player_round_wk5_16", "METROPOLIS"},
                     {"wle_s10_player_round_wk5_17", "Big Bookcase"},
                     {"wle_s10_player_round_wk5_18", "Digital Doom"},
                     
