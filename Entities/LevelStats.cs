@@ -237,7 +237,7 @@ namespace FallGuysStats {
             { "wle_s10_player_round_wk5_13",      new LevelStats("Dessert Village", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk5_14",      new LevelStats("Extreme Trampoline Jumping", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk5_15",      new LevelStats("Beast Route", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_player_round_wk5_16",      new LevelStats("Metroplis", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk5_16",      new LevelStats("METROPOLIS", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk5_17",      new LevelStats("Big Bookcase", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk5_18",      new LevelStats("Digital Doom", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
