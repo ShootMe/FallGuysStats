@@ -118,7 +118,7 @@ namespace FallGuysStats {
         public static bool IsBadPing = false;
         public static string LastCountryCode = string.Empty;
         public static string LastCountryFullName = string.Empty;
-        public static int CurrentLanguage = 0;
+        public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
@@ -2277,7 +2277,9 @@ namespace FallGuysStats {
                     } else {
                         MetroMessageBox.Show(this, error, $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } catch { }
+                } catch {
+                    // ignored
+                }
             }
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
@@ -2360,7 +2362,7 @@ namespace FallGuysStats {
                                 }
                                 
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
-                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, (stat.ShowNameId.StartsWith("show_wle_s10") || stat.ShowNameId.StartsWith("wle_s10_player_round")));
+                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, this.IsCreativeShow(stat.ShowNameId));
                                     this.CurrentSettings.SelectedProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
@@ -2519,6 +2521,12 @@ namespace FallGuysStats {
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public bool IsCreativeShow(string showId) {
+            return showId.StartsWith("show_wle_s10") ||
+                   showId.IndexOf("wle_s10_player_round", StringComparison.OrdinalIgnoreCase) != -1 ||
+                   showId.Equals("wle_mrs_bagel") ||
+                   showId.StartsWith("current_wle_fp");
         }
         private bool IsInStatsFilter(RoundInfo info) {
             return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
@@ -2679,7 +2687,6 @@ namespace FallGuysStats {
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
                     RoundInfo info = filteredInfo[i];
-                    //if (!info.ShowNameId.Equals(name)) { continue; }
                     
                     TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
                     bool hasLevelDetails = this.StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
@@ -4617,25 +4624,25 @@ namespace FallGuysStats {
         private void menuOverlay_Click(object sender, EventArgs e) {
             this.ToggleOverlay(this.overlay);
         }
-        public void ToggleOverlay(Overlay overlay) {
-            if (overlay.Visible) {
-                overlay.Hide();
+        public void ToggleOverlay(Overlay ol) {
+            if (ol.Visible) {
+                ol.Hide();
                 this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.trayOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
-                if (!overlay.IsFixed()) {
-                    this.CurrentSettings.OverlayLocationX = overlay.Location.X;
-                    this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
-                    this.CurrentSettings.OverlayWidth = overlay.Width;
-                    this.CurrentSettings.OverlayHeight = overlay.Height;
+                if (!ol.IsFixed()) {
+                    this.CurrentSettings.OverlayLocationX = ol.Location.X;
+                    this.CurrentSettings.OverlayLocationY = ol.Location.Y;
+                    this.CurrentSettings.OverlayWidth = ol.Width;
+                    this.CurrentSettings.OverlayHeight = ol.Height;
                 }
                 this.CurrentSettings.OverlayVisible = false;
                 this.SaveUserSettings();
             } else {
-                overlay.Show();
-                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
-                overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
+                ol.Show();
+                ol.TopMost = !this.CurrentSettings.OverlayNotOnTop;
+                ol.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
                 this.menuOverlay.Image = Properties.Resources.stat_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_icon;
@@ -4643,17 +4650,17 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayVisible = true;
                 this.SaveUserSettings();
 
-                if (overlay.IsFixed()) {
+                if (ol.IsFixed()) {
                     if (this.CurrentSettings.OverlayFixedPositionX.HasValue &&
-                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
+                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, ol.Width, ol.Height))
                     {
-                        overlay.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
-                        overlay.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
+                        ol.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
+                        ol.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
                     } else {
-                        overlay.Location = this.Location;
+                        ol.Location = this.Location;
                     }
                 } else {
-                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
+                    ol.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, ol.Width, ol.Height)
                                         ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                         : this.Location;
                 }

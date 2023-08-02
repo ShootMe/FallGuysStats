@@ -199,7 +199,7 @@ namespace FallGuysStats {
                                 lastDate = line.Date;
                             } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.autoChangeProfile && Stats.InShow && !Stats.EndedShow) {
-                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.IsCreativeShow(this.selectedShowId));
+                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.StatsForm.IsCreativeShow(this.selectedShowId));
                                 }
                             } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) > 0) {
                                 if (this.preventOverlayMouseClicks && Stats.InShow && !Stats.EndedShow) {
@@ -338,12 +338,6 @@ namespace FallGuysStats {
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        private bool IsCreativeShow(string showId) {
-            return showId.StartsWith("show_wle_s10") ||
-                   showId.IndexOf("wle_s10_player_round", StringComparison.OrdinalIgnoreCase) != -1 ||
-                   showId.Equals("wle_mrs_bagel") ||
-                   showId.StartsWith("current_wle_fp");
-        }
         private bool IsCreativeFinalRound(string showId, string roundId) {
             return ((showId.IndexOf("show_wle_s10_wk01_srs_01", StringComparison.OrdinalIgnoreCase) != -1 ||
                      showId.IndexOf("show_wle_s10_wk01_srs_02", StringComparison.OrdinalIgnoreCase) != -1 ||
