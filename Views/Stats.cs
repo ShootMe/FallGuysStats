@@ -391,11 +391,16 @@ namespace FallGuysStats {
         [DllImport("User32.dll")]
         static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
         private void cmtt_Draw(object sender, DrawToolTipEventArgs e) {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            
             // Draw the standard background.
             //e.DrawBackground();
             
             // Draw the custom background.
-            e.Graphics.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
@@ -412,7 +417,7 @@ namespace FallGuysStats {
             //});
             
             // Draw the standard text with customized formatting options.
-            e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
+            //e.DrawText(TextFormatFlags.TextBoxControl | TextFormatFlags.Left | TextFormatFlags.Top | TextFormatFlags.WordBreak | TextFormatFlags.LeftAndRightPadding);
             // Draw the custom text.
             // The using block will dispose the StringFormat automatically.
             //using (StringFormat sf = new StringFormat()) {
@@ -425,6 +430,7 @@ namespace FallGuysStats {
             //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
             //    //}
             //}
+            g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -445,9 +451,7 @@ namespace FallGuysStats {
             // Draw the standard border.
             e.DrawBorder();
             
-            using (StringFormat sf = new StringFormat()) {
-                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
-            }
+            g.DrawString(e.ToolTipText, Overlay.GetMainFont(12f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -2004,7 +2008,7 @@ namespace FallGuysStats {
             Rectangle rectangle = this.menuOverlay.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.AllocCustomTooltip(1);
-            this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_tooltip")}", this, position);
+            this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_shortcut_tooltip")}", this, position);
         }
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
