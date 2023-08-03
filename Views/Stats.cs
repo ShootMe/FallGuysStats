@@ -440,13 +440,13 @@ namespace FallGuysStats {
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             
             // Draw the custom background.
-            g.FillRectangle(Brushes.WhiteSmoke, e.Bounds);
+            g.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
             
             using (StringFormat sf = new StringFormat()) {
-                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12.5f), SystemBrushes.ActiveCaptionText, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
+                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12.5f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
             }
             
             MetroToolTip t = (MetroToolTip)sender;

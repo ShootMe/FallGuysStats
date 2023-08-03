@@ -1142,7 +1142,7 @@ namespace FallGuysStats {
                             {"settings_auto_generate_profiles", "프로필 자동 생성"},
                             {"settings_select_language_button", "확인"},
                             {"settings_system_tray_icon", "작업 표시줄 아이콘 사용"},
-                            {"settings_notify_server_connected", "서버가 연결되면 서버의 국가 이름과 함께 윈도우 알림"},
+                            {"settings_notify_server_connected", "서버가 연결되면 서버가 속한 나라의 이름을 윈도우 알림으로 알리기"},
                             {"settings_prevent_overlay_mouse_clicks", "오버레이 마우스 클릭 방지"},
                             {"settings_github", "깃허브 (ShootMe/FallGuysStats)"},
                             {"settings_issue_traker", "이슈 추적"},
