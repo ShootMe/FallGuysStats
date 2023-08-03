@@ -1431,7 +1431,7 @@ namespace FallGuysStats {
             // 
             this.btnCheckUpdates.AutoSize = true;
             this.btnCheckUpdates.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCheckUpdates.Location = new System.Drawing.Point(13, 112);
+            this.btnCheckUpdates.Location = new System.Drawing.Point(13, 90);
             this.btnCheckUpdates.Name = "btnCheckUpdates";
             this.btnCheckUpdates.Size = new System.Drawing.Size(54, 23);
             this.btnCheckUpdates.TabIndex = 3;
