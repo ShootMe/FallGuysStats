@@ -206,7 +206,7 @@ namespace FallGuysStats {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
-
+#if AllowUpdate
                             Task.Run(() => {
                                 TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
                                 if (timeDiff.TotalMinutes >= 30) {
@@ -214,6 +214,7 @@ namespace FallGuysStats {
                                     this.StatsForm.CheckForNewVersion();
                                 }
                             });
+#endif
                         }
 
                         //if (logRound.LastPing > 0) {

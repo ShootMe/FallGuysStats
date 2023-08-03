@@ -195,8 +195,10 @@ namespace FallGuysStats {
         public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
+#if AllowUpdate
         public DateTime timeSwitcherForCheckUpdate;
-
+#endif
+        
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
@@ -227,7 +229,9 @@ namespace FallGuysStats {
         };
 
         private Stats() {
+#if AllowUpdate
             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+#endif
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -4503,6 +4507,7 @@ namespace FallGuysStats {
             }
             return resJroot;
         }
+#if AllowUpdate
         public void ChangeStateForAvailableNewVersion(string newVersion) {
             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
             this.isAvailableNewVersion = true;
@@ -4510,7 +4515,6 @@ namespace FallGuysStats {
             this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
             this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
         }
-#if AllowUpdate
         public void CheckForNewVersion() {
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
@@ -4525,7 +4529,9 @@ namespace FallGuysStats {
                 }
             }
         }
+#endif
         private bool CheckForUpdate(bool isSilent) {
+#if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
