@@ -272,6 +272,8 @@
     <None Include="Resources\number_10.png" />
     <None Include="Resources\github_icon.png" />
     <None Include="Resources\github_gray_icon.png" />
+    <None Include="Resources\github_update_icon.png" />
+    <None Include="Resources\github_update_gray_icon.png" />
     <None Include="Resources\profile_icon.png" />
     <None Include="Resources\profile_gray_icon.png" />
     <None Include="Resources\profile2_icon.png" />

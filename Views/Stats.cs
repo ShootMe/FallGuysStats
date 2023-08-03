@@ -194,6 +194,8 @@ namespace FallGuysStats {
         private string mainWndTitle;
         private bool isStartingUp = true;
         public bool isUpdate;
+        private bool isAvailableNewVersion;
+        private string availableNewVersion;
         
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
@@ -610,6 +612,8 @@ namespace FallGuysStats {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                             //case "menuOverlay": break;
                             case "menuUpdate":
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
+                                                                               (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
                             case "menuHelp":
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                             //case "menuLaunchFallGuys": break;
@@ -706,6 +710,8 @@ namespace FallGuysStats {
                         case "trayFilters": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
                         case "trayProfile": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                         case "trayUpdate":
+                            tsmi.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
+                                                                          (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
                         case "trayHelp":
                             tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                         case "trayExitProgram": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
@@ -758,9 +764,8 @@ namespace FallGuysStats {
                     case "trayFilters": tsi.Image = Properties.Resources.filter_icon; break;
                     case "trayCustomRangeStats": tsi.Image = Properties.Resources.calendar_icon; break;
                     case "trayProfile": tsi.Image = Properties.Resources.profile_icon; break;
-                    case "trayUpdate":
-                    case "trayHelp":
-                        tsi.Image = Properties.Resources.github_icon; break;
+                    case "trayUpdate": tsi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon; break;
+                    case "trayHelp": tsi.Image = Properties.Resources.github_icon; break;
                     case "trayEditProfiles": tsi.Image = Properties.Resources.setting_icon; break;
                     case "trayExitProgram": tsi.Image = Properties.Resources.shutdown_icon; break;
                 }
@@ -779,9 +784,9 @@ namespace FallGuysStats {
                     case "trayFilters": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
                     case "trayCustomRangeStats": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
                     case "trayProfile": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                    case "trayUpdate":
-                    case "trayHelp":
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
+                    case "trayUpdate": tsi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
+                                                                                         (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
+                    case "trayHelp": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                     case "trayEditProfiles": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
                     case "trayExitProgram": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
                 }
@@ -795,9 +800,8 @@ namespace FallGuysStats {
                 case "menuCustomRangeStats": tsmi.Image = Properties.Resources.calendar_icon; break;
                 case "menuProfile": tsmi.Image = Properties.Resources.profile_icon; break;
                 //case "menuOverlay": break;
-                case "menuUpdate":
-                case "menuHelp":
-                    tsmi.Image = Properties.Resources.github_icon; break;
+                case "menuUpdate": tsmi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon; break;
+                case "menuHelp": tsmi.Image = Properties.Resources.github_icon; break;
                 //case "menuLaunchFallGuys": break;
                 case "menuEditProfiles": tsmi.Image = Properties.Resources.setting_icon; break;
             }
@@ -811,9 +815,9 @@ namespace FallGuysStats {
                 case "menuCustomRangeStats": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
                 case "menuProfile": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
                 //case "menuOverlay": break;
-                case "menuUpdate":
-                case "menuHelp":
-                    tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
+                case "menuUpdate": tsmi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
+                                                                                      (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
+                case "menuHelp": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                 //case "menuLaunchFallGuys": break;
                 case "menuEditProfiles": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
             }
@@ -1981,7 +1985,9 @@ namespace FallGuysStats {
             Rectangle rectangle = ((ToolStripMenuItem)sender).Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.AllocTooltip();
-            this.ShowTooltip($"{Multilingual.GetWord("main_update_prefix_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip")}", this, position);
+            this.ShowTooltip("menuUpdate".Equals(((ToolStripMenuItem)sender).Name) && this.isAvailableNewVersion ? $"{Multilingual.GetWord("main_you_can_update_new_version_prefix_tooltip")}v{this.availableNewVersion}{Multilingual.GetWord("main_you_can_update_new_version_suffix_tooltip")}" :
+                $"{Multilingual.GetWord("main_update_prefix_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip")}",
+                this, position);
         }
         private void menuUpdate_MouseLeave(object sender, EventArgs e) {
             this.HideTooltip(this);
@@ -2166,14 +2172,24 @@ namespace FallGuysStats {
             }
             return rtnStr;
         }
+        private void ChangeUpdateIcon() {
+            if (this.isAvailableNewVersion) {
+                this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
+                this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
+            }
+        }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
 #if AllowUpdate
-                if (this.CurrentSettings.AutoUpdate && this.CheckForUpdate(true)) {
-                    this.Stats_ExitProgram(this, null);
-                    return;
+                if (this.CurrentSettings.AutoUpdate) {
+                    if (this.CheckForUpdate(true)) {
+                        this.Stats_ExitProgram(this, null);
+                        return;
+                    }
+                } else {
+                    this.CheckForNewVersion();
                 }
-                
+
                 if (this.CurrentSettings.ShowChangelog) {
                     try {
                         string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
@@ -4492,6 +4508,22 @@ namespace FallGuysStats {
             }
             return resJroot;
         }
+        private void CheckForNewVersion() {
+            using (ZipWebClient web = new ZipWebClient()) {
+                string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+                int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                if (index > 0) {
+                    int indexEnd = assemblyInfo.IndexOf("\")", index);
+                    Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                    Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                    if (newVersion > currentVersion) {
+                        this.isAvailableNewVersion = true;
+                        this.availableNewVersion = newVersion.ToString(2);
+                        this.ChangeUpdateIcon();
+                    }
+                }
+            }
+        }
         private bool CheckForUpdate(bool isSilent) {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
@@ -4502,6 +4534,9 @@ namespace FallGuysStats {
                     Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                     if (newVersion > currentVersion) {
+                        this.isAvailableNewVersion = true;
+                        this.availableNewVersion = newVersion.ToString(2);
+                        this.ChangeUpdateIcon();
                         if (MetroMessageBox.Show(this,
                                 $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
                                 $"{Multilingual.GetWord("message_update_question_caption")}",
