@@ -446,7 +446,7 @@ namespace FallGuysStats {
             e.DrawBorder();
             
             using (StringFormat sf = new StringFormat()) {
-                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12.5f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
+                g.DrawString(e.ToolTipText, Overlay.GetMainFont(12f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2), sf);
             }
             
             MetroToolTip t = (MetroToolTip)sender;
