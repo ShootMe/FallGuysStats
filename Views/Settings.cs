@@ -993,6 +993,7 @@ namespace FallGuysStats {
                             this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)} v{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
                             this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.LimeGreen : Color.LightGreen;
                             this.lblupdateNote.UseCustomForeColor = true;
+                            this.lblupdateNote.Location = new Point(this.btnCheckUpdates.Location.X + this.btnCheckUpdates.Width + 5, 92);
                             this.btnCheckUpdates.Visible = true;
                         } else {
                             this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang)}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
