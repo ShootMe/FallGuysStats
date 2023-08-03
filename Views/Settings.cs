@@ -3,7 +3,6 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.IO.Compression;
 using System.Reflection;
 using System.Windows.Forms;
 using MetroFramework;
@@ -995,6 +994,7 @@ namespace FallGuysStats {
                             this.lblupdateNote.UseCustomForeColor = true;
                             this.lblupdateNote.Location = new Point(this.btnCheckUpdates.Location.X + this.btnCheckUpdates.Width + 5, 92);
                             this.btnCheckUpdates.Visible = true;
+                            this.StatsForm.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
                         } else {
                             this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang)}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
                         }
