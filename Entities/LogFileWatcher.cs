@@ -206,6 +206,14 @@ namespace FallGuysStats {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
+
+                            Task.Run(() => {
+                                TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
+                                if (timeDiff.TotalMinutes >= 30) {
+                                    this.StatsForm.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+                                    this.StatsForm.CheckForNewVersion();
+                                }
+                            });
                         }
 
                         //if (logRound.LastPing > 0) {

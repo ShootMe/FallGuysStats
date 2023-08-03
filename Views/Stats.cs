@@ -189,14 +189,14 @@ namespace FallGuysStats {
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
         private MetroToolTip omtt = new MetroToolTip();
-        //private MetroToolTip ocmtt = new MetroToolTip();
         private DWM_WINDOW_CORNER_PREFERENCE windowConerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private string mainWndTitle;
         private bool isStartingUp = true;
         public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
-        
+        public DateTime timeSwitcherForCheckUpdate;
+
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
@@ -227,6 +227,7 @@ namespace FallGuysStats {
         };
 
         private Stats() {
+            this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -2171,12 +2172,6 @@ namespace FallGuysStats {
                 rtnStr += Environment.NewLine;
             }
             return rtnStr;
-        }
-        private void ChangeUpdateIcon() {
-            if (this.isAvailableNewVersion) {
-                this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
-                this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
-            }
         }
         private void Stats_Shown(object sender, EventArgs e) {
             try {
@@ -4508,7 +4503,15 @@ namespace FallGuysStats {
             }
             return resJroot;
         }
-        private void CheckForNewVersion() {
+        public void ChangeStateForAvailableNewVersion(string newVersion) {
+            this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+            this.isAvailableNewVersion = true;
+            this.availableNewVersion = newVersion;
+            this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
+            this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
+        }
+#if AllowUpdate
+        public void CheckForNewVersion() {
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
@@ -4517,15 +4520,12 @@ namespace FallGuysStats {
                     Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                     if (newVersion > currentVersion) {
-                        this.isAvailableNewVersion = true;
-                        this.availableNewVersion = newVersion.ToString(2);
-                        this.ChangeUpdateIcon();
+                        this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
                     }
                 }
             }
         }
         private bool CheckForUpdate(bool isSilent) {
-#if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
                 string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
                 int index = assemblyInfo.IndexOf("AssemblyVersion(");
@@ -4534,9 +4534,7 @@ namespace FallGuysStats {
                     Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
                     Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                     if (newVersion > currentVersion) {
-                        this.isAvailableNewVersion = true;
-                        this.availableNewVersion = newVersion.ToString(2);
-                        this.ChangeUpdateIcon();
+                        this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
                         if (MetroMessageBox.Show(this,
                                 $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
                                 $"{Multilingual.GetWord("message_update_question_caption")}",
