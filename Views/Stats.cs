@@ -2457,7 +2457,11 @@ namespace FallGuysStats {
                                 //Must not be a private lobby
                                 //Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
-                                    Task.Run(() => { FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey); });
+                                    Task.Run(() => {
+                                        if (this.IsInternetConnected()) {
+                                            FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
+                                        }
+                                    });
                                 }
                             } else {
                                 continue;
