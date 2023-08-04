@@ -208,10 +208,12 @@ namespace FallGuysStats {
                             }
 #if AllowUpdate
                             Task.Run(() => {
-                                TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
-                                if (timeDiff.TotalMinutes >= 30) {
-                                    this.StatsForm.timeSwitcherForCheckUpdate = DateTime.UtcNow;
-                                    this.StatsForm.CheckForNewVersion();
+                                if (this.StatsForm.IsInternetConnected()) {
+                                    TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
+                                    if (timeDiff.TotalMinutes >= 30) {
+                                        this.StatsForm.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+                                        this.StatsForm.CheckForNewVersion();
+                                    }
                                 }
                             });
 #endif
