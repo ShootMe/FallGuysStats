@@ -4500,6 +4500,9 @@ namespace FallGuysStats {
                     if (this.CheckForUpdate(false)) {
                         this.Stats_ExitProgram(this, null);
                     }
+                } else {
+                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_check_internet_connection")}", $"{Multilingual.GetWord("message_check_internet_connection_caption")}",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",

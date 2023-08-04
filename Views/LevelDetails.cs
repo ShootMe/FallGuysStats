@@ -797,6 +797,9 @@ namespace FallGuysStats {
                         }
                     }
                 }
+            } else {
+                MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_check_internet_connection")}", $"{Multilingual.GetWord("message_check_internet_connection_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void deleteShows_Click(object sender, EventArgs e) {
