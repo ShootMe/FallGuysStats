@@ -512,20 +512,23 @@ namespace FallGuysStats {
             this.SetVisiblePositionMenu(false);
             this.SetVisiblePositionLockButton(false);
         }
+        private void ShowCountyNameTooltip() {
+            this.StatsForm.AllocOverlayTooltip();
+            Rectangle rectangle = this.lblCountryIcon.Bounds;
+            Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
+                                       + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
+                                           Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
+                                           Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
+                                           Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
+                                       + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
+                rectangle.Top - (rectangle.Height / 3));
+            this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
+        }
         private void Overlay_MouseEnter(object sender, EventArgs e) {
             this.isMouseEnter = true;
             this.StatsForm.HideOverlayTooltip(this);
             if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
-                this.StatsForm.AllocOverlayTooltip();
-                Rectangle rectangle = this.lblCountryIcon.Bounds;
-                Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
-                                           + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
-                                               Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
-                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
-                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) 
-                                           + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
-                    rectangle.Top - (rectangle.Height / 2));
-                this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
+                this.ShowCountyNameTooltip();
             }
         }
         private void Overlay_MouseLeave(object sender, EventArgs e) {
@@ -535,16 +538,7 @@ namespace FallGuysStats {
         private void Overlay_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
-                    this.StatsForm.AllocOverlayTooltip();
-                    Rectangle rectangle = this.lblCountryIcon.Bounds;
-                    Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
-                                               + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
-                                                   Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
-                                                   Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
-                                                   Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
-                                               + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
-                        rectangle.Top - (rectangle.Height / 2));
-                    this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
+                    this.ShowCountyNameTooltip();
                 }
             }
         }
@@ -675,12 +669,12 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
                     if (Stats.IsBadPing) {
                         this.lblCountryIcon.ImageX = 49;
-                        this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon");
+                        this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
 
                         this.lblPingIcon.ImageX = 40;
                         this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                     } else {
-                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}_icon") : null);
+                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                         this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
                                                         ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
                                                            Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
@@ -1177,7 +1171,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(thirdColumnX, 10 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(thirdColumnX + 103, 14 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 10 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(thirdColumnX + 143, 14 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1240,7 +1234,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(secondColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(secondColumnX + 161, 36 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(secondColumnX + 159, 32 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(secondColumnX + 200, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1369,7 +1363,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX + secondColumnWidth + 6, 9 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(firstColumnX + secondColumnWidth + 110, 13 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(firstColumnX + secondColumnWidth + 108, 9 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(firstColumnX + secondColumnWidth + 149, 13 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1425,7 +1419,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(firstColumnX + 161, 36 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(firstColumnX + 159, 32 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(firstColumnX + 200, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;

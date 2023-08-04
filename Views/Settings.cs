@@ -87,6 +87,7 @@ namespace FallGuysStats {
             this.chkPlayerByConsoleType.Checked = this.CurrentSettings.PlayerByConsoleType;
             this.chkColorByRoundType.Checked = this.CurrentSettings.ColorByRoundType;
             this.chkAutoChangeProfile.Checked = this.CurrentSettings.AutoChangeProfile;
+            this.chkShadeTheFlagImage.Checked = this.CurrentSettings.ShadeTheFlagImage;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -418,6 +419,7 @@ namespace FallGuysStats {
             this.CurrentSettings.PlayerByConsoleType = this.chkPlayerByConsoleType.Checked;
             this.CurrentSettings.ColorByRoundType = this.chkColorByRoundType.Checked;
             this.CurrentSettings.AutoChangeProfile = this.chkAutoChangeProfile.Checked;
+            this.CurrentSettings.ShadeTheFlagImage = this.chkShadeTheFlagImage.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -859,6 +861,7 @@ namespace FallGuysStats {
             this.chkPlayerByConsoleType.Text = Multilingual.GetWord("settings_display_players_based_on_platform");
             this.chkColorByRoundType.Text = Multilingual.GetWord("settings_color_round_name_based_on_round_type");
             this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
+            this.chkShadeTheFlagImage.Text = Multilingual.GetWord("settings_shade_the_flag_image");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");
