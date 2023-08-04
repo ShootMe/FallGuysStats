@@ -263,6 +263,8 @@ namespace FallGuysStats {
                     tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 }
             }
+            
+            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
         }
         private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
