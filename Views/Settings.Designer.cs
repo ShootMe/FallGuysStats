@@ -67,6 +67,7 @@ namespace FallGuysStats {
             this.chkPlayerByConsoleType = new MetroFramework.Controls.MetroCheckBox();
             this.chkColorByRoundType = new MetroFramework.Controls.MetroCheckBox();
             this.chkAutoChangeProfile = new MetroFramework.Controls.MetroCheckBox();
+            this.chkShadeTheFlagImage = new MetroFramework.Controls.MetroCheckBox();
             this.lblCycleTimeSecondsTag = new MetroFramework.Controls.MetroLabel();
             this.lblCycleTimeSeconds = new MetroFramework.Controls.MetroLabel();
             this.txtCycleTimeSeconds = new MetroFramework.Controls.MetroTextBox();
@@ -216,7 +217,7 @@ namespace FallGuysStats {
             // 
             this.lblOverlayFont.AutoSize = true;
             this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblOverlayFont.Location = new System.Drawing.Point(21, 631);
+            this.lblOverlayFont.Location = new System.Drawing.Point(21, 661);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
             this.lblOverlayFont.TabIndex = 27;
@@ -225,7 +226,7 @@ namespace FallGuysStats {
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(169, 630);
+            this.btnSelectFont.Location = new System.Drawing.Point(169, 660);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -237,7 +238,7 @@ namespace FallGuysStats {
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 630);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 660);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -249,7 +250,7 @@ namespace FallGuysStats {
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 655);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 685);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
@@ -611,6 +612,18 @@ namespace FallGuysStats {
             this.chkAutoChangeProfile.TabIndex = 26;
             this.chkAutoChangeProfile.Text = "Automatically change to linked profile";
             this.chkAutoChangeProfile.UseSelectable = true;
+            // 
+            // chkShadeTheFlagImage
+            // 
+            this.chkShadeTheFlagImage.AutoSize = true;
+            this.chkShadeTheFlagImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkShadeTheFlagImage.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkShadeTheFlagImage.Location = new System.Drawing.Point(21, 610);
+            this.chkShadeTheFlagImage.Name = "chkShadeTheFlagImage";
+            this.chkShadeTheFlagImage.Size = new System.Drawing.Size(255, 19);
+            this.chkShadeTheFlagImage.TabIndex = 27;
+            this.chkShadeTheFlagImage.Text = "Shade the flag image";
+            this.chkShadeTheFlagImage.UseSelectable = true;
             // 
             // lblCycleTimeSecondsTag
             // 
@@ -1182,6 +1195,7 @@ namespace FallGuysStats {
             this.panelOverlay.Controls.Add(this.btnSelectFont);
             this.panelOverlay.Controls.Add(this.btnResetOverlayFont);
             this.panelOverlay.Controls.Add(this.chkAutoChangeProfile);
+            this.panelOverlay.Controls.Add(this.chkShadeTheFlagImage);
             this.panelOverlay.Controls.Add(this.chkColorByRoundType);
             this.panelOverlay.Controls.Add(this.chkPlayerByConsoleType);
             this.panelOverlay.Controls.Add(this.chkOverlayOnTop);
@@ -1636,6 +1650,7 @@ namespace FallGuysStats {
         private MetroFramework.Controls.MetroCheckBox chkPlayerByConsoleType;
         private MetroFramework.Controls.MetroCheckBox chkColorByRoundType;
         private MetroFramework.Controls.MetroCheckBox chkAutoChangeProfile;
+        private MetroFramework.Controls.MetroCheckBox chkShadeTheFlagImage;
         private MetroFramework.Controls.MetroComboBox cboFastestFilter;
         private MetroFramework.Controls.MetroLabel lblFastestFilter;
         private MetroFramework.Controls.MetroComboBox cboQualifyFilter;

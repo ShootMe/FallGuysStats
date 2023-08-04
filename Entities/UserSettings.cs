@@ -41,6 +41,7 @@ namespace FallGuysStats {
         public bool PlayerByConsoleType { get; set; }
         public bool ColorByRoundType { get; set; }
         public bool AutoChangeProfile { get; set; }
+        public bool ShadeTheFlagImage { get; set; }
         public int PreviousWins { get; set; }
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }
