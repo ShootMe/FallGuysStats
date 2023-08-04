@@ -629,8 +629,7 @@ namespace FallGuysStats {
                                         try {
                                             string[] countryArr = this.StatsForm.GetCountryCode(ip);
                                             Stats.LastCountryCode = countryArr[0].ToLower();
-                                            Stats.LastCountryFullName = string.IsNullOrEmpty(Multilingual.GetCountryName(countryArr[0])) ? countryArr[1] : Multilingual.GetCountryName(countryArr[0]);
-                                            
+                                            Stats.LastCountryFullName = Multilingual.GetCountryName(countryArr[1]) ?? countryArr[2];
                                             if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
                                                 this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
                                                     $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",

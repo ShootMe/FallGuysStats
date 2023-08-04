@@ -203,7 +203,7 @@ namespace FallGuysStats {
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        public readonly string IP2C_ORG_URL = "http://ip2c.org/";
+        public readonly string IP2C_ORG_URL = "https://ip2c.org/";
         public readonly string[] publicShowIdList = {
             "main_show",
             "squads_2player_template",
@@ -1873,6 +1873,7 @@ namespace FallGuysStats {
                 PlayerByConsoleType = false,
                 ColorByRoundType = false,
                 AutoChangeProfile = false,
+                ShadeTheFlagImage = false,
                 PreviousWins = 0,
                 WinsFilter = 1,
                 QualifyFilter = 1,
@@ -4527,13 +4528,18 @@ namespace FallGuysStats {
             return onlinePlatformInfo;
         }
         public string[] GetCountryCode(string host) {
-            string[] code = { string.Empty, string.Empty };
+            string[] code = { string.Empty, string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = web.DownloadString($"{this.IP2C_ORG_URL}{host}");
                 string[] resArr = resStr.Split(';');
                 if ("1".Equals(resArr[0])) {
-                    code[0] = resArr[2];
-                    code[1] = resArr[3];
+                    code[0] = resArr[1]; // alpha-2 code
+                    code[1] = resArr[2]; // alpha-3 code
+                    code[2] = resArr[3]; // a full country name
+                } else if ("2".Equals(resArr[0])) {
+                    code[0] = "UNKNOWN";
+                    code[1] = "UNKNOWN";
+                    code[2] = "Unknown";
                 }
             }
             return code;

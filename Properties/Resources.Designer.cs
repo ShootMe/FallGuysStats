@@ -402,9 +402,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_abw_icon {
+        internal static System.Drawing.Bitmap country_ad_icon {
             get {
-                object obj = ResourceManager.GetObject("country_abw_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ad_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -412,9 +412,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_afg_icon {
+        internal static System.Drawing.Bitmap country_ad_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_afg_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ad_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -422,9 +422,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ago_icon {
+        internal static System.Drawing.Bitmap country_ae_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ago_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ae_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -432,9 +432,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_aia_icon {
+        internal static System.Drawing.Bitmap country_ae_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_aia_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ae_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -442,9 +442,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ala_icon {
+        internal static System.Drawing.Bitmap country_af_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ala_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_af_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -452,9 +452,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_alb_icon {
+        internal static System.Drawing.Bitmap country_af_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_alb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_af_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -462,9 +462,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_and_icon {
+        internal static System.Drawing.Bitmap country_ag_icon {
             get {
-                object obj = ResourceManager.GetObject("country_and_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ag_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -472,9 +472,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_are_icon {
+        internal static System.Drawing.Bitmap country_ag_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_are_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ag_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -482,9 +482,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_arg_icon {
+        internal static System.Drawing.Bitmap country_ai_icon {
             get {
-                object obj = ResourceManager.GetObject("country_arg_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ai_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -492,9 +492,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_arm_icon {
+        internal static System.Drawing.Bitmap country_ai_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_arm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ai_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -502,9 +502,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_asm_icon {
+        internal static System.Drawing.Bitmap country_al_icon {
             get {
-                object obj = ResourceManager.GetObject("country_asm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_al_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -512,9 +512,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ata_icon {
+        internal static System.Drawing.Bitmap country_al_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ata_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_al_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -522,9 +522,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_atf_icon {
+        internal static System.Drawing.Bitmap country_am_icon {
             get {
-                object obj = ResourceManager.GetObject("country_atf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_am_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -532,9 +532,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_atg_icon {
+        internal static System.Drawing.Bitmap country_am_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_atg_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_am_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -542,9 +542,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_aus_icon {
+        internal static System.Drawing.Bitmap country_an_icon {
             get {
-                object obj = ResourceManager.GetObject("country_aus_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_an_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -552,9 +552,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_aut_icon {
+        internal static System.Drawing.Bitmap country_an_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_aut_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_an_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -562,9 +562,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_aze_icon {
+        internal static System.Drawing.Bitmap country_ao_icon {
             get {
-                object obj = ResourceManager.GetObject("country_aze_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ao_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -572,9 +572,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bdi_icon {
+        internal static System.Drawing.Bitmap country_ao_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bdi_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ao_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -582,9 +582,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bel_icon {
+        internal static System.Drawing.Bitmap country_aq_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bel_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_aq_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -592,9 +592,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ben_icon {
+        internal static System.Drawing.Bitmap country_aq_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ben_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_aq_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -602,9 +602,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bes_icon {
+        internal static System.Drawing.Bitmap country_ar_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bes_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ar_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -612,9 +612,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bfa_icon {
+        internal static System.Drawing.Bitmap country_ar_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bfa_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ar_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -622,9 +622,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bgd_icon {
+        internal static System.Drawing.Bitmap country_as_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bgd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_as_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -632,9 +632,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bgr_icon {
+        internal static System.Drawing.Bitmap country_as_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bgr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_as_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -642,9 +642,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bhr_icon {
+        internal static System.Drawing.Bitmap country_at_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bhr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_at_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -652,9 +652,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bhs_icon {
+        internal static System.Drawing.Bitmap country_at_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bhs_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_at_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -662,9 +662,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bih_icon {
+        internal static System.Drawing.Bitmap country_au_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bih_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_au_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -672,9 +672,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_blm_icon {
+        internal static System.Drawing.Bitmap country_au_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_blm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_au_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -682,9 +682,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_blr_icon {
+        internal static System.Drawing.Bitmap country_aw_icon {
             get {
-                object obj = ResourceManager.GetObject("country_blr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_aw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -692,9 +692,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_blz_icon {
+        internal static System.Drawing.Bitmap country_aw_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_blz_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_aw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -702,9 +702,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bmu_icon {
+        internal static System.Drawing.Bitmap country_ax_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bmu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ax_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -712,9 +712,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bol_icon {
+        internal static System.Drawing.Bitmap country_ax_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bol_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ax_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -722,9 +722,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bra_icon {
+        internal static System.Drawing.Bitmap country_az_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bra_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_az_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -732,9 +732,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_brb_icon {
+        internal static System.Drawing.Bitmap country_az_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_brb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_az_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -742,9 +742,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_brn_icon {
+        internal static System.Drawing.Bitmap country_ba_icon {
             get {
-                object obj = ResourceManager.GetObject("country_brn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ba_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -752,9 +752,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_btn_icon {
+        internal static System.Drawing.Bitmap country_ba_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_btn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ba_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -762,9 +762,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bvt_icon {
+        internal static System.Drawing.Bitmap country_bb_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bvt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bb_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -772,9 +772,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_bwa_icon {
+        internal static System.Drawing.Bitmap country_bb_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_bwa_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bb_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -782,9 +782,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_caf_icon {
+        internal static System.Drawing.Bitmap country_bd_icon {
             get {
-                object obj = ResourceManager.GetObject("country_caf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bd_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -792,9 +792,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_can_icon {
+        internal static System.Drawing.Bitmap country_bd_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_can_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bd_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -802,9 +802,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cck_icon {
+        internal static System.Drawing.Bitmap country_be_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cck_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_be_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -812,9 +812,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_che_icon {
+        internal static System.Drawing.Bitmap country_be_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_che_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_be_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -822,9 +822,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_chl_icon {
+        internal static System.Drawing.Bitmap country_bf_icon {
             get {
-                object obj = ResourceManager.GetObject("country_chl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bf_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -832,9 +832,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_chn_icon {
+        internal static System.Drawing.Bitmap country_bf_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_chn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bf_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -842,9 +842,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_civ_icon {
+        internal static System.Drawing.Bitmap country_bg_icon {
             get {
-                object obj = ResourceManager.GetObject("country_civ_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bg_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -852,9 +852,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cmr_icon {
+        internal static System.Drawing.Bitmap country_bg_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cmr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bg_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -862,9 +862,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cod_icon {
+        internal static System.Drawing.Bitmap country_bh_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cod_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bh_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -872,9 +872,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cog_icon {
+        internal static System.Drawing.Bitmap country_bh_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cog_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bh_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -882,9 +882,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cok_icon {
+        internal static System.Drawing.Bitmap country_bi_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cok_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bi_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -892,9 +892,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_col_icon {
+        internal static System.Drawing.Bitmap country_bi_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_col_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bi_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -902,9 +902,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_com_icon {
+        internal static System.Drawing.Bitmap country_bj_icon {
             get {
-                object obj = ResourceManager.GetObject("country_com_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bj_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -912,9 +912,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cpv_icon {
+        internal static System.Drawing.Bitmap country_bj_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cpv_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bj_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -922,9 +922,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cri_icon {
+        internal static System.Drawing.Bitmap country_bl_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cri_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bl_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -932,9 +932,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cub_icon {
+        internal static System.Drawing.Bitmap country_bl_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cub_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bl_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -942,9 +942,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cuw_icon {
+        internal static System.Drawing.Bitmap country_bm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cuw_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -952,9 +952,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cxr_icon {
+        internal static System.Drawing.Bitmap country_bm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cxr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -962,9 +962,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cym_icon {
+        internal static System.Drawing.Bitmap country_bn_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cym_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bn_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -972,9 +972,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cyp_icon {
+        internal static System.Drawing.Bitmap country_bn_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cyp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bn_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -982,9 +982,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_cze_icon {
+        internal static System.Drawing.Bitmap country_bo_icon {
             get {
-                object obj = ResourceManager.GetObject("country_cze_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bo_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -992,9 +992,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_deu_icon {
+        internal static System.Drawing.Bitmap country_bo_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_deu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bo_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1002,9 +1002,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_dji_icon {
+        internal static System.Drawing.Bitmap country_br_icon {
             get {
-                object obj = ResourceManager.GetObject("country_dji_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_br_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1012,9 +1012,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_dma_icon {
+        internal static System.Drawing.Bitmap country_br_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_dma_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_br_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1022,9 +1022,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_dnk_icon {
+        internal static System.Drawing.Bitmap country_bs_icon {
             get {
-                object obj = ResourceManager.GetObject("country_dnk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bs_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1032,9 +1032,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_dom_icon {
+        internal static System.Drawing.Bitmap country_bs_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_dom_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bs_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1042,9 +1042,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_dza_icon {
+        internal static System.Drawing.Bitmap country_bt_icon {
             get {
-                object obj = ResourceManager.GetObject("country_dza_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bt_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1052,9 +1052,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ecu_icon {
+        internal static System.Drawing.Bitmap country_bt_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ecu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bt_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1062,9 +1062,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_egy_icon {
+        internal static System.Drawing.Bitmap country_bw_icon {
             get {
-                object obj = ResourceManager.GetObject("country_egy_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1072,9 +1072,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_eri_icon {
+        internal static System.Drawing.Bitmap country_bw_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_eri_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1082,9 +1082,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_esh_icon {
+        internal static System.Drawing.Bitmap country_by_icon {
             get {
-                object obj = ResourceManager.GetObject("country_esh_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_by_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1092,9 +1092,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_esp_icon {
+        internal static System.Drawing.Bitmap country_by_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_esp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_by_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1102,9 +1102,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_est_icon {
+        internal static System.Drawing.Bitmap country_bz_icon {
             get {
-                object obj = ResourceManager.GetObject("country_est_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bz_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1112,9 +1112,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_eth_icon {
+        internal static System.Drawing.Bitmap country_bz_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_eth_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_bz_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1122,9 +1122,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_fin_icon {
+        internal static System.Drawing.Bitmap country_ca_icon {
             get {
-                object obj = ResourceManager.GetObject("country_fin_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ca_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1132,9 +1132,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_fji_icon {
+        internal static System.Drawing.Bitmap country_ca_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_fji_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ca_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1142,9 +1142,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_flk_icon {
+        internal static System.Drawing.Bitmap country_cc_icon {
             get {
-                object obj = ResourceManager.GetObject("country_flk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cc_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1152,9 +1152,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_fra_icon {
+        internal static System.Drawing.Bitmap country_cc_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_fra_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cc_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1162,9 +1162,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_fro_icon {
+        internal static System.Drawing.Bitmap country_cd_icon {
             get {
-                object obj = ResourceManager.GetObject("country_fro_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cd_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1172,9 +1172,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_fsm_icon {
+        internal static System.Drawing.Bitmap country_cd_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_fsm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cd_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1182,9 +1182,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gab_icon {
+        internal static System.Drawing.Bitmap country_cf_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gab_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cf_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1192,9 +1192,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gbr_icon {
+        internal static System.Drawing.Bitmap country_cf_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gbr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cf_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1202,9 +1202,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_geo_icon {
+        internal static System.Drawing.Bitmap country_cg_icon {
             get {
-                object obj = ResourceManager.GetObject("country_geo_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cg_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1212,9 +1212,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ggy_icon {
+        internal static System.Drawing.Bitmap country_cg_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ggy_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cg_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1222,9 +1222,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gha_icon {
+        internal static System.Drawing.Bitmap country_ch_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gha_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ch_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1232,9 +1232,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gib_icon {
+        internal static System.Drawing.Bitmap country_ch_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gib_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ch_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1242,9 +1242,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gin_icon {
+        internal static System.Drawing.Bitmap country_ci_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gin_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ci_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1252,9 +1252,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_glp_icon {
+        internal static System.Drawing.Bitmap country_ci_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_glp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ci_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1262,9 +1262,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gmb_icon {
+        internal static System.Drawing.Bitmap country_ck_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gmb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ck_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1272,9 +1272,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gnb_icon {
+        internal static System.Drawing.Bitmap country_ck_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gnb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ck_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1282,9 +1282,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gnq_icon {
+        internal static System.Drawing.Bitmap country_cl_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gnq_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cl_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1292,9 +1292,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_grc_icon {
+        internal static System.Drawing.Bitmap country_cl_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_grc_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cl_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1302,9 +1302,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_grd_icon {
+        internal static System.Drawing.Bitmap country_cm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_grd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1312,9 +1312,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_grl_icon {
+        internal static System.Drawing.Bitmap country_cm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_grl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1322,9 +1322,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gtm_icon {
+        internal static System.Drawing.Bitmap country_cn_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gtm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cn_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1332,9 +1332,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_guf_icon {
+        internal static System.Drawing.Bitmap country_cn_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_guf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cn_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1342,9 +1342,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_gum_icon {
+        internal static System.Drawing.Bitmap country_co_icon {
             get {
-                object obj = ResourceManager.GetObject("country_gum_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_co_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1352,9 +1352,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_guy_icon {
+        internal static System.Drawing.Bitmap country_co_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_guy_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_co_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1362,9 +1362,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hkg_icon {
+        internal static System.Drawing.Bitmap country_cr_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hkg_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cr_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1372,9 +1372,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hmd_icon {
+        internal static System.Drawing.Bitmap country_cr_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hmd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cr_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1382,9 +1382,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hnd_icon {
+        internal static System.Drawing.Bitmap country_cu_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hnd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cu_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1392,9 +1392,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hrv_icon {
+        internal static System.Drawing.Bitmap country_cu_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hrv_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cu_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1402,9 +1402,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hti_icon {
+        internal static System.Drawing.Bitmap country_cv_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hti_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cv_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1412,9 +1412,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_hun_icon {
+        internal static System.Drawing.Bitmap country_cv_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_hun_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cv_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1422,9 +1422,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_idn_icon {
+        internal static System.Drawing.Bitmap country_cw_icon {
             get {
-                object obj = ResourceManager.GetObject("country_idn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1432,9 +1432,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_imn_icon {
+        internal static System.Drawing.Bitmap country_cw_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_imn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1442,9 +1442,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ind_icon {
+        internal static System.Drawing.Bitmap country_cx_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ind_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cx_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1452,9 +1452,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_iot_icon {
+        internal static System.Drawing.Bitmap country_cx_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_iot_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cx_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1462,9 +1462,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_irl_icon {
+        internal static System.Drawing.Bitmap country_cy_icon {
             get {
-                object obj = ResourceManager.GetObject("country_irl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cy_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1472,9 +1472,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_irn_icon {
+        internal static System.Drawing.Bitmap country_cy_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_irn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cy_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1482,9 +1482,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_irq_icon {
+        internal static System.Drawing.Bitmap country_cz_icon {
             get {
-                object obj = ResourceManager.GetObject("country_irq_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cz_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1492,9 +1492,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_isl_icon {
+        internal static System.Drawing.Bitmap country_cz_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_isl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_cz_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1502,9 +1502,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_isr_icon {
+        internal static System.Drawing.Bitmap country_de_icon {
             get {
-                object obj = ResourceManager.GetObject("country_isr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_de_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1512,9 +1512,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ita_icon {
+        internal static System.Drawing.Bitmap country_de_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ita_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_de_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1522,9 +1522,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_jam_icon {
+        internal static System.Drawing.Bitmap country_dj_icon {
             get {
-                object obj = ResourceManager.GetObject("country_jam_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dj_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1532,9 +1532,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_jey_icon {
+        internal static System.Drawing.Bitmap country_dj_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_jey_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dj_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1542,9 +1542,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_jor_icon {
+        internal static System.Drawing.Bitmap country_dk_icon {
             get {
-                object obj = ResourceManager.GetObject("country_jor_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dk_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1552,9 +1552,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_jpn_icon {
+        internal static System.Drawing.Bitmap country_dk_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_jpn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dk_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1562,9 +1562,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kaz_icon {
+        internal static System.Drawing.Bitmap country_dm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kaz_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1572,9 +1572,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ken_icon {
+        internal static System.Drawing.Bitmap country_dm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ken_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1582,9 +1582,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kgz_icon {
+        internal static System.Drawing.Bitmap country_do_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kgz_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_do_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1592,9 +1592,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_khm_icon {
+        internal static System.Drawing.Bitmap country_do_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_khm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_do_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1602,9 +1602,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kir_icon {
+        internal static System.Drawing.Bitmap country_dz_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kir_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dz_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1612,9 +1612,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kna_icon {
+        internal static System.Drawing.Bitmap country_dz_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kna_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_dz_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1622,9 +1622,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kor_icon {
+        internal static System.Drawing.Bitmap country_ec_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kor_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ec_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1632,9 +1632,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_kwt_icon {
+        internal static System.Drawing.Bitmap country_ec_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_kwt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ec_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1642,9 +1642,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lao_icon {
+        internal static System.Drawing.Bitmap country_ee_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lao_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ee_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1652,9 +1652,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lbn_icon {
+        internal static System.Drawing.Bitmap country_ee_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lbn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ee_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1662,9 +1662,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lbr_icon {
+        internal static System.Drawing.Bitmap country_eg_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lbr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eg_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1672,9 +1672,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lby_icon {
+        internal static System.Drawing.Bitmap country_eg_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lby_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eg_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1682,9 +1682,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lca_icon {
+        internal static System.Drawing.Bitmap country_eh_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lca_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eh_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1692,9 +1692,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lie_icon {
+        internal static System.Drawing.Bitmap country_eh_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lie_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eh_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1702,9 +1702,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lka_icon {
+        internal static System.Drawing.Bitmap country_er_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lka_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_er_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1712,9 +1712,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lso_icon {
+        internal static System.Drawing.Bitmap country_er_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lso_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_er_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1722,9 +1722,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ltu_icon {
+        internal static System.Drawing.Bitmap country_es_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ltu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_es_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1732,9 +1732,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lux_icon {
+        internal static System.Drawing.Bitmap country_es_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lux_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_es_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1742,9 +1742,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_lva_icon {
+        internal static System.Drawing.Bitmap country_et_icon {
             get {
-                object obj = ResourceManager.GetObject("country_lva_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_et_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1752,9 +1752,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mac_icon {
+        internal static System.Drawing.Bitmap country_et_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mac_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_et_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1762,9 +1762,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_maf_icon {
+        internal static System.Drawing.Bitmap country_eu_icon {
             get {
-                object obj = ResourceManager.GetObject("country_maf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eu_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1772,9 +1772,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mar_icon {
+        internal static System.Drawing.Bitmap country_eu_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mar_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_eu_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1782,9 +1782,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mco_icon {
+        internal static System.Drawing.Bitmap country_fi_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mco_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fi_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1792,9 +1792,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mda_icon {
+        internal static System.Drawing.Bitmap country_fi_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mda_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fi_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1802,9 +1802,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mdg_icon {
+        internal static System.Drawing.Bitmap country_fj_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mdg_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fj_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1812,9 +1812,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mdv_icon {
+        internal static System.Drawing.Bitmap country_fj_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mdv_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fj_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1822,9 +1822,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mex_icon {
+        internal static System.Drawing.Bitmap country_fk_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mex_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fk_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1832,9 +1832,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mhl_icon {
+        internal static System.Drawing.Bitmap country_fk_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mhl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fk_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1842,9 +1842,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mkd_icon {
+        internal static System.Drawing.Bitmap country_fm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mkd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1852,9 +1852,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mli_icon {
+        internal static System.Drawing.Bitmap country_fm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mli_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1862,9 +1862,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mlt_icon {
+        internal static System.Drawing.Bitmap country_fo_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mlt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fo_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1872,9 +1872,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mmr_icon {
+        internal static System.Drawing.Bitmap country_fo_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mmr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fo_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1882,9 +1882,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mne_icon {
+        internal static System.Drawing.Bitmap country_fr_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mne_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fr_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1892,9 +1892,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mng_icon {
+        internal static System.Drawing.Bitmap country_fr_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mng_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_fr_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1902,9 +1902,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mnp_icon {
+        internal static System.Drawing.Bitmap country_ga_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mnp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ga_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1912,9 +1912,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_moz_icon {
+        internal static System.Drawing.Bitmap country_ga_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_moz_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ga_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1922,9 +1922,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mrt_icon {
+        internal static System.Drawing.Bitmap country_gb_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mrt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gb_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1932,9 +1932,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_msr_icon {
+        internal static System.Drawing.Bitmap country_gb_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_msr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gb_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1942,9 +1942,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mtq_icon {
+        internal static System.Drawing.Bitmap country_gd_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mtq_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gd_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1952,9 +1952,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mus_icon {
+        internal static System.Drawing.Bitmap country_gd_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mus_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gd_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1962,9 +1962,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mwi_icon {
+        internal static System.Drawing.Bitmap country_ge_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mwi_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ge_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1972,9 +1972,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_mys_icon {
+        internal static System.Drawing.Bitmap country_ge_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_mys_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ge_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1982,9 +1982,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_myt_icon {
+        internal static System.Drawing.Bitmap country_gg_icon {
             get {
-                object obj = ResourceManager.GetObject("country_myt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gg_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1992,9 +1992,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nam_icon {
+        internal static System.Drawing.Bitmap country_gg_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nam_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gg_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2002,9 +2002,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ncl_icon {
+        internal static System.Drawing.Bitmap country_gh_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ncl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gh_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2012,9 +2012,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ner_icon {
+        internal static System.Drawing.Bitmap country_gh_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ner_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gh_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2022,9 +2022,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nfk_icon {
+        internal static System.Drawing.Bitmap country_gi_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nfk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gi_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2032,9 +2032,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nga_icon {
+        internal static System.Drawing.Bitmap country_gi_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nga_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gi_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2042,9 +2042,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nic_icon {
+        internal static System.Drawing.Bitmap country_gl_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nic_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gl_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2052,9 +2052,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_niu_icon {
+        internal static System.Drawing.Bitmap country_gl_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_niu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gl_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2062,9 +2062,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nld_icon {
+        internal static System.Drawing.Bitmap country_gm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nld_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2072,9 +2072,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nor_icon {
+        internal static System.Drawing.Bitmap country_gm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nor_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2082,9 +2082,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_npl_icon {
+        internal static System.Drawing.Bitmap country_gn_icon {
             get {
-                object obj = ResourceManager.GetObject("country_npl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gn_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2092,9 +2092,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nru_icon {
+        internal static System.Drawing.Bitmap country_gn_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nru_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gn_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2102,9 +2102,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_nzl_icon {
+        internal static System.Drawing.Bitmap country_gq_icon {
             get {
-                object obj = ResourceManager.GetObject("country_nzl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gq_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2112,9 +2112,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_omn_icon {
+        internal static System.Drawing.Bitmap country_gq_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_omn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gq_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2122,9 +2122,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pak_icon {
+        internal static System.Drawing.Bitmap country_gr_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pak_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gr_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2132,9 +2132,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pan_icon {
+        internal static System.Drawing.Bitmap country_gr_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pan_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gr_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2142,9 +2142,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pcn_icon {
+        internal static System.Drawing.Bitmap country_gs_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pcn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gs_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2152,9 +2152,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_per_icon {
+        internal static System.Drawing.Bitmap country_gs_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_per_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gs_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2162,9 +2162,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_phl_icon {
+        internal static System.Drawing.Bitmap country_gt_icon {
             get {
-                object obj = ResourceManager.GetObject("country_phl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gt_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2172,9 +2172,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_plw_icon {
+        internal static System.Drawing.Bitmap country_gt_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_plw_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gt_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2182,9 +2182,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_png_icon {
+        internal static System.Drawing.Bitmap country_gu_icon {
             get {
-                object obj = ResourceManager.GetObject("country_png_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gu_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2192,9 +2192,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pol_icon {
+        internal static System.Drawing.Bitmap country_gu_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pol_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gu_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2202,9 +2202,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pri_icon {
+        internal static System.Drawing.Bitmap country_gw_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pri_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2212,9 +2212,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_prk_icon {
+        internal static System.Drawing.Bitmap country_gw_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_prk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2222,9 +2222,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_prt_icon {
+        internal static System.Drawing.Bitmap country_gy_icon {
             get {
-                object obj = ResourceManager.GetObject("country_prt_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gy_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2232,9 +2232,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pry_icon {
+        internal static System.Drawing.Bitmap country_gy_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pry_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_gy_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2242,9 +2242,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pse_icon {
+        internal static System.Drawing.Bitmap country_hk_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pse_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hk_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2252,9 +2252,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_pyf_icon {
+        internal static System.Drawing.Bitmap country_hk_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_pyf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hk_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2262,9 +2262,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_qat_icon {
+        internal static System.Drawing.Bitmap country_hn_icon {
             get {
-                object obj = ResourceManager.GetObject("country_qat_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hn_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2272,9 +2272,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_reu_icon {
+        internal static System.Drawing.Bitmap country_hn_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_reu_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hn_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2282,9 +2282,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_rou_icon {
+        internal static System.Drawing.Bitmap country_hr_icon {
             get {
-                object obj = ResourceManager.GetObject("country_rou_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hr_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2292,9 +2292,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_rus_icon {
+        internal static System.Drawing.Bitmap country_hr_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_rus_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hr_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2302,9 +2302,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_rwa_icon {
+        internal static System.Drawing.Bitmap country_ht_icon {
             get {
-                object obj = ResourceManager.GetObject("country_rwa_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ht_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2312,9 +2312,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sau_icon {
+        internal static System.Drawing.Bitmap country_ht_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sau_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ht_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2322,9 +2322,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sdn_icon {
+        internal static System.Drawing.Bitmap country_hu_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sdn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hu_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2332,9 +2332,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sen_icon {
+        internal static System.Drawing.Bitmap country_hu_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sen_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_hu_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2342,9 +2342,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sgp_icon {
+        internal static System.Drawing.Bitmap country_ic_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sgp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ic_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2352,9 +2352,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sgs_icon {
+        internal static System.Drawing.Bitmap country_ic_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sgs_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ic_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2362,9 +2362,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_shn_icon {
+        internal static System.Drawing.Bitmap country_id_icon {
             get {
-                object obj = ResourceManager.GetObject("country_shn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_id_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2372,9 +2372,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sjm_icon {
+        internal static System.Drawing.Bitmap country_id_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sjm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_id_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2382,9 +2382,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_slb_icon {
+        internal static System.Drawing.Bitmap country_ie_icon {
             get {
-                object obj = ResourceManager.GetObject("country_slb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ie_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2392,9 +2392,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sle_icon {
+        internal static System.Drawing.Bitmap country_ie_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sle_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ie_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2402,9 +2402,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_slv_icon {
+        internal static System.Drawing.Bitmap country_il_icon {
             get {
-                object obj = ResourceManager.GetObject("country_slv_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_il_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2412,9 +2412,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_smr_icon {
+        internal static System.Drawing.Bitmap country_il_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_smr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_il_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2422,9 +2422,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_som_icon {
+        internal static System.Drawing.Bitmap country_im_icon {
             get {
-                object obj = ResourceManager.GetObject("country_som_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_im_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2432,9 +2432,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_spm_icon {
+        internal static System.Drawing.Bitmap country_im_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_spm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_im_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2442,9 +2442,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_srb_icon {
+        internal static System.Drawing.Bitmap country_in_icon {
             get {
-                object obj = ResourceManager.GetObject("country_srb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_in_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2452,9 +2452,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ssd_icon {
+        internal static System.Drawing.Bitmap country_in_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ssd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_in_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2462,9 +2462,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_stp_icon {
+        internal static System.Drawing.Bitmap country_iq_icon {
             get {
-                object obj = ResourceManager.GetObject("country_stp_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_iq_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2472,9 +2472,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sur_icon {
+        internal static System.Drawing.Bitmap country_iq_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sur_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_iq_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2482,9 +2482,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_svk_icon {
+        internal static System.Drawing.Bitmap country_ir_icon {
             get {
-                object obj = ResourceManager.GetObject("country_svk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ir_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2492,9 +2492,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_svn_icon {
+        internal static System.Drawing.Bitmap country_ir_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_svn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ir_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2502,9 +2502,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_swe_icon {
+        internal static System.Drawing.Bitmap country_is_icon {
             get {
-                object obj = ResourceManager.GetObject("country_swe_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_is_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2512,9 +2512,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_swz_icon {
+        internal static System.Drawing.Bitmap country_is_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_swz_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_is_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2522,9 +2522,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_sxm_icon {
+        internal static System.Drawing.Bitmap country_it_icon {
             get {
-                object obj = ResourceManager.GetObject("country_sxm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_it_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2532,9 +2532,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_syc_icon {
+        internal static System.Drawing.Bitmap country_it_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_syc_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_it_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2542,9 +2542,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_syr_icon {
+        internal static System.Drawing.Bitmap country_je_icon {
             get {
-                object obj = ResourceManager.GetObject("country_syr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_je_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2552,9 +2552,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tca_icon {
+        internal static System.Drawing.Bitmap country_je_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tca_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_je_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2562,9 +2562,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tcd_icon {
+        internal static System.Drawing.Bitmap country_jm_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tcd_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jm_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2572,9 +2572,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tgo_icon {
+        internal static System.Drawing.Bitmap country_jm_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tgo_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jm_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2582,9 +2582,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tha_icon {
+        internal static System.Drawing.Bitmap country_jo_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tha_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jo_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2592,9 +2592,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tjk_icon {
+        internal static System.Drawing.Bitmap country_jo_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tjk_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jo_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2602,9 +2602,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tkl_icon {
+        internal static System.Drawing.Bitmap country_jp_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tkl_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jp_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2612,9 +2612,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tkm_icon {
+        internal static System.Drawing.Bitmap country_jp_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tkm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_jp_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2622,9 +2622,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tls_icon {
+        internal static System.Drawing.Bitmap country_ke_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tls_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ke_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2632,9 +2632,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ton_icon {
+        internal static System.Drawing.Bitmap country_ke_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ton_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ke_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2642,9 +2642,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tto_icon {
+        internal static System.Drawing.Bitmap country_kg_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tto_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kg_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2652,9 +2652,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tun_icon {
+        internal static System.Drawing.Bitmap country_kg_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tun_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kg_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2662,9 +2662,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tur_icon {
+        internal static System.Drawing.Bitmap country_kh_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tur_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kh_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2672,9 +2672,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tuv_icon {
+        internal static System.Drawing.Bitmap country_kh_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tuv_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kh_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2682,9 +2682,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_twn_icon {
+        internal static System.Drawing.Bitmap country_ki_icon {
             get {
-                object obj = ResourceManager.GetObject("country_twn_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ki_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2692,9 +2692,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_tza_icon {
+        internal static System.Drawing.Bitmap country_ki_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_tza_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ki_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2702,9 +2702,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_uga_icon {
+        internal static System.Drawing.Bitmap country_km_icon {
             get {
-                object obj = ResourceManager.GetObject("country_uga_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_km_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2712,9 +2712,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ukr_icon {
+        internal static System.Drawing.Bitmap country_km_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ukr_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_km_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2722,9 +2722,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_umi_icon {
+        internal static System.Drawing.Bitmap country_kn_icon {
             get {
-                object obj = ResourceManager.GetObject("country_umi_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kn_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2732,9 +2732,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ury_icon {
+        internal static System.Drawing.Bitmap country_kn_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ury_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kn_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2742,9 +2742,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_usa_icon {
+        internal static System.Drawing.Bitmap country_kp_icon {
             get {
-                object obj = ResourceManager.GetObject("country_usa_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kp_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2752,9 +2752,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_uzb_icon {
+        internal static System.Drawing.Bitmap country_kp_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_uzb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kp_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2762,9 +2762,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vat_icon {
+        internal static System.Drawing.Bitmap country_kr_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vat_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kr_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2772,9 +2772,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vct_icon {
+        internal static System.Drawing.Bitmap country_kr_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vct_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kr_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2782,9 +2782,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_ven_icon {
+        internal static System.Drawing.Bitmap country_kw_icon {
             get {
-                object obj = ResourceManager.GetObject("country_ven_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kw_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2792,9 +2792,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vgb_icon {
+        internal static System.Drawing.Bitmap country_kw_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vgb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2802,9 +2802,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vir_icon {
+        internal static System.Drawing.Bitmap country_ky_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vir_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ky_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2812,9 +2812,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vnm_icon {
+        internal static System.Drawing.Bitmap country_ky_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vnm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_ky_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2822,9 +2822,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_vut_icon {
+        internal static System.Drawing.Bitmap country_kz_icon {
             get {
-                object obj = ResourceManager.GetObject("country_vut_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kz_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2832,9 +2832,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_wlf_icon {
+        internal static System.Drawing.Bitmap country_kz_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_wlf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_kz_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2842,9 +2842,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_wsm_icon {
+        internal static System.Drawing.Bitmap country_la_icon {
             get {
-                object obj = ResourceManager.GetObject("country_wsm_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_la_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2852,9 +2852,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_yem_icon {
+        internal static System.Drawing.Bitmap country_la_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_yem_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_la_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2862,9 +2862,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_zaf_icon {
+        internal static System.Drawing.Bitmap country_lb_icon {
             get {
-                object obj = ResourceManager.GetObject("country_zaf_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_lb_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2872,9 +2872,9 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_zmb_icon {
+        internal static System.Drawing.Bitmap country_lb_shiny_icon {
             get {
-                object obj = ResourceManager.GetObject("country_zmb_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_lb_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -2882,9 +2882,2359 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap country_zwe_icon {
+        internal static System.Drawing.Bitmap country_lc_icon {
             get {
-                object obj = ResourceManager.GetObject("country_zwe_icon", resourceCulture);
+                object obj = ResourceManager.GetObject("country_lc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_li_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_li_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_li_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_li_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lk_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lk_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lk_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ls_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ls_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ls_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ls_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lt_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lt_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lt_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lt_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lu_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lu_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lu_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lu_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lv_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lv_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_lv_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_lv_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ly_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ly_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ly_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ly_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ma_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ma_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ma_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ma_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mc_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_md_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_md_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_md_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_md_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_me_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_me_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_me_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_me_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mf_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mf_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mf_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mf_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mg_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mg_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mg_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mh_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mh_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mh_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mh_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mk_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mk_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mk_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ml_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ml_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ml_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ml_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mm_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mm_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mm_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mm_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mn_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mn_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mn_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mn_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mo_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mo_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mo_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mo_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mp_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mp_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mp_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mp_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mq_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mq_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mq_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mq_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ms_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ms_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ms_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ms_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mt_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mt_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mt_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mt_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mu_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mu_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mu_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mu_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mv_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mv_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mv_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mv_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mw_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mw_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mw_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mw_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mx_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mx_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mx_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mx_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_my_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_my_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_my_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_my_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mz_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mz_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_mz_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_mz_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_na_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_na_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_na_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_na_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nc_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ne_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ne_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ne_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ne_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nf_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nf_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nf_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nf_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ng_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ng_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ng_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ng_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ni_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ni_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ni_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ni_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nl_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nl_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nl_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nl_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_no_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_no_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_no_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_no_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_np_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_np_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_np_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_np_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nu_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nu_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nu_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nu_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nz_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nz_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_nz_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_nz_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_om_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_om_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_om_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_om_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pa_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pa_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pa_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pa_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pe_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pe_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pe_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pe_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pf_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pf_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pf_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pf_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pg_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pg_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pg_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ph_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ph_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ph_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ph_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pk_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pk_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pk_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pl_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pl_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pl_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pl_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pn_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pn_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pn_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pn_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ps_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ps_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ps_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ps_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pt_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pt_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pt_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pt_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pw_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pw_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_pw_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_pw_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_py_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_py_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_py_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_py_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_qa_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_qa_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_qa_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_qa_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ro_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ro_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ro_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ro_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_rs_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_rs_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_rs_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_rs_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ru_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ru_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ru_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ru_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_rw_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_rw_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_rw_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_rw_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sa_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sa_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sa_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sa_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sb_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sb_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sb_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sb_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sc_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sd_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sd_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sd_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sd_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_se_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_se_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_se_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_se_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sg_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sg_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sg_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sh_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sh_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sh_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sh_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_si_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_si_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_si_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_si_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sk_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sk_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sk_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sl_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sl_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sl_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sl_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sm_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sm_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sm_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sm_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sn_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sn_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sn_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sn_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_so_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_so_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_so_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_so_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ss_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ss_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ss_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ss_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_st_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_st_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_st_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_st_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sv_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sv_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sv_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sv_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sy_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sy_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sy_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sy_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sz_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sz_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_sz_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_sz_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tc_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_td_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_td_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_td_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_td_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tf_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tf_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tf_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tf_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tg_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tg_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tg_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_th_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_th_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_th_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_th_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tj_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tj_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tj_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tj_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tk_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tk_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tk_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tk_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tl_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tl_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tl_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tl_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tm_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tm_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tm_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tm_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tn_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tn_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tn_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tn_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_to_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_to_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_to_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_to_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tr_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tr_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tr_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tr_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tt_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tt_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tt_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tt_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tv_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tv_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tv_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tv_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tw_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tw_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tw_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tw_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tz_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tz_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_tz_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_tz_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ua_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ua_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ua_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ua_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ug_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ug_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ug_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ug_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_unknown_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_unknown_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_unknown_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_unknown_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_us_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_us_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_us_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_us_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_uy_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_uy_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_uy_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_uy_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_uz_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_uz_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_uz_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_uz_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_va_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_va_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_va_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_va_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vc_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vc_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vc_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vc_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ve_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ve_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ve_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ve_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vg_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vg_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vg_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vg_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vi_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vi_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vi_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vi_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vn_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vn_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vn_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vn_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vu_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vu_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_vu_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_vu_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_wf_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_wf_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_wf_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_wf_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ws_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ws_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ws_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ws_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ye_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ye_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_ye_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_ye_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_yt_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_yt_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_yt_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_yt_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_za_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_za_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_za_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_za_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_zm_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_zm_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_zm_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_zm_shiny_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_zw_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_zw_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap country_zw_shiny_icon {
+            get {
+                object obj = ResourceManager.GetObject("country_zw_shiny_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
