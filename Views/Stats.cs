@@ -9,6 +9,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -600,6 +601,32 @@ namespace FallGuysStats {
             } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
                 Cursor.Position = new Point(0, 0); // SE
             }
+        }
+        
+        public bool IsInternetConnected() {
+            const string NCSI_TEST_URL = "http://www.msftncsi.com/ncsi.txt";
+            const string NCSI_TEST_RESULT = "Microsoft NCSI";
+            const string NCSI_DNS = "dns.msftncsi.com";
+            const string NCSI_DNS_IP_ADDRESS = "131.107.255.255";
+
+            try {
+                // Check NCSI test link
+                var webClient = new WebClient();
+                string result = webClient.DownloadString(NCSI_TEST_URL);
+                if (result != NCSI_TEST_RESULT){
+                    return false;
+                }
+
+                // Check NCSI DNS IP
+                IPHostEntry dnsHost = Dns.GetHostEntry(NCSI_DNS);
+                if (dnsHost.AddressList.Count() < 0 || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
+                    return false;
+                }
+            } catch (Exception ex) {
+                return false;
+            }
+
+            return true;
         }
         
         private void SetTheme(MetroThemeStyle theme) {
@@ -2184,29 +2211,31 @@ namespace FallGuysStats {
         private void Stats_Shown(object sender, EventArgs e) {
             try {
 #if AllowUpdate
-                if (this.CurrentSettings.AutoUpdate) {
-                    if (this.CheckForUpdate(true)) {
-                        this.Stats_ExitProgram(this, null);
-                        return;
+                if (this.IsInternetConnected()) {
+                    if (this.CurrentSettings.AutoUpdate) {
+                        if (this.CheckForUpdate(true)) {
+                            this.Stats_ExitProgram(this, null);
+                            return;
+                        }
+                    } else {
+                        this.CheckForNewVersion();
                     }
-                } else {
-                    this.CheckForNewVersion();
-                }
 
-                if (this.CurrentSettings.ShowChangelog) {
-                    try {
-                        string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
-                        changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
+                    if (this.CurrentSettings.ShowChangelog) {
+                        try {
+                            string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                            changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
                         
-                        MetroMessageBox.Show(this,
-                            $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
-                            $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
-                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            MetroMessageBox.Show(this,
+                                $"{this.TranslateChangelog(changelog)}{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                                $"{Multilingual.GetWord("message_changelog_caption")} - {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         
-                        this.CurrentSettings.ShowChangelog = false;
-                        this.SaveUserSettings();
-                    } catch {
-                        // ignored
+                            this.CurrentSettings.ShowChangelog = false;
+                            this.SaveUserSettings();
+                        } catch {
+                            // ignored
+                        }
                     }
                 }
 #endif
@@ -2396,23 +2425,25 @@ namespace FallGuysStats {
 
                                 if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode)) {
                                     try {
-                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
-                                        JsonElement versionMetadata = resData.GetProperty("version_metadata");
-                                        string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
-                                        stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                        stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                        stat.CreativeAuthor = onlinePlatformInfo[1];
-                                        stat.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                        stat.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                                        stat.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                                        stat.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                                        stat.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                        stat.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                        stat.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                        stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                        stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                        //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
-                                        stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                        if (this.IsInternetConnected()) {
+                                            JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
+                                            JsonElement versionMetadata = resData.GetProperty("version_metadata");
+                                            string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
+                                            stat.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                            stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                            stat.CreativeAuthor = onlinePlatformInfo[1];
+                                            stat.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                            stat.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                            stat.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                            stat.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                            stat.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                            stat.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                            stat.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                            stat.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                            stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                            //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                            stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                        }
                                     } catch {
                                         // ignored
                                     }
@@ -4465,8 +4496,10 @@ namespace FallGuysStats {
         }
         private void menuUpdate_Click(object sender, EventArgs e) {
             try {
-                if (this.CheckForUpdate(false)) {
-                    this.Stats_ExitProgram(this, null);
+                if (this.IsInternetConnected()) {
+                    if (this.CheckForUpdate(false)) {
+                        this.Stats_ExitProgram(this, null);
+                    }
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_update_error_caption")}",
