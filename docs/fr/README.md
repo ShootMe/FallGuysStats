@@ -128,16 +128,16 @@ FallGuysStats est open source, ce qui signifie que tout le monde peut voir le co
 
 ### Raccourcis
   - Cliquer une fois sur l'overlay pour le sélectionner puis:
+    - Appuyer sur 'Ctrl + Maj + X' pour réinitialiser les dimensions de l'overlay.
     - Appuyer sur 'Ctrl + Maj + C' pour réinitialiser la position de l'overlay.
-    - Appuyer sur 'Ctrl + Maj + D' pour réinitialiser les dimensions de l'overlay.
-    - Appuyer sur la touche 'T' pour changer la couleur de l'arrière-plan.
-    - Appuyer sur la touche 'F' pour inverser horizontalement l'affichage.
+    - Appuyer sur la touche 'Ctrl + T' pour changer la couleur de l'arrière-plan.
+    - Appuyer sur la touche 'Ctrl + F' pour inverser horizontalement l'affichage.
+    - Appuyer sur la touche 'Ctrl + C' pour afficher le nombre de joueurs par support de jeu.
+    - Appuyer sur la touche 'Ctrl + R' pour colorer le nom des manches selon leur type.
     - Appuyer sur la touche 'P' pour passer au profil suivant.
     - Appuyer sur les touches des chiffres situés au dessus des lettres (1 à 9) pour changer de profil.
     - Maintenir la touche 'Maj' enfoncée et utiliser la molette de votre souris pour changer de profil.
     - Maintenir la touche 'Maj' enfoncée et utiliser la touche directionnelle 'Droite'/'Bas' ou 'Gauche'/'Haut' pour changer de profil.
-    - Appuyer sur la touche 'C' pour afficher le nombre de joueurs par support de jeu.
-    - Appuyer sur la touche 'R' pour colorer le nom des manches selon leur type.
 
 
 ### Créer vos propres arrière-plans
