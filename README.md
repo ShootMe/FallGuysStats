@@ -135,15 +135,16 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
 ### Hotkey
-  - Hit Keys `Ctrl + Shift + D` to set the overlay to its default size.
-  - Hit Keys `T` to toggle background colors.
-  - Hit Keys `F` to flip the Display.
+  - Hit Keys `Ctrl + Shift + X` to set the overlay to it's default size.
+  - Hit Keys `Ctrl + Shift + C` to reset the position of the overlay.
+  - Hit Keys `Ctrl + T` to toggle background colors.
+  - Hit Keys `Ctrl + F` to flip the Display.
+  - Hit Keys `Ctrl + C` to shows the number of users by platform.
+  - Hit Keys `Ctrl + R` the round name shows the colored badge for the round type.
   - Hit Keys `P` to change the profile order.
   - Hit Keys `1 through 9` to select profiles 1 through 9.
   - Hit Keys `Shift + mouse wheel Up` or `Shift + mouse wheel Down` to select the previous or next profile.
-  - Hit Keys `Shift + (Up, Left) arrow keys` or `Shift + (Down, Right) arrow keys` to select the previous or next profile.
-  - Hit Keys `C` to shows the number of users by platform.
-  - Hit Keys `R` the round name shows the colored badge for the round type.
+  - Hit Keys `Shift + (↑, ←) arrow keys` or `Shift + (↓, →) arrow keys` to select the previous or next profile.
 
 
 ### Create your own overlays
@@ -237,6 +238,8 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.240`
+    - Bugfix and program optimization
   - `1.239`
     - Bugfix and program optimization
   - `1.238`
