@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     sealed partial class Overlay {
         /// <summary>
         /// Required designer variable.
@@ -450,7 +446,7 @@ namespace FallGuysStats {
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
-            this.MouseClick += new MouseEventHandler(this.Overlay_MouseClick);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
             //this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
             //this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);

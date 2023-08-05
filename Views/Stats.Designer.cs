@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class Stats {
         /// <summary>
         /// Required designer variable.
