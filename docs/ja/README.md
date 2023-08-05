@@ -125,15 +125,17 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
 
 ### ホットキー
-  - `Ctrl + Shift + D`: デフォルトの大きさに戻す
-  - `T`: 背景色を変更する
-  - `F`: 向きを変更する
+  - `Ctrl + Shift + X`: デフォルトの大きさに戻す
+  - `Ctrl + Shift + C`: 位置をリセットする
+  - `Ctrl + T`: 背景色を変更する
+  - `Ctrl + F`: 向きを変更する
+  - `Ctrl + C`: プラットフォーム別の人数を表示する
+  - `Ctrl + R`: ラウンドタイプ別に色を変更する
   - `P`: プロファイルを変更する
   - `1 から 9`: 1番目から9番目のプロファイルに変更する
   - `Shift + 上にスクロール` / `Shift + 下にスクロール`: 前/次のプロファイルに変更する
   - `Shift + ↑`または`Shift + ←` / `Shift + ↓`または`Shift + →`: 前/次のプロファイルに変更する
-  - `C`: プラットフォーム別の人数を表示する
-  - `R`: ラウンドタイプ別に色を変更する
+  
 
 
 ### オーバーレイをカスタマイズ
