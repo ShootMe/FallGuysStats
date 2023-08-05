@@ -982,68 +982,76 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
-                case Keys.O:
-                    if (this.ctrlKeyToggle) { this.StatsForm.ToggleOverlay(this); }
+            }
+            
+            switch (e.Control) {
+                case true when e.Shift && e.KeyCode == Keys.C:
+                    this.ResetOverlayLocation(true);
                     break;
-                case Keys.T:
-                    if (this.ctrlKeyToggle) {
-                        int colorOption = 0;
-                        if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
-                            colorOption = 1;
-                        } else if (BackColor.ToArgb() == Color.White.ToArgb()) {
-                            colorOption = 2;
-                        } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
-                            colorOption = 3;
-                        } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
-                            colorOption = 4;
-                        } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
-                            colorOption = 5;
-                        } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
-                            colorOption = 6;
-                        } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
-                            colorOption = 0;
-                        }
-                        this.SetBackgroundColor(colorOption);
-                        this.StatsForm.CurrentSettings.OverlayColor = colorOption;
+                case true when e.Shift && e.KeyCode == Keys.X:
+                    this.ResetOverlaySize();
+                    break;
+                case true when e.KeyCode == Keys.O:
+                    this.StatsForm.ToggleOverlay(this);
+                    break;
+                case true when e.KeyCode == Keys.T:
+                    int colorOption = 0;
+                    if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                        colorOption = 1;
+                    } else if (BackColor.ToArgb() == Color.White.ToArgb()) {
+                        colorOption = 2;
+                    } else if (BackColor.ToArgb() == Color.Black.ToArgb()) {
+                        colorOption = 3;
+                    } else if (BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                        colorOption = 4;
+                    } else if (BackColor.ToArgb() == Color.Red.ToArgb()) {
+                        colorOption = 5;
+                    } else if (BackColor.ToArgb() == Color.Green.ToArgb()) {
+                        colorOption = 6;
+                    } else if (BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                        colorOption = 0;
+                    }
+                    this.SetBackgroundColor(colorOption);
+                    this.StatsForm.CurrentSettings.OverlayColor = colorOption;
+                    this.StatsForm.SaveUserSettings();
+                    break;
+                case true when e.KeyCode == Keys.F:
+                    if (!this.IsFixed()) {
+                        this.FlipDisplay(!this.flippedImage);
+                        this.StatsForm.CurrentSettings.FlippedDisplay = this.flippedImage;
                         this.StatsForm.SaveUserSettings();
                     }
                     break;
-                case Keys.F:
-                    if (this.ctrlKeyToggle) {
-                        if (!this.IsFixed()) {
-                            this.FlipDisplay(!this.flippedImage);
-                            this.StatsForm.CurrentSettings.FlippedDisplay = this.flippedImage;
-                            this.StatsForm.SaveUserSettings();
+                case true when e.KeyCode == Keys.R:
+                    this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
+                    this.StatsForm.SaveUserSettings();
+                    break;
+                case true when e.KeyCode == Keys.C:
+                    this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
+                    this.StatsForm.SaveUserSettings();
+                    this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
+                        this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
+                        this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
+                        this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                    break;
+                case false when e.Shift && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Left || e.KeyCode == Keys.P):
+                    if (this.StatsForm.ProfileMenuItems.Count > 1) {
+                        for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                            ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
+                            if (!(item is ToolStripMenuItem menuItem)) { continue; }
+                            if (menuItem.Checked && i > 0) {
+                                this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
+                                break;
+                            } else if (menuItem.Checked && i == 0) {
+                                this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1], EventArgs.Empty);
+                                break;
+                            }
                         }
                     }
                     break;
-                case Keys.X:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.ResetOverlaySize(); }
-                    break;
-                case Keys.R:
-                    if (this.ctrlKeyToggle) {
-                        this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
-                        this.StatsForm.SaveUserSettings();
-                    }
-                    break;
-                case Keys.C:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) {
-                        this.ResetOverlayLocation(true);
-                    } else {
-                        if (this.ctrlKeyToggle) {
-                            this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
-                            this.StatsForm.SaveUserSettings();
-                            this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
-                                                this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                                                this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
-                                                this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
-                        }
-                    }
-                    break;
-                case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
-                    break;
-                case Keys.P: {
-                        for (var i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
+                case false when (e.Shift && (e.KeyCode == Keys.Down || e.KeyCode == Keys.Right)) || e.KeyCode == Keys.P:
+                    if (this.StatsForm.ProfileMenuItems.Count > 1) {
+                        for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
                             ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
                             if (!(item is ToolStripMenuItem menuItem)) { continue; }
                             if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
@@ -1054,54 +1062,14 @@ namespace FallGuysStats {
                                 break;
                             }
                         }
-                        break;
-                    }
-                case Keys.Up:
-                case Keys.Left:
-                    if (!this.shiftKeyToggle) { break; }
-                    for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
-                        ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                        if (!(item is ToolStripMenuItem menuItem)) { continue; }
-                        if (menuItem.Checked && i > 0) {
-                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i - 1], EventArgs.Empty);
-                            break;
-                        } else if (menuItem.Checked && i == 0) {
-                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[this.StatsForm.ProfileMenuItems.Count - 1], EventArgs.Empty);
-                            break;
-                        }
                     }
                     break;
-                case Keys.Down:
-                case Keys.Right:
-                    if (!this.shiftKeyToggle) { break; }
-                    for (int i = 0; i < this.StatsForm.ProfileMenuItems.Count; i++) {
-                        ToolStripItem item = this.StatsForm.ProfileMenuItems[i];
-                        if (!(item is ToolStripMenuItem menuItem)) { continue; }
-                        if (menuItem.Checked && i + 1 < this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[i + 1], EventArgs.Empty);
-                            break;
-                        } else if (menuItem.Checked && i + 1 >= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[0], EventArgs.Empty);
-                            break;
-                        }
+                case false when e.KeyCode == Keys.D1 || e.KeyCode == Keys.D2 || e.KeyCode == Keys.D3 || e.KeyCode == Keys.D4 || e.KeyCode == Keys.D5 || e.KeyCode == Keys.D6 || e.KeyCode == Keys.D7 || e.KeyCode == Keys.D8 || e.KeyCode == Keys.D9:
+                    int index = Convert.ToInt32(((char)e.KeyValue).ToString());
+                    if (index <= this.StatsForm.ProfileMenuItems.Count) {
+                        this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[index - 1], EventArgs.Empty);
                     }
                     break;
-                case Keys.D1:
-                case Keys.D2:
-                case Keys.D3:
-                case Keys.D4:
-                case Keys.D5:
-                case Keys.D6:
-                case Keys.D7:
-                case Keys.D8:
-                case Keys.D9: {
-                        if (this.StatsForm.ProfileMenuItems.Count <= 1) { break; }
-                        int index = Convert.ToInt32(((char)e.KeyValue).ToString());
-                        if (index <= this.StatsForm.ProfileMenuItems.Count) {
-                            this.StatsForm.menuStats_Click(this.StatsForm.ProfileMenuItems[index - 1], EventArgs.Empty);
-                        }
-                        break;
-                    }
             }
         }
         public void ResetOverlaySize() {

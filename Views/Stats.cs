@@ -373,6 +373,7 @@ namespace FallGuysStats {
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
+                this.BringToFront();
                 this.Show();
             }
             
@@ -2113,13 +2114,16 @@ namespace FallGuysStats {
                     if (this.isFocused) {
                         this.isFocused = false;
                         this.Hide();
+                        this.BringToFront();
                         //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
                     } else {
                         this.isFocused = true;
+                        this.BringToFront();
                         SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                     }
                 } else {
                     this.isFocused = true;
+                    this.BringToFront();
                     this.Show();
                 }
             }
@@ -2129,6 +2133,7 @@ namespace FallGuysStats {
         }
         private void Stats_VisibleChanged(object sender, EventArgs e) {
             if (this.Visible) {
+                this.BringToFront();
                 SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                 this.SetMainDataGridViewOrder();
             }
@@ -2184,6 +2189,7 @@ namespace FallGuysStats {
             } else {
                 e.Cancel = true;
                 this.Hide();
+                this.BringToFront();
             }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -2247,11 +2253,13 @@ namespace FallGuysStats {
                 this.RemoveUpdateFiles();
                 
                 if (this.CurrentSettings.Visible) {
+                    this.BringToFront();
                     this.Show();
                     this.ShowInTaskbar = true;
                     this.Opacity = 100;
                 } else {
                     this.Hide();
+                    this.BringToFront();
                     this.ShowInTaskbar = true;
                     this.Opacity = 100;
                 }
@@ -4059,63 +4067,60 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
-                case Keys.O:
-                    if (this.ctrlKeyToggle) { this.ToggleOverlay(this.overlay); }
+            }
+            
+            switch (e.Control) {
+                case true when e.KeyCode == Keys.T:
+                    int colorOption = 0;
+                    if (this.overlay.BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                        colorOption = 1;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.White.ToArgb()) {
+                        colorOption = 2;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.Black.ToArgb()) {
+                        colorOption = 3;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                        colorOption = 4;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.Red.ToArgb()) {
+                        colorOption = 5;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.Green.ToArgb()) {
+                        colorOption = 6;
+                    } else if (this.overlay.BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                        colorOption = 0;
+                    }
+                    this.overlay.SetBackgroundColor(colorOption);
+                    this.CurrentSettings.OverlayColor = colorOption;
+                    this.SaveUserSettings();
                     break;
-                case Keys.T:
-                    if (this.ctrlKeyToggle) {
-                        int colorOption = 0;
-                        if (this.overlay.BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
-                            colorOption = 1;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.White.ToArgb()) {
-                            colorOption = 2;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.Black.ToArgb()) {
-                            colorOption = 3;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.Magenta.ToArgb()) {
-                            colorOption = 4;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.Red.ToArgb()) {
-                            colorOption = 5;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.Green.ToArgb()) {
-                            colorOption = 6;
-                        } else if (this.overlay.BackColor.ToArgb() == Color.Blue.ToArgb()) {
-                            colorOption = 0;
-                        }
-                        this.overlay.SetBackgroundColor(colorOption);
-                        this.CurrentSettings.OverlayColor = colorOption;
+                case true when e.KeyCode == Keys.F:
+                    if (!this.overlay.IsFixed()) {
+                        this.overlay.FlipDisplay(!this.overlay.flippedImage);
+                        this.CurrentSettings.FlippedDisplay = this.overlay.flippedImage;
                         this.SaveUserSettings();
                     }
                     break;
-                case Keys.F:
-                    if (this.ctrlKeyToggle) {
-                        if (!this.overlay.IsFixed()) {
-                            this.overlay.FlipDisplay(!this.overlay.flippedImage);
-                            this.CurrentSettings.FlippedDisplay = this.overlay.flippedImage;
-                            this.SaveUserSettings();
-                        }
-                    }
+                case true when e.KeyCode == Keys.R:
+                    this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
+                    this.SaveUserSettings();
                     break;
-                case Keys.R:
-                    if (this.ctrlKeyToggle) {
-                        this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
-                        this.SaveUserSettings();
-                    }
+                case true when e.Shift && e.KeyCode == Keys.X:
+                    this.overlay.ResetOverlaySize();
                     break;
-                case Keys.X:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.overlay.ResetOverlaySize(); }
+                case true when e.Shift && e.KeyCode == Keys.C:
+                    this.overlay.ResetOverlayLocation(true);
                     break;
-                case Keys.C:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) {
-                        this.overlay.ResetOverlayLocation(true);
-                    } else {
-                        if (this.ctrlKeyToggle) {
-                            this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
-                            this.SaveUserSettings();
-                            this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
-                                this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                                this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
-                                this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
-                        }
-                    }
+                case true when e.KeyCode == Keys.C:
+                    this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
+                    this.SaveUserSettings();
+                    this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
+                        this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
+                        this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
+                        this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
+                    break;
+                case false when e.KeyCode == Keys.ShiftKey:
+                    this.shiftKeyToggle = true;
+                    break;
+                case false when e.KeyCode == Keys.ControlKey:
+                    this.ctrlKeyToggle = true;
                     break;
             }
         }
