@@ -21,7 +21,7 @@ namespace FallGuysStats {
         public string BackgroundResourceName;
         public string TabResourceName;
         private Thread timer;
-        private bool flippedImage;
+        public bool flippedImage;
         private int frameCount;
         private bool isTimeToSwitch;
         private int switchCount;
@@ -985,10 +985,8 @@ namespace FallGuysStats {
                 case Keys.O:
                     if (this.ctrlKeyToggle) { this.StatsForm.ToggleOverlay(this); }
                     break;
-                case Keys.X:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.ResetOverlaySize(); }
-                    break;
-                case Keys.T: {
+                case Keys.T:
+                    if (this.ctrlKeyToggle) {
                         int colorOption = 0;
                         if (BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
                             colorOption = 1;
@@ -1008,28 +1006,39 @@ namespace FallGuysStats {
                         this.SetBackgroundColor(colorOption);
                         this.StatsForm.CurrentSettings.OverlayColor = colorOption;
                         this.StatsForm.SaveUserSettings();
-                        break;
                     }
+                    break;
                 case Keys.F:
-                    this.FlipDisplay(!this.flippedImage);
-                    this.StatsForm.CurrentSettings.FlippedDisplay = this.flippedImage;
-                    this.StatsForm.SaveUserSettings();
+                    if (this.ctrlKeyToggle) {
+                        if (!this.IsFixed()) {
+                            this.FlipDisplay(!this.flippedImage);
+                            this.StatsForm.CurrentSettings.FlippedDisplay = this.flippedImage;
+                            this.StatsForm.SaveUserSettings();
+                        }
+                    }
+                    break;
+                case Keys.X:
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.ResetOverlaySize(); }
+                    break;
+                case Keys.R:
+                    if (this.ctrlKeyToggle) {
+                        this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
+                        this.StatsForm.SaveUserSettings();
+                    }
                     break;
                 case Keys.C:
                     if (this.shiftKeyToggle && this.ctrlKeyToggle) {
                         this.ResetOverlayLocation(true);
                     } else {
-                        this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
-                        this.StatsForm.SaveUserSettings();
-                        this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
-                                            this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                                            this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
-                                            this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                        if (this.ctrlKeyToggle) {
+                            this.StatsForm.CurrentSettings.PlayerByConsoleType = !this.StatsForm.CurrentSettings.PlayerByConsoleType;
+                            this.StatsForm.SaveUserSettings();
+                            this.ArrangeDisplay(this.StatsForm.CurrentSettings.FlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
+                                                this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
+                                                this.StatsForm.CurrentSettings.OverlayColor, this.StatsForm.CurrentSettings.OverlayWidth, this.StatsForm.CurrentSettings.OverlayHeight,
+                                                this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
+                        }
                     }
-                    break;
-                case Keys.R:
-                    this.StatsForm.CurrentSettings.ColorByRoundType = !this.StatsForm.CurrentSettings.ColorByRoundType;
-                    this.StatsForm.SaveUserSettings();
                     break;
                 case Keys.P when this.StatsForm.ProfileMenuItems.Count <= 1:
                     break;
