@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -2054,6 +2055,9 @@ namespace FallGuysStats {
         private void trayCMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e) {
             this.trayCMenu.Opacity = 0;
         }
+        private void trayCMenu_Opening(object sender, CancelEventArgs e) {
+            this.trayCMenu.Opacity = 100;
+        }
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
                 int menuPositionX = 0, menuPositionY = 0;
@@ -2096,7 +2100,6 @@ namespace FallGuysStats {
                         break;
                 }
                 this.trayCMenu.Location = new Point(menuPositionX, menuPositionY);
-                this.trayCMenu.Opacity = 100;
             }
         }
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
