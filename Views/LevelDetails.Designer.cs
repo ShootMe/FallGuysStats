@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class LevelDetails {
         /// <summary>
         /// Required designer variable.
@@ -64,7 +62,7 @@ namespace FallGuysStats {
             this.gridDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseLeave);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
-            this.gridDetails.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(this.gridDetails_DataBindingComplete);
+            this.gridDetails.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.gridDetails_DataBindingComplete);
             // 
             // LevelDetails
             // 
