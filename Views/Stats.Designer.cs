@@ -1,7 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Windows.Controls;
-using System.Windows.Forms;
 
 namespace FallGuysStats {
     partial class Stats {
@@ -541,6 +538,7 @@ namespace FallGuysStats {
             this.trayCMenu.Name = "trayCMenu";
             this.trayCMenu.Size = new System.Drawing.Size(166, 204);
             this.trayCMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.trayCMenu_Closing);
+            this.trayCMenu.Opening += new System.ComponentModel.CancelEventHandler(this.trayCMenu_Opening);
             // 
             // trayOverlay
             // 
