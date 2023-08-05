@@ -1,8 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using MetroFramework;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class Settings {
         /// <summary>
         /// Required designer variable.
@@ -1356,7 +1352,7 @@ namespace FallGuysStats {
             // lbltpl4
             // 
             this.lbltpl4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbltpl4.FontSize = MetroLinkSize.Medium;
+            this.lbltpl4.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.lbltpl4.Location = new System.Drawing.Point(12, 785);
             this.lbltpl4.Name = "lbltpl4";
             this.lbltpl4.Size = new System.Drawing.Size(121, 23);
@@ -1369,7 +1365,7 @@ namespace FallGuysStats {
             // lbltpl3
             // 
             this.lbltpl3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbltpl3.FontSize = MetroLinkSize.Medium;
+            this.lbltpl3.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.lbltpl3.Location = new System.Drawing.Point(12, 756);
             this.lbltpl3.Name = "lbltpl3";
             this.lbltpl3.Size = new System.Drawing.Size(121, 23);
@@ -1382,7 +1378,7 @@ namespace FallGuysStats {
             // lbltpl2
             // 
             this.lbltpl2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbltpl2.FontSize = MetroLinkSize.Medium;
+            this.lbltpl2.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.lbltpl2.Location = new System.Drawing.Point(12, 727);
             this.lbltpl2.Name = "lbltpl2";
             this.lbltpl2.Size = new System.Drawing.Size(121, 23);
@@ -1405,7 +1401,7 @@ namespace FallGuysStats {
             // lbltpl1
             // 
             this.lbltpl1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lbltpl1.FontSize = MetroLinkSize.Medium;
+            this.lbltpl1.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.lbltpl1.Location = new System.Drawing.Point(12, 700);
             this.lbltpl1.Name = "lbltpl1";
             this.lbltpl1.Size = new System.Drawing.Size(121, 23);

@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     partial class WinStatsDisplay {
         /// <summary>
         /// Required designer variable.
