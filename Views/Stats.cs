@@ -448,12 +448,13 @@ namespace FallGuysStats {
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             
             // Draw the custom background.
-            g.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
+            //g.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
+            e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
             
-            g.DrawString(e.ToolTipText, Overlay.GetMainFont(12f), CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
+            g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -4058,11 +4059,63 @@ namespace FallGuysStats {
                 case Keys.ControlKey:
                     this.ctrlKeyToggle = true;
                     break;
+                case Keys.O:
+                    if (this.ctrlKeyToggle) { this.ToggleOverlay(this.overlay); }
+                    break;
+                case Keys.T:
+                    if (this.ctrlKeyToggle) {
+                        int colorOption = 0;
+                        if (this.overlay.BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
+                            colorOption = 1;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.White.ToArgb()) {
+                            colorOption = 2;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.Black.ToArgb()) {
+                            colorOption = 3;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.Magenta.ToArgb()) {
+                            colorOption = 4;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.Red.ToArgb()) {
+                            colorOption = 5;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.Green.ToArgb()) {
+                            colorOption = 6;
+                        } else if (this.overlay.BackColor.ToArgb() == Color.Blue.ToArgb()) {
+                            colorOption = 0;
+                        }
+                        this.overlay.SetBackgroundColor(colorOption);
+                        this.CurrentSettings.OverlayColor = colorOption;
+                        this.SaveUserSettings();
+                    }
+                    break;
+                case Keys.F:
+                    if (this.ctrlKeyToggle) {
+                        if (!this.overlay.IsFixed()) {
+                            this.overlay.FlipDisplay(!this.overlay.flippedImage);
+                            this.CurrentSettings.FlippedDisplay = this.overlay.flippedImage;
+                            this.SaveUserSettings();
+                        }
+                    }
+                    break;
+                case Keys.R:
+                    if (this.ctrlKeyToggle) {
+                        this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
+                        this.SaveUserSettings();
+                    }
+                    break;
                 case Keys.X:
                     if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.overlay.ResetOverlaySize(); }
                     break;
                 case Keys.C:
-                    if (this.shiftKeyToggle && this.ctrlKeyToggle) { this.overlay.ResetOverlayLocation(false); }
+                    if (this.shiftKeyToggle && this.ctrlKeyToggle) {
+                        this.overlay.ResetOverlayLocation(true);
+                    } else {
+                        if (this.ctrlKeyToggle) {
+                            this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
+                            this.SaveUserSettings();
+                            this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
+                                this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
+                                this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
+                                this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
+                        }
+                    }
                     break;
             }
         }

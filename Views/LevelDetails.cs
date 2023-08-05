@@ -265,7 +265,7 @@ namespace FallGuysStats {
             }
         }
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+            if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
         }
         private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
