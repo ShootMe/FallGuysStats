@@ -4123,6 +4123,7 @@ namespace FallGuysStats {
                     this.ctrlKeyToggle = true;
                     break;
             }
+            e.SuppressKeyPress = true;
         }
         private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {

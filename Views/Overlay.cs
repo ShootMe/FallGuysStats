@@ -1071,6 +1071,7 @@ namespace FallGuysStats {
                     }
                     break;
             }
+            e.SuppressKeyPress = true;
         }
         public void ResetOverlaySize() {
             this.Size = this.DefaultSize;
