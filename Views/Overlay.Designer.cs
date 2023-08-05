@@ -433,13 +433,13 @@
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.KeyPreview = true;
             this.Location = new System.Drawing.Point(15, 15);
             this.Name = "Overlay";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.TopMost = true;
+            this.KeyPreview = true;
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.Activated += new System.EventHandler(this.Overlay_GotFocus);
             this.Deactivate += new System.EventHandler(this.Overlay_LostFocus);
