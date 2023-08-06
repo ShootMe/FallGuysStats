@@ -763,9 +763,9 @@ namespace FallGuysStats {
             this.chkOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
             this.chkOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
             this.chkCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
-            this.chkOnlyShowLongest.Text = Multilingual.GetWord("settings_longest_only");
-            this.chkOnlyShowFastest.Text = Multilingual.GetWord("settings_fastest_only");
-            this.chkCycleFastestLongest.Text = Multilingual.GetWord("settings_cycle_fastest__longest");
+            this.chkOnlyShowLongest.Text = Multilingual.GetWord("settings_personal_lowest_only");
+            this.chkOnlyShowFastest.Text = Multilingual.GetWord("settings_personal_best_only");
+            this.chkCycleFastestLongest.Text = Multilingual.GetWord("settings_cycle_best__lowest");
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
 

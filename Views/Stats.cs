@@ -4740,10 +4740,8 @@ namespace FallGuysStats {
                         this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
                         this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
-                            (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase)))
-                        {
+                            (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await this.logFile.Stop();
-
                             string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
                             if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
                                 logPath = this.CurrentSettings.LogPath;
