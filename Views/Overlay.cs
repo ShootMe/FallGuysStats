@@ -522,12 +522,12 @@ namespace FallGuysStats {
                                            Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
                                        + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
                 rectangle.Top - (rectangle.Height / 3));
-            this.StatsForm.ShowOverlayTooltip(Stats.LastCountryFullName, this, position);
+            this.StatsForm.ShowOverlayTooltip(Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName, this, position);
         }
         private void Overlay_MouseEnter(object sender, EventArgs e) {
             this.isMouseEnter = true;
             this.StatsForm.HideOverlayTooltip(this);
-            if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+            if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
                 this.ShowCountyNameTooltip();
             }
         }
@@ -537,7 +537,7 @@ namespace FallGuysStats {
         }
         private void Overlay_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
                     this.ShowCountyNameTooltip();
                 }
             }
@@ -669,12 +669,12 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
                     if (Stats.IsBadPing) {
                         this.lblCountryIcon.ImageX = 49;
-                        this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+                        this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
 
                         this.lblPingIcon.ImageX = 40;
                         this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                     } else {
-                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryCode}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
+                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                         this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
                                                         ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
                                                            Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
