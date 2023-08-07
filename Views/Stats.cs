@@ -118,8 +118,9 @@ namespace FallGuysStats {
         public static int PingSwitcher = 10;
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;
-        public static string LastCountryCode = string.Empty;
-        public static string LastCountryFullName = string.Empty;
+        public static string LastCountryAlpha2Code = string.Empty;
+        public static string LastCountryAlpha3Code = string.Empty;
+        public static string LastCountryDefaultName = string.Empty;
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
