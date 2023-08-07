@@ -2154,6 +2154,11 @@ namespace FallGuysStats {
                     this.CurrentSettings.OverlayLocationY = this.overlay.Location.Y;
                     this.CurrentSettings.OverlayWidth = this.overlay.Width;
                     this.CurrentSettings.OverlayHeight = this.overlay.Height;
+                } else {
+                    this.CurrentSettings.OverlayFixedPositionX = this.overlay.Location.X;
+                    this.CurrentSettings.OverlayFixedPositionY = this.overlay.Location.Y;
+                    this.CurrentSettings.OverlayFixedWidth = this.overlay.Width;
+                    this.CurrentSettings.OverlayFixedHeight = this.overlay.Height;
                 }
             }
             
@@ -2281,9 +2286,9 @@ namespace FallGuysStats {
                 }
                 this.logFile.Start(logPath, LOGNAME);
 
-                this.overlay.ArrangeDisplay(overlay.IsFixed() ? this.CurrentSettings.FixedFlippedDisplay : this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
+                this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                     this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                    this.CurrentSettings.OverlayColor, overlay.IsFixed() ? this.CurrentSettings.OverlayFixedWidth : this.CurrentSettings.OverlayWidth, overlay.IsFixed() ? this.CurrentSettings.OverlayFixedHeight : this.CurrentSettings.OverlayHeight,
+                    this.CurrentSettings.OverlayColor, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
                     this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
                 
@@ -4749,9 +4754,9 @@ namespace FallGuysStats {
                             this.logFile.Start(logPath, LOGNAME);
                         }
                         
-                        this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
+                        this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                             this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                            this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
+                            this.CurrentSettings.OverlayColor, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
                             this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                     } else {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
