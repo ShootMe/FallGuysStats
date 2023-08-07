@@ -578,8 +578,9 @@ namespace FallGuysStats {
         private void InitStaticVariable() {
             Stats.LastServerPing = 0;
             Stats.IsBadPing = false;
-            Stats.LastCountryCode = string.Empty;
-            Stats.LastCountryFullName = string.Empty;
+            Stats.LastCountryAlpha2Code = string.Empty;
+            Stats.LastCountryAlpha3Code = string.Empty;
+            Stats.LastCountryDefaultName = string.Empty;
             Stats.IsPrePlaying = false;
             Stats.IsPlaying = false;
             Stats.PingSwitcher = 10;
@@ -628,17 +629,19 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         try {
                                             string[] countryArr = this.StatsForm.GetCountryCode(ip);
-                                            Stats.LastCountryCode = countryArr[0].ToLower();
-                                            Stats.LastCountryFullName = Multilingual.GetCountryName(countryArr[1]) ?? countryArr[2];
-                                            if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryCode)) {
+                                            Stats.LastCountryAlpha2Code = countryArr[0].ToLower();
+                                            Stats.LastCountryAlpha3Code = countryArr[1];
+                                            Stats.LastCountryDefaultName = countryArr[2];
+                                            if (this.StatsForm.CurrentSettings.NotifyServerConnected && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
                                                 this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Stats.LastCountryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                                                     System.Windows.Forms.ToolTipIcon.Info, 2000);
                                             }
                                         } catch {
                                             this.toggleRequestIp2cApi = false;
-                                            Stats.LastCountryCode = string.Empty;
-                                            Stats.LastCountryFullName = string.Empty;
+                                            Stats.LastCountryAlpha2Code = string.Empty;
+                                            Stats.LastCountryAlpha3Code = string.Empty;
+                                            Stats.LastCountryDefaultName = string.Empty;
                                         }
                                     });
                                 }
