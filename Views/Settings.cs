@@ -433,6 +433,26 @@ namespace FallGuysStats {
             this.CurrentSettings.HideRoundInfo = this.chkHideRoundInfo.Checked;
             this.CurrentSettings.HideTimeInfo = this.chkHideTimeInfo.Checked;
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
+            
+            if (resizeOverlay) {
+                int overlaySetting = (this.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.CurrentSettings.HideTimeInfo ? 1 : 0);
+                switch (overlaySetting) {
+                    case 0: this.CurrentSettings.OverlayWidth = 786; this.CurrentSettings.OverlayFixedWidth = 786; break;
+                    case 1: this.CurrentSettings.OverlayWidth = 786 - 225 - 6; this.CurrentSettings.OverlayFixedWidth = 786 - 225 - 6; break;
+                    case 2: this.CurrentSettings.OverlayWidth = 786 - 281 - 6; this.CurrentSettings.OverlayFixedWidth = 786 - 281 - 6; break;
+                    case 3: this.CurrentSettings.OverlayWidth = 786 - 281 - 225 - 12; this.CurrentSettings.OverlayFixedWidth = 786 - 281 - 225 - 12; break;
+                    case 4: this.CurrentSettings.OverlayWidth = 786 - 242 - 6; this.CurrentSettings.OverlayFixedWidth = 786 - 242 - 6; break;
+                    case 5: this.CurrentSettings.OverlayWidth = 786 - 242 - 225 - 12; this.CurrentSettings.OverlayFixedWidth = 786 - 242 - 225 - 12; break;
+                    case 6: this.CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; this.CurrentSettings.OverlayFixedWidth = 786 - 242 - 281 - 12; break;
+                }
+
+                if (this.CurrentSettings.ShowOverlayTabs) {
+                    this.CurrentSettings.OverlayHeight = 134;
+                } else {
+                    this.CurrentSettings.OverlayHeight = 99;
+                }
+            }
+            
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
@@ -502,25 +522,6 @@ namespace FallGuysStats {
                 this.CurrentSettings.FastestFilter = 4;
             } else if ((string)this.cboFastestFilter.SelectedItem == $"{Multilingual.GetWord("settings_session_stats")}") {
                 this.CurrentSettings.FastestFilter = 5;
-            }
-
-            if (resizeOverlay) {
-                int overlaySetting = (this.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.CurrentSettings.HideTimeInfo ? 1 : 0);
-                switch (overlaySetting) {
-                    case 0: this.CurrentSettings.OverlayWidth = 786; break;
-                    case 1: this.CurrentSettings.OverlayWidth = 786 - 225 - 6; break;
-                    case 2: this.CurrentSettings.OverlayWidth = 786 - 281 - 6; break;
-                    case 3: this.CurrentSettings.OverlayWidth = 786 - 281 - 225 - 12; break;
-                    case 4: this.CurrentSettings.OverlayWidth = 786 - 242 - 6; break;
-                    case 5: this.CurrentSettings.OverlayWidth = 786 - 242 - 225 - 12; break;
-                    case 6: this.CurrentSettings.OverlayWidth = 786 - 242 - 281 - 12; break;
-                }
-
-                if (this.CurrentSettings.ShowOverlayTabs) {
-                    this.CurrentSettings.OverlayHeight = 134;
-                } else {
-                    this.CurrentSettings.OverlayHeight = 99;
-                }
             }
 
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = this.chkIgnoreLevelTypeWhenSorting.Checked;
