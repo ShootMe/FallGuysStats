@@ -32,14 +32,19 @@ namespace FallGuysStats {
 
             public string Description { get; } = "Custom Palette";
 
-            public SharedColor[] Colors { get; } = SharedColor.FromHex(HexColors);
-
-            private static readonly string[] HexColors = {
-                // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-                //"#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
-                "#1f77b4", "#ffd700", "#c0c0c0", "#cd7f32", "#ff1493",
-                "#800080", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+            public Color[] Colors { get; } = {
+                Color.FromArgb(31, 119, 180), Color.FromArgb(255, 215, 0), Color.FromArgb(192, 192, 192), Color.FromArgb(205, 127, 50), Color.FromArgb(255, 20, 147),
+                Color.FromArgb(128, 0, 128), Color.FromArgb(227, 119, 194), Color.FromArgb(127, 127, 127), Color.FromArgb(188, 189, 34), Color.FromArgb(23, 190, 207)
             };
+            
+            //public SharedColor[] Colors { get; } = SharedColor.FromHex(HexColors);
+
+            // private static readonly string[] HexColors = {
+            //     // "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
+            //     //"#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+            //     "#1f77b4", "#ffd700", "#c0c0c0", "#cd7f32", "#ff1493",
+            //     "#800080", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
+            // };
         }
 
         private void RoundStatsDisplay_Load(object sender, EventArgs e) {
