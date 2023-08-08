@@ -1587,38 +1587,10 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("show_wle_s10_wk01_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk01_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk01_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk01_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk02_srs_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk02_srs_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk02_srs_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk02_srs_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk03_srs_9".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk03_srs_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk03_srs_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk03_srs_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk04_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk04_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk04_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk04_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk05_srs_long_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk05_srs_long_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk05_srs_long_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk05_srs_long_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_13".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_17".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk07_srs_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1636,48 +1608,10 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("wle_s10_player_round_wk3_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_09".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_18".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_19".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk3_20".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_09".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_18".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_20".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_21".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk4_22".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_13".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_14".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_16".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_17".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "wle_s10_player_round_wk5_18".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1712,10 +1646,10 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("show_wle_s10_wk08_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1733,10 +1667,10 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("show_wle_s10_wk08_srs_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_wk08_srs_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1775,55 +1709,10 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("current_wle_fp4_10_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp4_10_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp4_10_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp4_10_20".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_09".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_13".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_14".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_17".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_18".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "show_wle_s10_player_round_wk6_19".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_01".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_02".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_03".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_04".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_05".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_06".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_07".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_08".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_09".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_10".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_11".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_12".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_13".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_14".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_15".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_16".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_17".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_18".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_19".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_20".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_21".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_22".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_23".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_24".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_25".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_26".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_27".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_28".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) ||
-                        "current_wle_fp3_10_29".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1834,6 +1723,28 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 46;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 46) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                Console.WriteLine(this.AllStats.Count);
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    {
+                        info.IsFinal = true;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 47;
+                this.SaveUserSettings();
+            }
+            
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1907,7 +1818,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 46
+                Version = 47
             };
         }
         private void UpdateHoopsieLegends() {
