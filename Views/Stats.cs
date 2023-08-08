@@ -1587,10 +1587,11 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1608,10 +1609,11 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1629,7 +1631,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if ("wle_mrs_bagel".Equals(info.ShowNameId, StringComparison.OrdinalIgnoreCase) && info.Name.StartsWith("wle_mrs_bagel_final")) {
+                    if ((!string.IsNullOrEmpty(info.ShowNameId) && info.ShowNameId.StartsWith("wle_mrs_bagel")) && info.Name.StartsWith("wle_mrs_bagel_final")) {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
                     }
@@ -1646,10 +1648,11 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1667,10 +1670,11 @@ namespace FallGuysStats {
                 this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1709,10 +1713,11 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);
@@ -1730,10 +1735,11 @@ namespace FallGuysStats {
                 Console.WriteLine(this.AllStats.Count);
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                                                                   info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                                                                   info.ShowNameId.StartsWith("current_wle_fp")))
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
+                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
+                         info.ShowNameId.StartsWith("current_wle_fp")))
                     {
                         info.IsFinal = true;
                         this.RoundDetails.Update(info);

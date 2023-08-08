@@ -128,7 +128,7 @@ namespace FallGuysStats {
         private float GetFontSizeFactor() {
             switch (this.Name) {
                 case "lblWins":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 18 ? (1f - ((TextRight.Length - 9) / 100f)) : 1f) :
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 16 ? (1f - ((TextRight.Length - 9) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 19 ? (1f - ((TextRight.Length - 17) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 18 ? (1f - ((TextRight.Length - 18) / 100f)) : 1f) : 1f;
                 case "lblFinals":
