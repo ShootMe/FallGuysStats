@@ -2386,7 +2386,6 @@ namespace FallGuysStats {
                                         this.EnableMainMenu(true);
                                     }
                                 }
-
                                 
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 2) {
                                     continue;

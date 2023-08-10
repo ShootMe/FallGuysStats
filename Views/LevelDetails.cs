@@ -486,11 +486,6 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    //e.Value = Multilingual.GetShowName((string)e.Value) ?? this.StatsForm.GetRoundNameFromShareCode((string)e.Value);
-                    // if (this._showStats == 0 && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
-                    //     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
-                    //     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
-                    // }
                     e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? info.CreativeTitle : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                     //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
