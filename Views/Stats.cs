@@ -334,6 +334,7 @@ namespace FallGuysStats {
             this.InitMainDataGridView();
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
+            
 
             this.CurrentRound = new List<RoundInfo>();
             
@@ -2293,8 +2294,7 @@ namespace FallGuysStats {
                         this.menuStats_Click(this.menuSessionStats, EventArgs.Empty);
                         break;
                 }
-
-                this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
+                
                 this.isStartingUp = false;
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -3443,6 +3443,9 @@ namespace FallGuysStats {
                 this.EnableMainMenu(true);
             }
         }
+        private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
+        }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
             for (var i = 0; i < levelStatsList.Count; i++) {
@@ -3509,7 +3512,6 @@ namespace FallGuysStats {
         }
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             this.SortGridDetails(e.ColumnIndex, false);
-            this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
         }
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (this.gridDetails.SelectedCells.Count > 0) {
@@ -4751,7 +4753,6 @@ namespace FallGuysStats {
                             this.overlay.ChangeLanguage();
                         }
                         this.SortGridDetails(0, true);
-                        this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
                         this.ChangeLaunchPlatformLogo(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
                         this.overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
