@@ -3448,22 +3448,18 @@ namespace FallGuysStats {
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
+            CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
+            currencyManager.SuspendBinding();
             for (var i = 0; i < levelStatsList.Count; i++) {
                 LevelStats levelStats = levelStatsList[i];
                 if (levelStats.IsCreative && !levelStats.Id.Equals("user_creative_race_round")) {
-                    CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
-                    currencyManager.SuspendBinding();
                     this.gridDetails.Rows[i].Visible = !visible;
-                    currencyManager.ResumeBinding();
                 }
-
                 if (levelStats.Id.Equals("creative_race_round") || levelStats.Id.Equals("creative_race_final_round")) {
-                    CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
-                    currencyManager.SuspendBinding();
                     this.gridDetails.Rows[i].Visible = visible;
-                    currencyManager.ResumeBinding();
                 }
             }
+            currencyManager.ResumeBinding();
         }
         private void SortGridDetails(int columnIndex, bool isInitialize) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
