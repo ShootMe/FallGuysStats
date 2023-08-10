@@ -56,9 +56,7 @@ namespace FallGuysStats {
         
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            if (theme == MetroThemeStyle.Light) {
-                
-            } else if (theme == MetroThemeStyle.Dark) {
+            if (theme == MetroThemeStyle.Dark) {
                 this.formsPlot.Plot.Style(ScottPlot.Style.Black);
                 this.formsPlot.Plot.Style(figureBackground: Color.FromArgb(17, 17, 17));
                 this.formsPlot.Plot.Style(dataBackground: Color.FromArgb(17, 17, 17));
@@ -85,7 +83,7 @@ namespace FallGuysStats {
             if (this.StatsForm.StatLookup.TryGetValue(roundId, out LevelStats level)) {
                 this.picRoundIcon.Size = level.RoundBigIcon.Size;
                 this.picRoundIcon.Image = level.RoundBigIcon;
-                this.formsPlot.Plot.Title(level.Name.Replace("🔧 ", ""));
+                this.formsPlot.Plot.Title(level.Name);
                 
                 LevelType levelType = level.Type;
                 this.lblRoundType.Text = levelType.LevelTitle(level.IsFinal);
@@ -115,7 +113,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.AllStats.Find(ri => roundId.Equals(ri.ShowNameId)).Name, out LevelStats creativeLevel)) {
                         this.picRoundIcon.Size = creativeLevel.RoundBigIcon.Size;
                         this.picRoundIcon.Image = creativeLevel.RoundBigIcon;
-                        this.formsPlot.Plot.Title(selectedRoundPair.Value.Replace("🔧 ", ""));
+                        this.formsPlot.Plot.Title(selectedRoundPair.Value);
                         
                         LevelType levelType = creativeLevel.Type;
                         this.lblRoundType.Text = levelType.LevelTitle(creativeLevel.IsFinal);

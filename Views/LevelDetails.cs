@@ -12,6 +12,7 @@ namespace FallGuysStats {
     public partial class LevelDetails : MetroFramework.Forms.MetroForm {
         public string LevelName { get; set; }
         public Image RoundIcon { get; set; }
+        public bool IsCreative { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
         public Stats StatsForm { get; set; }
         private int _showStats;
@@ -22,28 +23,15 @@ namespace FallGuysStats {
         }
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            if (theme == MetroThemeStyle.Light) {
-                this.dataGridViewCellStyle1.BackColor = Color.LightGray;
-                this.dataGridViewCellStyle1.ForeColor = Color.Black;
-                this.dataGridViewCellStyle1.SelectionBackColor = Color.Cyan;
-                //this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
+            this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkMagenta;
+            this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-                this.dataGridViewCellStyle2.BackColor = Color.White;
-                this.dataGridViewCellStyle2.ForeColor = Color.Black;
-                this.dataGridViewCellStyle2.SelectionBackColor = Color.DeepSkyBlue;
-                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            } else if (theme == MetroThemeStyle.Dark) {
-                this.dataGridViewCellStyle1.BackColor = Color.FromArgb(2, 2, 2);
-                this.dataGridViewCellStyle1.ForeColor = Color.DarkGray;
-                //this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkSlateBlue;
-                this.dataGridViewCellStyle1.SelectionBackColor = Color.DarkMagenta;
-                this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            
-                this.dataGridViewCellStyle2.BackColor = Color.FromArgb(49, 51, 56);
-                this.dataGridViewCellStyle2.ForeColor = Color.WhiteSmoke;
-                this.dataGridViewCellStyle2.SelectionBackColor = Color.SpringGreen;
-                this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            }
+            this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
+            this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
+            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
         }
         private int GetClientWidth(string level) {
             int lang = Stats.CurrentLanguage;
@@ -51,11 +39,11 @@ namespace FallGuysStats {
                 case "Shows":
                     return this.Width - (lang == 0 ? -80 : lang == 1 ? -113 : lang == 2 ? -39 : lang == -64 ? -90 : -21);
                 case "Rounds":
-                    return this.Width + (lang == 0 ? 900 : lang == 1 ? 942 : lang == 2 ? 817 : lang == 3 ? 884 : 823);
+                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
                 case "Finals":
-                    return this.Width + (lang == 0 ? 900 : lang == 1 ? 942 : lang == 2 ? 817 : lang == 3 ? 884 : 823);
+                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
                 default:
-                    return this.Width + (lang == 0 ? 900 : lang == 1 ? 942 : lang == 2 ? 817 : lang == 3 ? 884 : 823);
+                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
             }
         }
         private int GetDataGridViewColumnWidth(string columnName, string columnText) {
@@ -125,6 +113,12 @@ namespace FallGuysStats {
             
             return sizeOfText + 24;
         }
+        // private bool IsCreativeLevel(string levelId) {
+        //     return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_") ||
+        //            levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_") ||
+        //            levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk") ||
+        //            levelId.StartsWith("wle_s10_long_round_") || levelId.Equals("wle_fp2_wk6_01");
+        // }
         private void LevelDetails_Load(object sender, EventArgs e) {
             this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
@@ -172,7 +166,7 @@ namespace FallGuysStats {
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
                 this._showStats = 0;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {this.LevelName} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
             }
 
             this.gridDetails.DataSource = RoundDetails;
@@ -481,7 +475,7 @@ namespace FallGuysStats {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
-                    e.Value = level.Name;
+                    e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
                     //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
