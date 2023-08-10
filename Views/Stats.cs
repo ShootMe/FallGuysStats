@@ -1862,7 +1862,7 @@ namespace FallGuysStats {
         private void UpdateGridRoundName() {
             foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
                 LevelStats level = this.StatLookup[item.Key];
-                level.Name = item.Value;
+                level.Name = $"{(level.IsCreative ? "🔧 " : "")}{item.Value}";
             }
             this.SortGridDetails(0, true);
             this.gridDetails.Invalidate();
