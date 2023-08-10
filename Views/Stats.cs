@@ -1756,27 +1756,6 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 47;
                 this.SaveUserSettings();
             }
-            
-            if (this.CurrentSettings.Version == 46) {
-                this.AllStats.AddRange(this.RoundDetails.FindAll());
-                this.StatsDB.BeginTrans();
-                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
-                    RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
-                        (info.ShowNameId.StartsWith("show_wle_s10_wk") ||
-                         info.ShowNameId.StartsWith("wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("show_wle_s10_player_round_wk") ||
-                         info.ShowNameId.StartsWith("current_wle_fp")))
-                    {
-                        info.IsFinal = true;
-                        this.RoundDetails.Update(info);
-                    }
-                }
-                this.StatsDB.Commit();
-                this.AllStats.Clear();
-                this.CurrentSettings.Version = 47;
-                this.SaveUserSettings();
-            }
 
             if (this.CurrentSettings.Version == 47) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
@@ -3201,12 +3180,12 @@ namespace FallGuysStats {
             this.gridDetails.Columns["Longest"].DisplayIndex = pos++;
             this.gridDetails.Columns["AveFinish"].DisplayIndex = pos;
         }
-        private bool IsCreativeLevel(string levelId) {
-            return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_") ||
-                   levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_") ||
-                   levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk") ||
-                   levelId.StartsWith("wle_s10_long_round_") || levelId.Equals("wle_fp2_wk6_01");
-        }
+        // private bool IsCreativeLevel(string levelId) {
+        //     return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_") ||
+        //            levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_") ||
+        //            levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk") ||
+        //            levelId.StartsWith("wle_s10_long_round_") || levelId.Equals("wle_fp2_wk6_01");
+        // }
         private bool IsFinalWithCreativeLevel(string levelId) {
             return levelId.Equals("wle_s10_orig_round_010") ||
                    levelId.Equals("wle_s10_orig_round_011") ||
@@ -3447,7 +3426,7 @@ namespace FallGuysStats {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
             for (var i = 0; i < levelStatsList.Count; i++) {
                 LevelStats levelStats = levelStatsList[i];
-                if (this.IsCreativeLevel(levelStats.Id)) {
+                if (levelStats.IsCreative && !levelStats.Id.Equals("user_creative_race_round")) {
                     CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
                     currencyManager.SuspendBinding();
                     this.gridDetails.Rows[i].Visible = !visible;
