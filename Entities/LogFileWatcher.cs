@@ -349,7 +349,7 @@ namespace FallGuysStats {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
         private bool IsCreativeFinalRound(string showId, string roundId) {
-            return ((showId.StartsWith("show_wle_s10_wk") ||
+            return (((showId.StartsWith("show_wle_s10_wk") && !showId.EndsWith("_mrs")) ||
                      showId.StartsWith("wle_s10_player_round_wk") ||
                      showId.StartsWith("show_wle_s10_player_round_wk") ||
                      showId.StartsWith("current_wle_fp"))

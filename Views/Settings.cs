@@ -206,6 +206,7 @@ namespace FallGuysStats {
             this.txtGameShortcutLocation.Text = this.CurrentSettings.GameShortcutLocation;
             this.chkLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
+            this.chkGroupingCreativeRoundLevels.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
 
             //this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
@@ -525,6 +526,7 @@ namespace FallGuysStats {
             }
 
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = this.chkIgnoreLevelTypeWhenSorting.Checked;
+            this.CurrentSettings.GroupingCreativeRoundLevels = this.chkGroupingCreativeRoundLevels.Checked;
             this.CurrentSettings.LaunchPlatform = this.LaunchPlatform;
             this.CurrentSettings.GameExeLocation = this.txtGameExeLocation.Text;
             this.CurrentSettings.GameShortcutLocation = this.txtGameShortcutLocation.Text;
@@ -891,6 +893,7 @@ namespace FallGuysStats {
             this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
             //this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
+            this.chkGroupingCreativeRoundLevels.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
 
