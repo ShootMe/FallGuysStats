@@ -243,7 +243,7 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             this.cboOverlayBackground.mtt.Theme = theme;
-            this.cboOverlayBackground_blur();
+            this.cboOverlayBackground_blur(theme);
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -300,53 +300,35 @@ namespace FallGuysStats {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.Invalidate(true);
         }
-        private void cboOverlayBackground_blur() {
-            if (this.Theme == MetroThemeStyle.Dark) {
-                this.cboOverlayBackground.ForeColor = Color.DarkGray;
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
-
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
-            } else if (this.Theme == MetroThemeStyle.Light) {
-                this.cboOverlayBackground.ForeColor = Color.FromArgb(153, 153, 153);
-                this.cboOverlayBackground.BackColor = Color.White;
-
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
-            }
+        private void cboOverlayBackground_blur(MetroThemeStyle theme) {
+            this.cboOverlayBackground.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(153, 153, 153) : Color.DarkGray;
+            this.cboOverlayBackground.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
+            this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
         }
-        private void cboOverlayBackground_focus() {
-            if (this.Theme == MetroThemeStyle.Dark) {
-                this.cboOverlayBackground.ForeColor = Color.FromArgb(204, 204, 204);
-                this.cboOverlayBackground.BackColor = Color.FromArgb(17, 17, 17);
-
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(204, 204, 204);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(170, 170, 170);
-            } else if (this.Theme == MetroThemeStyle.Light) {
-                this.cboOverlayBackground.ForeColor = Color.Black;
-                this.cboOverlayBackground.BackColor = Color.White;
-
-                this.cboOverlayBackground.BorderColor = Color.FromArgb(17, 17, 17);
-                this.cboOverlayBackground.ButtonColor = Color.FromArgb(17, 17, 17);
-            }
+        private void cboOverlayBackground_focus(MetroThemeStyle theme) {
+            this.cboOverlayBackground.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.FromArgb(204, 204, 204);
+            this.cboOverlayBackground.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.cboOverlayBackground.BorderColor = theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(204, 204, 204);
+            this.cboOverlayBackground.ButtonColor = theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(170, 170, 170);
         }
         private void cboOverlayBackground_MouseEnter(object sender, EventArgs e) {
             if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_focus();
+                this.cboOverlayBackground_focus(this.Theme);
             }
         }
         private void cboOverlayBackground_GotFocus(object sender, EventArgs e) {
             this.CboOverlayBackgroundIsFocus = true;
-            this.cboOverlayBackground_focus();
+            this.cboOverlayBackground_focus(this.Theme);
         }
         private void cboOverlayBackground_MouseLeave(object sender, EventArgs e) {
             if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_blur();
+                this.cboOverlayBackground_blur(this.Theme);
             }
         }
         private void cboOverlayBackground_LostFocus(object sender, EventArgs e) {
             this.CboOverlayBackgroundIsFocus = false;
-            this.cboOverlayBackground_blur();
+            this.cboOverlayBackground_blur(this.Theme);
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
