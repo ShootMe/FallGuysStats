@@ -1150,7 +1150,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(thirdColumnX, 10 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 10 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 9 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(thirdColumnX + 143, 14 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1213,7 +1213,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(secondColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(secondColumnX + 159, 32 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(secondColumnX + 159, 31 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(secondColumnX + 200, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1342,7 +1342,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX + secondColumnWidth + 6, 9 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(firstColumnX + secondColumnWidth + 108, 9 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(firstColumnX + secondColumnWidth + 108, 8 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(firstColumnX + secondColumnWidth + 149, 13 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
@@ -1398,7 +1398,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(firstColumnX, 32 + heightOffset);
                     this.lblPlayers.Size = new Size(secondColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(firstColumnX + 159, 32 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(firstColumnX + 159, 31 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(firstColumnX + 200, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
