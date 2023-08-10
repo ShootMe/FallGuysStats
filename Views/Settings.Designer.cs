@@ -97,6 +97,7 @@
             this.chkLaunchGameOnStart = new MetroFramework.Controls.MetroCheckBox();
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.chkIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroCheckBox();
+            this.chkGroupingCreativeRoundLevels = new MetroFramework.Controls.MetroCheckBox();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.dlgOverlayFont = new System.Windows.Forms.FontDialog();
             this.platformToolTip = new MetroFramework.Components.MetroToolTip();
@@ -1086,13 +1087,26 @@
             this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
             this.chkIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkIgnoreLevelTypeWhenSorting.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(8, 77);
+            this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(8, 100);
             this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
             this.chkIgnoreLevelTypeWhenSorting.Name = "chkIgnoreLevelTypeWhenSorting";
             this.chkIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(216, 19);
             this.chkIgnoreLevelTypeWhenSorting.TabIndex = 0;
             this.chkIgnoreLevelTypeWhenSorting.Text = "Ignore Level Type when sorting";
             this.chkIgnoreLevelTypeWhenSorting.UseSelectable = true;
+            // 
+            // chkGroupingCreativeRoundLevels
+            // 
+            this.chkGroupingCreativeRoundLevels.AutoSize = true;
+            this.chkGroupingCreativeRoundLevels.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkGroupingCreativeRoundLevels.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkGroupingCreativeRoundLevels.Location = new System.Drawing.Point(8, 131);
+            this.chkGroupingCreativeRoundLevels.Margin = new System.Windows.Forms.Padding(2);
+            this.chkGroupingCreativeRoundLevels.Name = "chkGroupingCreativeRoundLevels";
+            this.chkGroupingCreativeRoundLevels.Size = new System.Drawing.Size(216, 19);
+            this.chkGroupingCreativeRoundLevels.TabIndex = 1;
+            this.chkGroupingCreativeRoundLevels.Text = "Grouping creative round levels into one category";
+            this.chkGroupingCreativeRoundLevels.UseSelectable = true;
             // 
             // btnCancel
             // 
@@ -1155,6 +1169,7 @@
             // 
             this.panelDisplay.Controls.Add(this.lblPreviousWins);
             this.panelDisplay.Controls.Add(this.chkIgnoreLevelTypeWhenSorting);
+            this.panelDisplay.Controls.Add(this.chkGroupingCreativeRoundLevels);
             this.panelDisplay.Controls.Add(this.txtPreviousWins);
             this.panelDisplay.Controls.Add(this.chkChangeHoopsieLegends);
             this.panelDisplay.Controls.Add(this.lblPreviousWinsNote);
@@ -1680,6 +1695,7 @@
         private MetroFramework.Controls.MetroButton btnGameExeLocationBrowse;
         private MetroFramework.Controls.MetroCheckBox chkLaunchGameOnStart;
         private MetroFramework.Controls.MetroCheckBox chkIgnoreLevelTypeWhenSorting;
+        private MetroFramework.Controls.MetroCheckBox chkGroupingCreativeRoundLevels;
         private MetroFramework.Controls.MetroButton btnCancel;
         private System.Windows.Forms.GroupBox grpCycleQualifyGold;
         private MetroFramework.Controls.MetroRadioButton chkOnlyShowGold;

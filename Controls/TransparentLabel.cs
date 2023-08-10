@@ -128,28 +128,26 @@ namespace FallGuysStats {
         private float GetFontSizeFactor() {
             switch (this.Name) {
                 case "lblWins":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 16 ? (1f - ((TextRight.Length - 9) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 19 ? (1f - ((TextRight.Length - 17) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 18 ? (1f - ((TextRight.Length - 18) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 16 ? (1f - ((this.TextRight.Length - 13) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 19 ? (1f - ((this.TextRight.Length - 17) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 18 ? (1f - ((this.TextRight.Length - 18) / 100f)) : 1f) : 1f;
                 case "lblFinals":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 12 ? (1f - ((TextRight.Length - 12) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((TextRight.Length - 15) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 16 ? (1f - ((TextRight.Length - 16) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 12 ? (1f - ((this.TextRight.Length - (Stats.CurrentLanguage == 1 ? 8 : 12)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 15) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 16 ? (1f - ((this.TextRight.Length - 16) / 100f)) : 1f) : 1f;
                 case "lblStreak":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 8 ? (1f - (TextRight.Length / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((TextRight.Length - 5) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 10 ? (1f - ((TextRight.Length - 10) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 8 ? (1f - (this.TextRight.Length / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 1) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 10 ? (1f - ((this.TextRight.Length - 10) / 100f)) : 1f) : 1f;
                 case "lblQualifyChance":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 17 ? (1f - ((TextRight.Length - 17) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 21 ? (1f - ((TextRight.Length - 21) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 22 ? (1f - ((TextRight.Length - 22) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 17 ? (1f - ((this.TextRight.Length - 17) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 21 ? (1f - ((this.TextRight.Length - 21) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 22 ? (1f - ((this.TextRight.Length - 22) / 100f)) : 1f) : 1f;
                 case "lblDuration":
-                    return this.Text.Length > 14 ? (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1 ? (1f - ((TextRight.Length - 14) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.Text.Length - 12) / 100f)) : 1f) : 1f;
                 case "lblFinish":
-                    return (this.TextRight.Length > 14 && Stats.CurrentLanguage == 0) ? 0.82f :
-                            (this.TextRight.Length > 16 && Stats.CurrentLanguage == 1) ? 0.77f :
-                            (this.TextRight.Length >= 15 && 16 >= this.TextRight.Length && Stats.CurrentLanguage == 1) ? 0.92f :
-                            (this.TextRight.Length > 13 && Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? 0.96f : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length + (this.TextRight.Length < 16 ? -5 : 5)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 11) / 100f)) : 1f) : 1f;
                 default:
                     return 1f;
             }
