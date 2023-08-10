@@ -1764,7 +1764,8 @@ namespace FallGuysStats {
                     RoundInfo info = this.AllStats[i];
                     if (!string.IsNullOrEmpty(info.ShowNameId) &&
                         ((info.ShowNameId.StartsWith("show_wle_s10_wk") || info.ShowNameId.StartsWith("event_wle_s10_wk")) && info.ShowNameId.EndsWith("_mrs")) &&
-                        !this.IsFinalWithCreativeLevel(info.Name)) {
+                        !this.IsFinalWithCreativeLevel(info.Name))
+                    {
                         info.IsFinal = false;
                         this.RoundDetails.Update(info);
                     }
@@ -1773,6 +1774,26 @@ namespace FallGuysStats {
                 this.AllStats.Clear();
                 this.CurrentSettings.GroupingCreativeRoundLevels = true;
                 this.CurrentSettings.Version = 48;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 48) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (!string.IsNullOrEmpty(info.ShowNameId) &&
+                        info.ShowNameId.Equals("main_show") &&
+                        this.IsFinalWithCreativeLevel(info.Name))
+                    {
+                        info.IsFinal = true;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.GroupingCreativeRoundLevels = true;
+                this.CurrentSettings.Version = 49;
                 this.SaveUserSettings();
             }
         }
@@ -1849,7 +1870,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 48
+                Version = 49
             };
         }
         private void UpdateHoopsieLegends() {
