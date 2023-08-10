@@ -787,7 +787,7 @@ namespace FallGuysStats {
                         this.lblRound.ImageHeight = 0;
                     }
                     
-                    this.lblRound.TextRight = level.IsCreative && !this.lastRound.UseShareCode ? roundName.Replace("🔧 ", "") : roundName;
+                    this.lblRound.TextRight = roundName;
 
                     this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                     float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);

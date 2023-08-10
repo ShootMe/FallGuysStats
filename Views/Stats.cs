@@ -1874,6 +1874,18 @@ namespace FallGuysStats {
                 Version = 49
             };
         }
+        private bool IsFinalWithCreativeLevel(string levelId) {
+            return levelId.Equals("wle_s10_orig_round_010") ||
+                   levelId.Equals("wle_s10_orig_round_011") ||
+                   levelId.Equals("wle_s10_orig_round_017") ||
+                   levelId.Equals("wle_s10_orig_round_018") ||
+                   levelId.Equals("wle_s10_orig_round_024") ||
+                   levelId.Equals("wle_s10_orig_round_025") ||
+                   levelId.Equals("wle_s10_orig_round_030") ||
+                   levelId.Equals("wle_s10_orig_round_031") ||
+                   levelId.Equals("wle_s10_round_004") ||
+                   levelId.Equals("wle_s10_round_009");
+        }
         private void UpdateHoopsieLegends() {
             LevelStats level = this.StatLookup["round_hoops_blockade_solo"];
             string newName = this.CurrentSettings.HoopsieHeros ? Multilingual.GetWord("main_hoopsie_heroes") : Multilingual.GetWord("main_hoopsie_legends");
@@ -1884,7 +1896,7 @@ namespace FallGuysStats {
         private void UpdateGridRoundName() {
             foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
                 LevelStats level = this.StatLookup[item.Key];
-                level.Name = $"{(level.IsCreative ? "🔧 " : "")}{item.Value}";
+                level.Name = item.Value;
             }
             this.SortGridDetails(0, true);
             this.gridDetails.Invalidate();
@@ -3201,24 +3213,6 @@ namespace FallGuysStats {
             this.gridDetails.Columns["Longest"].DisplayIndex = pos++;
             this.gridDetails.Columns["AveFinish"].DisplayIndex = pos;
         }
-        // private bool IsCreativeLevel(string levelId) {
-        //     return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_") ||
-        //            levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_") ||
-        //            levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk") ||
-        //            levelId.StartsWith("wle_s10_long_round_") || levelId.Equals("wle_fp2_wk6_01");
-        // }
-        private bool IsFinalWithCreativeLevel(string levelId) {
-            return levelId.Equals("wle_s10_orig_round_010") ||
-                   levelId.Equals("wle_s10_orig_round_011") ||
-                   levelId.Equals("wle_s10_orig_round_017") ||
-                   levelId.Equals("wle_s10_orig_round_018") ||
-                   levelId.Equals("wle_s10_orig_round_024") ||
-                   levelId.Equals("wle_s10_orig_round_025") ||
-                   levelId.Equals("wle_s10_orig_round_030") ||
-                   levelId.Equals("wle_s10_orig_round_031") ||
-                   levelId.Equals("wle_s10_round_004") ||
-                   levelId.Equals("wle_s10_round_009");
-        }
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             try {
                 if (e.RowIndex < 0) { return; }
@@ -3285,6 +3279,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Name":
+                        if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
                         e.CellStyle.ForeColor = Color.Black;
                         this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
                         if (levelStats.IsFinal) {
@@ -3418,13 +3413,14 @@ namespace FallGuysStats {
             try {
                 if (e.RowIndex < 0) { return; }
                 if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
-                    LevelStats stats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
+                    LevelStats levelStats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
                     using (LevelDetails levelDetails = new LevelDetails {
-                               LevelName = stats.Name,
-                               RoundIcon = stats.RoundBigIcon,
-                               StatsForm = this
+                               LevelName = levelStats.Name,
+                               RoundIcon = levelStats.RoundBigIcon,
+                               StatsForm = this,
+                               IsCreative = levelStats.IsCreative
                            }) {
-                        List<RoundInfo> rounds = stats.Stats;
+                        List<RoundInfo> rounds = levelStats.Stats;
                         rounds.Sort();
                         levelDetails.RoundDetails = rounds;
                         this.EnableInfoStrip(false);
