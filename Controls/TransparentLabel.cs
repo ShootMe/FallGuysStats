@@ -132,7 +132,7 @@ namespace FallGuysStats {
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 12) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 15) / 100f)) : 1f) : 1f;
                 case "lblFinals":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 12 ? (1f - ((this.TextRight.Length - (Stats.CurrentLanguage == 1 ? 8 : 12)) / 100f)) : 1f) :
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 9) / 100f) * 1.5f) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 15) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 16 ? (1f - ((this.TextRight.Length - 16) / 100f)) : 1f) : 1f;
                 case "lblStreak":
