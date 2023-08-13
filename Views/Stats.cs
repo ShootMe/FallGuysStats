@@ -4092,6 +4092,11 @@ namespace FallGuysStats {
             }
             
             switch (e.Control) {
+                case true when e.KeyCode == Keys.M:
+                    this.CurrentSettings.OverlayNotOnTop = !this.CurrentSettings.OverlayNotOnTop;
+                    this.SetOverlayTopMost(!this.CurrentSettings.OverlayNotOnTop);
+                    this.SaveUserSettings();
+                    break;
                 case true when e.KeyCode == Keys.T:
                     int colorOption = 0;
                     if (this.overlay.BackColor.ToArgb() == Color.FromArgb(224, 224, 224).ToArgb()) {
@@ -4720,6 +4725,12 @@ namespace FallGuysStats {
             this.trayIcon.Visible = enable;
             if (!enable && !this.Visible) { this.Visible = true; }
         }
+        public void SetOverlayTopMost(bool topMost) {
+            this.overlay.TopMost = topMost;
+            this.overlay.Hide();
+            this.overlay.ShowInTaskbar = !topMost;
+            this.overlay.Show();
+        }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
@@ -4747,14 +4758,7 @@ namespace FallGuysStats {
                         this.SortGridDetails(0, true);
                         this.ChangeLaunchPlatformLogo(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
-                        this.overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
-                        if (this.overlay.Visible) {
-                            this.overlay.Hide();
-                            this.overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
-                            this.overlay.Show();
-                        } else {
-                            this.overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
-                        }
+                        this.SetOverlayTopMost(!this.CurrentSettings.OverlayNotOnTop);
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);

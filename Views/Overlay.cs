@@ -984,6 +984,11 @@ namespace FallGuysStats {
             }
             
             switch (e.Control) {
+                case true when e.KeyCode == Keys.M:
+                    this.StatsForm.CurrentSettings.OverlayNotOnTop = !this.StatsForm.CurrentSettings.OverlayNotOnTop;
+                    this.StatsForm.SetOverlayTopMost(!this.StatsForm.CurrentSettings.OverlayNotOnTop);
+                    this.StatsForm.SaveUserSettings();
+                    break;
                 case true when e.Shift && e.KeyCode == Keys.C:
                     this.ResetOverlayLocation(true);
                     break;
