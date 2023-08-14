@@ -205,17 +205,17 @@ namespace FallGuysStats {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
-#if AllowUpdate
-                            TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
-                            if (timeDiff.TotalMinutes >= 30) {
-                                Task.Run(() => {
-                                    if (this.StatsForm.IsInternetConnected()) {
-                                        this.StatsForm.timeSwitcherForCheckUpdate = DateTime.UtcNow;
-                                        this.StatsForm.CheckForNewVersion();
-                                    }
-                                });
-                            }
-#endif
+// #if AllowUpdate
+//                             TimeSpan timeDiff = DateTime.UtcNow - this.StatsForm.timeSwitcherForCheckUpdate;
+//                             if (timeDiff.TotalMinutes >= 30) {
+//                                 Task.Run(() => {
+//                                     if (this.StatsForm.IsInternetConnected()) {
+//                                         this.StatsForm.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+//                                         this.StatsForm.CheckForNewVersion();
+//                                     }
+//                                 });
+//                             }
+// #endif
                         }
 
                         //if (logRound.LastPing > 0) {
