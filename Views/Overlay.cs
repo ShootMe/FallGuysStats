@@ -989,11 +989,14 @@ namespace FallGuysStats {
                     this.StatsForm.SetOverlayTopMost(!this.StatsForm.CurrentSettings.OverlayNotOnTop);
                     this.StatsForm.SaveUserSettings();
                     break;
-                case true when e.Shift && e.KeyCode == Keys.C:
-                    this.ResetOverlayLocation(true);
+                case true when e.Shift && e.KeyCode == Keys.Z:
+                    this.StatsForm.SetAutoChangeProfile(!this.StatsForm.CurrentSettings.AutoChangeProfile);
                     break;
                 case true when e.Shift && e.KeyCode == Keys.X:
                     this.ResetOverlaySize();
+                    break;
+                case true when e.Shift && e.KeyCode == Keys.C:
+                    this.ResetOverlayLocation(true);
                     break;
                 case true when e.KeyCode == Keys.O:
                     this.StatsForm.ToggleOverlay(this);
