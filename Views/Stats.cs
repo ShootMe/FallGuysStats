@@ -4139,6 +4139,12 @@ namespace FallGuysStats {
                 case true when e.Shift && e.KeyCode == Keys.C:
                     this.overlay.ResetOverlayLocation(true);
                     break;
+                case true when e.Shift && e.KeyCode == Keys.Up:
+                    this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity + 5);
+                    break;
+                case true when e.Shift && e.KeyCode == Keys.Down:
+                    this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity - 5);
+                    break;
                 case true when e.KeyCode == Keys.C:
                     this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
                     this.SaveUserSettings();
@@ -4741,6 +4747,13 @@ namespace FallGuysStats {
             this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
             this.SaveUserSettings();
         }
+        public void SetOverlayBackgroundOpacity(int opacity) {
+            if (opacity > 100) { opacity = 100; }
+            if (opacity < 0) { opacity = 0; }
+            this.CurrentSettings.OverlayBackgroundOpacity = opacity;
+            this.overlay.Opacity = opacity / 100D;
+            this.SaveUserSettings();
+        }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
@@ -4769,7 +4782,7 @@ namespace FallGuysStats {
                         this.ChangeLaunchPlatformLogo(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
                         this.SetOverlayTopMost(!this.CurrentSettings.OverlayNotOnTop);
-                        this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
+                        this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity);
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
                         this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         this.Refresh();
