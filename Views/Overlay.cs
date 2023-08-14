@@ -998,6 +998,12 @@ namespace FallGuysStats {
                 case true when e.Shift && e.KeyCode == Keys.C:
                     this.ResetOverlayLocation(true);
                     break;
+                case true when e.Shift && e.KeyCode == Keys.Up:
+                    this.StatsForm.SetOverlayBackgroundOpacity(this.StatsForm.CurrentSettings.OverlayBackgroundOpacity + 5);
+                    break;
+                case true when e.Shift && e.KeyCode == Keys.Down:
+                    this.StatsForm.SetOverlayBackgroundOpacity(this.StatsForm.CurrentSettings.OverlayBackgroundOpacity - 5);
+                    break;
                 case true when e.KeyCode == Keys.O:
                     this.StatsForm.ToggleOverlay(this);
                     break;
