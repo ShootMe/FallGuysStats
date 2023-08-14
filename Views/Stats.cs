@@ -4130,6 +4130,9 @@ namespace FallGuysStats {
                     this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
                     this.SaveUserSettings();
                     break;
+                case true when e.Shift && e.KeyCode == Keys.Z:
+                    this.SetAutoChangeProfile(!this.CurrentSettings.AutoChangeProfile);
+                    break;
                 case true when e.Shift && e.KeyCode == Keys.X:
                     this.overlay.ResetOverlaySize();
                     break;
@@ -4731,6 +4734,12 @@ namespace FallGuysStats {
             this.overlay.Hide();
             this.overlay.ShowInTaskbar = !topMost;
             this.overlay.Show();
+        }
+        public void SetAutoChangeProfile(bool autoChangeProfile) {
+            this.CurrentSettings.AutoChangeProfile = autoChangeProfile;
+            this.logFile.autoChangeProfile = autoChangeProfile;
+            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
+            this.SaveUserSettings();
         }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
