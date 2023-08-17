@@ -305,10 +305,10 @@ namespace FallGuysStats {
             { "current_wle_fp3_07_0_02",           new LevelStats("current_wle_fp3_07_0_02", "Woo-F-O", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_07_0_03",           new LevelStats("current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
-            { "wle_s10_cf_round_001",              new LevelStats("wle_s10_cf_round_001", "Blocky Bridges", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_cf_round_002",              new LevelStats("wle_s10_cf_round_002", "Gappy-go-Lucky", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_cf_round_003",              new LevelStats("wle_s10_cf_round_003", "Drop n' Drag", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_cf_round_004",              new LevelStats("wle_s10_cf_round_004", "Fun with Fans", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_001",              new LevelStats("wle_s10_cf_round_001", "Blocky Bridges", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_002",              new LevelStats("wle_s10_cf_round_002", "Gappy-go-Lucky", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_003",              new LevelStats("wle_s10_cf_round_003", "Drop n' Drag", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_004",              new LevelStats("wle_s10_cf_round_004", "Fun with Fans", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "current_wle_fp3_08_01",             new LevelStats("current_wle_fp3_08_01", "Grabbers Territory", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_08_02",             new LevelStats("current_wle_fp3_08_02", "A Way Out", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
