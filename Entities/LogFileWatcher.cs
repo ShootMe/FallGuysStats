@@ -351,8 +351,9 @@ namespace FallGuysStats {
         private bool IsCreativeFinalRound(string showId, string roundId) {
             return (((showId.StartsWith("show_wle_s10_wk") && !showId.EndsWith("_mrs")) ||
                      showId.StartsWith("wle_s10_player_round_wk") ||
-                     showId.StartsWith("show_wle_s10_player_round_wk") ||
-                     showId.StartsWith("current_wle_fp"))
+                     showId.StartsWith("show_wle_s10_") ||
+                     showId.StartsWith("current_wle_fp") ||
+                     showId.StartsWith("wle_s10_cf_round_"))
                     
                     || (showId.StartsWith("wle_mrs_bagel") && roundId.StartsWith("wle_mrs_bagel_final"))
                     
