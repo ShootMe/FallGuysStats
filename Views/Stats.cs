@@ -1797,6 +1797,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 49;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 49) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
+                        (info.ShowNameId.StartsWith("wle_s10_cf_round_")))
+                    {
+                        info.IsFinal = true;
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 50;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1871,7 +1889,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 49
+                Version = 50
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
@@ -2578,7 +2596,8 @@ namespace FallGuysStats {
             return showId.StartsWith("show_wle_s10_") ||
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
                    showId.Equals("wle_mrs_bagel") ||
-                   showId.StartsWith("current_wle_fp");
+                   showId.StartsWith("current_wle_fp") ||
+                   showId.StartsWith("wle_s10_cf_round_");
         }
         private bool IsInStatsFilter(RoundInfo info) {
             return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||

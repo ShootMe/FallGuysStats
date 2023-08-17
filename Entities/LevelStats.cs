@@ -296,6 +296,20 @@ namespace FallGuysStats {
             { "current_wle_fp4_10_12",             new LevelStats("current_wle_fp4_10_12", "Chickens run away", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_10_20",             new LevelStats("current_wle_fp4_10_20", "Co-op and CO", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
+            { "current_wle_fp3_07_01",             new LevelStats("current_wle_fp3_07_01", "Block Sledding", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_02",             new LevelStats("current_wle_fp3_07_02", "Layup Wallop", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_03",             new LevelStats("current_wle_fp3_07_03", "Minecart Mayhem", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_04",             new LevelStats("current_wle_fp3_07_04", "Bouncing Pass", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_05",             new LevelStats("current_wle_fp3_07_05", "Ball Factory", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_0_01",           new LevelStats("current_wle_fp3_07_0_01", "Funky Sanctuaries", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_0_02",           new LevelStats("current_wle_fp3_07_0_02", "Woo-F-O", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp3_07_0_03",           new LevelStats("current_wle_fp3_07_0_03", "Travel Diary - Great Wall of China", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            
+            { "wle_s10_cf_round_001",              new LevelStats("wle_s10_cf_round_001", "Blocky Bridges", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_002",              new LevelStats("wle_s10_cf_round_002", "Gappy-go-Lucky", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_003",              new LevelStats("wle_s10_cf_round_003", "Drop n' Drag", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_cf_round_004",              new LevelStats("wle_s10_cf_round_004", "Fun with Fans", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            
             { "current_wle_fp3_08_01",             new LevelStats("current_wle_fp3_08_01", "Grabbers Territory", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_08_02",             new LevelStats("current_wle_fp3_08_02", "A Way Out", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_08_03",             new LevelStats("current_wle_fp3_08_03", "Wall Block", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
