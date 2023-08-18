@@ -228,7 +228,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "Changelog"},
                             {"message_changelog_bugfix_and_program_optimization", "Bugfix and program optimization"},
                             {"message_changelog_updated_new_show_and_round_names", "Updated new show and round names"},
-                            {"message_changelog_added_creative_round_grouping_option", "Added creative round grouping option"},
+                            {"message_changelog_display_queued_players", "Display queued players"},
                             {"message_check_internet_connection_caption", "Network error"},
                             {"message_check_internet_connection", "Please check your internet connection."},
                             
@@ -642,7 +642,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "journal des modifications"},
                             {"message_changelog_bugfix_and_program_optimization", "Correction de bugs et optimisation du programme"},
                             {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de rondes mis à jour"},
-                            {"message_changelog_added_creative_round_grouping_option", "Ajout d'une option de regroupement des ronds créatifs"},
+                            {"message_changelog_display_queued_players", "Afficher les joueurs en file d'attente"},
                             {"message_check_internet_connection_caption", "Erreur réseau"},
                             {"message_check_internet_connection", "S'il vous plait, vérifiez votre connexion internet."},
 
@@ -1056,7 +1056,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "변경 로그"},
                             {"message_changelog_bugfix_and_program_optimization", "버그 수정 및 프로그램 최적화"},
                             {"message_changelog_updated_new_show_and_round_names", "새로운 쇼 및 라운드 이름 업데이트"},
-                            {"message_changelog_added_creative_round_grouping_option", "폴크리 라운드를 하나의 카테고리로 묶는 옵션 추가"},
+                            {"message_changelog_display_queued_players", "대기 중인 플레이어 표시"},
                             {"message_check_internet_connection_caption", "네트워크 오류"},
                             {"message_check_internet_connection", "인터넷 연결상태를 확인해 주세요."},
 
@@ -1470,7 +1470,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "変更履歴"},
                             {"message_changelog_bugfix_and_program_optimization", "バグ修正とプログラムの最適化。"},
                             {"message_changelog_updated_new_show_and_round_names", "新しいショーとラウンド名を更新しました。"},
-                            {"message_changelog_added_creative_round_grouping_option", "クリエイティブラウンドを1つのカテゴリーにまとめるオプションを追加。"},
+                            {"message_changelog_display_queued_players", "キューに入っているプレーヤーを表示します。"},
                             {"message_check_internet_connection_caption", "ネットワークエラー"},
                             {"message_check_internet_connection", "インターネット接続状態を確認してください。"},
 
@@ -1884,7 +1884,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "变更日志"},
                             {"message_changelog_bugfix_and_program_optimization", "Bug修复和程序优化。"},
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的节目和回合名称。"},
-                            {"message_changelog_added_creative_round_grouping_option", "新增创意级别分组选项。"},
+                            {"message_changelog_display_queued_players", "显示排队的玩家。"},
                             {"message_check_internet_connection_caption", "网络错误"},
                             {"message_check_internet_connection", "请检查您的互联网连接。"},
 
@@ -2298,7 +2298,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "變更日誌"},
                             {"message_changelog_bugfix_and_program_optimization", "Bug修復和程序優化。"},
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的節目和回合名稱。"},
-                            {"message_changelog_added_creative_round_grouping_option", "新增創意級別分組選項。"},
+                            {"message_changelog_display_queued_players", "顯示排隊的玩家。"},
                             {"message_check_internet_connection_caption", "網絡錯誤"},
                             {"message_check_internet_connection", "請檢查您的互聯網連接。"},
 
