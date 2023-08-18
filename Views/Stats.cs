@@ -1913,8 +1913,15 @@ namespace FallGuysStats {
                 level.Name = newName;
             }
         }
+        private bool IsCreativeLevel(string levelId) {
+            return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_") ||
+                   levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_") ||
+                   levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk") ||
+                   levelId.StartsWith("wle_s10_cf_round_") || levelId.StartsWith("wle_s10_long_round_") || levelId.Equals("wle_fp2_wk6_01");
+        }
         private void UpdateGridRoundName() {
             foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
+                if (this.IsCreativeLevel(item.Key)) { continue; }
                 LevelStats level = this.StatLookup[item.Key];
                 level.Name = item.Value;
             }
