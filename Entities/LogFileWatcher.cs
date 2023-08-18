@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -143,7 +144,7 @@ namespace FallGuysStats {
                                             logLine.Date = currentDate;
                                         }
 
-                                        if (line.IndexOf(" == [CompletedEpisodeDto] ==") > 0) {
+                                        if (line.IndexOf(" == [CompletedEpisodeDto] ==") > 0 || line.IndexOf("[FNMMSClientRemoteService] Message received: ") > 0 ) {
                                             StringBuilder sb = new StringBuilder(line);
                                             sb.AppendLine();
                                             while ((line = sr.ReadLine()) != null) {
@@ -161,9 +162,10 @@ namespace FallGuysStats {
                                         } else {
                                             tempLines.Add(logLine);
                                         }
-                                    } else if (logLine.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
-                                        tempLines.Add(logLine);
                                     }
+                                    // else if (logLine.Line.IndexOf("Client address: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                                    //     tempLines.Add(logLine);
+                                    // }
                                 }
                             } else if (offset > fs.Length) {
                                 offset = 0;
@@ -454,24 +456,41 @@ namespace FallGuysStats {
             Stats.IsPrePlaying = false;
             Stats.IsPlaying = false;
             Stats.PingSwitcher = 10;
+            Stats.IsQueued = false;
+            Stats.QueuedPlayers = 0;
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
-                this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
-                if (this.selectedShowId.StartsWith("ugc-")) {
-                    this.selectedShowId = this.selectedShowId.Substring(4);
-                    this.useShareCode = true;
-                } else {
-                    this.useShareCode = false;
+            if (!Stats.IsPrePlaying && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) > 0) {
+                string detail;
+                StringReader sr = new StringReader(line.Line);
+                while ((detail = sr.ReadLine()) != null) {
+                    string content;
+                    if ((index = detail.IndexOf("\"name\": ", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        content = Regex.Replace(detail.Substring(index + 8), "[\",]", "");
+                        if (string.Equals("Play", content)) {
+                            Stats.IsQueued = false;
+                        }
+                        // else if (string.Equals("StatusUpdate", content)) {
+                        //     
+                        // }
+                    } else if ((index = detail.IndexOf("\"queuedPlayers\": ", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        content = Regex.Replace(detail.Substring(index + 17), "[\",]", "");
+                        if (!string.Equals("null", content)) {
+                            if (int.TryParse(content, out int queuedPlayers)) {
+                                Stats.QueuedPlayers = queuedPlayers;
+                            }
+                        }
+                    } else if ((index = detail.IndexOf("\"state\": ", StringComparison.OrdinalIgnoreCase)) > 0) {
+                        content = Regex.Replace(detail.Substring(index + 9), "[\",]", "");
+                        if (string.Equals("Queued", content)) {
+                            Stats.IsQueued = true;
+                        } else if (string.Equals("SessionAssignment", content)) {
+                            Stats.IsQueued = false;
+                        }
+                    }
                 }
-                Stats.IsPrePlaying = true;
-            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) > 0) {
-                //Store SessionID to prevent duplicates
-                this.sessionId = line.Line.Substring(index + 33);
-            } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
-                Stats.IsPrePlaying = true;
             } else if (this.isDisplayPing && Stats.InShow && !Stats.EndedShow && line.Line.IndexOf("[StateConnectToGame] We're connected to the server! Host = ", StringComparison.OrdinalIgnoreCase) > 0) {
                 TimeSpan timeDiff = DateTime.UtcNow - line.Date;
                 if (timeDiff.TotalMinutes <= 40) {
@@ -522,6 +541,20 @@ namespace FallGuysStats {
                         }
                     }
                 }
+            } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateConnectToGame with FGClient.StateConnectionAuthentication", StringComparison.OrdinalIgnoreCase) > 0) {
+                Stats.IsPrePlaying = true;
+            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) > 0) {
+                //Store SessionID to prevent duplicates
+                this.sessionId = line.Line.Substring(index + 33);
+            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) > 0) {
+                this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
+                if (this.selectedShowId.StartsWith("ugc-")) {
+                    this.selectedShowId = this.selectedShowId.Substring(4);
+                    this.useShareCode = true;
+                } else {
+                    this.useShareCode = false;
+                }
+                Stats.IsPrePlaying = true;
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) > 0) {
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode};
                 int index2 = line.Line.IndexOf(' ', index + 44);
