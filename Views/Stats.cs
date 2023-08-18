@@ -119,6 +119,8 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         public static bool IsPlaying = false;
         public static bool IsPrePlaying = false;
+        public static bool IsQueued = false;
+        public static int QueuedPlayers = 0;
         public static int PingSwitcher = 10;
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;

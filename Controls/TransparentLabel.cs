@@ -27,6 +27,7 @@ namespace FallGuysStats {
         public int ImageWidth { get; set; }
         public int ImageHeight { get; set; }
         public Color LevelColor { get; set; }
+        public Color LevelTrueColor { get; set; }
         public Image RoundIcon { get; set; }
         public bool UseShareCode { get; set; }
         public void Draw(Graphics g) {
@@ -97,8 +98,9 @@ namespace FallGuysStats {
                                 if (!this.LevelColor.IsEmpty) {
                                     float widthOfText = g.MeasureString(this.TextRight, fontForLongText).Width;
                                     //float widthOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
-                                    RectangleF roundRect = this.FillRoundedRectangleF(g, null, new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, widthOfText, 22f, 10f);
+                                    RectangleF roundRect = this.FillRoundedRectangleF(g, new Pen(this.LevelColor), new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, widthOfText, 22f, 8f);
                                     if (this.RoundIcon != null) {
+                                        this.FillRoundedRectangleF(g, new Pen(this.LevelTrueColor), new SolidBrush(this.LevelTrueColor), (roundRect.X - 7f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth + 2, 22f, 8f);
                                         g.DrawImage(this.RoundIcon, (roundRect.X - 6f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
@@ -146,7 +148,7 @@ namespace FallGuysStats {
                 case "lblDuration":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.Text.Length - 12) / 100f)) : 1f) : 1f;
                 case "lblFinish":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length + (this.TextRight.Length < 16 ? -5 : 5)) / 100f)) : 1f) :
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 8 ? (1f - (this.Text.Length / 100f)) : (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length + (this.TextRight.Length < 16 ? -5 : 5)) / 100f)) : 1f)) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 11) / 100f)) : 1f) : 1f;
                 default:
                     return 1f;
