@@ -98,18 +98,14 @@ namespace FallGuysStats {
                                 if (!this.LevelColor.IsEmpty) {
                                     float widthOfText = g.MeasureString(this.TextRight, fontForLongText).Width;
                                     //float widthOfText = TextRenderer.MeasureText(this.TextRight, fontForLongText).Width;
-                                    RectangleF roundRect = this.FillRoundedRectangleF(g, new Pen(this.LevelColor), new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, widthOfText, 22f, 8f);
+                                    RectangleF roundRect = this.FillRoundedRectangleF(g, new Pen(this.LevelColor), new SolidBrush(this.LevelColor), (this.ClientRectangle.Width - widthOfText), this.ClientRectangle.Y, widthOfText, 22f, 16f);
                                     if (this.RoundIcon != null) {
                                         this.FillRoundedRectangleF(g, new Pen(this.LevelTrueColor), new SolidBrush(this.LevelTrueColor), (roundRect.X - 7f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth + 2, 22f, 8f);
                                         g.DrawImage(this.RoundIcon, (roundRect.X - 6f) - this.ImageWidth, this.ClientRectangle.Y, this.ImageWidth, this.ImageHeight);
                                     }
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
-                                    if (this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) {
-                                        this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
-                                    } else {
-                                        stringFormat.Alignment = StringAlignment.Near;
-                                        this.DrawOutlineText(g, new RectangleF(roundRect.X, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
-                                    }
+                                    stringFormat.Alignment = StringAlignment.Near;
+                                    this.DrawOutlineText(g, new RectangleF(roundRect.X, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 } else {
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
@@ -124,9 +120,9 @@ namespace FallGuysStats {
                 }
             }
         }
-        private Color GetComplementaryColor(Color source, int alpha) {
-            return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
-        }
+        // private Color GetComplementaryColor(Color source, int alpha) {
+        //     return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
+        // }
         private float GetFontSizeFactor() {
             switch (this.Name) {
                 case "lblWins":
@@ -146,10 +142,13 @@ namespace FallGuysStats {
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 17 ? (1f - ((this.TextRight.Length - 26 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 17 ? (1f - ((this.TextRight.Length - 26 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                 case "lblDuration":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.Text.Length - 12) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                 case "lblFinish":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 8 ? (1f - (this.Text.Length / 100f)) : (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length + (this.TextRight.Length < 16 ? -5 : 5)) / 100f)) : 1f)) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 11) / 100f)) : 1f) : 1f;
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length <= 8 ? (this.TextRight.Length > 12 ? 1f - (((this.TextRight.Length * 2.5f) - 28) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 39) / 100f))) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
                 default:
                     return 1f;
             }

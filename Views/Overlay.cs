@@ -207,10 +207,10 @@ namespace FallGuysStats {
             this.ForeColor = color;
         }
         public static void SetDefaultFont(int language, float emSize) {
-            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, (language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static Font GetDefaultFont(int language, float emSize) {
-            return new Font(GetDefaultFontFamilies(language), emSize, (language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            return new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(int language = 0) {
             return language <= 1 ? DefaultFontCollection.Families[2] :
@@ -768,7 +768,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                         this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
-                        this.lblRound.LevelTrueColor = levelType.LevelBackColor(false, this.lastRound.IsTeam, 95);
+                        this.lblRound.LevelTrueColor = levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
                         this.lblRound.RoundIcon = level?.RoundBigIcon;
                         if (this.lblRound.RoundIcon.Height != 23) {
                             this.lblRound.ImageHeight = 23;
@@ -861,9 +861,6 @@ namespace FallGuysStats {
                         }
                     }
 
-                    // this.lblDuration.Text = this.lastRound.GameDuration > 0
-                    //     ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.GameDuration):m\\:ss}):"
-                    //     : $"{Multilingual.GetWord("overlay_duration")} :";
                     if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
                     }
