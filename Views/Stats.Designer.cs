@@ -48,6 +48,7 @@
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLookHere = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFallalytics = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
@@ -87,6 +88,7 @@
             this.trayEditProfiles = new System.Windows.Forms.ToolStripMenuItem();
             this.traySeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.trayLookHere = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayFallalytics = new System.Windows.Forms.ToolStripMenuItem();
             this.trayRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.trayFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
             this.trayUpdate = new System.Windows.Forms.ToolStripMenuItem();
@@ -319,11 +321,21 @@
             // 
             // menuLookHere
             // 
-            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuRollOffClub, this.menuFallGuysDB });
+            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallalytics, this.menuRollOffClub, this.menuFallGuysDB });
             this.menuLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.menuLookHere.Name = "menuLookHere";
             this.menuLookHere.Size = new System.Drawing.Size(91, 23);
             this.menuLookHere.Text = "Look here!";
+            // 
+            // menuFallalytics
+            // 
+            this.menuFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.menuFallalytics.Name = "menuFallalytics";
+            this.menuFallalytics.Size = new System.Drawing.Size(144, 22);
+            this.menuFallalytics.Text = "Fallalytics";
+            this.menuFallalytics.Click += new System.EventHandler(this.menuFallalytics_Click);
+            this.menuFallalytics.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuFallalytics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuRollOffClub
             // 
@@ -712,11 +724,19 @@
             // 
             // trayLookHere
             // 
-            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayRollOffClub, this.trayFallGuysDB });
+            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallalytics, this.trayRollOffClub, this.trayFallGuysDB });
             this.trayLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.trayLookHere.Name = "trayLookHere";
             this.trayLookHere.Size = new System.Drawing.Size(165, 22);
             this.trayLookHere.Text = "Look here!";
+            // 
+            // trayFallalytics
+            // 
+            this.trayFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.trayFallalytics.Name = "trayFallalytics";
+            this.trayFallalytics.Size = new System.Drawing.Size(144, 22);
+            this.trayFallalytics.Text = "Fallalytics";
+            this.trayFallalytics.Click += new System.EventHandler(this.menuFallalytics_Click);
             // 
             // trayRollOffClub
             // 
@@ -843,6 +863,7 @@
         private System.Windows.Forms.ToolStripLabel lblKudos;
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem menuLookHere;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalytics;
         private System.Windows.Forms.ToolStripMenuItem menuRollOffClub;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
         
@@ -860,6 +881,7 @@
         private System.Windows.Forms.ToolStripMenuItem trayStatsFilter;
         private System.Windows.Forms.ToolStripSeparator traySeparator3;
         private System.Windows.Forms.ToolStripMenuItem trayLookHere;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalytics;
         private System.Windows.Forms.ToolStripMenuItem trayRollOffClub;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;

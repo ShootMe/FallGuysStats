@@ -2016,7 +2016,7 @@ namespace FallGuysStats {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 112);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 135);
             this.AllocTooltip();
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
         }
@@ -4935,6 +4935,14 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void menuFallalytics_Click(object sender, EventArgs e) {
+            try {
+                Process.Start(@"https://fallalytics.com/");
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         private void menuRollOffClub_Click(object sender, EventArgs e) {
             try {
                 if (CurrentLanguage == 2) {
@@ -5019,6 +5027,7 @@ namespace FallGuysStats {
                 this.trayOverlay.Text = Multilingual.GetWord("main_hide_overlay");
             }
             this.trayLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.trayFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
@@ -5050,6 +5059,7 @@ namespace FallGuysStats {
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
             this.menuLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.menuFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
         }
