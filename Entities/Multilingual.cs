@@ -228,7 +228,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "Changelog"},
                             {"message_changelog_bugfix_and_program_optimization", "Bugfix and program optimization"},
                             {"message_changelog_updated_new_show_and_round_names", "Updated new show and round names"},
-                            {"message_changelog_display_queued_players", "Display queued players"},
+                            {"message_changelog_overlay_display_improvements", "Overlay display improvements"},
                             {"message_check_internet_connection_caption", "Network error"},
                             {"message_check_internet_connection", "Please check your internet connection."},
                             
@@ -642,7 +642,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "journal des modifications"},
                             {"message_changelog_bugfix_and_program_optimization", "Correction de bugs et optimisation du programme"},
                             {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de rondes mis à jour"},
-                            {"message_changelog_display_queued_players", "Afficher les joueurs en file d'attente"},
+                            {"message_changelog_overlay_display_improvements", "Améliorations de l'affichage en l'overlay"},
                             {"message_check_internet_connection_caption", "Erreur réseau"},
                             {"message_check_internet_connection", "S'il vous plait, vérifiez votre connexion internet."},
 
@@ -1056,7 +1056,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "변경 로그"},
                             {"message_changelog_bugfix_and_program_optimization", "버그 수정 및 프로그램 최적화"},
                             {"message_changelog_updated_new_show_and_round_names", "새로운 쇼 및 라운드 이름 업데이트"},
-                            {"message_changelog_display_queued_players", "대기 중인 플레이어 표시"},
+                            {"message_changelog_overlay_display_improvements", "통계창 표시 개선"},
                             {"message_check_internet_connection_caption", "네트워크 오류"},
                             {"message_check_internet_connection", "인터넷 연결상태를 확인해 주세요."},
 
@@ -1470,7 +1470,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "変更履歴"},
                             {"message_changelog_bugfix_and_program_optimization", "バグ修正とプログラムの最適化。"},
                             {"message_changelog_updated_new_show_and_round_names", "新しいショーとラウンド名を更新しました。"},
-                            {"message_changelog_display_queued_players", "キューに入っているプレーヤーを表示します。"},
+                            {"message_changelog_overlay_display_improvements", "オーバーレイ表示の改善。"},
                             {"message_check_internet_connection_caption", "ネットワークエラー"},
                             {"message_check_internet_connection", "インターネット接続状態を確認してください。"},
 
@@ -1884,7 +1884,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "变更日志"},
                             {"message_changelog_bugfix_and_program_optimization", "Bug修复和程序优化。"},
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的节目和回合名称。"},
-                            {"message_changelog_display_queued_players", "显示排队的玩家。"},
+                            {"message_changelog_overlay_display_improvements", "叠加显示改进。"},
                             {"message_check_internet_connection_caption", "网络错误"},
                             {"message_check_internet_connection", "请检查您的互联网连接。"},
 
@@ -2298,7 +2298,7 @@ namespace FallGuysStats {
                             {"message_changelog_caption", "變更日誌"},
                             {"message_changelog_bugfix_and_program_optimization", "Bug修復和程序優化。"},
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的節目和回合名稱。"},
-                            {"message_changelog_display_queued_players", "顯示排隊的玩家。"},
+                            {"message_changelog_overlay_display_improvements", "疊加顯示改進。"},
                             {"message_check_internet_connection_caption", "網絡錯誤"},
                             {"message_check_internet_connection", "請檢查您的互聯網連接。"},
 
