@@ -394,11 +394,13 @@ namespace FallGuysStats {
             DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
         
         [DllImport("User32.dll")]
@@ -2010,16 +2012,15 @@ namespace FallGuysStats {
             this.loadingExisting = false;
         }
         
-        private void menuTodaysShow_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = Cursors.Hand;
+        private void menuFallGuysDB_MouseEnter(object sender, EventArgs e) {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
-            Rectangle rectangle = this.menuTodaysShow.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
+            Rectangle rectangle = this.menuLookHere.Bounds;
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 112);
             this.AllocTooltip();
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
         }
-        private void menuTodaysShow_MouseLeave(object sender, EventArgs e) {
+        private void menuFallGuysDB_MouseLeave(object sender, EventArgs e) {
             this.HideTooltip(this);
             this.Cursor = Cursors.Default;
         }
@@ -4934,7 +4935,21 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void menuTodaysShow_Click(object sender, EventArgs e) {
+        private void menuRollOffClub_Click(object sender, EventArgs e) {
+            try {
+                if (CurrentLanguage == 2) {
+                    Process.Start(@"https://rolloff.club/ko/");
+                } else if (CurrentLanguage == 4) {
+                    Process.Start(@"https://rolloff.club/zh/");
+                } else {
+                    Process.Start(@"https://rolloff.club/");
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private void menuFallGuysDB_Click(object sender, EventArgs e) {
             try {
                 Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
             } catch (Exception ex) {
@@ -4982,7 +4997,6 @@ namespace FallGuysStats {
             
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
-            //this.SetMainDataGridView();
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");
@@ -5004,7 +5018,9 @@ namespace FallGuysStats {
             } else {
                 this.trayOverlay.Text = Multilingual.GetWord("main_hide_overlay");
             }
-            this.trayTodaysShow.Text = Multilingual.GetWord("main_todays_show");
+            this.trayLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
+            this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
             this.trayHelp.Text = Multilingual.GetWord("main_help");
             this.trayLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
@@ -5033,7 +5049,9 @@ namespace FallGuysStats {
             this.menuUpdate.Text = Multilingual.GetWord("main_update");
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
-            this.menuTodaysShow.Text = Multilingual.GetWord("main_todays_show");
+            this.menuLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
+            this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
         }
     }
 }
