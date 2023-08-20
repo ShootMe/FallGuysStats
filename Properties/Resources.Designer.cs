@@ -5462,6 +5462,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap main_icon {
+            get {
+                object obj = ResourceManager.GetObject("main_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap medal_bronze {
             get {
                 object obj = ResourceManager.GetObject("medal_bronze", resourceCulture);
@@ -5865,6 +5875,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap ps_icon {
             get {
                 object obj = ResourceManager.GetObject("ps_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap roll_off_club_icon {
+            get {
+                object obj = ResourceManager.GetObject("roll_off_club_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
