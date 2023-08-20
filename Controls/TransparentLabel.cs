@@ -105,7 +105,7 @@ namespace FallGuysStats {
                                     }
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                     stringFormat.Alignment = StringAlignment.Near;
-                                    this.DrawOutlineText(g, new RectangleF(roundRect.X, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
+                                    this.DrawOutlineText(g, new RectangleF(roundRect.X + 0.33f, ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 } else {
                                     brFore.Color = this.LevelColor.IsEmpty ? this.ForeColor : Color.White;
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
