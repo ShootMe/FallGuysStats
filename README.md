@@ -238,6 +238,9 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.250`
+    - Overlay display improvements
+    - Bugfix and program optimization
   - `1.249`
     - Display queued players
     - Bugfix and program optimization
