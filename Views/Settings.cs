@@ -243,7 +243,6 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
-            this.cboOverlayBackground.mtt.Theme = theme;
             this.cboOverlayBackground_blur(theme);
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
@@ -691,7 +690,7 @@ namespace FallGuysStats {
                 Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
                 this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position);
             } else {
-                Point position = new Point(this.trkOverlayOpacity.Location.X + 225 + (this.trkOverlayOpacity.Width * ((MetroTrackBar)sender).Value / 100), this.trkOverlayOpacity.Location.Y + 74);
+                Point position = new Point(this.trkOverlayOpacity.Location.X + 220 + (this.trkOverlayOpacity.Width * ((MetroTrackBar)sender).Value / 102), this.trkOverlayOpacity.Location.Y + 74);
                 this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position, 1500);
             }
             
@@ -932,12 +931,12 @@ namespace FallGuysStats {
         }
 
         private void ChangeTab(object sender, EventArgs e) {
-            this.panelProgram.Location = new Point(218, 75);
-            this.panelDisplay.Location = new Point(218, 75);
-            this.panelOverlay.Location = new Point(218, 75);
-            this.panelFallGuys.Location = new Point(218, 75);
-            this.panelAbout.Location = new Point(218, 75);
-            this.panelFallalytics.Location = new Point(218, 75);
+            this.panelProgram.Location = new Point(211, 75);
+            this.panelDisplay.Location = new Point(211, 75);
+            this.panelOverlay.Location = new Point(211, 75);
+            this.panelFallGuys.Location = new Point(211, 75);
+            this.panelAbout.Location = new Point(211, 75);
+            this.panelFallalytics.Location = new Point(211, 75);
             this.panelProgram.Visible = false;
             this.panelDisplay.Visible = false;
             this.panelOverlay.Visible = false;

@@ -26,6 +26,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        public string ImageName { get; set; }
         private Color buttonColor = Color.DarkGray;
         public Color ButtonColor
         {
@@ -157,8 +158,6 @@ namespace FallGuysStats {
         private const int IMAGE_ITEM_MARGIN_HEIGHT = 2;
         #endregion
         
-        public MetroFramework.Components.MetroToolTip mtt = new MetroFramework.Components.MetroToolTip();
-
         #region SetColorData(colorArray)
         public void SetColorData(Color[] colorArray) {
             this.DrawMode = DrawMode.OwnerDrawFixed;
@@ -214,6 +213,7 @@ namespace FallGuysStats {
             );
 
             ComboBox comboBox = sender as ComboBox;
+            this.ImageName = comboBox.SelectedText;
             Color color = (Color)comboBox.Items[e.Index];
 
             using(SolidBrush brush = new SolidBrush(color)) {
@@ -244,8 +244,8 @@ namespace FallGuysStats {
             if (e.Index < 0) { return; }
 
             ComboBox comboBox = sender as ComboBox;
+            this.ImageName = comboBox.SelectedText;
             Image image = (Image)comboBox.Items[e.Index];
-            this.mtt.SetToolTip(this, comboBox.SelectedText);
             
             e.ItemHeight = image.Height + 2 * IMAGE_ITEM_MARGIN_HEIGHT;
             e.ItemWidth = image.Width  + 2 * IMAGE_ITEM_MARGIN_WIDTH;
@@ -258,7 +258,7 @@ namespace FallGuysStats {
 
             e.DrawBackground();
             ComboBox comboBox = sender as ComboBox;
-            this.mtt.SetToolTip(this, comboBox.SelectedText);
+            this.ImageName = comboBox.SelectedText;
             Image image = (Image)comboBox.Items[e.Index];
 
             float height = e.Bounds.Height - 2 * IMAGE_ITEM_MARGIN_HEIGHT;
@@ -286,7 +286,7 @@ namespace FallGuysStats {
 
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
-            //this.toolTip.SetToolTip(this, item.Text);
+            this.ImageName = item.Text;
             item.MeasureItem(e);
         }
         #endregion
@@ -297,7 +297,7 @@ namespace FallGuysStats {
             
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
-            this.mtt.SetToolTip(this, item.Text);
+            this.ImageName = item.Text;
             item.DrawItem(e, this.ForeColor);
         }
         #endregion
