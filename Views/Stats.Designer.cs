@@ -32,6 +32,7 @@
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStatsFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCustomRangeStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuAllStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeasonStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuWeekStats = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,13 +44,16 @@
             this.menuPartyStats = new System.Windows.Forms.ToolStripMenuItem();
             this.menuProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.menuEditProfiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.menuOverlay = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLookHere = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFallalytics = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
             this.lblCurrentProfile = new System.Windows.Forms.ToolStripLabel();
@@ -75,6 +79,7 @@
             this.trayFilters = new System.Windows.Forms.ToolStripMenuItem();
             this.trayStatsFilter = new System.Windows.Forms.ToolStripMenuItem();
             this.trayCustomRangeStats = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.trayAllStats = new System.Windows.Forms.ToolStripMenuItem();
             this.traySeasonStats = new System.Windows.Forms.ToolStripMenuItem();
             this.trayWeekStats = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,10 +91,13 @@
             this.trayPartyStats = new System.Windows.Forms.ToolStripMenuItem();
             this.trayProfile = new System.Windows.Forms.ToolStripMenuItem();
             this.trayEditProfiles = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.traySeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.trayLookHere = new System.Windows.Forms.ToolStripMenuItem();
             this.trayFallalytics = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.trayRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.trayFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
             this.trayUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.trayHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -137,7 +145,7 @@
             // 
             // menuStatsFilter
             // 
-            this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuCustomRangeStats, this.menuAllStats, this.menuSeasonStats, this.menuWeekStats, this.menuDayStats, this.menuSessionStats });
+            this.menuStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuCustomRangeStats, this.menuSeparator1, this.menuAllStats, this.menuSeasonStats, this.menuWeekStats, this.menuDayStats, this.menuSessionStats });
             this.menuStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             this.menuStatsFilter.Name = "menuStatsFilter";
             this.menuStatsFilter.Size = new System.Drawing.Size(101, 22);
@@ -153,6 +161,11 @@
             this.menuCustomRangeStats.Click += new System.EventHandler(this.menuStats_Click);
             this.menuCustomRangeStats.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
             this.menuCustomRangeStats.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator1
+            // 
+            this.menuSeparator1.Name = "menuSeparator1";
+            this.menuSeparator1.Size = new System.Drawing.Size(162, 6);
             // 
             // menuAllStats
             // 
@@ -256,7 +269,7 @@
             // 
             // menuProfile
             // 
-            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuEditProfiles });
+            this.menuProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuEditProfiles, this.menuSeparator2 });
             this.menuProfile.Image = global::FallGuysStats.Properties.Resources.profile_icon;
             this.menuProfile.Name = "menuProfile";
             this.menuProfile.Size = new System.Drawing.Size(69, 23);
@@ -272,6 +285,11 @@
             this.menuEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
             this.menuEditProfiles.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
             this.menuEditProfiles.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator2
+            // 
+            this.menuSeparator2.Name = "menuSeparator2";
+            this.menuSeparator2.Size = new System.Drawing.Size(162, 6);
             // 
             // menuOverlay
             // 
@@ -321,7 +339,7 @@
             // 
             // menuLookHere
             // 
-            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallalytics, this.menuRollOffClub, this.menuFallGuysDB });
+            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallalytics, this.menuSeparator3, this.menuRollOffClub, menuSeparator4, this.menuFallGuysDB });
             this.menuLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.menuLookHere.Name = "menuLookHere";
             this.menuLookHere.Size = new System.Drawing.Size(91, 23);
@@ -337,6 +355,11 @@
             this.menuFallalytics.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
             this.menuFallalytics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
+            // menuSeparator3
+            // 
+            this.menuSeparator3.Name = "menuSeparator3";
+            this.menuSeparator3.Size = new System.Drawing.Size(162, 6);
+            // 
             // menuRollOffClub
             // 
             this.menuRollOffClub.Image = global::FallGuysStats.Properties.Resources.roll_off_club_icon;
@@ -346,6 +369,11 @@
             this.menuRollOffClub.Click += new System.EventHandler(this.menuRollOffClub_Click);
             this.menuRollOffClub.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
             this.menuRollOffClub.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator4
+            // 
+            this.menuSeparator4.Name = "menuSeparator4";
+            this.menuSeparator4.Size = new System.Drawing.Size(162, 6);
             // 
             // menuFallGuysDB
             // 
@@ -610,7 +638,7 @@
             // 
             // trayStatsFilter
             // 
-            this.trayStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayCustomRangeStats, this.trayAllStats, this.traySeasonStats, this.trayWeekStats, this.trayDayStats, this.traySessionStats });
+            this.trayStatsFilter.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayCustomRangeStats, this.traySubSeparator1, this.trayAllStats, this.traySeasonStats, this.trayWeekStats, this.trayDayStats, this.traySessionStats });
             this.trayStatsFilter.Image = global::FallGuysStats.Properties.Resources.stat_icon;
             this.trayStatsFilter.Name = "trayStatsFilter";
             this.trayStatsFilter.Size = new System.Drawing.Size(101, 22);
@@ -624,6 +652,11 @@
             this.trayCustomRangeStats.Size = new System.Drawing.Size(153, 22);
             this.trayCustomRangeStats.Text = "Custom Range";
             this.trayCustomRangeStats.Click += new System.EventHandler(this.menuStats_Click);
+            // 
+            // traySubSeparator1
+            // 
+            this.traySubSeparator1.Name = "traySubSeparator1";
+            this.traySubSeparator1.Size = new System.Drawing.Size(162, 6);
             // 
             // trayAllStats
             // 
@@ -703,7 +736,7 @@
             // 
             // trayProfile
             // 
-            this.trayProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayEditProfiles });
+            this.trayProfile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayEditProfiles, this.traySubSeparator2 });
             this.trayProfile.Image = global::FallGuysStats.Properties.Resources.profile_icon;
             this.trayProfile.Name = "trayProfile";
             this.trayProfile.Size = new System.Drawing.Size(165, 22);
@@ -717,6 +750,11 @@
             this.trayEditProfiles.Text = "Profile Settings";
             this.trayEditProfiles.Click += new System.EventHandler(this.menuEditProfiles_Click);
             // 
+            // traySubSeparator2
+            // 
+            this.traySubSeparator2.Name = "traySubSeparator2";
+            this.traySubSeparator2.Size = new System.Drawing.Size(162, 6);
+            // 
             // traySeparator3
             // 
             this.traySeparator3.Name = "traySeparator3";
@@ -724,7 +762,7 @@
             // 
             // trayLookHere
             // 
-            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallalytics, this.trayRollOffClub, this.trayFallGuysDB });
+            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallalytics, this.traySubSeparator3, this.trayRollOffClub, this.traySubSeparator4, this.trayFallGuysDB });
             this.trayLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.trayLookHere.Name = "trayLookHere";
             this.trayLookHere.Size = new System.Drawing.Size(165, 22);
@@ -738,6 +776,11 @@
             this.trayFallalytics.Text = "Fallalytics";
             this.trayFallalytics.Click += new System.EventHandler(this.menuFallalytics_Click);
             // 
+            // traySubSeparator3
+            // 
+            this.traySubSeparator3.Name = "traySubSeparator3";
+            this.traySubSeparator3.Size = new System.Drawing.Size(162, 6);
+            // 
             // trayRollOffClub
             // 
             this.trayRollOffClub.Image = global::FallGuysStats.Properties.Resources.roll_off_club_icon;
@@ -745,6 +788,11 @@
             this.trayRollOffClub.Size = new System.Drawing.Size(144, 22);
             this.trayRollOffClub.Text = "Roll Off Club";
             this.trayRollOffClub.Click += new System.EventHandler(this.menuRollOffClub_Click);
+            // 
+            // traySubSeparator4
+            // 
+            this.traySubSeparator4.Name = "traySubSeparator4";
+            this.traySubSeparator4.Size = new System.Drawing.Size(162, 6);
             // 
             // trayFallGuysDB
             // 
@@ -847,6 +895,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuHelp;
         private System.Windows.Forms.ToolStripMenuItem menuProfile;
         private System.Windows.Forms.ToolStripMenuItem menuEditProfiles;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator2;
         private System.Windows.Forms.ToolStrip infoStrip;
         private System.Windows.Forms.ToolStrip infoStrip2;
         private System.Windows.Forms.ToolStripLabel lblCurrentProfile;
@@ -864,7 +913,9 @@
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem menuLookHere;
         private System.Windows.Forms.ToolStripMenuItem menuFallalytics;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator3;
         private System.Windows.Forms.ToolStripMenuItem menuRollOffClub;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator4;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
         
         private System.Windows.Forms.ContextMenuStrip trayCMenu;
@@ -874,6 +925,7 @@
         private System.Windows.Forms.ToolStripMenuItem trayDayStats;
         private System.Windows.Forms.ToolStripMenuItem traySessionStats;
         private System.Windows.Forms.ToolStripMenuItem trayCustomRangeStats;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator1;
         private System.Windows.Forms.ToolStripMenuItem trayAllStats;
         private System.Windows.Forms.ToolStripMenuItem traySeasonStats;
         private System.Windows.Forms.ToolStripMenuItem trayWeekStats;
@@ -882,7 +934,9 @@
         private System.Windows.Forms.ToolStripSeparator traySeparator3;
         private System.Windows.Forms.ToolStripMenuItem trayLookHere;
         private System.Windows.Forms.ToolStripMenuItem trayFallalytics;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator3;
         private System.Windows.Forms.ToolStripMenuItem trayRollOffClub;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator4;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;
         private System.Windows.Forms.ToolStripMenuItem trayLaunchFallGuys;
@@ -894,9 +948,11 @@
         private System.Windows.Forms.ToolStripMenuItem trayFilters;
         private System.Windows.Forms.ToolStripSeparator traySeparator1;
         private System.Windows.Forms.ToolStripMenuItem trayProfile;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator2;
         private System.Windows.Forms.ToolStripMenuItem trayEditProfiles;
         private System.Windows.Forms.ToolStripMenuItem trayOverlay;
         private System.Windows.Forms.ToolStripMenuItem menuCustomRangeStats;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator1;
     }
 }
 

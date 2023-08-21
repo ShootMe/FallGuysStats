@@ -645,7 +645,7 @@ namespace FallGuysStats {
         }
         
         private void SetTheme(MetroThemeStyle theme) {
-            if (this.Theme == theme) return;
+            //if (this.Theme == theme) return;
             this.SuspendLayout();
             this.mtt.Theme = theme;
             this.omtt.Theme = theme;
@@ -653,37 +653,51 @@ namespace FallGuysStats {
             this.trayCMenu.Renderer = theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
-                    foreach (ToolStripMenuItem tsmi1 in ms1.Items) {
-                        switch (tsmi1.Name) {
-                            case "menuSettings":
-                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                            case "menuFilters":
-                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                            case "menuProfile":
-                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                            //case "menuOverlay": break;
-                            case "menuUpdate":
-                                tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
-                                                                               (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
-                            case "menuHelp":
-                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                            //case "menuLaunchFallGuys": break;
-                        }
-                        tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                        tsmi1.MouseEnter += this.menu_MouseEnter;
-                        tsmi1.MouseLeave += this.menu_MouseLeave;
-                        foreach (ToolStripMenuItem tsmi2 in tsmi1.DropDownItems) {
-                            if (tsmi2.Name.Equals("menuEditProfiles")) { tsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
-                            tsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                            tsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                            tsmi2.MouseEnter += this.menu_MouseEnter;
-                            tsmi2.MouseLeave += this.menu_MouseLeave;
-                            foreach (ToolStripMenuItem tsmi3 in tsmi2.DropDownItems) {
-                                if (tsmi3.Name.Equals("menuCustomRangeStats")) { tsmi3.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
-                                tsmi3.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                                tsmi3.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                                tsmi3.MouseEnter += this.menu_MouseEnter;
-                                tsmi3.MouseLeave += this.menu_MouseLeave;
+                    foreach (var item in ms1.Items) {
+                        if (item is ToolStripMenuItem tsmi1) {
+                            switch (tsmi1.Name) {
+                                case "menuSettings":
+                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
+                                case "menuFilters":
+                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
+                                case "menuProfile":
+                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
+                                //case "menuOverlay": break;
+                                case "menuUpdate":
+                                    tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
+                                                                                   (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
+                                case "menuHelp":
+                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
+                                //case "menuLaunchFallGuys": break;
+                            }
+                            tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            tsmi1.MouseEnter += this.menu_MouseEnter;
+                            tsmi1.MouseLeave += this.menu_MouseLeave;
+                            foreach (var item1 in tsmi1.DropDownItems) {
+                                if (item1 is ToolStripMenuItem subTsmi1) {
+                                    if (subTsmi1.Name.Equals("menuEditProfiles")) { subTsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
+                                    subTsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                    subTsmi1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                    subTsmi1.MouseEnter += this.menu_MouseEnter;
+                                    subTsmi1.MouseLeave += this.menu_MouseLeave;
+                                    foreach (var item2 in subTsmi1.DropDownItems) {
+                                        if (item2 is ToolStripMenuItem subTsmi2) {
+                                            if (subTsmi2.Name.Equals("menuCustomRangeStats")) { subTsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
+                                            subTsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                            subTsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                            subTsmi2.MouseEnter += this.menu_MouseEnter;
+                                            subTsmi2.MouseLeave += this.menu_MouseLeave;
+                                        } else if (item2 is ToolStripSeparator subTss2) {
+                                            subTss2.Paint += this.CustomToolStripSeparatorCustom_Paint;
+                                            subTss2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                            subTss2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                        }
+                                    }
+                                } else if (item1 is ToolStripSeparator subTss1) {
+                                    subTss1.Paint += this.CustomToolStripSeparatorCustom_Paint;
+                                    subTss1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                    subTss1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                                }
                             }
                         }
                     }
@@ -767,7 +781,6 @@ namespace FallGuysStats {
                             tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
                         case "trayExitProgram": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
                     }
-
                     foreach (var subItem1 in tsmi.DropDownItems) {
                         if (subItem1 is ToolStripMenuItem stsmi1) {
                             if (stsmi1.Name.Equals("trayEditProfiles")) { stsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
@@ -775,7 +788,6 @@ namespace FallGuysStats {
                             stsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             stsmi1.MouseEnter += this.CMenu_MouseEnter;
                             stsmi1.MouseLeave += this.CMenu_MouseLeave;
-
                             foreach (var subItem2 in stsmi1.DropDownItems) {
                                 if (subItem2 is ToolStripMenuItem stsmi2) {
                                     if (stsmi2.Name.Equals("trayCustomRangeStats")) { stsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
@@ -783,8 +795,16 @@ namespace FallGuysStats {
                                     stsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     stsmi2.MouseEnter += this.CMenu_MouseEnter;
                                     stsmi2.MouseLeave += this.CMenu_MouseLeave;
+                                } else if (subItem2 is ToolStripSeparator stss2) {
+                                    stss2.Paint += this.CustomToolStripSeparatorCustom_Paint;
+                                    stss2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                    stss2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                 }
                             }
+                        } else if (subItem1 is ToolStripSeparator stss1) {
+                            stss1.Paint += this.CustomToolStripSeparatorCustom_Paint;
+                            stss1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                            stss1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                         }
                     }
                 } else if (item is ToolStripSeparator tss) {
@@ -898,10 +918,18 @@ namespace FallGuysStats {
             this.ProfileMenuItems.Clear();
             this.menuProfile.DropDownItems.Clear();
             this.menuProfile.DropDownItems.Add(this.menuEditProfiles);
+            this.menuProfile.DropDownItems.Add(this.menuSeparator2);
+            this.menuSeparator2.Paint += this.CustomToolStripSeparatorCustom_Paint;
+            this.menuSeparator2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.menuSeparator2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             
             this.ProfileTrayItems.Clear();
             this.trayProfile.DropDownItems.Clear();
             this.trayProfile.DropDownItems.Add(this.trayEditProfiles);
+            this.trayProfile.DropDownItems.Add(this.traySubSeparator2);
+            this.traySubSeparator2.Paint += this.CustomToolStripSeparatorCustom_Paint;
+            this.traySubSeparator2.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.traySubSeparator2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             
             this.AllProfiles.Clear();
             //this.AllProfiles = this.Profiles.FindAll().ToList();
@@ -2016,7 +2044,7 @@ namespace FallGuysStats {
             //Point cursorPosition = this.PointToClient(Cursor.Position);
             //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
             Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 135);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
             this.AllocTooltip();
             this.ShowTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
         }
@@ -4362,40 +4390,41 @@ namespace FallGuysStats {
                     this.updateFilterType = true;
                     this.updateFilterRange = false;
 
-                    foreach (ToolStripItem item in this.menuStatsFilter.DropDownItems) {
-                        ToolStripMenuItem menuItem = item as ToolStripMenuItem;
-                        if (menuItem != null && menuItem.Checked && menuItem != button) {
-                            menuItem.Checked = false;
-                            switch (menuItem.Name) {
-                                case "menuCustomRangeStats":
-                                    this.trayCustomRangeStats.Checked = false; break;
-                                case "menuAllStats":
-                                    this.trayAllStats.Checked = false; break;
-                                case "menuSeasonStats":
-                                    this.traySeasonStats.Checked = false; break;
-                                case "menuWeekStats":
-                                    this.trayWeekStats.Checked = false; break;
-                                case "menuDayStats":
-                                    this.trayDayStats.Checked = false; break;
-                                case "menuSessionStats":
-                                    this.traySessionStats.Checked = false; break;
+                    foreach (var item in this.menuStatsFilter.DropDownItems) {
+                        if (item is ToolStripMenuItem menuItem) {
+                            if (menuItem != null && menuItem.Checked && menuItem != button) {
+                                menuItem.Checked = false;
+                                switch (menuItem.Name) {
+                                    case "menuCustomRangeStats":
+                                        this.trayCustomRangeStats.Checked = false; break;
+                                    case "menuAllStats":
+                                        this.trayAllStats.Checked = false; break;
+                                    case "menuSeasonStats":
+                                        this.traySeasonStats.Checked = false; break;
+                                    case "menuWeekStats":
+                                        this.trayWeekStats.Checked = false; break;
+                                    case "menuDayStats":
+                                        this.trayDayStats.Checked = false; break;
+                                    case "menuSessionStats":
+                                        this.traySessionStats.Checked = false; break;
+                                }
                             }
-                        }
-                        
-                        if (menuItem.Checked) {
-                            switch (menuItem.Name) {
-                                case "menuCustomRangeStats":
-                                    this.trayCustomRangeStats.Checked = true; break;
-                                case "menuAllStats":
-                                    this.trayAllStats.Checked = true; break;
-                                case "menuSeasonStats":
-                                    this.traySeasonStats.Checked = true; break;
-                                case "menuWeekStats":
-                                    this.trayWeekStats.Checked = true; break;
-                                case "menuDayStats":
-                                    this.trayDayStats.Checked = true; break;
-                                case "menuSessionStats":
-                                    this.traySessionStats.Checked = true; break;
+                            
+                            if (menuItem.Checked) {
+                                switch (menuItem.Name) {
+                                    case "menuCustomRangeStats":
+                                        this.trayCustomRangeStats.Checked = true; break;
+                                    case "menuAllStats":
+                                        this.trayAllStats.Checked = true; break;
+                                    case "menuSeasonStats":
+                                        this.traySeasonStats.Checked = true; break;
+                                    case "menuWeekStats":
+                                        this.trayWeekStats.Checked = true; break;
+                                    case "menuDayStats":
+                                        this.trayDayStats.Checked = true; break;
+                                    case "menuSessionStats":
+                                        this.traySessionStats.Checked = true; break;
+                                }
                             }
                         }
                     }
@@ -4413,28 +4442,29 @@ namespace FallGuysStats {
                         return;
                     }
 
-                    foreach (ToolStripItem item in this.menuPartyFilter.DropDownItems) {
-                        ToolStripMenuItem menuItem = item as ToolStripMenuItem;
-                        if (menuItem != null && menuItem.Checked && menuItem != button) {
-                            menuItem.Checked = false;
-                            switch (menuItem.Name) {
-                                case "menuAllPartyStats":
-                                    this.trayAllPartyStats.Checked = false; break;
-                                case "menuSoloStats":
-                                    this.traySoloStats.Checked = false; break;
-                                case "menuPartyStats":
-                                    this.trayPartyStats.Checked = false; break;
+                    foreach (var item in this.menuPartyFilter.DropDownItems) {
+                        if (item is ToolStripMenuItem menuItem) {
+                            if (menuItem != null && menuItem.Checked && menuItem != button) {
+                                menuItem.Checked = false;
+                                switch (menuItem.Name) {
+                                    case "menuAllPartyStats":
+                                        this.trayAllPartyStats.Checked = false; break;
+                                    case "menuSoloStats":
+                                        this.traySoloStats.Checked = false; break;
+                                    case "menuPartyStats":
+                                        this.trayPartyStats.Checked = false; break;
+                                }
                             }
-                        }
-                        
-                        if (menuItem.Checked) {
-                            switch (menuItem.Name) {
-                                case "menuAllPartyStats":
-                                    this.trayAllPartyStats.Checked = true; break;
-                                case "menuSoloStats":
-                                    this.traySoloStats.Checked = true; break;
-                                case "menuPartyStats":
-                                    this.trayPartyStats.Checked = true; break;
+                            
+                            if (menuItem.Checked) {
+                                switch (menuItem.Name) {
+                                    case "menuAllPartyStats":
+                                        this.trayAllPartyStats.Checked = true; break;
+                                    case "menuSoloStats":
+                                        this.traySoloStats.Checked = true; break;
+                                    case "menuPartyStats":
+                                        this.trayPartyStats.Checked = true; break;
+                                }
                             }
                         }
                     }
@@ -4473,40 +4503,41 @@ namespace FallGuysStats {
                     this.updateFilterType = true;
                     this.updateFilterRange = false;
 
-                    foreach (ToolStripItem item in this.trayStatsFilter.DropDownItems) {
-                        ToolStripMenuItem menuItem = item as ToolStripMenuItem;
-                        if (menuItem != null && menuItem.Checked && menuItem != button) {
-                            menuItem.Checked = false;
-                            switch (menuItem.Name) {
-                                case "trayCustomRangeStats":
-                                    this.menuCustomRangeStats.Checked = false; break;
-                                case "trayAllStats":
-                                    this.menuAllStats.Checked = false; break;
-                                case "traySeasonStats":
-                                    this.menuSeasonStats.Checked = false; break;
-                                case "trayWeekStats":
-                                    this.menuWeekStats.Checked = false; break;
-                                case "trayDayStats":
-                                    this.menuDayStats.Checked = false; break;
-                                case "traySessionStats":
-                                    this.menuSessionStats.Checked = false; break;
+                    foreach (var item in this.trayStatsFilter.DropDownItems) {
+                        if (item is ToolStripMenuItem menuItem) {
+                            if (menuItem != null && menuItem.Checked && menuItem != button) {
+                                menuItem.Checked = false;
+                                switch (menuItem.Name) {
+                                    case "trayCustomRangeStats":
+                                        this.menuCustomRangeStats.Checked = false; break;
+                                    case "trayAllStats":
+                                        this.menuAllStats.Checked = false; break;
+                                    case "traySeasonStats":
+                                        this.menuSeasonStats.Checked = false; break;
+                                    case "trayWeekStats":
+                                        this.menuWeekStats.Checked = false; break;
+                                    case "trayDayStats":
+                                        this.menuDayStats.Checked = false; break;
+                                    case "traySessionStats":
+                                        this.menuSessionStats.Checked = false; break;
+                                }
                             }
-                        }
-                        
-                        if (menuItem.Checked) {
-                            switch (menuItem.Name) {
-                                case "trayCustomRangeStats":
-                                    this.menuCustomRangeStats.Checked = true; break;
-                                case "trayAllStats":
-                                    this.menuAllStats.Checked = true; break;
-                                case "traySeasonStats":
-                                    this.menuSeasonStats.Checked = true; break;
-                                case "trayWeekStats":
-                                    this.menuWeekStats.Checked = true; break;
-                                case "trayDayStats":
-                                    this.menuDayStats.Checked = true; break;
-                                case "traySessionStats":
-                                    this.menuSessionStats.Checked = true; break;
+                            
+                            if (menuItem.Checked) {
+                                switch (menuItem.Name) {
+                                    case "trayCustomRangeStats":
+                                        this.menuCustomRangeStats.Checked = true; break;
+                                    case "trayAllStats":
+                                        this.menuAllStats.Checked = true; break;
+                                    case "traySeasonStats":
+                                        this.menuSeasonStats.Checked = true; break;
+                                    case "trayWeekStats":
+                                        this.menuWeekStats.Checked = true; break;
+                                    case "trayDayStats":
+                                        this.menuDayStats.Checked = true; break;
+                                    case "traySessionStats":
+                                        this.menuSessionStats.Checked = true; break;
+                                }
                             }
                         }
                     }
@@ -4524,28 +4555,29 @@ namespace FallGuysStats {
                         return;
                     }
                     
-                    foreach (ToolStripItem item in this.trayPartyFilter.DropDownItems) {
-                        ToolStripMenuItem menuItem = item as ToolStripMenuItem;
-                        if (menuItem != null && menuItem.Checked && menuItem != button) {
-                            menuItem.Checked = false;
-                            switch (menuItem.Name) {
-                                case "trayAllPartyStats":
-                                    this.menuAllPartyStats.Checked = false; break;
-                                case "traySoloStats":
-                                    this.menuSoloStats.Checked = false; break;
-                                case "trayPartyStats":
-                                    this.menuPartyStats.Checked = false; break;
+                    foreach (var item in this.trayPartyFilter.DropDownItems) {
+                        if (item is ToolStripMenuItem menuItem) {
+                            if (menuItem != null && menuItem.Checked && menuItem != button) {
+                                menuItem.Checked = false;
+                                switch (menuItem.Name) {
+                                    case "trayAllPartyStats":
+                                        this.menuAllPartyStats.Checked = false; break;
+                                    case "traySoloStats":
+                                        this.menuSoloStats.Checked = false; break;
+                                    case "trayPartyStats":
+                                        this.menuPartyStats.Checked = false; break;
+                                }
                             }
-                        }
 
-                        if (menuItem.Checked) {
-                            switch (menuItem.Name) {
-                                case "trayAllPartyStats":
-                                    this.menuAllPartyStats.Checked = true; break;
-                                case "traySoloStats":
-                                    this.menuSoloStats.Checked = true; break;
-                                case "trayPartyStats":
-                                    this.menuPartyStats.Checked = true; break;
+                            if (menuItem.Checked) {
+                                switch (menuItem.Name) {
+                                    case "trayAllPartyStats":
+                                        this.menuAllPartyStats.Checked = true; break;
+                                    case "traySoloStats":
+                                        this.menuSoloStats.Checked = true; break;
+                                    case "trayPartyStats":
+                                        this.menuPartyStats.Checked = true; break;
+                                }
                             }
                         }
                     }
