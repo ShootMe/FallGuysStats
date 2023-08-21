@@ -863,8 +863,7 @@ namespace FallGuysStats {
                                 Stats.CurrentLanguage == 1 ? "                " :
                                 Stats.CurrentLanguage == 2 ? "            " :
                                 Stats.CurrentLanguage == 3 ? "            " :
-                                Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5 ? "         " :
-                                                             "            ";
+                                Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5 ? "         " : "            ";
                 for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
                     strbuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
                                              : $"{Environment.NewLine}{indent}{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");

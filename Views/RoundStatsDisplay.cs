@@ -102,11 +102,11 @@ namespace FallGuysStats {
                 this.lblBestRecord.Left = this.lblRoundType.Right + 12;
                 this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
                 this.lblBestRecord.Text = recordType == 0 ? $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.ff}" :
-                                            recordType == 1 ? $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.ff}" :
-                                            recordType == 2 ? $"{Multilingual.GetWord("overlay_best_score")} : {this.roundScoreData[roundId][0]}" : "-";
+                                          recordType == 1 ? $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.ff}" :
+                                          recordType == 2 ? $"{Multilingual.GetWord("overlay_best_score")} : {this.roundScoreData[roundId][0]}" : "-";
                 this.lblWorstRecord.Text = recordType == 0 ? $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.ff}" :
-                                            recordType == 1 ? $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.ff}" :
-                                            recordType == 2 ? $"{Multilingual.GetWord("overlay_worst_score")} : {this.roundScoreData[roundId][1]}" : "-";
+                                           recordType == 1 ? $"{Multilingual.GetWord("overlay_longest")} : {level.Longest:m\\:ss\\.ff}" :
+                                           recordType == 2 ? $"{Multilingual.GetWord("overlay_worst_score")} : {this.roundScoreData[roundId][1]}" : "-";
             } else {
                 MatchCollection matches = Regex.Matches(roundId, @"^\d{4}-\d{4}-\d{4}$");
                 if (matches.Count > 0) { // user creative round

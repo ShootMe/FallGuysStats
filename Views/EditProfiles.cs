@@ -149,9 +149,6 @@ namespace FallGuysStats {
                 if (this.AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
                     this.MoveFromCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
-                /*if (Profiles[i].ProfileID != 0 && this.AllStats.FindAll(r => r.Profile == Profiles[i].ProfileID).Count == 0) {
-                    RemoveProfileCombobox.Items.Insert(0, Profiles[i].ProfileName);
-                }*/
                 if (this.Profiles[i].ProfileId != 0) {
                     this.RemoveProfileCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
