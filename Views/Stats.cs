@@ -204,9 +204,9 @@ namespace FallGuysStats {
         public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
-#if AllowUpdate
-        public DateTime timeSwitcherForCheckUpdate;
-#endif
+// #if AllowUpdate
+//         public DateTime timeSwitcherForCheckUpdate;
+// #endif
         
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
@@ -240,9 +240,9 @@ namespace FallGuysStats {
         };
 
         private Stats() {
-#if AllowUpdate
-            this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
-#endif
+// #if AllowUpdate
+//             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+// #endif
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -352,7 +352,6 @@ namespace FallGuysStats {
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
             
-
             this.CurrentRound = new List<RoundInfo>();
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
@@ -4707,7 +4706,7 @@ namespace FallGuysStats {
         }
 #if AllowUpdate
         public void ChangeStateForAvailableNewVersion(string newVersion) {
-            this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
+            // this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
             this.isAvailableNewVersion = true;
             this.availableNewVersion = newVersion;
             this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
