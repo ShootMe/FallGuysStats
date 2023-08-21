@@ -25,6 +25,7 @@ namespace FallGuysStats {
         private int LaunchPlatform;
         private int DisplayLang;
         private bool CboOverlayBackgroundIsFocus;
+        private bool TrkOverlayOpacityIsEnter;
 
         private Bitmap ResizeImage(Bitmap source, int scale) {
             return new Bitmap(source, new Size(source.Width / scale, source.Height / scale));
@@ -683,13 +684,23 @@ namespace FallGuysStats {
             this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
         }
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
-            if (((MetroTrackBar)sender).Value == this.Overlay.Opacity * 100D) { return; }
-            Point cursorPosition = this.PointToClient(Cursor.Position);
-            Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
-            this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position);
-            this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100D;
+            if (((MetroTrackBar)sender).Value == (this.Overlay.Opacity * 100)) { return; }
+            this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100d;
+            if (this.TrkOverlayOpacityIsEnter) {
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+                this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position);
+            } else {
+                Point position = new Point(this.trkOverlayOpacity.Location.X + 225 + (this.trkOverlayOpacity.Width * ((MetroTrackBar)sender).Value / 100), this.trkOverlayOpacity.Location.Y + 74);
+                this.StatsForm.ShowTooltip(((MetroTrackBar)sender).Value.ToString(), this, position, 1500);
+            }
+            
+        }
+        private void trkOverlayOpacity_MouseEnter(object sender, EventArgs e) {
+            this.TrkOverlayOpacityIsEnter = true;
         }
         private void trkOverlayOpacity_MouseLeave(object sender, EventArgs e) {
+            this.TrkOverlayOpacityIsEnter = false;
             this.StatsForm.HideTooltip(this);
         }
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {

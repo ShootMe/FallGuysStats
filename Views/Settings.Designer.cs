@@ -445,6 +445,7 @@
             this.trkOverlayOpacity.Size = new System.Drawing.Size(240, 29);
             this.trkOverlayOpacity.TabIndex = 23;
             this.trkOverlayOpacity.Value = 100;
+            this.trkOverlayOpacity.MouseEnter += new System.EventHandler(this.trkOverlayOpacity_MouseEnter);
             this.trkOverlayOpacity.MouseLeave += new System.EventHandler(this.trkOverlayOpacity_MouseLeave);
             this.trkOverlayOpacity.ValueChanged += new System.EventHandler(this.trkOverlayOpacity_ValueChanged);
             // 
