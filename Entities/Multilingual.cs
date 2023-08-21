@@ -1502,7 +1502,7 @@ namespace FallGuysStats {
                             {"settings_visit_fallalytics", "Fallalyticsにアクセスする"},
                             {"settings_about", "このアプリについて"},
                             {"settings_log_path", "ログファイルパス"},
-                            {"settings_log_path_description", "* Statsがログファイルパスを見つけられない場合は、\r\nここにFallGuysクライアントのログファイルパスを直接入力してください。"},
+                            {"settings_log_path_description", "* これを設定する必要はありません。 プログラムが正しい位置を読み取らない場合にのみ使用してください。"},
                             {"settings_stats", "プログラム設定"},
                             {"settings_theme", "テーマ"},
                             {"settings_theme_light", "ライト"},
