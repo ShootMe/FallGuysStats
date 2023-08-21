@@ -398,7 +398,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
-                this.BringToFront();
                 this.Show();
             }
         }
@@ -2147,16 +2146,13 @@ namespace FallGuysStats {
                     if (this.isFocused) {
                         this.isFocused = false;
                         this.Hide();
-                        this.BringToFront();
                         //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
                     } else {
                         this.isFocused = true;
-                        this.BringToFront();
                         SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                     }
                 } else {
                     this.isFocused = true;
-                    this.BringToFront();
                     this.Show();
                 }
             }
@@ -2166,7 +2162,6 @@ namespace FallGuysStats {
         }
         private void Stats_VisibleChanged(object sender, EventArgs e) {
             if (this.Visible) {
-                this.BringToFront();
                 SetForegroundWindow(FindWindow(null, this.mainWndTitle));
                 this.SetMainDataGridViewOrder();
             }
@@ -2227,7 +2222,6 @@ namespace FallGuysStats {
             } else {
                 e.Cancel = true;
                 this.Hide();
-                this.BringToFront();
             }
         }
         private void Stats_Load(object sender, EventArgs e) {
@@ -2291,13 +2285,11 @@ namespace FallGuysStats {
                 this.RemoveUpdateFiles();
                 
                 if (this.CurrentSettings.Visible) {
-                    this.BringToFront();
                     this.Show();
                     this.ShowInTaskbar = true;
                     this.Opacity = 100;
                 } else {
                     this.Hide();
-                    this.BringToFront();
                     this.ShowInTaskbar = true;
                     this.Opacity = 100;
                 }
