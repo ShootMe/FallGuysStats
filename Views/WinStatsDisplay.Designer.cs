@@ -39,7 +39,7 @@
             this.picSwitchGraphStyle.BackColor = System.Drawing.Color.Transparent;
             this.picSwitchGraphStyle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picSwitchGraphStyle.Image = global::FallGuysStats.Properties.Resources.scatter_plot_icon;
-            this.picSwitchGraphStyle.Location = new System.Drawing.Point(880, 30);
+            this.picSwitchGraphStyle.Location = new System.Drawing.Point(870, 30);
             this.picSwitchGraphStyle.Name = "picSwitchGraphStyle";
             this.picSwitchGraphStyle.Size = new System.Drawing.Size(27, 24);
             this.picSwitchGraphStyle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;

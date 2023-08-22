@@ -413,7 +413,7 @@
             this.lblCurrentProfile.Name = "lblCurrentProfile";
             this.lblCurrentProfile.Size = new System.Drawing.Size(47, 16);
             this.lblCurrentProfile.Text = "Solo";
-            this.lblCurrentProfile.ToolTipText = "Click to change your current profile.";
+            //this.lblCurrentProfile.ToolTipText = "Click to change your current profile.";
             this.lblCurrentProfile.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblCurrentProfile_MouseDown);
             this.lblCurrentProfile.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblCurrentProfile.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
@@ -426,7 +426,7 @@
             this.lblTotalShows.Name = "lblTotalShows";
             this.lblTotalShows.Size = new System.Drawing.Size(30, 16);
             this.lblTotalShows.Text = "0";
-            this.lblTotalShows.ToolTipText = "Click to view shows stats.";
+            //this.lblTotalShows.ToolTipText = "Click to view shows stats.";
             this.lblTotalShows.Click += new System.EventHandler(this.lblTotalShows_Click);
             this.lblTotalShows.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalShows.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
@@ -439,7 +439,7 @@
             this.lblTotalRounds.Name = "lblTotalRounds";
             this.lblTotalRounds.Size = new System.Drawing.Size(30, 16);
             this.lblTotalRounds.Text = "0";
-            this.lblTotalRounds.ToolTipText = "Click to view rounds stats.";
+            //this.lblTotalRounds.ToolTipText = "Click to view rounds stats.";
             this.lblTotalRounds.Click += new System.EventHandler(this.lblTotalRounds_Click);
             this.lblTotalRounds.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalRounds.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
@@ -452,7 +452,7 @@
             this.lblTotalFinals.Name = "lblTotalFinals";
             this.lblTotalFinals.Size = new System.Drawing.Size(69, 16);
             this.lblTotalFinals.Text = "0 (0.0%)";
-            this.lblTotalFinals.ToolTipText = "Click to view finals stats.";
+            //this.lblTotalFinals.ToolTipText = "Click to view finals stats.";
             this.lblTotalFinals.Click += new System.EventHandler(this.lblTotalFinals_Click);
             this.lblTotalFinals.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalFinals.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
@@ -465,7 +465,7 @@
             this.lblTotalWins.Name = "lblTotalWins";
             this.lblTotalWins.Size = new System.Drawing.Size(69, 16);
             this.lblTotalWins.Text = "0 (0.0%)";
-            this.lblTotalWins.ToolTipText = "Click to view wins stats.";
+            //this.lblTotalWins.ToolTipText = "Click to view wins stats.";
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
