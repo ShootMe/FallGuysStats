@@ -914,8 +914,9 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
-            this.fallalyticsAPIKeyLable.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
-            this.fallalyticsLink.Text = Multilingual.GetWord("settings_visit_fallalytics");
+            this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
+            this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
+            this.linkFallalytics.Text = Multilingual.GetWord("settings_visit_fallalytics");
             
             this.fglink1.Text = Multilingual.GetWord("settings_github");
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
@@ -1028,7 +1029,7 @@ namespace FallGuysStats {
             if (sender.Equals(this.lbltpl4)) {
                 this.openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
             }
-            if (sender.Equals(this.fallalyticsLink)) {
+            if (sender.Equals(this.linkFallalytics)) {
                 this.openLink(@"https://fallalytics.com/");
             }
         }
