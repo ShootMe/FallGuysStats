@@ -1891,6 +1891,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 50;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 50) {
+                this.CurrentSettings.EnableFallalyticsReporting = true;
+                this.CurrentSettings.Version = 51;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1965,7 +1971,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 50
+                Version = 51
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
