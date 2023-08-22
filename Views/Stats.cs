@@ -347,6 +347,7 @@ namespace FallGuysStats {
                 this.StatDetails.Add(entry.Value);
             }
             
+            this.SetMinimumSize();
             this.ChangeMainLanguage();
             this.InitMainDataGridView();
             this.UpdateGridRoundName();
@@ -4806,6 +4807,12 @@ namespace FallGuysStats {
             this.overlay.Opacity = opacity / 100D;
             this.SaveUserSettings();
         }
+        private void SetMinimumSize() {
+            this.MinimumSize = new Size(CurrentLanguage == 0 ? 709 :
+                                        CurrentLanguage == 1 ? 845 :
+                                        CurrentLanguage == 2 ? 641 :
+                                        CurrentLanguage == 3 ? 785 : 591, 350);
+        }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
@@ -4824,6 +4831,7 @@ namespace FallGuysStats {
                         this.SetTheme(CurrentTheme);
                         this.SaveUserSettings();
                         if (this.currentLanguage != CurrentLanguage) {
+                            this.SetMinimumSize();
                             this.ChangeMainLanguage();
                             this.UpdateTotals();
                             this.gridDetails.ChangeContextMenuLanguage();
@@ -5017,8 +5025,8 @@ namespace FallGuysStats {
                 : Properties.Resources.steam_main_icon;
         }
         private void ChangeMainLanguage() {
-            this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.currentLanguage = CurrentLanguage;
+            this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.trayIcon.Text = this.mainWndTitle.Trim();
             this.Text = this.mainWndTitle;
             this.menu.Font = Overlay.GetMainFont(12);
