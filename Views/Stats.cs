@@ -3512,7 +3512,7 @@ namespace FallGuysStats {
                     Point cursorPosition = this.PointToClient(Cursor.Position);
                     Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
                     this.AllocCustomTooltip(this.cmtt_center_Draw);
-                    this.ShowCustomTooltip($"{Multilingual.GetWord("level_detail_tooltiptext_prefix")}{this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value}{Multilingual.GetWord("level_detail_tooltiptext_suffix")}", this, position);
+                    this.ShowCustomTooltip($"{Multilingual.GetWord("level_detail_tooltiptext_prefix")}{this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value}{Multilingual.GetWord("level_detail_tooltiptext_suffix")}", this, position);
                 } else {
                     this.gridDetails.Cursor = e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")
                         ? this.Theme == MetroThemeStyle.Light
