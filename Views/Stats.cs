@@ -2088,11 +2088,11 @@ namespace FallGuysStats {
             try {
                 if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysWiki") != -1) {
                     Process.Start(@"https://fallguysultimateknockout.fandom.com/wiki/Fall_Guys:_Ultimate_Knockout_Wiki");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallGuysReddit") != -1) {
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysReddit") != -1) {
                     Process.Start(@"https://www.reddit.com/r/FallGuysGame/");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallalytics") != -1) {
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("Fallalytics") != -1) {
                     Process.Start(@"https://fallalytics.com/");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuRollOffClub") != -1) {
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("RollOffClub") != -1) {
                     if (CurrentLanguage == 2) {
                         Process.Start(@"https://rolloff.club/ko/");
                     } else if (CurrentLanguage == 4) {
@@ -2100,7 +2100,7 @@ namespace FallGuysStats {
                     } else {
                         Process.Start(@"https://rolloff.club/");
                     }
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallGuysDB") != -1) {
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysDB") != -1) {
                     Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
                 }
             } catch (Exception ex) {
