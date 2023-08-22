@@ -126,13 +126,13 @@ namespace FallGuysStats {
         private float GetFontSizeFactor() {
             switch (this.Name) {
                 case "lblWins":
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 18 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 18 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - ((this.TextRight.Length - 18 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
+                case "lblFinals":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 20 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 20 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 20 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
-                case "lblFinals":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 22 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 22 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 14 ? (1f - ((this.TextRight.Length - 22 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                 case "lblStreak":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 8 ? (1f - ((this.TextRight.Length - 38 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 12 ? (1f - ((this.TextRight.Length - 15 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
