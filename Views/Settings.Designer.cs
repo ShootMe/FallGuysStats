@@ -1523,6 +1523,8 @@
             this.linkFallalytics.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkFallalytics.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.linkFallalytics.ForeColor = System.Drawing.Color.Black;
+            this.linkFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.linkFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkFallalytics.Location = new System.Drawing.Point(12, 148);
             this.linkFallalytics.Name = "linkFallalytics";
             this.linkFallalytics.Size = new System.Drawing.Size(231, 22);
