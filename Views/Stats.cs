@@ -2084,33 +2084,53 @@ namespace FallGuysStats {
             this.loadingExisting = false;
         }
         
-        private void menuFallalytics_MouseEnter(object sender, EventArgs e) {
-            Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
-            this.AllocCustomTooltip(this.cmtt_center_Draw);
-            this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+        private void menuLookHere_Click(object sender, EventArgs e) {
+            try {
+                if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysWiki") != -1) {
+                    Process.Start(@"https://fallguysultimateknockout.fandom.com/wiki/Fall_Guys:_Ultimate_Knockout_Wiki");
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallGuysReddit") != -1) {
+                    Process.Start(@"https://www.reddit.com/r/FallGuysGame/");
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallalytics") != -1) {
+                    Process.Start(@"https://fallalytics.com/");
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuRollOffClub") != -1) {
+                    if (CurrentLanguage == 2) {
+                        Process.Start(@"https://rolloff.club/ko/");
+                    } else if (CurrentLanguage == 4) {
+                        Process.Start(@"https://rolloff.club/zh/");
+                    } else {
+                        Process.Start(@"https://rolloff.club/");
+                    }
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("menuFallGuysDB") != -1) {
+                    Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        private void menuFallalytics_MouseLeave(object sender, EventArgs e) {
-            this.HideCustomTooltip(this);
-            this.Cursor = Cursors.Default;
+        private void menuLookHere_MouseEnter(object sender, EventArgs e) {
+            if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysWiki")) {
+                //this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysReddit")) {
+                //this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallalytics")) {
+                Rectangle rectangle = this.menuLookHere.Bounds;
+                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
+                this.AllocCustomTooltip(this.cmtt_center_Draw);
+                this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+            } else if (((ToolStripMenuItem)sender).Name.Equals("menuRollOffClub")) {
+                Rectangle rectangle = this.menuLookHere.Bounds;
+                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
+                this.AllocCustomTooltip(this.cmtt_center_Draw);
+                this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
+            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysDB")) {
+                Rectangle rectangle = this.menuLookHere.Bounds;
+                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
+                this.AllocCustomTooltip(this.cmtt_center_Draw);
+                this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
+            }
         }
-        private void menuRollOffClub_MouseEnter(object sender, EventArgs e) {
-            Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
-            this.AllocCustomTooltip(this.cmtt_center_Draw);
-            this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
-        }
-        private void menuRollOffClub_MouseLeave(object sender, EventArgs e) {
-            this.HideCustomTooltip(this);
-            this.Cursor = Cursors.Default;
-        }
-        private void menuFallGuysDB_MouseEnter(object sender, EventArgs e) {
-            Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
-            this.AllocCustomTooltip(this.cmtt_center_Draw);
-            this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
-        }
-        private void menuFallGuysDB_MouseLeave(object sender, EventArgs e) {
+        private void menuLookHere_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
         }
@@ -5027,36 +5047,6 @@ namespace FallGuysStats {
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
             try {
                 this.LaunchGame(false);
-            } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void menuFallalytics_Click(object sender, EventArgs e) {
-            try {
-                Process.Start(@"https://fallalytics.com/");
-            } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void menuRollOffClub_Click(object sender, EventArgs e) {
-            try {
-                if (CurrentLanguage == 2) {
-                    Process.Start(@"https://rolloff.club/ko/");
-                } else if (CurrentLanguage == 4) {
-                    Process.Start(@"https://rolloff.club/zh/");
-                } else {
-                    Process.Start(@"https://rolloff.club/");
-                }
-            } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void menuFallGuysDB_Click(object sender, EventArgs e) {
-            try {
-                Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
