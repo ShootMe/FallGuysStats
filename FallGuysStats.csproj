@@ -240,6 +240,8 @@
     <None Include="Resources\fallguys_icon.png" />
     <None Include="Resources\fallguys_db_logo.png" />
     <None Include="Resources\main_icon.png" />
+    <None Include="Resources\fandom_icon.png" />
+    <None Include="Resources\reddit_icon.png" />
     <None Include="Resources\roll_off_club_icon.png" />
     <None Include="Resources\fallalytics_icon.png" />
     <None Include="Resources\export.png" />
