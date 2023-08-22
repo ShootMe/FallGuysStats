@@ -2109,24 +2109,18 @@ namespace FallGuysStats {
             }
         }
         private void menuLookHere_MouseEnter(object sender, EventArgs e) {
+            Rectangle rectangle = this.menuLookHere.Bounds;
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
+            this.AllocCustomTooltip(this.cmtt_center_Draw);
             if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysWiki")) {
-                //this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+                this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_wiki_tooltip"), this, position);
             } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysReddit")) {
-                //this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+                this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_reddit_tooltip"), this, position);
             } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallalytics")) {
-                Rectangle rectangle = this.menuLookHere.Bounds;
-                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
-                this.AllocCustomTooltip(this.cmtt_center_Draw);
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
             } else if (((ToolStripMenuItem)sender).Name.Equals("menuRollOffClub")) {
-                Rectangle rectangle = this.menuLookHere.Bounds;
-                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
-                this.AllocCustomTooltip(this.cmtt_center_Draw);
                 this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
             } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysDB")) {
-                Rectangle rectangle = this.menuLookHere.Bounds;
-                Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
-                this.AllocCustomTooltip(this.cmtt_center_Draw);
                 this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
             }
         }
