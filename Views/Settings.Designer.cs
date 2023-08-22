@@ -124,8 +124,9 @@
             this.lblVersion = new MetroFramework.Controls.MetroLabel();
             this.lblLicence = new MetroFramework.Controls.MetroLabel();
             this.panelFallalytics = new MetroFramework.Controls.MetroPanel();
-            this.fallalyticsLink = new MetroFramework.Controls.MetroLink();
-            this.fallalyticsAPIKeyLable = new MetroFramework.Controls.MetroLabel();
+            this.linkFallalytics = new MetroFramework.Controls.MetroLink();
+            this.lblFallalyticsDesc = new MetroFramework.Controls.MetroLabel();
+            this.lblFallalyticsAPIKey = new MetroFramework.Controls.MetroLabel();
             this.txtFallalyticsAPIKey = new MetroFramework.Controls.MetroTextBox();
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
             this.tileFallalytics = new MetroFramework.Controls.MetroTile();
@@ -1490,8 +1491,9 @@
             // 
             // panelFallalytics
             // 
-            this.panelFallalytics.Controls.Add(this.fallalyticsLink);
-            this.panelFallalytics.Controls.Add(this.fallalyticsAPIKeyLable);
+            this.panelFallalytics.Controls.Add(this.linkFallalytics);
+            this.panelFallalytics.Controls.Add(this.lblFallalyticsDesc);
+            this.panelFallalytics.Controls.Add(this.lblFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.txtFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsReporting);
             this.panelFallalytics.HorizontalScrollbarBarColor = true;
@@ -1505,31 +1507,41 @@
             this.panelFallalytics.VerticalScrollbarHighlightOnWheel = false;
             this.panelFallalytics.VerticalScrollbarSize = 15;
             // 
-            // fallalyticsLink
+            // lblFallalyticsDesc
             // 
-            this.fallalyticsLink.AutoSize = true;
-            this.fallalyticsLink.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.fallalyticsLink.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.fallalyticsLink.ForeColor = System.Drawing.Color.Black;
-            this.fallalyticsLink.Location = new System.Drawing.Point(12, 112);
-            this.fallalyticsLink.Name = "fallalyticsLink";
-            this.fallalyticsLink.Size = new System.Drawing.Size(231, 22);
-            this.fallalyticsLink.TabIndex = 7;
-            this.fallalyticsLink.Text = "Visit Fallalytics";
-            this.fallalyticsLink.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.fallalyticsLink.UseSelectable = true;
-            this.fallalyticsLink.UseStyleColors = true;
-            this.fallalyticsLink.Click += new System.EventHandler(this.link_Click);
+            this.lblFallalyticsDesc.AutoSize = true;
+            this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 128);
+            this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
+            this.lblFallalyticsDesc.Size = new System.Drawing.Size(206, 19);
+            this.lblFallalyticsDesc.TabIndex = 5;
+            this.lblFallalyticsDesc.Text = "Fallalytics is a tool to explore data collected about round distribution in Fall Guys.";
             // 
-            // fallalyticsAPIKeyLable
+            // linkFallalytics
             // 
-            this.fallalyticsAPIKeyLable.AutoSize = true;
-            this.fallalyticsAPIKeyLable.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.fallalyticsAPIKeyLable.Location = new System.Drawing.Point(11, 51);
-            this.fallalyticsAPIKeyLable.Name = "fallalyticsAPIKeyLable";
-            this.fallalyticsAPIKeyLable.Size = new System.Drawing.Size(206, 19);
-            this.fallalyticsAPIKeyLable.TabIndex = 5;
-            this.fallalyticsAPIKeyLable.Text = "(Optional) Enter Fallalytics API key";
+            this.linkFallalytics.AutoSize = true;
+            this.linkFallalytics.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkFallalytics.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.linkFallalytics.ForeColor = System.Drawing.Color.Black;
+            this.linkFallalytics.Location = new System.Drawing.Point(12, 148);
+            this.linkFallalytics.Name = "linkFallalytics";
+            this.linkFallalytics.Size = new System.Drawing.Size(231, 22);
+            this.linkFallalytics.TabIndex = 7;
+            this.linkFallalytics.Text = "Visit Fallalytics";
+            this.linkFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkFallalytics.UseSelectable = true;
+            this.linkFallalytics.UseStyleColors = true;
+            this.linkFallalytics.Click += new System.EventHandler(this.link_Click);
+            // 
+            // lblFallalyticsAPIKey
+            // 
+            this.lblFallalyticsAPIKey.AutoSize = true;
+            this.lblFallalyticsAPIKey.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 51);
+            this.lblFallalyticsAPIKey.Name = "lblFallalyticsAPIKey";
+            this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(206, 19);
+            this.lblFallalyticsAPIKey.TabIndex = 5;
+            this.lblFallalyticsAPIKey.Text = "(Optional) Enter Fallalytics API key";
             // 
             // txtFallalyticsAPIKey
             // 
@@ -1644,8 +1656,6 @@
             this.ResumeLayout(false);
         }
 
-        private MetroFramework.Controls.MetroLink fallalyticsLink;
-
         #endregion
         
         private MetroFramework.Controls.MetroLabel lblLogPath;
@@ -1747,7 +1757,9 @@
         private MetroFramework.Controls.MetroLink lbltpl3;
         private MetroFramework.Controls.MetroLabel lblupdateNote;
         private MetroFramework.Controls.MetroPanel panelFallalytics;
-        private MetroFramework.Controls.MetroLabel fallalyticsAPIKeyLable;
+        private MetroFramework.Controls.MetroLabel lblFallalyticsDesc;
+        private MetroFramework.Controls.MetroLabel lblFallalyticsAPIKey;
+        private MetroFramework.Controls.MetroLink linkFallalytics;
         private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
         private MetroFramework.Controls.MetroTile tileFallalytics;
