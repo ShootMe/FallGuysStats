@@ -270,10 +270,12 @@ namespace FallGuysStats {
             }
         }
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
-            this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
-            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
-            if (this.dates == null) { return; }
-            this.ChangeFormsPlotStyle(this.switchGraphStyle);
+            if (e.Button == MouseButtons.Left) {
+                this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
+                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
+                if (this.dates == null) { return; }
+                this.ChangeFormsPlotStyle(this.switchGraphStyle);
+            }
         }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }

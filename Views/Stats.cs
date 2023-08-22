@@ -931,10 +931,28 @@ namespace FallGuysStats {
                 lblInfo.ForeColor = lblInfo.Name.Equals("lblCurrentProfile")
                     ? this.Theme == MetroThemeStyle.Light ? Color.FromArgb(245, 154, 168) : Color.FromArgb(231, 251, 255)
                     : this.Theme == MetroThemeStyle.Light ? Color.FromArgb(147, 174, 248) : Color.FromArgb(255, 250, 244);
+
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
+                this.AllocCustomTooltip(this.cmtt_center_Draw);
+                if (lblInfo.Name.Equals("lblCurrentProfile")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("profile_change_tooltiptext"), this, position);
+                } else if (lblInfo.Name.Equals("lblTotalShows")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("shows_detail_tooltiptext"), this, position);
+                } else if (lblInfo.Name.Equals("lblTotalRounds")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("rounds_detail_tooltiptext"), this, position);
+                } else if (lblInfo.Name.Equals("lblTotalFinals")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("finals_detail_tooltiptext"), this, position);
+                } else if (lblInfo.Name.Equals("lblTotalWins")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltiptext"), this, position);
+                } else if (lblInfo.Name.Equals("lblTotalTime")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltiptext"), this, position);
+                }
             }
         }
         private void infoStrip_MouseLeave(object sender, EventArgs e) {
             this.Cursor = Cursors.Default;
+            this.HideCustomTooltip(this);
             if (sender is ToolStripLabel lblInfo) {
                 lblInfo.ForeColor = this.infoStripForeColor;
             }
@@ -3099,21 +3117,21 @@ namespace FallGuysStats {
         private void UpdateTotals() {
             try {
                 this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName()}";
-                this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
+                //this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
                 this.lblTotalShows.Text = $"{this.Shows}{Multilingual.GetWord("main_inning")}";
                 if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
-                this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
+                //this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
                 this.lblTotalRounds.Text = $"{this.Rounds}{Multilingual.GetWord("main_round")}";
                 if (this.CustomRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds}{Multilingual.GetWord("main_round")})";
-                this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
+                //this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
-                this.lblTotalTime.ToolTipText = $"{Multilingual.GetWord("stats_detail_tooltiptext")}";
+                //this.lblTotalTime.ToolTipText = $"{Multilingual.GetWord("stats_detail_tooltiptext")}";
                 float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
                 this.lblTotalWins.Text = $"{this.Wins}{Multilingual.GetWord("main_win")} ({winChance:0.0} %)";
-                this.lblTotalWins.ToolTipText = $"{Multilingual.GetWord("wins_detail_tooltiptext")}";
+                //this.lblTotalWins.ToolTipText = $"{Multilingual.GetWord("wins_detail_tooltiptext")}";
                 float finalChance = (float)this.Finals * 100 / (this.Shows == 0 ? 1 : this.Shows);
                 this.lblTotalFinals.Text = $"{this.Finals}{Multilingual.GetWord("main_inning")} ({finalChance:0.0} %)";
-                this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
+                //this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
                 this.lblGoldMedal.Text = $"{this.GoldMedals}";
                 if (this.CustomGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomGoldMedals})";
                 this.lblSilverMedal.Text = $"{this.SilverMedals}";
@@ -3374,7 +3392,7 @@ namespace FallGuysStats {
                     case "Name":
                         if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
                         e.CellStyle.ForeColor = Color.Black;
-                        this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
+                        //this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
                         if (levelStats.IsFinal) {
                             e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
                                 ? Color.FromArgb(255, 240, 200)
@@ -3485,11 +3503,16 @@ namespace FallGuysStats {
         }
         private void gridDetails_CellMouseLeave(object sender, DataGridViewCellEventArgs e) {
             this.gridDetails.Cursor = Cursors.Default;
+            this.HideCustomTooltip(this);
         }
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             try {
                 if (e.RowIndex >= 0 && (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")) {
                     this.gridDetails.Cursor = Cursors.Hand;
+                    Point cursorPosition = this.PointToClient(Cursor.Position);
+                    Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
+                    this.AllocCustomTooltip(this.cmtt_center_Draw);
+                    this.ShowCustomTooltip($"{Multilingual.GetWord("level_detail_tooltiptext_prefix")}{this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value}{Multilingual.GetWord("level_detail_tooltiptext_suffix")}", this, position);
                 } else {
                     this.gridDetails.Cursor = e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")
                         ? this.Theme == MetroThemeStyle.Light
