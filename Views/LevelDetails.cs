@@ -887,7 +887,7 @@ namespace FallGuysStats {
                 strbuilder.Append(Environment.NewLine);
                 strbuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
 
-                this.StatsForm.AllocCustomTooltip(0);
+                this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strbuilder.ToString(), this, position);
