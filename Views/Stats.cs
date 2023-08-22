@@ -5114,6 +5114,8 @@ namespace FallGuysStats {
                 this.trayOverlay.Text = Multilingual.GetWord("main_hide_overlay");
             }
             this.trayLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.trayFallGuysWiki.Text = Multilingual.GetWord("main_fall_guys_wiki");
+            this.trayFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.trayFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
@@ -5146,6 +5148,8 @@ namespace FallGuysStats {
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
             this.menuLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.menuFallGuysWiki.Text = Multilingual.GetWord("main_fall_guys_wiki");
+            this.menuFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.menuFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
