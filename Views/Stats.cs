@@ -392,9 +392,6 @@ namespace FallGuysStats {
 
             this.SetTheme(CurrentTheme);
             
-            this.cmtt.OwnerDraw = true;
-            this.cmtt.Draw += this.cmtt_Draw;
-            
             if (this.CurrentSettings.SystemTrayIcon) {
                 this.trayIcon.Visible = true;
             } else {
@@ -404,7 +401,8 @@ namespace FallGuysStats {
         
         [DllImport("User32.dll")]
         static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
-        private void cmtt_Draw(object sender, DrawToolTipEventArgs e) {
+        
+        public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -453,7 +451,7 @@ namespace FallGuysStats {
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
             MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
-        private void cmtt2_Draw(object sender, DrawToolTipEventArgs e) {
+        private void cmtt_overlay_Draw(object sender, DrawToolTipEventArgs e) {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -467,6 +465,35 @@ namespace FallGuysStats {
             e.DrawBorder();
             
             g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
+            
+            MetroToolTip t = (MetroToolTip)sender;
+            PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
+            IntPtr handle = (IntPtr)h.GetValue(t);
+            Control c = e.AssociatedControl;
+            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+        }
+        public void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
+            Graphics g = e.Graphics;
+            g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            
+            // Draw the custom background.
+            e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
+            
+            // Draw the standard border.
+            e.DrawBorder();
+            
+            // Draw the custom text.
+            // The using block will dispose the StringFormat automatically.
+            using (StringFormat sf = new StringFormat()) {
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                sf.HotkeyPrefix = HotkeyPrefix.None;
+                sf.FormatFlags = StringFormatFlags.NoWrap;
+                g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, e.Bounds, sf);
+            }
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -2039,21 +2066,38 @@ namespace FallGuysStats {
             this.loadingExisting = false;
         }
         
-        private void menuFallGuysDB_MouseEnter(object sender, EventArgs e) {
-            //Point cursorPosition = this.PointToClient(Cursor.Position);
-            //Point position = new Point(cursorPosition.X + 20, cursorPosition.Y);
+        private void menuFallalytics_MouseEnter(object sender, EventArgs e) {
             Rectangle rectangle = this.menuLookHere.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
-            this.AllocTooltip();
-            this.ShowTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
+            this.AllocCustomTooltip(this.cmtt_center_Draw);
+            this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+        }
+        private void menuFallalytics_MouseLeave(object sender, EventArgs e) {
+            this.HideCustomTooltip(this);
+            this.Cursor = Cursors.Default;
+        }
+        private void menuRollOffClub_MouseEnter(object sender, EventArgs e) {
+            Rectangle rectangle = this.menuLookHere.Bounds;
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
+            this.AllocCustomTooltip(this.cmtt_center_Draw);
+            this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
+        }
+        private void menuRollOffClub_MouseLeave(object sender, EventArgs e) {
+            this.HideCustomTooltip(this);
+            this.Cursor = Cursors.Default;
+        }
+        private void menuFallGuysDB_MouseEnter(object sender, EventArgs e) {
+            Rectangle rectangle = this.menuLookHere.Bounds;
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 147);
+            this.AllocCustomTooltip(this.cmtt_center_Draw);
+            this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
         }
         private void menuFallGuysDB_MouseLeave(object sender, EventArgs e) {
-            this.HideTooltip(this);
+            this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
         }
 
         private void menuUpdate_MouseEnter(object sender, EventArgs e) {
-            this.Cursor = Cursors.Hand;
             Rectangle rectangle = ((ToolStripMenuItem)sender).Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.AllocTooltip();
@@ -2070,7 +2114,7 @@ namespace FallGuysStats {
             this.Cursor = Cursors.Hand;
             Rectangle rectangle = this.menuOverlay.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
-            this.AllocCustomTooltip(1);
+            this.AllocCustomTooltip(this.cmtt_overlay_Draw);
             this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_shortcut_tooltip")}", this, position);
         }
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
@@ -3119,11 +3163,10 @@ namespace FallGuysStats {
         public void HideOverlayTooltip(IWin32Window window) {
             this.omtt.Hide(window);
         }
-        public void AllocCustomTooltip(int drawFunc) {
+        public void AllocCustomTooltip(DrawToolTipEventHandler drawFunc) {
             this.cmtt = new MetroToolTip();
             this.cmtt.OwnerDraw = true;
-            if (drawFunc == 0) this.cmtt.Draw += this.cmtt_Draw;
-            else if (drawFunc == 1) this.cmtt.Draw += this.cmtt2_Draw;
+            this.cmtt.Draw += drawFunc;
         }
         public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
@@ -4804,14 +4847,14 @@ namespace FallGuysStats {
             if (opacity > 100) { opacity = 100; }
             if (opacity < 0) { opacity = 0; }
             this.CurrentSettings.OverlayBackgroundOpacity = opacity;
-            this.overlay.Opacity = opacity / 100D;
+            this.overlay.Opacity = opacity / 100d;
             this.SaveUserSettings();
         }
         private void SetMinimumSize() {
-            this.MinimumSize = new Size(CurrentLanguage == 0 ? 709 :
+            this.MinimumSize = new Size(CurrentLanguage == 0 ? 720 :
                                         CurrentLanguage == 1 ? 845 :
-                                        CurrentLanguage == 2 ? 641 :
-                                        CurrentLanguage == 3 ? 785 : 591, 350);
+                                        CurrentLanguage == 2 ? 650 :
+                                        CurrentLanguage == 3 ? 795 : 600, 350);
         }
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {

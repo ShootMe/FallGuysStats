@@ -352,7 +352,8 @@
             this.menuFallalytics.Size = new System.Drawing.Size(144, 22);
             this.menuFallalytics.Text = "Fallalytics";
             this.menuFallalytics.Click += new System.EventHandler(this.menuFallalytics_Click);
-            this.menuFallalytics.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuFallalytics.MouseEnter += new System.EventHandler(this.menuFallalytics_MouseEnter);
+            this.menuFallalytics.MouseLeave += new System.EventHandler(this.menuFallalytics_MouseLeave);
             this.menuFallalytics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator3
@@ -367,7 +368,8 @@
             this.menuRollOffClub.Size = new System.Drawing.Size(144, 22);
             this.menuRollOffClub.Text = "Roll Off Club";
             this.menuRollOffClub.Click += new System.EventHandler(this.menuRollOffClub_Click);
-            this.menuRollOffClub.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
+            this.menuRollOffClub.MouseEnter += new System.EventHandler(this.menuRollOffClub_MouseEnter);
+            this.menuRollOffClub.MouseLeave += new System.EventHandler(this.menuRollOffClub_MouseLeave);
             this.menuRollOffClub.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator4
@@ -573,7 +575,7 @@
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(679, 672);
+            this.gridDetails.Size = new System.Drawing.Size(690, 672);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
@@ -842,7 +844,7 @@
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(709, 830);
+            this.ClientSize = new System.Drawing.Size(720, 830);
             this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.infoStrip2);
             this.Controls.Add(this.gridDetails);
@@ -851,7 +853,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Location = new System.Drawing.Point(15, 15);
-            this.MinimumSize = new System.Drawing.Size(709, 350);
+            this.MinimumSize = new System.Drawing.Size(720, 350);
             this.Name = "Stats";
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
