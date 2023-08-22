@@ -5342,6 +5342,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fandom_icon {
+            get {
+                object obj = ResourceManager.GetObject("fandom_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap filter_gray_icon {
             get {
                 object obj = ResourceManager.GetObject("filter_gray_icon", resourceCulture);
@@ -5885,6 +5895,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap ps_icon {
             get {
                 object obj = ResourceManager.GetObject("ps_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap reddit_icon {
+            get {
+                object obj = ResourceManager.GetObject("reddit_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
