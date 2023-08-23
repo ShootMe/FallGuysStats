@@ -4870,7 +4870,10 @@ namespace FallGuysStats {
         }
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
-            if (!enable && !this.Visible) { this.Visible = true; }
+            if (!enable && !this.Visible) {
+                this.Visible = true;
+                this.CurrentSettings.Visible = true;
+            }
         }
         public void SetOverlayTopMost(bool topMost) {
             this.overlay.TopMost = topMost;
