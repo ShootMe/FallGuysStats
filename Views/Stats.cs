@@ -385,18 +385,16 @@ namespace FallGuysStats {
             this.overlay.Hide();
             this.overlay.StartTimer();
             
+            if (!this.CurrentSettings.SystemTrayIcon && !this.CurrentSettings.Visible) {
+                this.CurrentSettings.Visible = true;
+            }
+            
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
             
             this.ReloadProfileMenuItems();
 
             this.SetTheme(CurrentTheme);
-            
-            if (this.CurrentSettings.SystemTrayIcon) {
-                this.trayIcon.Visible = true;
-            } else {
-                this.Show();
-            }
         }
         
         [DllImport("User32.dll")]
