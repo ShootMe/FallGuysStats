@@ -446,12 +446,12 @@
             this.Load += new System.EventHandler(this.Overlay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Overlay_KeyUp);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseClick);
+            // this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseDown);
             //this.GotFocus += new System.EventHandler(this.Overlay_GotFocus);
             //this.LostFocus += new System.EventHandler(this.Overlay_LostFocus);
-            this.MouseEnter += new System.EventHandler(this.Overlay_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.Overlay_MouseLeave);
+            // this.MouseEnter += new System.EventHandler(this.Overlay_MouseEnter);
+            // this.MouseLeave += new System.EventHandler(this.Overlay_MouseLeave);
             this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Overlay_MouseWheel);
             this.Resize += new System.EventHandler(this.Overlay_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.picPositionNE)).EndInit();
