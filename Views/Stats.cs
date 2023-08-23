@@ -385,11 +385,11 @@ namespace FallGuysStats {
             this.overlay.Hide();
             this.overlay.StartTimer();
             
+            this.ReloadProfileMenuItems();
+            
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
-            
-            this.ReloadProfileMenuItems();
 
             this.SetTheme(CurrentTheme);
         }
@@ -2733,6 +2733,7 @@ namespace FallGuysStats {
             }
         }
         public string GetCurrentProfileName() {
+            if (this.AllProfiles.Count == 0) return String.Empty;
             return this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).ProfileName;
         }
         public int GetCurrentProfileId() {

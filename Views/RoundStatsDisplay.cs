@@ -23,6 +23,8 @@ namespace FallGuysStats {
             Multilingual.GetWord("level_detail_pink"), Multilingual.GetWord("level_detail_eliminated")
         };
         private bool isStartingUp;
+        private string goldMedalCount, silverMedalCount, bronzeMedalCount, pinkMedalCount, eliminatedMedalCount;
+        private string goldMedalPercent, silverMedalPercent, bronzeMedalPercent, pinkMedalPercent, eliminatedMedalPercent;
         public RoundStatsDisplay() {
             this.InitializeComponent();
         }
@@ -139,11 +141,23 @@ namespace FallGuysStats {
             
             this.formsPlot.Plot.Palette = new CustomPalette();
 
-            this.lblCountGoldMedal.Text = values[1].ToString();
-            this.lblCountSilverMedal.Text = values[2].ToString();
-            this.lblCountBronzeMedal.Text = values[3].ToString();
-            this.lblCountPinkMedal.Text = values[4].ToString();
-            this.lblCountEliminatedMedal.Text = values[5].ToString();
+            this.goldMedalPercent = $@"{Math.Truncate((values[1] / values[0]) * 10000) / 100}%";
+            this.silverMedalPercent = $@"{Math.Truncate((values[2] / values[0]) * 10000) / 100}%";
+            this.bronzeMedalPercent = $@"{Math.Truncate((values[3] / values[0]) * 10000) / 100}%";
+            this.pinkMedalPercent = $@"{Math.Truncate((values[4] / values[0]) * 10000) / 100}%";
+            this.eliminatedMedalPercent = $@"{Math.Truncate((values[5] / values[0]) * 10000) / 100}%";
+            
+            this.goldMedalCount = $@"{values[1]}";
+            this.silverMedalCount = $@"{values[2]}";
+            this.bronzeMedalCount = $@"{values[3]}";
+            this.pinkMedalCount = $@"{values[4]}";
+            this.eliminatedMedalCount = $@"{values[5]}";
+            
+            this.lblCountGoldMedal.Text = $@"{values[1]}";
+            this.lblCountSilverMedal.Text = $@"{values[2]}";
+            this.lblCountBronzeMedal.Text = $@"{values[3]}";
+            this.lblCountPinkMedal.Text = $@"{values[4]}";
+            this.lblCountEliminatedMedal.Text = $@"{values[5]}";
             
             RadialGaugePlot gauges = this.formsPlot.Plot.AddRadialGauge(values);
             gauges.OrderInsideOut = false;
@@ -158,7 +172,23 @@ namespace FallGuysStats {
             this.formsPlot.Plot.AxisZoom(.9, .9);
             this.formsPlot.Refresh();
         }
-        
+
+        private void Medal_MouseEnter(object sender, EventArgs e) {
+            this.lblCountGoldMedal.Text = this.goldMedalPercent;
+            this.lblCountSilverMedal.Text = this.silverMedalPercent;
+            this.lblCountBronzeMedal.Text = this.bronzeMedalPercent;
+            this.lblCountPinkMedal.Text = this.pinkMedalPercent;
+            this.lblCountEliminatedMedal.Text = this.eliminatedMedalPercent;
+        }
+
+        private void Medal_MouseLeave(object sender, EventArgs e) {
+            this.lblCountGoldMedal.Text = this.goldMedalCount;
+            this.lblCountSilverMedal.Text = this.silverMedalCount;
+            this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
+            this.lblCountPinkMedal.Text = this.pinkMedalCount;
+            this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
+        }
+
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
             if (!this.isStartingUp) {
                 this.formsPlot.Plot.Clear();

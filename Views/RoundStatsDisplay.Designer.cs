@@ -109,10 +109,10 @@
             this.lblBestRecord.AutoSize = true;
             this.lblBestRecord.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblBestRecord.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.lblBestRecord.ForeColor = System.Drawing.Color.FromArgb(218, 165, 32);
+            this.lblBestRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(165)))), ((int)(((byte)(32)))));
             this.lblBestRecord.Location = new System.Drawing.Point(722, 138);
             this.lblBestRecord.Name = "lblBestRecord";
-            this.lblBestRecord.Size = new System.Drawing.Size(82, 25);
+            this.lblBestRecord.Size = new System.Drawing.Size(22, 25);
             this.lblBestRecord.TabIndex = 16;
             this.lblBestRecord.Text = "0";
             this.lblBestRecord.UseCustomForeColor = true;
@@ -122,10 +122,10 @@
             this.lblWorstRecord.AutoSize = true;
             this.lblWorstRecord.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblWorstRecord.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.lblWorstRecord.ForeColor = System.Drawing.Color.FromArgb(128, 0, 128);
+            this.lblWorstRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.lblWorstRecord.Location = new System.Drawing.Point(722, 163);
             this.lblWorstRecord.Name = "lblWorstRecord";
-            this.lblWorstRecord.Size = new System.Drawing.Size(82, 25);
+            this.lblWorstRecord.Size = new System.Drawing.Size(22, 25);
             this.lblWorstRecord.TabIndex = 17;
             this.lblWorstRecord.Text = "0";
             this.lblWorstRecord.UseCustomForeColor = true;
@@ -139,13 +139,15 @@
             this.picGoldMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picGoldMedalIcon.TabIndex = 5;
             this.picGoldMedalIcon.TabStop = false;
+            this.picGoldMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picGoldMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblCountGoldMedal
             // 
             this.lblCountGoldMedal.ForeColor = System.Drawing.Color.Teal;
-            this.lblCountGoldMedal.Location = new System.Drawing.Point(700, 211);
+            this.lblCountGoldMedal.Location = new System.Drawing.Point(690, 211);
             this.lblCountGoldMedal.Name = "lblCountGoldMedal";
-            this.lblCountGoldMedal.Size = new System.Drawing.Size(200, 54);
+            this.lblCountGoldMedal.Size = new System.Drawing.Size(250, 54);
             this.lblCountGoldMedal.TabIndex = 6;
             this.lblCountGoldMedal.Text = "0";
             // 
@@ -158,13 +160,15 @@
             this.picSilverMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSilverMedalIcon.TabIndex = 7;
             this.picSilverMedalIcon.TabStop = false;
+            this.picSilverMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picSilverMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblCountSilverMedal
             // 
             this.lblCountSilverMedal.ForeColor = System.Drawing.Color.Teal;
-            this.lblCountSilverMedal.Location = new System.Drawing.Point(700, 280);
+            this.lblCountSilverMedal.Location = new System.Drawing.Point(690, 280);
             this.lblCountSilverMedal.Name = "lblCountSilverMedal";
-            this.lblCountSilverMedal.Size = new System.Drawing.Size(200, 54);
+            this.lblCountSilverMedal.Size = new System.Drawing.Size(250, 54);
             this.lblCountSilverMedal.TabIndex = 8;
             this.lblCountSilverMedal.Text = "0";
             // 
@@ -177,13 +181,15 @@
             this.picBronzeMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBronzeMedalIcon.TabIndex = 9;
             this.picBronzeMedalIcon.TabStop = false;
+            this.picBronzeMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picBronzeMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblCountBronzeMedal
             // 
             this.lblCountBronzeMedal.ForeColor = System.Drawing.Color.Teal;
-            this.lblCountBronzeMedal.Location = new System.Drawing.Point(700, 349);
+            this.lblCountBronzeMedal.Location = new System.Drawing.Point(690, 349);
             this.lblCountBronzeMedal.Name = "lblCountBronzeMedal";
-            this.lblCountBronzeMedal.Size = new System.Drawing.Size(200, 54);
+            this.lblCountBronzeMedal.Size = new System.Drawing.Size(250, 54);
             this.lblCountBronzeMedal.TabIndex = 10;
             this.lblCountBronzeMedal.Text = "0";
             // 
@@ -196,13 +202,15 @@
             this.picPinkMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPinkMedalIcon.TabIndex = 11;
             this.picPinkMedalIcon.TabStop = false;
+            this.picPinkMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picPinkMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblCountPinkMedal
             // 
             this.lblCountPinkMedal.ForeColor = System.Drawing.Color.Teal;
-            this.lblCountPinkMedal.Location = new System.Drawing.Point(700, 418);
+            this.lblCountPinkMedal.Location = new System.Drawing.Point(690, 418);
             this.lblCountPinkMedal.Name = "lblCountPinkMedal";
-            this.lblCountPinkMedal.Size = new System.Drawing.Size(200, 54);
+            this.lblCountPinkMedal.Size = new System.Drawing.Size(250, 54);
             this.lblCountPinkMedal.TabIndex = 12;
             this.lblCountPinkMedal.Text = "0";
             // 
@@ -215,13 +223,15 @@
             this.picEliminatedMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picEliminatedMedalIcon.TabIndex = 13;
             this.picEliminatedMedalIcon.TabStop = false;
+            this.picEliminatedMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picEliminatedMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblCountEliminatedMedal
             // 
             this.lblCountEliminatedMedal.ForeColor = System.Drawing.Color.Teal;
-            this.lblCountEliminatedMedal.Location = new System.Drawing.Point(700, 487);
+            this.lblCountEliminatedMedal.Location = new System.Drawing.Point(690, 487);
             this.lblCountEliminatedMedal.Name = "lblCountEliminatedMedal";
-            this.lblCountEliminatedMedal.Size = new System.Drawing.Size(200, 54);
+            this.lblCountEliminatedMedal.Size = new System.Drawing.Size(250, 54);
             this.lblCountEliminatedMedal.TabIndex = 14;
             this.lblCountEliminatedMedal.Text = "0";
             // 
