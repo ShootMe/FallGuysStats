@@ -9394,6 +9394,7 @@ namespace FallGuysStats {
             return lang;
         }
         public static string GetWord(string keyword) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyword, out word);
@@ -9415,12 +9416,14 @@ namespace FallGuysStats {
             return word;
         }
         public static string GetWordWithLang(string keyword, string lang) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(lang, out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
         public static string GetRoundName(string keyword) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundDictionary);
             roundDictionary?.TryGetValue(keyword, out name);
@@ -9428,12 +9431,14 @@ namespace FallGuysStats {
             return name;
         }
         public static string GetShowName(string keyword) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualShowsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> showsDictionary);
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
         public static string GetCountryName(string keyword) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualCountryDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> countryDictionary);
             countryDictionary?.TryGetValue(keyword, out name);

@@ -536,8 +536,10 @@ namespace FallGuysStats {
                         showCompare = one.ShowID.CompareTo(two.ShowID);
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "ShowNameId":
-                        int showNameCompare = (string.IsNullOrEmpty(one.ShowNameId) ? @" " : Multilingual.GetShowName(one.ShowNameId)).CompareTo(string.IsNullOrEmpty(two.ShowNameId) ? @" " : Multilingual.GetShowName(two.ShowNameId));
-                        return showNameCompare != 0 ? showNameCompare : roundCompare;
+                        string showNameIdOne = Multilingual.GetShowName(one.ShowNameId) ?? @" ";
+                        string showNameIdTwo = Multilingual.GetShowName(two.ShowNameId) ?? @" ";
+                        int showNameIdCompare = showNameIdOne.CompareTo(showNameIdTwo);
+                        return showNameIdCompare != 0 ? showNameIdCompare : roundCompare;
                     case "Round":
                         roundCompare = one.Round.CompareTo(two.Round);
                         return roundCompare == 0 ? showCompare : roundCompare;
