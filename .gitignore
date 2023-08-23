@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# binary files
+FallGuysStats.zip
+FallGuysStatsManualUpdate.zip
+FallGuyStats.zip
+FallGuyStatsManualUpdate.zip
