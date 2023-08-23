@@ -385,10 +385,7 @@ namespace FallGuysStats {
             this.overlay.Hide();
             this.overlay.StartTimer();
             
-            if (!this.CurrentSettings.SystemTrayIcon && !this.CurrentSettings.Visible) {
-                this.CurrentSettings.Visible = true;
-            }
-            
+            this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
             
