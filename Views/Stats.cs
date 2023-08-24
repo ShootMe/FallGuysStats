@@ -1864,7 +1864,6 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
-                this.CurrentSettings.GroupingCreativeRoundLevels = true;
                 this.CurrentSettings.Version = 49;
                 this.SaveUserSettings();
             }
@@ -1890,6 +1889,23 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 50) {
                 this.CurrentSettings.EnableFallalyticsReporting = true;
                 this.CurrentSettings.Version = 51;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 51) {
+                this.AllStats.AddRange(this.RoundDetails.FindAll());
+                this.StatsDB.BeginTrans();
+                for (int i = this.AllStats.Count - 1; i >= 0; i--) {
+                    RoundInfo info = this.AllStats[i];
+                    if (!string.IsNullOrEmpty(info.Name) && info.Name.Equals("current_wle_fp4_10_08") && info.Start < new DateTime(2023, 8, 22)) {
+                        info.Name = "current_wle_fp4_10_08_m";
+                        info.ShowNameId = "current_wle_fp4_10_08_m";
+                        this.RoundDetails.Update(info);
+                    }
+                }
+                this.StatsDB.Commit();
+                this.AllStats.Clear();
+                this.CurrentSettings.Version = 52;
                 this.SaveUserSettings();
             }
         }
@@ -1966,7 +1982,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 51
+                Version = 52
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
