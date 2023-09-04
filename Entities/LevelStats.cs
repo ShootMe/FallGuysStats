@@ -331,9 +331,18 @@ namespace FallGuysStats {
             { "current_wle_fp3_09_0_05",           new LevelStats("current_wle_fp3_09_0_05", "Clocktower Climb", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_09_0_06",           new LevelStats("current_wle_fp3_09_0_06", "Savour Your Happiness", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_09_0_0_01",         new LevelStats("current_wle_fp3_09_0_0_01", "Pastel Paradise", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-                
+            
             { "current_wle_fp4_09_01",             new LevelStats("current_wle_fp4_09_01", "Crate Collector", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_09_02",             new LevelStats("current_wle_fp4_09_02", "Dribble Drills", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_03",             new LevelStats("current_wle_fp4_09_03", "Spinning Slide Dodge", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_04",             new LevelStats("current_wle_fp4_09_04", "Skyline Park", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_05",             new LevelStats("current_wle_fp4_09_05", "Birthday bonanza", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_06",             new LevelStats("current_wle_fp4_09_06", "The Chaotic Waterfall", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_0_01",           new LevelStats("current_wle_fp4_09_0_01", "ICY PEAKS", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_1_01",           new LevelStats("current_wle_fp4_09_1_01", "Push-Box Chaos", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_1_02",           new LevelStats("current_wle_fp4_09_1_02", "Haute voltige", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_2_01",           new LevelStats("current_wle_fp4_09_2_01", "DNA Test", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            
             { "current_wle_fp4_10_01",             new LevelStats("current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_10_02",             new LevelStats("current_wle_fp4_10_02", "Hot Blast", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_10_03",             new LevelStats("current_wle_fp4_10_03", "Box Fan Blitz", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
