@@ -872,7 +872,7 @@ namespace FallGuysStats {
                         this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
                                                                                             : $"{Multilingual.GetWord("overlay_duration")} :";
                     } else {
-                        if (("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) && level.TimeLimitSeconds > 0) {
+                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
                             this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
                         } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
                             this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
@@ -889,7 +889,7 @@ namespace FallGuysStats {
                                 this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                             }
                         } else {
-                            if (("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) && level.TimeLimitSeconds > 0) {
+                            if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
                                 this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
                             } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
                                 this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
@@ -905,7 +905,7 @@ namespace FallGuysStats {
                                 this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
                             }
                         } else {
-                            if (("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) && level.TimeLimitSeconds > 0) {
+                            if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
                                 this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
                             } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
                                 this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";

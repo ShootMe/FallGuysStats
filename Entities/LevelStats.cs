@@ -462,6 +462,7 @@ namespace FallGuysStats {
 
             { "round_invisibeans",                new LevelStats("round_invisibeans", "Sweet Thieves", LevelType.Invisibeans, false, false, 6, 180, 180, Properties.Resources.round_sweet_thieves_icon, Properties.Resources.round_sweet_thieves_big_icon) },
             { "round_pumpkin_pie",                new LevelStats("round_pumpkin_pie", "Treat Thieves", LevelType.Invisibeans, false, false, 8, 180, 180, Properties.Resources.round_treat_thieves_icon, Properties.Resources.round_treat_thieves_big_icon) },
+            
             { "round_blastball_arenasurvival_symphony_launch_show", new LevelStats("round_blastball_arenasurvival_symphony_launch_show", "Blast Ball", LevelType.Survival, false, true, 7, 270, 270, Properties.Resources.round_blast_ball_icon, Properties.Resources.round_blast_ball_big_icon) },
             { "round_fall_mountain_hub_complete", new LevelStats("round_fall_mountain_hub_complete", "Fall Mountain", LevelType.Race, false, true, 1, 300, 300, Properties.Resources.round_fall_mountain_icon, Properties.Resources.round_fall_mountain_big_icon) },
             { "round_floor_fall",                 new LevelStats("round_floor_fall", "Hex-A-Gone", LevelType.Survival, false, true, 1, 300, 300, Properties.Resources.round_hex_a_gone_icon, Properties.Resources.round_hex_a_gone_big_icon) },
