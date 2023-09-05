@@ -619,83 +619,95 @@ namespace FallGuysStats {
             }
         }
         private void SetPlayersLabel() {
-            int playersSwitchCount = this.switchCount;
-            if (!this.StatsForm.CurrentSettings.SwitchBetweenPlayers) {
-                playersSwitchCount = this.StatsForm.CurrentSettings.OnlyShowPing ? 1 : 0;
-            }
-            switch (playersSwitchCount % 2) {
-                case 0:
-                    this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
-                    if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayers.Image = Properties.Resources.player_icon;
-                        this.lblPlayers.Text = @"ㅤ   :";
-                        int psCount = this.lastRound.PlayersPs4 + this.lastRound.PlayersPs5;
-                        int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
-                        int swCount = this.lastRound.PlayersSw;
-                        int pcCount = this.lastRound.PlayersPc;
-                        this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount}");
-                        this.lblPlayersPs.Size = new Size((psCount > 9 ? 32 : 26), 16);
-                        this.lblPlayersPs.DrawVisible = true;
-                        this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount}");
-                        this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 32 : 26), 16);
-                        this.lblPlayersXbox.DrawVisible = true;
-                        this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount}");
-                        this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 32 : 26), 16);
-                        this.lblPlayersSwitch.DrawVisible = true;
-                        this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount}");
-                        this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
-                        this.lblPlayersPc.DrawVisible = true;
-                        this.lblCountryIcon.DrawVisible = false;
-                        this.lblPingIcon.DrawVisible = false;
-                    } else {
+            if (!Stats.IsPrePlaying) {
+                this.lblPlayers.Image = null;
+                this.lblPlayersPs.DrawVisible = false;
+                this.lblPlayersXbox.DrawVisible = false;
+                this.lblPlayersSwitch.DrawVisible = false;
+                this.lblPlayersPc.DrawVisible = false;
+                this.lblCountryIcon.DrawVisible = false;
+                this.lblPingIcon.DrawVisible = false;
+                this.lblPlayers.SecondProgress = DateTime.Now.Second;
+                this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
+                this.lblPlayers.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
+            } else {
+                this.lblPlayers.SecondProgress = 0;
+                int playersSwitchCount = this.switchCount;
+                if (!this.StatsForm.CurrentSettings.SwitchBetweenPlayers) {
+                    playersSwitchCount = this.StatsForm.CurrentSettings.OnlyShowPing ? 1 : 0;
+                }
+                switch (playersSwitchCount % 2) {
+                    case 0:
+                        this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
+                        if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
+                            this.lblPlayers.Image = Properties.Resources.player_icon;
+                            this.lblPlayers.Text = @"ㅤ   :";
+                            int psCount = this.lastRound.PlayersPs4 + this.lastRound.PlayersPs5;
+                            int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
+                            int swCount = this.lastRound.PlayersSw;
+                            int pcCount = this.lastRound.PlayersPc;
+                            this.lblPlayersPs.TextRight = (psCount == 0 ? "-" : $"{psCount}");
+                            this.lblPlayersPs.Size = new Size((psCount > 9 ? 32 : 26), 16);
+                            this.lblPlayersPs.DrawVisible = true;
+                            this.lblPlayersXbox.TextRight = (xbCount == 0 ? "-" : $"{xbCount}");
+                            this.lblPlayersXbox.Size = new Size((xbCount > 9 ? 32 : 26), 16);
+                            this.lblPlayersXbox.DrawVisible = true;
+                            this.lblPlayersSwitch.TextRight = (swCount == 0 ? "-" : $"{swCount}");
+                            this.lblPlayersSwitch.Size = new Size((swCount > 9 ? 32 : 26), 16);
+                            this.lblPlayersSwitch.DrawVisible = true;
+                            this.lblPlayersPc.TextRight = (pcCount == 0 ? "-" : $"{pcCount}");
+                            this.lblPlayersPc.Size = new Size((pcCount > 9 ? 32 : 26), 16);
+                            this.lblPlayersPc.DrawVisible = true;
+                            this.lblCountryIcon.DrawVisible = false;
+                            this.lblPingIcon.DrawVisible = false;
+                        } else {
+                            this.lblPlayers.Image = null;
+                            this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_players")} :";
+                            this.lblPlayersPs.DrawVisible = false;
+                            this.lblPlayersXbox.DrawVisible = false;
+                            this.lblPlayersSwitch.DrawVisible = false;
+                            this.lblPlayersPc.DrawVisible = false;
+                            this.lblCountryIcon.DrawVisible = false;
+                            this.lblPingIcon.DrawVisible = false;
+                        }
+                        break;
+                    case 1:
                         this.lblPlayers.Image = null;
-                        this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_players")} :";
                         this.lblPlayersPs.DrawVisible = false;
                         this.lblPlayersXbox.DrawVisible = false;
                         this.lblPlayersSwitch.DrawVisible = false;
                         this.lblPlayersPc.DrawVisible = false;
-                        this.lblCountryIcon.DrawVisible = false;
-                        this.lblPingIcon.DrawVisible = false;
-                    }
-                    break;
-                case 1:
-                    this.lblPlayers.Image = null;
-                    this.lblPlayersPs.DrawVisible = false;
-                    this.lblPlayersXbox.DrawVisible = false;
-                    this.lblPlayersSwitch.DrawVisible = false;
-                    this.lblPlayersPc.DrawVisible = false;
-                    
-                    this.lblCountryIcon.DrawVisible = true;
-                    this.lblPingIcon.DrawVisible = true;
-                    if (Stats.IsBadPing) {
-                        this.lblCountryIcon.ImageX = 49;
-                        this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-
-                        this.lblPingIcon.ImageX = 40;
-                        this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
-                    } else {
-                        this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
-                        this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
-                                                        ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
-                                                           Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30 :
-                                                           Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
-                                                           Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) : -12;
-                        
-                        this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
-                                                  (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
-                        this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -14 :
-                                                   (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
-                                                   (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
-                        
-                        if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
-                            this.lblCountryIcon.ImageX += 7;
-                            this.lblPingIcon.ImageX += 7;
+                        this.lblCountryIcon.DrawVisible = true;
+                        this.lblPingIcon.DrawVisible = true;
+                        if (Stats.IsBadPing) {
+                            this.lblCountryIcon.ImageX = 49;
+                            this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+                            this.lblPingIcon.ImageX = 40;
+                            this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
+                        } else {
+                            this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
+                            this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
+                                                            ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
+                                                               Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30 :
+                                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
+                                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) : -12;
+                            
+                            this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
+                                                      (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                            this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -14 :
+                                                       (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
+                                                       (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
+                            
+                            if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
+                                this.lblCountryIcon.ImageX += 7;
+                                this.lblPingIcon.ImageX += 7;
+                            }
                         }
-                    }
-                    
-                    this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                    this.lblPlayers.TextRight = (Stats.IsPrePlaying && Stats.LastServerPing > 0) ? $"{Stats.LastServerPing} ms" : "-";
-                    break;
+                        
+                        this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
+                        this.lblPlayers.TextRight = (Stats.IsPrePlaying && Stats.LastServerPing > 0) ? $"{Stats.LastServerPing} ms" : "-";
+                        break;
+                }
             }
         }
         private void SetStreakInfo(StatSummary levelInfo) {
