@@ -211,7 +211,7 @@ namespace FallGuysStats {
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        private readonly string IP2C_ORG_URL = "https://ip2c.org/";
+        private readonly string IP2C_ORG_URL = "http://ip2c.org/";
 
         private int profileIdWithLinkedCustomShow;
         public readonly string[] publicShowIdList = {
@@ -4811,70 +4811,79 @@ namespace FallGuysStats {
             this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
             this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
         }
-        public void CheckForNewVersion() {
+        public bool CheckForNewVersion() {
             using (ZipWebClient web = new ZipWebClient()) {
-                string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
-                int index = assemblyInfo.IndexOf("AssemblyVersion(");
-                if (index > 0) {
-                    int indexEnd = assemblyInfo.IndexOf("\")", index);
-                    Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
-                    Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
-                    if (newVersion > currentVersion) {
-                        this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                try {
+                    string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+                    int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                    if (index > 0) {
+                        int indexEnd = assemblyInfo.IndexOf("\")", index);
+                        Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                        Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                        if (newVersion > currentVersion) {
+                            this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                        }
                     }
+                } catch {
+                    return false;
                 }
             }
+            return true;
         }
 #endif
         private bool CheckForUpdate(bool isSilent) {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
-                string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
-                int index = assemblyInfo.IndexOf("AssemblyVersion(");
-                if (index > 0) {
-                    int indexEnd = assemblyInfo.IndexOf("\")", index);
-                    Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
-                    Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
-                    if (newVersion > currentVersion) {
-                        this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
-                        if (MetroMessageBox.Show(this,
-                                $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
-                                $"{Multilingual.GetWord("message_update_question_caption")}",
-                                MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                        {
-                            if (!isSilent) {
-                                if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
-                                    this.SaveWindowState();
+                try {
+                    string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+                    int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                    if (index > 0) {
+                        int indexEnd = assemblyInfo.IndexOf("\")", index);
+                        Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                        Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                        if (newVersion > currentVersion) {
+                            this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                            if (MetroMessageBox.Show(this,
+                                    $"{Multilingual.GetWord("message_update_question_prefix")} [ v{newVersion.ToString(2)} ] {Multilingual.GetWord("message_update_question_suffix")}",
+                                    $"{Multilingual.GetWord("message_update_question_caption")}",
+                                    MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                            {
+                                if (!isSilent) {
+                                    if (!this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
+                                        this.SaveWindowState();
+                                    }
                                 }
-                            }
-                            this.CurrentSettings.ShowChangelog = true;
-                            this.SaveUserSettings();
-                            this.Hide();
-                            this.overlay?.Hide();
-                            
-                            using (DownloadProgress progress = new DownloadProgress()) {
-                                this.StatsDB?.Dispose();
-                                progress.ZipWebClient = web;
-                                progress.DownloadUrl = this.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
-                                progress.FileName = "FallGuysStats.zip";
-                                progress.ShowDialog(this);
-                            }
+                                this.CurrentSettings.ShowChangelog = true;
+                                this.SaveUserSettings();
+                                this.Hide();
+                                this.overlay?.Hide();
+                                
+                                using (DownloadProgress progress = new DownloadProgress()) {
+                                    this.StatsDB?.Dispose();
+                                    progress.ZipWebClient = web;
+                                    progress.DownloadUrl = this.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
+                                    progress.FileName = "FallGuysStats.zip";
+                                    progress.ShowDialog(this);
+                                }
 
-                            this.isUpdate = true;
-                            return true;
+                                this.isUpdate = true;
+                                return true;
+                            }
+                        } else if (!isSilent) {
+                            MetroMessageBox.Show(this,
+                                $"{Multilingual.GetWord("message_update_latest_version")}" +
+                                $"{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
+                                $"{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
+                                $"{Multilingual.GetWord("message_update_question_caption")}",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     } else if (!isSilent) {
-                        MetroMessageBox.Show(this,
-                            $"{Multilingual.GetWord("message_update_latest_version")}" +
-                            $"{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}" +
-                            $"{Multilingual.GetWord("main_update_prefix_tooltip").Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip").Trim()}",
-                            $"{Multilingual.GetWord("message_update_question_caption")}",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}",
+                            $"{Multilingual.GetWord("message_update_error_caption")}",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                } else if (!isSilent) {
-                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_not_determine_version")}",
-                        $"{Multilingual.GetWord("message_update_error_caption")}",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } catch {
+                    return false;
                 }
             }
 #else
