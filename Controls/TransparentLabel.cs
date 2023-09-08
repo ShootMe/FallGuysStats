@@ -146,9 +146,9 @@ namespace FallGuysStats {
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                 case "lblPlayers":
-                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 62 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                    return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 52 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 52 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                           (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                 case "lblDuration":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
