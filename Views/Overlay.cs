@@ -619,7 +619,7 @@ namespace FallGuysStats {
             }
         }
         private void SetPlayersLabel() {
-            if (!Stats.IsPrePlaying) {
+            if (!Stats.IsPrePlaying && !this.StatsForm.CurrentSettings.HideRoundInfo) {
                 this.lblPlayers.Image = null;
                 this.lblPlayersPs.DrawVisible = false;
                 this.lblPlayersXbox.DrawVisible = false;
@@ -627,11 +627,13 @@ namespace FallGuysStats {
                 this.lblPlayersPc.DrawVisible = false;
                 this.lblCountryIcon.DrawVisible = false;
                 this.lblPingIcon.DrawVisible = false;
+                this.lblPlayers.SecondProgressLines = this.StatsForm.CurrentSettings.HideRoundInfo ? 0 : this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 2;
                 this.lblPlayers.SecondProgress = DateTime.Now.Second;
                 this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 //this.lblPlayers.Text = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                 this.lblPlayers.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
+                this.lblPlayers.SecondProgressLines = 0;
                 this.lblPlayers.SecondProgress = 0;
                 int playersSwitchCount = this.switchCount;
                 if (!this.StatsForm.CurrentSettings.SwitchBetweenPlayers) {
@@ -881,13 +883,10 @@ namespace FallGuysStats {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
                     }
 
-                    if (!Stats.IsPrePlaying) {
-                        this.lblDuration.SecondProgress = DateTime.Now.Second;
+                    if (!Stats.IsPrePlaying && !this.StatsForm.CurrentSettings.HideRoundInfo) {
                         this.lblDuration.Text = "";
                         this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                     } else {
-                        this.lblPlayers.SecondProgress = 0;
-                        
                         if (this.lastRound.UseShareCode) {
                             this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
                                                                                                 : $"{Multilingual.GetWord("overlay_duration")} :";
