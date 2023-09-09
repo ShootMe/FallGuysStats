@@ -629,6 +629,7 @@ namespace FallGuysStats {
                 this.lblPingIcon.DrawVisible = false;
                 this.lblPlayers.SecondProgress = DateTime.Now.Second;
                 this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
+                //this.lblPlayers.Text = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                 this.lblPlayers.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
                 this.lblPlayers.SecondProgress = 0;
@@ -880,53 +881,61 @@ namespace FallGuysStats {
                         this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
                     }
 
-                    if (this.lastRound.UseShareCode) {
-                        this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
-                                                                                            : $"{Multilingual.GetWord("overlay_duration")} :";
+                    if (!Stats.IsPrePlaying) {
+                        this.lblDuration.SecondProgress = DateTime.Now.Second;
+                        this.lblDuration.Text = "";
+                        this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                     } else {
-                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                            this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
-                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                            this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
-                        } else {
-                            this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
-                        }
-                    }
-                    
-                    if (end != DateTime.MinValue) {
+                        this.lblPlayers.SecondProgress = 0;
+                        
                         if (this.lastRound.UseShareCode) {
-                            if (this.lastRound.CreativeTimeLimitSeconds > 0) {
-                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                            } else {
-                                this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
-                            }
+                            this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
+                                                                                                : $"{Multilingual.GetWord("overlay_duration")} :";
                         } else {
                             if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
                             } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
+                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
                             } else {
-                                this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
                             }
                         }
-                    } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                        if (this.lastRound.UseShareCode) {
-                            if (this.lastRound.CreativeTimeLimitSeconds > 0) {
-                                this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                        
+                        if (end != DateTime.MinValue) {
+                            if (this.lastRound.UseShareCode) {
+                                if (this.lastRound.CreativeTimeLimitSeconds > 0) {
+                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                                } else {
+                                    this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                                }
                             } else {
-                                this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
+                                if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                                } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
+                                } else {
+                                    this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                                }
+                            }
+                        } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                            if (this.lastRound.UseShareCode) {
+                                if (this.lastRound.CreativeTimeLimitSeconds > 0) {
+                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                                } else {
+                                    this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
+                                }
+                            } else {
+                                if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                                    this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                                } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                                    this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                                } else {
+                                    this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
+                                }
                             }
                         } else {
-                            if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                                this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
-                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                                this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
-                            } else {
-                                this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
-                            }
+                            this.lblDuration.TextRight = "-";
                         }
-                    } else {
-                        this.lblDuration.TextRight = "-";
                     }
                 }
                 this.Invalidate();

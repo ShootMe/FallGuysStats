@@ -86,7 +86,7 @@ namespace FallGuysStats {
 
                         if (!string.IsNullOrEmpty(this.Text)) {
                             if (this.Name.Equals("lblPlayers")) {
-                                if (this.SecondProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 127)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 127)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.SecondProgress / 60f, this.ClientRectangle.Height, 4f);
+                                if (this.SecondProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 127)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 127)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.SecondProgress / 60f, this.ClientRectangle.Height * 2 - 1, 4f);
                             }
                             this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }
@@ -147,7 +147,7 @@ namespace FallGuysStats {
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                 case "lblPlayers":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                           (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 47 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                            (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                 case "lblDuration":
                     return (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
