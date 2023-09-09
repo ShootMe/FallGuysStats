@@ -87,7 +87,7 @@ namespace FallGuysStats {
 
                         if (!string.IsNullOrEmpty(this.Text)) {
                             if (this.Name.Equals("lblPlayers")) {
-                                if (this.SecondProgress > 0 && this.SecondProgressLines > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 127)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 127)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.SecondProgress / 60f, this.ClientRectangle.Height * this.SecondProgressLines, 4f);
+                                if (this.SecondProgress > 0 && this.SecondProgressLines > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.SecondProgress / 60f, this.ClientRectangle.Height * this.SecondProgressLines, 4f);
                             }
                             this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }
