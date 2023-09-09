@@ -64,6 +64,7 @@
             this.chkColorByRoundType = new MetroFramework.Controls.MetroCheckBox();
             this.chkAutoChangeProfile = new MetroFramework.Controls.MetroCheckBox();
             this.chkShadeTheFlagImage = new MetroFramework.Controls.MetroCheckBox();
+            this.chkDisplayCurrentTime = new MetroFramework.Controls.MetroCheckBox();
             this.lblCycleTimeSecondsTag = new MetroFramework.Controls.MetroLabel();
             this.lblCycleTimeSeconds = new MetroFramework.Controls.MetroLabel();
             this.txtCycleTimeSeconds = new MetroFramework.Controls.MetroTextBox();
@@ -215,7 +216,7 @@
             // 
             this.lblOverlayFont.AutoSize = true;
             this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblOverlayFont.Location = new System.Drawing.Point(21, 661);
+            this.lblOverlayFont.Location = new System.Drawing.Point(21, 690);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
             this.lblOverlayFont.TabIndex = 27;
@@ -224,7 +225,7 @@
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(169, 660);
+            this.btnSelectFont.Location = new System.Drawing.Point(169, 689);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -236,7 +237,7 @@
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 660);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 689);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -248,7 +249,7 @@
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 685);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 714);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
@@ -624,6 +625,18 @@
             this.chkShadeTheFlagImage.Text = "Shade the flag image";
             this.chkShadeTheFlagImage.UseSelectable = true;
             // 
+            // chkDisplayCurrentTime
+            // 
+            this.chkDisplayCurrentTime.AutoSize = true;
+            this.chkDisplayCurrentTime.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkDisplayCurrentTime.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkDisplayCurrentTime.Location = new System.Drawing.Point(21, 639);
+            this.chkDisplayCurrentTime.Name = "chkDisplayCurrentTime";
+            this.chkDisplayCurrentTime.Size = new System.Drawing.Size(255, 19);
+            this.chkDisplayCurrentTime.TabIndex = 28;
+            this.chkDisplayCurrentTime.Text = "Display the current time while waiting";
+            this.chkDisplayCurrentTime.UseSelectable = true;
+            // 
             // lblCycleTimeSecondsTag
             // 
             this.lblCycleTimeSecondsTag.AutoSize = true;
@@ -645,9 +658,6 @@
             this.lblCycleTimeSeconds.Text = "Cycle Time";
             // 
             // txtCycleTimeSeconds
-            // 
-            // 
-            // 
             // 
             this.txtCycleTimeSeconds.CustomButton.Image = null;
             this.txtCycleTimeSeconds.CustomButton.Location = new System.Drawing.Point(4, 1);
@@ -1209,6 +1219,7 @@
             this.panelOverlay.Controls.Add(this.btnResetOverlayFont);
             this.panelOverlay.Controls.Add(this.chkAutoChangeProfile);
             this.panelOverlay.Controls.Add(this.chkShadeTheFlagImage);
+            this.panelOverlay.Controls.Add(this.chkDisplayCurrentTime);
             this.panelOverlay.Controls.Add(this.chkColorByRoundType);
             this.panelOverlay.Controls.Add(this.chkPlayerByConsoleType);
             this.panelOverlay.Controls.Add(this.chkOverlayOnTop);
@@ -1675,6 +1686,7 @@
         private MetroFramework.Controls.MetroCheckBox chkColorByRoundType;
         private MetroFramework.Controls.MetroCheckBox chkAutoChangeProfile;
         private MetroFramework.Controls.MetroCheckBox chkShadeTheFlagImage;
+        private MetroFramework.Controls.MetroCheckBox chkDisplayCurrentTime;
         private MetroFramework.Controls.MetroComboBox cboFastestFilter;
         private MetroFramework.Controls.MetroLabel lblFastestFilter;
         private MetroFramework.Controls.MetroComboBox cboQualifyFilter;

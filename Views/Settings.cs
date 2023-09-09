@@ -89,6 +89,7 @@ namespace FallGuysStats {
             this.chkColorByRoundType.Checked = this.CurrentSettings.ColorByRoundType;
             this.chkAutoChangeProfile.Checked = this.CurrentSettings.AutoChangeProfile;
             this.chkShadeTheFlagImage.Checked = this.CurrentSettings.ShadeTheFlagImage;
+            this.chkDisplayCurrentTime.Checked = this.CurrentSettings.DisplayCurrentTime;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -403,6 +404,7 @@ namespace FallGuysStats {
             this.CurrentSettings.ColorByRoundType = this.chkColorByRoundType.Checked;
             this.CurrentSettings.AutoChangeProfile = this.chkAutoChangeProfile.Checked;
             this.CurrentSettings.ShadeTheFlagImage = this.chkShadeTheFlagImage.Checked;
+            this.CurrentSettings.DisplayCurrentTime = this.chkDisplayCurrentTime.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -857,6 +859,7 @@ namespace FallGuysStats {
             this.chkColorByRoundType.Text = Multilingual.GetWord("settings_color_round_name_based_on_round_type");
             this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.chkShadeTheFlagImage.Text = Multilingual.GetWord("settings_shade_the_flag_image");
+            this.chkDisplayCurrentTime.Text = Multilingual.GetWord("settings_diaplay_current_time");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");

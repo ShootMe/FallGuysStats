@@ -1908,6 +1908,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 52;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 52) {
+                this.CurrentSettings.DisplayCurrentTime = true;
+                this.CurrentSettings.Version = 53;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -1952,6 +1958,7 @@ namespace FallGuysStats {
                 ColorByRoundType = false,
                 AutoChangeProfile = false,
                 ShadeTheFlagImage = false,
+                DisplayCurrentTime = false,
                 PreviousWins = 0,
                 WinsFilter = 1,
                 QualifyFilter = 1,
@@ -1982,7 +1989,7 @@ namespace FallGuysStats {
                 WinPerDayGraphStyle = 0,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 52
+                Version = 53
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {

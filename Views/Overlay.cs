@@ -572,54 +572,83 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetQualifyChanceLabel(StatSummary levelInfo) {
-            int qualifySwitchCount = this.switchCount;
-            if (!this.StatsForm.CurrentSettings.SwitchBetweenQualify) {
-                qualifySwitchCount = this.StatsForm.CurrentSettings.OnlyShowGold ? 1 : 0;
-            }
-            float qualifyChance;
-            string qualifyChanceDisplay;
-            string qualifyDisplay;
-            switch (qualifySwitchCount % 2) {
-                case 0:
-                    this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_chance")} :";
-                    qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
-                    qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
-                    this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
-                    break;
-                case 1:
-                    this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_gold")} :";
-                    qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
-                    qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
-                    qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
-                    this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
-                    break;
+        private void SetFinalsLabel(StatSummary levelInfo, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 3) {
+                this.lblFinals.OverlaySetting = overlaySetting;
+                this.lblFinals.SecondProgress = DateTime.Now.Second;
+                this.lblFinals.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
+                this.lblFinals.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
+            } else {
+                this.lblFinals.SecondProgress = 0;
+                this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
+                string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 100000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
+                float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
+                this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
             }
         }
-        private void SetFastestLabel(StatSummary levelInfo, LevelType type) {
-            int fastestSwitchCount = this.switchCount;
-            if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
-                    : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
-            }
-            switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
-                case 0:
-                    this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
-                    this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
-                    break;
-                case 1:
-                    this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
-                    this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
-                    break;
-                case 2:
-                    this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
-                    this.lblFastest.TextRight = $"{levelInfo.BestScore}";
-                    break;
+        private void SetQualifyChanceLabel(StatSummary levelInfo, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 1 || overlaySetting == 5)) {
+                this.lblQualifyChance.OverlaySetting = overlaySetting;
+                this.lblQualifyChance.Text = "";
+                this.lblQualifyChance.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+            } else {
+                int qualifySwitchCount = this.switchCount;
+                if (!this.StatsForm.CurrentSettings.SwitchBetweenQualify) {
+                    qualifySwitchCount = this.StatsForm.CurrentSettings.OnlyShowGold ? 1 : 0;
+                }
+                float qualifyChance;
+                string qualifyChanceDisplay;
+                string qualifyDisplay;
+                switch (qualifySwitchCount % 2) {
+                    case 0:
+                        this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_chance")} :";
+                        qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
+                        qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                        this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
+                        break;
+                    case 1:
+                        this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_gold")} :";
+                        qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
+                        qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {qualifyChance:0.0}%";
+                        qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                        this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
+                        break;
+                }
             }
         }
-        private void SetPlayersLabel() {
-            if (!Stats.IsPrePlaying && !this.StatsForm.CurrentSettings.HideRoundInfo) {
+        private void SetFastestLabel(StatSummary levelInfo, LevelType type, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 2)) {
+                this.lblFastest.OverlaySetting = overlaySetting;
+                this.lblFastest.SecondProgress = DateTime.Now.Second;
+                this.lblFastest.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
+                this.lblFastest.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
+            } else {
+                this.lblFastest.SecondProgress = 0;
+                int fastestSwitchCount = this.switchCount;
+                if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
+                    fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
+                        : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
+                }
+                switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
+                    case 0:
+                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
+                        this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                        break;
+                    case 1:
+                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
+                        this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
+                        break;
+                    case 2:
+                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
+                        this.lblFastest.TextRight = $"{levelInfo.BestScore}";
+                        break;
+                }
+            }
+        }
+        private void SetPlayersLabel(int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 0 || overlaySetting == 1 || overlaySetting == 4 || overlaySetting == 5)) {
                 this.lblPlayers.Image = null;
                 this.lblPlayersPs.DrawVisible = false;
                 this.lblPlayersXbox.DrawVisible = false;
@@ -627,13 +656,11 @@ namespace FallGuysStats {
                 this.lblPlayersPc.DrawVisible = false;
                 this.lblCountryIcon.DrawVisible = false;
                 this.lblPingIcon.DrawVisible = false;
-                this.lblPlayers.SecondProgressLines = this.StatsForm.CurrentSettings.HideRoundInfo ? 0 : this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 2;
+                this.lblPlayers.OverlaySetting = overlaySetting;
                 this.lblPlayers.SecondProgress = DateTime.Now.Second;
                 this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
-                //this.lblPlayers.Text = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                 this.lblPlayers.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                this.lblPlayers.SecondProgressLines = 0;
                 this.lblPlayers.SecondProgress = 0;
                 int playersSwitchCount = this.switchCount;
                 if (!this.StatsForm.CurrentSettings.SwitchBetweenPlayers) {
@@ -713,20 +740,141 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetStreakInfo(StatSummary levelInfo) {
-            int streakSwitchCount = this.switchCount;
-            if (!this.StatsForm.CurrentSettings.SwitchBetweenStreaks) {
-                streakSwitchCount = this.StatsForm.CurrentSettings.OnlyShowFinalStreak ? 1 : 0;
+        private void SetStreakLabel(StatSummary levelInfo, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 3)) {
+                this.lblStreak.OverlaySetting = overlaySetting;
+                this.lblStreak.Text = "";
+                this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+            } else {
+                int streakSwitchCount = this.switchCount;
+                if (!this.StatsForm.CurrentSettings.SwitchBetweenStreaks) {
+                    streakSwitchCount = this.StatsForm.CurrentSettings.OnlyShowFinalStreak ? 1 : 0;
+                }
+                switch (streakSwitchCount % 2) {
+                    case 0:
+                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
+                        this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{Multilingual.GetWord("overlay_streak_suffix")})";
+                        break;
+                    case 1:
+                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
+                        this.lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak}{Multilingual.GetWord("overlay_inning")})";
+                        break;
+                }
             }
-            switch (streakSwitchCount % 2) {
-                case 0:
-                    this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
-                    this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{Multilingual.GetWord("overlay_streak_suffix")})";
-                    break;
-                case 1:
-                    this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
-                    this.lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak}{Multilingual.GetWord("overlay_inning")})";
-                    break;
+        }
+        private void SetDurationLabel(LevelStats level, LevelType levelType, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
+                this.lblDuration.OverlaySetting = overlaySetting;
+                this.lblDuration.SecondProgress = 0;
+                this.lblDuration.Text = "";
+                this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+            } else if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 6) {
+                this.lblDuration.OverlaySetting = overlaySetting;
+                this.lblDuration.SecondProgress = DateTime.Now.Second;
+                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
+                this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
+            } else {
+                this.lblDuration.SecondProgress = 0;
+                if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
+                    this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
+                }
+                DateTime start = this.lastRound.Start;
+                DateTime end = this.lastRound.End;
+                if (this.lastRound.UseShareCode) {
+                    this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
+                                                                                        : $"{Multilingual.GetWord("overlay_duration")} :";
+                } else {
+                    if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
+                    } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
+                    } else {
+                        this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
+                    }
+                }
+                
+                if (end != DateTime.MinValue) {
+                    if (this.lastRound.UseShareCode) {
+                        if (this.lastRound.CreativeTimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                        } else {
+                            this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                        }
+                    } else {
+                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
+                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
+                        } else {
+                            this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
+                        }
+                    }
+                } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                    if (this.lastRound.UseShareCode) {
+                        if (this.lastRound.CreativeTimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                        } else {
+                            this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
+                        }
+                    } else {
+                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
+                        } else {
+                            this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
+                        }
+                    }
+                } else {
+                    this.lblDuration.TextRight = "-";
+                }
+            }
+        }
+        private void SetFinishLabel(StatSummary levelInfo, LevelType levelType, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 6) {
+                this.lblFinish.OverlaySetting = overlaySetting;
+                this.lblFinish.Text = "";
+                this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+            } else {
+                this.lblFinish.Text = Stats.IsQueued ? $"{Multilingual.GetWord("overlay_queued_players")} :" : $"{Multilingual.GetWord("overlay_finish")} :";
+                if (Stats.IsQueued) {
+                    this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
+                    this.lblFinish.ForeColor = this.ForeColor;
+                } else {
+                    DateTime start = this.lastRound.Start;
+                    DateTime? finish = this.lastRound.Finish;
+                    if (finish.HasValue) {
+                        TimeSpan time = finish.GetValueOrDefault(start) - start;
+                        if (this.lastRound.Crown) {
+                            this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
+                        } else {
+                            if (levelType == LevelType.Survival) {
+                                this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
+                            } else if (levelType == LevelType.Logic || levelType == LevelType.Hunt || levelType == LevelType.Team || levelType == LevelType.Invisibeans) {
+                                this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
+                            } else {
+                                this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
+                            }
+                        }
+
+                        if (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
+                            if (time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                                this.lblFinish.ForeColor = Color.LightGreen;
+                            } else if (time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                                this.lblFinish.ForeColor = Color.Gold;
+                            }
+                        } else if (time > levelInfo.LongestFinish && time < levelInfo.LongestFinishOverall) {
+                            this.lblFinish.ForeColor = Color.LightGreen;
+                        } else if (time > levelInfo.LongestFinishOverall) {
+                            this.lblFinish.ForeColor = Color.Gold;
+                        }
+                    } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                        this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                    } else {
+                        this.lblFinish.TextRight = "-";
+                        this.lblFinish.ForeColor = this.ForeColor;
+                    }
+                }
             }
         }
         private void UpdateInfo() {
@@ -747,6 +895,7 @@ namespace FallGuysStats {
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
+                    int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
                     string roundName = this.lastRound.VerifiedName();
                     this.levelException = 0;
                     if (roundName == "round_pixelperfect_almond" || roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
@@ -816,23 +965,15 @@ namespace FallGuysStats {
                                                  : $"{levelInfo.TotalWins}{winChanceDisplay}";
                     }
 
-                    this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
-                    string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 100000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
-                    float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : finalText.Length > 9 ? $" - {finalChance:0}%" : $" - {finalChance:0.0}%";
-                    this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
-
-                    this.SetQualifyChanceLabel(levelInfo);
-                    this.SetFastestLabel(levelInfo, levelType);
-                    this.SetPlayersLabel();
-                    this.SetStreakInfo(levelInfo);
+                    this.SetFinalsLabel(levelInfo, overlaySetting);
+                    this.SetQualifyChanceLabel(levelInfo, overlaySetting);
+                    this.SetPlayersLabel(overlaySetting);
+                    this.SetFastestLabel(levelInfo, levelType, overlaySetting);
+                    this.SetStreakLabel(levelInfo, overlaySetting);
+                    
                     if (this.isTimeToSwitch) {
                         this.switchCount++;
                     }
-
-                    DateTime start = this.lastRound.Start;
-                    DateTime end = this.lastRound.End;
-                    DateTime? finish = this.lastRound.Finish;
 
                     if (this.lastRound.Playing != this.startedPlaying) {
                         if (this.lastRound.Playing) {
@@ -841,101 +982,8 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.lblFinish.Text = Stats.IsQueued ? $"{Multilingual.GetWord("overlay_queued_players")} :" : $"{Multilingual.GetWord("overlay_finish")} :";
-                    if (Stats.IsQueued) {
-                        this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
-                        this.lblFinish.ForeColor = this.ForeColor;
-                    } else {
-                        if (finish.HasValue) {
-                            TimeSpan time = finish.GetValueOrDefault(start) - start;
-                            if (this.lastRound.Crown) {
-                                this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
-                            } else {
-                                if (levelType == LevelType.Survival) {
-                                    this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
-                                } else if (levelType == LevelType.Logic || levelType == LevelType.Hunt || levelType == LevelType.Team || levelType == LevelType.Invisibeans) {
-                                    this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
-                                } else {
-                                    this.lblFinish.TextRight = this.lastRound.Position > 0 ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
-                                }
-                            }
-
-                            if (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
-                                if (time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
-                                    this.lblFinish.ForeColor = Color.LightGreen;
-                                } else if (time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
-                                    this.lblFinish.ForeColor = Color.Gold;
-                                }
-                            } else if (time > levelInfo.LongestFinish && time < levelInfo.LongestFinishOverall) {
-                                this.lblFinish.ForeColor = Color.LightGreen;
-                            } else if (time > levelInfo.LongestFinishOverall) {
-                                this.lblFinish.ForeColor = Color.Gold;
-                            }
-                        } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                            this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
-                        } else {
-                            this.lblFinish.TextRight = "-";
-                            this.lblFinish.ForeColor = this.ForeColor;
-                        }
-                    }
-
-                    if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
-                        this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
-                    }
-
-                    if (!Stats.IsPrePlaying && !this.StatsForm.CurrentSettings.HideRoundInfo) {
-                        this.lblDuration.Text = "";
-                        this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
-                    } else {
-                        if (this.lastRound.UseShareCode) {
-                            this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
-                                                                                                : $"{Multilingual.GetWord("overlay_duration")} :";
-                        } else {
-                            if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSeconds):m\\:ss}) :";
-                            } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad):m\\:ss}) :";
-                            } else {
-                                this.lblDuration.Text = $"{Multilingual.GetWord("overlay_duration")} :";
-                            }
-                        }
-                        
-                        if (end != DateTime.MinValue) {
-                            if (this.lastRound.UseShareCode) {
-                                if (this.lastRound.CreativeTimeLimitSeconds > 0) {
-                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                                } else {
-                                    this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
-                                }
-                            } else {
-                                if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                                } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
-                                } else {
-                                    this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
-                                }
-                            }
-                        } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                            if (this.lastRound.UseShareCode) {
-                                if (this.lastRound.CreativeTimeLimitSeconds > 0) {
-                                    this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
-                                } else {
-                                    this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
-                                }
-                            } else {
-                                if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                                    this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
-                                } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                                    this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start)):m\\:ss}";
-                                } else {
-                                    this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? startTime : start):m\\:ss}";
-                                }
-                            }
-                        } else {
-                            this.lblDuration.TextRight = "-";
-                        }
-                    }
+                    this.SetFinishLabel(levelInfo, levelType, overlaySetting);
+                    this.SetDurationLabel(level, levelType, overlaySetting);
                 }
                 this.Invalidate();
             }
