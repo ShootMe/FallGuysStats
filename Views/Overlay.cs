@@ -835,6 +835,7 @@ namespace FallGuysStats {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
                 this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+                this.lblFinish.ForeColor = this.ForeColor;
             } else {
                 this.lblFinish.Text = Stats.IsQueued ? $"{Multilingual.GetWord("overlay_queued_players")} :" : $"{Multilingual.GetWord("overlay_finish")} :";
                 if (Stats.IsQueued) {
