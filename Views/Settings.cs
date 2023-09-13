@@ -560,6 +560,11 @@ namespace FallGuysStats {
             try {
                 using (OpenFileDialog openFile = new OpenFileDialog()) {
                     if (this.LaunchPlatform == 0) { // Epic Games
+                        if (string.IsNullOrEmpty(this.StatsForm.FindEpicGamesShortcutLocation())) {
+                            MetroMessageBox.Show(this, Multilingual.GetWordWithLang("message_not_installed_epicGames", this.DisplayLang), Multilingual.GetWordWithLang("message_not_installed_epicGames_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        
                         openFile.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
                         openFile.Filter = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_filter", this.DisplayLang);
                         openFile.FileName = Multilingual.GetWordWithLang("settings_fall_guys_shortcut_openfile_name", this.DisplayLang);
@@ -590,10 +595,11 @@ namespace FallGuysStats {
                             }
                         }
                     } else { // Steam
-                        if (string.IsNullOrEmpty(this.txtGameExeLocation.Text)) {
+                        if (string.IsNullOrEmpty(this.StatsForm.FindSteamExeLocation())) {
                             MetroMessageBox.Show(this, Multilingual.GetWordWithLang("message_not_installed_steam", this.DisplayLang), Multilingual.GetWordWithLang("message_not_installed_steam_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
+                        
                         FileInfo currentExeLocation = new FileInfo(this.txtGameExeLocation.Text);
                         if (currentExeLocation.Directory.Exists) {
                             openFile.InitialDirectory = currentExeLocation.Directory.FullName;
