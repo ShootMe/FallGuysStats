@@ -100,6 +100,17 @@ namespace FallGuysStats {
                 return true;
             }
         }
+        public static bool IsClientRunning() {
+            try {
+                Process[] processes = Process.GetProcessesByName("FallGuys_client_game");
+                if (processes.Length > 0) {
+                    return true;
+                }
+                return false;
+            } catch {
+                return false;
+            }
+        }
         private static string LOGNAME = "Player.log";
         public static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),

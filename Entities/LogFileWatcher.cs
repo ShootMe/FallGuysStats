@@ -503,30 +503,42 @@ namespace FallGuysStats {
                             int timeout = 1000;
                             try {
                                 Task.Run(() => {
-                                    this.pingReply = pingSender.Send(ip, timeout, bufferArray);
-                                    if (this.pingReply.Status == IPStatus.Success) {
-                                        Stats.LastServerPing = this.pingReply.RoundtripTime;
-                                        Stats.IsBadPing = false;
+                                    if (Stats.IsClientRunning()) {
+                                        this.pingReply = pingSender.Send(ip, timeout, bufferArray);
+                                        if (this.pingReply.Status == IPStatus.Success) {
+                                            Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                            Stats.IsBadPing = false;
+                                        } else {
+                                            Stats.LastServerPing = this.pingReply.RoundtripTime;
+                                            Stats.IsBadPing = true;
+                                        }
                                     } else {
-                                        Stats.LastServerPing = this.pingReply.RoundtripTime;
-                                        Stats.IsBadPing = true;
+                                        Stats.LastServerPing = 0;
+                                        Stats.IsBadPing = false;
                                     }
                                 });
 
                                 if (!this.toggleRequestIp2cApi) {
                                     this.toggleRequestIp2cApi = true;
                                     Task.Run(() => {
-                                        try {
-                                            string[] countryArr = this.StatsForm.GetCountryCode(ip);
-                                            Stats.LastCountryAlpha2Code = countryArr[0].ToLower();
-                                            Stats.LastCountryAlpha3Code = countryArr[1];
-                                            Stats.LastCountryDefaultName = countryArr[2];
-                                            if (this.StatsForm.CurrentSettings.NotifyServerConnected && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
-                                                this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                                    System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                        if (Stats.IsClientRunning()) {
+                                            try {
+                                                string[] countryArr = this.StatsForm.GetCountryCode(ip);
+                                                Stats.LastCountryAlpha2Code = countryArr[0].ToLower();
+                                                Stats.LastCountryAlpha3Code = countryArr[1];
+                                                Stats.LastCountryDefaultName = countryArr[2];
+                                                if (this.StatsForm.CurrentSettings.NotifyServerConnected && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
+                                                    this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                        System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                                }
+                                            } catch {
+                                                this.toggleRequestIp2cApi = false;
+                                                Stats.LastCountryAlpha2Code = string.Empty;
+                                                Stats.LastCountryAlpha3Code = string.Empty;
+                                                Stats.LastCountryDefaultName = string.Empty;
                                             }
-                                        } catch {
+                                        } else {
                                             this.toggleRequestIp2cApi = false;
                                             Stats.LastCountryAlpha2Code = string.Empty;
                                             Stats.LastCountryAlpha3Code = string.Empty;
