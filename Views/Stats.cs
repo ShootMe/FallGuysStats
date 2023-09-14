@@ -3627,7 +3627,7 @@ namespace FallGuysStats {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
             SortOrder sortOrder = isInitialize ? SortOrder.None : this.gridDetails.GetSortOrder(columnName);
 
-            this.StatDetails.Sort(delegate (LevelStats one, LevelStats two) {
+            this.StatDetails.Sort((one, two) => {
                 LevelType oneType = one.IsFinal ? LevelType.Final : one.Type;
                 LevelType twoType = two.IsFinal ? LevelType.Final : two.Type;
 
@@ -3639,20 +3639,20 @@ namespace FallGuysStats {
                     (one, two) = (two, one);
                 }
 
-                int nameCompare = one.Name.CompareTo(two.Name);
+                int nameCompare = $"{(one.IsCreative ? "#" : "")}{one.Name}".CompareTo($"{(two.IsCreative ? "#" : "")}{two.Name}");
                 bool percents = this.CurrentSettings.ShowPercentages;
                 if (typeCompare == 0 && sortOrder != SortOrder.None) {
                     switch (columnName) {
+                        case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
+                        case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Gold": typeCompare = ((double)one.Gold / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Gold / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Silver": typeCompare = ((double)one.Silver / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Silver / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Bronze": typeCompare = ((double)one.Bronze / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Bronze / (two.Played > 0 && percents ? two.Played : 1)); break;
-                        case "Played": typeCompare = one.Played.CompareTo(two.Played); break;
-                        case "Qualified": typeCompare = ((double)one.Qualified / (one.Played > 0 && percents ? one.Played : 1)).CompareTo((double)two.Qualified / (two.Played > 0 && percents ? two.Played : 1)); break;
                         case "Kudos": typeCompare = one.Kudos.CompareTo(two.Kudos); break;
-                        case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
-                        case "AveFinish": typeCompare = one.AveFinish.CompareTo(two.AveFinish); break;
                         case "Fastest": typeCompare = one.Fastest.CompareTo(two.Fastest); break;
                         case "Longest": typeCompare = one.Longest.CompareTo(two.Longest); break;
+                        case "AveFinish": typeCompare = one.AveFinish.CompareTo(two.AveFinish); break;
+                        case "AveKudos": typeCompare = one.AveKudos.CompareTo(two.AveKudos); break;
                         default: typeCompare = nameCompare; break;
                     }
                 }
