@@ -433,8 +433,10 @@ namespace FallGuysStats {
 
                 if (this.CurrentSettings.ShowOverlayTabs) {
                     this.CurrentSettings.OverlayHeight = 134;
+                    this.CurrentSettings.OverlayFixedHeight = 134;
                 } else {
                     this.CurrentSettings.OverlayHeight = 99;
+                    this.CurrentSettings.OverlayFixedHeight = 99;
                 }
             }
             
