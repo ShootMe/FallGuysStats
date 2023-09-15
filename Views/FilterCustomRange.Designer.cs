@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FilterCustomRange));
             this.mdtpStart = new MetroFramework.Controls.MetroDateTime();
             this.lblTilde = new MetroFramework.Controls.MetroLabel();
             this.mdtpEnd = new MetroFramework.Controls.MetroDateTime();
@@ -89,7 +90,7 @@
             this.lbTemplatesList.ItemHeight = 12;
             this.lbTemplatesList.Location = new System.Drawing.Point(3, 16);
             this.lbTemplatesList.Name = "lbTemplatesList";
-            this.lbTemplatesList.Size = new System.Drawing.Size(508, 221);
+            this.lbTemplatesList.Size = new System.Drawing.Size(508, 218);
             this.lbTemplatesList.TabIndex = 3;
             this.lbTemplatesList.SelectedValueChanged += new System.EventHandler(this.lbTemplatesList_SelectedValueChanged);
             // 
@@ -115,6 +116,9 @@
             this.btnSaveTemplate.Visible = false;
             // 
             // txtTemplateName
+            // 
+            // 
+            // 
             // 
             this.txtTemplateName.CustomButton.Image = null;
             this.txtTemplateName.CustomButton.Location = new System.Drawing.Point(138, 1);
@@ -190,6 +194,7 @@
             this.Controls.Add(this.mdtpEnd);
             this.Controls.Add(this.lblTilde);
             this.Controls.Add(this.mdtpStart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -197,7 +202,6 @@
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 20);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Custom Range";
             this.Load += new System.EventHandler(this.FilterCustomRange_Load);

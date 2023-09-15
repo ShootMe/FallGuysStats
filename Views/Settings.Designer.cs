@@ -155,7 +155,7 @@
             this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPath.Location = new System.Drawing.Point(8, 12);
             this.lblLogPath.Name = "lblLogPath";
-            this.lblLogPath.Size = new System.Drawing.Size(84, 19);
+            this.lblLogPath.Size = new System.Drawing.Size(88, 19);
             this.lblLogPath.TabIndex = 0;
             this.lblLogPath.Text = "Log File Path";
             // 
@@ -167,13 +167,16 @@
             this.lblLogPathNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblLogPathNote.Location = new System.Drawing.Point(8, 37);
             this.lblLogPathNote.Name = "lblLogPathNote";
-            this.lblLogPathNote.Size = new System.Drawing.Size(486, 15);
+            this.lblLogPathNote.Size = new System.Drawing.Size(515, 15);
             this.lblLogPathNote.TabIndex = 2;
-            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the correct location.";
+            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the c" + "orrect location.";
             // 
             // txtLogPath
             // 
             this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            // 
+            // 
+            // 
             this.txtLogPath.CustomButton.Image = null;
             this.txtLogPath.CustomButton.Location = new System.Drawing.Point(520, 2);
             this.txtLogPath.CustomButton.Name = "";
@@ -218,7 +221,7 @@
             this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayFont.Location = new System.Drawing.Point(21, 690);
             this.lblOverlayFont.Name = "lblOverlayFont";
-            this.lblOverlayFont.Size = new System.Drawing.Size(133, 19);
+            this.lblOverlayFont.Size = new System.Drawing.Size(140, 19);
             this.lblOverlayFont.TabIndex = 27;
             this.lblOverlayFont.Text = "Custom Overlay Font";
             // 
@@ -401,7 +404,7 @@
             this.lblOverlayBackground.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayBackground.Location = new System.Drawing.Point(15, 353);
             this.lblOverlayBackground.Name = "lblOverlayBackground";
-            this.lblOverlayBackground.Size = new System.Drawing.Size(120, 19);
+            this.lblOverlayBackground.Size = new System.Drawing.Size(124, 19);
             this.lblOverlayBackground.TabIndex = 18;
             this.lblOverlayBackground.Text = "Background Image";
             // 
@@ -423,7 +426,7 @@
             this.lblOverlayColor.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayColor.Location = new System.Drawing.Point(15, 388);
             this.lblOverlayColor.Name = "lblOverlayColor";
-            this.lblOverlayColor.Size = new System.Drawing.Size(79, 19);
+            this.lblOverlayColor.Size = new System.Drawing.Size(82, 19);
             this.lblOverlayColor.TabIndex = 20;
             this.lblOverlayColor.Text = "Background";
             // 
@@ -433,7 +436,7 @@
             this.lblOverlayOpacity.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblOverlayOpacity.Location = new System.Drawing.Point(15, 423);
             this.lblOverlayOpacity.Name = "lblOverlayOpacity";
-            this.lblOverlayOpacity.Size = new System.Drawing.Size(128, 19);
+            this.lblOverlayOpacity.Size = new System.Drawing.Size(133, 19);
             this.lblOverlayOpacity.TabIndex = 22;
             this.lblOverlayOpacity.Text = "Background Opacity";
             // 
@@ -447,9 +450,9 @@
             this.trkOverlayOpacity.Size = new System.Drawing.Size(310, 29);
             this.trkOverlayOpacity.TabIndex = 23;
             this.trkOverlayOpacity.Value = 100;
+            this.trkOverlayOpacity.ValueChanged += new System.EventHandler(this.trkOverlayOpacity_ValueChanged);
             this.trkOverlayOpacity.MouseEnter += new System.EventHandler(this.trkOverlayOpacity_MouseEnter);
             this.trkOverlayOpacity.MouseLeave += new System.EventHandler(this.trkOverlayOpacity_MouseLeave);
-            this.trkOverlayOpacity.ValueChanged += new System.EventHandler(this.trkOverlayOpacity_ValueChanged);
             // 
             // chkFlipped
             // 
@@ -517,7 +520,7 @@
             this.lblFastestFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblFastestFilter.Location = new System.Drawing.Point(393, 133);
             this.lblFastestFilter.Name = "lblFastestFilter";
-            this.lblFastestFilter.Size = new System.Drawing.Size(138, 19);
+            this.lblFastestFilter.Size = new System.Drawing.Size(148, 19);
             this.lblFastestFilter.TabIndex = 16;
             this.lblFastestFilter.Text = "Fastest / Longest Filter";
             // 
@@ -539,7 +542,7 @@
             this.lblQualifyFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblQualifyFilter.Location = new System.Drawing.Point(393, 74);
             this.lblQualifyFilter.Name = "lblQualifyFilter";
-            this.lblQualifyFilter.Size = new System.Drawing.Size(124, 19);
+            this.lblQualifyFilter.Size = new System.Drawing.Size(128, 19);
             this.lblQualifyFilter.TabIndex = 14;
             this.lblQualifyFilter.Text = "Qualify / Gold Filter";
             // 
@@ -561,7 +564,7 @@
             this.lblWinsFilter.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblWinsFilter.Location = new System.Drawing.Point(393, 14);
             this.lblWinsFilter.Name = "lblWinsFilter";
-            this.lblWinsFilter.Size = new System.Drawing.Size(114, 19);
+            this.lblWinsFilter.Size = new System.Drawing.Size(118, 19);
             this.lblWinsFilter.TabIndex = 12;
             this.lblWinsFilter.Text = "Wins / Final Filter ";
             // 
@@ -620,7 +623,7 @@
             this.chkShadeTheFlagImage.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkShadeTheFlagImage.Location = new System.Drawing.Point(21, 610);
             this.chkShadeTheFlagImage.Name = "chkShadeTheFlagImage";
-            this.chkShadeTheFlagImage.Size = new System.Drawing.Size(255, 19);
+            this.chkShadeTheFlagImage.Size = new System.Drawing.Size(153, 19);
             this.chkShadeTheFlagImage.TabIndex = 27;
             this.chkShadeTheFlagImage.Text = "Shade the flag image";
             this.chkShadeTheFlagImage.UseSelectable = true;
@@ -653,11 +656,14 @@
             this.lblCycleTimeSeconds.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblCycleTimeSeconds.Location = new System.Drawing.Point(21, 170);
             this.lblCycleTimeSeconds.Name = "lblCycleTimeSeconds";
-            this.lblCycleTimeSeconds.Size = new System.Drawing.Size(73, 19);
+            this.lblCycleTimeSeconds.Size = new System.Drawing.Size(74, 19);
             this.lblCycleTimeSeconds.TabIndex = 5;
             this.lblCycleTimeSeconds.Text = "Cycle Time";
             // 
             // txtCycleTimeSeconds
+            // 
+            // 
+            // 
             // 
             this.txtCycleTimeSeconds.CustomButton.Image = null;
             this.txtCycleTimeSeconds.CustomButton.Location = new System.Drawing.Point(4, 1);
@@ -861,7 +867,7 @@
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblTheme.Location = new System.Drawing.Point(8, 205);
             this.lblTheme.Name = "lblTheme";
-            this.lblTheme.Size = new System.Drawing.Size(49, 19);
+            this.lblTheme.Size = new System.Drawing.Size(50, 19);
             this.lblTheme.TabIndex = 5;
             this.lblTheme.Text = "Theme";
             // 
@@ -910,7 +916,7 @@
             this.chkSystemTrayIcon.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkSystemTrayIcon.Location = new System.Drawing.Point(8, 120);
             this.chkSystemTrayIcon.Name = "chkSystemTrayIcon";
-            this.chkSystemTrayIcon.Size = new System.Drawing.Size(161, 19);
+            this.chkSystemTrayIcon.Size = new System.Drawing.Size(176, 19);
             this.chkSystemTrayIcon.TabIndex = 5;
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
             this.chkSystemTrayIcon.UseSelectable = true;
@@ -922,7 +928,7 @@
             this.chkNotifyServerConnected.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkNotifyServerConnected.Location = new System.Drawing.Point(8, 150);
             this.chkNotifyServerConnected.Name = "chkNotifyServerConnected";
-            this.chkNotifyServerConnected.Size = new System.Drawing.Size(161, 19);
+            this.chkNotifyServerConnected.Size = new System.Drawing.Size(420, 19);
             this.chkNotifyServerConnected.TabIndex = 5;
             this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
             this.chkNotifyServerConnected.UseSelectable = true;
@@ -934,7 +940,7 @@
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(8, 310);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
-            this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(287, 19);
+            this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
             this.chkPreventOverlayMouseClicks.Text = "Prevent overlay mouse clicks";
             this.chkPreventOverlayMouseClicks.UseSelectable = true;
@@ -946,7 +952,7 @@
             this.lblPreviousWinsNote.ForeColor = System.Drawing.Color.DimGray;
             this.lblPreviousWinsNote.Location = new System.Drawing.Point(145, 12);
             this.lblPreviousWinsNote.Name = "lblPreviousWinsNote";
-            this.lblPreviousWinsNote.Size = new System.Drawing.Size(134, 19);
+            this.lblPreviousWinsNote.Size = new System.Drawing.Size(139, 19);
             this.lblPreviousWinsNote.TabIndex = 2;
             this.lblPreviousWinsNote.Text = "(before using tracker)";
             // 
@@ -956,11 +962,14 @@
             this.lblPreviousWins.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblPreviousWins.Location = new System.Drawing.Point(8, 12);
             this.lblPreviousWins.Name = "lblPreviousWins";
-            this.lblPreviousWins.Size = new System.Drawing.Size(98, 19);
+            this.lblPreviousWins.Size = new System.Drawing.Size(103, 19);
             this.lblPreviousWins.TabIndex = 0;
             this.lblPreviousWins.Text = "Previous Win(s)";
             // 
             // txtPreviousWins
+            // 
+            // 
+            // 
             // 
             this.txtPreviousWins.CustomButton.Image = null;
             this.txtPreviousWins.CustomButton.Location = new System.Drawing.Point(20, 1);
@@ -997,11 +1006,14 @@
             this.lblGameExeLocation.Location = new System.Drawing.Point(107, 20);
             this.lblGameExeLocation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblGameExeLocation.Name = "lblGameExeLocation";
-            this.lblGameExeLocation.Size = new System.Drawing.Size(150, 19);
+            this.lblGameExeLocation.Size = new System.Drawing.Size(157, 19);
             this.lblGameExeLocation.TabIndex = 0;
             this.lblGameExeLocation.Text = "Game Shortcut Location";
             // 
             // txtGameExeLocation
+            // 
+            // 
+            // 
             // 
             this.txtGameExeLocation.CustomButton.Image = null;
             this.txtGameExeLocation.CustomButton.Location = new System.Drawing.Point(369, 1);
@@ -1031,6 +1043,9 @@
             this.txtGameExeLocation.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // txtGameShortcutLocation
+            // 
+            // 
+            // 
             // 
             this.txtGameShortcutLocation.CustomButton.Image = null;
             this.txtGameShortcutLocation.CustomButton.Location = new System.Drawing.Point(381, 1);
@@ -1115,7 +1130,7 @@
             this.chkGroupingCreativeRoundLevels.Location = new System.Drawing.Point(8, 131);
             this.chkGroupingCreativeRoundLevels.Margin = new System.Windows.Forms.Padding(2);
             this.chkGroupingCreativeRoundLevels.Name = "chkGroupingCreativeRoundLevels";
-            this.chkGroupingCreativeRoundLevels.Size = new System.Drawing.Size(216, 19);
+            this.chkGroupingCreativeRoundLevels.Size = new System.Drawing.Size(324, 19);
             this.chkGroupingCreativeRoundLevels.TabIndex = 1;
             this.chkGroupingCreativeRoundLevels.Text = "Grouping creative round levels into one category";
             this.chkGroupingCreativeRoundLevels.UseSelectable = true;
@@ -1269,11 +1284,11 @@
             this.cboOverlayBackground.DropDownHeight = 414;
             this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOverlayBackground.FormattingEnabled = true;
-            this.cboOverlayBackground.IntegralHeight = true;
+            this.cboOverlayBackground.ImageName = null;
             this.cboOverlayBackground.ItemHeight = 23;
             this.cboOverlayBackground.Location = new System.Drawing.Point(203, 348);
             this.cboOverlayBackground.Name = "cboOverlayBackground";
-            this.cboOverlayBackground.Size = new System.Drawing.Size(310, 23);
+            this.cboOverlayBackground.Size = new System.Drawing.Size(310, 20);
             this.cboOverlayBackground.TabIndex = 19;
             this.cboOverlayBackground.GotFocus += new System.EventHandler(this.cboOverlayBackground_GotFocus);
             this.cboOverlayBackground.LostFocus += new System.EventHandler(this.cboOverlayBackground_LostFocus);
@@ -1445,7 +1460,7 @@
             this.fglink2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.fglink2.Location = new System.Drawing.Point(12, 57);
             this.fglink2.Name = "fglink2";
-            this.fglink2.Size = new System.Drawing.Size(93, 22);
+            this.fglink2.Size = new System.Drawing.Size(164, 22);
             this.fglink2.TabIndex = 7;
             this.fglink2.Text = "Issue Tracker & Translation";
             this.fglink2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1496,7 +1511,7 @@
             this.lblLicence.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLicence.Location = new System.Drawing.Point(9, 225);
             this.lblLicence.Name = "lblLicence";
-            this.lblLicence.Size = new System.Drawing.Size(577, 418);
+            this.lblLicence.Size = new System.Drawing.Size(592, 418);
             this.lblLicence.TabIndex = 5;
             this.lblLicence.Text = resources.GetString("lblLicence.Text");
             // 
@@ -1518,16 +1533,6 @@
             this.panelFallalytics.VerticalScrollbarHighlightOnWheel = false;
             this.panelFallalytics.VerticalScrollbarSize = 15;
             // 
-            // lblFallalyticsDesc
-            // 
-            this.lblFallalyticsDesc.AutoSize = true;
-            this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 128);
-            this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
-            this.lblFallalyticsDesc.Size = new System.Drawing.Size(206, 19);
-            this.lblFallalyticsDesc.TabIndex = 5;
-            this.lblFallalyticsDesc.Text = "Fallalytics is a tool to explore data collected about round distribution in Fall Guys.";
-            // 
             // linkFallalytics
             // 
             this.linkFallalytics.AutoSize = true;
@@ -1538,7 +1543,7 @@
             this.linkFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkFallalytics.Location = new System.Drawing.Point(12, 148);
             this.linkFallalytics.Name = "linkFallalytics";
-            this.linkFallalytics.Size = new System.Drawing.Size(231, 22);
+            this.linkFallalytics.Size = new System.Drawing.Size(124, 22);
             this.linkFallalytics.TabIndex = 7;
             this.linkFallalytics.Text = "Visit Fallalytics";
             this.linkFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1546,17 +1551,30 @@
             this.linkFallalytics.UseStyleColors = true;
             this.linkFallalytics.Click += new System.EventHandler(this.link_Click);
             // 
+            // lblFallalyticsDesc
+            // 
+            this.lblFallalyticsDesc.AutoSize = true;
+            this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 128);
+            this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
+            this.lblFallalyticsDesc.Size = new System.Drawing.Size(503, 19);
+            this.lblFallalyticsDesc.TabIndex = 5;
+            this.lblFallalyticsDesc.Text = "Fallalytics is a tool to explore data collected about round distribution in Fall " + "Guys.";
+            // 
             // lblFallalyticsAPIKey
             // 
             this.lblFallalyticsAPIKey.AutoSize = true;
             this.lblFallalyticsAPIKey.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 51);
             this.lblFallalyticsAPIKey.Name = "lblFallalyticsAPIKey";
-            this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(206, 19);
+            this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(217, 19);
             this.lblFallalyticsAPIKey.TabIndex = 5;
             this.lblFallalyticsAPIKey.Text = "(Optional) Enter Fallalytics API key";
             // 
             // txtFallalyticsAPIKey
+            // 
+            // 
+            // 
             // 
             this.txtFallalyticsAPIKey.CustomButton.Image = null;
             this.txtFallalyticsAPIKey.CustomButton.Location = new System.Drawing.Point(281, 1);
@@ -1630,13 +1648,13 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.ForeColor = System.Drawing.Color.Black;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Settings";
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 18);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_Load);

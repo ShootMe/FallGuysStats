@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectLanguage));
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.cboLanguage = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoGenerateProfile = new MetroFramework.Controls.MetroCheckBox();
@@ -97,6 +98,7 @@
             this.Controls.Add(this.chkAutoGenerateProfile);
             this.Controls.Add(this.btnLanguageSave);
             this.Controls.Add(this.lblBackColor);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectLanguage";

@@ -24,6 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadProgress));
             this.lblDownloadDescription = new System.Windows.Forms.Label();
             this.mpbProgressBar = new MetroFramework.Controls.MetroProgressBar();
             this.SuspendLayout();
@@ -51,13 +52,14 @@
             this.mpbProgressBar.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mpbProgressBar.UseCustomBackColor = true;
             // 
-            // Progress
+            // DownloadProgress
             // 
             this.ClientSize = new System.Drawing.Size(360, 125);
             this.ControlBox = false;
             this.Controls.Add(this.lblDownloadDescription);
             this.Controls.Add(this.mpbProgressBar);
             this.DisplayHeader = false;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Movable = false;
