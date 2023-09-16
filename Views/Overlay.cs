@@ -572,6 +572,68 @@ namespace FallGuysStats {
                 }
             }
         }
+        private void SetRoundLabel(LevelStats level, LevelType levelType, string roundName, int overlaySetting) {
+            if (Stats.IsQueued && (overlaySetting == 1 || overlaySetting == 5)) {
+                this.lblRound.LevelColor = Color.Empty;
+                this.lblRound.RoundIcon = null;
+                this.lblRound.ImageWidth = 0;
+                this.lblRound.ImageHeight = 0;
+                this.lblRound.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
+                this.lblRound.TextRight = Stats.QueuedPlayers.ToString();
+                this.lblRound.ForeColor = this.ForeColor;
+            } else {
+                this.lblRound.UseShareCode = this.lastRound.UseShareCode;
+                if (this.StatsForm.CurrentSettings.ColorByRoundType) {
+                    this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
+                    this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
+                    this.lblRound.LevelTrueColor = levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
+                    this.lblRound.RoundIcon = level?.RoundBigIcon;
+                    if (this.lblRound.RoundIcon.Height != 23) {
+                        this.lblRound.ImageHeight = 23;
+                        this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);
+                    } else {
+                        this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
+                        this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
+                    }
+                } else {
+                    this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
+                    this.lblRound.LevelColor = Color.Empty;
+                    this.lblRound.RoundIcon = null;
+                    this.lblRound.ImageWidth = 0;
+                    this.lblRound.ImageHeight = 0;
+                }
+                
+                if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
+                    || (Stats.CurrentLanguage == 2 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
+                    || (Stats.CurrentLanguage == 3 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
+                    || ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
+                    || this.lastRound.UseShareCode) {
+                    if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
+                } else {
+                    if (roundName.Length > 21) { roundName = roundName.Substring(0, 21); }
+                }
+            
+                this.lblRound.TextRight = roundName;
+            }
+        }
+        private void SetWinsLabel(StatSummary levelInfo, int overlaySetting) {
+            if (Stats.IsQueued && overlaySetting == 3) {
+                this.lblWins.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
+                this.lblWins.TextRight = Stats.QueuedPlayers.ToString();
+                this.lblWins.ForeColor = this.ForeColor;
+            } else {
+                this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
+                float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
+                string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{Multilingual.GetWord("overlay_win")} - {winChance:0.0}%";
+                if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
+                    this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
+                } else {
+                    this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
+                        ? $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
+                        : $"{levelInfo.TotalWins}{winChanceDisplay}";
+                }
+            }
+        }
         private void SetFinalsLabel(StatSummary levelInfo, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 3) {
                 this.lblFinals.OverlaySetting = overlaySetting;
@@ -625,25 +687,31 @@ namespace FallGuysStats {
                 this.lblFastest.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblFastest.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                this.lblFastest.SecondProgress = 0;
-                int fastestSwitchCount = this.switchCount;
-                if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                    fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
-                        : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
-                }
-                switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
-                    case 0:
-                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
-                        this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
-                        break;
-                    case 1:
-                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
-                        this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
-                        break;
-                    case 2:
-                        this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
-                        this.lblFastest.TextRight = $"{levelInfo.BestScore}";
-                        break;
+                if (Stats.IsQueued && overlaySetting == 6) {
+                    this.lblFastest.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
+                    this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
+                    this.lblFastest.ForeColor = this.ForeColor;
+                } else {
+                    this.lblFastest.SecondProgress = 0;
+                    int fastestSwitchCount = this.switchCount;
+                    if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
+                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
+                            : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
+                    }
+                    switch (fastestSwitchCount % ((levelInfo.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
+                        case 0:
+                            this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
+                            this.lblFastest.TextRight = levelInfo.LongestFinish.HasValue ? $"{levelInfo.LongestFinish:m\\:ss\\.ff}" : "-";
+                            break;
+                        case 1:
+                            this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
+                            this.lblFastest.TextRight = levelInfo.BestFinish.HasValue ? $"{levelInfo.BestFinish:m\\:ss\\.ff}" : "-";
+                            break;
+                        case 2:
+                            this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
+                            this.lblFastest.TextRight = $"{levelInfo.BestScore}";
+                            break;
+                    }
                 }
             }
         }
@@ -837,11 +905,12 @@ namespace FallGuysStats {
                 this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
-                this.lblFinish.Text = Stats.IsQueued ? $"{Multilingual.GetWord("overlay_queued_players")} :" : $"{Multilingual.GetWord("overlay_finish")} :";
-                if (Stats.IsQueued) {
+                if (Stats.IsQueued && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
+                    this.lblFinish.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFinish.ForeColor = this.ForeColor;
                 } else {
+                    this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
                     DateTime start = this.lastRound.Start;
                     DateTime? finish = this.lastRound.Finish;
                     if (finish.HasValue) {
@@ -912,60 +981,10 @@ namespace FallGuysStats {
                     }
                     
                     LevelType levelType = (level?.Type).GetValueOrDefault();
-                    
                     StatSummary levelInfo = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, this.levelException, this.lastRound.UseShareCode, levelType);
-
-                    //if (this.lastRound.UseShareCode) {
-                    //    roundName = this.StatsForm.GetRoundNameFromShareCode(roundName);
-                    //}
                     
-                    if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
-                        || (Stats.CurrentLanguage == 2 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
-                        || (Stats.CurrentLanguage == 3 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
-                        || ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
-                        || this.lastRound.UseShareCode) {
-                        if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
-                    } else {
-                        if (roundName.Length > 21) { roundName = roundName.Substring(0, 21); }
-                    }
-                    
-                    this.lblRound.UseShareCode = this.lastRound.UseShareCode;
-                    if (this.StatsForm.CurrentSettings.ColorByRoundType) {
-                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
-                        this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
-                        this.lblRound.LevelTrueColor = levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
-                        this.lblRound.RoundIcon = level?.RoundBigIcon;
-                        if (this.lblRound.RoundIcon.Height != 23) {
-                            this.lblRound.ImageHeight = 23;
-                            this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);
-                        } else {
-                            this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
-                            this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
-                        }
-                    } else {
-                        //this.lblRound.Text = this.lblRound.IsCreativeRound ?
-                        //                    $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :" :
-                        //                    $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
-                        this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
-                        this.lblRound.LevelColor = Color.Empty;
-                        this.lblRound.RoundIcon = null;
-                        this.lblRound.ImageWidth = 0;
-                        this.lblRound.ImageHeight = 0;
-                    }
-                    
-                    this.lblRound.TextRight = roundName;
-
-                    this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
-                    float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
-                    string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{Multilingual.GetWord("overlay_win")} - {winChance:0.0}%";
-                    if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
-                        this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
-                    } else {
-                        this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
-                                                 ? $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
-                                                 : $"{levelInfo.TotalWins}{winChanceDisplay}";
-                    }
-
+                    this.SetRoundLabel(level, levelType, roundName, overlaySetting);
+                    this.SetWinsLabel(levelInfo, overlaySetting);
                     this.SetFinalsLabel(levelInfo, overlaySetting);
                     this.SetQualifyChanceLabel(levelInfo, overlaySetting);
                     this.SetPlayersLabel(overlaySetting);

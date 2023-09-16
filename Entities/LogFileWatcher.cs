@@ -89,7 +89,7 @@ namespace FallGuysStats {
             if (this.running) { return; }
 
             this.filePath = Path.Combine(logDirectory, fileName);
-            this.prevFilePath = Path.Combine(logDirectory, Path.GetFileNameWithoutExtension(fileName) + "-prev.log");
+            this.prevFilePath = Path.Combine(logDirectory, $"{Path.GetFileNameWithoutExtension(fileName)}-prev.log");
             this.stop = false;
             this.watcher = new Thread(this.ReadLogFile) { IsBackground = true };
             this.watcher.Start();
@@ -112,7 +112,7 @@ namespace FallGuysStats {
             List<LogLine> tempLines = new List<LogLine>();
             DateTime lastDate = DateTime.MinValue;
             bool completed = false;
-            string currentFilePath = prevFilePath;
+            string currentFilePath = this.prevFilePath;
             long offset = 0;
             while (!this.stop) {
                 try {
@@ -128,6 +128,15 @@ namespace FallGuysStats {
                                 DateTime currentDate = lastDate;
                                 while ((line = sr.ReadLine()) != null) {
                                     LogLine logLine = new LogLine(line, sr.Position);
+                                    
+                                    // if (line.IndexOf("Discovering subsystems at path", StringComparison.OrdinalIgnoreCase) > 0) {
+                                    //     string subsystemsPath = line.Substring(44);
+                                    //     if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) > 0) {
+                                    //         // Steam
+                                    //     } else {
+                                    //         // Epic Games
+                                    //     }
+                                    // }
 
                                     if (logLine.IsValid) {
                                         int index;
@@ -763,10 +772,10 @@ namespace FallGuysStats {
                 this.InitStaticVariable();
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) > 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
-                if (0 < round.Count) {
+                if (round.Count > 0) {
                     foreach (RoundInfo temp in round) {
-                        temp.ShowStart = temp.Start;
                         temp.Playing = false;
+                        temp.ShowStart = temp.Start;
                         
                         logRound.PrivateLobby = temp.PrivateLobby;
                         logRound.CurrentlyInParty = temp.InParty;
@@ -786,7 +795,7 @@ namespace FallGuysStats {
                         
                         if (temp.Finish.HasValue) {
                             if (temp.Position > 0) {
-                                double rankPercentage = (((double)temp.Position / (double)temp.Players) * 100d);
+                                double rankPercentage = (Convert.ToDouble(temp.Position) / Convert.ToDouble(temp.Players)) * 100d;
                                 if (temp.Position == 1) {
                                     temp.Tier = 1; //gold
                                 } else if (temp.Position == 2 || rankPercentage <= 20d) {

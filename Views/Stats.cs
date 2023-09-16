@@ -111,7 +111,7 @@ namespace FallGuysStats {
                 return false;
             }
         }
-        private static string LOGNAME = "Player.log";
+        private static string LOGFILENAME = "Player.log";
         public static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
@@ -2416,11 +2416,11 @@ namespace FallGuysStats {
                     this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
                 }
                 
-                string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
+                string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
                 if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
-                    logPath = this.CurrentSettings.LogPath;
+                    logFilePath = this.CurrentSettings.LogPath;
                 }
-                this.logFile.Start(logPath, LOGNAME);
+                this.logFile.Start(logFilePath, LOGFILENAME);
 
                 this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
                     this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
@@ -4980,11 +4980,11 @@ namespace FallGuysStats {
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await this.logFile.Stop();
-                            string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "Low", "Mediatonic", "FallGuys_client");
+                            string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
                             if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
-                                logPath = this.CurrentSettings.LogPath;
+                                logFilePath = this.CurrentSettings.LogPath;
                             }
-                            this.logFile.Start(logPath, LOGNAME);
+                            this.logFile.Start(logFilePath, LOGFILENAME);
                         }
                         
                         this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
