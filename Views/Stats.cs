@@ -4134,6 +4134,66 @@ namespace FallGuysStats {
             this.CurrentSettings.GameShortcutLocation = fallGuysShortcutLocation;
             this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
         }
+        public string[] FindEpicGamesNickname() {
+            try {
+                string[] userInfo = { string.Empty, string.Empty };
+                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
+                FileStream f = File.Open(launcherLogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                StreamReader sr = new StreamReader(f);
+                string line;
+                List<string> lines = new List<string>();
+                while ((line = sr.ReadLine()) != null) {
+                    if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
+                        lines.Add(line);
+                    }
+                }
+                line = lines[lines.Count - 1];
+                userInfo[0] = line.Substring(line.IndexOf("-epicuserid=") + 12, line.IndexOf(" -epiclocale=") - (line.IndexOf("-epicuserid=") + 12));
+                userInfo[1] = line.Substring(line.IndexOf("-epicusername=") + 15, line.IndexOf("\" -epicuserid=") - (line.IndexOf("-epicusername=") + 15));
+                
+                if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                    return userInfo;
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return null;
+        }
+        public string[] FindSteamNickname() {
+            try {
+                string[] userInfo = { string.Empty, string.Empty };
+                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
+                if (regValue == null) {
+                    return userInfo;
+                }
+                string steamPath = (string)regValue;
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+                    string userName = Environment.UserName;
+                    steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
+                }
+
+                FileInfo steamConfigPath = new FileInfo(Path.Combine(steamPath, "config", "loginusers.vdf"));
+                if (steamConfigPath.Exists) {
+                    JsonClass json = Json.Read(File.ReadAllText(steamConfigPath.FullName)) as JsonClass;
+                    foreach (JsonObject obj in json) {
+                        if (obj is JsonClass node) {
+                            if (!string.IsNullOrEmpty(node["AccountName"].AsString())) userInfo[0] = node["AccountName"].AsString();
+                            if (!string.IsNullOrEmpty(node["PersonaName"].AsString())) userInfo[1] = node["PersonaName"].AsString();
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                        return userInfo;
+                    }
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return null;
+        }
         public string FindEpicGamesShortcutLocation() {
             try {
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
