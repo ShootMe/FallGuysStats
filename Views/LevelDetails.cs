@@ -770,11 +770,11 @@ namespace FallGuysStats {
                                 } else if (this.RoundDetails.Count > 0) {
                                     this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
                                 }
-                            } catch (WebException wex) {
-                                if (wex.Status == WebExceptionStatus.ProtocolError) {
+                            } catch (WebException we) {
+                                if (we.Status == WebExceptionStatus.ProtocolError) {
                                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    // int statusCode = (int)((HttpWebResponse)wex.Response).StatusCode;
+                                    // int statusCode = (int)((HttpWebResponse)we.Response).StatusCode;
                                     // switch (statusCode) {
                                     //     case 500:
                                     //         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
@@ -785,6 +785,9 @@ namespace FallGuysStats {
                                     //             MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     //         break;
                                     // }
+                                } else {
+                                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             } catch (Exception ex) {
                                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",

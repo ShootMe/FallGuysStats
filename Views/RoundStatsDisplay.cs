@@ -69,7 +69,7 @@ namespace FallGuysStats {
                     } else if (c1 is MetroLabel mlb1) {
                         mlb1.Theme = theme;
                     } else if (c1 is Label lb1) {
-                        if (lb1.Name.Equals("lblRoundType")) continue;
+                        if (lb1.Name.Equals("lblRoundType") || lb1.Name.Equals("lblRoundTime") || lb1.Name.Equals("lblBestRecord") || lb1.Name.Equals("lblWorstRecord")) continue;
                         lb1.ForeColor = Color.DarkGray;
                     }
                 }
@@ -204,7 +204,10 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.lblRoundType.Font = new Font(Overlay.GetDefaultFontFamilies(Stats.CurrentLanguage), 18, Stats.CurrentLanguage > 1 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblRoundTime.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
+            this.lblBestRecord.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
+            this.lblWorstRecord.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
+            this.lblRoundType.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
             this.lblCountGoldMedal.Font = Overlay.GetDefaultFont(0, 45);
             this.lblCountSilverMedal.Font = Overlay.GetDefaultFont(0, 45);
             this.lblCountBronzeMedal.Font = Overlay.GetDefaultFont(0, 45);

@@ -28,10 +28,10 @@
             this.formsPlot = new ScottPlot.FormsPlot();
             this.picRoundIcon = new System.Windows.Forms.PictureBox();
             this.cboRoundList = new MetroFramework.Controls.MetroComboBox();
-            this.lblRoundTime = new MetroFramework.Controls.MetroLabel();
+            this.lblRoundTime = new System.Windows.Forms.Label();
             this.lblRoundType = new FallGuysStats.RoundLabel();
-            this.lblBestRecord = new MetroFramework.Controls.MetroLabel();
-            this.lblWorstRecord = new MetroFramework.Controls.MetroLabel();
+            this.lblBestRecord = new System.Windows.Forms.Label();
+            this.lblWorstRecord = new System.Windows.Forms.Label();
             this.picGoldMedalIcon = new System.Windows.Forms.PictureBox();
             this.lblCountGoldMedal = new System.Windows.Forms.Label();
             this.picSilverMedalIcon = new System.Windows.Forms.PictureBox();
@@ -84,16 +84,12 @@
             // 
             // lblRoundTime
             // 
-            this.lblRoundTime.AutoSize = true;
-            this.lblRoundTime.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblRoundTime.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblRoundTime.ForeColor = System.Drawing.Color.Teal;
             this.lblRoundTime.Location = new System.Drawing.Point(700, 60);
             this.lblRoundTime.Name = "lblRoundTime";
-            this.lblRoundTime.Size = new System.Drawing.Size(82, 25);
+            this.lblRoundTime.Size = new System.Drawing.Size(318, 32);
             this.lblRoundTime.TabIndex = 3;
             this.lblRoundTime.Text = "00:00:00";
-            this.lblRoundTime.UseCustomForeColor = true;
             // 
             // lblRoundType
             // 
@@ -106,29 +102,21 @@
             // 
             // lblBestRecord
             // 
-            this.lblBestRecord.AutoSize = true;
-            this.lblBestRecord.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblBestRecord.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblBestRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(165)))), ((int)(((byte)(32)))));
             this.lblBestRecord.Location = new System.Drawing.Point(722, 138);
             this.lblBestRecord.Name = "lblBestRecord";
-            this.lblBestRecord.Size = new System.Drawing.Size(22, 25);
+            this.lblBestRecord.Size = new System.Drawing.Size(286, 25);
             this.lblBestRecord.TabIndex = 16;
             this.lblBestRecord.Text = "0";
-            this.lblBestRecord.UseCustomForeColor = true;
             // 
             // lblWorstRecord
             // 
-            this.lblWorstRecord.AutoSize = true;
-            this.lblWorstRecord.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblWorstRecord.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblWorstRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.lblWorstRecord.Location = new System.Drawing.Point(722, 163);
             this.lblWorstRecord.Name = "lblWorstRecord";
-            this.lblWorstRecord.Size = new System.Drawing.Size(22, 25);
+            this.lblWorstRecord.Size = new System.Drawing.Size(286, 25);
             this.lblWorstRecord.TabIndex = 17;
             this.lblWorstRecord.Text = "0";
-            this.lblWorstRecord.UseCustomForeColor = true;
             // 
             // picGoldMedalIcon
             // 
@@ -239,7 +227,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(990, 580);
+            this.ClientSize = new System.Drawing.Size(1010, 580);
             this.Controls.Add(this.formsPlot);
             this.Controls.Add(this.picRoundIcon);
             this.Controls.Add(this.cboRoundList);
@@ -278,17 +266,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPinkMedalIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEliminatedMedalIcon)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
         }
 
         #endregion
         private ScottPlot.FormsPlot formsPlot;
         private System.Windows.Forms.PictureBox picRoundIcon;
         private MetroFramework.Controls.MetroComboBox cboRoundList;
-        private MetroFramework.Controls.MetroLabel lblRoundTime;
+        private System.Windows.Forms.Label lblRoundTime;
         private RoundLabel lblRoundType;
-        private MetroFramework.Controls.MetroLabel lblBestRecord;
-        private MetroFramework.Controls.MetroLabel lblWorstRecord;
+        private System.Windows.Forms.Label lblBestRecord;
+        private System.Windows.Forms.Label lblWorstRecord;
         private System.Windows.Forms.PictureBox picGoldMedalIcon;
         private System.Windows.Forms.Label lblCountGoldMedal;
         private System.Windows.Forms.PictureBox picSilverMedalIcon;
