@@ -57,10 +57,10 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 
 
 ## ダウンロード
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStats-download.svg)</a>
+　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStats-download.svg)</a>
   - ウイルス対策ソフトに誤検知される場合は、自動アップデートを無効にしたバージョンを使用することができます:
 
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
+　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
 
 <br>
 

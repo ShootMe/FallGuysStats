@@ -59,10 +59,10 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
 
 
 ## 다운로드
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStats.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStats-download.svg)</a>
+　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStats-download.svg)</a>
   - 또는 바이러스 프로그램에서 오탐지 문제가 있는 경우 자동 업데이트 기능이 제거된 아래 버전을 다운로드하세요.
 
-　　<a href="https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
+　　<a href="https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStatsManualUpdate.zip">![FallGuysStats.zip](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/FallGuysStatsManualUpdate-download.svg)</a>
 
 <br>
 
