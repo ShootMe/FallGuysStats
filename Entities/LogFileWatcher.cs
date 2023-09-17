@@ -611,6 +611,19 @@ namespace FallGuysStats {
                                     this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                 } catch {
                                     this.toggleFgdbCreativeApi = false;
+                                    this.creativeOnlinePlatformId = null;
+                                    this.creativeAuthor = null;
+                                    this.creativeShareCode = null;
+                                    this.creativeVersion = 0;
+                                    this.creativeStatus = null;
+                                    this.creativeTitle = null;
+                                    this.creativeDescription = null;
+                                    this.creativeMaxPlayer = 0;
+                                    this.creativePlatformId = null;
+                                    this.creativeLastModifiedDate = DateTime.MinValue;
+                                    this.creativePlayCount = 0;
+                                    this.creativeQualificationPercent = 0;
+                                    this.creativeTimeLimitSeconds = 0;
                                 }
                             }
                         }

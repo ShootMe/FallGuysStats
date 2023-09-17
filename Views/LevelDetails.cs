@@ -772,17 +772,19 @@ namespace FallGuysStats {
                                 }
                             } catch (WebException wex) {
                                 if (wex.Status == WebExceptionStatus.ProtocolError) {
-                                    int statusCode = (int)((HttpWebResponse)wex.Response).StatusCode;
-                                    switch (statusCode) {
-                                        case 500:
-                                            MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                            break;
-                                        default:
-                                            MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                            break;
-                                    }
+                                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    // int statusCode = (int)((HttpWebResponse)wex.Response).StatusCode;
+                                    // switch (statusCode) {
+                                    //     case 500:
+                                    //         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
+                                    //             MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //         break;
+                                    //     default:
+                                    //         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
+                                    //             MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    //         break;
+                                    // }
                                 }
                             } catch (Exception ex) {
                                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",

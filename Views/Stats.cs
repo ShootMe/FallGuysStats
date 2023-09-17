@@ -2596,7 +2596,19 @@ namespace FallGuysStats {
                                         //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                         stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                     } catch {
-                                        // ignored
+                                        stat.CreativeShareCode = null;
+                                        stat.CreativeOnlinePlatformId = null;
+                                        stat.CreativeAuthor = null;
+                                        stat.CreativeVersion = 0;
+                                        stat.CreativeStatus = null;
+                                        stat.CreativeTitle = null;
+                                        stat.CreativeDescription = null;
+                                        stat.CreativeMaxPlayer = 0;
+                                        stat.CreativePlatformId = null;
+                                        stat.CreativeLastModifiedDate = DateTime.MinValue;
+                                        stat.CreativePlayCount = 0;
+                                        stat.CreativeQualificationPercent = 0;
+                                        stat.CreativeTimeLimitSeconds = 0;
                                     }
                                 }
 
