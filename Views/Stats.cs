@@ -666,7 +666,7 @@ namespace FallGuysStats {
 
                 // Check NCSI DNS IP
                 IPHostEntry dnsHost = Dns.GetHostEntry(NCSI_DNS);
-                if (dnsHost.AddressList.Any() || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
+                if (dnsHost.AddressList.Count() < 0 || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
                     return false;
                 }
             } catch {
