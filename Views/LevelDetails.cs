@@ -474,7 +474,7 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? info.CreativeTitle : Multilingual.GetShowName((string)e.Value) ?? e.Value;
+                    e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? $"☑️ {info.CreativeTitle}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                     //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
