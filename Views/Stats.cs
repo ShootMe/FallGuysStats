@@ -222,7 +222,7 @@ namespace FallGuysStats {
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        private readonly string IP2C_ORG_URL = "http://ip2c.org/";
+        private readonly string IP2C_ORG_URL = "https://ip2c.org/";
 
         private int profileIdWithLinkedCustomShow;
         public readonly string[] publicShowIdList = {
@@ -2918,41 +2918,43 @@ namespace FallGuysStats {
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
         }
-        public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
-            RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
-            return filteredInfo != null ? (string.IsNullOrEmpty(filteredInfo.CreativeTitle) ? shareCode : filteredInfo.CreativeTitle) : shareCode;
-        }
-        public int GetTimeLimitSecondsFromShareCode(string shareCode, LevelType levelType) {
-            RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
-            return filteredInfo?.CreativeTimeLimitSeconds ?? 0;
-        }
+        // public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
+        //     RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
+        //     return filteredInfo != null ? (string.IsNullOrEmpty(filteredInfo.CreativeTitle) ? shareCode : filteredInfo.CreativeTitle) : shareCode;
+        // }
+        // public int GetTimeLimitSecondsFromShareCode(string shareCode, LevelType levelType) {
+        //     RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
+        //     return filteredInfo?.CreativeTimeLimitSeconds ?? 0;
+        // }
         public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
             return this.AllStats.FindLast(r => shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         private void UpdateUserCreativeLevel(string shareCode, JsonElement resData) {
-            lock (this.StatsDB) {
-                this.StatsDB.BeginTrans();
-                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && string.IsNullOrEmpty(r.CreativeTitle));
-                JsonElement versionMetadata = resData.GetProperty("version_metadata");
-                string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
-                foreach (RoundInfo info in filteredInfo) {
-                    info.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                    info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                    info.CreativeAuthor = onlinePlatformInfo[1];
-                    info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                    info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                    info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                    info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                    info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                    info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                    info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                    info.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                    info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                    //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
-                    info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                    this.RoundDetails.Update(info);
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && (string.IsNullOrEmpty(r.CreativeTitle) || string.IsNullOrEmpty(r.CreativeShareCode)));
+            if (filteredInfo.Count > 0) {
+                lock (this.StatsDB) {
+                    this.StatsDB.BeginTrans();
+                    JsonElement versionMetadata = resData.GetProperty("version_metadata");
+                    string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
+                    foreach (RoundInfo info in filteredInfo) {
+                        info.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                        info.CreativeAuthor = onlinePlatformInfo[1];
+                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                        info.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                        //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                        this.RoundDetails.Update(info);
+                    }
+                    this.StatsDB.Commit();
                 }
-                this.StatsDB.Commit();
             }
         }
         public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode, LevelType levelType) {
