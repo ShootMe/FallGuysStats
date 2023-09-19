@@ -2595,7 +2595,41 @@ namespace FallGuysStats {
                                         stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                         //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                         stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                    } catch {
+                                        this.UpdateUserCreativeLevel(stat.ShowNameId, resData);
+                                    } catch (WebException we) {
+                                        if (we.Status == WebExceptionStatus.ProtocolError) {
+                                            RoundInfo ri = this.GetRoundInfoFromShareCode(stat.ShowNameId);
+                                            if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
+                                                stat.CreativeOnlinePlatformId = ri.CreativePlatformId;
+                                                stat.CreativeAuthor = ri.CreativeAuthor;
+                                                stat.CreativeShareCode = ri.CreativeShareCode;
+                                                stat.CreativeVersion = ri.CreativeVersion;
+                                                stat.CreativeStatus = ri.CreativeStatus;
+                                                stat.CreativeTitle = ri.CreativeTitle;
+                                                stat.CreativeDescription = ri.CreativeDescription;
+                                                stat.CreativeMaxPlayer = ri.CreativeMaxPlayer;
+                                                stat.CreativePlatformId = ri.CreativePlatformId;
+                                                stat.CreativeLastModifiedDate = ri.CreativeLastModifiedDate;
+                                                stat.CreativePlayCount = ri.CreativePlayCount;
+                                                stat.CreativeQualificationPercent = ri.CreativeQualificationPercent;
+                                                stat.CreativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
+                                            }
+                                        } else {
+                                            stat.CreativeShareCode = null;
+                                            stat.CreativeOnlinePlatformId = null;
+                                            stat.CreativeAuthor = null;
+                                            stat.CreativeVersion = 0;
+                                            stat.CreativeStatus = null;
+                                            stat.CreativeTitle = null;
+                                            stat.CreativeDescription = null;
+                                            stat.CreativeMaxPlayer = 0;
+                                            stat.CreativePlatformId = null;
+                                            stat.CreativeLastModifiedDate = DateTime.MinValue;
+                                            stat.CreativePlayCount = 0;
+                                            stat.CreativeQualificationPercent = 0;
+                                            stat.CreativeTimeLimitSeconds = 0;
+                                        }
+                                    } catch (Exception ex) {
                                         stat.CreativeShareCode = null;
                                         stat.CreativeOnlinePlatformId = null;
                                         stat.CreativeAuthor = null;
@@ -2894,6 +2928,32 @@ namespace FallGuysStats {
         }
         public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
             return this.AllStats.FindLast(r => shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
+        }
+        private void UpdateUserCreativeLevel(string shareCode, JsonElement resData) {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && string.IsNullOrEmpty(r.CreativeTitle));
+                JsonElement versionMetadata = resData.GetProperty("version_metadata");
+                string[] onlinePlatformInfo = this.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
+                foreach (RoundInfo info in filteredInfo) {
+                    info.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                    info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                    info.CreativeAuthor = onlinePlatformInfo[1];
+                    info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                    info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                    info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                    info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                    info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                    info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                    info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                    info.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                    info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                    //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                    info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                    this.RoundDetails.Update(info);
+                }
+                this.StatsDB.Commit();
+            }
         }
         public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode, LevelType levelType) {
             StatSummary summary = new StatSummary {

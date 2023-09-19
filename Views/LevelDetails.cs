@@ -736,30 +736,29 @@ namespace FallGuysStats {
                             try {
                                 JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                                 JsonElement versionMetadata = resData.GetProperty("version_metadata");
-                                List<RoundInfo> rows = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
+                                List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
                                                                                     (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
                                 int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                                 this.gridDetails.DataSource = null;
                                 lock (this.StatsForm.StatsDB) {
                                     this.StatsForm.StatsDB.BeginTrans();
-                                    for (int i = rows.Count - 1; i >= 0; i--) {
-                                        RoundInfo temp = rows[i];
+                                    foreach (RoundInfo info in filteredInfo) {
                                         string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
-                                        temp.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                        temp.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                        temp.CreativeAuthor = onlinePlatformInfo[1];
-                                        temp.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                        temp.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                                        temp.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                                        temp.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                                        temp.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                        temp.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                        temp.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                        temp.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                        temp.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                        //temp.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
-                                        temp.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                        this.StatsForm.RoundDetails.Update(temp);
+                                        info.CreativeShareCode = resData.GetProperty("share_code").GetString();
+                                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                        info.CreativeAuthor = onlinePlatformInfo[1];
+                                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                        info.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
+                                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                        //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                        this.StatsForm.RoundDetails.Update(info);
                                     }
                                     this.StatsForm.StatsDB.Commit();
                                 }
