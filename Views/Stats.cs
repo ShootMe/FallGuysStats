@@ -2885,13 +2885,15 @@ namespace FallGuysStats {
             }
         }
         public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId));
-            return filteredInfo.Count > 0 ? (string.IsNullOrEmpty(filteredInfo[filteredInfo.Count - 1].CreativeTitle) ? shareCode : filteredInfo[filteredInfo.Count - 1].CreativeTitle)
-                                          : shareCode;
+            RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
+            return filteredInfo != null ? (string.IsNullOrEmpty(filteredInfo.CreativeTitle) ? shareCode : filteredInfo.CreativeTitle) : shareCode;
         }
         public int GetTimeLimitSecondsFromShareCode(string shareCode, LevelType levelType) {
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId));
-            return filteredInfo.Count > 0 ? filteredInfo[filteredInfo.Count - 1].CreativeTimeLimitSeconds : 0;
+            RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
+            return filteredInfo?.CreativeTimeLimitSeconds ?? 0;
+        }
+        public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
+            return this.AllStats.FindLast(r => shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode, LevelType levelType) {
             StatSummary summary = new StatSummary {

@@ -843,9 +843,9 @@ namespace FallGuysStats {
                 this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
                 this.lblDuration.SecondProgress = 0;
-                if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
-                    this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
-                }
+                // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
+                //     this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
+                // }
                 DateTime start = this.lastRound.Start;
                 DateTime end = this.lastRound.End;
                 if (this.lastRound.UseShareCode) {
@@ -975,7 +975,8 @@ namespace FallGuysStats {
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetRoundNameFromShareCode(this.lastRound.ShowNameId, (level?.Type).GetValueOrDefault()) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                        // roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetRoundNameFromShareCode(this.lastRound.ShowNameId, (level?.Type).GetValueOrDefault()) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.lastRound.ShowNameId : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }

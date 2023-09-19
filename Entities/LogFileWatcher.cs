@@ -133,12 +133,12 @@ namespace FallGuysStats {
                                     //     string subsystemsPath = line.Substring(44);
                                     //     if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
                                     //         // Steam
-                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[0]);
-                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[1]);
+                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[0]); // ID
+                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[1]); // NickName
                                     //     } else {
                                     //         // Epic Games
-                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[0]);
-                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[1]);
+                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[0]); // ID
+                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[1]); // NickName
                                     //     }
                                     // }
 
@@ -609,7 +609,56 @@ namespace FallGuysStats {
                                     this.creativePlayCount = resData.GetProperty("play_count").GetInt32();
                                     this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                     this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                } catch {
+                                } catch (System.Net.WebException we) {
+                                    if (we.Status == System.Net.WebExceptionStatus.ProtocolError) {
+                                        RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(logRound.Info.ShowNameId);
+                                        if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
+                                            this.creativeOnlinePlatformId = ri.CreativePlatformId;
+                                            this.creativeAuthor = ri.CreativeAuthor;
+                                            this.creativeShareCode = ri.CreativeShareCode;
+                                            this.creativeVersion = ri.CreativeVersion;
+                                            this.creativeStatus = ri.CreativeStatus;
+                                            this.creativeTitle = ri.CreativeTitle;
+                                            this.creativeDescription = ri.CreativeDescription;
+                                            this.creativeMaxPlayer = ri.CreativeMaxPlayer;
+                                            this.creativePlatformId = ri.CreativePlatformId;
+                                            this.creativeLastModifiedDate = ri.CreativeLastModifiedDate;
+                                            this.creativePlayCount = ri.CreativePlayCount;
+                                            this.creativeQualificationPercent = ri.CreativeQualificationPercent;
+                                            this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
+                                        } else {
+                                            this.toggleFgdbCreativeApi = false;
+                                            this.creativeOnlinePlatformId = null;
+                                            this.creativeAuthor = null;
+                                            this.creativeShareCode = null;
+                                            this.creativeVersion = 0;
+                                            this.creativeStatus = null;
+                                            this.creativeTitle = null;
+                                            this.creativeDescription = null;
+                                            this.creativeMaxPlayer = 0;
+                                            this.creativePlatformId = null;
+                                            this.creativeLastModifiedDate = DateTime.MinValue;
+                                            this.creativePlayCount = 0;
+                                            this.creativeQualificationPercent = 0;
+                                            this.creativeTimeLimitSeconds = 0;
+                                        }
+                                    } else {
+                                        this.toggleFgdbCreativeApi = false;
+                                        this.creativeOnlinePlatformId = null;
+                                        this.creativeAuthor = null;
+                                        this.creativeShareCode = null;
+                                        this.creativeVersion = 0;
+                                        this.creativeStatus = null;
+                                        this.creativeTitle = null;
+                                        this.creativeDescription = null;
+                                        this.creativeMaxPlayer = 0;
+                                        this.creativePlatformId = null;
+                                        this.creativeLastModifiedDate = DateTime.MinValue;
+                                        this.creativePlayCount = 0;
+                                        this.creativeQualificationPercent = 0;
+                                        this.creativeTimeLimitSeconds = 0;
+                                    }
+                                } catch (Exception ex) {
                                     this.toggleFgdbCreativeApi = false;
                                     this.creativeOnlinePlatformId = null;
                                     this.creativeAuthor = null;
