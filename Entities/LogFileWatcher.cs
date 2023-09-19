@@ -473,6 +473,22 @@ namespace FallGuysStats {
             Stats.QueuedPlayers = 0;
         }
 
+        private void InitCreativeLevelVariable() {
+            this.creativeOnlinePlatformId = null;
+            this.creativeAuthor = null;
+            this.creativeShareCode = null;
+            this.creativeVersion = 0;
+            this.creativeStatus = null;
+            this.creativeTitle = null;
+            this.creativeDescription = null;
+            this.creativeMaxPlayer = 0;
+            this.creativePlatformId = null;
+            this.creativeLastModifiedDate = DateTime.MinValue;
+            this.creativePlayCount = 0;
+            this.creativeQualificationPercent = 0;
+            this.creativeTimeLimitSeconds = 0;
+        }
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if (!Stats.IsPrePlaying && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
@@ -589,7 +605,7 @@ namespace FallGuysStats {
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
                     TimeSpan timeDiff = DateTime.UtcNow - line.Date;
-                    if (timeDiff.TotalMinutes <= 15) {
+                    if (timeDiff.TotalMinutes <= 15 && this.StatsForm.IsInternetConnected()) {
                         lock (this.fgdbCreativeApiLock) {
                             if (!this.toggleFgdbCreativeApi) {
                                 this.toggleFgdbCreativeApi = true;
@@ -628,51 +644,15 @@ namespace FallGuysStats {
                                             this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                                         } else {
                                             this.toggleFgdbCreativeApi = false;
-                                            this.creativeOnlinePlatformId = null;
-                                            this.creativeAuthor = null;
-                                            this.creativeShareCode = null;
-                                            this.creativeVersion = 0;
-                                            this.creativeStatus = null;
-                                            this.creativeTitle = null;
-                                            this.creativeDescription = null;
-                                            this.creativeMaxPlayer = 0;
-                                            this.creativePlatformId = null;
-                                            this.creativeLastModifiedDate = DateTime.MinValue;
-                                            this.creativePlayCount = 0;
-                                            this.creativeQualificationPercent = 0;
-                                            this.creativeTimeLimitSeconds = 0;
+                                            this.InitCreativeLevelVariable();
                                         }
                                     } else {
                                         this.toggleFgdbCreativeApi = false;
-                                        this.creativeOnlinePlatformId = null;
-                                        this.creativeAuthor = null;
-                                        this.creativeShareCode = null;
-                                        this.creativeVersion = 0;
-                                        this.creativeStatus = null;
-                                        this.creativeTitle = null;
-                                        this.creativeDescription = null;
-                                        this.creativeMaxPlayer = 0;
-                                        this.creativePlatformId = null;
-                                        this.creativeLastModifiedDate = DateTime.MinValue;
-                                        this.creativePlayCount = 0;
-                                        this.creativeQualificationPercent = 0;
-                                        this.creativeTimeLimitSeconds = 0;
+                                        this.InitCreativeLevelVariable();
                                     }
                                 } catch (Exception ex) {
                                     this.toggleFgdbCreativeApi = false;
-                                    this.creativeOnlinePlatformId = null;
-                                    this.creativeAuthor = null;
-                                    this.creativeShareCode = null;
-                                    this.creativeVersion = 0;
-                                    this.creativeStatus = null;
-                                    this.creativeTitle = null;
-                                    this.creativeDescription = null;
-                                    this.creativeMaxPlayer = 0;
-                                    this.creativePlatformId = null;
-                                    this.creativeLastModifiedDate = DateTime.MinValue;
-                                    this.creativePlayCount = 0;
-                                    this.creativeQualificationPercent = 0;
-                                    this.creativeTimeLimitSeconds = 0;
+                                    this.InitCreativeLevelVariable();
                                 }
                             }
                         }

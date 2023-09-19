@@ -666,10 +666,10 @@ namespace FallGuysStats {
 
                 // Check NCSI DNS IP
                 IPHostEntry dnsHost = Dns.GetHostEntry(NCSI_DNS);
-                if (dnsHost.AddressList.Count() < 0 || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
+                if (dnsHost.AddressList.Any() || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
                     return false;
                 }
-            } catch (Exception ex) {
+            } catch {
                 return false;
             }
 
@@ -2576,7 +2576,7 @@ namespace FallGuysStats {
                                 stat.ShowID = nextShowID;
                                 stat.Profile = profile;
 
-                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode)) {
+                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode) && this.IsInternetConnected()) {
                                     try {
                                         JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
                                         JsonElement versionMetadata = resData.GetProperty("version_metadata");

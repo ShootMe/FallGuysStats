@@ -821,7 +821,7 @@ namespace FallGuysStats {
                 switch (streakSwitchCount % 2) {
                     case 0:
                         this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
-                        this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{Multilingual.GetWord("overlay_streak_suffix")})";
+                        this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{(Stats.CurrentLanguage == 2 ? (levelInfo.CurrentStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix"))} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{(Stats.CurrentLanguage == 2 ? (levelInfo.BestStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix"))})";
                         break;
                     case 1:
                         this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
