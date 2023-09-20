@@ -25,7 +25,7 @@ using MetroFramework.Components;
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
         [DllImport("user32.dll")]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         [DllImport("user32.dll")]
         private static extern bool SetForegroundWindow(IntPtr hWnd);
         
@@ -4270,7 +4270,6 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
-                Console.WriteLine(124412142);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

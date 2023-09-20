@@ -145,7 +145,7 @@
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowInTaskbar = true;
             this.Style = MetroFramework.MetroColorStyle.Teal;
-            this.Text = "Title";
+            this.Text = "Edit Shows";
             this.Load += new System.EventHandler(this.EditShows_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditShows_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picEditShowsIcon)).EndInit();

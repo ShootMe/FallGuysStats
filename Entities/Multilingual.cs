@@ -5433,7 +5433,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
@@ -6028,7 +6028,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
@@ -6623,7 +6623,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
@@ -7218,7 +7218,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
@@ -7813,7 +7813,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
@@ -8408,7 +8408,7 @@ namespace FallGuysStats {
                     {"current_wle_fp4_10_11", "HOARDER BLOCKS"},
                     {"current_wle_fp4_10_12", "Chickens run away"},
                     {"current_wle_fp4_10_20", "Co-op and CO"},
-                    {"current_wle_fp4_10_21", "Construction Site"},
+                    {"current_wle_fp4_10_23", "Construction Site"},
                     {"current_wle_fp4_10_0_01", "Cheese Canyon"},
                     {"current_wle_fp4_10_0_02", "Molehills"},
                             
