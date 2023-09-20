@@ -184,7 +184,7 @@ namespace FallGuysStats {
             return new Font(this.Font.FontFamily, this.Font.Size * this.GetFontSizeFactorForRoundName(text), this.Font.Style, GraphicsUnit.Pixel);
         }
         private float GetFontSizeFactorForRoundName(string text) {
-            float factor = 1.0f,
+            float factor = 1f,
                   factorOffsetForSpace = 0f,
                   factorOffsetForEngAlphabet = 0f,
                   factorOffsetForKorAlphabet = 0f,
@@ -659,7 +659,7 @@ namespace FallGuysStats {
                     }
                 }
             }
-            return factor;
+            return factor > 1f ? 1f : factor;
         }
         private RectangleF FillRoundedRectangleF(Graphics g, Pen pen, Brush brush, float x, float y, float width, float height, float radius) {
             using (GraphicsPath path = new GraphicsPath()) {
