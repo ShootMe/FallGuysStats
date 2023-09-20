@@ -2661,15 +2661,15 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                     });
-                                    Task.Run(() => {
-                                        if (OnlineServiceFlag != -1 && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                            LevelType levelType = (level?.Type).GetValueOrDefault();
-                                            if (stat.Finish.HasValue && (levelType == LevelType.Race || levelType == LevelType.CreativeRace)) {
-                                                RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && stat.Finish.Value > r.Finish.Value && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
-                                                if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
-                                            }
-                                        }
-                                    });
+                                    // Task.Run(() => {
+                                    //     if (OnlineServiceFlag != -1 && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                    //         LevelType levelType = (level?.Type).GetValueOrDefault();
+                                    //         if (stat.Finish.HasValue && (levelType == LevelType.Race || levelType == LevelType.CreativeRace)) {
+                                    //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && stat.Finish.Value > r.Finish.Value && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
+                                    //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                    //         }
+                                    //     }
+                                    // });
                                 }
                             } else {
                                 continue;
