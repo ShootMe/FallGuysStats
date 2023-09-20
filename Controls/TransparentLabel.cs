@@ -195,127 +195,127 @@ namespace FallGuysStats {
                   factorOffsetForSignCharacter = 0f;
             if (this.UseShareCode) {
                 if (text.Length == 10) {
-                    factor = 0.5f; factorOffsetForSpace = 0.0315f;
+                    factor = 0.5f; factorOffsetForSpace = 0.0325f;
                     factorOffsetForEngAlphabet = 0.0498f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.036f : 0.042f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.036f : 0.042f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.036f : 0.042f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.036f : 0.042f;
                     factorOffsetForSignCharacter = 0.0498f; factorOffsetForNumeric = 0.0498f;
                 } else if (text.Length == 11) {
-                    factor = 0.475f; factorOffsetForSpace = 0.031f;
+                    factor = 0.475f; factorOffsetForSpace = 0.032f;
                     factorOffsetForEngAlphabet = 0.0477f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.032f : 0.037f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.032f : 0.037f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.032f : 0.037f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.032f : 0.037f;
                     factorOffsetForSignCharacter = 0.0477f; factorOffsetForNumeric = 0.0477f;
                 } else if (text.Length == 12) {
-                    factor = 0.45f; factorOffsetForSpace = 0.0305f;
+                    factor = 0.45f; factorOffsetForSpace = 0.0315f;
                     factorOffsetForEngAlphabet = 0.0448f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.03f : 0.034f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.03f : 0.034f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.03f : 0.034f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.03f : 0.034f;
                     factorOffsetForSignCharacter = 0.0448f; factorOffsetForNumeric = 0.0448f;
                 } else if (text.Length == 13) {
-                    factor = 0.43f; factorOffsetForSpace = 0.03f;
+                    factor = 0.43f; factorOffsetForSpace = 0.031f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0425f : 0.0443f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.029f : 0.035f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.029f : 0.035f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.029f : 0.035f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.029f : 0.035f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0425f : 0.0443f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0425f : 0.0443f;
                 } else if (text.Length == 14) {
-                    factor = 0.38f; factorOffsetForSpace = 0.0295f;
+                    factor = 0.38f; factorOffsetForSpace = 0.0305f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.042f : 0.0443f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.027f : 0.036f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.027f : 0.036f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.027f : 0.036f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.027f : 0.036f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.042f : 0.0443f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.042f : 0.0443f;
                 } else if (text.Length == 15) {
-                    factor = 0.33f; factorOffsetForSpace = 0.029f;
+                    factor = 0.33f; factorOffsetForSpace = 0.03f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0405f : 0.044f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0255f : 0.0345f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0255f : 0.0345f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0255f : 0.0345f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0255f : 0.0345f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0405f : 0.044f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0405f : 0.044f;
                 } else if (text.Length == 16) {
-                    factor = 0.27f; factorOffsetForSpace = 0.0285f;
+                    factor = 0.27f; factorOffsetForSpace = 0.0295f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.037f : 0.044f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.026f : 0.0325f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.026f : 0.0325f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.026f : 0.0325f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.026f : 0.0325f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.037f : 0.044f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.037f : 0.044f;
                 } else if (text.Length == 17) {
-                    factor = 0.23f; factorOffsetForSpace = 0.028f;
+                    factor = 0.23f; factorOffsetForSpace = 0.029f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0343f : 0.041f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0235f : 0.0295f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0235f : 0.0295f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0235f : 0.0295f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0235f : 0.0295f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0343f : 0.041f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0343f : 0.041f;
                 } else if (text.Length == 18) {
-                    factor = 0.19f; factorOffsetForSpace = 0.0275f;
+                    factor = 0.19f; factorOffsetForSpace = 0.0285f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0325f : 0.039f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0215f : 0.0275f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0215f : 0.0275f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0215f : 0.0275f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0215f : 0.0275f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0325f : 0.039f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0325f : 0.039f;
                 } else if (text.Length == 19) {
-                    factor = 0.17f; factorOffsetForSpace = 0.027f;
+                    factor = 0.17f; factorOffsetForSpace = 0.028f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.03f : 0.0365f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0197f : 0.025f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0197f : 0.025f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0197f : 0.025f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0197f : 0.025f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.03f : 0.0365f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.03f : 0.0365f;
                 } else if (text.Length == 20) {
-                    factor = 0.14f; factorOffsetForSpace = 0.0265f;
+                    factor = 0.14f; factorOffsetForSpace = 0.0275f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.028f : 0.034f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0192f : 0.0238f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0192f : 0.0238f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0192f : 0.0238f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0192f : 0.0238f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.028f : 0.034f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.028f : 0.034f;
                 } else if (text.Length == 21) {
-                    factor = 0.11f; factorOffsetForSpace = 0.026f;
+                    factor = 0.11f; factorOffsetForSpace = 0.027f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0265f : 0.0325f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0177f : 0.022f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0177f : 0.022f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0177f : 0.022f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0177f : 0.022f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0265f : 0.0325f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0265f : 0.0325f;
                 } else if (text.Length == 22) {
-                    factor = 0.09f; factorOffsetForSpace = 0.0255f;
+                    factor = 0.09f; factorOffsetForSpace = 0.0265f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0245f : 0.03f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.016f : 0.02f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.016f : 0.02f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.016f : 0.02f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.016f : 0.02f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0245f : 0.03f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0245f : 0.03f;
                 } else if (text.Length == 23) {
-                    factor = 0.07f; factorOffsetForSpace = 0.025f;
+                    factor = 0.07f; factorOffsetForSpace = 0.026f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0235f : 0.028f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0153f : 0.0193f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0153f : 0.0193f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0153f : 0.0193f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0153f : 0.0193f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0235f : 0.028f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0235f : 0.028f;
                 } else if (text.Length == 24) {
-                    factor = 0.05f; factorOffsetForSpace = 0.0245f;
+                    factor = 0.05f; factorOffsetForSpace = 0.0255f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0225f : 0.0265f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.015f : 0.019f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.015f : 0.019f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.015f : 0.019f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.015f : 0.019f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0225f : 0.0265f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0225f : 0.0265f;
                 } else if (text.Length == 25) {
-                    factor = 0.02f; factorOffsetForSpace = 0.024f;
+                    factor = 0.02f; factorOffsetForSpace = 0.025f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.022f : 0.026f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0145f : 0.0175f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0145f : 0.0175f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0145f : 0.0175f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0145f : 0.0175f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.022f : 0.026f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.022f : 0.026f;
                 } else if (text.Length == 26) {
-                    factor = 0.01f; factorOffsetForSpace = 0.0235f;
+                    factor = 0.01f; factorOffsetForSpace = 0.0245f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0205f : 0.0245f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0135f : 0.016f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0135f : 0.016f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0135f : 0.016f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0135f : 0.016f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0205f : 0.0245f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0205f : 0.0245f;
                 } else if (text.Length == 27) {
-                    factor = -0.005f; factorOffsetForSpace = 0.023f;
+                    factor = -0.005f; factorOffsetForSpace = 0.024f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0198f : 0.0235f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.013f : 0.0155f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.013f : 0.0155f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.013f : 0.0155f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.013f : 0.0155f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0198f : 0.0235f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0198f : 0.0235f;
                 } else if (text.Length == 28) {
-                    factor = -0.025f; factorOffsetForSpace = 0.0225f;
+                    factor = -0.025f; factorOffsetForSpace = 0.0235f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0191f : 0.0227f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0125f : 0.015f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0125f : 0.015f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0125f : 0.015f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0125f : 0.015f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0191f : 0.0227f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0191f : 0.0227f;
                 } else if (text.Length == 29) {
-                    factor = -0.04f; factorOffsetForSpace = 0.022f;
+                    factor = -0.04f; factorOffsetForSpace = 0.023f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0185f : 0.0219f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.012f : 0.0145f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.012f : 0.0145f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.012f : 0.0145f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.012f : 0.0145f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0185f : 0.0219f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0185f : 0.0219f;
                 } else if (text.Length == 30) {
-                    factor = -0.05f; factorOffsetForSpace = 0.0215f;
+                    factor = -0.05f; factorOffsetForSpace = 0.0225f;
                     factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0178f : 0.021f;
                     factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0114f : 0.014f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.0114f : 0.014f;
                     factorOffsetForChineseTraditional = this.LevelColor.IsEmpty ? 0.0114f : 0.014f; factorOffsetForChineseSimplified = this.LevelColor.IsEmpty ? 0.0114f : 0.014f;

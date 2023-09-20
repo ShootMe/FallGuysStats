@@ -625,6 +625,7 @@ namespace FallGuysStats {
                                     this.creativePlayCount = resData.GetProperty("play_count").GetInt32();
                                     this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                     this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                    Task.Run(() => { this.StatsForm.UpdateUserCreativeLevel(logRound.Info.ShowNameId, resData); });
                                 } catch (System.Net.WebException we) {
                                     if (we.Status == System.Net.WebExceptionStatus.ProtocolError) {
                                         RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(logRound.Info.ShowNameId);

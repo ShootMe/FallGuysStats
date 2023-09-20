@@ -2595,7 +2595,6 @@ namespace FallGuysStats {
                                         stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                         //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                         stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                        this.UpdateUserCreativeLevel(stat.ShowNameId, resData);
                                     } catch (WebException we) {
                                         if (we.Status == WebExceptionStatus.ProtocolError) {
                                             RoundInfo ri = this.GetRoundInfoFromShareCode(stat.ShowNameId);
@@ -2929,7 +2928,7 @@ namespace FallGuysStats {
         public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
             return this.AllStats.FindLast(r => shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
-        private void UpdateUserCreativeLevel(string shareCode, JsonElement resData) {
+        public void UpdateUserCreativeLevel(string shareCode, JsonElement resData) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && (string.IsNullOrEmpty(r.CreativeTitle) || string.IsNullOrEmpty(r.CreativeShareCode)));
             if (filteredInfo.Count > 0) {
                 lock (this.StatsDB) {
