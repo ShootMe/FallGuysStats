@@ -79,6 +79,7 @@ namespace FallGuysStats {
         public int WinPerDayGraphStyle { get; set; }
         public bool ShowChangelog { get; set; }
         public bool EnableFallalyticsReporting { get; set; }
+        public bool EnableFallalyticsAnonymous { get; set; }
         public string FallalyticsAPIKey { get; set; }
     }
 }

@@ -141,6 +141,9 @@ namespace FallGuysStats {
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
+        public static string OnlineServiceId = string.Empty;
+        public static string OnlineServiceNickName = string.Empty;
+        public static int OnlineServiceFlag = -1;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -1998,6 +2001,8 @@ namespace FallGuysStats {
                 GroupingCreativeRoundLevels = false,
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
+                EnableFallalyticsReporting = false,
+                EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
                 Version = 53
@@ -2655,6 +2660,15 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
+                                    });
+                                    Task.Run(() => {
+                                        if (OnlineServiceFlag != -1 && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                            LevelType levelType = (level?.Type).GetValueOrDefault();
+                                            if (stat.Finish.HasValue && (levelType == LevelType.Race || levelType == LevelType.CreativeRace)) {
+                                                RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && stat.Finish.Value > r.Finish.Value && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
+                                                if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                            }
+                                        }
                                     });
                                 }
                             } else {

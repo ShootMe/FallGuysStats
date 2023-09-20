@@ -9,16 +9,27 @@ namespace FallGuysStats {
     internal class FallalyticsReporter {
         private List<RoundInfo> roundList = new List<RoundInfo>();
 
-        private static readonly string APIEndpoint = "https://fallalytics.com/api/report";
+        private static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
+        
+        private static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async void Report(RoundInfo stat, string APIKey) {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
-
+        public async void RegisterPb(RoundInfo stat, string APIKey, bool isAnonymous) {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
-
-            request.Content = new StringContent(this.RoundInfoToJsonString(stat), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, isAnonymous), Encoding.UTF8, "application/json");
+            try {
+                await HttpClient.SendAsync(request);
+            } catch (HttpRequestException e) {
+                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e.Message}");
+            }
+        }
+        
+        public async void Report(RoundInfo stat, string APIKey) {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
+            request.Content = new StringContent(this.RoundInfoToReportJsonString(stat), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -50,11 +61,11 @@ namespace FallGuysStats {
             }
         }
         private async void ShowComplete(string APIKey) {
-            HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, APIEndpoint);
+            HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
             requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             string jsonArraystring = "[";
             foreach (RoundInfo game in this.roundList) {
-                jsonArraystring += this.RoundInfoToJsonString(game);
+                jsonArraystring += this.RoundInfoToReportJsonString(game);
                 jsonArraystring += ",";
             }
             jsonArraystring = jsonArraystring.Remove(jsonArraystring.Length - 1);
@@ -70,12 +81,29 @@ namespace FallGuysStats {
             
             this.roundList = new List<RoundInfo>();
         }
-        private string RoundInfoToJsonString(RoundInfo round) {
+        private string RoundInfoToReportJsonString(RoundInfo round) {
             string json = "";
             json += "{\"round\":\"" + round.Name + "\",";
             json += "\"index\":" + round.Round + ",";
             json += "\"show\":\"" + round.ShowNameId + "\",";
             json += "\"isfinal\":" + round.IsFinal.ToString().ToLower() + ",";
+            json += "\"session\":\"" + round.SessionId + "\"}";
+            return json;
+        }
+        private string RoundInfoToRegisterPbJsonString(RoundInfo round, bool isAnonymous) {
+            string json = "";
+            json += "{\"round\":\"" + round.Name + "\",";
+            json += "\"onlineServiceFlag\":\"" + Stats.OnlineServiceFlag + "\",";
+            if (isAnonymous) {
+                json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
+                json += "\"onlineServiceName\":\"" + Stats.OnlineServiceNickName + "\",";
+            } else {
+                json += "\"onlineServiceId\":\"Anonymous\",";
+                json += "\"onlineServiceName\":\"Anonymous\",";
+            }
+            json += "\"record\":\"" + (round.Finish.Value - round.Start).Milliseconds + "\",";
+            json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
+            json += "\"show\":\"" + round.ShowNameId + "\",";
             json += "\"session\":\"" + round.SessionId + "\"}";
             return json;
         }

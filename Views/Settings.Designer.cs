@@ -129,6 +129,7 @@
             this.lblFallalyticsDesc = new MetroFramework.Controls.MetroLabel();
             this.lblFallalyticsAPIKey = new MetroFramework.Controls.MetroLabel();
             this.txtFallalyticsAPIKey = new MetroFramework.Controls.MetroTextBox();
+            this.chkFallalyticsAnonymous = new MetroFramework.Controls.MetroCheckBox();
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
             this.tileFallalytics = new MetroFramework.Controls.MetroTile();
             this.grpOverlayFontExample.SuspendLayout();
@@ -1521,6 +1522,7 @@
             this.panelFallalytics.Controls.Add(this.lblFallalyticsDesc);
             this.panelFallalytics.Controls.Add(this.lblFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.txtFallalyticsAPIKey);
+            this.panelFallalytics.Controls.Add(this.chkFallalyticsAnonymous);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsReporting);
             this.panelFallalytics.HorizontalScrollbarBarColor = true;
             this.panelFallalytics.HorizontalScrollbarHighlightOnWheel = false;
@@ -1541,7 +1543,7 @@
             this.linkFallalytics.ForeColor = System.Drawing.Color.Black;
             this.linkFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.linkFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkFallalytics.Location = new System.Drawing.Point(12, 148);
+            this.linkFallalytics.Location = new System.Drawing.Point(12, 177);
             this.linkFallalytics.Name = "linkFallalytics";
             this.linkFallalytics.Size = new System.Drawing.Size(124, 22);
             this.linkFallalytics.TabIndex = 7;
@@ -1555,7 +1557,7 @@
             // 
             this.lblFallalyticsDesc.AutoSize = true;
             this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 128);
+            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 157);
             this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
             this.lblFallalyticsDesc.Size = new System.Drawing.Size(503, 19);
             this.lblFallalyticsDesc.TabIndex = 5;
@@ -1565,16 +1567,13 @@
             // 
             this.lblFallalyticsAPIKey.AutoSize = true;
             this.lblFallalyticsAPIKey.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 51);
+            this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 80);
             this.lblFallalyticsAPIKey.Name = "lblFallalyticsAPIKey";
             this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(217, 19);
             this.lblFallalyticsAPIKey.TabIndex = 5;
             this.lblFallalyticsAPIKey.Text = "(Optional) Enter Fallalytics API key";
             // 
             // txtFallalyticsAPIKey
-            // 
-            // 
-            // 
             // 
             this.txtFallalyticsAPIKey.CustomButton.Image = null;
             this.txtFallalyticsAPIKey.CustomButton.Location = new System.Drawing.Point(281, 1);
@@ -1586,7 +1585,7 @@
             this.txtFallalyticsAPIKey.CustomButton.UseSelectable = true;
             this.txtFallalyticsAPIKey.CustomButton.Visible = false;
             this.txtFallalyticsAPIKey.Lines = new string[] { "4d328236-b3c2-4449-a158-d07128671920" };
-            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 73);
+            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 102);
             this.txtFallalyticsAPIKey.MaxLength = 32767;
             this.txtFallalyticsAPIKey.Name = "txtFallalyticsAPIKey";
             this.txtFallalyticsAPIKey.PasswordChar = '\0';
@@ -1602,10 +1601,23 @@
             this.txtFallalyticsAPIKey.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtFallalyticsAPIKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
+            // chkFallalyticsRegisterPB
+            // 
+            this.chkFallalyticsAnonymous.AutoSize = true;
+            this.chkFallalyticsAnonymous.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkFallalyticsAnonymous.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkFallalyticsAnonymous.Location = new System.Drawing.Point(15, 46);
+            this.chkFallalyticsAnonymous.Name = "chkFallalyticsAnonymous";
+            this.chkFallalyticsAnonymous.Size = new System.Drawing.Size(266, 15);
+            this.chkFallalyticsAnonymous.TabIndex = 3;
+            this.chkFallalyticsAnonymous.Text = "Anonymous";
+            this.chkFallalyticsAnonymous.UseSelectable = true;
+            // 
             // chkFallalyticsReporting
             // 
             this.chkFallalyticsReporting.AutoSize = true;
             this.chkFallalyticsReporting.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkFallalyticsReporting.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
             this.chkFallalyticsReporting.Location = new System.Drawing.Point(15, 17);
             this.chkFallalyticsReporting.Name = "chkFallalyticsReporting";
             this.chkFallalyticsReporting.Size = new System.Drawing.Size(266, 15);
@@ -1793,6 +1805,7 @@
         private MetroFramework.Controls.MetroLabel lblFallalyticsAPIKey;
         private MetroFramework.Controls.MetroLink linkFallalytics;
         private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
+        private MetroFramework.Controls.MetroCheckBox chkFallalyticsAnonymous;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
         private MetroFramework.Controls.MetroTile tileFallalytics;
     }

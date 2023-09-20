@@ -129,22 +129,24 @@ namespace FallGuysStats {
                                 while ((line = sr.ReadLine()) != null) {
                                     LogLine logLine = new LogLine(line, sr.Position);
                                     
-                                    // if (line.IndexOf("Discovering subsystems at path", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                    //     string subsystemsPath = line.Substring(44);
-                                    //     if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                    //         // Steam
-                                    //         if (this.StatsForm.FindSteamNickname() != null) {
-                                    //             Console.WriteLine(this.StatsForm.FindSteamNickname()[0]); // ID
-                                    //             Console.WriteLine(this.StatsForm.FindSteamNickname()[1]); // NickName
-                                    //         }
-                                    //     } else {
-                                    //         // Epic Games
-                                    //         if (this.StatsForm.FindEpicGamesNickname() != null) {
-                                    //             Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[0]); // ID
-                                    //             Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[1]); // NickName
-                                    //         }
-                                    //     }
-                                    // }
+                                    if (line.IndexOf("Discovering subsystems at path", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                        string subsystemsPath = line.Substring(44);
+                                        if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                            string[] userInfo = this.StatsForm.FindSteamNickname();
+                                            if (userInfo != null) {
+                                                Stats.OnlineServiceFlag = 1;
+                                                Stats.OnlineServiceId = userInfo[0];
+                                                Stats.OnlineServiceNickName = userInfo[1];
+                                            }
+                                        } else {
+                                            string[] userInfo = this.StatsForm.FindEpicGamesNickname();
+                                            if (userInfo != null) {
+                                                Stats.OnlineServiceFlag = 0;
+                                                Stats.OnlineServiceId = userInfo[0];
+                                                Stats.OnlineServiceNickName = userInfo[1];
+                                            }
+                                        }
+                                    }
 
                                     if (logLine.IsValid) {
                                         int index;
