@@ -4212,20 +4212,25 @@ namespace FallGuysStats {
         public string[] FindEpicGamesNickname() {
             try {
                 string[] userInfo = { string.Empty, string.Empty };
-                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
-                FileStream f = File.Open(launcherLogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                StreamReader sr = new StreamReader(f);
-                string line;
-                List<string> lines = new List<string>();
-                while ((line = sr.ReadLine()) != null) {
-                    if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
-                        lines.Add(line);
+                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLaunch1er.log");
+                if (File.Exists(launcherLogFilePath)) {
+                    using (StreamReader sr = new StreamReader(launcherLogFilePath)) {
+                        string line;
+                        List<string> lines = new List<string>();
+                        while ((line = sr.ReadLine()) != null) {
+                            if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
+                                lines.Add(line);
+                            }
+                        }
+
+                        line = lines.Last();
+                        int index = line.IndexOf("-epicuserid=") + 12;
+                        int index2 = line.IndexOf("-epicusername=") + 15;
+                        userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - (index));
+                        userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - (index2));
                     }
                 }
-                line = lines[lines.Count - 1];
-                userInfo[0] = line.Substring(line.IndexOf("-epicuserid=") + 12, line.IndexOf(" -epiclocale=") - (line.IndexOf("-epicuserid=") + 12));
-                userInfo[1] = line.Substring(line.IndexOf("-epicusername=") + 15, line.IndexOf("\" -epicuserid=") - (line.IndexOf("-epicusername=") + 15));
-                
+
                 if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
                     return userInfo;
                 }
@@ -4249,9 +4254,10 @@ namespace FallGuysStats {
                     steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
                 }
 
-                FileInfo steamConfigPath = new FileInfo(Path.Combine(steamPath, "config", "loginusers.vdf"));
-                if (steamConfigPath.Exists) {
-                    JsonClass json = Json.Read(File.ReadAllText(steamConfigPath.FullName)) as JsonClass;
+                string steamConfigPath = Path.Combine(steamPath, "config", "loginusers.vdf");
+                if (File.Exists(steamConfigPath)) {
+                    FileInfo steamConfigFileInfo = new FileInfo(steamConfigPath);
+                    JsonClass json = Json.Read(File.ReadAllText(steamConfigFileInfo.FullName)) as JsonClass;
                     foreach (JsonObject obj in json) {
                         if (obj is JsonClass node) {
                             if (!string.IsNullOrEmpty(node["AccountName"].AsString())) userInfo[0] = node["AccountName"].AsString();
@@ -4264,6 +4270,7 @@ namespace FallGuysStats {
                     }
                 }
             } catch (Exception ex) {
+                Console.WriteLine(124412142);
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }

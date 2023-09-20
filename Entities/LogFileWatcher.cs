@@ -133,12 +133,16 @@ namespace FallGuysStats {
                                     //     string subsystemsPath = line.Substring(44);
                                     //     if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
                                     //         // Steam
-                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[0]); // ID
-                                    //         Console.WriteLine(this.StatsForm.FindSteamNickname()[1]); // NickName
+                                    //         if (this.StatsForm.FindSteamNickname() != null) {
+                                    //             Console.WriteLine(this.StatsForm.FindSteamNickname()[0]); // ID
+                                    //             Console.WriteLine(this.StatsForm.FindSteamNickname()[1]); // NickName
+                                    //         }
                                     //     } else {
                                     //         // Epic Games
-                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[0]); // ID
-                                    //         Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[1]); // NickName
+                                    //         if (this.StatsForm.FindEpicGamesNickname() != null) {
+                                    //             Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[0]); // ID
+                                    //             Console.WriteLine(this.StatsForm.FindEpicGamesNickname()[1]); // NickName
+                                    //         }
                                     //     }
                                     // }
 
