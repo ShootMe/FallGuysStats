@@ -255,9 +255,11 @@ namespace FallGuysStats {
         };
 
         private Stats() {
-            if (this.IsInternetConnected()) {
-                HostCountry = this.GetUserCountry();
-            }
+            Task.Run(() => {
+                if (this.IsInternetConnected()) {
+                    HostCountry = this.GetUserCountry();
+                }
+            });
 // #if AllowUpdate
 //             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
 // #endif
@@ -2665,15 +2667,15 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                     });
-                                    Task.Run(() => {
-                                        if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                            LevelType levelType = (level?.Type).GetValueOrDefault();
-                                            if (levelType == LevelType.Race) {
-                                                RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && ((stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds) && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
-                                                if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
-                                            }
-                                        }
-                                    });
+                                    // Task.Run(() => {
+                                    //     if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                    //         LevelType levelType = (level?.Type).GetValueOrDefault();
+                                    //         if (levelType == LevelType.Race) {
+                                    //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && ((stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds) && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
+                                    //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                    //         }
+                                    //     }
+                                    // });
                                 }
                             } else {
                                 continue;

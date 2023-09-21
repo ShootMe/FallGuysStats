@@ -100,18 +100,18 @@ namespace FallGuysStats {
         private string RoundInfoToRegisterPbJsonString(RoundInfo round, bool isAnonymous) {
             string json = "";
             json += "{\"round\":\"" + round.Name + "\",";
+            json += "\"show\":\"" + round.ShowNameId + "\",";
+            json += "\"record\":\"" + (round.Finish.Value - round.Start).TotalMilliseconds + "\",";
+            json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
             json += "\"userCountry\":\"" + Stats.HostCountry + "\",";
             json += "\"onlineServiceFlag\":\"" + Stats.OnlineServiceFlag + "\",";
             if (isAnonymous) {
-                json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
-                json += "\"onlineServiceName\":\"" + Stats.OnlineServiceNickName + "\",";
-            } else {
                 json += "\"onlineServiceId\":\"Anonymous\",";
                 json += "\"onlineServiceName\":\"Anonymous\",";
+            } else {
+                json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
+                json += "\"onlineServiceName\":\"" + Stats.OnlineServiceNickName + "\",";
             }
-            json += "\"record\":\"" + (round.Finish.Value - round.Start).TotalMilliseconds + "\",";
-            json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
-            json += "\"show\":\"" + round.ShowNameId + "\",";
             json += "\"session\":\"" + round.SessionId + "\"}";
             return json;
         }
