@@ -101,7 +101,7 @@ namespace FallGuysStats {
                 json += "\"onlineServiceId\":\"Anonymous\",";
                 json += "\"onlineServiceName\":\"Anonymous\",";
             }
-            json += "\"record\":\"" + (round.Finish.Value - round.Start).Milliseconds + "\",";
+            json += "\"record\":\"" + (round.Finish.Value - round.Start).TotalMilliseconds + "\",";
             json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
             json += "\"show\":\"" + round.ShowNameId + "\",";
             json += "\"session\":\"" + round.SessionId + "\"}";
