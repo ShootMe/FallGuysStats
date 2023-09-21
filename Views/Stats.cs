@@ -144,6 +144,7 @@ namespace FallGuysStats {
         public static string OnlineServiceId = string.Empty;
         public static string OnlineServiceNickName = string.Empty;
         public static int OnlineServiceFlag = -1;
+        public static string HostCountry = string.Empty;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -254,6 +255,9 @@ namespace FallGuysStats {
         };
 
         private Stats() {
+            if (this.IsInternetConnected()) {
+                HostCountry = this.GetUserCountry();
+            }
 // #if AllowUpdate
 //             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
 // #endif
@@ -2661,15 +2665,15 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                     });
-                                    // Task.Run(() => {
-                                    //     if (OnlineServiceFlag != -1 && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                    //         LevelType levelType = (level?.Type).GetValueOrDefault();
-                                    //         if (stat.Finish.HasValue && levelType == LevelType.Race) {
-                                    //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && ((stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds) && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
-                                    //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
-                                    //         }
-                                    //     }
-                                    // });
+                                    Task.Run(() => {
+                                        if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                            LevelType levelType = (level?.Type).GetValueOrDefault();
+                                            if (levelType == LevelType.Race) {
+                                                RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && ((stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds) && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
+                                                if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                            }
+                                        }
+                                    });
                                 }
                             } else {
                                 continue;
@@ -4202,6 +4206,14 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        public string GetUserCountry() {
+            string userCountry = string.Empty;
+            using (ApiWebClient web = new ApiWebClient()) {
+                string publicIp = web.DownloadString("https://ipinfo.io/ip").Trim();
+                userCountry = web.DownloadString($"https://ip2c.org/{publicIp}");
+            }
+            return userCountry;
         }
         public void UpdateGameExeLocation() {
             string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();

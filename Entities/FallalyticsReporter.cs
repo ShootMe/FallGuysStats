@@ -16,15 +16,16 @@ namespace FallGuysStats {
         private static readonly HttpClient HttpClient = new HttpClient();
 
         public async void RegisterPb(RoundInfo stat, string APIKey, bool isAnonymous) {
-            string userCountry = string.Empty;
-            using (ApiWebClient web = new ApiWebClient()) {
-                string publicIp = web.DownloadString("https://ipinfo.io/ip").Trim();
-                userCountry = web.DownloadString($"https://ip2c.org/{publicIp}");
+            if (string.IsNullOrEmpty(Stats.HostCountry)) {
+                using (ApiWebClient web = new ApiWebClient()) {
+                    string publicIp = web.DownloadString("https://ipinfo.io/ip").Trim();
+                    Stats.HostCountry = web.DownloadString($"https://ip2c.org/{publicIp}");
+                }
             }
             
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
-            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, userCountry, isAnonymous), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -96,10 +97,10 @@ namespace FallGuysStats {
             json += "\"session\":\"" + round.SessionId + "\"}";
             return json;
         }
-        private string RoundInfoToRegisterPbJsonString(RoundInfo round, string userCountry, bool isAnonymous) {
+        private string RoundInfoToRegisterPbJsonString(RoundInfo round, bool isAnonymous) {
             string json = "";
             json += "{\"round\":\"" + round.Name + "\",";
-            json += "\"userCountry\":\"" + userCountry + "\",";
+            json += "\"userCountry\":\"" + Stats.HostCountry + "\",";
             json += "\"onlineServiceFlag\":\"" + Stats.OnlineServiceFlag + "\",";
             if (isAnonymous) {
                 json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
