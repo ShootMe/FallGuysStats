@@ -226,8 +226,8 @@ namespace FallGuysStats {
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         private readonly string IP2C_ORG_URL = "https://ip2c.org/";
-
-        private int profileIdWithLinkedCustomShow;
+        private readonly string IPINFO_IO_URL = "https://ipinfo.io/ip";
+        private int profileIdWithLinkedCustomShow = -1;
         public readonly string[] publicShowIdList = {
             "main_show",
             "squads_2player_template",
