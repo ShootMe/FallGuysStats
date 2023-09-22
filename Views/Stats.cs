@@ -1934,6 +1934,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 53;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 53) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                       ri.IsFinal &&
+                                                       ri.ShowNameId.Equals("survival_of_the_fittest") &&
+                                                       ri.Name.Equals("round_kraken_attack") &&
+                                                       ri.Round != 4
+                                                 select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = false;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 54;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
