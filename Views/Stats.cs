@@ -2686,6 +2686,23 @@ namespace FallGuysStats {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                         
                                         // if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                        //     if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickName)) {
+                                        //         string[] userInfo;
+                                        //         if (OnlineServiceFlag == 1) { // 1 : Steam
+                                        //             userInfo = this.FindSteamNickname();
+                                        //             if (userInfo != null) {
+                                        //                 OnlineServiceId = userInfo[0];
+                                        //                 OnlineServiceNickName = userInfo[1];
+                                        //             }
+                                        //         } else { // 0 : EpicGames
+                                        //             userInfo = this.FindEpicGamesNickname();
+                                        //             if (userInfo != null) {
+                                        //                 OnlineServiceId = userInfo[0];
+                                        //                 OnlineServiceNickName = userInfo[1];
+                                        //             }
+                                        //         }
+                                        //     }
+                                        //     
                                         //     LevelType levelType = (level?.Type).GetValueOrDefault();
                                         //     if (levelType == LevelType.Race) {
                                         //         RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && 
