@@ -2684,16 +2684,18 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
+                                        
+                                        // if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                        //     LevelType levelType = (level?.Type).GetValueOrDefault();
+                                        //     if (levelType == LevelType.Race) {
+                                        //         RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && 
+                                        //                                                     (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
+                                        //                                                     stat.ShowNameId.Equals(r.ShowNameId) &&
+                                        //                                                     stat.Name.Equals(r.Name));
+                                        //         if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                        //     }
+                                        // }
                                     });
-                                    // Task.Run(() => {
-                                    //     if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                    //         LevelType levelType = (level?.Type).GetValueOrDefault();
-                                    //         if (levelType == LevelType.Race) {
-                                    //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && ((stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds) && stat.ShowNameId.Equals(r.ShowNameId) && stat.Name.Equals(r.Name));
-                                    //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
-                                    //         }
-                                    //     }
-                                    // });
                                 }
                             } else {
                                 continue;
@@ -4258,22 +4260,28 @@ namespace FallGuysStats {
         public string[] FindEpicGamesNickname() {
             try {
                 string[] userInfo = { string.Empty, string.Empty };
-                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLaunch1er.log");
+                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
                 if (File.Exists(launcherLogFilePath)) {
-                    using (StreamReader sr = new StreamReader(launcherLogFilePath)) {
-                        string line;
-                        List<string> lines = new List<string>();
-                        while ((line = sr.ReadLine()) != null) {
-                            if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
-                                lines.Add(line);
+                    using (FileStream fs = File.Open(launcherLogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+                        using (StreamReader sr = new StreamReader(fs)) {
+                            string line;
+                            List<string> lines = new List<string>();
+                            while ((line = sr.ReadLine()) != null) {
+                                if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
+                                    lines.Add(line);
+                                }
                             }
-                        }
 
-                        line = lines.Last();
-                        int index = line.IndexOf("-epicuserid=") + 12;
-                        int index2 = line.IndexOf("-epicusername=") + 15;
-                        userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - (index));
-                        userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - (index2));
+                            line = lines.Last();
+                            int index = line.IndexOf("-epicuserid=") + 12;
+                            int index2 = line.IndexOf("-epicusername=") + 15;
+                            userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
+                            userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                        return userInfo;
                     }
                 }
 
