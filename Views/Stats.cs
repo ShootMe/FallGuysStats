@@ -2691,26 +2691,28 @@ namespace FallGuysStats {
                                         //         string[] userInfo;
                                         //         if (OnlineServiceType == OnlineServiceTypes.Steam) {
                                         //             userInfo = this.FindSteamNickname();
-                                        //             if (userInfo != null) {
+                                        //             if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
                                         //                 OnlineServiceId = userInfo[0];
                                         //                 OnlineServiceNickname = userInfo[1];
                                         //             }
                                         //         } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
                                         //             userInfo = this.FindEpicGamesNickname();
-                                        //             if (userInfo != null) {
+                                        //             if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
                                         //                 OnlineServiceId = userInfo[0];
                                         //                 OnlineServiceNickname = userInfo[1];
                                         //             }
                                         //         }
                                         //     }
-                                        //     
-                                        //     LevelType levelType = (level?.Type).GetValueOrDefault();
-                                        //     if (levelType == LevelType.Race) {
-                                        //         RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && 
-                                        //                                                     (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
-                                        //                                                     stat.ShowNameId.Equals(r.ShowNameId) &&
-                                        //                                                     stat.Name.Equals(r.Name));
-                                        //         if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                        //
+                                        //     if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                                        //         LevelType levelType = (level?.Type).GetValueOrDefault();
+                                        //         if (levelType == LevelType.Race) {
+                                        //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && 
+                                        //                                                         (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
+                                        //                                                         stat.ShowNameId.Equals(r.ShowNameId) &&
+                                        //                                                         stat.Name.Equals(r.Name));
+                                        //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
+                                        //         }
                                         //     }
                                         // }
                                     });
@@ -4276,8 +4278,8 @@ namespace FallGuysStats {
             this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
         }
         public string[] FindEpicGamesNickname() {
+            string[] userInfo = { string.Empty, string.Empty };
             try {
-                string[] userInfo = { string.Empty, string.Empty };
                 string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
                 if (File.Exists(launcherLogFilePath)) {
                     using (FileStream fs = File.Open(launcherLogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
@@ -4290,31 +4292,25 @@ namespace FallGuysStats {
                                 }
                             }
 
-                            line = lines.Last();
-                            int index = line.IndexOf("-epicuserid=") + 12;
-                            int index2 = line.IndexOf("-epicusername=") + 15;
-                            userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
-                            userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
+                            if (lines.Count > 0) {
+                                line = lines.Last();
+                                int index = line.IndexOf("-epicuserid=") + 12;
+                                int index2 = line.IndexOf("-epicusername=") + 15;
+                                userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
+                                userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
+                            }
                         }
                     }
-
-                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                        return userInfo;
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                    return userInfo;
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return null;
+            return userInfo;
         }
         public string[] FindSteamNickname() {
+            string[] userInfo = { string.Empty, string.Empty };
             try {
-                string[] userInfo = { string.Empty, string.Empty };
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
                 if (regValue == null) {
                     return userInfo;
@@ -4336,16 +4332,12 @@ namespace FallGuysStats {
                             if (!string.IsNullOrEmpty(node["PersonaName"].AsString())) userInfo[1] = node["PersonaName"].AsString();
                         }
                     }
-
-                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                        return userInfo;
-                    }
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            return null;
+            return userInfo;
         }
         public string FindEpicGamesShortcutLocation() {
             try {
