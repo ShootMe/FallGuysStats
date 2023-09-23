@@ -551,7 +551,6 @@ namespace FallGuysStats {
                 this.lblRound.TextRight = Stats.QueuedPlayers.ToString();
                 this.lblRound.ForeColor = this.ForeColor;
             } else {
-                this.lblRound.UseShareCode = this.lastRound.UseShareCode;
                 if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                     this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                     this.lblRound.LevelColor = levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
@@ -606,11 +605,11 @@ namespace FallGuysStats {
         private void SetFinalsLabel(StatSummary levelInfo, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 3) {
                 this.lblFinals.OverlaySetting = overlaySetting;
-                this.lblFinals.SecondProgress = DateTime.Now.Second;
+                this.lblFinals.ClockProgress = DateTime.Now.Second;
                 this.lblFinals.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblFinals.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                this.lblFinals.SecondProgress = 0;
+                this.lblFinals.ClockProgress = 0;
                 this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
                 string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 100000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
                 float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
@@ -652,7 +651,7 @@ namespace FallGuysStats {
         private void SetFastestLabel(StatSummary levelInfo, LevelType type, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 2)) {
                 this.lblFastest.OverlaySetting = overlaySetting;
-                this.lblFastest.SecondProgress = DateTime.Now.Second;
+                this.lblFastest.ClockProgress = DateTime.Now.Second;
                 this.lblFastest.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblFastest.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
@@ -661,7 +660,7 @@ namespace FallGuysStats {
                     this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFastest.ForeColor = this.ForeColor;
                 } else {
-                    this.lblFastest.SecondProgress = 0;
+                    this.lblFastest.ClockProgress = 0;
                     int fastestSwitchCount = this.switchCount;
                     if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
                         fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
@@ -694,11 +693,11 @@ namespace FallGuysStats {
                 this.lblCountryIcon.DrawVisible = false;
                 this.lblPingIcon.DrawVisible = false;
                 this.lblPlayers.OverlaySetting = overlaySetting;
-                this.lblPlayers.SecondProgress = DateTime.Now.Second;
+                this.lblPlayers.ClockProgress = DateTime.Now.Second;
                 this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblPlayers.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                this.lblPlayers.SecondProgress = 0;
+                this.lblPlayers.ClockProgress = 0;
                 int playersSwitchCount = this.switchCount;
                 if (!this.StatsForm.CurrentSettings.SwitchBetweenPlayers) {
                     playersSwitchCount = this.StatsForm.CurrentSettings.OnlyShowPing ? 1 : 0;
@@ -802,16 +801,16 @@ namespace FallGuysStats {
         private void SetDurationLabel(LevelStats level, LevelType levelType, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
                 this.lblDuration.OverlaySetting = overlaySetting;
-                this.lblDuration.SecondProgress = 0;
+                this.lblDuration.ClockProgress = 0;
                 this.lblDuration.Text = "";
                 this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
             } else if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 6) {
                 this.lblDuration.OverlaySetting = overlaySetting;
-                this.lblDuration.SecondProgress = DateTime.Now.Second;
+                this.lblDuration.ClockProgress = DateTime.Now.Second;
                 this.lblDuration.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                this.lblDuration.SecondProgress = 0;
+                this.lblDuration.ClockProgress = 0;
                 // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
                 //     this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
                 // }

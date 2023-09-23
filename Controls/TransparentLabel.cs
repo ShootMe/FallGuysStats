@@ -30,8 +30,7 @@ namespace FallGuysStats {
         public Color LevelColor { get; set; }
         public Color LevelTrueColor { get; set; }
         public Image RoundIcon { get; set; }
-        public bool UseShareCode { get; set; }
-        public int SecondProgress { get; set; }
+        public int ClockProgress { get; set; }
         public int OverlaySetting { get; set; }
         public void Draw(Graphics g) {
             if (!this.DrawVisible) { return; }
@@ -91,7 +90,7 @@ namespace FallGuysStats {
                                 (this.Name.Equals("lblFastest") && this.OverlaySetting == 2) ||
                                 (this.Name.Equals("lblFinals") && this.OverlaySetting == 3) ||
                                 (this.Name.Equals("lblDuration") && this.OverlaySetting == 6)) {
-                                if (this.SecondProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.SecondProgress / 60f, this.ClientRectangle.Height * 2, 4f);
+                                if (this.ClockProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.ClockProgress / 60f, this.ClientRectangle.Height * 2, 4f);
                             }
                             this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }
@@ -220,52 +219,52 @@ namespace FallGuysStats {
                           + (this.GetCountKorAlphabet(text) * factorOffsetForKorAlphabet) + (this.GetCountJpnAlphabet(text) * factorOffsetForJpnAlphabet)
                           + (this.GetCountChineseCharacter(text) * factorOffsetForChineseCharacter)
                           + (this.GetCountSignCharacter(text) * factorOffsetForSignCharacter) + (this.GetCountNumeric(text) * factorOffsetForNumeric);
-            }
                 
-            if (text.Length == 9) {
-                factor *= 2f;
-            } else if (text.Length == 10) {
-                factor *= 1.72f;
-            } else if (text.Length == 11) {
-                factor *= 1.52f;
-            } else if (text.Length == 12) {
-                factor *= 1.36f;
-            } else if (text.Length == 13) {
-                factor *= 1.23f;
-            } else if (text.Length == 14) {
-                factor *= 1.11f;
-            } else if (text.Length == 15) {
-                factor *= 1f;
-            } else if (text.Length == 16) {
-                factor *= 0.92f;
-            } else if (text.Length == 17) {
-                factor *= 0.86f;
-            } else if (text.Length == 18) {
-                factor *= 0.79f;
-            } else if (text.Length == 19) {
-                factor *= 0.73f;
-            } else if (text.Length == 20) {
-                factor *= 0.67f;
-            } else if (text.Length == 21) {
-                factor *= 0.62f;
-            } else if (text.Length == 22) {
-                factor *= 0.58f;
-            } else if (text.Length == 23) {
-                factor *= 0.54f;
-            } else if (text.Length == 24) {
-                factor *= 0.51f;
-            } else if (text.Length == 25) {
-                factor *= 0.48f;
-            } else if (text.Length == 26) {
-                factor *= 0.45f;
-            } else if (text.Length == 27) {
-                factor *= 0.42f;
-            } else if (text.Length == 28) {
-                factor *= 0.395f;
-            } else if (text.Length == 29) {
-                factor *= 0.375f;
-            } else if (text.Length == 30) {
-                factor *= 0.355f;
+                if (text.Length == 9) {
+                    factor *= 2f;
+                } else if (text.Length == 10) {
+                    factor *= 1.72f;
+                } else if (text.Length == 11) {
+                    factor *= 1.52f;
+                } else if (text.Length == 12) {
+                    factor *= 1.36f;
+                } else if (text.Length == 13) {
+                    factor *= 1.23f;
+                } else if (text.Length == 14) {
+                    factor *= 1.11f;
+                } else if (text.Length == 15) {
+                    factor *= 1f;
+                } else if (text.Length == 16) {
+                    factor *= 0.92f;
+                } else if (text.Length == 17) {
+                    factor *= 0.86f;
+                } else if (text.Length == 18) {
+                    factor *= 0.79f;
+                } else if (text.Length == 19) {
+                    factor *= 0.73f;
+                } else if (text.Length == 20) {
+                    factor *= 0.67f;
+                } else if (text.Length == 21) {
+                    factor *= 0.62f;
+                } else if (text.Length == 22) {
+                    factor *= 0.58f;
+                } else if (text.Length == 23) {
+                    factor *= 0.54f;
+                } else if (text.Length == 24) {
+                    factor *= 0.51f;
+                } else if (text.Length == 25) {
+                    factor *= 0.48f;
+                } else if (text.Length == 26) {
+                    factor *= 0.45f;
+                } else if (text.Length == 27) {
+                    factor *= 0.42f;
+                } else if (text.Length == 28) {
+                    factor *= 0.395f;
+                } else if (text.Length == 29) {
+                    factor *= 0.375f;
+                } else if (text.Length == 30) {
+                    factor *= 0.355f;
+                }
             }
             
             return factor > 1f ? 1f : factor;
