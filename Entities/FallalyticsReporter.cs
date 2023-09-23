@@ -104,13 +104,13 @@ namespace FallGuysStats {
             json += "\"record\":\"" + (round.Finish.Value - round.Start).TotalMilliseconds + "\",";
             json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
             json += "\"userCountry\":\"" + Stats.HostCountry + "\",";
-            json += "\"onlineServiceFlag\":\"" + Stats.OnlineServiceFlag + "\",";
+            json += "\"onlineServiceType\":\"" + Stats.OnlineServiceType + "\",";
             if (isAnonymous) {
                 json += "\"onlineServiceId\":\"Anonymous\",";
-                json += "\"onlineServiceName\":\"Anonymous\",";
+                json += "\"onlineServiceNickname\":\"Anonymous\",";
             } else {
                 json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
-                json += "\"onlineServiceName\":\"" + Stats.OnlineServiceNickName + "\",";
+                json += "\"onlineServiceNickname\":\"" + Stats.OnlineServiceNickname + "\",";
             }
             json += "\"session\":\"" + round.SessionId + "\"}";
             return json;

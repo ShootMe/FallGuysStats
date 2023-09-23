@@ -141,9 +141,10 @@ namespace FallGuysStats {
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
+        public enum OnlineServiceTypes { None = -1, EpicGames = 0, Steam = 1 }
         public static string OnlineServiceId = string.Empty;
-        public static string OnlineServiceNickName = string.Empty;
-        public static int OnlineServiceFlag = -1;
+        public static string OnlineServiceNickname = string.Empty;
+        public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountry = string.Empty;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
@@ -2685,20 +2686,20 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
                                         
-                                        // if (OnlineServiceFlag != -1 && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                        //     if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickName)) {
+                                        // if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
+                                        //     if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                                         //         string[] userInfo;
-                                        //         if (OnlineServiceFlag == 1) { // 1 : Steam
+                                        //         if (OnlineServiceType == OnlineServiceTypes.Steam) {
                                         //             userInfo = this.FindSteamNickname();
                                         //             if (userInfo != null) {
                                         //                 OnlineServiceId = userInfo[0];
-                                        //                 OnlineServiceNickName = userInfo[1];
+                                        //                 OnlineServiceNickname = userInfo[1];
                                         //             }
-                                        //         } else { // 0 : EpicGames
+                                        //         } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
                                         //             userInfo = this.FindEpicGamesNickname();
                                         //             if (userInfo != null) {
                                         //                 OnlineServiceId = userInfo[0];
-                                        //                 OnlineServiceNickName = userInfo[1];
+                                        //                 OnlineServiceNickname = userInfo[1];
                                         //             }
                                         //         }
                                         //     }

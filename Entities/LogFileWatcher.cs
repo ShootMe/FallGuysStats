@@ -129,22 +129,22 @@ namespace FallGuysStats {
                                 while ((line = sr.ReadLine()) != null) {
                                     LogLine logLine = new LogLine(line, sr.Position);
                                     
-                                    if (line.IndexOf("Discovering subsystems at path", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                    if (Stats.OnlineServiceType == Stats.OnlineServiceTypes.None && line.IndexOf("Discovering subsystems at path", StringComparison.OrdinalIgnoreCase) >= 0) {
                                         string subsystemsPath = line.Substring(44);
                                         string[] userInfo;
                                         if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                            Stats.OnlineServiceFlag = 1; // Steam
+                                            Stats.OnlineServiceType = Stats.OnlineServiceTypes.Steam;
                                             userInfo = this.StatsForm.FindSteamNickname();
                                             if (userInfo != null) {
                                                 Stats.OnlineServiceId = userInfo[0];
-                                                Stats.OnlineServiceNickName = userInfo[1];
+                                                Stats.OnlineServiceNickname = userInfo[1];
                                             }
                                         } else {
-                                            Stats.OnlineServiceFlag = 0; // Epic Games
+                                            Stats.OnlineServiceType = Stats.OnlineServiceTypes.EpicGames;
                                             userInfo = this.StatsForm.FindEpicGamesNickname();
                                             if (userInfo != null) {
                                                 Stats.OnlineServiceId = userInfo[0];
-                                                Stats.OnlineServiceNickName = userInfo[1];
+                                                Stats.OnlineServiceNickname = userInfo[1];
                                             }
                                         }
                                     }
