@@ -213,8 +213,7 @@ namespace FallGuysStats {
             return new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(int language = 0) {
-            return language <= 1 ? DefaultFontCollection.Families[2] :
-                (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+            return language <= 1 ? DefaultFontCollection.Families[2] : (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
         public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, int language = 0) {
             return new Font(GetMainFontFamilies(language), emSize, fontStyle, GraphicsUnit.Pixel);
@@ -512,36 +511,6 @@ namespace FallGuysStats {
             this.SetVisiblePositionMenu(false);
             this.SetVisiblePositionLockButton(false);
         }
-        // private void ShowCountyNameTooltip() {
-        //     this.StatsForm.AllocOverlayTooltip();
-        //     Rectangle rectangle = this.lblCountryIcon.Bounds;
-        //     Point position = new Point(this.lblCountryIcon.Left + this.lblCountryIcon.Image.Width + 6
-        //                                + (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
-        //                                    Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 28 :
-        //                                    Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
-        //                                    Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0)
-        //                                + (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name) ? 7 : 0),
-        //         rectangle.Top - (rectangle.Height / 3));
-        //     this.StatsForm.ShowOverlayTooltip(Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName, this, position);
-        // }
-        // private void Overlay_MouseEnter(object sender, EventArgs e) {
-        //     this.isMouseEnter = true;
-        //     this.StatsForm.HideOverlayTooltip(this);
-        //     if (!this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
-        //         this.ShowCountyNameTooltip();
-        //     }
-        // }
-        // private void Overlay_MouseLeave(object sender, EventArgs e) {
-        //     this.isMouseEnter = false;
-        //     this.StatsForm.HideOverlayTooltip(this);
-        // }
-        // private void Overlay_MouseClick(object sender, MouseEventArgs e) {
-        //     if (e.Button == MouseButtons.Left) {
-        //         if (this.IsFixed() && Stats.IsPrePlaying && this.lblCountryIcon.DrawVisible && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
-        //             this.ShowCountyNameTooltip();
-        //         }
-        //     }
-        // }
         private void Overlay_Resize(object sender, EventArgs e) {
             this.SetLocationPositionMenu(this.drawHeight > 99, this.StatsForm.CurrentSettings.FlippedDisplay);
         }
