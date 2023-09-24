@@ -64,6 +64,9 @@ namespace FallGuysStats {
         private static PrivateFontCollection DefaultFontCollection;
         public static new Font DefaultFont;
         
+        // private int testCounter = 0;
+        // private int testCounter2 = 30;
+        
         static Overlay() {
             if (!File.Exists("TitanOne-Regular.ttf")) {
                 using (Stream fontStream = typeof(Overlay).Assembly.GetManifestResourceStream("FallGuysStats.Resources.font.TitanOne-Regular.ttf")) {
@@ -570,17 +573,25 @@ namespace FallGuysStats {
                     this.lblRound.ImageWidth = 0;
                     this.lblRound.ImageHeight = 0;
                 }
+
+                // if (this.testCounter == 0) {
+                //     roundName = "GOWEGHGHODEGWOQOHORHROEQEFOGWO";
+                // } else if (this.testCounter == 1) {
+                //     roundName = "goweghghodegwoqohorhroeqefogwo";
+                // } else if (this.testCounter == 2) {
+                //     roundName = "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나";
+                // } else if (this.testCounter == 3) {
+                //     roundName = "ガチたのあガまのたいガチガのあガまのガいガチガのあガまのたい";
+                // } else if (this.testCounter == 4) {
+                //     roundName = "斯巴達戰士對決斯巴達戰士對決斯巴達戰士對決斯巴達戰士對決戰士";
+                // } else if (this.testCounter == 5) {
+                //     roundName = "$%!&#@*@$%@%@%&@#%&@@$@%#($@#@";
+                // } else if (this.testCounter == 6) {
+                //     roundName = "000000000000000000000000000000";
+                // }
+                // roundName = roundName.Substring(0, this.testCounter2);
                 
-                if (((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name))
-                    || (Stats.CurrentLanguage == 2 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(2).Name))
-                    || (Stats.CurrentLanguage == 3 && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(3).Name))
-                    || ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(4).Name))
-                    || this.lastRound.UseShareCode) {
-                    if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
-                } else {
-                    if (roundName.Length > 21) { roundName = roundName.Substring(0, 21); }
-                }
-            
+                if (roundName.Length > 30) { roundName = roundName.Substring(0, 30); }
                 this.lblRound.TextRight = roundName;
             }
         }
@@ -1046,6 +1057,27 @@ namespace FallGuysStats {
             }
             
             switch (e.Control) {
+                // case true when e.Control && e.KeyCode == Keys.Q:
+                //     this.testCounter++;
+                //     if (this.testCounter > 6) {
+                //         this.testCounter = 0;
+                //     }
+                //     break;
+                // case true when e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down):
+                //     if (e.KeyCode == Keys.Up) {
+                //         this.testCounter2++;
+                //     } else if (e.KeyCode == Keys.Down) {
+                //         this.testCounter2--;
+                //     }
+                //
+                //     if (this.testCounter2 < 9) {
+                //         this.testCounter2 = 9;
+                //     }
+                //
+                //     if (this.testCounter2 > 30) {
+                //         this.testCounter2 = 30;
+                //     }
+                //     break;
                 case true when e.KeyCode == Keys.M:
                     this.StatsForm.CurrentSettings.OverlayNotOnTop = !this.StatsForm.CurrentSettings.OverlayNotOnTop;
                     this.StatsForm.SetOverlayTopMost(!this.StatsForm.CurrentSettings.OverlayNotOnTop);

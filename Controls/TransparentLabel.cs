@@ -186,37 +186,56 @@ namespace FallGuysStats {
         private float GetFontSizeFactorForRoundName(string text) {
             float factor = 1f,
                   factorOffsetForSpace = 0f,
-                  factorOffsetForEngAlphabet = 0f,
-                  factorOffsetForKorAlphabet = 0f,
-                  factorOffsetForJpnAlphabet = 0f,
+                  factorOffsetForEngUppercase = 0f,
+                  factorOffsetForEngLowercase = 0f,
+                  factorOffsetForKorCharacter = 0f,
+                  factorOffsetForJpnCharacter = 0f,
                   factorOffsetForChineseCharacter = 0f,
                   factorOffsetForNumeric = 0f,
                   factorOffsetForSignCharacter = 0f;
             
             if (text.Length >= 9 && 30 >= text.Length) {
-                if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English & French
-                    factor = 0.33f; factorOffsetForSpace = 0.03f;
-                    factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0365f : 0.0435f;
-                    factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.013f : 0.019f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.013f : 0.019f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.013f : 0.019f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.03f : 0.038f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.03f : 0.038f;
-                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese
-                    factor = 0.33f; factorOffsetForSpace = 0.03f;
-                    factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.045f : 0.033f;
-                    factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0205f : 0.013f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.024f : 0.017f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.024f : 0.017f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.038f : 0.031f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.045f : 0.04f;
-                } else { // Korean & Japanese & Custom font
-                    factor = 0.33f; factorOffsetForSpace = 0.03f;
-                    factorOffsetForEngAlphabet = this.LevelColor.IsEmpty ? 0.0375f : 0.0435f;
-                    factorOffsetForKorAlphabet = this.LevelColor.IsEmpty ? 0.0205f : 0.0265f; factorOffsetForJpnAlphabet = this.LevelColor.IsEmpty ? 0.017f : 0.0225f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.0165f : 0.0225f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.033f : 0.04f; factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.043f : 0.05f;
+                if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English & French / default font
+                    factor = 0.33f; factorOffsetForSpace = 0.085f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0307f : 0.0278f) : 0.034f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0333f : 0.0302f) : 0.037f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0284f : 0.0257f) : 0.0315f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0312f : 0.0282f) : 0.0345f;
+                } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) { // Korean & Japanese / default font
+                    factor = 0.33f; factorOffsetForSpace = 0.115f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.034f : 0.029f) : 0.034f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.043f : 0.029f) : 0.0427f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0237f : 0.02f) : 0.0245f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0315f : 0.0265f) : 0.0315f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.046f : 0.0395f) : 0.046f;
+                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese / default font
+                    factor = 0.33f; factorOffsetForSpace = 0.1f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0366f : 0.0277f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0459f : 0.035f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.0205f : 0.015f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? 0.0235f : 0.0176f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.0235f : 0.0176f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0335f : 0.0252f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.049f : 0.0375f;
+                } else { // Custom font
+                    factor = 0.33f; factorOffsetForSpace = 0.117f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0275f : 0.0308f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0373f : 0.0412f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.026f : 0.029f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0368f : 0.0406f;
                 }
                 
                 factor += (this.GetCountSpace(text) * factorOffsetForSpace)
-                          + (this.GetCountEngAlphabet(text) * factorOffsetForEngAlphabet)
-                          + (this.GetCountKorAlphabet(text) * factorOffsetForKorAlphabet) + (this.GetCountJpnAlphabet(text) * factorOffsetForJpnAlphabet)
+                          + (this.GetCountEngUppercase(text) * factorOffsetForEngUppercase) + (this.GetCountEngLowercase(text) * factorOffsetForEngLowercase)
+                          + (this.GetCountKorCharacter(text) * factorOffsetForKorCharacter) + (this.GetCountJpnCharacter(text) * factorOffsetForJpnCharacter)
                           + (this.GetCountChineseCharacter(text) * factorOffsetForChineseCharacter)
                           + (this.GetCountSignCharacter(text) * factorOffsetForSignCharacter) + (this.GetCountNumeric(text) * factorOffsetForNumeric);
                 
@@ -293,7 +312,7 @@ namespace FallGuysStats {
                 if (outlinePen != null) g.DrawPath(outlinePen, path);
             }
         }
-        private int GetCountKorAlphabet(string s) {
+        private int GetCountKorCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
@@ -303,7 +322,7 @@ namespace FallGuysStats {
             }
             return count;
         }
-        private int GetCountJpnAlphabet(string s) {
+        private int GetCountJpnCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
@@ -359,13 +378,19 @@ namespace FallGuysStats {
             }
             return count;
         }
-        private int GetCountEngAlphabet(string s) {
+        private int GetCountEngUppercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
-                if ((0x61 <= ch && ch <= 0x7A) //Lowercase
-                     || (0x41 <= ch && ch <= 0x5A) //Uppercase
-                   ) count++;
+                if ((0x41 <= ch && ch <= 0x5A)) count++;
+            }
+            return count;
+        }
+        private int GetCountEngLowercase(string s) {
+            int count = 0;
+            char[] charArr = s.ToCharArray();
+            foreach (char ch in charArr) {
+                if ((0x61 <= ch && ch <= 0x7A)) count++;
             }
             return count;
         }
