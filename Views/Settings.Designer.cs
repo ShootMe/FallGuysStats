@@ -1601,7 +1601,7 @@
             this.txtFallalyticsAPIKey.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtFallalyticsAPIKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // chkFallalyticsRegisterPB
+            // chkFallalyticsAnonymous
             // 
             this.chkFallalyticsAnonymous.AutoSize = true;
             this.chkFallalyticsAnonymous.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -1610,7 +1610,7 @@
             this.chkFallalyticsAnonymous.Name = "chkFallalyticsAnonymous";
             this.chkFallalyticsAnonymous.Size = new System.Drawing.Size(266, 15);
             this.chkFallalyticsAnonymous.TabIndex = 3;
-            this.chkFallalyticsAnonymous.Text = "Anonymous";
+            this.chkFallalyticsAnonymous.Text = "Send anonymously";
             this.chkFallalyticsAnonymous.UseSelectable = true;
             // 
             // chkFallalyticsReporting

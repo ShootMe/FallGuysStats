@@ -195,8 +195,9 @@ namespace FallGuysStats {
                   factorOffsetForSignCharacter = 0f;
             
             if (text.Length >= 9 && 30 >= text.Length) {
-                if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English & French / default font
-                    factor = 0.33f; factorOffsetForSpace = 0.085f;
+                factor = 0.33f;
+                if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English & French // default font
+                    factorOffsetForSpace = 0.085f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0307f : 0.0278f) : 0.034f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0333f : 0.0302f) : 0.037f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
@@ -204,17 +205,17 @@ namespace FallGuysStats {
                     factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0284f : 0.0257f) : 0.0315f;
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0312f : 0.0282f) : 0.0345f;
-                } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) { // Korean & Japanese / default font
-                    factor = 0.33f; factorOffsetForSpace = 0.115f;
+                } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) { // Korean & Japanese // default font
+                    factorOffsetForSpace = 0.115f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.034f : 0.029f) : 0.034f;
-                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.043f : 0.029f) : 0.0427f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.043f : 0.0372f) : 0.0427f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0237f : 0.02f) : 0.0245f;
                     factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
                     factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0315f : 0.0265f) : 0.0315f;
-                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.046f : 0.0395f) : 0.046f;
-                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese / default font
-                    factor = 0.33f; factorOffsetForSpace = 0.1f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0315f : 0.0267f) : 0.0315f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.046f : 0.0397f) : 0.046f;
+                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese // default font
+                    factorOffsetForSpace = 0.1f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0366f : 0.0277f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0459f : 0.035f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.0205f : 0.015f;
@@ -223,20 +224,40 @@ namespace FallGuysStats {
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0335f : 0.0252f;
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.049f : 0.0375f;
                 } else { // Custom font
-                    factor = 0.33f; factorOffsetForSpace = 0.117f;
-                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0275f : 0.0308f;
-                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0373f : 0.0412f;
-                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
-                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.02f : 0.0232f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.026f : 0.029f;
-                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0368f : 0.0406f;
+                    if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1)) { // English & French
+                        factorOffsetForSpace = 0.117f;
+                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0282f : 0.0247f) : 0.0305f;
+                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0382f : 0.0341f) : 0.0412f;
+                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0265f : 0.0235f) : 0.0288f;
+                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0375f : 0.0335f) : 0.0406f;
+                    } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3)) { // Korean & Japanese
+                        factorOffsetForSpace = 0.115f;
+                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0308f : 0.027f) : 0.0305f;
+                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0412f : 0.0367f) : 0.0407f;
+                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0285f : 0.025f) : 0.0287f;
+                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0405f : 0.036f) : 0.04f;
+                    } else { // Simplified Chinese & Traditional Chinese
+                        factorOffsetForSpace = 0.1f;
+                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0345f : 0.0255f;
+                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.046f : 0.0345f;
+                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.0255f : 0.0188f;
+                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? 0.0255f : 0.0188f;
+                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? 0.0255f : 0.0188f;
+                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0323f : 0.0238f;
+                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.0452f : 0.034f;
+                    }
                 }
                 
                 factor += (this.GetCountSpace(text) * factorOffsetForSpace)
                           + (this.GetCountEngUppercase(text) * factorOffsetForEngUppercase) + (this.GetCountEngLowercase(text) * factorOffsetForEngLowercase)
-                          + (this.GetCountKorCharacter(text) * factorOffsetForKorCharacter) + (this.GetCountJpnCharacter(text) * factorOffsetForJpnCharacter)
-                          + (this.GetCountChineseCharacter(text) * factorOffsetForChineseCharacter)
+                          + (this.GetCountKorCharacter(text) * factorOffsetForKorCharacter)
+                          + (this.GetCountJpnCharacter(text) * factorOffsetForJpnCharacter) + (this.GetCountChineseCharacter(text) * factorOffsetForChineseCharacter)
                           + (this.GetCountSignCharacter(text) * factorOffsetForSignCharacter) + (this.GetCountNumeric(text) * factorOffsetForNumeric);
                 
                 if (text.Length == 9) {
@@ -335,41 +356,6 @@ namespace FallGuysStats {
             }
             return count;
         }
-        // private int GetCountChineseSimplified(string s) {
-        //     int count = 0;
-        //     char[] charArr = s.ToCharArray();
-        //     foreach (char ch in charArr) {
-        //         if (ch >= 0x4e00 && ch <= 0x9fff &&
-        //              (
-        //                  ch <= 0x9fa5 ||
-        //                  (ch >= 0x3400 && ch <= 0x4dbf) ||
-        //                  (ch >= 0x20000 && ch <= 0x2a6df) ||
-        //                  (ch >= 0x2a700 && ch <= 0x2b73f) ||
-        //                  (ch >= 0x2b740 && ch <= 0x2b81f) ||
-        //                  (ch >= 0x2b820 && ch <= 0x2ceaf) ||
-        //                  (ch >= 0xff00 && ch <= 0xffef)
-        //              )
-        //             ) count++;
-        //     }
-        //     return count;
-        // }
-        // private int GetCountChineseTraditional(string s) {
-        //     int count = 0;
-        //     char[] charArr = s.ToCharArray();
-        //     foreach (char ch in charArr) {
-        //         if (ch >= 0x4e00 && ch <= 0x9fff && 
-        //              (
-        //                 ch >= 0x9fa6 ||
-        //                 (ch >= 0x2f00 && ch <= 0x2fdf) ||
-        //                 (ch >= 0x2e80 && ch <= 0x2eff) ||
-        //                 (ch >= 0x2f00 && ch <= 0x2fdf) ||
-        //                 (ch >= 0x31c0 && ch <= 0x31ef) ||
-        //                 (ch >= 0x2f800 && ch <= 0x2fa1f)
-        //              )
-        //             ) count++;
-        //     }
-        //     return count;
-        // }
         private int GetCountChineseCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
