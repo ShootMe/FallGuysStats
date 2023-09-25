@@ -286,24 +286,6 @@ namespace FallGuysStats {
                 }
             }
             this.StatsDB.Commit();
-
-            // this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsPbInfo");
-            // this.StatsDB.BeginTrans();
-            // if (this.FallalyticsPbInfo.Count() == 0) {
-            //     foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-            //         if (entry.Value.Type == LevelType.Race) {
-            //             if (entry.Key.Equals("user_creative_race_round") ||
-            //                 entry.Key.Equals("creative_race_round") ||
-            //                 entry.Key.Equals("creative_race_final_round") ||
-            //                 entry.Key.Equals("current_wle_fp4_10_08_m"))
-            //             {
-            //                 continue;
-            //             }
-            //             this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = entry.Key, Record = 0, PbDate = DateTime.MinValue });
-            //         }
-            //     }
-            // }
-            // this.StatsDB.Commit();
             
             this.RemoveUpdateFiles();
             
@@ -337,7 +319,7 @@ namespace FallGuysStats {
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
-            this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsTransferInfo");
+            this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsPbInfo");
 
             this.StatsDB.BeginTrans();
             if (this.Profiles.Count() == 0) {
