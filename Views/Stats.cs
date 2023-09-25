@@ -2723,41 +2723,41 @@ namespace FallGuysStats {
                                                                            stat.ShowNameId.Equals(r.ShowNameId) &&
                                                                            stat.Name.Equals(r.Name)
                                                                      select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
+
+                                                    try {
+                                                        FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId }, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                                     
-                                                    RoundInfo tempStat = new RoundInfo {
-                                                        Name = stat.Name,
-                                                        ShowNameId = stat.ShowNameId,
-                                                        Finish = stat.Finish,
-                                                        SessionId = stat.SessionId
-                                                    };
-                                                    
-                                                    FallalyticsReporter.RegisterPb(tempStat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                                    
-                                                    this.StatsDB.BeginTrans();
-                                                    this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                                                                          Record = record, PbDate = DateTime.Now,
-                                                                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
-                                                                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
-                                                    this.StatsDB.Commit();
+                                                        this.StatsDB.BeginTrans();
+                                                        this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                                                                                                               Record = record, PbDate = DateTime.Now,
+                                                                                                               Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                                                                               OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
+                                                        this.StatsDB.Commit();
+                                                    } catch {
+                                                        // ignored
+                                                    }
                                                 } else {
-                                                    double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
                                                     List<RoundInfo> filteredInfo = (from r in this.RoundDetails.FindAll()
                                                                                     where r.Finish.HasValue && 
-                                                                                          record > (r.Finish.Value - r.Start).TotalMilliseconds &&
+                                                                                          (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
                                                                                           stat.ShowNameId.Equals(r.ShowNameId) &&
                                                                                           stat.Name.Equals(r.Name)
                                                                                     select r).ToList();
-                                                    
                                                     if (filteredInfo.Count == 0) {
-                                                        FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                                        try {
+                                                            double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                                                            FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                                         
-                                                        this.StatsDB.BeginTrans();
-                                                        foreach (FallalyticsPbInfo f in pbInfo) {
-                                                            f.Record = record;
-                                                            f.PbDate = DateTime.Now;
+                                                            this.StatsDB.BeginTrans();
+                                                            foreach (FallalyticsPbInfo f in pbInfo) {
+                                                                f.Record = record;
+                                                                f.PbDate = DateTime.Now;
+                                                            }
+                                                            this.FallalyticsPbInfo.Update(pbInfo);
+                                                            this.StatsDB.Commit();
+                                                        } catch {
+                                                            // ignored
                                                         }
-                                                        this.FallalyticsPbInfo.Update(pbInfo);
-                                                        this.StatsDB.Commit();
                                                     }
                                                 }
                                             }
