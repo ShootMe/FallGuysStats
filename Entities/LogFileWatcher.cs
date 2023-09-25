@@ -58,7 +58,7 @@ namespace FallGuysStats {
         private string selectedShowId;
         private bool useShareCode;
         private string sessionId;
-        private bool toggleRequestIp2cApi;
+        private bool toggleRequestCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         
         private string creativeShareCode;
@@ -473,7 +473,6 @@ namespace FallGuysStats {
             Stats.LastServerPing = 0;
             Stats.IsBadPing = false;
             Stats.LastCountryAlpha2Code = string.Empty;
-            Stats.LastCountryAlpha3Code = string.Empty;
             Stats.LastCountryDefaultName = string.Empty;
             Stats.IsPrePlaying = false;
             Stats.IsPlaying = false;
@@ -556,30 +555,61 @@ namespace FallGuysStats {
                                     }
                                 });
 
-                                if (!this.toggleRequestIp2cApi) {
-                                    this.toggleRequestIp2cApi = true;
+                                if (!this.toggleRequestCountryInfoApi) {
+                                    this.toggleRequestCountryInfoApi = true;
                                     Task.Run(() => {
                                         if (Stats.IsClientRunning()) {
                                             try {
-                                                string[] countryArr = this.StatsForm.GetCountryCode(ip);
-                                                Stats.LastCountryAlpha2Code = countryArr[0].ToLower();
-                                                Stats.LastCountryAlpha3Code = countryArr[1];
-                                                Stats.LastCountryDefaultName = countryArr[2];
-                                                if (this.StatsForm.CurrentSettings.NotifyServerConnected && (!string.IsNullOrEmpty(Stats.LastCountryAlpha3Code) || !string.IsNullOrEmpty(Stats.LastCountryDefaultName))) {
+                                                string[] countryInfo = this.StatsForm.GetCountryCodeUsingIp2c(ip); // [0] alpha-2 code, [1] a full country name
+                                                Stats.LastCountryAlpha2Code = countryInfo[0];
+                                                Stats.LastCountryDefaultName = countryInfo[1];
+                                                if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                                     this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha3Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                                                         System.Windows.Forms.ToolTipIcon.Info, 2000);
                                                 }
                                             } catch {
-                                                this.toggleRequestIp2cApi = false;
                                                 Stats.LastCountryAlpha2Code = string.Empty;
-                                                Stats.LastCountryAlpha3Code = string.Empty;
                                                 Stats.LastCountryDefaultName = string.Empty;
                                             }
+
+                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                try {
+                                                    string[] countryInfo = this.StatsForm.GetCountryCodeUsingIpapi(ip); // [0] alpha-2 code, [1] a full country name, [2] region, [3] city
+                                                    Stats.LastCountryAlpha2Code = countryInfo[0];
+                                                    Stats.LastCountryDefaultName = countryInfo[1];
+                                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                                    }
+                                                } catch {
+                                                    Stats.LastCountryAlpha2Code = string.Empty;
+                                                    Stats.LastCountryDefaultName = string.Empty;
+                                                }
+                                            }
+                                            
+                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                try {
+                                                    string[] countryInfo = this.StatsForm.GetCountryCodeUsingIpinfo(ip); // [0] alpha-2 code, [1] region, [2] city
+                                                    Stats.LastCountryAlpha2Code = countryInfo[0];
+                                                    Stats.LastCountryDefaultName = string.Empty;
+                                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                                    }
+                                                } catch {
+                                                    Stats.LastCountryAlpha2Code = string.Empty;
+                                                    Stats.LastCountryDefaultName = string.Empty;
+                                                }
+                                            }
+
+                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                this.toggleRequestCountryInfoApi = false;
+                                            }
                                         } else {
-                                            this.toggleRequestIp2cApi = false;
                                             Stats.LastCountryAlpha2Code = string.Empty;
-                                            Stats.LastCountryAlpha3Code = string.Empty;
                                             Stats.LastCountryDefaultName = string.Empty;
                                         }
                                     });
@@ -820,7 +850,7 @@ namespace FallGuysStats {
                 logRound.CountingPlayers = false;
                 this.InitStaticVariable();
                 Stats.InShow = false;
-                this.toggleRequestIp2cApi = false;
+                this.toggleRequestCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) >= 0
                        //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) >= 0

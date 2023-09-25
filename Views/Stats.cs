@@ -136,7 +136,6 @@ namespace FallGuysStats {
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;
         public static string LastCountryAlpha2Code = string.Empty;
-        public static string LastCountryAlpha3Code = string.Empty;
         public static string LastCountryDefaultName = string.Empty;
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
@@ -184,9 +183,8 @@ namespace FallGuysStats {
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
         public ILiteCollection<Profiles> Profiles;
+        public ILiteCollection<FallalyticsPbInfo> FallalyticsPbInfo;
         public List<Profiles> AllProfiles = new List<Profiles>();
-        public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
-        public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
         public UserSettings CurrentSettings;
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
@@ -196,6 +194,8 @@ namespace FallGuysStats {
         private int currentProfile;
         private int currentLanguage;
         private Color infoStripForeColor;
+        public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
+        public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
 
         private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
         private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
@@ -227,8 +227,9 @@ namespace FallGuysStats {
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        private readonly string IP2C_ORG_URL = "https://ip2c.org/";
-        private readonly string IPINFO_IO_URL = "https://ipinfo.io/ip";
+        private readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}
+        private readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json
+        private readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
         private int profileIdWithLinkedCustomShow = -1;
         public readonly string[] publicShowIdList = {
             "main_show",
@@ -255,7 +256,7 @@ namespace FallGuysStats {
             "private_lobbies"
         };
 
-        private Stats() {
+        private Stats() { 
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
                     HostCountry = this.GetUserCountry();
@@ -285,6 +286,24 @@ namespace FallGuysStats {
                 }
             }
             this.StatsDB.Commit();
+
+            // this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsPbInfo");
+            // this.StatsDB.BeginTrans();
+            // if (this.FallalyticsPbInfo.Count() == 0) {
+            //     foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
+            //         if (entry.Value.Type == LevelType.Race) {
+            //             if (entry.Key.Equals("user_creative_race_round") ||
+            //                 entry.Key.Equals("creative_race_round") ||
+            //                 entry.Key.Equals("creative_race_final_round") ||
+            //                 entry.Key.Equals("current_wle_fp4_10_08_m"))
+            //             {
+            //                 continue;
+            //             }
+            //             this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = entry.Key, Record = 0, PbDate = DateTime.MinValue });
+            //         }
+            //     }
+            // }
+            // this.StatsDB.Commit();
             
             this.RemoveUpdateFiles();
             
@@ -318,9 +337,9 @@ namespace FallGuysStats {
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
+            this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsTransferInfo");
 
             this.StatsDB.BeginTrans();
-
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                  CultureInfo.CurrentUICulture.Name :
@@ -2683,38 +2702,84 @@ namespace FallGuysStats {
                                 //Must not be a private lobby
                                 //Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                    Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
+                                    
                                     Task.Run(() => {
-                                        FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey);
+                                        if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) {
+                                            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
+                                                string[] userInfo;
+                                                if (OnlineServiceType == OnlineServiceTypes.Steam) {
+                                                    userInfo = this.FindSteamNickname();
+                                                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                                                        OnlineServiceId = userInfo[0];
+                                                        OnlineServiceNickname = userInfo[1];
+                                                    }
+                                                } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
+                                                    userInfo = this.FindEpicGamesNickname();
+                                                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                                                        OnlineServiceId = userInfo[0];
+                                                        OnlineServiceNickname = userInfo[1];
+                                                    }
+                                                }
+                                            }
                                         
-                                        // if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && this.StatLookup.TryGetValue(stat.Name, out LevelStats level)) {
-                                        //     if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
-                                        //         string[] userInfo;
-                                        //         if (OnlineServiceType == OnlineServiceTypes.Steam) {
-                                        //             userInfo = this.FindSteamNickname();
-                                        //             if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                        //                 OnlineServiceId = userInfo[0];
-                                        //                 OnlineServiceNickname = userInfo[1];
-                                        //             }
-                                        //         } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
-                                        //             userInfo = this.FindEpicGamesNickname();
-                                        //             if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                        //                 OnlineServiceId = userInfo[0];
-                                        //                 OnlineServiceNickname = userInfo[1];
-                                        //             }
-                                        //         }
-                                        //     }
-                                        //
-                                        //     if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                                        //         LevelType levelType = (level?.Type).GetValueOrDefault();
-                                        //         if (levelType == LevelType.Race) {
-                                        //             RoundInfo filteredInfo = this.AllStats.Find(r => r.Finish.HasValue && 
-                                        //                                                         (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
-                                        //                                                         stat.ShowNameId.Equals(r.ShowNameId) &&
-                                        //                                                         stat.Name.Equals(r.Name));
-                                        //             if (filteredInfo == null) { FallalyticsReporter.RegisterPb(stat, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous); }
-                                        //         }
-                                        //     }
-                                        // }
+                                            if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                                                if (string.IsNullOrEmpty(HostCountry)) {
+                                                    HostCountry = this.GetUserCountry();
+                                                }
+                                                
+                                                List<FallalyticsPbInfo> pbInfo = (from f in this.FallalyticsPbInfo.FindAll()
+                                                                                  where stat.Name.Equals(f.RoundId) &&
+                                                                                        stat.ShowNameId.Equals(f.ShowNameId) &&
+                                                                                        (int)OnlineServiceType == f.OnlineServiceType &&
+                                                                                        OnlineServiceId.Equals(f.OnlineServiceId) &&
+                                                                                        OnlineServiceNickname.Equals(f.OnlineServiceNickname)
+                                                                                  select f).ToList();
+                                                if (pbInfo.Count == 0) { // first transfer
+                                                    double record = (from r in this.RoundDetails.FindAll()
+                                                                     where r.Finish.HasValue &&
+                                                                           stat.ShowNameId.Equals(r.ShowNameId) &&
+                                                                           stat.Name.Equals(r.Name)
+                                                                     select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
+                                                    
+                                                    RoundInfo tempStat = new RoundInfo {
+                                                        Name = stat.Name,
+                                                        ShowNameId = stat.ShowNameId,
+                                                        Finish = stat.Finish,
+                                                        SessionId = stat.SessionId
+                                                    };
+                                                    
+                                                    FallalyticsReporter.RegisterPb(tempStat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                                    
+                                                    this.StatsDB.BeginTrans();
+                                                    this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                                                                                                          Record = record, PbDate = DateTime.Now,
+                                                                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
+                                                    this.StatsDB.Commit();
+                                                } else {
+                                                    double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                                                    List<RoundInfo> filteredInfo = (from r in this.RoundDetails.FindAll()
+                                                                                    where r.Finish.HasValue && 
+                                                                                          record > (r.Finish.Value - r.Start).TotalMilliseconds &&
+                                                                                          stat.ShowNameId.Equals(r.ShowNameId) &&
+                                                                                          stat.Name.Equals(r.Name)
+                                                                                    select r).ToList();
+                                                    
+                                                    if (filteredInfo.Count == 0) {
+                                                        FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                                        
+                                                        this.StatsDB.BeginTrans();
+                                                        foreach (FallalyticsPbInfo f in pbInfo) {
+                                                            f.Record = record;
+                                                            f.PbDate = DateTime.Now;
+                                                        }
+                                                        this.FallalyticsPbInfo.Update(pbInfo);
+                                                        this.StatsDB.Commit();
+                                                    }
+                                                }
+                                            }
+                                        }
                                     });
                                 }
                             } else {
@@ -3016,7 +3081,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        public StatSummary GetLevelInfo(string name, int levelException, bool useShareCode, LevelType levelType) {
+        public StatSummary GetLevelInfo(string name, LevelType levelType, int levelException, bool useShareCode) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
                 TotalShows = 0,
@@ -4249,13 +4314,43 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public string GetUserCountry() {
-            string userCountry = string.Empty;
+        private string GetUserCountry() {
             using (ApiWebClient web = new ApiWebClient()) {
-                string publicIp = web.DownloadString("https://ipinfo.io/ip").Trim();
-                userCountry = web.DownloadString($"https://ip2c.org/{publicIp}");
+                string userCountry = string.Empty;
+                string publicIp;
+                try {
+                    publicIp = web.DownloadString($"{this.IPINFO_IO_URL}/ip").Trim();
+                } catch {
+                    publicIp = string.Empty;
+                }
+                if (!string.IsNullOrEmpty(publicIp)) {
+                    try {
+                        string[] countryInfo = this.GetCountryCodeUsingIp2c(publicIp);
+                        userCountry = countryInfo[0]; // alpha-2 code
+                    } catch {
+                        userCountry = string.Empty;
+                    }
+
+                    if (string.IsNullOrEmpty(userCountry)) {
+                        try {
+                            string[] countryInfo = this.GetCountryCodeUsingIpapi(publicIp);
+                            userCountry = countryInfo[0]; // alpha-2 code
+                        } catch {
+                            userCountry = string.Empty;
+                        }
+                    }
+                
+                    if (string.IsNullOrEmpty(userCountry)) {
+                        try {
+                            string[] countryInfo = this.GetCountryCodeUsingIpinfo(publicIp);
+                            userCountry = countryInfo[0]; // alpha-2 code
+                        } catch {
+                            userCountry = string.Empty;
+                        }
+                    }
+                }
+                return userCountry;
             }
-            return userCountry;
         }
         public void UpdateGameExeLocation() {
             string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();
@@ -5000,22 +5095,40 @@ namespace FallGuysStats {
             }
             return onlinePlatformInfo;
         }
-        public string[] GetCountryCode(string host) {
-            string[] code = { string.Empty, string.Empty, string.Empty };
+        public string[] GetCountryCodeUsingIp2c(string host) {
+            string[] countryInfo = { string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = web.DownloadString($"{this.IP2C_ORG_URL}{host}");
                 string[] resArr = resStr.Split(';');
                 if ("1".Equals(resArr[0])) {
-                    code[0] = resArr[1]; // alpha-2 code
-                    code[1] = resArr[2]; // alpha-3 code
-                    code[2] = resArr[3]; // a full country name
-                } else if ("2".Equals(resArr[0])) {
-                    code[0] = "UNKNOWN";
-                    code[1] = "UNKNOWN";
-                    code[2] = "Unknown";
+                    countryInfo[0] = resArr[1]; // alpha-2 code
+                    countryInfo[1] = resArr[3]; // a full country name
                 }
             }
-            return code;
+            return countryInfo;
+        }
+        public string[] GetCountryCodeUsingIpinfo(string host) {
+            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
+            using (ApiWebClient web = new ApiWebClient()) {
+                string resJsonStr = web.DownloadString($"{this.IPINFO_IO_URL}{host}/json");
+                JsonClass json = Json.Read(resJsonStr) as JsonClass;
+                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[0] = json["country"].AsString(); // alpha-2 code
+                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = json["region"].AsString();
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
+            }
+            return countryInfo;
+        }
+        public string[] GetCountryCodeUsingIpapi(string host) {
+            string[] countryInfo = { string.Empty, string.Empty, string.Empty, string.Empty };
+            using (ApiWebClient web = new ApiWebClient()) {
+                string resJsonStr = web.DownloadString($"{this.IPAPI_COM_URL}{host}");
+                JsonClass json = Json.Read(resJsonStr) as JsonClass;
+                if (!string.IsNullOrEmpty(json["countryCode"].AsString())) countryInfo[0] = json["countryCode"].AsString(); // alpha-2 code
+                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
+                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[2] = json["regionName"].AsString();
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[3] = json["city"].AsString();
+            }
+            return countryInfo;
         }
         public JsonElement GetApiData(string apiUrl, string apiEndPoint) {
             JsonElement resJroot;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -30,7 +29,7 @@ namespace FallGuysStats {
         public Color LevelColor { get; set; }
         public Color LevelTrueColor { get; set; }
         public Image RoundIcon { get; set; }
-        public int ClockProgress { get; set; }
+        public int TickProgress { get; set; }
         public int OverlaySetting { get; set; }
         public void Draw(Graphics g) {
             if (!this.DrawVisible) { return; }
@@ -90,7 +89,7 @@ namespace FallGuysStats {
                                 (this.Name.Equals("lblFastest") && this.OverlaySetting == 2) ||
                                 (this.Name.Equals("lblFinals") && this.OverlaySetting == 3) ||
                                 (this.Name.Equals("lblDuration") && this.OverlaySetting == 6)) {
-                                if (this.ClockProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.ClockProgress / 60f, this.ClientRectangle.Height * 2, 4f);
+                                if (this.TickProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.TickProgress / 60f, this.ClientRectangle.Height * 2, 4f);
                             }
                             this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }

@@ -15,17 +15,10 @@ namespace FallGuysStats {
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async void RegisterPb(RoundInfo stat, string APIKey, bool isAnonymous) {
-            if (string.IsNullOrEmpty(Stats.HostCountry)) {
-                using (ApiWebClient web = new ApiWebClient()) {
-                    string publicIp = web.DownloadString("https://ipinfo.io/ip").Trim();
-                    Stats.HostCountry = web.DownloadString($"https://ip2c.org/{publicIp}");
-                }
-            }
-            
+        public async void RegisterPb(RoundInfo stat, double record, string APIKey, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
-            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, isAnonymous), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -97,14 +90,14 @@ namespace FallGuysStats {
             json += "\"session\":\"" + round.SessionId + "\"}";
             return json;
         }
-        private string RoundInfoToRegisterPbJsonString(RoundInfo round, bool isAnonymous) {
+        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, bool isAnonymous) {
             string json = "";
             json += "{\"round\":\"" + round.Name + "\",";
             json += "\"show\":\"" + round.ShowNameId + "\",";
-            json += "\"record\":\"" + (round.Finish.Value - round.Start).TotalMilliseconds + "\",";
+            json += "\"record\":\"" + record + "\",";
             json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
             json += "\"userCountry\":\"" + Stats.HostCountry + "\",";
-            json += "\"onlineServiceType\":\"" + Stats.OnlineServiceType + "\",";
+            json += "\"onlineServiceType\":\"" + (int)Stats.OnlineServiceType + "\",";
             if (isAnonymous) {
                 json += "\"onlineServiceId\":\"Anonymous\",";
                 json += "\"onlineServiceNickname\":\"Anonymous\",";
