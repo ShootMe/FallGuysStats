@@ -2685,84 +2685,7 @@ namespace FallGuysStats {
                                 //Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    
-                                    Task.Run(() => {
-                                        if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) {
-                                            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
-                                                string[] userInfo;
-                                                if (OnlineServiceType == OnlineServiceTypes.Steam) {
-                                                    userInfo = this.FindSteamNickname();
-                                                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                                        OnlineServiceId = userInfo[0];
-                                                        OnlineServiceNickname = userInfo[1];
-                                                    }
-                                                } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
-                                                    userInfo = this.FindEpicGamesNickname();
-                                                    if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                                        OnlineServiceId = userInfo[0];
-                                                        OnlineServiceNickname = userInfo[1];
-                                                    }
-                                                }
-                                            }
-                                        
-                                            if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                                                if (string.IsNullOrEmpty(HostCountry)) {
-                                                    HostCountry = this.GetUserCountry();
-                                                }
-                                                
-                                                List<FallalyticsPbInfo> pbInfo = (from f in this.FallalyticsPbInfo.FindAll()
-                                                                                  where stat.Name.Equals(f.RoundId) &&
-                                                                                        stat.ShowNameId.Equals(f.ShowNameId) &&
-                                                                                        (int)OnlineServiceType == f.OnlineServiceType &&
-                                                                                        OnlineServiceId.Equals(f.OnlineServiceId) &&
-                                                                                        OnlineServiceNickname.Equals(f.OnlineServiceNickname)
-                                                                                  select f).ToList();
-                                                if (pbInfo.Count == 0) { // first transfer
-                                                    double record = (from r in this.RoundDetails.FindAll()
-                                                                     where r.Finish.HasValue &&
-                                                                           stat.ShowNameId.Equals(r.ShowNameId) &&
-                                                                           stat.Name.Equals(r.Name)
-                                                                     select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
-
-                                                    try {
-                                                        FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId }, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                                    
-                                                        this.StatsDB.BeginTrans();
-                                                        this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                                                                               Record = record, PbDate = DateTime.Now,
-                                                                                                               Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
-                                                                                                               OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
-                                                        this.StatsDB.Commit();
-                                                    } catch {
-                                                        // ignored
-                                                    }
-                                                } else {
-                                                    List<RoundInfo> filteredInfo = (from r in this.RoundDetails.FindAll()
-                                                                                    where r.Finish.HasValue && 
-                                                                                          (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
-                                                                                          stat.ShowNameId.Equals(r.ShowNameId) &&
-                                                                                          stat.Name.Equals(r.Name)
-                                                                                    select r).ToList();
-                                                    if (filteredInfo.Count == 0) {
-                                                        try {
-                                                            double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
-                                                            FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                                        
-                                                            this.StatsDB.BeginTrans();
-                                                            foreach (FallalyticsPbInfo f in pbInfo) {
-                                                                f.Record = record;
-                                                                f.PbDate = DateTime.Now;
-                                                            }
-                                                            this.FallalyticsPbInfo.Update(pbInfo);
-                                                            this.StatsDB.Commit();
-                                                        } catch {
-                                                            // ignored
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
+                                    //Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
                             } else {
                                 continue;
@@ -2885,6 +2808,94 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void FallalyticsRegisterPb(RoundInfo stat) {
+            if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) {
+                if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
+                    string[] userInfo;
+                    if (OnlineServiceType == OnlineServiceTypes.Steam) {
+                        userInfo = this.FindSteamNickname();
+                        if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                            OnlineServiceId = userInfo[0];
+                            OnlineServiceNickname = userInfo[1];
+                        }
+                    } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
+                        userInfo = this.FindEpicGamesNickname();
+                        if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                            OnlineServiceId = userInfo[0];
+                            OnlineServiceNickname = userInfo[1];
+                        }
+                    }
+                }
+            
+                if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                    if (string.IsNullOrEmpty(HostCountry)) {
+                        HostCountry = this.GetUserCountry();
+                    }
+                    
+                    List<FallalyticsPbInfo> pbInfo = (from f in this.FallalyticsPbInfo.FindAll()
+                                                      where stat.Name.Equals(f.RoundId) &&
+                                                            stat.ShowNameId.Equals(f.ShowNameId) &&
+                                                            (int)OnlineServiceType == f.OnlineServiceType &&
+                                                            OnlineServiceId.Equals(f.OnlineServiceId) &&
+                                                            OnlineServiceNickname.Equals(f.OnlineServiceNickname)
+                                                      select f).ToList();
+                    
+                    if (pbInfo.Count == 0) { // first transfer
+                        double record = (from r in this.RoundDetails.FindAll()
+                                         where r.Finish.HasValue &&
+                                               stat.ShowNameId.Equals(r.ShowNameId) &&
+                                               stat.Name.Equals(r.Name)
+                                         select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
+
+                        if (record > (stat.Finish.Value - stat.Start).TotalMilliseconds) {
+                            record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                        }
+
+                        try {
+                            FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId },
+                                                           record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                        
+                            this.StatsDB.BeginTrans();
+                            this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                                                                                   Record = record, PbDate = DateTime.Now,
+                                                                                   Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                                                   OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
+                            this.StatsDB.Commit();
+                        } catch {
+                            // ignored
+                        }
+                    } else if (pbInfo.Count > 0) {
+                        // List<RoundInfo> pbRecord = (from r in this.RoundDetails.FindAll()
+                        //                             where r.Finish.HasValue && 
+                        //                                   (stat.Finish.Value - stat.Start).TotalMilliseconds > (r.Finish.Value - r.Start).TotalMilliseconds &&
+                        //                                   stat.ShowNameId.Equals(r.ShowNameId) &&
+                        //                                   stat.Name.Equals(r.Name)
+                        //                             select r).ToList();
+                        // if (pbRecord.Count == 0) {
+                        
+                        double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                        if (record < pbInfo.Min(pi => pi.Record)) {
+                            try {
+                                //double record = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                                FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                            
+                                this.StatsDB.BeginTrans();
+                                foreach (FallalyticsPbInfo f in pbInfo) {
+                                    f.Record = record;
+                                    f.PbDate = DateTime.Now;
+                                }
+                                this.FallalyticsPbInfo.Update(pbInfo);
+                                this.StatsDB.Commit();
+                            } catch {
+                                // ignored
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         public bool IsCreativeShow(string showId) {
             return showId.StartsWith("show_wle_s10_") ||
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
