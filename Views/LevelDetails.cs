@@ -855,14 +855,14 @@ namespace FallGuysStats {
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;
-                StringBuilder strbuilder = new StringBuilder();
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(info.CreativeTitle);
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(info.CreativeDescription);
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(Environment.NewLine);
+                StringBuilder strBuilder = new StringBuilder();
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(info.CreativeTitle);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(info.CreativeDescription);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
                 string[] createAuthorArr = info.CreativeAuthor.Split(';');
                 string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
                 string indent = Stats.CurrentLanguage == 0 ? "            " :
@@ -871,32 +871,32 @@ namespace FallGuysStats {
                                 Stats.CurrentLanguage == 3 ? "            " :
                                 Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5 ? "         " : "            ";
                 for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
-                    strbuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
+                    strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
                                              : $"{Environment.NewLine}{indent}{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
                 }
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_time_limit")} : {TimeSpan.FromSeconds(info.CreativeTimeLimitSeconds > 0 ? info.CreativeTimeLimitSeconds : 240):m\\:ss}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount}{Multilingual.GetWord("level_detail_creative_inning")}");
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append(Environment.NewLine);
-                strbuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_time_limit")} : {TimeSpan.FromSeconds(info.CreativeTimeLimitSeconds > 0 ? info.CreativeTimeLimitSeconds : 240):m\\:ss}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount}{Multilingual.GetWord("level_detail_creative_inning")}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
 
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X, cursorPosition.Y);
-                this.StatsForm.ShowCustomTooltip(strbuilder.ToString(), this, position);
+                this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
             }
         }
 

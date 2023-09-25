@@ -82,31 +82,26 @@ namespace FallGuysStats {
             this.roundList = new List<RoundInfo>();
         }
         private string RoundInfoToReportJsonString(RoundInfo round) {
-            string json = "";
-            json += "{\"round\":\"" + round.Name + "\",";
-            json += "\"index\":" + round.Round + ",";
-            json += "\"show\":\"" + round.ShowNameId + "\",";
-            json += "\"isfinal\":" + round.IsFinal.ToString().ToLower() + ",";
-            json += "\"session\":\"" + round.SessionId + "\"}";
-            return json;
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.Append($"{{\"round\":\"{round.Name}\",");
+            strBuilder.Append($"\"index\":{round.Round}\",");
+            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
+            strBuilder.Append($"\"isfinal\":{round.IsFinal.ToString().ToLower()}\",");
+            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
+            return strBuilder.ToString();
         }
         private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, bool isAnonymous) {
-            string json = "";
-            json += "{\"round\":\"" + round.Name + "\",";
-            json += "\"show\":\"" + round.ShowNameId + "\",";
-            json += "\"record\":\"" + record + "\",";
-            json += "\"finishDate\":\"" + round.Finish.Value.ToString("o") + "\",";
-            json += "\"userCountry\":\"" + Stats.HostCountry + "\",";
-            json += "\"onlineServiceType\":\"" + (int)Stats.OnlineServiceType + "\",";
-            if (isAnonymous) {
-                json += "\"onlineServiceId\":\"Anonymous\",";
-                json += "\"onlineServiceNickname\":\"Anonymous\",";
-            } else {
-                json += "\"onlineServiceId\":\"" + Stats.OnlineServiceId + "\",";
-                json += "\"onlineServiceNickname\":\"" + Stats.OnlineServiceNickname + "\",";
-            }
-            json += "\"session\":\"" + round.SessionId + "\"}";
-            return json;
+            StringBuilder strBuilder = new StringBuilder();
+            strBuilder.Append($"{{\"round\":\"{round.Name}\",");
+            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
+            strBuilder.Append($"\"record\":\"{record}\",");
+            strBuilder.Append($"\"finishDate\":\"{round.Finish.Value:o}\",");
+            strBuilder.Append($"\"userCountry\":\"{Stats.HostCountry}\",");
+            strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
+            strBuilder.Append($"\"onlineServiceId\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}\",");
+            strBuilder.Append($"\"onlineServiceNickname\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}\",");
+            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
+            return strBuilder.ToString();
         }
     }
 }
