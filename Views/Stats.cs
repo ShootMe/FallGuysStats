@@ -136,7 +136,6 @@ namespace FallGuysStats {
         public static long LastServerPing = 0;
         public static bool IsBadPing = false;
         public static string LastCountryAlpha2Code = string.Empty;
-        public static string LastCountryDefaultName = string.Empty;
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
@@ -2685,7 +2684,7 @@ namespace FallGuysStats {
                                 //Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    // Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
                             } else {
                                 continue;
@@ -4344,26 +4343,18 @@ namespace FallGuysStats {
                     try {
                         string[] countryInfo = this.GetCountryCodeUsingIp2c(publicIp);
                         userCountry = countryInfo[0]; // alpha-2 code
-                    } catch {
-                        userCountry = string.Empty;
-                    }
 
-                    if (string.IsNullOrEmpty(userCountry)) {
-                        try {
-                            string[] countryInfo = this.GetCountryCodeUsingIpapi(publicIp);
+                        if (string.IsNullOrEmpty(userCountry)) {
+                            countryInfo = this.GetCountryCodeUsingIpapi(publicIp);
                             userCountry = countryInfo[0]; // alpha-2 code
-                        } catch {
-                            userCountry = string.Empty;
                         }
-                    }
-                
-                    if (string.IsNullOrEmpty(userCountry)) {
-                        try {
-                            string[] countryInfo = this.GetCountryCodeUsingIpinfo(publicIp);
+                    
+                        if (string.IsNullOrEmpty(userCountry)) {
+                            countryInfo = this.GetCountryCodeUsingIpinfo(publicIp);
                             userCountry = countryInfo[0]; // alpha-2 code
-                        } catch {
-                            userCountry = string.Empty;
                         }
+                    } catch {
+                        return string.Empty;
                     }
                 }
                 return userCountry;

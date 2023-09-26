@@ -473,7 +473,6 @@ namespace FallGuysStats {
             Stats.LastServerPing = 0;
             Stats.IsBadPing = false;
             Stats.LastCountryAlpha2Code = string.Empty;
-            Stats.LastCountryDefaultName = string.Empty;
             Stats.IsPrePlaying = false;
             Stats.IsPlaying = false;
             Stats.PingSwitcher = 10;
@@ -561,56 +560,33 @@ namespace FallGuysStats {
                                         if (Stats.IsClientRunning()) {
                                             try {
                                                 string[] countryInfo = this.StatsForm.GetCountryCodeUsingIp2c(ip); // [0] alpha-2 code, [1] a full country name
-                                                Stats.LastCountryAlpha2Code = countryInfo[0];
-                                                Stats.LastCountryDefaultName = countryInfo[1];
+                                                Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
+
+                                                if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                    countryInfo = this.StatsForm.GetCountryCodeUsingIpapi(ip); // [0] alpha-2 code, [1] a full country name, [2] region, [3] city
+                                                    Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
+                                                }
+                                                
+                                                if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                    countryInfo = this.StatsForm.GetCountryCodeUsingIpinfo(ip); // [0] alpha-2 code, [1] region, [2] city
+                                                    Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
+                                                }
+                                                
                                                 if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                                     this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                                                         System.Windows.Forms.ToolTipIcon.Info, 2000);
                                                 }
+
+                                                if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                                    this.toggleRequestCountryInfoApi = false;
+                                                }
                                             } catch {
-                                                Stats.LastCountryAlpha2Code = string.Empty;
-                                                Stats.LastCountryDefaultName = string.Empty;
-                                            }
-
-                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                try {
-                                                    string[] countryInfo = this.StatsForm.GetCountryCodeUsingIpapi(ip); // [0] alpha-2 code, [1] a full country name, [2] region, [3] city
-                                                    Stats.LastCountryAlpha2Code = countryInfo[0];
-                                                    Stats.LastCountryDefaultName = countryInfo[1];
-                                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code) ?? Stats.LastCountryDefaultName}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
-                                                    }
-                                                } catch {
-                                                    Stats.LastCountryAlpha2Code = string.Empty;
-                                                    Stats.LastCountryDefaultName = string.Empty;
-                                                }
-                                            }
-                                            
-                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                try {
-                                                    string[] countryInfo = this.StatsForm.GetCountryCodeUsingIpinfo(ip); // [0] alpha-2 code, [1] region, [2] city
-                                                    Stats.LastCountryAlpha2Code = countryInfo[0];
-                                                    Stats.LastCountryDefaultName = string.Empty;
-                                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
-                                                    }
-                                                } catch {
-                                                    Stats.LastCountryAlpha2Code = string.Empty;
-                                                    Stats.LastCountryDefaultName = string.Empty;
-                                                }
-                                            }
-
-                                            if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                                 this.toggleRequestCountryInfoApi = false;
+                                                Stats.LastCountryAlpha2Code = string.Empty;
                                             }
                                         } else {
                                             Stats.LastCountryAlpha2Code = string.Empty;
-                                            Stats.LastCountryDefaultName = string.Empty;
                                         }
                                     });
                                 }
