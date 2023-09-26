@@ -10,5 +10,6 @@ namespace FallGuysStats {
         public int OnlineServiceType { get; set; }
         public string OnlineServiceId { get; set; }
         public string OnlineServiceNickname { get; set; }
+        public bool IsTransferSuccess { get; set; }
     }
 }

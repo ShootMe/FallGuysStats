@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FallGuysStats {
     internal class FallalyticsReporter {
@@ -15,7 +16,7 @@ namespace FallGuysStats {
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async void RegisterPb(RoundInfo stat, double record, string APIKey, bool isAnonymous) {
+        public async Task RegisterPb(RoundInfo stat, double record, string APIKey, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, isAnonymous), Encoding.UTF8, "application/json");
@@ -26,7 +27,7 @@ namespace FallGuysStats {
             }
         }
         
-        public async void Report(RoundInfo stat, string APIKey) {
+        public async Task Report(RoundInfo stat, string APIKey) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             request.Content = new StringContent(this.RoundInfoToReportJsonString(stat), Encoding.UTF8, "application/json");
@@ -57,10 +58,10 @@ namespace FallGuysStats {
                 }
             }
             if (this.roundList.Count == finalRound && !foundMissMatch) {
-                this.ShowComplete(APIKey);
+                await this.ShowComplete(APIKey);
             }
         }
-        private async void ShowComplete(string APIKey) {
+        private async Task ShowComplete(string APIKey) {
             HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
             requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
             string jsonArraystring = "[";
