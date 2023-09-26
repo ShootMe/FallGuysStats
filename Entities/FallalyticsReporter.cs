@@ -10,15 +10,15 @@ namespace FallGuysStats {
     internal class FallalyticsReporter {
         private List<RoundInfo> roundList = new List<RoundInfo>();
 
-        public static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
+        private static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
         
         public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async Task RegisterPb(RoundInfo stat, double record, string APIKey, bool isAnonymous) {
+        public async Task RegisterPb(RoundInfo stat, double record, string apiKey, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
@@ -27,9 +27,9 @@ namespace FallGuysStats {
             }
         }
         
-        public async Task Report(RoundInfo stat, string APIKey) {
+        public async Task Report(RoundInfo stat, string apiKey) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             request.Content = new StringContent(this.RoundInfoToReportJsonString(stat), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
@@ -58,12 +58,12 @@ namespace FallGuysStats {
                 }
             }
             if (this.roundList.Count == finalRound && !foundMissMatch) {
-                await this.ShowComplete(APIKey);
+                await this.ShowComplete(apiKey);
             }
         }
-        private async Task ShowComplete(string APIKey) {
+        private async Task ShowComplete(string apiKey) {
             HttpRequestMessage requestArray = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
-            requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", APIKey);
+            requestArray.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             string jsonArraystring = "[";
             foreach (RoundInfo game in this.roundList) {
                 jsonArraystring += this.RoundInfoToReportJsonString(game);

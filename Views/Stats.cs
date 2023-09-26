@@ -2706,13 +2706,13 @@ namespace FallGuysStats {
                                 this.RoundDetails.Insert(stat);
                                 this.AllStats.Add(stat);
                                 
-                                //Below is where reporting to fallaytics happen
-                                //Must have enabled the setting to enable tracking
-                                //Must not be a private lobby
-                                //Must be a game that is played after FallGuysStats started
+                                // Below is where reporting to fallaytics happen
+                                // Must have enabled the setting to enable tracking
+                                // Must not be a private lobby
+                                // Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    // Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
                             } else {
                                 continue;
