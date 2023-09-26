@@ -10,9 +10,9 @@ namespace FallGuysStats {
     internal class FallalyticsReporter {
         private List<RoundInfo> roundList = new List<RoundInfo>();
 
-        private static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
+        public static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
         
-        private static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
+        public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
 
         private static readonly HttpClient HttpClient = new HttpClient();
 

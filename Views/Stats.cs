@@ -686,6 +686,34 @@ namespace FallGuysStats {
             return true;
         }
         
+        private bool IsDomainNameValid(string url) {
+            try {
+                Uri uri = new Uri(url);
+                string host = uri.Host;
+                IPAddress[] addresses = Dns.GetHostAddresses(host);
+                return addresses.Length > 0;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        
+        private bool IsEndpointValid(string url) {
+            try {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "HEAD";
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
+                    if (response.StatusCode == HttpStatusCode.OK) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception) {
+                return false;
+            }
+        }
+        
         private void SetTheme(MetroThemeStyle theme) {
             //if (this.Theme == theme) return;
             this.SuspendLayout();
@@ -2841,7 +2869,7 @@ namespace FallGuysStats {
                                                       select f).ToList();
                     
                     double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
-                    
+                    bool isTransferSuccess = false;
                     if (pbInfo.Count == 0) { // first transfer
                         double record = (from r in this.RoundDetails.FindAll()
                                          where r.Finish.HasValue &&
@@ -2852,54 +2880,53 @@ namespace FallGuysStats {
                         if (record > currentRecord) {
                             record = currentRecord;
                         }
-
-                        try {
-                            await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId },
-                                                                 record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                         
-                            this.StatsDB.BeginTrans();
-                            this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                          Record = record, PbDate = DateTime.Now,
-                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
-                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                                                          IsTransferSuccess = true });
-                            this.StatsDB.Commit();
+                        try {
+                            if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                isTransferSuccess = true;
+                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId },
+                                                                     record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                            }
                         } catch {
-                            this.StatsDB.BeginTrans();
-                            this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                          Record = record, PbDate = DateTime.Now,
-                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
-                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                                                          IsTransferSuccess = false });
-                            this.StatsDB.Commit();
+                            isTransferSuccess = false;
                         }
+                        this.StatsDB.BeginTrans();
+                        this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                                                      Record = record, PbDate = DateTime.Now,
+                                                      Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                      OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                                                      IsTransferSuccess = isTransferSuccess });
+                        this.StatsDB.Commit();
                     } else if (pbInfo.Count > 0) {
                         double record = pbInfo[0].Record;
                         try {
                             if (pbInfo[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                        isTransferSuccess = true;
+                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    }
                                 
                                     this.StatsDB.BeginTrans();
                                     foreach (FallalyticsPbInfo f in pbInfo) {
                                         f.Record = currentRecord;
                                         f.PbDate = DateTime.Now;
-                                        f.IsTransferSuccess = true;
+                                        f.IsTransferSuccess = isTransferSuccess;
                                     }
                                     this.FallalyticsPbInfo.Update(pbInfo);
                                     this.StatsDB.Commit();
                                 }
                             } else { // re-send
-                                if (currentRecord < record) {
-                                    record = currentRecord;
+                                if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                    isTransferSuccess = true;
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 }
-                                await FallalyticsReporter.RegisterPb(stat, record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 
                                 this.StatsDB.BeginTrans();
                                 foreach (FallalyticsPbInfo f in pbInfo) {
-                                    f.Record = record;
+                                    f.Record = currentRecord < record ? currentRecord : record;
                                     f.PbDate = DateTime.Now;
-                                    f.IsTransferSuccess = true;
+                                    f.IsTransferSuccess = isTransferSuccess;
                                 }
                                 this.FallalyticsPbInfo.Update(pbInfo);
                                 this.StatsDB.Commit();
@@ -2907,7 +2934,7 @@ namespace FallGuysStats {
                         } catch {
                             this.StatsDB.BeginTrans();
                             foreach (FallalyticsPbInfo f in pbInfo) {
-                                f.Record = pbInfo[0].IsTransferSuccess ? currentRecord : record;
+                                f.Record = currentRecord < record ? currentRecord : record;
                                 f.PbDate = DateTime.Now;
                                 f.IsTransferSuccess = false;
                             }
