@@ -2877,15 +2877,15 @@ namespace FallGuysStats {
                                                stat.Name.Equals(r.Name)
                                          select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
 
-                        if (record > currentRecord) {
+                        if (currentRecord < record) {
                             record = currentRecord;
                         }
                         
                         try {
                             if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                isTransferSuccess = true;
                                 await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId },
                                                                      record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                isTransferSuccess = true;
                             }
                         } catch {
                             isTransferSuccess = false;
@@ -2903,8 +2903,8 @@ namespace FallGuysStats {
                             if (pbInfo[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
                                     if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                        isTransferSuccess = true;
                                         await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                        isTransferSuccess = true;
                                     }
                                 
                                     this.StatsDB.BeginTrans();
@@ -2918,8 +2918,8 @@ namespace FallGuysStats {
                                 }
                             } else { // re-send
                                 if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    isTransferSuccess = true;
                                     await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    isTransferSuccess = true;
                                 }
                                 
                                 this.StatsDB.BeginTrans();
