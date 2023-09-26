@@ -559,18 +559,7 @@ namespace FallGuysStats {
                                     Task.Run(() => {
                                         if (Stats.IsClientRunning()) {
                                             try {
-                                                string[] countryInfo = this.StatsForm.GetCountryCodeUsingIp2c(ip); // [0] alpha-2 code, [1] a full country name
-                                                Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
-
-                                                if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                    countryInfo = this.StatsForm.GetCountryCodeUsingIpapi(ip); // [0] alpha-2 code, [1] a full country name, [2] region, [3] city
-                                                    Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
-                                                }
-                                                
-                                                if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                                    countryInfo = this.StatsForm.GetCountryCodeUsingIpinfo(ip); // [0] alpha-2 code, [1] region, [2] city
-                                                    Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
-                                                }
+                                                Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(ip).ToLower();
                                                 
                                                 if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                                     this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),

@@ -258,7 +258,7 @@ namespace FallGuysStats {
         private Stats() { 
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
-                    HostCountry = this.GetUserCountry();
+                    HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
                 }
             });
 // #if AllowUpdate
@@ -2829,7 +2829,7 @@ namespace FallGuysStats {
             
                 if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
                     if (string.IsNullOrEmpty(HostCountry)) {
-                        HostCountry = this.GetUserCountry();
+                        HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
                     }
                     
                     List<FallalyticsPbInfo> pbInfo = (from f in this.FallalyticsPbInfo.FindAll()
@@ -4330,35 +4330,35 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private string GetUserCountry() {
+        private string GetUserPublicIp() {
             using (ApiWebClient web = new ApiWebClient()) {
-                string userCountry = string.Empty;
                 string publicIp;
                 try {
                     publicIp = web.DownloadString($"{this.IPINFO_IO_URL}/ip").Trim();
                 } catch {
                     publicIp = string.Empty;
                 }
-                if (!string.IsNullOrEmpty(publicIp)) {
-                    try {
-                        string[] countryInfo = this.GetCountryCodeUsingIp2c(publicIp);
-                        userCountry = countryInfo[0]; // alpha-2 code
-
-                        if (string.IsNullOrEmpty(userCountry)) {
-                            countryInfo = this.GetCountryCodeUsingIpapi(publicIp);
-                            userCountry = countryInfo[0]; // alpha-2 code
-                        }
-                    
-                        if (string.IsNullOrEmpty(userCountry)) {
-                            countryInfo = this.GetCountryCodeUsingIpinfo(publicIp);
-                            userCountry = countryInfo[0]; // alpha-2 code
-                        }
-                    } catch {
-                        return string.Empty;
-                    }
-                }
-                return userCountry;
+                return publicIp;
             }
+        }
+        public string GetIpToCountryCode(string ip) {
+            string countryCode = string.Empty;
+            if (!string.IsNullOrEmpty(ip)) {
+                try {
+                    countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
+
+                    if (string.IsNullOrEmpty(countryCode)) {
+                        countryCode = this.GetCountryCodeUsingIpapi(ip)[0]; // alpha-2 code
+                    }
+                
+                    if (string.IsNullOrEmpty(countryCode)) {
+                        countryCode = this.GetCountryCodeUsingIpinfo(ip)[0]; // alpha-2 code
+                    }
+                } catch {
+                    return string.Empty;
+                }
+            }
+            return countryCode;
         }
         public void UpdateGameExeLocation() {
             string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();
