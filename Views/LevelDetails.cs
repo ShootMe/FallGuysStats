@@ -640,84 +640,90 @@ namespace FallGuysStats {
         }
         private void LevelDetails_KeyDown(object sender, KeyEventArgs e) {
             try {
-                int selectedCount = this.gridDetails.SelectedCells.Count;
-                if (e.KeyCode == Keys.Delete && selectedCount > 0) {
-                    HashSet<RoundInfo> rows = new HashSet<RoundInfo>();
-                    int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                    for (int i = 0; i < selectedCount; i++) {
-                        DataGridViewCell cell = this.gridDetails.SelectedCells[i];
-                        rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
-                    }
-
-                    if (MetroMessageBox.Show(this, 
-                            $@"{Multilingual.GetWord("message_delete_show_prefix")}({rows.Count:N0}){Multilingual.GetWord("message_delete_show_suffix")}", 
-                            Multilingual.GetWord("message_delete_show_caption"), 
-                            MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                    {
-                        this.gridDetails.DataSource = null;
-
-                        lock (this.StatsForm.StatsDB) {
-                            this.StatsForm.StatsDB.BeginTrans();
-                            foreach (RoundInfo info in rows) {
-                                this.RoundDetails.Remove(info);
-                                this.StatsForm.RoundDetails.DeleteMany(x => x.ShowID == info.ShowID);
-                            }
-                            this.StatsForm.StatsDB.Commit();
-                        }
-
-                        this.gridDetails.DataSource = this.RoundDetails;
-                        if (minIndex < this.RoundDetails.Count) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                        } else if (this.RoundDetails.Count > 0) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
-                        }
-
-                        this.StatsForm.ResetStats();
-                    }
+                if (e.KeyCode == Keys.Delete) {
+                    this.DeleteShow();
                 } else if (e.KeyCode == Keys.Escape) {
-                    Close();
+                    this.Close();
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void moveShows_Click(object sender, EventArgs e) {
-            int selectedCount = this.gridDetails.SelectedCells.Count;
+        private void deleteShows_Click(object sender, EventArgs e) {
+            this.DeleteShow();
+        }
+        private void DeleteShow() {
+            int selectedCount = this.gridDetails.SelectedRows.Count;
             if (selectedCount > 0) {
-                HashSet<RoundInfo> rows = new HashSet<RoundInfo>();
-                int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                for (int i = 0; i < selectedCount; i++) {
-                    DataGridViewCell cell = this.gridDetails.SelectedCells[i];
-                    rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
+                if (MetroMessageBox.Show(this, 
+                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({selectedCount:N0}) {Multilingual.GetWord("message_delete_show_suffix")}", 
+                        Multilingual.GetWord("message_delete_show_caption"), 
+                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+                {
+                    int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                    
+                    List<RoundInfo> rows = new List<RoundInfo>();
+                    for (int i = 0; i < selectedCount; i++) {
+                        rows.Add((RoundInfo)this.gridDetails.SelectedRows[i].DataBoundItem);
+                    }
+                    
+                    lock (this.StatsForm.StatsDB) {
+                        this.StatsForm.StatsDB.BeginTrans();
+                        foreach (RoundInfo info in rows) {
+                            this.RoundDetails.Remove(info);
+                            this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID);
+                        }
+                        this.StatsForm.StatsDB.Commit();
+                    }
+
+                    this.gridDetails.DataSource = null;
+                    this.gridDetails.DataSource = this.RoundDetails;
+                    if (minIndex < this.RoundDetails.Count) {
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                    } else if (this.RoundDetails.Count > 0) {
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
+                    }
+
+                    this.StatsForm.ResetStats();
                 }
+            }
+        }
+        
+        private void moveShows_Click(object sender, EventArgs e) {
+            int selectedCount = this.gridDetails.SelectedRows.Count;
+            if (selectedCount > 0) {
                 using (EditShows moveShows = new EditShows()) {
                     moveShows.StatsForm = this.StatsForm; 
                     moveShows.Profiles = this.StatsForm.AllProfiles; 
                     moveShows.FunctionFlag = "move"; 
-                    moveShows.SelectedCount = rows.Count; 
+                    moveShows.SelectedCount = selectedCount; 
                     moveShows.Icon = Icon;
                     if (moveShows.ShowDialog(this) == DialogResult.OK) {
+                        int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                        
+                        List<RoundInfo> rows = new List<RoundInfo>();
+                        for (int i = 0; i < selectedCount; i++) {
+                            rows.Add((RoundInfo)this.gridDetails.SelectedRows[i].DataBoundItem);
+                        }
+                        
+                        int fromProfileId = this.StatsForm.GetCurrentProfileId();
+                        int toProfileId = moveShows.SelectedProfileId;
                         lock (this.StatsForm.StatsDB) {
                             this.StatsForm.StatsDB.BeginTrans();
-                            
-                            this.gridDetails.DataSource = null;
-                            int fromProfileId = this.StatsForm.GetCurrentProfileId();
-                            int toProfileId = moveShows.SelectedProfileId;
-                            List<RoundInfo> target;
                             foreach (RoundInfo info in rows) {
                                 this.RoundDetails.Remove(info);
-                                target = this.StatsForm.RoundDetails.Find(r => r.ShowID == info.ShowID && r.Profile == fromProfileId).ToList();
-                                for (int i = 0; i < target.Count; i++) {
-                                    target[i].Profile = toProfileId;
+                                List<RoundInfo> target = this.StatsForm.RoundDetails.Find(r => r.ShowID == info.ShowID && r.Profile == fromProfileId).ToList();
+                                foreach (RoundInfo r in target) {
+                                    r.Profile = toProfileId;
                                 }
                                 this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID && r.Profile == fromProfileId);
                                 this.StatsForm.RoundDetails.InsertBulk(target);
                             }
-                            
                             this.StatsForm.StatsDB.Commit();
                         }
                         
+                        this.gridDetails.DataSource = null;
                         this.gridDetails.DataSource = this.RoundDetails;
                         if (minIndex < this.RoundDetails.Count) {
                             this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
@@ -802,43 +808,6 @@ namespace FallGuysStats {
             } else {
                 MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_check_internet_connection")}", $"{Multilingual.GetWord("message_check_internet_connection_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void deleteShows_Click(object sender, EventArgs e) {
-            int selectedCount = this.gridDetails.SelectedCells.Count;
-            if (selectedCount > 0) {
-                HashSet<RoundInfo> rows = new HashSet<RoundInfo>();
-                int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                for (int i = 0; i < selectedCount; i++) {
-                    DataGridViewCell cell = this.gridDetails.SelectedCells[i];
-                    rows.Add((RoundInfo)this.gridDetails.Rows[cell.RowIndex].DataBoundItem);
-                }
-
-                if (MetroMessageBox.Show(this, 
-                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({rows.Count:N0}) {Multilingual.GetWord("message_delete_show_suffix")}", 
-                        Multilingual.GetWord("message_delete_show_caption"), 
-                        MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-                {
-                    this.gridDetails.DataSource = null;
-
-                    lock (this.StatsForm.StatsDB) {
-                        this.StatsForm.StatsDB.BeginTrans();
-                        foreach (RoundInfo info in rows) {
-                            this.RoundDetails.Remove(info);
-                            this.StatsForm.RoundDetails.DeleteMany(x => x.ShowID == info.ShowID);
-                        }
-                        this.StatsForm.StatsDB.Commit();
-                    }
-
-                    this.gridDetails.DataSource = this.RoundDetails;
-                    if (minIndex < this.RoundDetails.Count) {
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                    } else if (this.RoundDetails.Count > 0) {
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
-                    }
-
-                    this.StatsForm.ResetStats();
-                }
             }
         }
 

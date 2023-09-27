@@ -913,6 +913,9 @@ namespace FallGuysStats {
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
             this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
+
+            this.chkFallalyticsAnonymous.Visible = false;
+            
             this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
             this.linkFallalytics.Text = $@"    {Multilingual.GetWord("settings_visit_fallalytics")}";

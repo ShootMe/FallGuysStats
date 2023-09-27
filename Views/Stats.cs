@@ -2711,7 +2711,7 @@ namespace FallGuysStats {
                                 // Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    // Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
                             } else {
                                 continue;
@@ -2889,13 +2889,16 @@ namespace FallGuysStats {
                         } catch {
                             isTransferSuccess = false;
                         }
-                        this.StatsDB.BeginTrans();
-                        this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                      Record = record, PbDate = DateTime.Now,
-                                                      Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
-                                                      OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                                                      IsTransferSuccess = isTransferSuccess });
-                        this.StatsDB.Commit();
+                        
+                        lock (this.StatsDB) {
+                            this.StatsDB.BeginTrans();
+                            this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                                                          Record = record, PbDate = DateTime.Now,
+                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                                                          IsTransferSuccess = isTransferSuccess });
+                            this.StatsDB.Commit();
+                        }
                     } else if (pbInfo.Count > 0) {
                         double record = pbInfo[0].Record;
                         try {
@@ -2905,15 +2908,17 @@ namespace FallGuysStats {
                                         await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                         isTransferSuccess = true;
                                     }
-                                
-                                    this.StatsDB.BeginTrans();
-                                    foreach (FallalyticsPbInfo f in pbInfo) {
-                                        f.Record = currentRecord;
-                                        f.PbDate = DateTime.Now;
-                                        f.IsTransferSuccess = isTransferSuccess;
+                                    
+                                    lock (this.StatsDB) {
+                                        this.StatsDB.BeginTrans();
+                                        foreach (FallalyticsPbInfo f in pbInfo) {
+                                            f.Record = currentRecord;
+                                            f.PbDate = DateTime.Now;
+                                            f.IsTransferSuccess = isTransferSuccess;
+                                        }
+                                        this.FallalyticsPbInfo.Update(pbInfo);
+                                        this.StatsDB.Commit();
                                     }
-                                    this.FallalyticsPbInfo.Update(pbInfo);
-                                    this.StatsDB.Commit();
                                 }
                             } else { // re-send
                                 if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
@@ -2921,24 +2926,28 @@ namespace FallGuysStats {
                                     isTransferSuccess = true;
                                 }
                                 
+                                lock (this.StatsDB) {
+                                    this.StatsDB.BeginTrans();
+                                    foreach (FallalyticsPbInfo f in pbInfo) {
+                                        f.Record = currentRecord < record ? currentRecord : record;
+                                        f.PbDate = DateTime.Now;
+                                        f.IsTransferSuccess = isTransferSuccess;
+                                    }
+                                    this.FallalyticsPbInfo.Update(pbInfo);
+                                    this.StatsDB.Commit();
+                                }
+                            }
+                        } catch {
+                            lock (this.StatsDB) {
                                 this.StatsDB.BeginTrans();
                                 foreach (FallalyticsPbInfo f in pbInfo) {
                                     f.Record = currentRecord < record ? currentRecord : record;
                                     f.PbDate = DateTime.Now;
-                                    f.IsTransferSuccess = isTransferSuccess;
+                                    f.IsTransferSuccess = false;
                                 }
                                 this.FallalyticsPbInfo.Update(pbInfo);
                                 this.StatsDB.Commit();
                             }
-                        } catch {
-                            this.StatsDB.BeginTrans();
-                            foreach (FallalyticsPbInfo f in pbInfo) {
-                                f.Record = currentRecord < record ? currentRecord : record;
-                                f.PbDate = DateTime.Now;
-                                f.IsTransferSuccess = false;
-                            }
-                            this.FallalyticsPbInfo.Update(pbInfo);
-                            this.StatsDB.Commit();
                         }
                     }
                 }
@@ -3933,9 +3942,9 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
                 List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < this.StatDetails.Count; i++) {
-                    if (this.StatDetails[i].Id.Equals("creative_race_round") || this.StatDetails[i].Id.Equals("creative_race_final_round")) continue;
-                    rounds.AddRange(this.StatDetails[i].Stats);
+                foreach (LevelStats ls in this.StatDetails) {
+                    if (ls.Id.Equals("creative_race_round") || ls.Id.Equals("creative_race_final_round")) continue;
+                    rounds.AddRange(ls.Stats);
                 }
 
                 rounds.Sort();
