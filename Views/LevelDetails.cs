@@ -713,12 +713,10 @@ namespace FallGuysStats {
                             this.StatsForm.StatsDB.BeginTrans();
                             foreach (RoundInfo info in rows) {
                                 this.RoundDetails.Remove(info);
-                                List<RoundInfo> target = this.StatsForm.RoundDetails.Find(r => r.ShowID == info.ShowID && r.Profile == fromProfileId).ToList();
-                                foreach (RoundInfo r in target) {
+                                foreach (RoundInfo r in this.StatsForm.RoundDetails.Find(r => r.ShowID == info.ShowID && r.Profile == fromProfileId)) {
                                     r.Profile = toProfileId;
+                                    this.StatsForm.RoundDetails.Update(r);
                                 }
-                                this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID && r.Profile == fromProfileId);
-                                this.StatsForm.RoundDetails.InsertBulk(target);
                             }
                             this.StatsForm.StatsDB.Commit();
                         }

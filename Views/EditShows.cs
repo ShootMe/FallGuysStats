@@ -27,20 +27,19 @@ namespace FallGuysStats {
                 this.cboEditShows.Items.Insert(0, this.Profiles[0].ProfileName);
                 this.cboEditShows.SelectedIndex = 0;
                 this.chkUseLinkedProfiles.Visible = false;
-                return;
-            }
+            } else {
+                for (int i = this.Profiles.Count - 1; i >= 0; i--) {
+                    if (this.FunctionFlag == "move" && this.Profiles[i].ProfileId == StatsForm.GetCurrentProfileId()) continue;
+                    this.cboEditShows.Items.Insert(0, this.Profiles[i].ProfileName);
+                }
+                this.cboEditShows.SelectedIndex = 0;
             
-            for (int i = this.Profiles.Count - 1; i >= 0; i--) {
-                if (this.FunctionFlag == "move" && this.Profiles[i].ProfileId == StatsForm.CurrentSettings.SelectedProfile) continue;
-                this.cboEditShows.Items.Insert(0, this.Profiles[i].ProfileName);
-            }
-            this.cboEditShows.SelectedIndex = 0;
-            
-            if (this.FunctionFlag == "move") {
-                this.chkUseLinkedProfiles.Visible = false;
-            } else if (this.FunctionFlag == "add" && this.StatsForm.CurrentSettings.AutoChangeProfile) {
-                this.chkUseLinkedProfiles.Visible = false;
-                this.chkUseLinkedProfiles.Checked = true;
+                if (this.FunctionFlag == "move") {
+                    this.chkUseLinkedProfiles.Visible = false;
+                } else if (this.FunctionFlag == "add" && this.StatsForm.CurrentSettings.AutoChangeProfile) {
+                    this.chkUseLinkedProfiles.Visible = false;
+                    this.chkUseLinkedProfiles.Checked = true;
+                }
             }
         }
         

@@ -354,11 +354,15 @@ namespace FallGuysStats {
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
             
-            this.RoundDetails.EnsureIndex(x => x.Name);
-            this.RoundDetails.EnsureIndex(x => x.ShowID);
-            this.RoundDetails.EnsureIndex(x => x.Round);
-            this.RoundDetails.EnsureIndex(x => x.Start);
-            this.RoundDetails.EnsureIndex(x => x.InParty);
+            this.RoundDetails.EnsureIndex(r => r.Name);
+            this.RoundDetails.EnsureIndex(r => r.ShowID);
+            this.RoundDetails.EnsureIndex(r => r.Round);
+            this.RoundDetails.EnsureIndex(r => r.Start);
+            this.RoundDetails.EnsureIndex(r => r.InParty);
+
+            this.FallalyticsPbInfo.EnsureIndex(f => f.PbId);
+            this.FallalyticsPbInfo.EnsureIndex(f => f.RoundId);
+            this.FallalyticsPbInfo.EnsureIndex(f => f.ShowNameId);
             this.StatsDB.Commit();
             
             this.UpdateDatabaseVersion();
@@ -2859,23 +2863,26 @@ namespace FallGuysStats {
                         HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
                     }
                     
-                    List<FallalyticsPbInfo> pbInfo = (from f in this.FallalyticsPbInfo.FindAll()
-                                                      where stat.Name.Equals(f.RoundId) &&
-                                                            stat.ShowNameId.Equals(f.ShowNameId) &&
-                                                            (int)OnlineServiceType == f.OnlineServiceType &&
-                                                            OnlineServiceId.Equals(f.OnlineServiceId) &&
-                                                            OnlineServiceNickname.Equals(f.OnlineServiceNickname)
-                                                      select f).ToList();
+                    BsonExpression pbInfoQuery = Query.And(
+                        Query.EQ("RoundId", stat.Name),
+                        Query.EQ("ShowNameId", stat.ShowNameId),
+                        Query.EQ("OnlineServiceType", (int)OnlineServiceType),
+                        Query.EQ("OnlineServiceId", OnlineServiceId),
+                        Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
+                    );
+                    List<FallalyticsPbInfo> pbInfo = this.FallalyticsPbInfo.Find(pbInfoQuery).ToList();
                     
                     double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
                     bool isTransferSuccess = false;
                     if (pbInfo.Count == 0) { // first transfer
-                        double record = (from r in this.RoundDetails.FindAll()
-                                         where r.Finish.HasValue &&
-                                               stat.ShowNameId.Equals(r.ShowNameId) &&
-                                               stat.Name.Equals(r.Name)
-                                         select r).Min(r => (r.Finish.Value - r.Start).TotalMilliseconds);
-
+                        BsonExpression recordQuery = Query.And(
+                            Query.Not("Finish", null),
+                            Query.EQ("RoundId", stat.Name),
+                            Query.EQ("ShowNameId", stat.ShowNameId)
+                        );
+                        IEnumerable<RoundInfo> qr = this.RoundDetails.Find(recordQuery);
+                        
+                        double record = qr.Any() ? qr.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                         if (currentRecord < record) {
                             record = currentRecord;
                         }
