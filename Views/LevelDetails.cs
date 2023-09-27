@@ -517,6 +517,10 @@ namespace FallGuysStats {
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
+            } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Score") {
+                e.Value = $"{e.Value:N0}";
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Kudos") {
+                e.Value = $"{e.Value:N0}";
             }
         }
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
@@ -646,7 +650,7 @@ namespace FallGuysStats {
                     }
 
                     if (MetroMessageBox.Show(this, 
-                            $@"{Multilingual.GetWord("message_delete_show_prefix")}({rows.Count}){Multilingual.GetWord("message_delete_show_suffix")}", 
+                            $@"{Multilingual.GetWord("message_delete_show_prefix")}({rows.Count:N0}){Multilingual.GetWord("message_delete_show_suffix")}", 
                             Multilingual.GetWord("message_delete_show_caption"), 
                             MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                     {
@@ -811,7 +815,7 @@ namespace FallGuysStats {
                 }
 
                 if (MetroMessageBox.Show(this, 
-                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({rows.Count}) {Multilingual.GetWord("message_delete_show_suffix")}", 
+                        $@"{Multilingual.GetWord("message_delete_show_prefix")} ({rows.Count:N0}) {Multilingual.GetWord("message_delete_show_suffix")}", 
                         Multilingual.GetWord("message_delete_show_caption"), 
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {

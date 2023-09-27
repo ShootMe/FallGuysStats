@@ -147,17 +147,17 @@ namespace FallGuysStats {
             this.pinkMedalPercent = $@"{Math.Round((values[4] / values[0]) * 100, 2)}%";
             this.eliminatedMedalPercent = $@"{Math.Round((values[5] / values[0]) * 100, 2)}%";
             
-            this.goldMedalCount = $@"{values[1]}";
-            this.silverMedalCount = $@"{values[2]}";
-            this.bronzeMedalCount = $@"{values[3]}";
-            this.pinkMedalCount = $@"{values[4]}";
-            this.eliminatedMedalCount = $@"{values[5]}";
+            this.goldMedalCount = $@"{values[1]:N0}";
+            this.silverMedalCount = $@"{values[2]:N0}";
+            this.bronzeMedalCount = $@"{values[3]:N0}";
+            this.pinkMedalCount = $@"{values[4]:N0}";
+            this.eliminatedMedalCount = $@"{values[5]:N0}";
             
-            this.lblCountGoldMedal.Text = $@"{values[1]}";
-            this.lblCountSilverMedal.Text = $@"{values[2]}";
-            this.lblCountBronzeMedal.Text = $@"{values[3]}";
-            this.lblCountPinkMedal.Text = $@"{values[4]}";
-            this.lblCountEliminatedMedal.Text = $@"{values[5]}";
+            this.lblCountGoldMedal.Text = this.goldMedalCount;
+            this.lblCountSilverMedal.Text = this.silverMedalCount;
+            this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
+            this.lblCountPinkMedal.Text = this.pinkMedalCount;
+            this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
             
             RadialGaugePlot gauges = this.formsPlot.Plot.AddRadialGauge(values);
             gauges.OrderInsideOut = false;

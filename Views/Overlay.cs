@@ -598,18 +598,18 @@ namespace FallGuysStats {
         private void SetWinsLabel(StatSummary levelInfo, int overlaySetting) {
             if (Stats.IsQueued && overlaySetting == 3) {
                 this.lblWins.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
-                this.lblWins.TextRight = Stats.QueuedPlayers.ToString();
+                this.lblWins.TextRight = $"{Stats.QueuedPlayers:N0}";
                 this.lblWins.ForeColor = this.ForeColor;
             } else {
                 this.lblWins.Text = $"{Multilingual.GetWord("overlay_wins")} :";
                 float winChance = levelInfo.TotalWins * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                 string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $"{Multilingual.GetWord("overlay_win")} - {Math.Truncate(winChance * 10) / 10}%";
                 if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
-                    this.lblWins.TextRight = $"{levelInfo.TotalWins} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins}){winChanceDisplay}";
+                    this.lblWins.TextRight = $"{levelInfo.TotalWins:N0} ({levelInfo.AllWins + this.StatsForm.CurrentSettings.PreviousWins:N0}){winChanceDisplay}";
                 } else {
                     this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
-                        ? $"{levelInfo.TotalWins} ({levelInfo.AllWins}){winChanceDisplay}"
-                        : $"{levelInfo.TotalWins}{winChanceDisplay}";
+                        ? $"{levelInfo.TotalWins:N0} ({levelInfo.AllWins:N0}){winChanceDisplay}"
+                        : $"{levelInfo.TotalWins:N0}{winChanceDisplay}";
                 }
             }
         }
@@ -622,10 +622,34 @@ namespace FallGuysStats {
             } else {
                 this.lblFinals.TickProgress = 0;
                 this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
-                string finalText = $"{levelInfo.TotalFinals}{(levelInfo.TotalShows < 100000 ? " / " + levelInfo.TotalShows : Multilingual.GetWord("overlay_inning"))}";
+                string finalText = $"{levelInfo.TotalFinals:N0}{(levelInfo.TotalShows < 100000 ? $" / {levelInfo.TotalShows:N0}" : Multilingual.GetWord("overlay_inning"))}";
                 float finalChance = levelInfo.TotalFinals * 100f / (levelInfo.TotalShows == 0 ? 1 : levelInfo.TotalShows);
                 string finalChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {Math.Truncate(finalChance * 10) / 10}%";
                 this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
+            }
+        }
+        private void SetStreakLabel(StatSummary levelInfo, int overlaySetting) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 3)) {
+                this.lblStreak.OverlaySetting = overlaySetting;
+                this.lblStreak.Text = "";
+                this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+            } else {
+                int streakSwitchCount = this.switchCount;
+                if (!this.StatsForm.CurrentSettings.SwitchBetweenStreaks) {
+                    streakSwitchCount = this.StatsForm.CurrentSettings.OnlyShowFinalStreak ? 1 : 0;
+                }
+                switch (streakSwitchCount % 2) {
+                    case 0:
+                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
+                        string streakSuffix = Stats.CurrentLanguage == 2 ? (levelInfo.CurrentStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
+                        string streakSuffix2 = Stats.CurrentLanguage == 2 ? (levelInfo.BestStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
+                        this.lblStreak.TextRight = $"{levelInfo.CurrentStreak:N0}{streakSuffix} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak:N0}{streakSuffix2})";
+                        break;
+                    case 1:
+                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
+                        this.lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak:N0}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak:N0}{Multilingual.GetWord("overlay_inning")})";
+                        break;
+                }
             }
         }
         private void SetQualifyChanceLabel(StatSummary levelInfo, int overlaySetting) {
@@ -646,14 +670,14 @@ namespace FallGuysStats {
                         this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_chance")} :";
                         qualifyChance = levelInfo.TotalQualify * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                         qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {Math.Truncate(qualifyChance * 10) / 10}%";
-                        qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                        qualifyDisplay = $"{levelInfo.TotalQualify}{(levelInfo.TotalPlays < 100000 ? $" / {levelInfo.TotalPlays:N0}" : Multilingual.GetWord("overlay_inning"))}";
                         this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                         break;
                     case 1:
                         this.lblQualifyChance.Text = $"{Multilingual.GetWord("overlay_qualify_gold")} :";
                         qualifyChance = levelInfo.TotalGolds * 100f / (levelInfo.TotalPlays == 0 ? 1 : levelInfo.TotalPlays);
                         qualifyChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {Math.Truncate(qualifyChance * 10) / 10}%";
-                        qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 100000 ? " / " + levelInfo.TotalPlays : Multilingual.GetWord("overlay_inning"))}";
+                        qualifyDisplay = $"{levelInfo.TotalGolds}{(levelInfo.TotalPlays < 100000 ? $" / {levelInfo.TotalPlays:N0}" : Multilingual.GetWord("overlay_inning"))}";
                         this.lblQualifyChance.TextRight = $"{qualifyDisplay}{qualifyChanceDisplay}";
                         break;
                 }
@@ -783,28 +807,6 @@ namespace FallGuysStats {
                         
                         this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
                         this.lblPlayers.TextRight = (Stats.IsPrePlaying && Stats.LastServerPing > 0) ? $"{Stats.LastServerPing} ms" : "-";
-                        break;
-                }
-            }
-        }
-        private void SetStreakLabel(StatSummary levelInfo, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 3)) {
-                this.lblStreak.OverlaySetting = overlaySetting;
-                this.lblStreak.Text = "";
-                this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
-            } else {
-                int streakSwitchCount = this.switchCount;
-                if (!this.StatsForm.CurrentSettings.SwitchBetweenStreaks) {
-                    streakSwitchCount = this.StatsForm.CurrentSettings.OnlyShowFinalStreak ? 1 : 0;
-                }
-                switch (streakSwitchCount % 2) {
-                    case 0:
-                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
-                        this.lblStreak.TextRight = $"{levelInfo.CurrentStreak}{(Stats.CurrentLanguage == 2 ? (levelInfo.CurrentStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix"))} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestStreak}{(Stats.CurrentLanguage == 2 ? (levelInfo.BestStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix"))})";
-                        break;
-                    case 1:
-                        this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak_finals")} :";
-                        this.lblStreak.TextRight = $"{levelInfo.CurrentFinalStreak}{Multilingual.GetWord("overlay_inning")} ({Multilingual.GetWord("overlay_best")}{levelInfo.BestFinalStreak}{Multilingual.GetWord("overlay_inning")})";
                         break;
                 }
             }

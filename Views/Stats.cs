@@ -3410,36 +3410,36 @@ namespace FallGuysStats {
             try {
                 this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName()}";
                 //this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
-                this.lblTotalShows.Text = $"{this.Shows}{Multilingual.GetWord("main_inning")}";
-                if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows}{Multilingual.GetWord("main_inning")})";
+                this.lblTotalShows.Text = $"{this.Shows:N0}{Multilingual.GetWord("main_inning")}";
+                if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows:N0}{Multilingual.GetWord("main_inning")})";
                 //this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
-                this.lblTotalRounds.Text = $"{this.Rounds}{Multilingual.GetWord("main_round")}";
-                if (this.CustomRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds}{Multilingual.GetWord("main_round")})";
+                this.lblTotalRounds.Text = $"{this.Rounds:N0}{Multilingual.GetWord("main_round")}";
+                if (this.CustomRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds:N0}{Multilingual.GetWord("main_round")})";
                 //this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
                 //this.lblTotalTime.ToolTipText = $"{Multilingual.GetWord("stats_detail_tooltiptext")}";
                 float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
-                this.lblTotalWins.Text = $"{this.Wins}{Multilingual.GetWord("main_win")} ({Math.Truncate(winChance * 10) / 10} %)";
+                this.lblTotalWins.Text = $"{this.Wins:N0}{Multilingual.GetWord("main_win")} ({Math.Truncate(winChance * 10) / 10} %)";
                 //this.lblTotalWins.ToolTipText = $"{Multilingual.GetWord("wins_detail_tooltiptext")}";
                 float finalChance = (float)this.Finals * 100 / (this.Shows == 0 ? 1 : this.Shows);
-                this.lblTotalFinals.Text = $"{this.Finals}{Multilingual.GetWord("main_inning")} ({Math.Truncate(finalChance * 10) / 10} %)";
+                this.lblTotalFinals.Text = $"{this.Finals:N0}{Multilingual.GetWord("main_inning")} ({Math.Truncate(finalChance * 10) / 10} %)";
                 //this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
-                this.lblGoldMedal.Text = $"{this.GoldMedals}";
-                if (this.CustomGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomGoldMedals})";
-                this.lblSilverMedal.Text = $"{this.SilverMedals}";
-                if (this.CustomSilverMedals > 0) this.lblSilverMedal.Text += $" ({this.CustomSilverMedals})";
-                this.lblBronzeMedal.Text = $"{this.BronzeMedals}";
-                if (this.CustomBronzeMedals > 0) this.lblBronzeMedal.Text += $" ({this.CustomBronzeMedals})";
-                this.lblPinkMedal.Text = $"{this.PinkMedals}";
-                if (this.CustomPinkMedals > 0) this.lblPinkMedal.Text += $" ({this.CustomPinkMedals})";
-                this.lblEliminatedMedal.Text = $"{this.EliminatedMedals}";
-                if (this.CustomEliminatedMedals > 0) this.lblEliminatedMedal.Text += $" ({this.CustomEliminatedMedals})";
+                this.lblGoldMedal.Text = $"{this.GoldMedals:N0}";
+                if (this.CustomGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomGoldMedals:N0})";
+                this.lblSilverMedal.Text = $"{this.SilverMedals:N0}";
+                if (this.CustomSilverMedals > 0) this.lblSilverMedal.Text += $" ({this.CustomSilverMedals:N0})";
+                this.lblBronzeMedal.Text = $"{this.BronzeMedals:N0}";
+                if (this.CustomBronzeMedals > 0) this.lblBronzeMedal.Text += $" ({this.CustomBronzeMedals:N0})";
+                this.lblPinkMedal.Text = $"{this.PinkMedals:N0}";
+                if (this.CustomPinkMedals > 0) this.lblPinkMedal.Text += $" ({this.CustomPinkMedals:N0})";
+                this.lblEliminatedMedal.Text = $"{this.EliminatedMedals:N0}";
+                if (this.CustomEliminatedMedals > 0) this.lblEliminatedMedal.Text += $" ({this.CustomEliminatedMedals:N0})";
                 this.lblGoldMedal.Visible = this.GoldMedals != 0 || this.CustomGoldMedals != 0;
                 this.lblSilverMedal.Visible = this.SilverMedals != 0 || this.CustomSilverMedals != 0;
                 this.lblBronzeMedal.Visible = this.BronzeMedals != 0 || this.CustomBronzeMedals != 0;
                 this.lblPinkMedal.Visible = this.PinkMedals != 0 || this.CustomPinkMedals != 0;
                 this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomEliminatedMedals != 0;
-                this.lblKudos.Text = $"{this.Kudos}";
+                this.lblKudos.Text = $"{this.Kudos:N0}";
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Refresh();
             } catch (Exception ex) {
@@ -3734,13 +3734,16 @@ namespace FallGuysStats {
                                 break;
                         }
                         break;
+                    case "Played":
+                        e.Value = $"{e.Value:N0}";
+                        break;
                     case "Qualified": {
                             float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
                             } else {
-                                e.Value = levelStats.Qualified;
+                                e.Value = $"{levelStats.Qualified:N0}";
                                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(qualifyChance * 10) / 10}%";
                             }
                             break;
@@ -3749,9 +3752,9 @@ namespace FallGuysStats {
                             float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
                             } else {
-                                e.Value = levelStats.Gold;
+                                e.Value = $"{levelStats.Gold:N0}";
                                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(goldChance * 10) / 10}%";
                             }
                             break;
@@ -3760,9 +3763,9 @@ namespace FallGuysStats {
                             float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
                             } else {
-                                e.Value = levelStats.Silver;
+                                e.Value = $"{levelStats.Silver:N0}";
                                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(silverChance * 10) / 10}%";
                             }
                             break;
@@ -3771,13 +3774,16 @@ namespace FallGuysStats {
                             float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
                             } else {
-                                e.Value = levelStats.Bronze;
+                                e.Value = $"{levelStats.Bronze:N0}";
                                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(bronzeChance * 10) / 10}%";
                             }
                             break;
                         }
+                    case "Kudos":
+                        e.Value = $"{e.Value:N0}";
+                        break;
                     case "AveFinish":
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
