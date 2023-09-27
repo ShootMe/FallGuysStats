@@ -102,9 +102,11 @@ namespace FallGuysStats {
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
-
             this.chkFallalyticsReporting.Checked = this.CurrentSettings.EnableFallalyticsReporting;
-            this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
+            this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked;
+            if (this.chkFallalyticsReporting.Checked) {
+                this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
+            }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
 
             ArrayList imageItemArray = new ArrayList();
@@ -910,10 +912,7 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
-            
-            // this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
-            this.chkFallalyticsAnonymous.Visible = false;
-            
+            this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
             this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
             this.linkFallalytics.Text = $@"    {Multilingual.GetWord("settings_visit_fallalytics")}";

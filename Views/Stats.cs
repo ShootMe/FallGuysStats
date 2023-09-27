@@ -2711,7 +2711,7 @@ namespace FallGuysStats {
                                 // Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    // Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
                             } else {
                                 continue;
@@ -5270,9 +5270,13 @@ namespace FallGuysStats {
         }
         public void SetOverlayTopMost(bool topMost) {
             this.overlay.TopMost = topMost;
-            this.overlay.Hide();
-            this.overlay.ShowInTaskbar = !topMost;
-            this.overlay.Show();
+            if (this.overlay.Visible) {
+                this.overlay.Hide();
+                this.overlay.ShowInTaskbar = !topMost;
+                this.overlay.Show();
+            } else {
+                this.overlay.ShowInTaskbar = !topMost;
+            }
         }
         public void SetAutoChangeProfile(bool autoChangeProfile) {
             this.CurrentSettings.AutoChangeProfile = autoChangeProfile;
