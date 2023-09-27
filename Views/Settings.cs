@@ -116,7 +116,6 @@ namespace FallGuysStats {
                         string backgroundName = file.Name.Substring(11);
                         backgroundName = backgroundName.Remove(backgroundName.Length - 4);
                         Bitmap background = new Bitmap(file.FullName);
-                        //if (background.Width == 396 && background.Height == 43) continue;
                         if (background.Width == 786 && background.Height == 99) {
                             imageItemArray.Add(new ImageItem(background, new[] { $"background_{backgroundName}", $"tab_{backgroundName}" }, backgroundName, this.Font, true));
                         }
@@ -718,6 +717,12 @@ namespace FallGuysStats {
             if (keyData == Keys.Tab) { SendKeys.Send("%"); }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        private void chkFallalyticsReporting_CheckedChanged(object sender, EventArgs e) {
+            this.chkFallalyticsAnonymous.Enabled = ((MetroCheckBox)sender).Checked;
+            if (!((MetroCheckBox)sender).Checked) {
+                this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
+            }
+        }
 
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
@@ -730,15 +735,8 @@ namespace FallGuysStats {
             this.overlayFontSerialized = string.Empty;
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;
-            //if (string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
-            //    this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            //    this.overlayFontColorSerialized = string.Empty;
-            //}
-
             this.chkChangeHoopsieLegends.Visible = true;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
-
-            //this.lblGameExeLocation.Text = Multilingual.GetWord(this.LaunchPlatform == 0 ? "settings_fall_guys_shortcut_location" : "settings_fall_guys_exe_location");
 
             this.tileProgram.Text = Multilingual.GetWord("settings_program");
             this.tileDisplay.Text = Multilingual.GetWord("settings_display");
@@ -755,10 +753,6 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_theme_light"),
                 Multilingual.GetWord("settings_theme_dark"),
             });
-            //switch (this.CurrentSettings.Theme) {
-            //    case 0: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_light"); break;
-            //    case 1: this.cboTheme.SelectedItem = Multilingual.GetWord("settings_theme_dark"); break;
-            //}
             this.cboTheme.SelectedItem = this.Theme == MetroThemeStyle.Light
                 ? Multilingual.GetWord("settings_theme_light")
                 : Multilingual.GetWord("settings_theme_dark");
@@ -766,7 +760,6 @@ namespace FallGuysStats {
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
-            //this.grpOverlay.Text = Multilingual.GetWord("settings_overlay");
             this.chkOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
             this.chkOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
             this.chkCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
@@ -883,7 +876,6 @@ namespace FallGuysStats {
             this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
             this.grpOverlayFontExample.Text = Multilingual.GetWord("settings_font_example");
             this.lblOverlayFontExample.Text = Multilingual.GetWord("settings_round_example");
-            //this.grpStats.Text = Multilingual.GetWord("settings_stats");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
@@ -893,13 +885,10 @@ namespace FallGuysStats {
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
             this.grpLaunchPlatform.Width = lang == 3 ? 120 : 95;
-            //this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
             this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
-            //this.grpSortingOptions.Text = Multilingual.GetWord("settings_sorting_options");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             this.chkGroupingCreativeRoundLevels.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
-            //this.lblLanguageSelection.Text = Multilingual.GetWord("settings_language");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
 
             this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
@@ -907,14 +896,8 @@ namespace FallGuysStats {
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 12);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
             this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 200);
-            //this.cboMultilingual.Location = new Point(this.lblLanguage.Location.X + this.lblLanguage.Width + 4, 162);
-            //this.lblWinsFilter.Location = new Point(389 - this.lblWinsFilter.Width, 19);
-            //this.lblQualifyFilter.Location = new Point(389 - this.lblQualifyFilter.Width, 52);
-            //this.lblFastestFilter.Location = new Point(389 - this.lblFastestFilter.Width, 85);
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 170);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
-            //this.lblOverlayBackground.Location = new Point(15, 353);
-            //this.lblOverlayColor.Location = new Point(15, 370);
             if (this.LaunchPlatform == 0) {
                 this.lblGameExeLocation.Location = new Point(this.grpLaunchPlatform.Location.X + this.grpLaunchPlatform.Width + 3, 20);
                 this.lblGameExeLocation.Text = Multilingual.GetWord("settings_fall_guys_shortcut_location");
@@ -927,8 +910,10 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
-            //this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously");
+            
+            // this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
             this.chkFallalyticsAnonymous.Visible = false;
+            
             this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
             this.linkFallalytics.Text = $@"    {Multilingual.GetWord("settings_visit_fallalytics")}";

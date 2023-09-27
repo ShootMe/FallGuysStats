@@ -692,7 +692,7 @@ namespace FallGuysStats {
                 string host = uri.Host;
                 IPAddress[] addresses = Dns.GetHostAddresses(host);
                 return addresses.Length > 0;
-            } catch (Exception) {
+            } catch {
                 return false;
             }
         }
@@ -708,8 +708,7 @@ namespace FallGuysStats {
                         return false;
                     }
                 }
-            }
-            catch (Exception) {
+            } catch {
                 return false;
             }
         }

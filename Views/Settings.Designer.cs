@@ -208,7 +208,7 @@
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Location = new System.Drawing.Point(678, 600);
+            this.btnSave.Location = new System.Drawing.Point(683, 600);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(87, 25);
             this.btnSave.TabIndex = 7;
@@ -1141,7 +1141,7 @@
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(778, 600);
+            this.btnCancel.Location = new System.Drawing.Point(783, 600);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(87, 25);
             this.btnCancel.TabIndex = 8;
@@ -1624,6 +1624,7 @@
             this.chkFallalyticsReporting.TabIndex = 2;
             this.chkFallalyticsReporting.Text = "Sends rounds played information to Fallalytics";
             this.chkFallalyticsReporting.UseSelectable = true;
+            this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.chkFallalyticsReporting_CheckedChanged);
             // 
             // tileFallalytics
             // 
@@ -1644,7 +1645,7 @@
             this.AcceptButton = this.btnSave;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(890, 650);
+            this.ClientSize = new System.Drawing.Size(895, 650);
             this.Controls.Add(this.tileProgram);
             this.Controls.Add(this.tileDisplay);
             this.Controls.Add(this.tileOverlay);
