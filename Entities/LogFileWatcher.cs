@@ -135,17 +135,14 @@ namespace FallGuysStats {
                                         if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
                                             Stats.OnlineServiceType = Stats.OnlineServiceTypes.Steam;
                                             userInfo = this.StatsForm.FindSteamNickname();
-                                            if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                                Stats.OnlineServiceId = userInfo[0];
-                                                Stats.OnlineServiceNickname = userInfo[1];
-                                            }
                                         } else {
                                             Stats.OnlineServiceType = Stats.OnlineServiceTypes.EpicGames;
                                             userInfo = this.StatsForm.FindEpicGamesNickname();
-                                            if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                                                Stats.OnlineServiceId = userInfo[0];
-                                                Stats.OnlineServiceNickname = userInfo[1];
-                                            }
+                                        }
+                                        
+                                        if (!string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                                            Stats.OnlineServiceId = userInfo[0];
+                                            Stats.OnlineServiceNickname = userInfo[1];
                                         }
                                     }
 
