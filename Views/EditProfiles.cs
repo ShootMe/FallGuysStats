@@ -11,6 +11,7 @@ namespace FallGuysStats {
         public List<Profiles> Profiles { get; set; }
         public List<RoundInfo> AllStats { get; set; }
         public Stats StatsForm { get; set; }
+        public bool IsUpdate;
         private DataTable ProfilesData;
         private DataGridViewComboBoxColumn cboShowsList;
         private int selectedRowIndex;
@@ -20,8 +21,8 @@ namespace FallGuysStats {
         public EditProfiles() => this.InitializeComponent();
 
         private void EditProfiles_Load(object sender, EventArgs e) {
-            this.ProfileList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.ProfileList.DefaultCellStyle = dataGridViewCellStyle2;
+            this.ProfileList.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
+            this.ProfileList.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
             this.ResumeLayout(false);
@@ -182,8 +183,8 @@ namespace FallGuysStats {
         }
 
         private void ProfileList_CellClick(object sender, DataGridViewCellEventArgs e) {
-            DataGridView datagridview = sender as DataGridView;
-            if (e.ColumnIndex == 1) {
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1) {
+                DataGridView datagridview = sender as DataGridView;
                 datagridview.BeginEdit(true);
                 ((ComboBox)datagridview.EditingControl).DroppedDown = true;
             }
@@ -198,10 +199,10 @@ namespace FallGuysStats {
             }
         }
 
-        //private void ProfileList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
-        //    e.NewWidth = ((ListView)sender).Columns[e.ColumnIndex].Width;
-        //    e.Cancel = true;
-        //}
+        // private void ProfileList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
+        //     e.NewWidth = ((ListView)sender).Columns[e.ColumnIndex].Width;
+        //     e.Cancel = true;
+        // }
 
         private void DeleteAmpersand_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
@@ -224,6 +225,7 @@ namespace FallGuysStats {
                 this.Profiles.Insert(0, new Profiles { ProfileId = maxID + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = order + 1 });
                 this.ReloadProfileList();
                 this.ProfileList[0, this.ProfileList.Rows.Count - 1].Selected = true;
+                this.IsUpdate = true;
             }
         }
 
@@ -231,7 +233,8 @@ namespace FallGuysStats {
             if (this.RemoveProfileCombobox.SelectedIndex < 0) { return; }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_delete_profile_prefix")} ({this.RemoveProfileCombobox.SelectedItem}) {Multilingual.GetWord("message_delete_profile_infix")} {Multilingual.GetWord("message_delete_profile_suffix")}",
-                    Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                    Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
                 string prevProfileName = string.Empty;
                 for (int i = 0; i < this.RemoveProfileCombobox.Items.Count; i++) {
                     if (this.RemoveProfileCombobox.Items[i].ToString() == this.RemoveProfileCombobox.SelectedItem.ToString()) {
@@ -250,6 +253,7 @@ namespace FallGuysStats {
                 }
                 this.StatsForm.ReloadProfileMenuItems();
                 this.ReloadProfileList();
+                this.IsUpdate = true;
             }
         }
 
@@ -259,7 +263,8 @@ namespace FallGuysStats {
             if (this.MoveFromCombobox.SelectedItem.ToString() == this.MoveToCombobox.SelectedItem.ToString()) { return; }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.MoveFromCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.MoveToCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
-                    Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                    Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            {
                 int fromId = this.Profiles.Find(p => p.ProfileName == this.MoveFromCombobox.SelectedItem.ToString()).ProfileId;
                 int toId = this.Profiles.Find(p => p.ProfileName == this.MoveToCombobox.SelectedItem.ToString()).ProfileId;
                 for (int i = 0; i < this.AllStats.Count; i++) {
@@ -267,6 +272,7 @@ namespace FallGuysStats {
                     this.AllStats[i].Profile = toId;
                 }
                 this.ReloadProfileList();
+                this.IsUpdate = true;
             }
         }
 
@@ -276,13 +282,13 @@ namespace FallGuysStats {
             if (this.RenamePageCombobox.SelectedItem.ToString() == this.RenamePageTextbox.Text) { return; }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.RenamePageCombobox.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.RenamePageTextbox.Text}) {Multilingual.GetWord("message_rename_profile_suffix")}",
-                    Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-            {
-                for (int i = 0; i < this.Profiles.Count; i++) {
-                    if (this.Profiles[i].ProfileName != this.RenamePageCombobox.SelectedItem.ToString()) { continue; }
-                    this.Profiles[i].ProfileName = this.RenamePageTextbox.Text;
+                    Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                foreach (Profiles p in this.Profiles) {
+                    if (p.ProfileName != this.RenamePageCombobox.SelectedItem.ToString()) { continue; }
+                    p.ProfileName = this.RenamePageTextbox.Text;
                 }
                 this.ReloadProfileList();
+                this.IsUpdate = true;
             }
         }
 
@@ -294,6 +300,7 @@ namespace FallGuysStats {
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex + 1].ProfileOrder) = (this.Profiles[profileIndex + 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex - 1].Selected = true;
+            this.IsUpdate = true;
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
@@ -304,6 +311,7 @@ namespace FallGuysStats {
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex + 1].Selected = true;
+            this.IsUpdate = true;
         }
 
         private void RenameComboboxChanged(object sender, EventArgs e) {

@@ -5438,7 +5438,6 @@ namespace FallGuysStats {
         private void menuEditProfiles_Click(object sender, EventArgs e) {
             try {
                 using (EditProfiles editProfiles = new EditProfiles()) {
-                    //editProfiles.Icon = this.Icon;
                     editProfiles.StatsForm = this;
                     editProfiles.Profiles = this.AllProfiles;
                     editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
@@ -5447,20 +5446,19 @@ namespace FallGuysStats {
                     editProfiles.ShowDialog(this);
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
-                    lock (this.StatsDB) {
-                        this.StatsDB.BeginTrans();
-                        this.AllProfiles = editProfiles.Profiles;
-                        this.Profiles.DeleteAll();
-                        this.Profiles.InsertBulk(this.AllProfiles);
-                        if (editProfiles.AllStats.Count != this.RoundDetails.Count()) {
+                    if (editProfiles.IsUpdate) {
+                        lock (this.StatsDB) {
+                            this.StatsDB.BeginTrans();
+                            this.AllProfiles = editProfiles.Profiles;
+                            this.Profiles.DeleteAll();
+                            this.Profiles.InsertBulk(this.AllProfiles);
                             this.AllStats = editProfiles.AllStats;
                             this.RoundDetails.DeleteAll();
                             this.RoundDetails.InsertBulk(this.AllStats);
-                            this.AllStats.Clear();
+                            this.StatsDB.Commit();
                         }
-                        this.StatsDB.Commit();
+                        this.ReloadProfileMenuItems();
                     }
-                    this.ReloadProfileMenuItems();
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
