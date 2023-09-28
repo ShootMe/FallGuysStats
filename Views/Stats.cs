@@ -255,7 +255,28 @@ namespace FallGuysStats {
             "private_lobbies"
         };
 
-        private Stats() { 
+        private Stats() {
+            
+            
+            // string password = "MyPassword";
+            // string salt = "MySalt";
+            //
+            // byte[] saltBytes = System.Text.Encoding.UTF8.GetBytes(salt);
+            // byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
+            //
+            // // 솔트와 비밀번호를 합친다.
+            // byte[] combinedBytes = new byte[saltBytes.Length + passwordBytes.Length];
+            // Array.Copy(saltBytes, 0, combinedBytes, 0, saltBytes.Length);
+            // Array.Copy(passwordBytes, 0, combinedBytes, saltBytes.Length, passwordBytes.Length);
+            //
+            // // SHA256 해시를 생성한다.
+            // using (System.Security.Cryptography.SHA256 sha256Hash = System.Security.Cryptography.SHA256.Create())
+            // {
+            //     byte[] hash = sha256Hash.ComputeHash(combinedBytes);
+            //     Console.WriteLine("SHA256 Hash: " + BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant());
+            // }
+            
+            
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
                     HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
@@ -1077,7 +1098,7 @@ namespace FallGuysStats {
                 //((ToolStripDropDownMenu)menuProfile.DropDown).ShowImageMargin = true;
                 
                 if (this.CurrentSettings.SelectedProfile == profile.ProfileId) {
-                    this.SetCurrentProfileIcon(!string.IsNullOrEmpty(profile.LinkedShowId));
+                    if (this.AllProfiles.Count != 0) this.SetCurrentProfileIcon(!string.IsNullOrEmpty(profile.LinkedShowId));
                     this.menuStats_Click(menuItem, EventArgs.Empty);
                 }
             }
@@ -2999,15 +3020,24 @@ namespace FallGuysStats {
             return this.currentProfile;
         }
         private int GetProfileIdFromName(string profileName) {
+            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(profileName)) return 0;
             return this.AllProfiles.Find(p => p.ProfileName.Equals(profileName)).ProfileId;
         }
         private string GetCurrentProfileLinkedShowId() {
+            if (this.AllProfiles.Count == 0) return String.Empty;
             string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
             return currentProfileLinkedShowId ?? string.Empty;
         }
+        private string GetLinkedShowId(string showId) {
+            switch (showId) {
+                case "squadcelebration": return "squads_4player";
+                case "turbo_show": return "main_show";
+            }
+            return showId;
+        }
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
-            if (string.IsNullOrEmpty(showId)) return 0;
-            if ("squadcelebration".Equals(showId)) { showId = "squads_4player"; }
+            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
+            showId = this.GetLinkedShowId(showId);
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
                     if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
@@ -3036,8 +3066,8 @@ namespace FallGuysStats {
             return 0;
         }
         public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
-            if (this.AllProfiles.Count == 0) return;
-            if ("squadcelebration".Equals(showId)) showId = "squads_4player";
+            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
+            showId = this.GetLinkedShowId(showId);
             if (string.IsNullOrEmpty(showId) && this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
@@ -3081,6 +3111,7 @@ namespace FallGuysStats {
             }
         }
         private void SetProfileMenu(int profile) {
+            if (profile == -1 || this.AllProfiles.Count == 0) return;
             ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
             if (tsmi.Checked) return;
             this.menuStats_Click(tsmi, EventArgs.Empty);
@@ -4934,16 +4965,17 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (this.ProfileMenuItems.Contains(button)) {
-                    for (int i = this.ProfileMenuItems.Count - 1; i >= 0; i--) {
-                        if (this.ProfileMenuItems[i].Name == button.Name) {
-                            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
-                                return p.ProfileName == this.ProfileMenuItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
-                            }) != -1);
+                    if (this.AllProfiles.Count != 0) {
+                        for (int i = this.ProfileMenuItems.Count - 1; i >= 0; i--) {
+                            if (this.ProfileMenuItems[i].Name == button.Name) {
+                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
+                                    return p.ProfileName == this.ProfileMenuItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
+                                }) != -1);
+                            }
+                            this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
+                            this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                         }
-                        this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
-                        this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                     }
-
                     this.currentProfile = this.GetProfileIdFromName(button.Text);
                     this.updateSelectedProfile = true;
                 } else if (button == this.trayAllStats || button == this.traySeasonStats || button == this.trayWeekStats || button == this.trayDayStats || button == this.traySessionStats) {
@@ -5047,16 +5079,17 @@ namespace FallGuysStats {
                         }
                     }
                 } else if (this.ProfileTrayItems.Contains(button)) {
-                    for (int i = this.ProfileTrayItems.Count - 1; i >= 0; i--) {
-                        if (this.ProfileTrayItems[i].Name == button.Name) {
-                            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
-                                return p.ProfileName == this.ProfileTrayItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
-                            }) != -1);
+                    if (this.AllProfiles.Count != 0) {
+                        for (int i = this.ProfileTrayItems.Count - 1; i >= 0; i--) {
+                            if (this.ProfileTrayItems[i].Name == button.Name) {
+                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
+                                    return p.ProfileName == this.ProfileTrayItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
+                                }) != -1);
+                            }
+                            this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
+                            this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                         }
-                        this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
-                        this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                     }
-                    
                     this.currentProfile = this.GetProfileIdFromName(button.Text);
                     this.updateSelectedProfile = true;
                 }
@@ -5304,7 +5337,9 @@ namespace FallGuysStats {
         public void SetAutoChangeProfile(bool autoChangeProfile) {
             this.CurrentSettings.AutoChangeProfile = autoChangeProfile;
             this.logFile.autoChangeProfile = autoChangeProfile;
-            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
+            if (this.AllProfiles.Count != 0) {
+                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
+            }
             this.SaveUserSettings();
         }
         public void SetOverlayBackgroundOpacity(int opacity) {
@@ -5351,7 +5386,9 @@ namespace FallGuysStats {
                         this.SetOverlayTopMost(!this.CurrentSettings.OverlayNotOnTop);
                         this.SetOverlayBackgroundOpacity(this.CurrentSettings.OverlayBackgroundOpacity);
                         this.overlay.SetBackgroundResourcesName(this.CurrentSettings.OverlayBackgroundResourceName, this.CurrentSettings.OverlayTabResourceName);
-                        this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
+                        if (this.AllProfiles.Count != 0) {
+                            this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
+                        }
                         this.Refresh();
                         this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
                         this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
