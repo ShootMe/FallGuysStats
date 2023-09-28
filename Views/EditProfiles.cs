@@ -154,6 +154,16 @@ namespace FallGuysStats {
                     this.RemoveProfileCombobox.Items.Insert(0, this.Profiles[i].ProfileName);
                 }
             }
+            this.RefreshComponent();
+        }
+
+        private void RefreshComponent() {
+            this.AddPageTextbox.Refresh();
+            this.RenamePageTextbox.Refresh();
+            this.RenamePageCombobox.Refresh();
+            this.MoveFromCombobox.Refresh();
+            this.MoveToCombobox.Refresh();
+            this.RemoveProfileCombobox.Refresh();
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
