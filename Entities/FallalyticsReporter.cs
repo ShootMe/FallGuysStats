@@ -16,10 +16,10 @@ namespace FallGuysStats {
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async Task RegisterPb(RoundInfo stat, double record, string sessionId, string apiKey, bool isAnonymous) {
+        public async Task RegisterPb(RoundInfo stat, double record, string apiKey, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, sessionId, isAnonymous), Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -91,7 +91,7 @@ namespace FallGuysStats {
             strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
             return strBuilder.ToString();
         }
-        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, string sessionId, bool isAnonymous) {
+        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, bool isAnonymous) {
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.Append($"{{\"round\":\"{round.Name}\",");
             strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
@@ -101,7 +101,7 @@ namespace FallGuysStats {
             strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
             strBuilder.Append($"\"onlineServiceId\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}\",");
             strBuilder.Append($"\"onlineServiceNickname\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}\",");
-            strBuilder.Append($"\"session\":\"{sessionId}\"}}");
+            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
             return strBuilder.ToString();
         }
     }

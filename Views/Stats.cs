@@ -2879,17 +2879,15 @@ namespace FallGuysStats {
                         );
                         IEnumerable<RoundInfo> qr = this.RoundDetails.Find(recordQuery);
                         
-                        string sessionId = string.Empty;
                         double record = qr.Any() ? qr.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                         if (currentRecord < record) {
-                            sessionId = stat.SessionId;
                             record = currentRecord;
                         }
                         
                         try {
                             if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish, SessionId = stat.SessionId },
-                                                                     record, sessionId, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish },
+                                                                     record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
                             }
                         } catch {
@@ -2899,7 +2897,7 @@ namespace FallGuysStats {
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
                             this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                          Record = record, SessionId = sessionId, PbDate = DateTime.Now,
+                                                          Record = record, PbDate = DateTime.Now,
                                                           Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
                                                           OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                                                           IsTransferSuccess = isTransferSuccess });
@@ -2908,12 +2906,10 @@ namespace FallGuysStats {
                     } else if (pbInfo.Count > 0) {
                         double record = pbInfo[0].Record;
                         try {
-                            string sessionId;
                             if (pbInfo[0].IsTransferSuccess) {
-                                sessionId = stat.SessionId;
                                 if (currentRecord < record) {
                                     if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, sessionId, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                         isTransferSuccess = true;
                                     }
                                     
@@ -2921,7 +2917,6 @@ namespace FallGuysStats {
                                         this.StatsDB.BeginTrans();
                                         foreach (FallalyticsPbInfo f in pbInfo) {
                                             f.Record = currentRecord;
-                                            f.SessionId = sessionId;
                                             f.PbDate = DateTime.Now;
                                             f.IsTransferSuccess = isTransferSuccess;
                                         }
@@ -2930,9 +2925,8 @@ namespace FallGuysStats {
                                     }
                                 }
                             } else { // re-send
-                                sessionId = currentRecord < record ? stat.SessionId : pbInfo[0].SessionId;
                                 if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, sessionId, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
                                     isTransferSuccess = true;
                                 }
                                 
@@ -2940,7 +2934,6 @@ namespace FallGuysStats {
                                     this.StatsDB.BeginTrans();
                                     foreach (FallalyticsPbInfo f in pbInfo) {
                                         f.Record = currentRecord < record ? currentRecord : record;
-                                        f.SessionId = sessionId;
                                         f.PbDate = DateTime.Now;
                                         f.IsTransferSuccess = isTransferSuccess;
                                     }
@@ -2953,7 +2946,6 @@ namespace FallGuysStats {
                                 this.StatsDB.BeginTrans();
                                 foreach (FallalyticsPbInfo f in pbInfo) {
                                     f.Record = currentRecord < record ? currentRecord : record;
-                                    f.SessionId = currentRecord < record ? stat.SessionId : f.SessionId;
                                     f.PbDate = DateTime.Now;
                                     f.IsTransferSuccess = false;
                                 }
@@ -4562,6 +4554,10 @@ namespace FallGuysStats {
             }
 
             return string.Empty;
+        }
+        public void EnableEditProfilesMenu(bool enable) {
+            this.menuEditProfiles.Enabled = enable;
+            this.trayEditProfiles.Enabled = enable;
         }
         private void EnableMainMenu(bool enable) {
             this.menuSettings.Enabled = enable;
