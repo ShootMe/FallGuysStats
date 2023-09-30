@@ -95,7 +95,10 @@ namespace FallGuysStats {
             StringBuilder strBuilder = new StringBuilder();
             Random r = new Random();
             string[] d = new string[9];
+            int[] ra = new int[9];
             string token = string.Empty;
+            int s = r.Next(10);
+            
             d[0] = $"{Stats.HostCountry}";
             d[1] = $"{finish:o}";
             d[2] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}";
@@ -106,7 +109,6 @@ namespace FallGuysStats {
             d[7] = $"{round.SessionId}";
             d[8] = $"{round.ShowNameId}";
             
-            int[] ra = new int[9];
             for (int i = 0; i < ra.Length; i++) {
                 ra[i] = i;
             }
@@ -115,21 +117,11 @@ namespace FallGuysStats {
                 int j = r.Next(i + 1);
                 (ra[i], ra[j]) = (ra[j], ra[i]);
             }
-
-            int s = r.Next(10);
-            if (s % 2 == 0) {
-                for (int i = ra.Length - 1; i >= 0; i--) {
-                    token += d[i];
-                }
-                token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
-                token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"{s}{string.Join("", ra)}"));
-            } else {
-                for (int i = 0; i < ra.Length; i++) {
-                    token += d[i];
-                }
-                token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
-                token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"{s}{string.Join("", ra)}"));
-            }
+            
+            if (s % 2 == 0) { Array.Reverse(ra); }
+            token = ra.Aggregate(token, (current, i) => current + d[i]);
+            token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
+            token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"{s}{string.Join("", ra)}"));
             
             strBuilder.Append($"{{\"country\":\"{d[0]}\",");
             strBuilder.Append($"\"finish\":\"{d[1]}\",");
