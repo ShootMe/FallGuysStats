@@ -256,27 +256,30 @@ namespace FallGuysStats {
             "private_lobbies"
         };
 
-        public enum HashTypes { MD5, SHA256, SHA512 }
+        public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
         public static string ComputeHash(byte[] input, HashTypes hashType) {
-            if (input == null || input.Length == 0) return null;
-            byte[] bytes;
-            if (hashType == HashTypes.MD5) {
-                using (MD5 md5Hash = MD5.Create()) {
-                    bytes = md5Hash.ComputeHash(input);
-                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
-                }
-            } else if (hashType == HashTypes.SHA256) {
-                using (SHA256 sha256Hash = SHA256.Create()) {
-                    bytes = sha256Hash.ComputeHash(input);
-                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
-                }
-            } else if (hashType == HashTypes.SHA512) {
-                using (SHA512 sha512Hash = SHA512.Create()) {
-                    bytes = sha512Hash.ComputeHash(input);
-                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
-                }
+            if (input == null || input.Length == 0) return string.Empty;
+            HashAlgorithm hashAlgorithm = null;
+            switch (hashType) {
+                case HashTypes.MD5:
+                    hashAlgorithm = MD5.Create(); break;
+                case HashTypes.RIPEMD160:
+                    hashAlgorithm = RIPEMD160.Create(); break;
+                case HashTypes.SHA1:
+                    hashAlgorithm = SHA1.Create(); break;
+                case HashTypes.SHA256:
+                    hashAlgorithm = SHA256.Create(); break;
+                case HashTypes.SHA384:
+                    hashAlgorithm = SHA384.Create(); break;
+                case HashTypes.SHA512:
+                    hashAlgorithm = SHA512.Create(); break;
             }
-            return BitConverter.ToString(input);
+
+            if (hashAlgorithm != null) {
+                return BitConverter.ToString(hashAlgorithm.ComputeHash(input)).Replace("-", "").ToLowerInvariant();
+            }
+
+            return string.Empty;
         }
         // public T[] ConcatArrays<T>(params T[][] sourceArrays) {
         //     int totalLength = sourceArrays.Sum(arr => arr.Length);
