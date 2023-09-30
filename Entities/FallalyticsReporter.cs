@@ -85,23 +85,52 @@ namespace FallGuysStats {
         private string RoundInfoToReportJsonString(RoundInfo round) {
             StringBuilder strBuilder = new StringBuilder();
             strBuilder.Append($"{{\"round\":\"{round.Name}\",");
-            strBuilder.Append($"\"index\":{round.Round}\",");
+            strBuilder.Append($"\"index\":\"{round.Round}\",");
             strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
-            strBuilder.Append($"\"isfinal\":{round.IsFinal.ToString().ToLower()}\",");
+            strBuilder.Append($"\"isfinal\":\"{round.IsFinal.ToString().ToLower()}\",");
             strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
             return strBuilder.ToString();
         }
         private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, bool isAnonymous) {
             StringBuilder strBuilder = new StringBuilder();
-            strBuilder.Append($"{{\"round\":\"{round.Name}\",");
-            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
-            strBuilder.Append($"\"record\":\"{record}\",");
-            strBuilder.Append($"\"finishDate\":\"{round.Finish.Value:o}\",");
-            strBuilder.Append($"\"userCountry\":\"{Stats.HostCountry}\",");
-            strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
-            strBuilder.Append($"\"onlineServiceId\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}\",");
-            strBuilder.Append($"\"onlineServiceNickname\":\"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}\",");
-            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
+            string token = string.Empty;
+            string[] data = new string[9];
+            data[0] = $"{round.Name}";
+            data[1] = $"{round.ShowNameId}";
+            data[2] = $"{record}";
+            data[3] = $"{round.Finish.Value:o}";
+            data[4] = $"{Stats.HostCountry}";
+            data[5] = $"{(int)Stats.OnlineServiceType}";
+            data[6] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}";
+            data[7] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}";
+            data[8] = $"{round.SessionId}";
+            
+            int[] ra = new int[9];
+            for (int i = 0; i < ra.Length; i++) {
+                ra[i] = i;
+            }
+            Random random = new Random();
+            for (int i = ra.Length - 1; i > 0; i--) {
+                int j = random.Next(i + 1);
+                (ra[i], ra[j]) = (ra[j], ra[i]);
+            }
+            
+            for (int i = 0; i < ra.Length; i++) {
+                token += data[i];
+            }
+            token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
+            token += string.Join("", ra);
+            
+            strBuilder.Append($"{{\"round\":\"{data[0]}\",");
+            strBuilder.Append($"\"show\":\"{data[1]}\",");
+            strBuilder.Append($"\"record\":\"{data[2]}\",");
+            strBuilder.Append($"\"finishDate\":\"{data[3]}\",");
+            strBuilder.Append($"\"userCountry\":\"{data[4]}\",");
+            strBuilder.Append($"\"onlineServiceType\":\"{data[5]}\",");
+            strBuilder.Append($"\"onlineServiceId\":\"{data[6]}\",");
+            strBuilder.Append($"\"onlineServiceNickname\":\"{data[7]}\",");
+            strBuilder.Append($"\"session\":\"{data[8]}\",");
+            strBuilder.Append($"\"token\":\"{token}\"}}");
             return strBuilder.ToString();
         }
     }

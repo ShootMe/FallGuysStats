@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -255,28 +256,42 @@ namespace FallGuysStats {
             "private_lobbies"
         };
 
+        public enum HashTypes { MD5, SHA256, SHA512 }
+        public static string ComputeHash(byte[] input, HashTypes hashType) {
+            if (input == null || input.Length == 0) return null;
+            byte[] bytes;
+            if (hashType == HashTypes.MD5) {
+                using (MD5 md5Hash = MD5.Create()) {
+                    bytes = md5Hash.ComputeHash(input);
+                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
+                }
+            } else if (hashType == HashTypes.SHA256) {
+                using (SHA256 sha256Hash = SHA256.Create()) {
+                    bytes = sha256Hash.ComputeHash(input);
+                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
+                }
+            } else if (hashType == HashTypes.SHA512) {
+                using (SHA512 sha512Hash = SHA512.Create()) {
+                    bytes = sha512Hash.ComputeHash(input);
+                    return BitConverter.ToString(bytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
+            return BitConverter.ToString(input);
+        }
+        // public T[] ConcatArrays<T>(params T[][] sourceArrays) {
+        //     int totalLength = sourceArrays.Sum(arr => arr.Length);
+        //     T[] destinationArray = new T[totalLength];
+        //
+        //     int destinationIndex = 0;
+        //     foreach (T[] sourceArray in sourceArrays) {
+        //         Array.Copy(sourceArray, 0, destinationArray, destinationIndex, sourceArray.Length);
+        //         destinationIndex += sourceArray.Length;
+        //     }
+        //
+        //     return destinationArray;
+        // }
+
         private Stats() {
-            
-            
-            // string password = "MyPassword";
-            // string salt = "MySalt";
-            //
-            // byte[] saltBytes = System.Text.Encoding.UTF8.GetBytes(salt);
-            // byte[] passwordBytes = System.Text.Encoding.UTF8.GetBytes(password);
-            //
-            // // 솔트와 비밀번호를 합친다.
-            // byte[] combinedBytes = new byte[saltBytes.Length + passwordBytes.Length];
-            // Array.Copy(saltBytes, 0, combinedBytes, 0, saltBytes.Length);
-            // Array.Copy(passwordBytes, 0, combinedBytes, saltBytes.Length, passwordBytes.Length);
-            //
-            // // SHA256 해시를 생성한다.
-            // using (System.Security.Cryptography.SHA256 sha256Hash = System.Security.Cryptography.SHA256.Create())
-            // {
-            //     byte[] hash = sha256Hash.ComputeHash(combinedBytes);
-            //     Console.WriteLine("SHA256 Hash: " + BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant());
-            // }
-            
-            
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
                     HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
