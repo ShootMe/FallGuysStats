@@ -109,17 +109,25 @@ namespace FallGuysStats {
             for (int i = 0; i < ra.Length; i++) {
                 ra[i] = i;
             }
-            Random random = new Random();
+            Random r = new Random();
             for (int i = ra.Length - 1; i > 0; i--) {
-                int j = random.Next(i + 1);
+                int j = r.Next(i + 1);
                 (ra[i], ra[j]) = (ra[j], ra[i]);
             }
-            
-            for (int i = 0; i < ra.Length; i++) {
-                token += data[i];
+
+            if (1 == r.Next(0, 2)) {
+                for (int i = ra.Length - 1; i >= 0; i--) {
+                    token += data[i];
+                }
+                token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
+                token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"1{string.Join("", ra)}"));
+            } else {
+                for (int i = 0; i < ra.Length; i++) {
+                    token += data[i];
+                }
+                token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
+                token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"0{string.Join("", ra)}"));
             }
-            token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
-            token += Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join("", ra)));
             
             strBuilder.Append($"{{\"country\":\"{data[0]}\",");
             strBuilder.Append($"\"finishDate\":\"{data[1]}\",");
