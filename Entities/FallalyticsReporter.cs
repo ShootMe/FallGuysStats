@@ -95,15 +95,15 @@ namespace FallGuysStats {
             StringBuilder strBuilder = new StringBuilder();
             string token = string.Empty;
             string[] data = new string[9];
-            data[0] = $"{round.Name}";
-            data[1] = $"{round.ShowNameId}";
-            data[2] = $"{record}";
-            data[3] = $"{round.Finish.Value:o}";
-            data[4] = $"{Stats.HostCountry}";
-            data[5] = $"{(int)Stats.OnlineServiceType}";
-            data[6] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}";
-            data[7] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}";
-            data[8] = $"{round.SessionId}";
+            data[0] = $"{Stats.HostCountry}";
+            data[1] = $"{round.Finish.Value:o}";
+            data[2] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}";
+            data[3] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}";
+            data[4] = $"{(int)Stats.OnlineServiceType}";
+            data[5] = $"{record}";
+            data[6] = $"{round.Name}";
+            data[7] = $"{round.SessionId}";
+            data[8] = $"{round.ShowNameId}";
             
             int[] ra = new int[9];
             for (int i = 0; i < ra.Length; i++) {
@@ -119,17 +119,17 @@ namespace FallGuysStats {
                 token += data[i];
             }
             token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
-            token += string.Join("", ra);
+            token += Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Join("", ra)));
             
-            strBuilder.Append($"{{\"round\":\"{data[0]}\",");
-            strBuilder.Append($"\"show\":\"{data[1]}\",");
-            strBuilder.Append($"\"record\":\"{data[2]}\",");
-            strBuilder.Append($"\"finishDate\":\"{data[3]}\",");
-            strBuilder.Append($"\"userCountry\":\"{data[4]}\",");
-            strBuilder.Append($"\"onlineServiceType\":\"{data[5]}\",");
-            strBuilder.Append($"\"onlineServiceId\":\"{data[6]}\",");
-            strBuilder.Append($"\"onlineServiceNickname\":\"{data[7]}\",");
-            strBuilder.Append($"\"session\":\"{data[8]}\",");
+            strBuilder.Append($"{{\"country\":\"{data[0]}\",");
+            strBuilder.Append($"\"finishDate\":\"{data[1]}\",");
+            strBuilder.Append($"\"onlineServiceId\":\"{data[2]}\",");
+            strBuilder.Append($"\"onlineServiceNickname\":\"{data[3]}\",");
+            strBuilder.Append($"\"onlineServiceType\":\"{data[4]}\",");
+            strBuilder.Append($"\"record\":\"{data[5]}\",");
+            strBuilder.Append($"\"round\":\"{data[6]}\",");
+            strBuilder.Append($"\"session\":\"{data[7]}\",");
+            strBuilder.Append($"\"show\":\"{data[8]}\",");
             strBuilder.Append($"\"token\":\"{token}\"}}");
             return strBuilder.ToString();
         }
