@@ -2909,6 +2909,7 @@ namespace FallGuysStats {
                     List<FallalyticsPbInfo> pbInfo = this.FallalyticsPbInfo.Find(pbInfoQuery).ToList();
                     
                     double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+                    DateTime currentFinish = stat.Finish.Value;
                     bool isTransferSuccess = false;
                     if (pbInfo.Count == 0) { // first transfer
                         BsonExpression recordQuery = Query.And(
@@ -2919,14 +2920,16 @@ namespace FallGuysStats {
                         IEnumerable<RoundInfo> qr = this.RoundDetails.Find(recordQuery);
                         
                         double record = qr.Any() ? qr.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                        DateTime finish = qr.Any() ? qr.Min(r => r.Finish.Value) : stat.Finish.Value;
                         if (currentRecord < record) {
                             record = currentRecord;
+                            finish = currentFinish;
                         }
                         
                         try {
                             if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId, Finish = stat.Finish },
-                                                                     record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId },
+                                                                     record, finish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
                                 isTransferSuccess = true;
                             }
                         } catch {
@@ -2936,7 +2939,7 @@ namespace FallGuysStats {
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
                             this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
-                                                          Record = record, PbDate = DateTime.Now,
+                                                          Record = record, PbDate = finish,
                                                           Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
                                                           OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                                                           IsTransferSuccess = isTransferSuccess });
@@ -2944,11 +2947,12 @@ namespace FallGuysStats {
                         }
                     } else if (pbInfo.Count > 0) {
                         double record = pbInfo[0].Record;
+                        DateTime finish = pbInfo[0].PbDate;
                         try {
                             if (pbInfo[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
                                     if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
                                         isTransferSuccess = true;
                                     }
                                     
@@ -2956,7 +2960,7 @@ namespace FallGuysStats {
                                         this.StatsDB.BeginTrans();
                                         foreach (FallalyticsPbInfo f in pbInfo) {
                                             f.Record = currentRecord;
-                                            f.PbDate = DateTime.Now;
+                                            f.PbDate = currentFinish;
                                             f.IsTransferSuccess = isTransferSuccess;
                                         }
                                         this.FallalyticsPbInfo.Update(pbInfo);
@@ -2965,7 +2969,7 @@ namespace FallGuysStats {
                                 }
                             } else { // re-send
                                 if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, this.CurrentSettings.FallalyticsAPIKey, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
                                     isTransferSuccess = true;
                                 }
                                 
@@ -2973,7 +2977,7 @@ namespace FallGuysStats {
                                     this.StatsDB.BeginTrans();
                                     foreach (FallalyticsPbInfo f in pbInfo) {
                                         f.Record = currentRecord < record ? currentRecord : record;
-                                        f.PbDate = DateTime.Now;
+                                        f.PbDate = currentRecord < record ? currentFinish : finish;
                                         f.IsTransferSuccess = isTransferSuccess;
                                     }
                                     this.FallalyticsPbInfo.Update(pbInfo);
@@ -2985,7 +2989,7 @@ namespace FallGuysStats {
                                 this.StatsDB.BeginTrans();
                                 foreach (FallalyticsPbInfo f in pbInfo) {
                                     f.Record = currentRecord < record ? currentRecord : record;
-                                    f.PbDate = DateTime.Now;
+                                    f.PbDate = currentRecord < record ? currentFinish : finish;
                                     f.IsTransferSuccess = false;
                                 }
                                 this.FallalyticsPbInfo.Update(pbInfo);
