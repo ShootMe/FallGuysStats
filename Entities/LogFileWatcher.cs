@@ -475,7 +475,6 @@ namespace FallGuysStats {
             Stats.PingSwitcher = 10;
             Stats.IsQueued = false;
             Stats.QueuedPlayers = 0;
-            this.StatsForm.EnableEditProfilesMenu(true);
         }
 
         private void InitCreativeLevelVariable() {
@@ -590,7 +589,6 @@ namespace FallGuysStats {
                 //Store SessionID to prevent duplicates
                 this.sessionId = line.Line.Substring(index + 33);
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) >= 0) {
-                this.StatsForm.EnableEditProfilesMenu(false);
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.selectedShowId.StartsWith("ugc-")) {
                     this.selectedShowId = this.selectedShowId.Substring(4);
