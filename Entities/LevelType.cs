@@ -88,7 +88,7 @@ namespace FallGuysStats {
                 case LevelType.Team:
                     return Color.FromArgb(248, 82, 0);
             }
-            return Color.FromArgb(255, 255, 255);
+            return Color.DarkGray;
         }
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
             if (isFinal && type != LevelType.CreativeRace) {

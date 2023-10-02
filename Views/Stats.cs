@@ -2823,7 +2823,7 @@ namespace FallGuysStats {
                                 roundName = roundName.Substring(6).Replace('_', ' ');
                             }
 
-                            LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, false, false, 0, 0, 0, null, null);
+                            LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -3204,7 +3204,7 @@ namespace FallGuysStats {
                 List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelType.CreativeLevelTypeId().Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue(levelType.CreativeLevelTypeId(), out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, false, false, 0, 0, 0, null, null);
+                    currentLevel = new LevelStats(name, name, LevelType.Unknown, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                 }
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
@@ -3325,7 +3325,7 @@ namespace FallGuysStats {
             } else {
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue(name, out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, false, false, 0, 0, 0, null, null);
+                    currentLevel = new LevelStats(name, name, LevelType.Unknown, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                 }
 
                 for (int i = 0; i < this.AllStats.Count; i++) {
