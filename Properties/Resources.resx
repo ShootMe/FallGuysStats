@@ -420,6 +420,9 @@
     <data name="scatter_plot_teal_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\scatter_plot_teal_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="round_unknown_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\round_icon\icon_Unknown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="round_creative_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\round_icon\creative\icon_Creative.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>

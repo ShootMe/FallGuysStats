@@ -544,6 +544,7 @@ namespace FallGuysStats {
         private void SetRoundLabel(LevelStats level, LevelType levelType, string roundName, int overlaySetting) {
             if (Stats.IsQueued && (overlaySetting == 1 || overlaySetting == 5)) {
                 this.lblRound.LevelColor = Color.Empty;
+                this.lblRound.LevelTrueColor = Color.Empty;
                 this.lblRound.RoundIcon = null;
                 this.lblRound.ImageWidth = 0;
                 this.lblRound.ImageHeight = 0;
@@ -552,15 +553,25 @@ namespace FallGuysStats {
                 this.lblRound.ForeColor = this.ForeColor;
             } else {
                 if (level.Type == LevelType.Unknown && level.RoundIcon == null) {
-                    this.lblRound.RoundIcon = null;
-                    this.lblRound.ImageWidth = 0;
-                    this.lblRound.ImageHeight = 0;
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                         this.lblRound.LevelColor = levelType.LevelBackColor(false, false, 127);
+                        this.lblRound.LevelTrueColor = levelType.LevelBackColor(false, false, 127);
+                        this.lblRound.RoundIcon = Properties.Resources.round_unknown_icon;
+                        if (this.lblRound.RoundIcon.Height != 23) {
+                            this.lblRound.ImageHeight = 23;
+                            this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);
+                        } else {
+                            this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
+                            this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;
+                        }
                     } else {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
                         this.lblRound.LevelColor = Color.Empty;
+                        this.lblRound.LevelTrueColor = Color.Empty;
+                        this.lblRound.RoundIcon = null;
+                        this.lblRound.ImageWidth = 0;
+                        this.lblRound.ImageHeight = 0;
                     }
                 } else {
                     if (this.StatsForm.CurrentSettings.ColorByRoundType) {
@@ -578,6 +589,7 @@ namespace FallGuysStats {
                     } else {
                         this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_suffix")} :";
                         this.lblRound.LevelColor = Color.Empty;
+                        this.lblRound.LevelTrueColor = Color.Empty;
                         this.lblRound.RoundIcon = null;
                         this.lblRound.ImageWidth = 0;
                         this.lblRound.ImageHeight = 0;
