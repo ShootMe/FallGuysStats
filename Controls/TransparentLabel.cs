@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
@@ -28,6 +29,7 @@ namespace FallGuysStats {
         public int ImageHeight { get; set; }
         public Color LevelColor { get; set; }
         public Color LevelTrueColor { get; set; }
+        public Color PingColor { get; set; }
         public Image RoundIcon { get; set; }
         public int TickProgress { get; set; }
         public int OverlaySetting { get; set; }
@@ -118,6 +120,13 @@ namespace FallGuysStats {
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 }
                                 //g.DrawString(this.TextRight, this.GetFontForRoundName(this.TextRight), brFore, this.ClientRectangle, stringFormat);
+                            } else if (this.Name.Equals("lblPlayers")) {
+                                if (Stats.LastServerPing > 99 && this.TextRight.IndexOf(" ms", StringComparison.Ordinal) != -1) {
+                                    this.DrawOutlineText(g, this.ClientRectangle, new Pen(this.PingColor), brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
+                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
+                                } else {
+                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);    
+                                }
                             } else {
                                 this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                 //g.DrawString(this.TextRight, this.Font, brFore, this.ClientRectangle, stringFormat);

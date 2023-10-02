@@ -768,17 +768,24 @@ namespace FallGuysStats {
                             this.lblPingIcon.ImageX = 40;
                             this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                         } else {
+                            if (Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) {
+                                this.lblPlayers.PingColor = Color.Orange;
+                            } else if (Stats.LastServerPing >= 200) {
+                                this.lblPlayers.PingColor = Color.Red;
+                            } else {
+                                this.lblPlayers.PingColor = Color.Empty;
+                            }
                             this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                             this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)
                                                             ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
                                                                Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30 :
-                                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -2 :
-                                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -5 : 0) : -12;
+                                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -3 :
+                                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -6 : 0) : -12;
                             
                             this.lblPingIcon.Image = (Stats.IsPrePlaying && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
                                                       (Stats.IsPrePlaying && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
-                            this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -14 :
-                                                       (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -16 :
+                            this.lblPingIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15 :
+                                                       (Stats.IsPrePlaying && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17 :
                                                        (Stats.IsPrePlaying && Stats.LastServerPing > 999) ? -24 : 0;
                             
                             if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
