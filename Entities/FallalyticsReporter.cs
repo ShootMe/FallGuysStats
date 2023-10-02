@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 namespace FallGuysStats {
     internal class FallalyticsReporter {
         private List<RoundInfo> roundList = new List<RoundInfo>();
-
         private static readonly string ReportAPIEndpoint = "https://fallalytics.com/api/report";
-        
         public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
-
         private static readonly HttpClient HttpClient = new HttpClient();
 
         public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous, string apiKey) {
+            string[] r = this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous), Encoding.UTF8, "application/json");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", r[1]);
+            request.Headers.Referrer= new Uri($"FallGuysStatsV{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}.eunma.io");
+            request.Content = new StringContent(r[0], Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -29,7 +29,9 @@ namespace FallGuysStats {
         
         public async Task Report(RoundInfo stat, string apiKey) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            request.Headers.Referrer= new Uri($"FallGuysStatsV{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}");
             request.Content = new StringContent(this.RoundInfoToReportJsonString(stat), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
@@ -91,13 +93,14 @@ namespace FallGuysStats {
             strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
             return strBuilder.ToString();
         }
-        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
+        private string[] RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
             StringBuilder strBuilder = new StringBuilder();
             Random r = new Random();
             string[] d = new string[9];
             int[] ra = new int[9];
             string token = string.Empty;
             int s = r.Next(10);
+            string[] rtn = { string.Empty, string.Empty };
             
             d[0] = $"{Stats.HostCountry}";
             d[1] = $"{finish:o}";
@@ -121,6 +124,7 @@ namespace FallGuysStats {
             if (s % 2 == 0) { Array.Reverse(ra); }
             token = ra.Aggregate(token, (current, i) => current + d[i]);
             token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
+            if (s % 2 == 0) { Array.Reverse(ra); }
             token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"{s}{string.Join("", ra)}"));
             
             strBuilder.Append($"{{\"country\":\"{d[0]}\",");
@@ -131,9 +135,11 @@ namespace FallGuysStats {
             strBuilder.Append($"\"record\":\"{d[5]}\",");
             strBuilder.Append($"\"round\":\"{d[6]}\",");
             strBuilder.Append($"\"session\":\"{d[7]}\",");
-            strBuilder.Append($"\"show\":\"{d[8]}\",");
-            strBuilder.Append($"\"token\":\"{token}\"}}");
-            return strBuilder.ToString();
+            strBuilder.Append($"\"show\":\"{d[8]}\"}}");
+            
+            rtn[0] = strBuilder.ToString();
+            rtn[1] = token;
+            return rtn;
         }
     }
 }

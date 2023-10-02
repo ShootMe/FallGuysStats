@@ -3801,9 +3801,11 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Played":
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(37, 93, 132) : Color.FromArgb(31, 119, 180);
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "Qualified": {
+                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(198, 22, 117) : Color.FromArgb(255, 20, 147);
                             float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
@@ -3815,6 +3817,7 @@ namespace FallGuysStats {
                             break;
                         }
                     case "Gold": {
+                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(134, 117, 29) : Color.FromArgb(255, 215, 0);
                             float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
@@ -3826,6 +3829,7 @@ namespace FallGuysStats {
                             break;
                         }
                     case "Silver": {
+                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(123, 123, 123) : Color.FromArgb(192, 192, 192);
                             float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
@@ -3837,6 +3841,7 @@ namespace FallGuysStats {
                             break;
                         }
                     case "Bronze": {
+                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(114, 82, 50) : Color.FromArgb(205, 127, 50);
                             float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
@@ -3848,6 +3853,7 @@ namespace FallGuysStats {
                             break;
                         }
                     case "Kudos":
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(190, 74, 186) : Color.FromArgb(218, 112, 214);
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
