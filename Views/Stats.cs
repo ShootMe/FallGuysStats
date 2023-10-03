@@ -818,21 +818,27 @@ namespace FallGuysStats {
                     foreach (var tsi1 in ts1.Items) {
                         if (tsi1 is ToolStripLabel tsl1) {
                             switch (tsl1.Name) {
-                                case "lblCurrentProfile": tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192); break;
+                                case "lblCurrentProfile":
+                                    tsl1.Font = Overlay.GetMainFont(14f, FontStyle.Regular, CurrentLanguage);
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192);
+                                    break;
                                 case "lblTotalTime":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    //tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
                                     break;
                                 case "lblTotalShows":
                                 case "lblTotalWins":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalRounds":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalFinals":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
@@ -842,6 +848,7 @@ namespace FallGuysStats {
                                 case "lblPinkMedal":
                                 case "lblEliminatedMedal":
                                 case "lblKudos":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                             }
                         } else if (tsi1 is ToolStripSeparator tss1) {
@@ -3567,6 +3574,9 @@ namespace FallGuysStats {
         public void HideTooltip(IWin32Window window) {
             this.mtt.Hide(window);
         }
+        private Color GetComplementaryColor(Color source, int alpha = 255) {
+            return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
+        }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
@@ -3583,7 +3593,7 @@ namespace FallGuysStats {
                     break;
                 case "Qualified":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 2 || CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == 2 || CurrentLanguage == 3 ||CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
                     break;
                 case "Gold":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
@@ -3747,8 +3757,10 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Name":
-                        if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, CurrentLanguage);
                         e.CellStyle.ForeColor = Color.Black;
+                        // e.CellStyle.ForeColor = this.GetComplementaryColor(e.CellStyle.BackColor);
+                        if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
                         //this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
                         if (levelStats.IsFinal) {
                             e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -3800,68 +3812,103 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Played":
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(37, 93, 132) : Color.FromArgb(31, 119, 180);
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(0 * fBrightness), (int)(126 * fBrightness), (int)(222 * fBrightness))
+                            : Color.FromArgb(0, 126, 222);
                         e.Value = $"{e.Value:N0}";
                         break;
-                    case "Qualified": {
-                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(198, 22, 117) : Color.FromArgb(255, 20, 147);
-                            float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                            if (this.CurrentSettings.ShowPercentages) {
-                                e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
-                            } else {
-                                e.Value = $"{levelStats.Qualified:N0}";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(qualifyChance * 10) / 10}%";
-                            }
-                            break;
+                    case "Qualified":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(255 * fBrightness), (int)(20 * fBrightness), (int)(147 * fBrightness))
+                            : Color.FromArgb(255, 20, 147);
+                        float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                        if (this.CurrentSettings.ShowPercentages) {
+                            e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
+                        } else {
+                            e.Value = $"{levelStats.Qualified:N0}";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(qualifyChance * 10) / 10}%";
                         }
-                    case "Gold": {
-                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(134, 117, 29) : Color.FromArgb(255, 215, 0);
-                            float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                            if (this.CurrentSettings.ShowPercentages) {
-                                e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
-                            } else {
-                                e.Value = $"{levelStats.Gold:N0}";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(goldChance * 10) / 10}%";
-                            }
-                            break;
+                        break;
+                    case "Gold":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(255 * fBrightness), (int)(215 * fBrightness), (int)(0 * fBrightness))
+                            : Color.FromArgb(255, 215, 0);
+                        float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                        if (this.CurrentSettings.ShowPercentages) {
+                            e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
+                        } else {
+                            e.Value = $"{levelStats.Gold:N0}";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(goldChance * 10) / 10}%";
                         }
-                    case "Silver": {
-                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(123, 123, 123) : Color.FromArgb(192, 192, 192);
-                            float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                            if (this.CurrentSettings.ShowPercentages) {
-                                e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
-                            } else {
-                                e.Value = $"{levelStats.Silver:N0}";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(silverChance * 10) / 10}%";
-                            }
-                            break;
+                        break;
+                    case "Silver":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.3f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(192 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
+                            : Color.FromArgb(192, 192, 192);
+                        float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                        if (this.CurrentSettings.ShowPercentages) {
+                            e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
+                        } else {
+                            e.Value = $"{levelStats.Silver:N0}";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(silverChance * 10) / 10}%";
                         }
-                    case "Bronze": {
-                            e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(114, 82, 50) : Color.FromArgb(205, 127, 50);
-                            float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                            if (this.CurrentSettings.ShowPercentages) {
-                                e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
-                            } else {
-                                e.Value = $"{levelStats.Bronze:N0}";
-                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(bronzeChance * 10) / 10}%";
-                            }
-                            break;
+                        break;
+                    case "Bronze":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(205 * fBrightness), (int)(127 * fBrightness), (int)(50 * fBrightness))
+                            : Color.FromArgb(205, 127, 50);
+                        float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                        if (this.CurrentSettings.ShowPercentages) {
+                            e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
+                        } else {
+                            e.Value = $"{levelStats.Bronze:N0}";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(bronzeChance * 10) / 10}%";
                         }
+                        break;
                     case "Kudos":
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(190, 74, 186) : Color.FromArgb(218, 112, 214);
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(218 * fBrightness), (int)(112 * fBrightness), (int)(214 * fBrightness))
+                            : Color.FromArgb(218, 112, 214);
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
+                            : Color.FromArgb(0, 192, 192);
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
+                            : Color.FromArgb(0, 192, 192);
                         e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
                         break;
                     case "Longest":
+                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        fBrightness -= 0.2f;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
+                            ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
+                            : Color.FromArgb(0, 192, 192);
                         e.Value = levelStats.Longest.ToString("m\\:ss\\.ff");
                         break;
                 }

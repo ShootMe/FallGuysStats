@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -97,7 +96,7 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Finish":
-                    return 60;
+                    return 70;
                 case "Position":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
@@ -405,18 +404,17 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
-            //if ((bool)this.gridDetails.Rows[e.RowIndex].Cells["PrivateLobby"].Value) {
-            //    e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
-            //    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            //}
             
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "End") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Start") {
                 //e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular);
                 e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 if (info.Finish.HasValue) {
+                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                     e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.ff");
                 }
             } else if (this._showStats == 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Qualified") { // Shows
@@ -453,6 +451,8 @@ namespace FallGuysStats {
                     this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_failure_reaching_finals");
                     e.Value = Properties.Resources.uncheckmark_icon;
                 }
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowID") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
                 //if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
@@ -461,12 +461,16 @@ namespace FallGuysStats {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Round") {
                 //if (this._showStats == 1 && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
+                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
+                } else if (this._showStats == 2) {
+                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
+                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, Stats.CurrentLanguage);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
                     e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
@@ -474,52 +478,65 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
+                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, Stats.CurrentLanguage);
                     e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? $"☑️ {info.CreativeTitle}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                     //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
                 //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 if ((int)e.Value == 0) {
                     e.Value = "";
                 }
+            } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Players") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs4") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs5") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs5_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersXb1") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersXb1_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersXsx") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersXsx_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersSw") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersSw_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPc") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPc_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersBots") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersBots_desc");
                 if ((int)e.Value == 0) {
                     e.Value = "-";
                 }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Score") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 e.Value = $"{e.Value:N0}";
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Kudos") {
+                e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
                 e.Value = $"{e.Value:N0}";
             }
         }
@@ -896,6 +913,10 @@ namespace FallGuysStats {
                 case "win": return Multilingual.GetWord("level_detail_playersPc");
             }
             return platform;
+        }
+        
+        private Color GetComplementaryColor(Color source, int alpha = 255) {
+            return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
         }
     }
 }

@@ -136,7 +136,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private Color GetComplementaryColor(Color source, int alpha) {
+        private Color GetComplementaryColor(Color source, int alpha = 255) {
             return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
         }
         private float GetFontSizeFactor() {
