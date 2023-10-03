@@ -358,8 +358,21 @@ namespace FallGuysStats {
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
             this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsPbInfo");
-
+            
             this.StatsDB.BeginTrans();
+            this.RoundDetails.EnsureIndex(r => r.Name);
+            this.RoundDetails.EnsureIndex(r => r.ShowID);
+            this.RoundDetails.EnsureIndex(r => r.Round);
+            this.RoundDetails.EnsureIndex(r => r.Start);
+            this.RoundDetails.EnsureIndex(r => r.InParty);
+            
+            this.Profiles.EnsureIndex(p => p.ProfileId);
+
+            this.FallalyticsPbInfo.EnsureIndex(f => f.PbId);
+            this.FallalyticsPbInfo.EnsureIndex(f => f.RoundId);
+            this.FallalyticsPbInfo.EnsureIndex(f => f.ShowNameId);
+            
+            
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                  CultureInfo.CurrentUICulture.Name :
@@ -388,21 +401,11 @@ namespace FallGuysStats {
                     this.EnableMainMenu(true);
                 }
             }
+            this.StatsDB.Commit();
 
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
-            
-            this.RoundDetails.EnsureIndex(r => r.Name);
-            this.RoundDetails.EnsureIndex(r => r.ShowID);
-            this.RoundDetails.EnsureIndex(r => r.Round);
-            this.RoundDetails.EnsureIndex(r => r.Start);
-            this.RoundDetails.EnsureIndex(r => r.InParty);
-
-            this.FallalyticsPbInfo.EnsureIndex(f => f.PbId);
-            this.FallalyticsPbInfo.EnsureIndex(f => f.RoundId);
-            this.FallalyticsPbInfo.EnsureIndex(f => f.ShowNameId);
-            this.StatsDB.Commit();
             
             this.UpdateDatabaseVersion();
             
@@ -5540,8 +5543,7 @@ namespace FallGuysStats {
                             this.Profiles.DeleteAll();
                             this.Profiles.InsertBulk(this.AllProfiles);
                             this.AllStats = editProfiles.AllStats;
-                            this.RoundDetails.DeleteAll();
-                            this.RoundDetails.InsertBulk(this.AllStats);
+                            this.RoundDetails.Update(this.AllStats);
                             this.StatsDB.Commit();
                         }
                         this.ReloadProfileMenuItems();

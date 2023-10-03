@@ -461,16 +461,16 @@ namespace FallGuysStats {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Round") {
                 //if (this._showStats == 1 && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
-                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                    e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
                 } else if (this._showStats == 2) {
-                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                    e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
-                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, Stats.CurrentLanguage);
+                    e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, Stats.CurrentLanguage);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
                     e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
@@ -478,7 +478,7 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, Stats.CurrentLanguage);
+                    e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, Stats.CurrentLanguage);
                     e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? $"☑️ {info.CreativeTitle}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                     //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
                 }
