@@ -936,8 +936,7 @@ namespace FallGuysStats {
                 }
             }
             this.Theme = theme;
-            this.ResumeLayout(false);
-            this.Refresh();
+            this.ResumeLayout();
         }
         private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
@@ -3920,24 +3919,30 @@ namespace FallGuysStats {
             }
         }
         private void gridDetails_CellMouseLeave(object sender, DataGridViewCellEventArgs e) {
-            this.gridDetails.Cursor = Cursors.Default;
-            this.HideCustomTooltip(this);
+            if (e.RowIndex >= 0) {
+                this.gridDetails.SuspendLayout();
+                this.gridDetails.Cursor = Cursors.Default;
+                this.HideCustomTooltip(this);
+                this.gridDetails.ResumeLayout();
+            }
         }
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             try {
+                this.gridDetails.SuspendLayout();
                 if (e.RowIndex >= 0 && (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")) {
                     this.gridDetails.Cursor = Cursors.Hand;
                     Point cursorPosition = this.PointToClient(Cursor.Position);
                     Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
                     this.AllocCustomTooltip(this.cmtt_center_Draw);
                     this.ShowCustomTooltip($"{Multilingual.GetWord("level_detail_tooltiptext_prefix")}{this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value}{Multilingual.GetWord("level_detail_tooltiptext_suffix")}", this, position);
-                } else {
+                } else if (e.RowIndex >= 0) {
                     this.gridDetails.Cursor = e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")
                         ? this.Theme == MetroThemeStyle.Light
                             ? new Cursor(Properties.Resources.transform_icon.GetHicon())
                             : new Cursor(Properties.Resources.transform_gray_icon.GetHicon())
                         : Cursors.Default;
                 }
+                this.gridDetails.ResumeLayout();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -5536,14 +5541,19 @@ namespace FallGuysStats {
                     editProfiles.ShowDialog(this);
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
-                    if (editProfiles.IsUpdate) {
+                    if (editProfiles.IsUpdate || editProfiles.IsDelete) {
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
                             this.AllProfiles = editProfiles.Profiles;
                             this.Profiles.DeleteAll();
                             this.Profiles.InsertBulk(this.AllProfiles);
                             this.AllStats = editProfiles.AllStats;
-                            this.RoundDetails.Update(this.AllStats);
+                            if (editProfiles.IsUpdate) this.RoundDetails.Update(this.AllStats);
+                            if (editProfiles.IsDelete) {
+                                foreach (int p in editProfiles.DeleteList) {
+                                    this.RoundDetails.DeleteMany(r => r.Profile == p);
+                                }
+                            }
                             this.StatsDB.Commit();
                         }
                         this.ReloadProfileMenuItems();

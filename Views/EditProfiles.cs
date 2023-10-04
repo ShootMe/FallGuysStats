@@ -11,7 +11,8 @@ namespace FallGuysStats {
         public List<Profiles> Profiles { get; set; }
         public List<RoundInfo> AllStats { get; set; }
         public Stats StatsForm { get; set; }
-        public bool IsUpdate;
+        public bool IsUpdate, IsDelete;
+        public List<int> DeleteList = new List<int>();
         private DataTable ProfilesData;
         private DataGridViewComboBoxColumn cboShowsList;
         private int selectedRowIndex;
@@ -186,6 +187,7 @@ namespace FallGuysStats {
                 int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
                 int profileIndex = this.Profiles.Count - profileListIndex - 1;
                 this.Profiles[profileIndex].LinkedShowId = linkedShowId;
+                this.IsUpdate = true;
                 this.selectedRowIndex = ((ComboBox)sender).SelectedIndex;
             }
             this.ProfileList.ClearSelection();
@@ -233,9 +235,9 @@ namespace FallGuysStats {
                     if (this.Profiles[i].ProfileName == this.AddPageTextbox.Text) { return; }
                 }
                 this.Profiles.Insert(0, new Profiles { ProfileId = maxID + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = order + 1 });
+                this.IsUpdate = true;
                 this.ReloadProfileList();
                 this.ProfileList[0, this.ProfileList.Rows.Count - 1].Selected = true;
-                this.IsUpdate = true;
             }
         }
 
@@ -258,12 +260,13 @@ namespace FallGuysStats {
                 int profileId = this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()).ProfileId;
                 this.Profiles.Remove(this.Profiles.Find(p => p.ProfileName == this.RemoveProfileCombobox.SelectedItem.ToString()));
                 this.AllStats.RemoveAll(r => r.Profile == profileId);
+                this.DeleteList.Add(profileId);
+                this.IsDelete = true;
                 if (this.StatsForm.CurrentSettings.SelectedProfile == profileId) {
                     this.StatsForm.CurrentSettings.SelectedProfile = prevProfileId;
                 }
                 this.StatsForm.ReloadProfileMenuItems();
                 this.ReloadProfileList();
-                this.IsUpdate = true;
             }
         }
 
@@ -281,8 +284,8 @@ namespace FallGuysStats {
                     if (this.AllStats[i].Profile != fromId) { continue; }
                     this.AllStats[i].Profile = toId;
                 }
-                this.ReloadProfileList();
                 this.IsUpdate = true;
+                this.ReloadProfileList();
             }
         }
 
@@ -297,8 +300,8 @@ namespace FallGuysStats {
                     if (p.ProfileName != this.RenamePageCombobox.SelectedItem.ToString()) { continue; }
                     p.ProfileName = this.RenamePageTextbox.Text;
                 }
-                this.ReloadProfileList();
                 this.IsUpdate = true;
+                this.ReloadProfileList();
             }
         }
 
@@ -308,9 +311,9 @@ namespace FallGuysStats {
             int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
             int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex + 1].ProfileOrder) = (this.Profiles[profileIndex + 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
+            this.IsUpdate = true;
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex - 1].Selected = true;
-            this.IsUpdate = true;
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
@@ -319,9 +322,9 @@ namespace FallGuysStats {
             int profileListIndex = this.ProfileList.CurrentCell.RowIndex;
             int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
+            this.IsUpdate = true;
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex + 1].Selected = true;
-            this.IsUpdate = true;
         }
 
         private void RenameComboboxChanged(object sender, EventArgs e) {
