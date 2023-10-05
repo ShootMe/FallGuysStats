@@ -326,6 +326,8 @@ namespace FallGuysStats {
             this.StatsDB.Commit();
             
             this.RemoveUpdateFiles();
+
+            this.SetSecretKey();
             
             this.InitializeComponent();
             
@@ -703,6 +705,19 @@ namespace FallGuysStats {
                 Cursor.Position = new Point(0, this.screenCenter.Y * 2); // NE
             } else if (this.overlay.Location.X > this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
                 Cursor.Position = new Point(0, 0); // SE
+            }
+        }
+
+        private void SetSecretKey() {
+            Type type = Type.GetType("SecretKey");
+            if (type != null) {
+                FieldInfo fieldInfo = type.GetField("FALLAYTICS_KEY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                if (fieldInfo != null) {
+                    object value = fieldInfo.GetValue(null);
+                    Environment.SetEnvironmentVariable("FALLAYTICS_KEY", value as string);
+                }
+            } else {
+                Environment.SetEnvironmentVariable("FALLAYTICS_KEY", "");
             }
         }
         

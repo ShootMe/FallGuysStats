@@ -97,6 +97,11 @@
     <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\Multilingual.cs" />
     <Compile Include="Entities\Profiles.cs" />
+    <Compile Include="Entities\SecretKey.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SecretKey.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Views\EditShows.cs">
@@ -1048,8 +1053,8 @@
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
     <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
     <PackageReference Include="NETStandard.Library" Version="2.0.3" />
-    <PackageReference Include="ScottPlot" Version="4.1.67" />
-    <PackageReference Include="ScottPlot.WinForms" Version="4.1.66" />
+    <PackageReference Include="ScottPlot" Version="4.1.68" />
+    <PackageReference Include="ScottPlot.WinForms" Version="4.1.68" />
     <PackageReference Include="System.AppContext" Version="4.3.0" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
@@ -1103,6 +1108,12 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities\SecretKey.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SecretKey.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
