@@ -711,13 +711,13 @@ namespace FallGuysStats {
         private void SetSecretKey() {
             Type type = Type.GetType("SecretKey");
             if (type != null) {
-                FieldInfo fieldInfo = type.GetField("FALLAYTICS_KEY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                FieldInfo fieldInfo = type.GetField("FALLALYTICS_KEY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 if (fieldInfo != null) {
                     object value = fieldInfo.GetValue(null);
-                    Environment.SetEnvironmentVariable("FALLAYTICS_KEY", value as string);
+                    Environment.SetEnvironmentVariable("FALLALYTICS_KEY", value as string);
                 }
             } else {
-                Environment.SetEnvironmentVariable("FALLAYTICS_KEY", "");
+                Environment.SetEnvironmentVariable("FALLALYTICS_KEY", "");
             }
         }
         
@@ -2948,7 +2948,7 @@ namespace FallGuysStats {
                         try {
                             if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
                                 await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId },
-                                                                     record, finish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
+                                                                     record, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
                             }
                         } catch {
@@ -2971,7 +2971,7 @@ namespace FallGuysStats {
                             if (pbInfo[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
                                     if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
+                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                         isTransferSuccess = true;
                                     }
                                     
@@ -2988,7 +2988,7 @@ namespace FallGuysStats {
                                 }
                             } else { // re-send
                                 if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous, this.CurrentSettings.FallalyticsAPIKey);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                     isTransferSuccess = true;
                                 }
                                 

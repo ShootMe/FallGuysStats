@@ -774,7 +774,7 @@ namespace FallGuysStats {
                             } else if (Stats.LastServerPing >= 200) {
                                 this.lblPlayers.PingColor = Color.Red;
                             } else {
-                                this.lblPlayers.PingColor = Color.Empty;
+                                this.lblPlayers.PingColor = Color.Green;
                             }
                             this.lblCountryIcon.Image = (Image)(Stats.IsPrePlaying && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                             this.lblCountryIcon.ImageX = (Stats.IsPrePlaying && Stats.LastServerPing < 1000)

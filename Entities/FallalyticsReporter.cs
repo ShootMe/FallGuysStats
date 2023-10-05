@@ -13,13 +13,12 @@ namespace FallGuysStats {
         public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous, string apiKey) {
-            string[] r = this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous);
+        public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", r[1]);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
             request.Headers.Referrer = new Uri($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.eunma.io");
-            request.Content = new StringContent(r[0], Encoding.UTF8, "application/json");
+            request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
             } catch (HttpRequestException e) {
@@ -93,53 +92,19 @@ namespace FallGuysStats {
             strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
             return strBuilder.ToString();
         }
-        private string[] RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
+        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
             StringBuilder strBuilder = new StringBuilder();
-            Random r = new Random();
-            string[] d = new string[9];
-            int[] ra = new int[9];
-            string token = string.Empty;
-            int s = r.Next(10);
-            string[] rtn = { string.Empty, string.Empty };
-            
-            d[0] = $"{Stats.HostCountry}";
-            d[1] = $"{finish:o}";
-            d[2] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceId)}";
-            d[3] = $"{(isAnonymous ? "Anonymous" : Stats.OnlineServiceNickname)}";
-            d[4] = $"{(int)Stats.OnlineServiceType}";
-            d[5] = $"{record}";
-            d[6] = $"{round.Name}";
-            d[7] = $"{round.SessionId}";
-            d[8] = $"{round.ShowNameId}";
-            
-            for (int i = 0; i < ra.Length; i++) {
-                ra[i] = i;
-            }
-            
-            for (int i = ra.Length - 1; i > 0; i--) {
-                int j = r.Next(i + 1);
-                (ra[i], ra[j]) = (ra[j], ra[i]);
-            }
-            
-            if (s % 2 == 0) { Array.Reverse(ra); }
-            token = ra.Aggregate(token, (current, i) => current + d[i]);
-            token = Stats.ComputeHash(Encoding.UTF8.GetBytes(token), Stats.HashTypes.SHA256);
-            if (s % 2 == 0) { Array.Reverse(ra); }
-            token += Convert.ToBase64String(Encoding.UTF8.GetBytes($"{s}{string.Join("", ra)}"));
-            
-            strBuilder.Append($"{{\"country\":\"{d[0]}\",");
-            strBuilder.Append($"\"finish\":\"{d[1]}\",");
-            strBuilder.Append($"\"onlineServiceId\":\"{d[2]}\",");
-            strBuilder.Append($"\"onlineServiceNickname\":\"{d[3]}\",");
-            strBuilder.Append($"\"onlineServiceType\":\"{d[4]}\",");
-            strBuilder.Append($"\"record\":\"{d[5]}\",");
-            strBuilder.Append($"\"round\":\"{d[6]}\",");
-            strBuilder.Append($"\"session\":\"{d[7]}\",");
-            strBuilder.Append($"\"show\":\"{d[8]}\"}}");
-            
-            rtn[0] = strBuilder.ToString();
-            rtn[1] = token;
-            return rtn;
+            strBuilder.Append($"{{\"country\":\"{Stats.HostCountry}\",");
+            strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
+            strBuilder.Append($"\"onlineServiceId\":\"{Stats.OnlineServiceId}\",");
+            strBuilder.Append($"\"onlineServiceNickname\":\"{Stats.OnlineServiceNickname}\",");
+            strBuilder.Append($"\"isAnonymous\":\"{isAnonymous}\",");
+            strBuilder.Append($"\"finish\":\"{finish:o}\",");
+            strBuilder.Append($"\"record\":\"{record}\",");
+            strBuilder.Append($"\"round\":\"{round.Name}\",");
+            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
+            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
+            return strBuilder.ToString();
         }
     }
 }

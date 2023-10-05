@@ -121,9 +121,9 @@ namespace FallGuysStats {
                                 }
                                 //g.DrawString(this.TextRight, this.GetFontForRoundName(this.TextRight), brFore, this.ClientRectangle, stringFormat);
                             } else if (this.Name.Equals("lblPlayers")) {
-                                if (Stats.LastServerPing > 99 && this.TextRight.IndexOf(" ms", StringComparison.Ordinal) != -1) {
-                                    this.DrawOutlineText(g, this.ClientRectangle, new Pen(this.PingColor), brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
-                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
+                                if (this.TextRight.EndsWith(" ms", StringComparison.Ordinal)) {
+                                    this.DrawOutlineText(g, this.ClientRectangle, new Pen(this.PingColor), new SolidBrush(this.PingColor), this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
+                                    this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, FontStyle.Regular, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                 } else {
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);    
                                 }
