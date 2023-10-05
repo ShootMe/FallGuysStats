@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
-using System.Windows.Media;
 using LiteDB;
 namespace FallGuysStats {
     public class RoundInfo : IComparable<RoundInfo> {

@@ -2029,18 +2029,35 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 53) {
                 this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                                                 where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                                                       ri.IsFinal &&
-                                                       ri.ShowNameId.Equals("survival_of_the_fittest") &&
-                                                       ri.Name.Equals("round_kraken_attack") &&
-                                                       ri.Round != 4
-                                                 select ri).ToList();
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.IsFinal &&
+                          ri.ShowNameId.Equals("survival_of_the_fittest") &&
+                          ri.Name.Equals("round_kraken_attack") &&
+                          ri.Round != 4
+                    select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = false;
                 }
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 54;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 54) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.IsFinal &&
+                          ri.ShowNameId.Equals("event_only_hexaring_template") &&
+                          ri.Round < 3
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = false;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 55;
                 this.SaveUserSettings();
             }
         }
