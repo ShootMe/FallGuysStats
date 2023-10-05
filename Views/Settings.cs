@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -980,32 +981,34 @@ namespace FallGuysStats {
 
             if (sender.Equals(this.tileAbout)) {
 #if AllowUpdate
-                this.lblupdateNote.UseCustomForeColor = false;
-                this.lblupdateNote.Text = $"Checking for updates...";
-                using (ZipWebClient web = new ZipWebClient()) {
-                    string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
+                Task.Run(() => {
+                    this.lblupdateNote.UseCustomForeColor = false;
+                    this.lblupdateNote.Text = Multilingual.GetWord("settings_checking_for_updates");
+                    using (ZipWebClient web = new ZipWebClient()) {
+                        string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
 
-                    int index = assemblyInfo.IndexOf("AssemblyVersion(");
-                    if (index > 0) {
-                        int indexEnd = assemblyInfo.IndexOf("\")", index);
-                        Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
-                        Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
-                        if (newVersion > currentVersion) {
-                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)} v{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
-                            this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.LimeGreen : Color.LightGreen;
-                            this.lblupdateNote.UseCustomForeColor = true;
-                            this.lblupdateNote.Location = new Point(this.btnCheckUpdates.Location.X + this.btnCheckUpdates.Width + 5, 92);
-                            this.btnCheckUpdates.Visible = true;
-                            this.StatsForm.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                        int index = assemblyInfo.IndexOf("AssemblyVersion(");
+                        if (index > 0) {
+                            int indexEnd = assemblyInfo.IndexOf("\")", index);
+                            Version currentVersion = Assembly.GetEntryAssembly().GetName().Version;
+                            Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
+                            if (newVersion > currentVersion) {
+                                this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("settings_new_update_prefix", this.DisplayLang)} v{newVersion} {Multilingual.GetWordWithLang("settings_new_update_suffix", this.DisplayLang)}";
+                                this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.LimeGreen : Color.LightGreen;
+                                this.lblupdateNote.UseCustomForeColor = true;
+                                this.lblupdateNote.Location = new Point(this.btnCheckUpdates.Location.X + this.btnCheckUpdates.Width + 5, 92);
+                                this.btnCheckUpdates.Visible = true;
+                                this.StatsForm.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                            } else {
+                                this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang)}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
+                            }
                         } else {
-                            this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("message_update_latest_version", this.DisplayLang)}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
+                            this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_not_determine_version", this.DisplayLang);
+                            this.lblupdateNote.ForeColor = Color.Red;
+                            this.lblupdateNote.UseCustomForeColor = true;
                         }
-                    } else {
-                        this.lblupdateNote.Text = Multilingual.GetWordWithLang("message_update_not_determine_version", this.DisplayLang);
-                        this.lblupdateNote.ForeColor = Color.Red;
-                        this.lblupdateNote.UseCustomForeColor = true;
                     }
-                }
+                });
 #else
                  this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
 #endif

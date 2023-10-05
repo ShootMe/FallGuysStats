@@ -353,6 +353,7 @@ namespace FallGuysStats {
                             {"settings_translation", "Translation"},
                             {"settings_font_need_to_be_installed_caption", "Fonts need to be installed"},
                             {"settings_font_need_to_be_installed_message", "Install the font files found in the Fall Guys Stats folder."},
+                            {"settings_checking_for_updates", "Checking for updates..."},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -783,6 +784,7 @@ namespace FallGuysStats {
                             {"settings_translation", "Translation"},
                             {"settings_font_need_to_be_installed_caption", "Les polices doivent être installées"},
                             {"settings_font_need_to_be_installed_message", "Installez les fichiers de police trouvés dans le dossier Fall Guys Stats."},
+                            {"settings_checking_for_updates", "Vérification des mises à jour..."},
 
                             {"overlay_streak", "WIN STREAK"},
                             {"overlay_streak_suffix", ""},
@@ -1213,6 +1215,7 @@ namespace FallGuysStats {
                             {"settings_translation", "번역"},
                             {"settings_font_need_to_be_installed_caption", "폰트 파일 설치 필요함"},
                             {"settings_font_need_to_be_installed_message", "폴 가이즈 스탯츠 폴더에 있는 폰트 파일을 설치해 주세요."},
+                            {"settings_checking_for_updates", "업데이트 확인 중..."},
 
                             {"overlay_streak", "연승"},
                             {"overlay_streak_suffix", "연승"},
@@ -1644,6 +1647,7 @@ namespace FallGuysStats {
                             {"settings_translation", "翻訳"},
                             {"settings_font_need_to_be_installed_caption", "フォントのインストールが必要です。"},
                             {"settings_font_need_to_be_installed_message", "Fall Guys Stats フォルダのフォントファイルをインストールしてください。"},
+                            {"settings_checking_for_updates", "アップデートの確認..."},
 
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", "勝"},
@@ -2074,6 +2078,7 @@ namespace FallGuysStats {
                             {"settings_translation", "翻译"},
                             {"settings_font_need_to_be_installed_caption", "需要安装字体"},
                             {"settings_font_need_to_be_installed_message", "安装 Fall Guys Stats 文件夹中的字体文件。"},
+                            {"settings_checking_for_updates", "查询更新..."},
 
                             {"overlay_streak", "连胜"},
                             {"overlay_streak_suffix", ""},
@@ -2504,6 +2509,7 @@ namespace FallGuysStats {
                             {"settings_translation", "翻譯"},
                             {"settings_font_need_to_be_installed_caption", "需要安裝字體"},
                             {"settings_font_need_to_be_installed_message", "安裝 Fall Guys Stats 文件夾中的字體文件。"},
+                            {"settings_checking_for_updates", "查詢更新..."},
 
                             {"overlay_streak", "連勝"},
                             {"overlay_streak_suffix", ""},

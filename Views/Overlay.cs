@@ -193,7 +193,7 @@ namespace FallGuysStats {
 
             control.Font = font;
             foreach (Control ctr in control.Controls) {
-                if (ctr.Name.Equals("lblProfile")) { ctr.Font = GetMainFont(font.Size, font.Style); continue; }
+                if (ctr.Name.Equals("lblProfile")) { ctr.Font = GetMainFont(font.Size, FontStyle.Bold); continue; }
                 ctr.Font = font;
                 if (ctr.HasChildren) {
                     SetFonts(ctr, customSize, font);
@@ -1687,8 +1687,8 @@ namespace FallGuysStats {
             this.lblProfile.ForeColor = color;
         }
         private int GetOverlayProfileOffset(string s) {
-            int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
-            return sizeOfText - 28;
+            int sizeOfText = TextRenderer.MeasureText(s, new Font(this.lblProfile.Font.FontFamily, this.lblProfile.Font.Size, FontStyle.Regular, this.lblProfile.Font.Unit)).Width;
+            return sizeOfText - 22;
         }
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {
