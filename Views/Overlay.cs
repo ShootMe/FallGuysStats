@@ -193,6 +193,7 @@ namespace FallGuysStats {
 
             control.Font = font;
             foreach (Control ctr in control.Controls) {
+                if (ctr.Name.Equals("lblProfile")) { ctr.Font = GetMainFont(font.Size, font.Style); continue; }
                 ctr.Font = font;
                 if (ctr.HasChildren) {
                     SetFonts(ctr, customSize, font);
@@ -1687,29 +1688,7 @@ namespace FallGuysStats {
         }
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, this.lblProfile.Font).Width;
-            int offset;
-            if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[2].Name)) { // eng, fre
-                offset = 22 - (int)(this.GetCountEngLowercase(s) * (-0.3F)) -
-                         (int)(this.GetCountKorAlphabet(s) * (6.7F)) -
-                         (int)(this.GetCountJpnAlphabet(s) * (0.8F)) -
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
-                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[0].Name)) { // kor, jpn
-                offset = 22 - (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
-                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else if (this.Font.FontFamily.Name.Equals(DefaultFontCollection.Families[1].Name)) { // sc
-                offset = 22 - (this.GetCountKorAlphabet(s) * 2) -
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
-                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F));
-            } else {
-                offset = 22 - (int)(this.GetCountEngLowercase(s) * (-0.3F)) -
-                         (int)(this.GetCountKorAlphabet(s) * (1.8F)) -
-                         (int)(this.GetCountJpnAlphabet(s) * (1.8F)) -
-                         (int)(this.GetCountBigSignCharacter(s) * (0.1F)) -
-                         (int)(this.GetCountSmallSignCharacter(s) * (0.2F)) -
-                         (int)(this.GetCountNumeric(s) * (-0.1F));
-            }
-            return sizeOfText - offset;
+            return sizeOfText - 28;
         }
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {

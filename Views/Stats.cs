@@ -822,26 +822,22 @@ namespace FallGuysStats {
                         if (tsi1 is ToolStripLabel tsl1) {
                             switch (tsl1.Name) {
                                 case "lblCurrentProfile":
-                                    tsl1.Font = Overlay.GetMainFont(14f, FontStyle.Regular, CurrentLanguage);
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192);
                                     break;
                                 case "lblTotalTime":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalShows":
                                 case "lblTotalWins":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalRounds":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
                                 case "lblTotalFinals":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;

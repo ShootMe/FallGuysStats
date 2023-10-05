@@ -18,7 +18,7 @@ namespace FallGuysStats {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", r[1]);
-            request.Headers.Referrer= new Uri($"FallGuysStatsV{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}.eunma.io");
+            request.Headers.Referrer = new Uri($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.eunma.io");
             request.Content = new StringContent(r[0], Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
