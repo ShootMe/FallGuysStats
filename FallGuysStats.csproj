@@ -97,11 +97,11 @@
     <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\Multilingual.cs" />
     <Compile Include="Entities\Profiles.cs" />
-    <Compile Include="Entities\SecretKey.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SecretKey.tt</DependentUpon>
-    </Compile>
+<!--    <Compile Include="Entities\SecretKey.cs">-->
+<!--      <AutoGen>True</AutoGen>-->
+<!--      <DesignTime>True</DesignTime>-->
+<!--      <DependentUpon>SecretKey.tt</DependentUpon>-->
+<!--    </Compile>-->
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Views\EditShows.cs">
@@ -1109,11 +1109,11 @@
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Entities\SecretKey.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SecretKey.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <Content Include="Entities\SecretKey.tt">-->
+<!--      <Generator>TextTemplatingFileGenerator</Generator>-->
+<!--      <LastGenOutput>SecretKey.cs</LastGenOutput>-->
+<!--    </Content>-->
+<!--  </ItemGroup>-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
