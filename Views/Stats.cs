@@ -4021,6 +4021,7 @@ namespace FallGuysStats {
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
+            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
