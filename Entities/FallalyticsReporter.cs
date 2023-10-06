@@ -16,7 +16,7 @@ namespace FallGuysStats {
         public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Stats.ComputeHash(Encoding.UTF8.GetBytes($"{finish:o}{Environment.GetEnvironmentVariable("FALLALYTICS_KEY")}"), Stats.HashTypes.SHA256));
             request.Headers.Referrer = new Uri($"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.eunma.io");
             request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous), Encoding.UTF8, "application/json");
             try {

@@ -22,6 +22,7 @@ using LiteDB;
 using Microsoft.Win32;
 using MetroFramework;
 using MetroFramework.Components;
+using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -869,6 +870,11 @@ namespace FallGuysStats {
                             tss1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
                         }
                     }
+                } else if (c1 is MetroToggle mt1) {
+                    mt1.Theme = theme;
+                } else if (c1 is Label lbl1) {
+                    lbl1.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                    lbl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
                 }
             }
             
@@ -3607,6 +3613,14 @@ namespace FallGuysStats {
         private Color GetComplementaryColor(Color source, int alpha = 255) {
             return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
         }
+        
+        private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
+            bool mtgChecked = ((MetroToggle)sender).Checked; 
+            this.VisibleGridRowOfCreativeLevel(mtgChecked);
+            this.lblCreativeLevel.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
+            this.SaveUserSettings();
+        }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
@@ -4006,6 +4020,7 @@ namespace FallGuysStats {
         }
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
+            this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
@@ -5637,9 +5652,9 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
             this.infoStrip2.Font = Overlay.GetMainFont(13);
-            
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
+            this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");
