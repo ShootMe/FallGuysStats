@@ -5342,6 +5342,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fallGuys_official_icon {
+            get {
+                object obj = ResourceManager.GetObject("fallGuys_official_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fandom_icon {
             get {
                 object obj = ResourceManager.GetObject("fandom_icon", resourceCulture);

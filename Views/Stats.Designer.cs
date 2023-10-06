@@ -61,6 +61,8 @@
             this.menuFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysOfficial = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
             this.lblCurrentProfile = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalShows = new System.Windows.Forms.ToolStripLabel();
@@ -109,6 +111,8 @@
             this.trayFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.trayFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysOfficial = new System.Windows.Forms.ToolStripMenuItem();
             this.trayUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.trayHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.trayLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
@@ -369,7 +373,7 @@
             // 
             // menuLookHere
             // 
-            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuRollOffClub, this.menuSeparator5, this.menuFallGuysReddit, this.menuSeparator6, this.menuFallGuysWiki });
+            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuRollOffClub, this.menuSeparator5, this.menuFallGuysReddit, this.menuSeparator6, this.menuFallGuysWiki, this.menuSeparator7, this.menuFallGuysOfficial });
             this.menuLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.menuLookHere.Name = "menuLookHere";
             this.menuLookHere.Size = new System.Drawing.Size(91, 23);
@@ -449,6 +453,22 @@
             this.menuFallGuysWiki.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
             this.menuFallGuysWiki.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
             this.menuFallGuysWiki.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator7
+            // 
+            this.menuSeparator7.Name = "menuSeparator7";
+            this.menuSeparator7.Size = new System.Drawing.Size(157, 6);
+            // 
+            // menuFallGuysOfficial
+            // 
+            this.menuFallGuysOfficial.Image = global::FallGuysStats.Properties.Resources.fallGuys_official_icon;
+            this.menuFallGuysOfficial.Name = "menuFallGuysOfficial";
+            this.menuFallGuysOfficial.Size = new System.Drawing.Size(160, 22);
+            this.menuFallGuysOfficial.Text = "Fall Guys official";
+            this.menuFallGuysOfficial.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.menuFallGuysOfficial.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
+            this.menuFallGuysOfficial.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuFallGuysOfficial.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // infoStrip
             // 
@@ -821,7 +841,7 @@
             // 
             // trayLookHere
             // 
-            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayRollOffClub, this.traySubSeparator5, this.trayFallGuysReddit, this.traySubSeparator6, this.trayFallGuysWiki });
+            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayRollOffClub, this.traySubSeparator5, this.trayFallGuysReddit, this.traySubSeparator6, this.trayFallGuysWiki, this.traySubSeparator7, this.trayFallGuysOfficial });
             this.trayLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.trayLookHere.Name = "trayLookHere";
             this.trayLookHere.Size = new System.Drawing.Size(165, 22);
@@ -868,7 +888,7 @@
             // 
             // trayFallGuysReddit
             // 
-            this.trayFallGuysReddit.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.trayFallGuysReddit.Image = global::FallGuysStats.Properties.Resources.reddit_icon;
             this.trayFallGuysReddit.Name = "trayFallGuysReddit";
             this.trayFallGuysReddit.Size = new System.Drawing.Size(160, 22);
             this.trayFallGuysReddit.Text = "Fall Guys Reddit";
@@ -886,6 +906,19 @@
             this.trayFallGuysWiki.Size = new System.Drawing.Size(160, 22);
             this.trayFallGuysWiki.Text = "Fall Guys Wiki";
             this.trayFallGuysWiki.Click += new System.EventHandler(this.menuLookHere_Click);
+            // 
+            // traySubSeparator7
+            // 
+            this.traySubSeparator7.Name = "traySubSeparator7";
+            this.traySubSeparator7.Size = new System.Drawing.Size(157, 6);
+            // 
+            // trayFallGuysOfficial
+            // 
+            this.trayFallGuysOfficial.Image = global::FallGuysStats.Properties.Resources.fallGuys_official_icon;
+            this.trayFallGuysOfficial.Name = "trayFallGuysOfficial";
+            this.trayFallGuysOfficial.Size = new System.Drawing.Size(160, 22);
+            this.trayFallGuysOfficial.Text = "Fall Guys official";
+            this.trayFallGuysOfficial.Click += new System.EventHandler(this.menuLookHere_Click);
             // 
             // trayUpdate
             // 
@@ -1010,6 +1043,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuRollOffClub;
         private System.Windows.Forms.ToolStripSeparator menuSeparator6;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysOfficial;
         
         private System.Windows.Forms.ContextMenuStrip trayCMenu;
         private System.Windows.Forms.ToolStripMenuItem trayAllPartyStats;
@@ -1035,6 +1070,8 @@
         private System.Windows.Forms.ToolStripMenuItem trayRollOffClub;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator6;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysOfficial;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;
         private System.Windows.Forms.ToolStripMenuItem trayLaunchFallGuys;
         private System.Windows.Forms.ToolStripMenuItem trayHelp;

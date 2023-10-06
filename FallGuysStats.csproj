@@ -71,6 +71,12 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <Content Include="Entities\SecretKey.tt">-->
+<!--      <Generator>TextTemplatingFileGenerator</Generator>-->
+<!--      <LastGenOutput>SecretKey.cs</LastGenOutput>-->
+<!--    </Content>-->
+<!--  </ItemGroup>-->
   <ItemGroup>
     <Compile Include="Controls\ImageComboBox.cs">
       <SubType>Component</SubType>
@@ -250,6 +256,7 @@
     <None Include="Resources\reddit_icon.png" />
     <None Include="Resources\roll_off_club_icon.png" />
     <None Include="Resources\fallalytics_icon.png" />
+    <None Include="Resources\fallguys_official_icon.png" />
     <None Include="Resources\export.png" />
     <None Include="Resources\export_gray.png" />
     <None Include="Resources\delete.png" />
@@ -1109,11 +1116,5 @@
     <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.1" />
     <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
   </ItemGroup>
-<!--  <ItemGroup>-->
-<!--    <Content Include="Entities\SecretKey.tt">-->
-<!--      <Generator>TextTemplatingFileGenerator</Generator>-->
-<!--      <LastGenOutput>SecretKey.cs</LastGenOutput>-->
-<!--    </Content>-->
-<!--  </ItemGroup>-->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

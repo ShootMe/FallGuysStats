@@ -2280,6 +2280,8 @@ namespace FallGuysStats {
                     }
                 } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysDB") != -1) {
                     Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
+                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysOfficial") != -1) {
+                    Process.Start(@"https://fallguys.com/");
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -2287,7 +2289,7 @@ namespace FallGuysStats {
         }
         private void menuLookHere_MouseEnter(object sender, EventArgs e) {
             Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 204);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 232);
             this.AllocCustomTooltip(this.cmtt_center_Draw);
             if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysWiki")) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_wiki_tooltip"), this, position);
@@ -2299,6 +2301,8 @@ namespace FallGuysStats {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
             } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysDB")) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
+            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysOfficial")) {
+                this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_official_tooltip"), this, position);
             }
         }
         private void menuLookHere_MouseLeave(object sender, EventArgs e) {
@@ -5683,6 +5687,7 @@ namespace FallGuysStats {
             this.trayFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
+            this.trayFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
             this.trayHelp.Text = Multilingual.GetWord("main_help");
             this.trayLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
@@ -5717,6 +5722,7 @@ namespace FallGuysStats {
             this.menuFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
+            this.menuFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
         }
     }
 }
