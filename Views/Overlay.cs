@@ -93,7 +93,7 @@ namespace FallGuysStats {
             DefaultFontCollection.AddFontFile("TitanOne-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSans-Regular.ttf");
             DefaultFontCollection.AddFontFile("NotoSansSC-Regular.otf");
-            SetDefaultFont(Stats.CurrentLanguage, 18);
+            SetDefaultFont(18, Stats.CurrentLanguage);
             
             if (!Directory.Exists("Overlay")) {
                 Directory.CreateDirectory("Overlay");
@@ -201,16 +201,16 @@ namespace FallGuysStats {
             }
         }
 
-        public void SetDefaultFontColor() {
+        private void SetDefaultFontColor() {
             this.ForeColor = Color.White;
         }
-        public void SetFontColor(Color color) {
+        private void SetFontColor(Color color) {
             this.ForeColor = color;
         }
-        public static void SetDefaultFont(int language, float emSize) {
+        public static void SetDefaultFont(float emSize, int language) {
             DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
-        public static Font GetDefaultFont(int language, float emSize) {
+        public static Font GetDefaultFont(float emSize, int language) {
             return new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
         }
         public static FontFamily GetDefaultFontFamilies(int language = 0) {

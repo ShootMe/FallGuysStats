@@ -18,6 +18,7 @@ namespace FallGuysStats {
         private double yMax;
         private ScottPlot.Plottable.ScatterPlot MyScatterPlot1, MyScatterPlot2, MyScatterPlot3;
         private ScottPlot.Plottable.BarPlot MyBarPlot1, MyBarPlot2, MyBarPlot3;
+        private ScottPlot.Plottable.LollipopPlot MyLollipopPlot1, MyLollipopPlot2, MyLollipopPlot3;
         private ScottPlot.Plottable.MarkerPlot HighlightedPoint;
         private ScottPlot.Plottable.Tooltip tooltip;
 
@@ -33,15 +34,16 @@ namespace FallGuysStats {
             if (this.dates != null) {
                 this.yMax = this.shows.Max() < this.finals.Max() ? (this.finals.Max() < this.wins.Max() ? this.wins.Max() : this.finals.Max()) : this.shows.Max();
                 this.MyBarPlot1 = this.formsPlot.Plot.AddBar(this.shows, this.dates, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255));
-                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
                 this.MyBarPlot2 = this.formsPlot.Plot.AddBar(this.finals, this.dates, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255));
-                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
                 this.MyBarPlot3 = this.formsPlot.Plot.AddBar(this.wins, this.dates, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255));
-                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
                 
                 this.MyScatterPlot1 = this.formsPlot.Plot.AddScatter(this.dates, this.shows, markerSize: 4, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255), label: Multilingual.GetWord("level_detail_shows"));
                 this.MyScatterPlot2 = this.formsPlot.Plot.AddScatter(this.dates, this.finals, markerSize: 4, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255), label: Multilingual.GetWord("level_detail_finals"));
                 this.MyScatterPlot3 = this.formsPlot.Plot.AddScatter(this.dates, this.wins, markerSize: 4, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255), label: Multilingual.GetWord("level_detail_wins"));
+                
+                this.MyLollipopPlot1 = this.formsPlot.Plot.AddLollipop(this.shows, this.dates, color: this.GetColorWithAlpha(this.chkShows.ForeColor, 255));
+                this.MyLollipopPlot2 = this.formsPlot.Plot.AddLollipop(this.finals, this.dates, color: this.GetColorWithAlpha(this.chkFinals.ForeColor, 255));
+                this.MyLollipopPlot3 = this.formsPlot.Plot.AddLollipop(this.wins, this.dates, color: this.GetColorWithAlpha(this.chkWins.ForeColor, 255));
 
                 this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
                 this.formsPlot.Plot.XAxis.DateTimeFormat(true);
@@ -69,10 +71,13 @@ namespace FallGuysStats {
                 this.MyBarPlot1.IsVisible = false;
                 this.MyBarPlot2.IsVisible = false;
                 this.MyBarPlot3.IsVisible = false;
+                this.MyLollipopPlot1.IsVisible = false;
+                this.MyLollipopPlot2.IsVisible = false;
+                this.MyLollipopPlot3.IsVisible = false;
                 
                 this.chkWins.Checked = true;
                 this.switchGraphStyle = this.StatsForm.CurrentSettings.WinPerDayGraphStyle;
-                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
+                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
                 this.ChangeFormsPlotStyle(this.switchGraphStyle);
             } else {
                 this.formsPlot.Refresh();
@@ -80,14 +85,21 @@ namespace FallGuysStats {
         }
 
         private void ChangeFormsPlotStyle(int style) {
-            if (style == 1) { // BarPlot
-                this.StatsForm.CurrentSettings.WinPerDayGraphStyle = 1;
-                this.MyBarPlot1.IsVisible = this.chkShows.Checked;
-                this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
-                this.MyBarPlot3.IsVisible = this.chkWins.Checked;
-                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
-                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
-                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
+            this.StatsForm.CurrentSettings.WinPerDayGraphStyle = style;
+            if (style == 1) { // LollipopPlot
+                this.MyBarPlot1.IsVisible = false;
+                this.MyBarPlot2.IsVisible = false;
+                this.MyBarPlot3.IsVisible = false;
+                this.MyBarPlot1.Label = null;
+                this.MyBarPlot2.Label = null;
+                this.MyBarPlot3.Label = null;
+                
+                this.MyLollipopPlot1.IsVisible = this.chkShows.Checked;
+                this.MyLollipopPlot2.IsVisible = this.chkFinals.Checked;
+                this.MyLollipopPlot3.IsVisible = this.chkWins.Checked;
+                this.MyLollipopPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                this.MyLollipopPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                this.MyLollipopPlot3.Label = Multilingual.GetWord("level_detail_wins");
                 
                 this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
                 this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
@@ -97,21 +109,43 @@ namespace FallGuysStats {
                 this.MyScatterPlot3.Label = null;
                 
                 this.HighlightedPoint.MarkerShape = MarkerShape.none;
+            } else if (style == 2) { // BarPlot
+                this.MyBarPlot1.IsVisible = this.chkShows.Checked;
+                this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
+                this.MyBarPlot3.IsVisible = this.chkWins.Checked;
+                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
                 
-                this.formsPlot.Plot.SetAxisLimits(
-                    yMin: (this.dates.Length / 14D) * -1,
-                    yMax: this.yMax + (this.dates.Length / 14D),
-                    xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
-                    xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
-                );
+                this.MyLollipopPlot1.IsVisible = false;
+                this.MyLollipopPlot2.IsVisible = false;
+                this.MyLollipopPlot3.IsVisible = false;
+                this.MyLollipopPlot1.Label = null;
+                this.MyLollipopPlot2.Label = null;
+                this.MyLollipopPlot3.Label = null;
+                
+                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
+                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
+                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
+                this.MyScatterPlot1.Label = null;
+                this.MyScatterPlot2.Label = null;
+                this.MyScatterPlot3.Label = null;
+                
+                this.HighlightedPoint.MarkerShape = MarkerShape.none;
             } else { // ScatterPlot
-                this.StatsForm.CurrentSettings.WinPerDayGraphStyle = 0;
                 this.MyBarPlot1.IsVisible = false;
                 this.MyBarPlot2.IsVisible = false;
                 this.MyBarPlot3.IsVisible = false;
                 this.MyBarPlot1.Label = null;
                 this.MyBarPlot2.Label = null;
                 this.MyBarPlot3.Label = null;
+                
+                this.MyLollipopPlot1.IsVisible = false;
+                this.MyLollipopPlot2.IsVisible = false;
+                this.MyLollipopPlot3.IsVisible = false;
+                this.MyLollipopPlot1.Label = null;
+                this.MyLollipopPlot2.Label = null;
+                this.MyLollipopPlot3.Label = null;
                 
                 this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 255);
                 this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 255);
@@ -124,14 +158,13 @@ namespace FallGuysStats {
                 this.MyScatterPlot3.Label = Multilingual.GetWord("level_detail_wins");
                 
                 this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
-                
-                this.formsPlot.Plot.SetAxisLimits(
-                    yMin: (this.dates.Length / 14D) * -1,
-                    yMax: this.yMax + (this.dates.Length / 14D),
-                    xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
-                    xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
-                );
             }
+            this.formsPlot.Plot.SetAxisLimits(
+                yMin: (this.dates.Length / 14D) * -1,
+                yMax: this.yMax + (this.dates.Length / 14D),
+                xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
+                xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
+            );
             this.formsPlot.Plot.AxisZoom(.9, .9);
             this.formsPlot.Refresh();
         }
@@ -189,30 +222,14 @@ namespace FallGuysStats {
                     currentIndex = pointIndex1;
                     break;
                 case 2:
-                    this.HighlightedPoint.X = pointX2;
-                    this.HighlightedPoint.Y = pointY2;
-                    currentIndex = pointIndex2;
-                    break;
                 case 3:
                     this.HighlightedPoint.X = pointX2;
                     this.HighlightedPoint.Y = pointY2;
                     currentIndex = pointIndex2;
                     break;
                 case 4:
-                    this.HighlightedPoint.X = pointX3;
-                    this.HighlightedPoint.Y = pointY3;
-                    currentIndex = pointIndex3;
-                    break;
                 case 5:
-                    this.HighlightedPoint.X = pointX3;
-                    this.HighlightedPoint.Y = pointY3;
-                    currentIndex = pointIndex3;
-                    break;
                 case 6:
-                    this.HighlightedPoint.X = pointX3;
-                    this.HighlightedPoint.Y = pointY3;
-                    currentIndex = pointIndex3;
-                    break;
                 case 7:
                     this.HighlightedPoint.X = pointX3;
                     this.HighlightedPoint.Y = pointY3;
@@ -220,8 +237,7 @@ namespace FallGuysStats {
                     break;
             }
             
-            this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($"{DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}") +
-                                                                 Environment.NewLine +
+            this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($"{DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}") +
                                                                  (this.MyScatterPlot1.IsVisible ? $"{Multilingual.GetWord("level_detail_shows")} : {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
                                                                  (this.MyScatterPlot2.IsVisible ? $"{Multilingual.GetWord("level_detail_finals")} : {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
                                                                  (this.MyScatterPlot3.IsVisible ? $"{Multilingual.GetWord("level_detail_wins")} : {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}" : ""),
@@ -230,7 +246,9 @@ namespace FallGuysStats {
             this.tooltip.BorderWidth = 1;
             this.tooltip.BorderColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(239, 49,51,56) : Color.FromArgb(239, 211,211,211);
             this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
-            this.tooltip.Font.Size = 13;
+            this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
+            this.tooltip.Font.Bold = true;
+            this.tooltip.Font.Size = 14;
             this.tooltip.Font.Color = Color.White;
             this.tooltip.ArrowSize = 5;
             
@@ -250,7 +268,7 @@ namespace FallGuysStats {
 
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;
-            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 1 ? Properties.Resources.bar_plot_teal_icon : Properties.Resources.scatter_plot_teal_icon;
+            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
             this.chkWins.Theme = theme;
             this.chkFinals.Theme = theme;
             this.chkShows.Theme = theme;
@@ -271,8 +289,11 @@ namespace FallGuysStats {
         }
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
-                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : Properties.Resources.bar_plot_teal_icon;
+                // this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
+                this.switchGraphStyle += 1;
+                Console.WriteLine(switchGraphStyle);
+                if (this.switchGraphStyle > 2) { this.switchGraphStyle = 0; }
+                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
                 if (this.dates == null) { return; }
                 this.ChangeFormsPlotStyle(this.switchGraphStyle);
             }
@@ -280,8 +301,13 @@ namespace FallGuysStats {
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
+                this.MyScatterPlot3.IsVisible = chkFinals.Checked;
+                this.MyBarPlot3.IsVisible = false;
+                this.MyLollipopPlot3.IsVisible = chkFinals.Checked;
+            } else if (this.switchGraphStyle == 2) {
                 this.MyScatterPlot3.IsVisible = chkWins.Checked;
                 this.MyBarPlot3.IsVisible = chkWins.Checked;
+                this.MyLollipopPlot3.IsVisible = false;
             } else {
                 this.MyScatterPlot3.IsVisible = chkWins.Checked;
             }
@@ -291,7 +317,12 @@ namespace FallGuysStats {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
                 this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+                this.MyBarPlot2.IsVisible = false;
+                this.MyLollipopPlot2.IsVisible = chkFinals.Checked;
+            } else if (this.switchGraphStyle == 2) {
+                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = chkFinals.Checked;
+                this.MyLollipopPlot2.IsVisible = false;
             } else {
                 this.MyScatterPlot2.IsVisible = chkFinals.Checked;
             }
@@ -300,8 +331,13 @@ namespace FallGuysStats {
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
+                this.MyScatterPlot1.IsVisible = chkFinals.Checked;
+                this.MyBarPlot1.IsVisible = false;
+                this.MyLollipopPlot1.IsVisible = chkFinals.Checked;
+            } else if (this.switchGraphStyle == 2) {
                 this.MyScatterPlot1.IsVisible = chkShows.Checked;
                 this.MyBarPlot1.IsVisible = chkShows.Checked;
+                this.MyLollipopPlot1.IsVisible = false;
             } else {
                 this.MyScatterPlot1.IsVisible = chkShows.Checked;
             }

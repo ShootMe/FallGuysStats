@@ -385,7 +385,7 @@ namespace FallGuysStats {
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
-                        Overlay.SetDefaultFont(CurrentLanguage, 18);
+                        Overlay.SetDefaultFont(18, CurrentLanguage);
                         this.CurrentSettings.Multilingual = initLanguageForm.selectedLanguage;
                         if (initLanguageForm.autoGenerateProfiles) {
                             for (int i = this.publicShowIdList.Length; i >= 1; i--) {

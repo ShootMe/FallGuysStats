@@ -204,15 +204,15 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.lblRoundTime.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
-            this.lblBestRecord.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
-            this.lblWorstRecord.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
-            this.lblRoundType.Font = Overlay.GetDefaultFont(Stats.CurrentLanguage, 18);
-            this.lblCountGoldMedal.Font = Overlay.GetDefaultFont(0, 45);
-            this.lblCountSilverMedal.Font = Overlay.GetDefaultFont(0, 45);
-            this.lblCountBronzeMedal.Font = Overlay.GetDefaultFont(0, 45);
-            this.lblCountPinkMedal.Font = Overlay.GetDefaultFont(0, 45);
-            this.lblCountEliminatedMedal.Font = Overlay.GetDefaultFont(0, 45);
+            this.lblRoundTime.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
+            this.lblBestRecord.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
+            this.lblWorstRecord.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
+            this.lblRoundType.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
+            this.lblCountGoldMedal.Font = Overlay.GetDefaultFont(45, 0);
+            this.lblCountSilverMedal.Font = Overlay.GetDefaultFont(45, 0);
+            this.lblCountBronzeMedal.Font = Overlay.GetDefaultFont(45, 0);
+            this.lblCountPinkMedal.Font = Overlay.GetDefaultFont(45, 0);
+            this.lblCountEliminatedMedal.Font = Overlay.GetDefaultFont(45, 0);
         }
     }
 }

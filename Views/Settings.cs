@@ -526,7 +526,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayFontSerialized = fontConverter.ConvertToString(this.lblOverlayFontExample.Font);
             } else {
                 this.CurrentSettings.OverlayFontSerialized = string.Empty;
-                Overlay.SetDefaultFont(Stats.CurrentLanguage, 18);
+                Overlay.SetDefaultFont(18, Stats.CurrentLanguage);
             }
 
             if (!string.IsNullOrEmpty(this.overlayFontColorSerialized)) {
@@ -663,7 +663,7 @@ namespace FallGuysStats {
         }
         private void btnSelectFont_Click(object sender, EventArgs e) {
             this.dlgOverlayFont.Font = string.IsNullOrEmpty(this.overlayFontSerialized)
-                ? Overlay.GetDefaultFont(this.DisplayLang, 24)
+                ? Overlay.GetDefaultFont(24, this.DisplayLang)
                 : new Font(this.lblOverlayFontExample.Font.FontFamily, lblOverlayFontExample.Font.Size, lblOverlayFontExample.Font.Style, GraphicsUnit.Point, (byte)1);
 
             this.dlgOverlayFont.ShowColor = true;
@@ -687,7 +687,7 @@ namespace FallGuysStats {
             }
         }
         private void btnResetOverlayFont_Click(object sender, EventArgs e) {
-            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
+            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(18, this.DisplayLang);
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;
             this.overlayFontSerialized = string.Empty;
@@ -734,7 +734,7 @@ namespace FallGuysStats {
             Stats.CurrentLanguage = lang;
 
             this.Text = $"     {Multilingual.GetWord("settings_title")}";
-            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(this.DisplayLang, 18);
+            this.lblOverlayFontExample.Font = Overlay.GetDefaultFont(18, this.DisplayLang);
             this.overlayFontSerialized = string.Empty;
             this.lblOverlayFontExample.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.overlayFontColorSerialized = string.Empty;

@@ -414,6 +414,15 @@
     <data name="calendar_on_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\calendar_on_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="lollipop_plot_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\lollipop_plot_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="lollipop_plot_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\lollipop_plot_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="lollipop_plot_teal_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\lollipop_plot_teal_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="scatter_plot_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\scatter_plot_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
