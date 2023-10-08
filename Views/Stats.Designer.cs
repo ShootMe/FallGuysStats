@@ -64,6 +64,7 @@
             this.menuSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFallGuysOfficial = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
+            this.lblCurrentProfileIcon = new System.Windows.Forms.ToolStripLabel();
             this.lblCurrentProfile = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalShows = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
@@ -481,7 +482,7 @@
             this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfileIcon, this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 93);
             this.infoStrip.Name = "infoStrip";
@@ -490,11 +491,21 @@
             this.infoStrip.Size = new System.Drawing.Size(828, 27);
             this.infoStrip.TabIndex = 13;
             // 
+            // lblCurrentProfileIcon
+            // 
+            this.lblCurrentProfileIcon.ForeColor = System.Drawing.Color.Crimson;
+            this.lblCurrentProfileIcon.Image = global::FallGuysStats.Properties.Resources.profile2_icon;
+            this.lblCurrentProfileIcon.Margin = new System.Windows.Forms.Padding(4, 3, 1, 3);
+            this.lblCurrentProfileIcon.Name = "lblCurrentProfileIcon";
+            this.lblCurrentProfileIcon.Size = new System.Drawing.Size(47, 16);
+            this.lblCurrentProfileIcon.Text = "";
+            this.lblCurrentProfileIcon.Click += new System.EventHandler(this.lblCurrentProfileIcon_Click);
+            this.lblCurrentProfileIcon.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblCurrentProfileIcon.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
             // lblCurrentProfile
             // 
-            this.lblCurrentProfile.ForeColor = System.Drawing.Color.Crimson;
-            this.lblCurrentProfile.Image = global::FallGuysStats.Properties.Resources.profile2_icon;
-            this.lblCurrentProfile.Margin = new System.Windows.Forms.Padding(4, 1, 20, 2);
+            this.lblCurrentProfile.Margin = new System.Windows.Forms.Padding(1, 1, 17, 2);
             this.lblCurrentProfile.Name = "lblCurrentProfile";
             this.lblCurrentProfile.Size = new System.Drawing.Size(47, 16);
             this.lblCurrentProfile.Text = "Solo";
@@ -1024,6 +1035,7 @@
         private System.Windows.Forms.ToolStripSeparator menuSeparator2;
         private System.Windows.Forms.ToolStrip infoStrip;
         private System.Windows.Forms.ToolStrip infoStrip2;
+        private System.Windows.Forms.ToolStripLabel lblCurrentProfileIcon;
         private System.Windows.Forms.ToolStripLabel lblCurrentProfile;
         private System.Windows.Forms.ToolStripLabel lblTotalTime;
         private System.Windows.Forms.ToolStripLabel lblTotalShows;

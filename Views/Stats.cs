@@ -1047,18 +1047,20 @@ namespace FallGuysStats {
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
                 this.AllocCustomTooltip(this.cmtt_center_Draw);
-                if (lblInfo.Name.Equals("lblCurrentProfile")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("profile_change_tooltiptext"), this, position);
+                if (lblInfo.Name.Equals("lblCurrentProfileIcon")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord($"{(this.CurrentSettings.AutoChangeProfile ? "profile_icon_enable_tooltip" : "profile_icon_disable_tooltip")}"), this, position);
+                } else if (lblInfo.Name.Equals("lblCurrentProfile")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("profile_change_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalShows")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("shows_detail_tooltiptext"), this, position);
+                    this.ShowCustomTooltip(Multilingual.GetWord("shows_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalRounds")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("rounds_detail_tooltiptext"), this, position);
+                    this.ShowCustomTooltip(Multilingual.GetWord("rounds_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalFinals")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("finals_detail_tooltiptext"), this, position);
+                    this.ShowCustomTooltip(Multilingual.GetWord("finals_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalWins")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltiptext"), this, position);
+                    this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalTime")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltiptext"), this, position);
+                    this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltip"), this, position);
                 }
             }
         }
@@ -3186,12 +3188,12 @@ namespace FallGuysStats {
         }
         private void SetCurrentProfileIcon(bool linked) {
             if (this.CurrentSettings.AutoChangeProfile) {
-                this.lblCurrentProfile.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
+                this.lblCurrentProfileIcon.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
                 this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow
                     : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             } else {
-                this.lblCurrentProfile.Image = Properties.Resources.profile2_icon;
+                this.lblCurrentProfileIcon.Image = Properties.Resources.profile2_icon;
                 this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
                     : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
             }
@@ -4836,6 +4838,10 @@ namespace FallGuysStats {
                     break;
             }
             e.SuppressKeyPress = true;
+        }
+        private void lblCurrentProfileIcon_Click(object sender, EventArgs e) {
+            this.SetAutoChangeProfile(!this.CurrentSettings.AutoChangeProfile);
+            this.HideCustomTooltip(this);
         }
         private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
