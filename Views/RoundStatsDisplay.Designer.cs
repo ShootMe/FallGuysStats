@@ -84,10 +84,11 @@
             // 
             // lblRoundTime
             // 
+            this.lblRoundTime.AutoSize = true;
             this.lblRoundTime.ForeColor = System.Drawing.Color.Teal;
             this.lblRoundTime.Location = new System.Drawing.Point(700, 60);
             this.lblRoundTime.Name = "lblRoundTime";
-            this.lblRoundTime.Size = new System.Drawing.Size(318, 32);
+            this.lblRoundTime.Size = new System.Drawing.Size(49, 12);
             this.lblRoundTime.TabIndex = 3;
             this.lblRoundTime.Text = "00:00:00";
             // 
@@ -102,19 +103,21 @@
             // 
             // lblBestRecord
             // 
+            this.lblBestRecord.AutoSize = true;
             this.lblBestRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(165)))), ((int)(((byte)(32)))));
             this.lblBestRecord.Location = new System.Drawing.Point(722, 138);
             this.lblBestRecord.Name = "lblBestRecord";
-            this.lblBestRecord.Size = new System.Drawing.Size(286, 25);
+            this.lblBestRecord.Size = new System.Drawing.Size(11, 12);
             this.lblBestRecord.TabIndex = 16;
             this.lblBestRecord.Text = "0";
             // 
             // lblWorstRecord
             // 
+            this.lblWorstRecord.AutoSize = true;
             this.lblWorstRecord.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.lblWorstRecord.Location = new System.Drawing.Point(722, 163);
             this.lblWorstRecord.Name = "lblWorstRecord";
-            this.lblWorstRecord.Size = new System.Drawing.Size(286, 25);
+            this.lblWorstRecord.Size = new System.Drawing.Size(11, 12);
             this.lblWorstRecord.TabIndex = 17;
             this.lblWorstRecord.Text = "0";
             // 
@@ -132,10 +135,11 @@
             // 
             // lblCountGoldMedal
             // 
+            this.lblCountGoldMedal.AutoSize = true;
             this.lblCountGoldMedal.ForeColor = System.Drawing.Color.Teal;
             this.lblCountGoldMedal.Location = new System.Drawing.Point(690, 211);
             this.lblCountGoldMedal.Name = "lblCountGoldMedal";
-            this.lblCountGoldMedal.Size = new System.Drawing.Size(250, 54);
+            this.lblCountGoldMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountGoldMedal.TabIndex = 6;
             this.lblCountGoldMedal.Text = "0";
             // 
@@ -153,10 +157,11 @@
             // 
             // lblCountSilverMedal
             // 
+            this.lblCountSilverMedal.AutoSize = true;
             this.lblCountSilverMedal.ForeColor = System.Drawing.Color.Teal;
             this.lblCountSilverMedal.Location = new System.Drawing.Point(690, 280);
             this.lblCountSilverMedal.Name = "lblCountSilverMedal";
-            this.lblCountSilverMedal.Size = new System.Drawing.Size(250, 54);
+            this.lblCountSilverMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountSilverMedal.TabIndex = 8;
             this.lblCountSilverMedal.Text = "0";
             // 
@@ -174,10 +179,11 @@
             // 
             // lblCountBronzeMedal
             // 
+            this.lblCountBronzeMedal.AutoSize = true;
             this.lblCountBronzeMedal.ForeColor = System.Drawing.Color.Teal;
             this.lblCountBronzeMedal.Location = new System.Drawing.Point(690, 349);
             this.lblCountBronzeMedal.Name = "lblCountBronzeMedal";
-            this.lblCountBronzeMedal.Size = new System.Drawing.Size(250, 54);
+            this.lblCountBronzeMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountBronzeMedal.TabIndex = 10;
             this.lblCountBronzeMedal.Text = "0";
             // 
@@ -195,10 +201,11 @@
             // 
             // lblCountPinkMedal
             // 
+            this.lblCountPinkMedal.AutoSize = true;
             this.lblCountPinkMedal.ForeColor = System.Drawing.Color.Teal;
             this.lblCountPinkMedal.Location = new System.Drawing.Point(690, 418);
             this.lblCountPinkMedal.Name = "lblCountPinkMedal";
-            this.lblCountPinkMedal.Size = new System.Drawing.Size(250, 54);
+            this.lblCountPinkMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountPinkMedal.TabIndex = 12;
             this.lblCountPinkMedal.Text = "0";
             // 
@@ -216,10 +223,11 @@
             // 
             // lblCountEliminatedMedal
             // 
+            this.lblCountEliminatedMedal.AutoSize = true;
             this.lblCountEliminatedMedal.ForeColor = System.Drawing.Color.Teal;
             this.lblCountEliminatedMedal.Location = new System.Drawing.Point(690, 487);
             this.lblCountEliminatedMedal.Name = "lblCountEliminatedMedal";
-            this.lblCountEliminatedMedal.Size = new System.Drawing.Size(250, 54);
+            this.lblCountEliminatedMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountEliminatedMedal.TabIndex = 14;
             this.lblCountEliminatedMedal.Text = "0";
             // 
@@ -266,6 +274,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPinkMedalIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEliminatedMedalIcon)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
         }
 
         #endregion

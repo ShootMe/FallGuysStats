@@ -3618,10 +3618,13 @@ namespace FallGuysStats {
             return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
         }
         
+        private void lblCreativeLevel_Click(object sender, EventArgs e) {
+            this.mtgCreativeLevel.Checked = !this.mtgCreativeLevel.Checked;
+        }
         private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             this.VisibleGridRowOfCreativeLevel(mtgChecked);
-            this.lblCreativeLevel.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblCreativeLevel.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
         }
@@ -4025,9 +4028,10 @@ namespace FallGuysStats {
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
-            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
+            this.gridDetails.SuspendLayout();
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
             CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
             currencyManager.SuspendBinding();
@@ -4041,6 +4045,7 @@ namespace FallGuysStats {
                 }
             }
             currencyManager.ResumeBinding();
+            this.gridDetails.ResumeLayout(false);
         }
         private void SortGridDetails(int columnIndex, bool isInitialize) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;

@@ -907,7 +907,7 @@ namespace FallGuysStats {
                             {"main_fallalytics_tooltip", "폴라리틱스는 폴 가이즈의 라운드 분포에 대해 수집된 데이터를 탐색하는 도구입니다"},
                             {"main_roll_off_club_tooltip", "롤 오프의 프로가 되어보세요!"},
                             {"main_todays_show_tooltip", "현재 이용 가능한 쇼를 확인하세요"},
-                            {"main_fall_guys_official_tooltip", "《폴 가이즈》(Fall Guys)는 2020년 공개된 미디어토닉이 개발하고, 디볼버 디지털이 배급한 비디오 게임입니다"},
+                            {"main_fall_guys_official_tooltip", "폴 가이즈는 2020년 공개된 미디어토닉이 개발하고, 디볼버 디지털이 배급한 비디오 게임입니다"},
                             {"main_overlay_show_tooltip", " (Ctrl + O) 키를 눌러 통계창 보이기"},
                             {"main_overlay_hide_tooltip", " (Ctrl + O) 키를 눌러 통계창 숨기기"},
                             {"main_overlay_shortcut_tooltip", " (Ctrl + M) 키를 누르면 통계창을 맨 위에 두는 옵션이 토글 됩니다.\n (Ctrl + T) 키를 누르면 통계창의 배경색이 전환됩니다.\n (Ctrl + F) 키를 누르면 통계창 좌우 반전 옵션이 토글 됩니다.\n (Ctrl + C) 키를 누르면 플랫폼별 사용자 수가 표시됩니다.\n (Ctrl + R) 키를 누르면 라운드 이름에 해당 라운드 유형에 대한 색상 배지 옵션이 토글 됩니다.\n (Ctrl + Shift + ↑ 또는 ↓) 키를 누르면 통계창의 투명도가 조절됩니다.\n (Ctrl + Shift + Z) 키를 누르면 연동된 프로필로 자동 변경 옵션이 토글 됩니다.\n (Ctrl + Shift + X) 키를 누르면 통계창의 크기가 재설정됩니다.\n (Ctrl + Shift + C) 키를 누르면 통계창의 위치가 재설정됩니다."},

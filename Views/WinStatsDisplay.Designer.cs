@@ -39,7 +39,7 @@
             this.picSwitchGraphStyle.BackColor = System.Drawing.Color.Transparent;
             this.picSwitchGraphStyle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picSwitchGraphStyle.Image = global::FallGuysStats.Properties.Resources.scatter_plot_icon;
-            this.picSwitchGraphStyle.Location = new System.Drawing.Point(870, 30);
+            this.picSwitchGraphStyle.Location = new System.Drawing.Point(880, 32);
             this.picSwitchGraphStyle.Name = "picSwitchGraphStyle";
             this.picSwitchGraphStyle.Size = new System.Drawing.Size(27, 24);
             this.picSwitchGraphStyle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -52,10 +52,12 @@
             this.chkWins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkWins.AutoSize = true;
             this.chkWins.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkWins.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkWins.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
             this.chkWins.ForeColor = System.Drawing.Color.Red;
-            this.chkWins.Location = new System.Drawing.Point(961, 38);
+            this.chkWins.Location = new System.Drawing.Point(953, 38);
             this.chkWins.Name = "chkWins";
-            this.chkWins.Size = new System.Drawing.Size(49, 15);
+            this.chkWins.Size = new System.Drawing.Size(57, 19);
             this.chkWins.TabIndex = 2;
             this.chkWins.Text = "Wins";
             this.chkWins.UseCustomForeColor = true;
@@ -67,10 +69,12 @@
             this.chkFinals.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkFinals.AutoSize = true;
             this.chkFinals.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkFinals.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkFinals.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
             this.chkFinals.ForeColor = System.Drawing.Color.Green;
-            this.chkFinals.Location = new System.Drawing.Point(1053, 38);
+            this.chkFinals.Location = new System.Drawing.Point(1044, 38);
             this.chkFinals.Name = "chkFinals";
-            this.chkFinals.Size = new System.Drawing.Size(53, 15);
+            this.chkFinals.Size = new System.Drawing.Size(62, 19);
             this.chkFinals.TabIndex = 3;
             this.chkFinals.Text = "Finals";
             this.chkFinals.UseCustomForeColor = true;
@@ -82,10 +86,12 @@
             this.chkShows.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.chkShows.AutoSize = true;
             this.chkShows.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkShows.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkShows.FontWeight = MetroFramework.MetroCheckBoxWeight.Bold;
             this.chkShows.ForeColor = System.Drawing.Color.Blue;
-            this.chkShows.Location = new System.Drawing.Point(1147, 38);
+            this.chkShows.Location = new System.Drawing.Point(1137, 38);
             this.chkShows.Name = "chkShows";
-            this.chkShows.Size = new System.Drawing.Size(57, 15);
+            this.chkShows.Size = new System.Drawing.Size(67, 19);
             this.chkShows.TabIndex = 4;
             this.chkShows.Text = "Shows";
             this.chkShows.UseCustomForeColor = true;
@@ -103,7 +109,7 @@
             this.formsPlot.MouseLeave += new System.EventHandler(this.formsPlot_MouseLeave);
             this.formsPlot.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formsPlot_MouseMove);
             // 
-            // StatsDisplay
+            // WinStatsDisplay
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
