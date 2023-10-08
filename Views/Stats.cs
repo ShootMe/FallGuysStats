@@ -4241,51 +4241,62 @@ namespace FallGuysStats {
                     int currentShows = 0;
                     int currentFinals = 0;
                     int currentWins = 0;
-                    bool incrementedShows = false;
-                    bool incrementedFinals = false;
-                    bool incrementedWins = false;
+                    bool isIncrementedShows = false;
+                    bool isIncrementedFinals = false;
+                    bool isIncrementedWins = false;
+                    bool isOverDate = false;
                     foreach (RoundInfo info in rounds.Where(info => !info.PrivateLobby)) {
                         if (info.Round == 1) {
-                            currentShows++;
-                            incrementedShows = true;
+                            currentShows += isOverDate ? 2 : 1;
+                            isIncrementedShows = true;
                         }
 
                         if (info.Crown || info.IsFinal) {
-                            if (start.Date < info.StartLocal.Date) start = info.StartLocal;
+                            isOverDate = start.Date < info.StartLocal.Date;
                             currentFinals++;
-                            incrementedFinals = true;
+                            isIncrementedFinals = true;
                             
                             if (info.Qualified) {
                                 currentWins++;
-                                incrementedWins = true;
+                                isIncrementedWins = true;
                                 
-                                if (winsInfo.TryGetValue(start.Date.ToOADate(), out SortedList<string, int> wi)) {
+                                if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
                                     if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};crown")) {
                                         wi[$"{Multilingual.GetRoundName(info.Name)};crown"] += 1;
                                     } else {
                                         wi[$"{Multilingual.GetRoundName(info.Name)};crown"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};crown", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};crown", 1}});
+                                }
+
+                                if (isOverDate) {
+                                    currentShows--;
+                                    isIncrementedShows = false;
                                 }
                             } else {
-                                if (winsInfo.TryGetValue(start.Date.ToOADate(), out SortedList<string, int> wi)) {
+                                if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
                                     if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};eliminated")) {
                                         wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] += 1;
                                     } else {
                                         wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};eliminated", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};eliminated", 1}});
+                                }
+                                
+                                if (isOverDate) {
+                                    currentShows--;
+                                    isIncrementedShows = false;
                                 }
                             }
                         }
 
-                        if (info.StartLocal.Date > start.Date && (incrementedShows || incrementedFinals)) {
+                        if (info.StartLocal.Date > start.Date && (isIncrementedShows || isIncrementedFinals)) {
                             dates.Add(start.Date.ToOADate());
-                            shows.Add(Convert.ToDouble(incrementedShows ? --currentShows : currentShows));
-                            finals.Add(Convert.ToDouble(incrementedFinals ? --currentFinals : currentFinals));
-                            wins.Add(Convert.ToDouble(incrementedWins ? --currentWins : currentWins));
+                            shows.Add(Convert.ToDouble(isIncrementedShows ? --currentShows : currentShows));
+                            finals.Add(Convert.ToDouble(isIncrementedFinals ? --currentFinals : currentFinals));
+                            wins.Add(Convert.ToDouble(isIncrementedWins ? --currentWins : currentWins));
 
                             int daysWithoutStats = (int)(info.StartLocal.Date - start.Date).TotalDays - 1;
                             while (daysWithoutStats > 0) {
@@ -4297,15 +4308,15 @@ namespace FallGuysStats {
                                 wins.Add(0D);
                             }
 
-                            currentShows = incrementedShows ? 1 : 0;
-                            currentFinals = incrementedFinals ? 1 : 0;
-                            currentWins = incrementedWins ? 1 : 0;
+                            currentShows = isIncrementedShows ? 1 : 0;
+                            currentFinals = isIncrementedFinals ? 1 : 0;
+                            currentWins = isIncrementedWins ? 1 : 0;
                             start = info.StartLocal;
                         }
 
-                        incrementedShows = false;
-                        incrementedFinals = false;
-                        incrementedWins = false;
+                        isIncrementedShows = false;
+                        isIncrementedFinals = false;
+                        isIncrementedWins = false;
                     }
 
                     dates.Add(start.Date.ToOADate());
