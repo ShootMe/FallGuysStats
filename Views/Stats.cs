@@ -4235,6 +4235,7 @@ namespace FallGuysStats {
                 ArrayList shows = new ArrayList();
                 ArrayList finals = new ArrayList();
                 ArrayList wins = new ArrayList();
+                Dictionary<double, SortedList<string, int>> winsInfo = new Dictionary<double, SortedList<string, int>>();
                 if (rounds.Count > 0) {
                     DateTime start = rounds[0].StartLocal;
                     int currentShows = 0;
@@ -4252,9 +4253,30 @@ namespace FallGuysStats {
                         if (info.Crown || info.IsFinal) {
                             currentFinals++;
                             incrementedFinals = true;
+                            
                             if (info.Qualified) {
                                 currentWins++;
                                 incrementedWins = true;
+                                
+                                if (winsInfo.TryGetValue(start.Date.ToOADate(), out SortedList<string, int> wi)) {
+                                    if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};crown")) {
+                                        wi[$"{Multilingual.GetRoundName(info.Name)};crown"] += 1;
+                                    } else {
+                                        wi[$"{Multilingual.GetRoundName(info.Name)};crown"] = 1;
+                                    }
+                                } else {
+                                    winsInfo.Add(start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};crown", 1}});
+                                }
+                            } else {
+                                if (winsInfo.TryGetValue(start.Date.ToOADate(), out SortedList<string, int> wi)) {
+                                    if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};eliminated")) {
+                                        wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] += 1;
+                                    } else {
+                                        wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] = 1;
+                                    }
+                                } else {
+                                    winsInfo.Add(start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};eliminated", 1}});
+                                }
                             }
                         }
 
@@ -4291,10 +4313,6 @@ namespace FallGuysStats {
                     wins.Add(Convert.ToDouble(currentWins));
 
                     display.manualSpacing = (int)Math.Ceiling(dates.Count / 28D);
-                    display.dates = (double[])dates.ToArray(typeof(double));
-                    display.shows = (double[])shows.ToArray(typeof(double));
-                    display.finals = (double[])finals.ToArray(typeof(double));
-                    display.wins = (double[])wins.ToArray(typeof(double));
                 } else {
                     dates.Add(DateTime.Now.Date.ToOADate());
                     shows.Add(0D);
@@ -4302,11 +4320,12 @@ namespace FallGuysStats {
                     wins.Add(0D);
 
                     display.manualSpacing = 1;
-                    display.dates = (double[])dates.ToArray(typeof(double));
-                    display.shows = (double[])shows.ToArray(typeof(double));
-                    display.finals = (double[])finals.ToArray(typeof(double));
-                    display.wins = (double[])wins.ToArray(typeof(double));
                 }
+                display.dates = (double[])dates.ToArray(typeof(double));
+                display.shows = (double[])shows.ToArray(typeof(double));
+                display.finals = (double[])finals.ToArray(typeof(double));
+                display.wins = (double[])wins.ToArray(typeof(double));
+                display.winsInfo = winsInfo;
                 
                 display.ShowDialog(this);
             }

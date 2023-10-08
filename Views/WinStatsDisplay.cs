@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using ScottPlot;
 namespace FallGuysStats {
     public partial class WinStatsDisplay : MetroFramework.Forms.MetroForm {
         public double[] dates, shows, finals, wins;
+        public Dictionary<double, SortedList<string, int>> winsInfo;
         public int manualSpacing = 1;
         public Stats StatsForm { get; set; }
         public WinStatsDisplay() {
@@ -236,20 +238,38 @@ namespace FallGuysStats {
                     currentIndex = pointIndex3;
                     break;
             }
+
+            string winLossInfo = string.Empty;
+            if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
+                SortedList<string, int> wli = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
+                winLossInfo = $"{Environment.NewLine}";
+                string prevLevel = string.Empty;
+                foreach (var v in wli) {
+                    if (!string.IsNullOrEmpty(prevLevel) && v.Key.Split(';')[0].Equals(prevLevel)) {
+                        winLossInfo += $" / {v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                        continue;
+                    }
+
+                    winLossInfo += Environment.NewLine;
+                    winLossInfo += $"{v.Key.Split(';')[0]} : {v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                    prevLevel = v.Key.Split(';')[0];
+                }
+            }
             
-            this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($"{DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}") +
-                                                                 (this.MyScatterPlot1.IsVisible ? $"{Multilingual.GetWord("level_detail_shows")} : {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
-                                                                 (this.MyScatterPlot2.IsVisible ? $"{Multilingual.GetWord("level_detail_finals")} : {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{Environment.NewLine}" : "") +
-                                                                 (this.MyScatterPlot3.IsVisible ? $"{Multilingual.GetWord("level_detail_wins")} : {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}" : ""),
-                                                          x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
+            this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($"{DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}")
+                                                                 + (this.MyScatterPlot1.IsVisible ? $"{Multilingual.GetWord("level_detail_shows")} : {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : "")
+                                                                 + (this.MyScatterPlot2.IsVisible ? $"{Multilingual.GetWord("level_detail_finals")} : {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : "")
+                                                                 + (this.MyScatterPlot3.IsVisible ? $"{Multilingual.GetWord("level_detail_wins")} : {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}" : "")
+                                                                 + winLossInfo
+                ,x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
             
             this.tooltip.BorderWidth = 1;
             this.tooltip.BorderColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(239, 49,51,56) : Color.FromArgb(239, 211,211,211);
             this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
             this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
-            this.tooltip.Font.Bold = true;
-            this.tooltip.Font.Size = 14;
-            this.tooltip.Font.Color = Color.White;
+            this.tooltip.Font.Bold = false;
+            this.tooltip.Font.Size = 15;
+            this.tooltip.Font.Color = Color.WhiteSmoke;
             this.tooltip.ArrowSize = 5;
             
             this.HighlightedPoint.IsVisible = true;
@@ -289,14 +309,15 @@ namespace FallGuysStats {
         }
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                // this.switchGraphStyle = this.switchGraphStyle == 0 ? 1 : 0;
                 this.switchGraphStyle += 1;
-                Console.WriteLine(switchGraphStyle);
                 if (this.switchGraphStyle > 2) { this.switchGraphStyle = 0; }
-                this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
-                if (this.dates == null) { return; }
-                this.ChangeFormsPlotStyle(this.switchGraphStyle);
+            } else if (e.Button == MouseButtons.Right) {
+                this.switchGraphStyle -= 1;
+                if (this.switchGraphStyle < 0) { this.switchGraphStyle = 2; }
             }
+            this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
+            if (this.dates == null) { return; }
+            this.ChangeFormsPlotStyle(this.switchGraphStyle);
         }
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }

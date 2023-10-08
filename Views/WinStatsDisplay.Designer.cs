@@ -37,9 +37,11 @@
             // 
             this.picSwitchGraphStyle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picSwitchGraphStyle.BackColor = System.Drawing.Color.Transparent;
+            this.picSwitchGraphStyle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.picSwitchGraphStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picSwitchGraphStyle.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picSwitchGraphStyle.Image = global::FallGuysStats.Properties.Resources.scatter_plot_icon;
-            this.picSwitchGraphStyle.Location = new System.Drawing.Point(880, 32);
+            this.picSwitchGraphStyle.Location = new System.Drawing.Point(880, 34);
             this.picSwitchGraphStyle.Name = "picSwitchGraphStyle";
             this.picSwitchGraphStyle.Size = new System.Drawing.Size(27, 24);
             this.picSwitchGraphStyle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -104,7 +106,7 @@
             this.formsPlot.Location = new System.Drawing.Point(0, 58);
             this.formsPlot.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.formsPlot.Name = "formsPlot";
-            this.formsPlot.Size = new System.Drawing.Size(1280, 680);
+            this.formsPlot.Size = new System.Drawing.Size(1280, 860);
             this.formsPlot.TabIndex = 5;
             this.formsPlot.MouseLeave += new System.EventHandler(this.formsPlot_MouseLeave);
             this.formsPlot.MouseMove += new System.Windows.Forms.MouseEventHandler(this.formsPlot_MouseMove);
@@ -113,7 +115,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1294, 720);
+            this.ClientSize = new System.Drawing.Size(1294, 900);
             this.Controls.Add(this.formsPlot);
             this.Controls.Add(this.picSwitchGraphStyle);
             this.Controls.Add(this.chkShows);
