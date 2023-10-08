@@ -842,6 +842,7 @@ namespace FallGuysStats {
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192);
                                     break;
                                 case "lblTotalTime":
+                                    tsl1.Font = Overlay.GetMainFont(14f);
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
