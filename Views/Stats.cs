@@ -4251,6 +4251,7 @@ namespace FallGuysStats {
                         }
 
                         if (info.Crown || info.IsFinal) {
+                            if (start.Date < info.StartLocal.Date) start = info.StartLocal;
                             currentFinals++;
                             incrementedFinals = true;
                             
