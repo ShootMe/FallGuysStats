@@ -245,6 +245,7 @@ namespace FallGuysStats {
             "event_only_floor_fall_template",
             "event_only_floor_fall_low_grav",
             "event_only_blast_ball_trials_template",
+            "event_only_thin_ice_template",
             "event_only_slime_climb",
             "event_only_jump_club_template",
             "event_walnut_template",
@@ -2067,6 +2068,23 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 55;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 55) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.IsFinal &&
+                          ri.ShowNameId.Equals("event_only_thin_ice_template") &&
+                          ri.Round < 3
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = false;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 56;
                 this.SaveUserSettings();
             }
         }

@@ -38,11 +38,11 @@ namespace FallGuysStats {
                 case "Shows":
                     return this.Width - (lang == 0 ? -80 : lang == 1 ? -113 : lang == 2 ? -39 : lang == -64 ? -90 : -21);
                 case "Rounds":
-                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 850 : lang == 3 ? 915 : 876);
                 case "Finals":
-                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 850 : lang == 3 ? 915 : 876);
                 default:
-                    return this.Width + (lang == 0 ? 925 : lang == 1 ? 1058 : lang == 2 ? 820 : lang == 3 ? 885 : 846);
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 850 : lang == 3 ? 915 : 876);
             }
         }
         private int GetDataGridViewColumnWidth(string columnName, string columnText) {
