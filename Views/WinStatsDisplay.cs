@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using MetroFramework;
 using ScottPlot;
@@ -78,6 +79,8 @@ namespace FallGuysStats {
                 this.MyLollipopPlot2.IsVisible = false;
                 this.MyLollipopPlot3.IsVisible = false;
                 
+                this.chkShows.Checked = true;
+                this.chkFinals.Checked = true;
                 this.chkWins.Checked = true;
                 this.switchGraphStyle = this.StatsForm.CurrentSettings.WinPerDayGraphStyle;
                 this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
@@ -240,30 +243,27 @@ namespace FallGuysStats {
                     break;
             }
 
-            string winLossInfo = string.Empty;
+            StringBuilder builder = new StringBuilder();
+            builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
+            builder.Append((this.MyScatterPlot1.IsVisible ? $" {Multilingual.GetWord("level_detail_shows")} :  ⟨{this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
+            builder.Append((this.MyScatterPlot2.IsVisible ? $" {Multilingual.GetWord("level_detail_finals")} :  ⟨{this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
+            builder.Append((this.MyScatterPlot3.IsVisible ? $" {Multilingual.GetWord("level_detail_wins")} :  ⟨{this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩" : ""));
             if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
                 SortedList<string, int> wli = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
-                winLossInfo = $"{Environment.NewLine}";
+                builder.Append($"{Environment.NewLine}{Environment.NewLine} {Multilingual.GetWord("level_detail_finals_stats")}");
                 string prevLevel = string.Empty;
                 foreach (var v in wli) {
                     if (!string.IsNullOrEmpty(prevLevel) && v.Key.Split(';')[0].Equals(prevLevel)) {
-                        winLossInfo += $" / ⟨{v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}⟩";
+                        builder.Append($" / ⟨{v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}⟩");
                         continue;
                     }
-
-                    winLossInfo += Environment.NewLine;
-                    winLossInfo += $" •  {v.Key.Split(';')[0]} :  ⟨{v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}⟩";
+                    builder.Append(Environment.NewLine);
+                    builder.Append($"  •  {v.Key.Split(';')[0]} :  ⟨{v.Value}{(v.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(v.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(v.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}⟩");
                     prevLevel = v.Key.Split(';')[0];
                 }
             }
             
-            this.tooltip = this.formsPlot.Plot.AddTooltip(label: ($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}")
-                                                                 + (this.MyScatterPlot1.IsVisible ? $" {Multilingual.GetWord("level_detail_shows")} :  ⟨{this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : "")
-                                                                 + (this.MyScatterPlot2.IsVisible ? $" {Multilingual.GetWord("level_detail_finals")} :  ⟨{this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : "")
-                                                                 + (this.MyScatterPlot3.IsVisible ? $" {Multilingual.GetWord("level_detail_wins")} :  ⟨{this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}⟩" : "")
-                                                                 + winLossInfo
-                ,x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
-            
+            this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString() ,x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
             this.tooltip.BorderWidth = 1.7f;
             this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
             this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
