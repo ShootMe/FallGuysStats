@@ -263,7 +263,7 @@ namespace FallGuysStats {
                 }
             }
             
-            this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString() ,x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
+            this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
             this.tooltip.BorderWidth = 1.7f;
             this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
             this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
@@ -322,45 +322,45 @@ namespace FallGuysStats {
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
-                this.MyScatterPlot3.IsVisible = chkFinals.Checked;
+                this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
                 this.MyBarPlot3.IsVisible = false;
-                this.MyLollipopPlot3.IsVisible = chkFinals.Checked;
+                this.MyLollipopPlot3.IsVisible = this.chkWins.Checked;
             } else if (this.switchGraphStyle == 2) {
-                this.MyScatterPlot3.IsVisible = chkWins.Checked;
-                this.MyBarPlot3.IsVisible = chkWins.Checked;
+                this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
+                this.MyBarPlot3.IsVisible = this.chkWins.Checked;
                 this.MyLollipopPlot3.IsVisible = false;
             } else {
-                this.MyScatterPlot3.IsVisible = chkWins.Checked;
+                this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
             }
             this.formsPlot.Refresh();
         }
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
-                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+                this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyBarPlot2.IsVisible = false;
-                this.MyLollipopPlot2.IsVisible = chkFinals.Checked;
+                this.MyLollipopPlot2.IsVisible = this.chkFinals.Checked;
             } else if (this.switchGraphStyle == 2) {
-                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
-                this.MyBarPlot2.IsVisible = chkFinals.Checked;
+                this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
+                this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
                 this.MyLollipopPlot2.IsVisible = false;
             } else {
-                this.MyScatterPlot2.IsVisible = chkFinals.Checked;
+                this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
             }
             this.formsPlot.Refresh();
         }
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
-                this.MyScatterPlot1.IsVisible = chkFinals.Checked;
+                this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
                 this.MyBarPlot1.IsVisible = false;
-                this.MyLollipopPlot1.IsVisible = chkFinals.Checked;
+                this.MyLollipopPlot1.IsVisible = this.chkShows.Checked;
             } else if (this.switchGraphStyle == 2) {
-                this.MyScatterPlot1.IsVisible = chkShows.Checked;
-                this.MyBarPlot1.IsVisible = chkShows.Checked;
+                this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
+                this.MyBarPlot1.IsVisible = this.chkShows.Checked;
                 this.MyLollipopPlot1.IsVisible = false;
             } else {
-                this.MyScatterPlot1.IsVisible = chkShows.Checked;
+                this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
             }
             this.formsPlot.Refresh();
         }
