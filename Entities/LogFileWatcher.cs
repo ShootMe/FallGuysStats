@@ -600,7 +600,6 @@ namespace FallGuysStats {
                 }
                 Stats.IsPrePlaying = true;
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) >= 0) {
-                Stats.InShow = true;
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode};
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
@@ -724,9 +723,9 @@ namespace FallGuysStats {
                 }
                 logRound.CountingPlayers = false;
                 logRound.FindingPosition = false;
-                // Stats.InShow = true;
+                Stats.InShow = true;
                 round.Clear();
-                // logRound.Info = null;
+                logRound.Info = null;
             } else if ((index = line.Line.IndexOf("NetworkGameOptions: durationInSeconds=", StringComparison.OrdinalIgnoreCase)) >= 0) { // legacy code // It seems to have been deleted from the log file now.
                 int nextIndex = line.Line.IndexOf(" ", index + 38);
                 logRound.Duration = int.Parse(line.Line.Substring(index + 38, nextIndex - index - 38));
@@ -814,7 +813,6 @@ namespace FallGuysStats {
                 this.toggleRequestCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
                 Stats.InShow = false;
-                Stats.EndedShow = true;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (round.Count > 0) {
