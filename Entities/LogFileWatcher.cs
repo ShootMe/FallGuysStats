@@ -600,11 +600,8 @@ namespace FallGuysStats {
                 }
                 Stats.IsPrePlaying = true;
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) >= 0) {
+                Stats.InShow = true;
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode};
-                int index2 = line.Line.IndexOf(' ', index + 44);
-                if (index2 < 0) { index2 = line.Line.Length; }
-
-                logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
                     TimeSpan timeDiff = DateTime.UtcNow - line.Date;
@@ -662,6 +659,9 @@ namespace FallGuysStats {
                         }
                     }
                 } else {
+                    int index2 = line.Line.IndexOf(' ', index + 44);
+                    if (index2 < 0) { index2 = line.Line.Length; }
+                    logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
                     if (_sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
                         logRound.Info.SceneName = newName;
                     }
@@ -672,7 +672,6 @@ namespace FallGuysStats {
                 int index2 = line.Line.IndexOf(". ", index + 62);
                 if (index2 < 0) { index2 = line.Line.Length; }
                 if (logRound.Info.UseShareCode) {
-                    //logRound.Info.Name = line.Line.Substring(index + 66, index2 - index - 66);
                     logRound.Info.Name = "user_creative_race_round";
                     logRound.Info.CreativeShareCode = this.creativeShareCode;
                     logRound.Info.CreativeOnlinePlatformId = this.creativeOnlinePlatformId;
@@ -714,9 +713,7 @@ namespace FallGuysStats {
                 logRound.Info.PrivateLobby = logRound.PrivateLobby;
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
-            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0)
-                       //|| line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMainMenu with FGClient.StatePrivateLobby", StringComparison.OrdinalIgnoreCase) >= 0)
-            {
+            } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) >= 0;
                 logRound.CurrentlyInParty = !logRound.PrivateLobby && (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) == -1);
                 if (logRound.Info != null) {
@@ -725,10 +722,11 @@ namespace FallGuysStats {
                     }
                     logRound.Info.Playing = false;
                 }
+                logRound.CountingPlayers = false;
                 logRound.FindingPosition = false;
-                Stats.InShow = true;
+                // Stats.InShow = true;
                 round.Clear();
-                logRound.Info = null;
+                // logRound.Info = null;
             } else if ((index = line.Line.IndexOf("NetworkGameOptions: durationInSeconds=", StringComparison.OrdinalIgnoreCase)) >= 0) { // legacy code // It seems to have been deleted from the log file now.
                 int nextIndex = line.Line.IndexOf(" ", index + 38);
                 logRound.Duration = int.Parse(line.Line.Substring(index + 38, nextIndex - index - 38));
@@ -757,19 +755,16 @@ namespace FallGuysStats {
                 } else {
                     logRound.Info.PlayersEtc++;
                 }
-            } else if (line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy", StringComparison.OrdinalIgnoreCase) >= 0 &&
-                       (index = line.Line.IndexOf("playerID = ", StringComparison.OrdinalIgnoreCase)) >= 0) {
+            } else if (line.Line.IndexOf("[ClientGameManager] Handling bootstrap for local player FallGuy", StringComparison.OrdinalIgnoreCase) >= 0 && (index = line.Line.IndexOf("playerID = ", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 int prevIndex = line.Line.IndexOf(',', index + 11);
                 logRound.CurrentPlayerID = line.Line.Substring(index + 11, prevIndex - index - 11);
-            } else if (logRound.Info != null && 
-                       line.Line.IndexOf($"HandleServerPlayerProgress PlayerId={logRound.CurrentPlayerID} is succeeded=", StringComparison.OrdinalIgnoreCase) >= 0) {
+            } else if (logRound.Info != null && line.Line.IndexOf($"HandleServerPlayerProgress PlayerId={logRound.CurrentPlayerID} is succeeded=", StringComparison.OrdinalIgnoreCase) >= 0) {
                 index = line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase);
                 if (index > 0) {
                     logRound.Info.Finish = logRound.Info.End == DateTime.MinValue ? line.Date : logRound.Info.End;
                 }
                 logRound.FindingPosition = true;
-            } else if (logRound.Info != null &&
-                       logRound.FindingPosition && (index = line.Line.IndexOf("[ClientGameSession] NumPlayersAchievingObjective=")) >= 0) {
+            } else if (logRound.Info != null && logRound.FindingPosition && (index = line.Line.IndexOf("[ClientGameSession] NumPlayersAchievingObjective=")) >= 0) {
                 int position = int.Parse(line.Line.Substring(index + 49));
                 if (position > 0) {
                     logRound.FindingPosition = false;
@@ -790,36 +785,36 @@ namespace FallGuysStats {
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
-            } else if (logRound.Info != null &&
-                       (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) >= 0
+            } else if (logRound.Info != null && (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) >= 0)) {
                         //|| line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) >= 0
-                        || line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) >= 0
-                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0))
+                        //|| line.Line.IndexOf("[GlobalGameStateClient] SwitchToDisconnectingState", StringComparison.OrdinalIgnoreCase) >= 0
+                        //|| line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0))
                         //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) >= 0
-                        //|| line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0))
-            {
-                if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0) { logRound.PrivateLobby = false; }
+                // if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0) { logRound.PrivateLobby = false; }
                 if (logRound.Info.End == DateTime.MinValue) {
                     logRound.Info.End = line.Date;
                 }
                 logRound.Info.Playing = false;
-            } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0) {
+            } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0
+                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
+                       || line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
                     logRound.Info.Playing = false;
                 }
+                logRound.PrivateLobby = false;
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
+                logRound.Info = null;
                 this.InitStaticVariable();
-                Stats.InShow = false;
                 this.toggleRequestCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
-            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect.", StringComparison.OrdinalIgnoreCase) >= 0
-                       //|| line.Line.IndexOf("[ClientGlobalGameState] Client has been disconnected", StringComparison.OrdinalIgnoreCase) >= 0
-                       || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0) {
-                this.InitStaticVariable();
+                Stats.InShow = false;
+                Stats.EndedShow = true;
             } else if (line.Line.IndexOf("[GameSession] Changing state from GameOver to Results", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (round.Count > 0) {
