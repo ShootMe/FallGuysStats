@@ -2106,6 +2106,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 57;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 57) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.IsFinal &&
+                          ri.ShowNameId.Equals("event_only_hexaring_template") &&
+                          ri.Round < 3
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = false;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 58;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2183,7 +2200,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 57
+                Version = 58
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {

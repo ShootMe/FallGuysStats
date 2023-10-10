@@ -470,27 +470,28 @@ namespace FallGuysStats {
                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
         }
         
-        // private bool IsModeException(string roundId) {
-        //     return roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_drumtop_event_only", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_hexaring_event_only", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
-        //            || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1;
-        // }
+        private bool IsModeException(string roundId) {
+            return roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_kraken_attack_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexsnake_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_jump_showdown_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexaring_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_tunnel_final_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_thin_ice_only_finals", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_drumtop_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_only_low_grav", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_floor_fall_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexaring_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_thin_ice_event_only", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1;
+        }
 
         private bool IsModeFinalException(string roundId) {
             return ((roundId.IndexOf("round_lava_event_only_slime_climb", StringComparison.OrdinalIgnoreCase) != -1
@@ -751,8 +752,8 @@ namespace FallGuysStats {
                     logRound.Info.IsFinal = true;
                 } else if (this.IsRealFinalRound(logRound.Info.Name)) {
                     logRound.Info.IsFinal = true;
-                } else if (this.IsModeFinalException(logRound.Info.Name)) {
-                    logRound.Info.IsFinal = true;
+                } else if (this.IsModeException(logRound.Info.Name)) {
+                    logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);
                 } else {
                     logRound.Info.IsFinal = logRound.IsFinal || 
                                             (!logRound.HasIsFinal
@@ -866,6 +867,70 @@ namespace FallGuysStats {
                 logRound.PrivateLobby = false;
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
+                if (logRound.Info != null) {
+                    if (logRound.Info.End == DateTime.MinValue) {
+                        logRound.Info.End = line.Date;
+                    }
+                    logRound.Info.Playing = false;
+                    if (!Stats.EndedShow) {
+                        DateTime showStart = DateTime.MinValue;
+                        DateTime showEnd = logRound.Info.End;
+                        for (int i = 0; i < round.Count; i++) {
+                            if (string.IsNullOrEmpty(round[i].Name)) {
+                                if (i != 0) {
+                                    round[i - 1].Qualified = false;
+                                }
+                                round.RemoveAt(i);
+                                logRound.Info = null;
+                                Stats.InShow = false;
+                                Stats.EndedShow = true;
+                                return true;
+                            }
+                            
+                            round[i].VerifyName();
+                            if (i == 0) {
+                                showStart = round[i].Start;
+                            }
+                            round[i].ShowStart = showStart;
+                            round[i].Playing = false;
+                            round[i].Round = i + 1;
+                            if (round[i].End == DateTime.MinValue) {
+                                round[i].End = line.Date;
+                            }
+                            if (round[i].Start == DateTime.MinValue) {
+                                round[i].Start = round[i].End;
+                            }
+                            if (i < (round.Count - 1)) {
+                                round[i].Qualified = true;
+                            } else if (round[i].UseShareCode && round[i].Finish.HasValue) {
+                                if (round[i].Position > 0) {
+                                    double rankPercentage = (Convert.ToDouble(round[i].Position) / Convert.ToDouble(round[i].Players)) * 100d;
+                                    if (round[i].Position == 1) {
+                                        round[i].Tier = 1; //gold
+                                    } else if (round[i].Position == 2 || rankPercentage <= 20d) {
+                                        round[i].Tier = 2; //silver
+                                    } else if (rankPercentage <= 50d) {
+                                        round[i].Tier = 3; //bronze
+                                    } else if (rankPercentage > 50d) {
+                                        round[i].Tier = 0; //pink
+                                    }
+                                    round[i].Qualified = true;
+                                    round[i].Crown = true;
+                                } else {
+                                    round[i].Tier = 0;
+                                    round[i].Qualified = false;
+                                    round[i].Crown = false;
+                                    round[i].Finish = null;
+                                }
+                            }
+                            round[i].ShowEnd = showEnd;
+                        }
+                        logRound.Info = null;
+                        Stats.InShow = false;
+                        Stats.EndedShow = true;
+                        return true;
+                    }
+                }
                 logRound.Info = null;
                 this.InitStaticVariable();
                 this.toggleRequestCountryInfoApi = false;
