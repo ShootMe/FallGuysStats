@@ -4370,6 +4370,8 @@ namespace FallGuysStats {
                         isIncrementedWins = false;
                     }
 
+                    if (isOverDate) currentShows += 1;
+
                     dates.Add(start.Date.ToOADate());
                     shows.Add(Convert.ToDouble(currentShows));
                     finals.Add(Convert.ToDouble(currentFinals));
