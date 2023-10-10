@@ -691,6 +691,7 @@
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
+            this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridDetails.Size = new System.Drawing.Size(690, 630);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;

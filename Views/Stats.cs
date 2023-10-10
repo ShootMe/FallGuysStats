@@ -3656,8 +3656,8 @@ namespace FallGuysStats {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = mtgChecked;
-            this.SaveUserSettings();
             this.SortGridDetails(true);
+            this.SaveUserSettings();
         }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
