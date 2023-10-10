@@ -977,7 +977,7 @@ namespace FallGuysStats {
                 this.tileFallalytics.Style = MetroColorStyle.Teal;
                 this.panelFallalytics.Visible = true;
             }
-            this.Refresh();
+            this.Invalidate();
 
             if (sender.Equals(this.tileAbout)) {
 #if AllowUpdate

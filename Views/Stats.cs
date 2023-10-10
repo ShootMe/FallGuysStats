@@ -956,6 +956,7 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
             this.ResumeLayout();
+            this.Refresh();
         }
         private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
@@ -3574,7 +3575,7 @@ namespace FallGuysStats {
                 this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomEliminatedMedals != 0;
                 this.lblKudos.Text = $"{this.Kudos:N0}";
                 this.lblKudos.Visible = this.Kudos != 0;
-                this.gridDetails.Refresh();
+                this.gridDetails.Invalidate();
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -4058,11 +4059,13 @@ namespace FallGuysStats {
         }
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
+            this.gridDetails.Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
             this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
-            this.gridDetails.SuspendLayout();
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
             CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
             currencyManager.SuspendBinding();
@@ -4076,7 +4079,6 @@ namespace FallGuysStats {
                 }
             }
             currencyManager.ResumeBinding();
-            this.gridDetails.ResumeLayout(false);
         }
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
@@ -5571,7 +5573,7 @@ namespace FallGuysStats {
                         if (this.AllProfiles.Count != 0) {
                             this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileId == this.GetCurrentProfileId() && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                         }
-                        this.Refresh();
+                        this.Invalidate();
                         this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
                         this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
                         this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);

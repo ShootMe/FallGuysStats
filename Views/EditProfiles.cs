@@ -159,12 +159,12 @@ namespace FallGuysStats {
         }
 
         private void RefreshComponent() {
-            this.AddPageTextbox.Refresh();
-            this.RenamePageTextbox.Refresh();
-            this.RenamePageCombobox.Refresh();
-            this.MoveFromCombobox.Refresh();
-            this.MoveToCombobox.Refresh();
-            this.RemoveProfileCombobox.Refresh();
+            this.AddPageTextbox.Invalidate();
+            this.RenamePageTextbox.Invalidate();
+            this.RenamePageCombobox.Invalidate();
+            this.MoveFromCombobox.Invalidate();
+            this.MoveToCombobox.Invalidate();
+            this.RemoveProfileCombobox.Invalidate();
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {

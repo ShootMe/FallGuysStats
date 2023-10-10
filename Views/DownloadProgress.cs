@@ -33,7 +33,7 @@ namespace FallGuysStats {
                 this._percentage = e.ProgressPercentage;
                 this.mpbProgressBar.Value = e.ProgressPercentage;
                 this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
-                this.Refresh();
+                this.Invalidate();
             }
         }
         private void zipWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
@@ -50,7 +50,7 @@ namespace FallGuysStats {
                 }
             }
             this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
-            this.Refresh();
+            this.Invalidate();
             File.Delete(this.FileName);
             Process.Start(new ProcessStartInfo(exeName));
             this.Close();

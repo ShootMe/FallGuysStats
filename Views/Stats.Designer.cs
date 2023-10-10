@@ -132,7 +132,7 @@
             // 
             this.mtgCreativeLevel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mtgCreativeLevel.DisplayStatus = false;
-            this.mtgCreativeLevel.Location = new System.Drawing.Point(15, 156);
+            this.mtgCreativeLevel.Location = new System.Drawing.Point(15, 178);
             this.mtgCreativeLevel.Name = "mtgCreativeLevel";
             this.mtgCreativeLevel.Size = new System.Drawing.Size(21, 15);
             this.mtgCreativeLevel.TabIndex = 3;
@@ -145,7 +145,7 @@
             this.lblCreativeLevel.AutoSize = true;
             this.lblCreativeLevel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCreativeLevel.ForeColor = System.Drawing.Color.Teal;
-            this.lblCreativeLevel.Location = new System.Drawing.Point(38, 154);
+            this.lblCreativeLevel.Location = new System.Drawing.Point(38, 176);
             this.lblCreativeLevel.Name = "lblCreativeLevel";
             this.lblCreativeLevel.Size = new System.Drawing.Size(0, 12);
             this.lblCreativeLevel.TabIndex = 6;
@@ -155,7 +155,7 @@
             // 
             this.mtgIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mtgIgnoreLevelTypeWhenSorting.DisplayStatus = false;
-            this.mtgIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(15, 178);
+            this.mtgIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(15, 156);
             this.mtgIgnoreLevelTypeWhenSorting.Name = "mtgIgnoreLevelTypeWhenSorting";
             this.mtgIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(21, 15);
             this.mtgIgnoreLevelTypeWhenSorting.TabIndex = 3;
@@ -168,7 +168,7 @@
             this.lblIgnoreLevelTypeWhenSorting.AutoSize = true;
             this.lblIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblIgnoreLevelTypeWhenSorting.ForeColor = System.Drawing.Color.Teal;
-            this.lblIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(38, 176);
+            this.lblIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(38, 154);
             this.lblIgnoreLevelTypeWhenSorting.Name = "lblIgnoreLevelTypeWhenSorting";
             this.lblIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(0, 12);
             this.lblIgnoreLevelTypeWhenSorting.TabIndex = 6;
