@@ -452,7 +452,7 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.uncheckmark_icon;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowID") {
-                e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
+                e.CellStyle.Font = Overlay.GetMainFont(14f);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
                 //if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {

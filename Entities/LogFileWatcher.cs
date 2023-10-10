@@ -368,6 +368,57 @@ namespace FallGuysStats {
             {"round_thin_ice_event_only_01", "round_thin_ice"},
             {"round_thin_ice_event_only_02", "round_thin_ice"},
             {"round_thin_ice_event_only_final", "round_thin_ice"},
+            
+            // Digi's Shuffle Selection
+            {"mrs_wle_fp4_06_0_01", "current_wle_fp4_06_0_01"},
+            {"mrs_wle_fp4_06_0_02", "current_wle_fp4_06_0_02"},
+            {"mrs_wle_fp4_06_0_04", "current_wle_fp4_06_0_04"},
+            {"mrs_wle_fp4_06_1_02", "current_wle_fp4_06_1_02"},
+            {"mrs_wle_fp4_06_1_03", "current_wle_fp4_06_1_03"},
+            {"mrs_wle_fp4_06_1_06", "current_wle_fp4_06_1_06"},
+            {"mrs_wle_fp4_07_01", "current_wle_fp4_07_01"},
+            {"mrs_wle_fp4_07_02", "current_wle_fp4_07_02"},
+            {"mrs_wle_fp4_07_04", "current_wle_fp4_07_04"},
+            {"mrs_wle_fp4_07_05", "current_wle_fp4_07_05"},
+            {"mrs_wle_fp4_07_06", "current_wle_fp4_07_06"},
+            {"mrs_wle_fp4_08_0_01", "current_wle_fp4_08_0_01"},
+            {"mrs_wle_fp4_08_0_02", "current_wle_fp4_08_0_02"},
+            {"mrs_wle_fp4_08_0_04", "current_wle_fp4_08_0_04"},
+            {"mrs_wle_fp4_08_0_05", "current_wle_fp4_08_0_05"},
+            {"mrs_wle_fp4_08_1_02", "current_wle_fp4_08_1_02"},
+            {"mrs_wle_fp4_08_1_04", "current_wle_fp4_08_1_04"},
+            {"mrs_wle_fp4_08_3_01", "current_wle_fp4_08_3_01"},
+            {"mrs_wle_fp4_09_01", "current_wle_fp4_09_01"},
+            {"mrs_wle_fp4_09_02", "current_wle_fp4_09_02"},
+            {"mrs_wle_fp4_09_06", "current_wle_fp4_09_06"},
+            {"mrs_wle_fp4_09_1_01", "current_wle_fp4_09_1_01"},
+            {"mrs_wle_fp4_09_1_02", "current_wle_fp4_09_1_02"},
+            {"mrs_wle_fp4_09_2_01", "current_wle_fp4_09_2_01"},
+            {"mrs_wle_fp4_10_04", "current_wle_fp4_10_04"},
+            {"mrs_wle_fp4_10_05", "current_wle_fp4_10_05"},
+            {"mrs_wle_s10_player_round_wk6_14", "wle_s10_player_round_wk6_14"},
+            {"mrs_wle_s10_player_round_wk6_15", "wle_s10_player_round_wk6_15"},
+            {"mrs_wle_fp4_10_07", "current_wle_fp4_10_07"},
+            {"mrs_wle_fp4_10_02", "current_wle_fp4_10_02"},
+            {"mrs_wle_fp4_10_08", "current_wle_fp4_10_08"},
+            {"mrs_wle_fp4_10_01", "current_wle_fp4_10_01"},
+            {"mrs_wle_fp4_10_03", "current_wle_fp4_10_03"},
+            {"mrs_wle_fp4_10_06", "current_wle_fp4_10_06"},
+            {"mrs_wle_fp4_09_05", "current_wle_fp4_09_05"},
+            {"mrs_wle_fp4_09_04", "current_wle_fp4_09_04"},
+            {"mrs_wle_fp4_09_03", "current_wle_fp4_09_03"},
+            {"mrs_wle_fp4_08_1_01", "current_wle_fp4_08_1_01"},
+            {"mrs_wle_fp4_08_0_06", "current_wle_fp4_08_0_06"},
+            {"mrs_wle_fp4_08_0_03", "current_wle_fp4_08_0_03"},
+            {"mrs_wle_fp4_08_1_03", "current_wle_fp4_08_1_03"},
+            {"mrs_wle_fp4_08_0_07", "current_wle_fp4_08_0_07"},
+            {"mrs_wle_fp4_07_03", "current_wle_fp4_07_03"},
+            {"mrs_wle_fp4_07_07", "current_wle_fp4_07_07"},
+            {"mrs_wle_fp4_06_0_03", "current_wle_fp4_06_0_03"},
+            {"mrs_wle_fp4_06_0_05", "current_wle_fp4_06_0_05"},
+            {"mrs_wle_fp4_06_1_01", "current_wle_fp4_06_1_01"},
+            {"mrs_wle_fp4_06_1_04", "current_wle_fp4_06_1_04"},
+            {"mrs_wle_fp4_06_1_05", "current_wle_fp4_06_1_05"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
@@ -380,6 +431,7 @@ namespace FallGuysStats {
                      showId.StartsWith("wle_s10_cf_round_"))
                     
                     || (showId.StartsWith("wle_mrs_bagel") && roundId.StartsWith("wle_mrs_bagel_final"))
+                    || showId.StartsWith("wle_mrs_shuffle_show")
                     
                     || (roundId.IndexOf("wle_s10_orig_round_010", StringComparison.OrdinalIgnoreCase) != -1 ||
                         roundId.IndexOf("wle_s10_orig_round_011", StringComparison.OrdinalIgnoreCase) != -1 ||
