@@ -2198,7 +2198,7 @@ namespace FallGuysStats {
                 LevelStats level = this.StatLookup[item.Key];
                 level.Name = item.Value;
             }
-            this.SortGridDetails(0, true);
+            this.SortGridDetails(true);
             this.gridDetails.Invalidate();
         }
         public void UpdateDates() {
@@ -3649,6 +3649,16 @@ namespace FallGuysStats {
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
         }
+        private void lblIgnoreLevelTypeWhenSorting_Click(object sender, EventArgs e) {
+            this.mtgIgnoreLevelTypeWhenSorting.Checked = !this.mtgIgnoreLevelTypeWhenSorting.Checked;
+        }
+        private void mtgIgnoreLevelTypeWhenSorting_CheckedChanged(object sender, EventArgs e) {
+            bool mtgChecked = ((MetroToggle)sender).Checked; 
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.CurrentSettings.IgnoreLevelTypeWhenSorting = mtgChecked;
+            this.SaveUserSettings();
+            this.SortGridDetails(true);
+        }
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
@@ -4068,7 +4078,7 @@ namespace FallGuysStats {
             currencyManager.ResumeBinding();
             this.gridDetails.ResumeLayout(false);
         }
-        private void SortGridDetails(int columnIndex, bool isInitialize) {
+        private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
             SortOrder sortOrder = isInitialize ? SortOrder.None : this.gridDetails.GetSortOrder(columnName);
 
@@ -4114,7 +4124,7 @@ namespace FallGuysStats {
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-            this.SortGridDetails(e.ColumnIndex, false);
+            this.SortGridDetails(false, e.ColumnIndex);
         }
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (this.gridDetails.SelectedCells.Count > 0) {
@@ -5552,7 +5562,7 @@ namespace FallGuysStats {
                             this.UpdateGridRoundName();
                             this.overlay.ChangeLanguage();
                         }
-                        this.SortGridDetails(0, true);
+                        this.SortGridDetails(true);
                         this.ChangeLaunchPlatformLogo(this.CurrentSettings.LaunchPlatform);
                         this.UpdateHoopsieLegends();
                         this.SetOverlayTopMost(!this.CurrentSettings.OverlayNotOnTop);
@@ -5721,6 +5731,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
+            this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

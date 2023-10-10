@@ -211,30 +211,23 @@ namespace FallGuysStats {
             }
         }
 
-        // private void ProfileList_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e) {
-        //     e.NewWidth = ((ListView)sender).Columns[e.ColumnIndex].Width;
-        //     e.Cancel = true;
-        // }
-
         private void DeleteAmpersand_KeyPress(object sender, KeyPressEventArgs e) {
             if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
         }
 
         private void AddPageButton_Click(object sender, EventArgs e) {
             if (this.AddPageTextbox.Text.Length == 0) { return; }
+            if (this.Profiles.Find(p => p.ProfileName.Equals(this.AddPageTextbox.Text)) != null) {
+                MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_create_profile_prefix")} ({this.AddPageTextbox.Text}) {Multilingual.GetWord("message_create_profile_suffix")}",
-                    Multilingual.GetWord("message_create_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-            {
-                int maxID = 0;
-                int order = 1;
-                for (int i = 0; i < this.Profiles.Count; i++) {
-                    if (maxID <= this.Profiles[i].ProfileId) { maxID = this.Profiles[i].ProfileId; }
-                    if (order <= this.Profiles[i].ProfileOrder) { order = this.Profiles[i].ProfileOrder; }
-                    if (this.Profiles[i].ProfileName == this.AddPageTextbox.Text) { return; }
-                }
-                this.Profiles.Insert(0, new Profiles { ProfileId = maxID + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = order + 1 });
+                    Multilingual.GetWord("message_create_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                int maxId = this.Profiles.Max(p => p.ProfileId);
+                int maxOrder = this.Profiles.Max(p => p.ProfileOrder);
+                this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = this.AddPageTextbox.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty });
                 this.IsUpdate = true;
                 this.ReloadProfileList();
                 this.ProfileList[0, this.ProfileList.Rows.Count - 1].Selected = true;
@@ -245,8 +238,7 @@ namespace FallGuysStats {
             if (this.RemoveProfileCombobox.SelectedIndex < 0) { return; }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_delete_profile_prefix")} ({this.RemoveProfileCombobox.SelectedItem}) {Multilingual.GetWord("message_delete_profile_infix")} {Multilingual.GetWord("message_delete_profile_suffix")}",
-                    Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-            {
+                    Multilingual.GetWord("message_delete_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 string prevProfileName = string.Empty;
                 for (int i = 0; i < this.RemoveProfileCombobox.Items.Count; i++) {
                     if (this.RemoveProfileCombobox.Items[i].ToString() == this.RemoveProfileCombobox.SelectedItem.ToString()) {
@@ -276,16 +268,17 @@ namespace FallGuysStats {
             if (this.MoveFromCombobox.SelectedItem.ToString() == this.MoveToCombobox.SelectedItem.ToString()) { return; }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.MoveFromCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.MoveToCombobox.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
-                    Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
-            {
+                    Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 int fromId = this.Profiles.Find(p => p.ProfileName == this.MoveFromCombobox.SelectedItem.ToString()).ProfileId;
                 int toId = this.Profiles.Find(p => p.ProfileName == this.MoveToCombobox.SelectedItem.ToString()).ProfileId;
-                for (int i = 0; i < this.AllStats.Count; i++) {
-                    if (this.AllStats[i].Profile != fromId) { continue; }
-                    this.AllStats[i].Profile = toId;
+                List<RoundInfo> targetList = this.AllStats.FindAll(r => r.Profile == fromId);
+                if (targetList.Count > 0) {
+                    foreach (RoundInfo target in targetList) {
+                        target.Profile = toId;
+                    }
+                    this.IsUpdate = true;
+                    this.ReloadProfileList();
                 }
-                this.IsUpdate = true;
-                this.ReloadProfileList();
             }
         }
 
@@ -293,15 +286,19 @@ namespace FallGuysStats {
             if (this.RenamePageCombobox.SelectedIndex < 0) { return; }
             if (this.RenamePageTextbox.Text.Length == 0) { return; }
             if (this.RenamePageCombobox.SelectedItem.ToString() == this.RenamePageTextbox.Text) { return; }
+            if (this.Profiles.Find(p => p.ProfileName.Equals(this.RenamePageTextbox.Text)) != null) {
+                MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.RenamePageCombobox.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.RenamePageTextbox.Text}) {Multilingual.GetWord("message_rename_profile_suffix")}",
                     Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                foreach (Profiles p in this.Profiles) {
-                    if (p.ProfileName != this.RenamePageCombobox.SelectedItem.ToString()) { continue; }
-                    p.ProfileName = this.RenamePageTextbox.Text;
+                Profiles profileToUpdate = this.Profiles.Find(p => p.ProfileName.Equals(this.RenamePageCombobox.SelectedItem.ToString()));
+                if (profileToUpdate != null) {
+                    profileToUpdate.ProfileName = this.RenamePageTextbox.Text;
+                    this.IsUpdate = true;
+                    this.ReloadProfileList();
                 }
-                this.IsUpdate = true;
-                this.ReloadProfileList();
             }
         }
 
@@ -314,6 +311,7 @@ namespace FallGuysStats {
             this.IsUpdate = true;
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex - 1].Selected = true;
+            this.ProfileList.FirstDisplayedScrollingRowIndex = profileListIndex - 6 < 0 ? 0 : profileListIndex - 6;
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
@@ -325,6 +323,7 @@ namespace FallGuysStats {
             this.IsUpdate = true;
             this.ReloadProfileList();
             this.ProfileList[0, profileListIndex + 1].Selected = true;
+            this.ProfileList.FirstDisplayedScrollingRowIndex = profileListIndex - 4 < 0 ? 0 : profileListIndex - 4;
         }
 
         private void RenameComboboxChanged(object sender, EventArgs e) {

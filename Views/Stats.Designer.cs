@@ -29,6 +29,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Stats));
             this.mtgCreativeLevel = new MetroFramework.Controls.MetroToggle();
             this.lblCreativeLevel = new System.Windows.Forms.Label();
+            this.mtgIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroToggle();
+            this.lblIgnoreLevelTypeWhenSorting = new System.Windows.Forms.Label();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -148,6 +150,29 @@
             this.lblCreativeLevel.Size = new System.Drawing.Size(0, 12);
             this.lblCreativeLevel.TabIndex = 6;
             this.lblCreativeLevel.Click += new System.EventHandler(this.lblCreativeLevel_Click);
+            // 
+            // mtgIgnoreLevelTypeWhenSorting
+            // 
+            this.mtgIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mtgIgnoreLevelTypeWhenSorting.DisplayStatus = false;
+            this.mtgIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(15, 178);
+            this.mtgIgnoreLevelTypeWhenSorting.Name = "mtgIgnoreLevelTypeWhenSorting";
+            this.mtgIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(21, 15);
+            this.mtgIgnoreLevelTypeWhenSorting.TabIndex = 3;
+            this.mtgIgnoreLevelTypeWhenSorting.Text = "Off";
+            this.mtgIgnoreLevelTypeWhenSorting.UseSelectable = true;
+            this.mtgIgnoreLevelTypeWhenSorting.CheckedChanged += new System.EventHandler(this.mtgIgnoreLevelTypeWhenSorting_CheckedChanged);
+            // 
+            // lblIgnoreLevelTypeWhenSorting
+            // 
+            this.lblIgnoreLevelTypeWhenSorting.AutoSize = true;
+            this.lblIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = System.Drawing.Color.Teal;
+            this.lblIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(38, 176);
+            this.lblIgnoreLevelTypeWhenSorting.Name = "lblIgnoreLevelTypeWhenSorting";
+            this.lblIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(0, 12);
+            this.lblIgnoreLevelTypeWhenSorting.TabIndex = 6;
+            this.lblIgnoreLevelTypeWhenSorting.Click += new System.EventHandler(this.lblIgnoreLevelTypeWhenSorting_Click);
             // 
             // menu
             // 
@@ -661,12 +686,12 @@
             this.gridDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridDetails.EnableHeadersVisualStyles = false;
             this.gridDetails.GridColor = System.Drawing.Color.Gray;
-            this.gridDetails.Location = new System.Drawing.Point(15, 180);
+            this.gridDetails.Location = new System.Drawing.Point(15, 200);
             this.gridDetails.Margin = new System.Windows.Forms.Padding(0);
             this.gridDetails.Name = "gridDetails";
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
-            this.gridDetails.Size = new System.Drawing.Size(690, 650);
+            this.gridDetails.Size = new System.Drawing.Size(690, 630);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
@@ -980,6 +1005,8 @@
             this.Controls.Add(this.infoStrip2);
             this.Controls.Add(this.mtgCreativeLevel);
             this.Controls.Add(this.lblCreativeLevel);
+            this.Controls.Add(this.mtgIgnoreLevelTypeWhenSorting);
+            this.Controls.Add(this.lblIgnoreLevelTypeWhenSorting);
             this.Controls.Add(this.gridDetails);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1013,6 +1040,8 @@
         private System.Windows.Forms.NotifyIcon trayIcon;
         private MetroFramework.Controls.MetroToggle mtgCreativeLevel;
         private System.Windows.Forms.Label lblCreativeLevel;
+        private MetroFramework.Controls.MetroToggle mtgIgnoreLevelTypeWhenSorting;
+        private System.Windows.Forms.Label lblIgnoreLevelTypeWhenSorting;
         private FallGuysStats.Grid gridDetails;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;
