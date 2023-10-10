@@ -875,8 +875,10 @@ namespace FallGuysStats {
                 } else if (c1 is MetroToggle mt1) {
                     mt1.Theme = theme;
                 } else if (c1 is Label lbl1) {
-                    lbl1.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
-                    lbl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
+                    if (lbl1.Name.Equals("lblCreativeLevel") || lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
+                        lbl1.Font = Overlay.GetMainFont(13f);
+                        lbl1.ForeColor = Color.DimGray;
+                    }
                 }
             }
             
@@ -3646,7 +3648,7 @@ namespace FallGuysStats {
         private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             this.VisibleGridRowOfCreativeLevel(mtgChecked);
-            this.lblCreativeLevel.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblCreativeLevel.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
         }
@@ -3655,7 +3657,7 @@ namespace FallGuysStats {
         }
         private void mtgIgnoreLevelTypeWhenSorting_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = mtgChecked;
             this.SortGridDetails(true);
             this.SaveUserSettings();
@@ -4061,9 +4063,9 @@ namespace FallGuysStats {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             this.gridDetails.Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
-            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? (this.Theme == MetroThemeStyle.Light ? Color.DarkCyan : Color.SeaGreen) : (this.Theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray);
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
         }
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;

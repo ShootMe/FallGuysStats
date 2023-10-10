@@ -144,7 +144,6 @@
             // 
             this.lblCreativeLevel.AutoSize = true;
             this.lblCreativeLevel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCreativeLevel.ForeColor = System.Drawing.Color.Teal;
             this.lblCreativeLevel.Location = new System.Drawing.Point(38, 176);
             this.lblCreativeLevel.Name = "lblCreativeLevel";
             this.lblCreativeLevel.Size = new System.Drawing.Size(0, 12);
@@ -167,7 +166,6 @@
             // 
             this.lblIgnoreLevelTypeWhenSorting.AutoSize = true;
             this.lblIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = System.Drawing.Color.Teal;
             this.lblIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(38, 154);
             this.lblIgnoreLevelTypeWhenSorting.Name = "lblIgnoreLevelTypeWhenSorting";
             this.lblIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(0, 12);
