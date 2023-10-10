@@ -3842,7 +3842,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Name":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Regular, CurrentLanguage);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, CurrentLanguage);
                         e.CellStyle.ForeColor = Color.Black;
                         // e.CellStyle.ForeColor = this.GetComplementaryColor(e.CellStyle.BackColor);
                         if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
@@ -3897,7 +3897,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Played":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(0 * fBrightness), (int)(126 * fBrightness), (int)(222 * fBrightness))
@@ -3905,7 +3905,7 @@ namespace FallGuysStats {
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "Qualified":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(255 * fBrightness), (int)(20 * fBrightness), (int)(147 * fBrightness))
@@ -3920,7 +3920,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Gold":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(255 * fBrightness), (int)(215 * fBrightness), (int)(0 * fBrightness))
@@ -3935,7 +3935,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Silver":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.3f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(192 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
@@ -3950,7 +3950,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Bronze":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(205 * fBrightness), (int)(127 * fBrightness), (int)(50 * fBrightness))
@@ -3965,7 +3965,7 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Kudos":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(218 * fBrightness), (int)(112 * fBrightness), (int)(214 * fBrightness))
@@ -3973,7 +3973,7 @@ namespace FallGuysStats {
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
@@ -3981,7 +3981,7 @@ namespace FallGuysStats {
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
@@ -3989,7 +3989,7 @@ namespace FallGuysStats {
                         e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
                         break;
                     case "Longest":
-                        e.CellStyle.Font = Overlay.GetMainFont(13f, FontStyle.Bold);
+                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
                             ? Color.FromArgb((int)(0 * fBrightness), (int)(192 * fBrightness), (int)(192 * fBrightness))
