@@ -246,14 +246,19 @@ namespace FallGuysStats {
             StringBuilder builder = new StringBuilder();
             builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
             builder.Append((this.MyScatterPlot1.IsVisible ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
-            builder.Append((this.MyScatterPlot2.IsVisible ? $" - {Multilingual.GetWord("level_detail_finals")} :  ⟪ {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
-            builder.Append((this.MyScatterPlot3.IsVisible ? $" - {Multilingual.GetWord("level_detail_wins")} :  ⟪ {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫" : ""));
+            builder.Append((this.MyScatterPlot2.IsVisible ? $" - {Multilingual.GetWord("level_detail_finals")} :  ⟪ {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} / {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10} % ⟫{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
+            builder.Append((this.MyScatterPlot3.IsVisible ? $" - {Multilingual.GetWord("level_detail_wins")} :  ⟪ {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} / {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10} % ⟫" : ""));
             if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
                 SortedList<string, int> infos = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
                 int winsCount = infos.Where(kv => kv.Key.EndsWith(";crown")).Sum(kv => kv.Value);
                 int lossesCount = infos.Where(kv => kv.Key.EndsWith(";eliminated")).Sum(kv => kv.Value);
-                builder.Append($"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫");
+                int winLevelCount = infos.Keys.Count(s => s.EndsWith(";crown"));
+                int lossLevelCount = infos.Keys.Count(s => s.EndsWith(";eliminated"));
+                int levelCount = winLevelCount > lossLevelCount ? winLevelCount : lossLevelCount;
+                
+                builder.Append($"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫{Environment.NewLine}");
                 string prevLevel = string.Empty;
+                int index = 0;
                 foreach (KeyValuePair<string, int> kv in infos) {
                     if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
                         builder.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
@@ -263,9 +268,25 @@ namespace FallGuysStats {
                     if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
                         builder.Append(" ⟩");
                     }
-                    builder.Append(Environment.NewLine);
-                    builder.Append($"   •  {kv.Key.Split(';')[0]} :  ⟨ {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+
+                    if (index > 0) {
+                        if (levelCount > 10) {
+                            if (index % 2 == 0) {
+                                builder.Append(Environment.NewLine);
+                                builder.Append("   •  ");
+                            } else {
+                                builder.Append("      •  ");
+                            }
+                        } else {
+                            builder.Append($"{Environment.NewLine}");
+                            builder.Append("   •  ");
+                        }
+                    } else {
+                        builder.Append("   •  ");
+                    }
+                    builder.Append($"{kv.Key.Split(';')[0]} :  ⟨ {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
                     prevLevel = kv.Key.Split(';')[0];
+                    index++;
                 }
                 builder.Append(" ⟩");
             }
