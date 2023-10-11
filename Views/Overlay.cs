@@ -848,7 +848,7 @@ namespace FallGuysStats {
                             this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                         }
                     }
-                } else if (this.lastRound.IsPlaying && Stats.IsPlaying) {
+                } else if (this.lastRound.Playing && Stats.IsPlaying) {
                     if (this.lastRound.UseShareCode) {
                         if (this.lastRound.CreativeTimeLimitSeconds > 0) {
                             this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start)):m\\:ss}";
@@ -886,7 +886,7 @@ namespace FallGuysStats {
                     DateTime? finish = this.lastRound.Finish;
                     if (finish.HasValue) {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
-                        if (this.lastRound.IsCrown) {
+                        if (this.lastRound.Crown) {
                             this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
                         } else {
                             if (levelType == LevelType.Survival) {
@@ -909,7 +909,7 @@ namespace FallGuysStats {
                         } else if (time > levelInfo.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.Gold;
                         }
-                    } else if (this.lastRound.IsPlaying && Stats.IsPlaying) {
+                    } else if (this.lastRound.Playing && Stats.IsPlaying) {
                         this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - this.startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                     } else {
                         this.lblFinish.TextRight = "-";
@@ -946,7 +946,7 @@ namespace FallGuysStats {
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.lastRound.ShowNameId : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
@@ -966,11 +966,11 @@ namespace FallGuysStats {
                         this.switchCount++;
                     }
 
-                    if (this.lastRound.IsPlaying != this.startedPlaying) {
-                        if (this.lastRound.IsPlaying) {
+                    if (this.lastRound.Playing != this.startedPlaying) {
+                        if (this.lastRound.Playing) {
                             this.startTime = DateTime.UtcNow;
                         }
-                        this.startedPlaying = this.lastRound.IsPlaying;
+                        this.startedPlaying = this.lastRound.Playing;
                     }
                     
                     this.SetFinishLabel(levelSummary, levelType, overlaySetting);

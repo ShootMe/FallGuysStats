@@ -14,6 +14,8 @@ namespace FallGuysStats {
         public string CreativeStatus { get; set; }
         public string CreativeAuthor { get; set; }
         public string CreativeOnlinePlatformId { get; set; }
+        //public string CreativeNicknameContentId { get; set; }
+        //public string CreativeNameplateContentId { get; set; }
         public int CreativeVersion { get; set; }
         public string CreativeTitle { get; set; }
         public string CreativeDescription { get; set; }
@@ -28,7 +30,7 @@ namespace FallGuysStats {
         public int Position { get; set; }
         public int? Score { get; set; }
         public int Tier { get; set; }
-        public bool IsQualified { get; set; }
+        public bool Qualified { get; set; }
         public int Kudos { get; set; }
         public int Players { get; set; }
         public int PlayersPs4 { get; set; }
@@ -42,25 +44,25 @@ namespace FallGuysStats {
         public bool InParty { get; set; }
         public bool IsFinal { get; set; }
         public bool IsTeam { get; set; }
-        public bool IsPrivateLobby { get; set; }
+        public bool PrivateLobby { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
-        public DateTime? Finish { get; set; }
-        public bool IsCrown { get; set; }
-        public bool IsPlaying { get; set; }
+        public DateTime? Finish { get; set; } = null;
+        public bool Crown { get; set; }
         public bool IsAbandon { get; set; }
-        public DateTime StartLocal { get; set; }
-        public DateTime EndLocal { get; set; }
-        public DateTime? FinishLocal { get; set; }
-        public DateTime ShowStart { get; set; } = DateTime.MinValue;
-        public DateTime ShowEnd { get; set; } = DateTime.MinValue;
-        public int GameDuration { get; set; }
-        public string SceneName { get; set; }
-        private bool IsSetLocalTime { get; set; }
+        public DateTime StartLocal;
+        public DateTime EndLocal;
+        public DateTime? FinishLocal;
+        public DateTime ShowStart = DateTime.MinValue;
+        public DateTime ShowEnd = DateTime.MinValue;
+        public int GameDuration;
+        public string SceneName;
+        public bool Playing;
+        private bool setLocalTime;
 
         public void ToLocalTime() {
-            if (this.IsSetLocalTime) { return; }
-            this.IsSetLocalTime = true;
+            if (this.setLocalTime) { return; }
+            this.setLocalTime = true;
 
             this.StartLocal = this.Start.ToLocalTime();
             this.EndLocal = this.End.ToLocalTime();
@@ -99,7 +101,7 @@ namespace FallGuysStats {
                    && info.PlayersBots == this.PlayersBots
                    && info.PlayersEtc == this.PlayersEtc
                    && info.Position == this.Position
-                   && info.IsQualified == this.IsQualified
+                   && info.Qualified == this.Qualified
                    && info.Round == this.Round
                    && info.Score == this.Score
                    && info.ShowID == this.ShowID
@@ -253,8 +255,8 @@ namespace FallGuysStats {
             { "wle_s10_player_round_wk6_10",       new LevelStats("wle_s10_player_round_wk6_10", "Forked Passage", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_12",       new LevelStats("wle_s10_player_round_wk6_12", "The Bee Hive", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_13",       new LevelStats("wle_s10_player_round_wk6_13", "Yeets & Ladders", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_player_round_wk6_14",       new LevelStats("wle_s10_player_round_wk6_14", "Snek", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "wle_s10_player_round_wk6_15",       new LevelStats("wle_s10_player_round_wk6_15", "SCHOOL OF FISH", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk6_14",       new LevelStats("wle_s10_player_round_wk6_14", "Snek", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk6_15",       new LevelStats("wle_s10_player_round_wk6_15", "SCHOOL OF FISH", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_17",       new LevelStats("wle_s10_player_round_wk6_17", "Slippery Helixes", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_18",       new LevelStats("wle_s10_player_round_wk6_18", "Recess", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_19",       new LevelStats("wle_s10_player_round_wk6_19", "Parrot river", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
@@ -348,53 +350,53 @@ namespace FallGuysStats {
             
             { "current_wle_fp4_06_01",             new LevelStats("current_wle_fp4_06_01", "PENTAGON CIRCUIT", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_06_02",             new LevelStats("current_wle_fp4_06_02", "Pachislo", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_0_01",           new LevelStats("current_wle_fp4_06_0_01", "AquArsene", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_0_02",           new LevelStats("current_wle_fp4_06_0_02", "RainbowCloud", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_0_03",           new LevelStats("current_wle_fp4_06_0_03", "Pink Cascade", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_0_04",           new LevelStats("current_wle_fp4_06_0_04", "Conveyor Conundrum", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_0_05",           new LevelStats("current_wle_fp4_06_0_05", "RICKETY STRAWBRIDGE", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_0_01",           new LevelStats("current_wle_fp4_06_0_01", "AquArsene", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_0_02",           new LevelStats("current_wle_fp4_06_0_02", "RainbowCloud", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_0_03",           new LevelStats("current_wle_fp4_06_0_03", "Pink Cascade", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_0_04",           new LevelStats("current_wle_fp4_06_0_04", "Conveyor Conundrum", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_0_05",           new LevelStats("current_wle_fp4_06_0_05", "RICKETY STRAWBRIDGE", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_06_0_10_01",        new LevelStats("current_wle_fp4_06_0_10_01", "The Bee Hive", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_01",           new LevelStats("current_wle_fp4_06_1_01", "Buggin' Out", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_02",           new LevelStats("current_wle_fp4_06_1_02", "RISE AND SLIDE", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_03",           new LevelStats("current_wle_fp4_06_1_03", "Bean Mini Golf", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_04",           new LevelStats("current_wle_fp4_06_1_04", "Youpii Youpii", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_05",           new LevelStats("current_wle_fp4_06_1_05", "The climb of Trials", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_06_1_06",           new LevelStats("current_wle_fp4_06_1_06", "Bouncy Castle", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_01",           new LevelStats("current_wle_fp4_06_1_01", "Buggin' Out", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_02",           new LevelStats("current_wle_fp4_06_1_02", "RISE AND SLIDE", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_03",           new LevelStats("current_wle_fp4_06_1_03", "Bean Mini Golf", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_04",           new LevelStats("current_wle_fp4_06_1_04", "Youpii Youpii", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_05",           new LevelStats("current_wle_fp4_06_1_05", "The climb of Trials", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_06_1_06",           new LevelStats("current_wle_fp4_06_1_06", "Bouncy Castle", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
-            { "current_wle_fp4_07_01",             new LevelStats("current_wle_fp4_07_01", "Rotational Runner", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_02",             new LevelStats("current_wle_fp4_07_02", "SPIRAL DASH ROAD", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_03",             new LevelStats("current_wle_fp4_07_03", "simple stage", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_04",             new LevelStats("current_wle_fp4_07_04", "Slip Slide Jump and Run", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_05",             new LevelStats("current_wle_fp4_07_05", "Factory Valley", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_06",             new LevelStats("current_wle_fp4_07_06", "Jumpy Beans", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_07_07",             new LevelStats("current_wle_fp4_07_07", "Slimetastic Stumble", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_01",             new LevelStats("current_wle_fp4_07_01", "Rotational Runner", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_02",             new LevelStats("current_wle_fp4_07_02", "SPIRAL DASH ROAD", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_03",             new LevelStats("current_wle_fp4_07_03", "simple stage", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_04",             new LevelStats("current_wle_fp4_07_04", "Slip Slide Jump and Run", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_05",             new LevelStats("current_wle_fp4_07_05", "Factory Valley", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_06",             new LevelStats("current_wle_fp4_07_06", "Jumpy Beans", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_07_07",             new LevelStats("current_wle_fp4_07_07", "Slimetastic Stumble", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_07_0_01",           new LevelStats("current_wle_fp4_07_0_01", "Camino Ninja", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "current_wle_fp4_08_01",             new LevelStats("current_wle_fp4_08_01", "co-op guys", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_01",           new LevelStats("current_wle_fp4_08_0_01", "The big slide", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_02",           new LevelStats("current_wle_fp4_08_0_02", "Freefall Mountain", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_03",           new LevelStats("current_wle_fp4_08_0_03", "Hazy Stairways", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_04",           new LevelStats("current_wle_fp4_08_0_04", "Pillar Promenade", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_05",           new LevelStats("current_wle_fp4_08_0_05", "Hidden Treasure of Magical Castle", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_06",           new LevelStats("current_wle_fp4_08_0_06", "X-Course", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_0_07",           new LevelStats("current_wle_fp4_08_0_07", "Speed Gauntlet", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_1_01",           new LevelStats("current_wle_fp4_08_1_01", "Boost in Dash", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_1_02",           new LevelStats("current_wle_fp4_08_1_02", "Rainbow Raceway", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_1_03",           new LevelStats("current_wle_fp4_08_1_03", "Giddy up!", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_1_04",           new LevelStats("current_wle_fp4_08_1_04", "Mad lab", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_01",           new LevelStats("current_wle_fp4_08_0_01", "The big slide", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_02",           new LevelStats("current_wle_fp4_08_0_02", "Freefall Mountain", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_03",           new LevelStats("current_wle_fp4_08_0_03", "Hazy Stairways", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_04",           new LevelStats("current_wle_fp4_08_0_04", "Pillar Promenade", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_05",           new LevelStats("current_wle_fp4_08_0_05", "Hidden Treasure of Magical Castle", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_06",           new LevelStats("current_wle_fp4_08_0_06", "X-Course", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_0_07",           new LevelStats("current_wle_fp4_08_0_07", "Speed Gauntlet", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_1_01",           new LevelStats("current_wle_fp4_08_1_01", "Boost in Dash", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_1_02",           new LevelStats("current_wle_fp4_08_1_02", "Rainbow Raceway", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_1_03",           new LevelStats("current_wle_fp4_08_1_03", "Giddy up!", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_1_04",           new LevelStats("current_wle_fp4_08_1_04", "Mad lab", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_08_2_01",           new LevelStats("current_wle_fp4_08_2_01", "Convoluted Conveyors", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_08_3_01",           new LevelStats("current_wle_fp4_08_3_01", "The Oasis", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_08_3_01",           new LevelStats("current_wle_fp4_08_3_01", "The Oasis", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "current_wle_fp4_09_01",             new LevelStats("current_wle_fp4_09_01", "Crate Collector", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_09_02",             new LevelStats("current_wle_fp4_09_02", "Dribble Drills", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_09_03",             new LevelStats("current_wle_fp4_09_03", "Spinning Slide Dodge", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_03",             new LevelStats("current_wle_fp4_09_03", "Spinning Slide Dodge", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_09_04",             new LevelStats("current_wle_fp4_09_04", "Skyline Park", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_09_05",             new LevelStats("current_wle_fp4_09_05", "Birthday bonanza", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_09_06",             new LevelStats("current_wle_fp4_09_06", "The Chaotic Waterfall", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_06",             new LevelStats("current_wle_fp4_09_06", "The Chaotic Waterfall", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_09_0_01",           new LevelStats("current_wle_fp4_09_0_01", "ICY PEAKS", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_09_1_01",           new LevelStats("current_wle_fp4_09_1_01", "Push-Box Chaos", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_09_1_02",           new LevelStats("current_wle_fp4_09_1_02", "Haute voltige", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
-            { "current_wle_fp4_09_2_01",           new LevelStats("current_wle_fp4_09_2_01", "DNA Test", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_1_01",           new LevelStats("current_wle_fp4_09_1_01", "Push-Box Chaos", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_1_02",           new LevelStats("current_wle_fp4_09_1_02", "Haute voltige", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "current_wle_fp4_09_2_01",           new LevelStats("current_wle_fp4_09_2_01", "DNA Test", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "current_wle_fp4_10_01",             new LevelStats("current_wle_fp4_10_01", "Bouncy Box Boulevard 3 Extreme Delivery", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp4_10_02",             new LevelStats("current_wle_fp4_10_02", "Hot Blast", LevelType.Race, true, false, 10, 360, 360, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
@@ -723,7 +725,7 @@ namespace FallGuysStats {
             this.Stats.Clear();
         }
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
-            if (!stat.IsPrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
+            if (!stat.PrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
                 this.Played++;
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {
@@ -739,12 +741,12 @@ namespace FallGuysStats {
                 }
 
                 this.Kudos += stat.Kudos;
-                this.Qualified += stat.IsQualified ? 1 : 0;
+                this.Qualified += stat.Qualified ? 1 : 0;
             }
 
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.Start) - stat.Start;
             if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
-                if (!stat.IsPrivateLobby) {
+                if (!stat.PrivateLobby) {
                     this.FinishedCount++;
                     this.FinishTime += finishTime;
                 }

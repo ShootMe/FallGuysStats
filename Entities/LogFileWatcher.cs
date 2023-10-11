@@ -370,59 +370,67 @@ namespace FallGuysStats {
             {"round_thin_ice_event_only_final", "round_thin_ice"},
             
             // Digi's Shuffle Selection
-            {"mrs_wle_fp4_06_0_01", "current_wle_fp4_06_0_01"},
-            {"mrs_wle_fp4_06_0_02", "current_wle_fp4_06_0_02"},
-            {"mrs_wle_fp4_06_0_04", "current_wle_fp4_06_0_04"},
-            {"mrs_wle_fp4_06_1_02", "current_wle_fp4_06_1_02"},
-            {"mrs_wle_fp4_06_1_03", "current_wle_fp4_06_1_03"},
-            {"mrs_wle_fp4_06_1_06", "current_wle_fp4_06_1_06"},
-            {"mrs_wle_fp4_07_01", "current_wle_fp4_07_01"},
-            {"mrs_wle_fp4_07_02", "current_wle_fp4_07_02"},
-            {"mrs_wle_fp4_07_04", "current_wle_fp4_07_04"},
-            {"mrs_wle_fp4_07_05", "current_wle_fp4_07_05"},
-            {"mrs_wle_fp4_07_06", "current_wle_fp4_07_06"},
-            {"mrs_wle_fp4_08_0_01", "current_wle_fp4_08_0_01"},
-            {"mrs_wle_fp4_08_0_02", "current_wle_fp4_08_0_02"},
-            {"mrs_wle_fp4_08_0_04", "current_wle_fp4_08_0_04"},
-            {"mrs_wle_fp4_08_0_05", "current_wle_fp4_08_0_05"},
-            {"mrs_wle_fp4_08_1_02", "current_wle_fp4_08_1_02"},
-            {"mrs_wle_fp4_08_1_04", "current_wle_fp4_08_1_04"},
-            {"mrs_wle_fp4_08_3_01", "current_wle_fp4_08_3_01"},
-            {"mrs_wle_fp4_09_01", "current_wle_fp4_09_01"},
-            {"mrs_wle_fp4_09_02", "current_wle_fp4_09_02"},
-            {"mrs_wle_fp4_09_06", "current_wle_fp4_09_06"},
-            {"mrs_wle_fp4_09_1_01", "current_wle_fp4_09_1_01"},
-            {"mrs_wle_fp4_09_1_02", "current_wle_fp4_09_1_02"},
-            {"mrs_wle_fp4_09_2_01", "current_wle_fp4_09_2_01"},
-            {"mrs_wle_fp4_10_04", "current_wle_fp4_10_04"},
-            {"mrs_wle_fp4_10_05", "current_wle_fp4_10_05"},
-            {"mrs_wle_s10_player_round_wk6_14", "wle_s10_player_round_wk6_14"},
-            {"mrs_wle_s10_player_round_wk6_15", "wle_s10_player_round_wk6_15"},
-            {"mrs_wle_fp4_10_07", "current_wle_fp4_10_07"},
-            {"mrs_wle_fp4_10_02", "current_wle_fp4_10_02"},
-            {"mrs_wle_fp4_10_08", "current_wle_fp4_10_08"},
-            {"mrs_wle_fp4_10_01", "current_wle_fp4_10_01"},
-            {"mrs_wle_fp4_10_03", "current_wle_fp4_10_03"},
-            {"mrs_wle_fp4_10_06", "current_wle_fp4_10_06"},
-            {"mrs_wle_fp4_09_05", "current_wle_fp4_09_05"},
-            {"mrs_wle_fp4_09_04", "current_wle_fp4_09_04"},
-            {"mrs_wle_fp4_09_03", "current_wle_fp4_09_03"},
-            {"mrs_wle_fp4_08_1_01", "current_wle_fp4_08_1_01"},
-            {"mrs_wle_fp4_08_0_06", "current_wle_fp4_08_0_06"},
-            {"mrs_wle_fp4_08_0_03", "current_wle_fp4_08_0_03"},
-            {"mrs_wle_fp4_08_1_03", "current_wle_fp4_08_1_03"},
-            {"mrs_wle_fp4_08_0_07", "current_wle_fp4_08_0_07"},
-            {"mrs_wle_fp4_07_03", "current_wle_fp4_07_03"},
-            {"mrs_wle_fp4_07_07", "current_wle_fp4_07_07"},
-            {"mrs_wle_fp4_06_0_03", "current_wle_fp4_06_0_03"},
-            {"mrs_wle_fp4_06_0_05", "current_wle_fp4_06_0_05"},
-            {"mrs_wle_fp4_06_1_01", "current_wle_fp4_06_1_01"},
-            {"mrs_wle_fp4_06_1_04", "current_wle_fp4_06_1_04"},
-            {"mrs_wle_fp4_06_1_05", "current_wle_fp4_06_1_05"},
+            // {"mrs_wle_fp4_06_0_01", "current_wle_fp4_06_0_01"},
+            // {"mrs_wle_fp4_06_0_02", "current_wle_fp4_06_0_02"},
+            // {"mrs_wle_fp4_06_0_04", "current_wle_fp4_06_0_04"},
+            // {"mrs_wle_fp4_06_1_02", "current_wle_fp4_06_1_02"},
+            // {"mrs_wle_fp4_06_1_03", "current_wle_fp4_06_1_03"},
+            // {"mrs_wle_fp4_06_1_06", "current_wle_fp4_06_1_06"},
+            // {"mrs_wle_fp4_07_01", "current_wle_fp4_07_01"},
+            // {"mrs_wle_fp4_07_02", "current_wle_fp4_07_02"},
+            // {"mrs_wle_fp4_07_04", "current_wle_fp4_07_04"},
+            // {"mrs_wle_fp4_07_05", "current_wle_fp4_07_05"},
+            // {"mrs_wle_fp4_07_06", "current_wle_fp4_07_06"},
+            // {"mrs_wle_fp4_08_0_01", "current_wle_fp4_08_0_01"},
+            // {"mrs_wle_fp4_08_0_02", "current_wle_fp4_08_0_02"},
+            // {"mrs_wle_fp4_08_0_04", "current_wle_fp4_08_0_04"},
+            // {"mrs_wle_fp4_08_0_05", "current_wle_fp4_08_0_05"},
+            // {"mrs_wle_fp4_08_1_02", "current_wle_fp4_08_1_02"},
+            // {"mrs_wle_fp4_08_1_04", "current_wle_fp4_08_1_04"},
+            // {"mrs_wle_fp4_08_3_01", "current_wle_fp4_08_3_01"},
+            // {"mrs_wle_fp4_09_01", "current_wle_fp4_09_01"},
+            // {"mrs_wle_fp4_09_02", "current_wle_fp4_09_02"},
+            // {"mrs_wle_fp4_09_06", "current_wle_fp4_09_06"},
+            // {"mrs_wle_fp4_09_1_01", "current_wle_fp4_09_1_01"},
+            // {"mrs_wle_fp4_09_1_02", "current_wle_fp4_09_1_02"},
+            // {"mrs_wle_fp4_09_2_01", "current_wle_fp4_09_2_01"},
+            // {"mrs_wle_fp4_10_04", "current_wle_fp4_10_04"},
+            // {"mrs_wle_fp4_10_05", "current_wle_fp4_10_05"},
+            // {"mrs_wle_s10_player_round_wk6_14", "wle_s10_player_round_wk6_14"},
+            // {"mrs_wle_s10_player_round_wk6_15", "wle_s10_player_round_wk6_15"},
+            // {"mrs_wle_fp4_09_03", "current_wle_fp4_09_03"},
+            // {"mrs_wle_fp4_10_01", "current_wle_fp4_10_01"},
+            // {"mrs_wle_fp4_10_02", "current_wle_fp4_10_02"},
+            // {"mrs_wle_fp4_10_03", "current_wle_fp4_10_03"},
+            // {"mrs_wle_fp4_09_04", "current_wle_fp4_09_04"},
+            // {"mrs_wle_fp4_09_05", "current_wle_fp4_09_05"},
+            // {"mrs_wle_fp4_10_06", "current_wle_fp4_10_06"},
+            // {"mrs_wle_fp4_10_07", "current_wle_fp4_10_07"},
+            // {"mrs_wle_fp4_10_08", "current_wle_fp4_10_08"},
+            // {"mrs_wle_fp4_08_0_03", "current_wle_fp4_08_0_03"},
+            // {"mrs_wle_fp4_08_0_06", "current_wle_fp4_08_0_06"},
+            // {"mrs_wle_fp4_08_0_07", "current_wle_fp4_08_0_07"},
+            // {"mrs_wle_fp4_08_1_01", "current_wle_fp4_08_1_01"},
+            // {"mrs_wle_fp4_08_1_03", "current_wle_fp4_08_1_03"},
+            // {"mrs_wle_fp4_07_03", "current_wle_fp4_07_03"},
+            // {"mrs_wle_fp4_07_07", "current_wle_fp4_07_07"},
+            // {"mrs_wle_fp4_06_0_03", "current_wle_fp4_06_0_03"},
+            // {"mrs_wle_fp4_06_0_05", "current_wle_fp4_06_0_05"},
+            // {"mrs_wle_fp4_06_1_01", "current_wle_fp4_06_1_01"},
+            // {"mrs_wle_fp4_06_1_04", "current_wle_fp4_06_1_04"},
+            // {"mrs_wle_fp4_06_1_05", "current_wle_fp4_06_1_05"},
         };
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
+        private string ReplaceCreativeLevel(string roundId) {
+            if (roundId.StartsWith("mrs_wle_fp")) {
+                return $"current{roundId.Substring(3)}";
+            } else if (roundId.StartsWith("mrs_wle_s10_player_round_wk")) {
+                return roundId.Substring(4);
+            }
+            return roundId;
+        }
         private bool IsCreativeFinalRound(string showId, string roundId) {
             return (((showId.StartsWith("show_wle_s10_wk") && !showId.EndsWith("_mrs")) ||
                      showId.StartsWith("wle_s10_player_round_wk") ||
@@ -764,11 +772,13 @@ namespace FallGuysStats {
 
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
+                } else {
+                    logRound.Info.Name = this.ReplaceCreativeLevel(logRound.Info.Name);
                 }
                 logRound.Info.Round = round.Count;
                 logRound.Info.Start = line.Date;
                 logRound.Info.InParty = logRound.CurrentlyInParty;
-                logRound.Info.IsPrivateLobby = logRound.PrivateLobby;
+                logRound.Info.PrivateLobby = logRound.PrivateLobby;
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
@@ -778,7 +788,7 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.IsPlaying = false;
+                    logRound.Info.Playing = false;
                 }
                 logRound.CountingPlayers = false;
                 logRound.FindingPosition = false;
@@ -841,7 +851,7 @@ namespace FallGuysStats {
                        line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
                 Stats.IsPlaying = true;
                 logRound.Info.Start = line.Date;
-                logRound.Info.IsPlaying = true;
+                logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
             } else if (logRound.Info != null && (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) >= 0)) {
                         //|| line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) >= 0
@@ -852,7 +862,7 @@ namespace FallGuysStats {
                 if (logRound.Info.End == DateTime.MinValue) {
                     logRound.Info.End = line.Date;
                 }
-                logRound.Info.IsPlaying = false;
+                logRound.Info.Playing = false;
             } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
@@ -862,7 +872,7 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.IsPlaying = false;
+                    logRound.Info.Playing = false;
                 }
                 logRound.PrivateLobby = false;
                 logRound.FindingPosition = false;
@@ -871,14 +881,14 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.IsPlaying = false;
+                    logRound.Info.Playing = false;
                     if (!Stats.EndedShow) {
                         DateTime showStart = DateTime.MinValue;
                         DateTime showEnd = logRound.Info.End;
                         for (int i = 0; i < round.Count; i++) {
                             if (string.IsNullOrEmpty(round[i].Name)) {
                                 if (i != 0) {
-                                    round[i - 1].IsQualified = false;
+                                    round[i - 1].Qualified = false;
                                 }
                                 round.RemoveAt(i);
                                 logRound.Info = null;
@@ -892,7 +902,7 @@ namespace FallGuysStats {
                                 showStart = round[i].Start;
                             }
                             round[i].ShowStart = showStart;
-                            round[i].IsPlaying = false;
+                            round[i].Playing = false;
                             round[i].Round = i + 1;
                             if (round[i].End == DateTime.MinValue) {
                                 round[i].End = line.Date;
@@ -901,7 +911,7 @@ namespace FallGuysStats {
                                 round[i].Start = round[i].End;
                             }
                             if (i < (round.Count - 1)) {
-                                round[i].IsQualified = true;
+                                round[i].Qualified = true;
                                 round[i].IsAbandon = true;
                             } else if (round[i].UseShareCode && round[i].Finish.HasValue) {
                                 if (round[i].Position > 0) {
@@ -915,12 +925,12 @@ namespace FallGuysStats {
                                     } else if (rankPercentage > 50d) {
                                         round[i].Tier = 0; //pink
                                     }
-                                    round[i].IsQualified = true;
-                                    round[i].IsCrown = true;
+                                    round[i].Qualified = true;
+                                    round[i].Crown = true;
                                 } else {
                                     round[i].Tier = 0;
-                                    round[i].IsQualified = false;
-                                    round[i].IsCrown = false;
+                                    round[i].Qualified = false;
+                                    round[i].Crown = false;
                                     round[i].Finish = null;
                                 }
                             } else {
@@ -943,10 +953,10 @@ namespace FallGuysStats {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (round.Count > 0) {
                     foreach (RoundInfo temp in round) {
-                        temp.IsPlaying = false;
+                        temp.Playing = false;
                         temp.ShowStart = temp.Start;
                         
-                        logRound.PrivateLobby = temp.IsPrivateLobby;
+                        logRound.PrivateLobby = temp.PrivateLobby;
                         logRound.CurrentlyInParty = temp.InParty;
                         
                         if (temp.End == DateTime.MinValue) {
@@ -974,18 +984,18 @@ namespace FallGuysStats {
                                 } else if (rankPercentage > 50d) {
                                     temp.Tier = 0; //pink
                                 }
-                                temp.IsQualified = true;
-                                temp.IsCrown = true;
+                                temp.Qualified = true;
+                                temp.Crown = true;
                             } else {
                                 temp.Tier = 0;
-                                temp.IsQualified = false;
-                                temp.IsCrown = false;
+                                temp.Qualified = false;
+                                temp.Crown = false;
                                 temp.Finish = null;
                             }
                         } else {
                             temp.Tier = 0;
-                            temp.IsQualified = false;
-                            temp.IsCrown = false;
+                            temp.Qualified = false;
+                            temp.Crown = false;
                         }
                     }
                     
@@ -1011,6 +1021,8 @@ namespace FallGuysStats {
                         string roundName = detail.Substring(11, detail.Length - 12);
                         if (_roundNameReplacer.TryGetValue(roundName, out string newName)) {
                             roundName = newName;
+                        } else {
+                            roundName = this.ReplaceCreativeLevel(logRound.Info.Name);
                         }
 
                         if (roundNum - 1 < round.Count) {
@@ -1028,9 +1040,9 @@ namespace FallGuysStats {
                                 showStart = temp.Start;
                             }
                             temp.ShowStart = showStart;
-                            temp.IsPlaying = false;
+                            temp.Playing = false;
                             temp.Round = roundNum;
-                            logRound.PrivateLobby = temp.IsPrivateLobby;
+                            logRound.PrivateLobby = temp.PrivateLobby;
                             logRound.CurrentlyInParty = temp.InParty;
                         } else {
                             return false;
@@ -1052,8 +1064,8 @@ namespace FallGuysStats {
                             temp.Score = int.Parse(detail.Substring(14));
                         } else if (detail.IndexOf("> Qualified: ", StringComparison.OrdinalIgnoreCase) == 0) {
                             char qualified = detail[13];
-                            temp.IsQualified = qualified == 'T';
-                            temp.Finish = temp.IsQualified ? temp.Finish : null;
+                            temp.Qualified = qualified == 'T';
+                            temp.Finish = temp.Qualified ? temp.Finish : null;
                         } else if (detail.IndexOf("> Bonus Tier: ", StringComparison.OrdinalIgnoreCase) == 0 && detail.Length == 15) {
                             char tier = detail[14];
                             temp.Tier = (int)tier - 0x30 + 1;
@@ -1080,8 +1092,8 @@ namespace FallGuysStats {
                 for (int i = 0; i < round.Count; i++) {
                     round[i].ShowEnd = showEnd;
                 }
-                if (logRound.Info.IsQualified) {
-                    logRound.Info.IsCrown = true;
+                if (logRound.Info.Qualified) {
+                    logRound.Info.Crown = true;
                 }
                 logRound.Info = null;
                 this.InitStaticVariable();
