@@ -2983,7 +2983,7 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue && LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) {
+            if (OnlineServiceType != OnlineServiceTypes.None && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) && stat.Qualified && stat.Finish.HasValue) {
                 if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                     string[] userInfo = null;
                     if (OnlineServiceType == OnlineServiceTypes.Steam) {
