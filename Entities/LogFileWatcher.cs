@@ -868,12 +868,6 @@ namespace FallGuysStats {
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) >= 0) {
-                if (logRound.Info != null) {
-                    if (logRound.Info.End == DateTime.MinValue) {
-                        logRound.Info.End = line.Date;
-                    }
-                    logRound.Info.Playing = false;
-                }
                 logRound.PrivateLobby = false;
                 logRound.FindingPosition = false;
                 logRound.CountingPlayers = false;
@@ -939,6 +933,9 @@ namespace FallGuysStats {
                             round[i].ShowEnd = showEnd;
                         }
                         logRound.Info = null;
+                        this.InitStaticVariable();
+                        this.toggleRequestCountryInfoApi = false;
+                        this.toggleFgdbCreativeApi = false;
                         Stats.InShow = false;
                         Stats.EndedShow = true;
                         return true;
@@ -1001,6 +998,8 @@ namespace FallGuysStats {
                     
                     logRound.Info = null;
                     this.InitStaticVariable();
+                    this.toggleRequestCountryInfoApi = false;
+                    this.toggleFgdbCreativeApi = false;
                     Stats.InShow = false;
                     Stats.EndedShow = true;
                     return true;
