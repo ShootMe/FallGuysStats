@@ -848,7 +848,7 @@ namespace FallGuysStats {
                             this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                         }
                     }
-                } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                } else if (this.lastRound.IsPlaying && Stats.IsPlaying) {
                     if (this.lastRound.UseShareCode) {
                         if (this.lastRound.CreativeTimeLimitSeconds > 0) {
                             this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start)):m\\:ss}";
@@ -886,7 +886,7 @@ namespace FallGuysStats {
                     DateTime? finish = this.lastRound.Finish;
                     if (finish.HasValue) {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
-                        if (this.lastRound.Crown) {
+                        if (this.lastRound.IsCrown) {
                             this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
                         } else {
                             if (levelType == LevelType.Survival) {
@@ -909,7 +909,7 @@ namespace FallGuysStats {
                         } else if (time > levelInfo.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.Gold;
                         }
-                    } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                    } else if (this.lastRound.IsPlaying && Stats.IsPlaying) {
                         this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - this.startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
                     } else {
                         this.lblFinish.TextRight = "-";
@@ -966,11 +966,11 @@ namespace FallGuysStats {
                         this.switchCount++;
                     }
 
-                    if (this.lastRound.Playing != this.startedPlaying) {
-                        if (this.lastRound.Playing) {
+                    if (this.lastRound.IsPlaying != this.startedPlaying) {
+                        if (this.lastRound.IsPlaying) {
                             this.startTime = DateTime.UtcNow;
                         }
-                        this.startedPlaying = this.lastRound.Playing;
+                        this.startedPlaying = this.lastRound.IsPlaying;
                     }
                     
                     this.SetFinishLabel(levelSummary, levelType, overlaySetting);

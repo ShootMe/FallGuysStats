@@ -768,7 +768,7 @@ namespace FallGuysStats {
                 logRound.Info.Round = round.Count;
                 logRound.Info.Start = line.Date;
                 logRound.Info.InParty = logRound.CurrentlyInParty;
-                logRound.Info.PrivateLobby = logRound.PrivateLobby;
+                logRound.Info.IsPrivateLobby = logRound.PrivateLobby;
                 logRound.Info.GameDuration = logRound.Duration;
                 logRound.CountingPlayers = true;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0 || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
@@ -778,7 +778,7 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.Playing = false;
+                    logRound.Info.IsPlaying = false;
                 }
                 logRound.CountingPlayers = false;
                 logRound.FindingPosition = false;
@@ -841,7 +841,7 @@ namespace FallGuysStats {
                        line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
                 Stats.IsPlaying = true;
                 logRound.Info.Start = line.Date;
-                logRound.Info.Playing = true;
+                logRound.Info.IsPlaying = true;
                 logRound.CountingPlayers = false;
             } else if (logRound.Info != null && (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) >= 0)) {
                         //|| line.Line.IndexOf("Changing local player state to: SpectatingEliminated", StringComparison.OrdinalIgnoreCase) >= 0
@@ -852,7 +852,7 @@ namespace FallGuysStats {
                 if (logRound.Info.End == DateTime.MinValue) {
                     logRound.Info.End = line.Date;
                 }
-                logRound.Info.Playing = false;
+                logRound.Info.IsPlaying = false;
             } else if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
@@ -862,7 +862,7 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.Playing = false;
+                    logRound.Info.IsPlaying = false;
                 }
                 logRound.PrivateLobby = false;
                 logRound.FindingPosition = false;
@@ -871,14 +871,14 @@ namespace FallGuysStats {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
-                    logRound.Info.Playing = false;
+                    logRound.Info.IsPlaying = false;
                     if (!Stats.EndedShow) {
                         DateTime showStart = DateTime.MinValue;
                         DateTime showEnd = logRound.Info.End;
                         for (int i = 0; i < round.Count; i++) {
                             if (string.IsNullOrEmpty(round[i].Name)) {
                                 if (i != 0) {
-                                    round[i - 1].Qualified = false;
+                                    round[i - 1].IsQualified = false;
                                 }
                                 round.RemoveAt(i);
                                 logRound.Info = null;
@@ -892,7 +892,7 @@ namespace FallGuysStats {
                                 showStart = round[i].Start;
                             }
                             round[i].ShowStart = showStart;
-                            round[i].Playing = false;
+                            round[i].IsPlaying = false;
                             round[i].Round = i + 1;
                             if (round[i].End == DateTime.MinValue) {
                                 round[i].End = line.Date;
@@ -901,7 +901,8 @@ namespace FallGuysStats {
                                 round[i].Start = round[i].End;
                             }
                             if (i < (round.Count - 1)) {
-                                round[i].Qualified = true;
+                                round[i].IsQualified = true;
+                                round[i].IsAbandon = true;
                             } else if (round[i].UseShareCode && round[i].Finish.HasValue) {
                                 if (round[i].Position > 0) {
                                     double rankPercentage = (Convert.ToDouble(round[i].Position) / Convert.ToDouble(round[i].Players)) * 100d;
@@ -914,14 +915,16 @@ namespace FallGuysStats {
                                     } else if (rankPercentage > 50d) {
                                         round[i].Tier = 0; //pink
                                     }
-                                    round[i].Qualified = true;
-                                    round[i].Crown = true;
+                                    round[i].IsQualified = true;
+                                    round[i].IsCrown = true;
                                 } else {
                                     round[i].Tier = 0;
-                                    round[i].Qualified = false;
-                                    round[i].Crown = false;
+                                    round[i].IsQualified = false;
+                                    round[i].IsCrown = false;
                                     round[i].Finish = null;
                                 }
+                            } else {
+                                round[i].IsAbandon = true;
                             }
                             round[i].ShowEnd = showEnd;
                         }
@@ -940,10 +943,10 @@ namespace FallGuysStats {
                 if (logRound.Info == null || !logRound.Info.UseShareCode) { return false; }
                 if (round.Count > 0) {
                     foreach (RoundInfo temp in round) {
-                        temp.Playing = false;
+                        temp.IsPlaying = false;
                         temp.ShowStart = temp.Start;
                         
-                        logRound.PrivateLobby = temp.PrivateLobby;
+                        logRound.PrivateLobby = temp.IsPrivateLobby;
                         logRound.CurrentlyInParty = temp.InParty;
                         
                         if (temp.End == DateTime.MinValue) {
@@ -971,18 +974,18 @@ namespace FallGuysStats {
                                 } else if (rankPercentage > 50d) {
                                     temp.Tier = 0; //pink
                                 }
-                                temp.Qualified = true;
-                                temp.Crown = true;
+                                temp.IsQualified = true;
+                                temp.IsCrown = true;
                             } else {
                                 temp.Tier = 0;
-                                temp.Qualified = false;
-                                temp.Crown = false;
+                                temp.IsQualified = false;
+                                temp.IsCrown = false;
                                 temp.Finish = null;
                             }
                         } else {
                             temp.Tier = 0;
-                            temp.Qualified = false;
-                            temp.Crown = false;
+                            temp.IsQualified = false;
+                            temp.IsCrown = false;
                         }
                     }
                     
@@ -1025,9 +1028,9 @@ namespace FallGuysStats {
                                 showStart = temp.Start;
                             }
                             temp.ShowStart = showStart;
-                            temp.Playing = false;
+                            temp.IsPlaying = false;
                             temp.Round = roundNum;
-                            logRound.PrivateLobby = temp.PrivateLobby;
+                            logRound.PrivateLobby = temp.IsPrivateLobby;
                             logRound.CurrentlyInParty = temp.InParty;
                         } else {
                             return false;
@@ -1049,8 +1052,8 @@ namespace FallGuysStats {
                             temp.Score = int.Parse(detail.Substring(14));
                         } else if (detail.IndexOf("> Qualified: ", StringComparison.OrdinalIgnoreCase) == 0) {
                             char qualified = detail[13];
-                            temp.Qualified = qualified == 'T';
-                            temp.Finish = temp.Qualified ? temp.Finish : null;
+                            temp.IsQualified = qualified == 'T';
+                            temp.Finish = temp.IsQualified ? temp.Finish : null;
                         } else if (detail.IndexOf("> Bonus Tier: ", StringComparison.OrdinalIgnoreCase) == 0 && detail.Length == 15) {
                             char tier = detail[14];
                             temp.Tier = (int)tier - 0x30 + 1;
@@ -1077,8 +1080,8 @@ namespace FallGuysStats {
                 for (int i = 0; i < round.Count; i++) {
                     round[i].ShowEnd = showEnd;
                 }
-                if (logRound.Info.Qualified) {
-                    logRound.Info.Crown = true;
+                if (logRound.Info.IsQualified) {
+                    logRound.Info.IsCrown = true;
                 }
                 logRound.Info = null;
                 this.InitStaticVariable();

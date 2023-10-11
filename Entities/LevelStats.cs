@@ -14,8 +14,6 @@ namespace FallGuysStats {
         public string CreativeStatus { get; set; }
         public string CreativeAuthor { get; set; }
         public string CreativeOnlinePlatformId { get; set; }
-        //public string CreativeNicknameContentId { get; set; }
-        //public string CreativeNameplateContentId { get; set; }
         public int CreativeVersion { get; set; }
         public string CreativeTitle { get; set; }
         public string CreativeDescription { get; set; }
@@ -30,7 +28,7 @@ namespace FallGuysStats {
         public int Position { get; set; }
         public int? Score { get; set; }
         public int Tier { get; set; }
-        public bool Qualified { get; set; }
+        public bool IsQualified { get; set; }
         public int Kudos { get; set; }
         public int Players { get; set; }
         public int PlayersPs4 { get; set; }
@@ -44,24 +42,25 @@ namespace FallGuysStats {
         public bool InParty { get; set; }
         public bool IsFinal { get; set; }
         public bool IsTeam { get; set; }
-        public bool PrivateLobby { get; set; }
+        public bool IsPrivateLobby { get; set; }
         public DateTime Start { get; set; } = DateTime.MinValue;
         public DateTime End { get; set; } = DateTime.MinValue;
-        public DateTime? Finish { get; set; } = null;
-        public bool Crown { get; set; }
-        public DateTime StartLocal;
-        public DateTime EndLocal;
-        public DateTime? FinishLocal;
-        public DateTime ShowStart = DateTime.MinValue;
-        public DateTime ShowEnd = DateTime.MinValue;
-        public int GameDuration;
-        public string SceneName;
-        public bool Playing;
-        private bool setLocalTime;
+        public DateTime? Finish { get; set; }
+        public bool IsCrown { get; set; }
+        public bool IsPlaying { get; set; }
+        public bool IsAbandon { get; set; }
+        public DateTime StartLocal { get; set; }
+        public DateTime EndLocal { get; set; }
+        public DateTime? FinishLocal { get; set; }
+        public DateTime ShowStart { get; set; } = DateTime.MinValue;
+        public DateTime ShowEnd { get; set; } = DateTime.MinValue;
+        public int GameDuration { get; set; }
+        public string SceneName { get; set; }
+        private bool IsSetLocalTime { get; set; }
 
         public void ToLocalTime() {
-            if (this.setLocalTime) { return; }
-            this.setLocalTime = true;
+            if (this.IsSetLocalTime) { return; }
+            this.IsSetLocalTime = true;
 
             this.StartLocal = this.Start.ToLocalTime();
             this.EndLocal = this.End.ToLocalTime();
@@ -100,7 +99,7 @@ namespace FallGuysStats {
                    && info.PlayersBots == this.PlayersBots
                    && info.PlayersEtc == this.PlayersEtc
                    && info.Position == this.Position
-                   && info.Qualified == this.Qualified
+                   && info.IsQualified == this.IsQualified
                    && info.Round == this.Round
                    && info.Score == this.Score
                    && info.ShowID == this.ShowID
@@ -724,7 +723,7 @@ namespace FallGuysStats {
             this.Stats.Clear();
         }
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
-            if (!stat.PrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
+            if (!stat.IsPrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
                 this.Played++;
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {
@@ -740,12 +739,12 @@ namespace FallGuysStats {
                 }
 
                 this.Kudos += stat.Kudos;
-                this.Qualified += stat.Qualified ? 1 : 0;
+                this.Qualified += stat.IsQualified ? 1 : 0;
             }
 
             TimeSpan finishTime = stat.Finish.GetValueOrDefault(stat.Start) - stat.Start;
             if (stat.Finish.HasValue && finishTime.TotalSeconds > 1.1) {
-                if (!stat.PrivateLobby) {
+                if (!stat.IsPrivateLobby) {
                     this.FinishedCount++;
                     this.FinishTime += finishTime;
                 }

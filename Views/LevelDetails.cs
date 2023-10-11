@@ -400,7 +400,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
 
             RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
-            if (info.PrivateLobby) { // Custom
+            if (info.IsPrivateLobby) { // Custom
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             }
@@ -420,7 +420,7 @@ namespace FallGuysStats {
             } else if (this._showStats == 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Qualified") { // Shows
                 e.Value = !string.IsNullOrEmpty(info.Name);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Medal" && e.Value == null) {
-                if (info.Qualified) {
+                if (info.IsQualified) {
                     switch (info.Tier) {
                         case 0:
                             this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
@@ -464,7 +464,7 @@ namespace FallGuysStats {
                     e.CellStyle.Font = Overlay.GetMainFont(14f);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.IsPrivateLobby ? c1 : ControlPaint.LightLight(c1);
                 } else if (this._showStats == 2) {
                     e.CellStyle.Font = Overlay.GetMainFont(14f);
                 }
@@ -472,7 +472,7 @@ namespace FallGuysStats {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
                     e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, Stats.CurrentLanguage);
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.IsPrivateLobby ? c1 : ControlPaint.LightLight(c1);
                     e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
                     //gridDetails.Columns[e.ColumnIndex].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
                 }
@@ -603,7 +603,7 @@ namespace FallGuysStats {
                     case "End": return (one.End - one.Start).CompareTo(two.End - two.Start);
                     case "Finish": return one.Finish.HasValue && two.Finish.HasValue ? (one.Finish.Value - one.Start).CompareTo(two.Finish.Value - two.Start) : one.Finish.HasValue ? -1 : 1;
                     case "Qualified":
-                        int qualifiedCompare = this._showStats == 2 ? string.IsNullOrEmpty(one.Name).CompareTo(string.IsNullOrEmpty(two.Name)) : one.Qualified.CompareTo(two.Qualified);
+                        int qualifiedCompare = this._showStats == 2 ? string.IsNullOrEmpty(one.Name).CompareTo(string.IsNullOrEmpty(two.Name)) : one.IsQualified.CompareTo(two.IsQualified);
                         return qualifiedCompare != 0 ? qualifiedCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Position":
                         int positionCompare = one.Position.CompareTo(two.Position);
@@ -612,8 +612,8 @@ namespace FallGuysStats {
                         int scoreCompare = one.Score.GetValueOrDefault(-1).CompareTo(two.Score.GetValueOrDefault(-1));
                         return scoreCompare != 0 ? scoreCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "Medal":
-                        int tierOne = one.Qualified ? one.Tier == 0 ? 4 : one.Tier : 5;
-                        int tierTwo = two.Qualified ? two.Tier == 0 ? 4 : two.Tier : 5;
+                        int tierOne = one.IsQualified ? one.Tier == 0 ? 4 : one.Tier : 5;
+                        int tierTwo = two.IsQualified ? two.Tier == 0 ? 4 : two.Tier : 5;
                         int tierCompare = tierOne.CompareTo(tierTwo);
                         return tierCompare != 0 ? tierCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "IsFinalIcon":

@@ -2767,7 +2767,7 @@ namespace FallGuysStats {
                                 }
                                 
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
-                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, this.IsCreativeShow(stat.ShowNameId));
+                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.IsPrivateLobby, this.IsCreativeShow(stat.ShowNameId));
                                     this.CurrentSettings.SelectedProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
@@ -2856,7 +2856,7 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
-                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.IsPrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
                                     // Task.Run(() => this.FallalyticsRegisterPb(stat));
                                 }
@@ -2865,7 +2865,7 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (!stat.PrivateLobby) {
+                        if (!stat.IsPrivateLobby) {
                             if (stat.Round == 1) {
                                 this.Shows++;
                             }
@@ -2878,8 +2878,8 @@ namespace FallGuysStats {
                         }
                         this.Duration += stat.End - stat.Start;
 
-                        if (!stat.PrivateLobby) {
-                            if (stat.Qualified) {
+                        if (!stat.IsPrivateLobby) {
+                            if (stat.IsQualified) {
                                 switch (stat.Tier) {
                                     case 0:
                                         this.PinkMedals++;
@@ -2898,7 +2898,7 @@ namespace FallGuysStats {
                                 this.EliminatedMedals++;
                             }
                         } else {
-                            if (stat.Qualified) {
+                            if (stat.IsQualified) {
                                 switch (stat.Tier) {
                                     case 0:
                                         this.CustomPinkMedals++;
@@ -2936,10 +2936,10 @@ namespace FallGuysStats {
 
                         stat.ToLocalTime();
                         
-                        if (!stat.PrivateLobby) {
-                            if (stat.IsFinal || stat.Crown) {
+                        if (!stat.IsPrivateLobby) {
+                            if (stat.IsFinal || stat.IsCrown) {
                                 this.Finals++;
-                                if (stat.Qualified) {
+                                if (stat.IsQualified) {
                                     this.Wins++;
                                 }
                             }
@@ -3367,7 +3367,7 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (ReferenceEquals(info, endRound) && (info.IsFinal || info.Crown)) {
+                    if (ReferenceEquals(info, endRound) && (info.IsFinal || info.IsCrown)) {
                         if (info.IsFinal) {
                             summary.CurrentFinalStreak++;
                             if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
@@ -3376,8 +3376,8 @@ namespace FallGuysStats {
                         }
                     }
                     
-                    if (info.Qualified) {
-                        if (hasLevelDetails && (info.IsFinal || info.Crown)) {
+                    if (info.IsQualified) {
+                        if (hasLevelDetails && (info.IsFinal || info.IsCrown)) {
                             summary.AllWins++;
 
                             if (isInWinsFilter) {
@@ -3418,11 +3418,11 @@ namespace FallGuysStats {
                             }
                         }
                     } else {
-                        if (!info.IsFinal && !info.Crown) {
+                        if (!info.IsFinal && !info.IsCrown) {
                             summary.CurrentFinalStreak = 0;
                         }
                         summary.CurrentStreak = 0;
-                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
+                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.IsCrown)) {
                             summary.TotalFinals++;
                         }
                     }
@@ -3450,14 +3450,14 @@ namespace FallGuysStats {
                         endRound = this.AllStats[j];
                     }
 
-                    bool isInWinsFilter = !endRound.PrivateLobby &&
+                    bool isInWinsFilter = !endRound.IsPrivateLobby &&
                                           (this.CurrentSettings.WinsFilter == 0 ||
                                             (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                             (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
                                             (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
                                             (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
                                             (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
-                    bool isInQualifyFilter = !endRound.PrivateLobby &&
+                    bool isInQualifyFilter = !endRound.IsPrivateLobby &&
                                              (this.CurrentSettings.QualifyFilter == 0 ||
                                                (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                                (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
@@ -3491,7 +3491,7 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (ReferenceEquals(info, endRound) && (levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby) {
+                    if (ReferenceEquals(info, endRound) && (levelDetails.IsFinal || info.IsCrown) && !endRound.IsPrivateLobby) {
                         if (info.IsFinal) {
                             summary.CurrentFinalStreak++;
                             if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
@@ -3500,9 +3500,9 @@ namespace FallGuysStats {
                         }
                     }
 
-                    if (info.Qualified) {
-                        if (hasLevelDetails && (info.IsFinal || info.Crown)) {
-                            if (!info.PrivateLobby) {
+                    if (info.IsQualified) {
+                        if (hasLevelDetails && (info.IsFinal || info.IsCrown)) {
+                            if (!info.IsPrivateLobby) {
                                 summary.AllWins++;
                             }
 
@@ -3511,7 +3511,7 @@ namespace FallGuysStats {
                                 summary.TotalFinals++;
                             }
 
-                            if (!info.PrivateLobby) {
+                            if (!info.IsPrivateLobby) {
                                 summary.CurrentStreak++;
                                 if (summary.CurrentStreak > summary.BestStreak) {
                                     summary.BestStreak = summary.CurrentStreak;
@@ -3543,12 +3543,12 @@ namespace FallGuysStats {
                                 summary.LongestFinishOverall = finishTime;
                             }
                         }
-                    } else if (!info.PrivateLobby) {
-                        if (!info.IsFinal && !info.Crown) {
+                    } else if (!info.IsPrivateLobby) {
+                        if (!info.IsFinal && !info.IsCrown) {
                             summary.CurrentFinalStreak = 0;
                         }
                         summary.CurrentStreak = 0;
-                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
+                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.IsCrown)) {
                             summary.TotalFinals++;
                         }
                     }
@@ -4197,8 +4197,8 @@ namespace FallGuysStats {
                     RoundInfo info = rounds[i];
                     if (roundCount == 0) {
                         endDate = info.End;
-                        won = info.Qualified;
-                        isFinal = info.IsFinal || info.Crown;
+                        won = info.IsQualified;
+                        isFinal = info.IsFinal || info.IsCrown;
                     }
 
                     roundCount++;
@@ -4213,11 +4213,11 @@ namespace FallGuysStats {
                                 Start = info.Start,
                                 StartLocal = info.StartLocal,
                                 Kudos = kudosTotal,
-                                Qualified = won,
+                                IsQualified = won,
                                 Round = roundCount,
                                 ShowID = info.ShowID,
                                 Tier = won ? 1 : 0,
-                                PrivateLobby = info.PrivateLobby,
+                                IsPrivateLobby = info.IsPrivateLobby,
                                 UseShareCode = info.UseShareCode,
                                 CreativeAuthor = info.CreativeAuthor,
                                 CreativeOnlinePlatformId = info.CreativeOnlinePlatformId,
@@ -4270,7 +4270,7 @@ namespace FallGuysStats {
                 int keepShow = -1;
                 for (int i = rounds.Count - 1; i >= 0; i--) {
                     RoundInfo info = rounds[i];
-                    if (info.ShowID != keepShow && (info.Crown || info.IsFinal)) {
+                    if (info.ShowID != keepShow && (info.IsCrown || info.IsFinal)) {
                         keepShow = info.ShowID;
                     } else if (info.ShowID != keepShow) {
                         rounds.RemoveAt(i);
@@ -4313,18 +4313,18 @@ namespace FallGuysStats {
                     bool isIncrementedFinals = false;
                     bool isIncrementedWins = false;
                     bool isOverDate = false;
-                    foreach (RoundInfo info in rounds.Where(info => !info.PrivateLobby)) {
+                    foreach (RoundInfo info in rounds.Where(info => !info.IsPrivateLobby)) {
                         if (info.Round == 1) {
                             currentShows += isOverDate ? 2 : 1;
                             isIncrementedShows = true;
                         }
 
-                        if (info.Crown || info.IsFinal) {
+                        if (info.IsCrown || info.IsFinal) {
                             isOverDate = start.Date < info.StartLocal.Date;
                             currentFinals++;
                             isIncrementedFinals = true;
                             
-                            if (info.Qualified) {
+                            if (info.IsQualified) {
                                 currentWins++;
                                 isIncrementedWins = true;
                                 
@@ -4485,7 +4485,7 @@ namespace FallGuysStats {
                     
                     d += rounds[i].End - rounds[i].Start;
                     p++;
-                    if (rounds[i].Qualified) {
+                    if (rounds[i].IsQualified) {
                         switch (rounds[i].Tier) {
                             case (int)QualifyTier.Pink:
                                 pm++; break;
@@ -4527,7 +4527,7 @@ namespace FallGuysStats {
                     
                     d += userCreativeRounds[i].End - userCreativeRounds[i].Start;
                     p++;
-                    if (userCreativeRounds[i].Qualified) {
+                    if (userCreativeRounds[i].IsQualified) {
                         switch (userCreativeRounds[i].Tier) {
                             case (int)QualifyTier.Pink:
                                 pm++; break;
