@@ -172,6 +172,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", " wins"},
                             {"level_loss_suffix", " loss"},
                             {"level_losses_suffix", " losses"},
+                            {"level_no_statistical_data", " No statistical data"},
 
                             {"profile_icon_enable_tooltip", "Click to not automatically change to a linked profile"},
                             {"profile_icon_disable_tooltip", "Click to automatically change to the linked profile"},
@@ -615,6 +616,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", " victoires"},
                             {"level_loss_suffix", " défaite"},
                             {"level_losses_suffix", " défaites"},
+                            {"level_no_statistical_data", " Aucune donnée statistique"},
 
                             {"profile_icon_enable_tooltip", "Cliquez pour ne pas passer automatiquement à un profil lié"},
                             {"profile_icon_disable_tooltip", "Cliquez pour passer automatiquement au profil lié"},
@@ -1058,6 +1060,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", "승"},
                             {"level_loss_suffix", "패"},
                             {"level_losses_suffix", "패"},
+                            {"level_no_statistical_data", " 통계 데이터 없음"},
 
                             {"profile_icon_enable_tooltip", "연결된 프로필로 자동 전환하지 않으려면 클릭하세요"},
                             {"profile_icon_disable_tooltip", "연결된 프로필로 자동 전환하려면 클릭하세요"},
@@ -1502,6 +1505,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", "勝"},
                             {"level_loss_suffix", "敗"},
                             {"level_losses_suffix", "敗"},
+                            {"level_no_statistical_data", " 統計データなし"},
 
                             {"profile_icon_enable_tooltip", "クリックすると、リンクされたプロファイルに自動的に切り替えられません"},
                             {"profile_icon_disable_tooltip", "クリックすると、リンクされたプロファイルに自動的に切り替えられます"},
@@ -1945,6 +1949,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", "胜"},
                             {"level_loss_suffix", "负"},
                             {"level_losses_suffix", "负"},
+                            {"level_no_statistical_data", " 无统计数据"},
 
                             {"profile_icon_enable_tooltip", "单击可不自动更改为链接的配置文件"},
                             {"profile_icon_disable_tooltip", "按一下可不自動變更為連結的設定檔"},
@@ -2388,6 +2393,7 @@ namespace FallGuysStats {
                             {"level_wins_suffix", "勝"},
                             {"level_loss_suffix", "負"},
                             {"level_losses_suffix", "負"},
+                            {"level_no_statistical_data", " 無統計數據"},
 
                             {"profile_icon_enable_tooltip", ""},
                             {"profile_icon_disable_tooltip", ""},
