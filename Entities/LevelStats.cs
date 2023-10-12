@@ -260,6 +260,7 @@ namespace FallGuysStats {
             { "wle_s10_player_round_wk6_17",       new LevelStats("wle_s10_player_round_wk6_17", "Slippery Helixes", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_18",       new LevelStats("wle_s10_player_round_wk6_18", "Recess", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_player_round_wk6_19",       new LevelStats("wle_s10_player_round_wk6_19", "Parrot river", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_s10_player_round_wk6_20",       new LevelStats("wle_s10_player_round_wk6_20", "PARKOUR CITY 城市跑酷", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "current_wle_fp3_07_01",             new LevelStats("current_wle_fp3_07_01", "Block Sledding", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "current_wle_fp3_07_02",             new LevelStats("current_wle_fp3_07_02", "Layup Wallop", LevelType.Race, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },

@@ -26,399 +26,405 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditProfiles));
-            this.ProfileList = new System.Windows.Forms.DataGridView();
-            this.ProfileListUp = new MetroFramework.Controls.MetroButton();
-            this.ProfileListDown = new MetroFramework.Controls.MetroButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
-            this.AddTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.AddPageButton = new MetroFramework.Controls.MetroButton();
-            this.AddPageTextbox = new MetroFramework.Controls.MetroTextBox();
-            this.AddPageLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.RenameTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.RenameButton = new MetroFramework.Controls.MetroButton();
-            this.RenamePageTextbox = new MetroFramework.Controls.MetroTextBox();
-            this.RenamePageLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.RenamePageCombobox = new MetroFramework.Controls.MetroComboBox();
-            this.RenamePageLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.MoveTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.MovePageButton = new MetroFramework.Controls.MetroButton();
-            this.MovePageLabel2 = new MetroFramework.Controls.MetroLabel();
-            this.MoveToCombobox = new MetroFramework.Controls.MetroComboBox();
-            this.MovePageLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.MoveFromCombobox = new MetroFramework.Controls.MetroComboBox();
-            this.RemoveTabPage = new MetroFramework.Controls.MetroTabPage();
-            this.RemovePageButton = new MetroFramework.Controls.MetroButton();
-            this.RemoveProfileCombobox = new MetroFramework.Controls.MetroComboBox();
-            this.RemovePageLabel1 = new MetroFramework.Controls.MetroLabel();
-            ((System.ComponentModel.ISupportInitialize)(this.ProfileList)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.AddTabPage.SuspendLayout();
-            this.RenameTabPage.SuspendLayout();
-            this.MoveTabPage.SuspendLayout();
-            this.RemoveTabPage.SuspendLayout();
+            this.dgvProfiles = new System.Windows.Forms.DataGridView();
+            this.btnProfileUp = new MetroFramework.Controls.MetroButton();
+            this.btnProfileDown = new MetroFramework.Controls.MetroButton();
+            this.grpProfiles = new System.Windows.Forms.GroupBox();
+            this.mtcTabControl = new MetroFramework.Controls.MetroTabControl();
+            this.mtpAddTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.btnAddProfile = new MetroFramework.Controls.MetroButton();
+            this.txtAddProfile = new MetroFramework.Controls.MetroTextBox();
+            this.lblAddProfile1 = new MetroFramework.Controls.MetroLabel();
+            this.mtpRenameTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.btnRenameProfile = new MetroFramework.Controls.MetroButton();
+            this.txtRenameProfile = new MetroFramework.Controls.MetroTextBox();
+            this.lblRenameProfile2 = new MetroFramework.Controls.MetroLabel();
+            this.cboProfileRename = new MetroFramework.Controls.MetroComboBox();
+            this.lblRenameProfile1 = new MetroFramework.Controls.MetroLabel();
+            this.mtpMoveTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.btnMoveProfile = new MetroFramework.Controls.MetroButton();
+            this.lblMoveProfile2 = new MetroFramework.Controls.MetroLabel();
+            this.cboProfileMoveTo = new MetroFramework.Controls.MetroComboBox();
+            this.lblMoveProfile1 = new MetroFramework.Controls.MetroLabel();
+            this.cboProfileMoveFrom = new MetroFramework.Controls.MetroComboBox();
+            this.mtpRemoveTabPage = new MetroFramework.Controls.MetroTabPage();
+            this.btnRemoveProfile = new MetroFramework.Controls.MetroButton();
+            this.cboProfileRemove = new MetroFramework.Controls.MetroComboBox();
+            this.lblRemoveProfile1 = new MetroFramework.Controls.MetroLabel();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProfiles)).BeginInit();
+            this.grpProfiles.SuspendLayout();
+            this.mtcTabControl.SuspendLayout();
+            this.mtpAddTabPage.SuspendLayout();
+            this.mtpRenameTabPage.SuspendLayout();
+            this.mtpMoveTabPage.SuspendLayout();
+            this.mtpRemoveTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
-            // ProfileList
+            // dgvProfiles
             // 
-            this.ProfileList.AllowUserToAddRows = false;
-            this.ProfileList.AllowUserToDeleteRows = false;
+            this.dgvProfiles.AllowUserToAddRows = false;
+            this.dgvProfiles.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(235)))), ((int)(((byte)(255)))));
-            this.ProfileList.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.ProfileList.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.ProfileList.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.ProfileList.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.ProfileList.ColumnHeadersVisible = false;
-            this.ProfileList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileList.Location = new System.Drawing.Point(4, 19);
-            this.ProfileList.MultiSelect = false;
-            this.ProfileList.Name = "ProfileList";
-            this.ProfileList.RowHeadersVisible = false;
-            this.ProfileList.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.ProfileList.Size = new System.Drawing.Size(498, 325);
-            this.ProfileList.TabIndex = 0;
-            this.ProfileList.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProfileList_CellClick);
-            this.ProfileList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
-            this.ProfileList.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ProfileList_EditingControlShowing);
-            this.ProfileList.SelectionChanged += new System.EventHandler(this.ProfileList_SelectionChanged);
+            this.dgvProfiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvProfiles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvProfiles.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvProfiles.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvProfiles.ColumnHeadersVisible = false;
+            this.dgvProfiles.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.dgvProfiles.Location = new System.Drawing.Point(4, 19);
+            this.dgvProfiles.MultiSelect = false;
+            this.dgvProfiles.Name = "dgvProfiles";
+            this.dgvProfiles.RowHeadersVisible = false;
+            this.dgvProfiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvProfiles.Size = new System.Drawing.Size(498, 352);
+            this.dgvProfiles.TabIndex = 0;
+            this.dgvProfiles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProfileList_CellClick);
+            this.dgvProfiles.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
+            this.dgvProfiles.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.ProfileList_EditingControlShowing);
+            this.dgvProfiles.SelectionChanged += new System.EventHandler(this.ProfileList_SelectionChanged);
             // 
-            // ProfileListUp
+            // btnProfileUp
             // 
-            this.ProfileListUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListUp.Location = new System.Drawing.Point(506, 20);
-            this.ProfileListUp.Name = "ProfileListUp";
-            this.ProfileListUp.Size = new System.Drawing.Size(20, 160);
-            this.ProfileListUp.TabIndex = 3;
-            this.ProfileListUp.Text = "∧";
-            this.ProfileListUp.UseSelectable = true;
-            this.ProfileListUp.Click += new System.EventHandler(this.ProfileListUp_Click);
+            this.btnProfileUp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfileUp.Location = new System.Drawing.Point(506, 20);
+            this.btnProfileUp.Name = "btnProfileUp";
+            this.btnProfileUp.Size = new System.Drawing.Size(20, 160);
+            this.btnProfileUp.TabIndex = 3;
+            this.btnProfileUp.Text = "∧";
+            this.btnProfileUp.UseSelectable = true;
+            this.btnProfileUp.Click += new System.EventHandler(this.ProfileListUp_Click);
             // 
-            // ProfileListDown
+            // btnProfileDown
             // 
-            this.ProfileListDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ProfileListDown.Location = new System.Drawing.Point(506, 184);
-            this.ProfileListDown.Name = "ProfileListDown";
-            this.ProfileListDown.Size = new System.Drawing.Size(20, 160);
-            this.ProfileListDown.TabIndex = 4;
-            this.ProfileListDown.Text = "∨";
-            this.ProfileListDown.UseSelectable = true;
-            this.ProfileListDown.Click += new System.EventHandler(this.ProfileListDown_Click);
+            this.btnProfileDown.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProfileDown.Location = new System.Drawing.Point(506, 184);
+            this.btnProfileDown.Name = "btnProfileDown";
+            this.btnProfileDown.Size = new System.Drawing.Size(20, 160);
+            this.btnProfileDown.TabIndex = 4;
+            this.btnProfileDown.Text = "∨";
+            this.btnProfileDown.UseSelectable = true;
+            this.btnProfileDown.Click += new System.EventHandler(this.ProfileListDown_Click);
             // 
-            // groupBox1
+            // grpProfiles
             // 
-            this.groupBox1.Controls.Add(this.ProfileList);
-            this.groupBox1.Controls.Add(this.ProfileListUp);
-            this.groupBox1.Controls.Add(this.ProfileListDown);
-            this.groupBox1.Location = new System.Drawing.Point(9, 238);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(531, 349);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Profile List";
+            this.grpProfiles.Controls.Add(this.dgvProfiles);
+            this.grpProfiles.Controls.Add(this.btnProfileUp);
+            this.grpProfiles.Controls.Add(this.btnProfileDown);
+            this.grpProfiles.Location = new System.Drawing.Point(9, 238);
+            this.grpProfiles.Name = "grpProfiles";
+            this.grpProfiles.Size = new System.Drawing.Size(531, 376);
+            this.grpProfiles.TabIndex = 5;
+            this.grpProfiles.TabStop = false;
+            this.grpProfiles.Text = "Profile List";
             // 
-            // tabControl1
+            // mtcTabControl
             // 
-            this.tabControl1.Controls.Add(this.AddTabPage);
-            this.tabControl1.Controls.Add(this.RenameTabPage);
-            this.tabControl1.Controls.Add(this.MoveTabPage);
-            this.tabControl1.Controls.Add(this.RemoveTabPage);
-            this.tabControl1.FontWeight = MetroFramework.MetroTabControlWeight.Regular;
-            this.tabControl1.Location = new System.Drawing.Point(9, 65);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(350, 165);
-            this.tabControl1.TabIndex = 6;
-            this.tabControl1.UseSelectable = true;
+            this.mtcTabControl.Controls.Add(this.mtpAddTabPage);
+            this.mtcTabControl.Controls.Add(this.mtpRenameTabPage);
+            this.mtcTabControl.Controls.Add(this.mtpMoveTabPage);
+            this.mtcTabControl.Controls.Add(this.mtpRemoveTabPage);
+            this.mtcTabControl.FontWeight = MetroFramework.MetroTabControlWeight.Regular;
+            this.mtcTabControl.Location = new System.Drawing.Point(9, 65);
+            this.mtcTabControl.Name = "mtcTabControl";
+            this.mtcTabControl.SelectedIndex = 0;
+            this.mtcTabControl.Size = new System.Drawing.Size(531, 165);
+            this.mtcTabControl.TabIndex = 6;
+            this.mtcTabControl.UseSelectable = true;
             // 
-            // AddTabPage
+            // mtpAddTabPage
             // 
-            this.AddTabPage.Controls.Add(this.AddPageButton);
-            this.AddTabPage.Controls.Add(this.AddPageTextbox);
-            this.AddTabPage.Controls.Add(this.AddPageLabel1);
-            this.AddTabPage.HorizontalScrollbarBarColor = true;
-            this.AddTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.AddTabPage.HorizontalScrollbarSize = 10;
-            this.AddTabPage.Location = new System.Drawing.Point(4, 38);
-            this.AddTabPage.Name = "AddTabPage";
-            this.AddTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.AddTabPage.Size = new System.Drawing.Size(303, 123);
-            this.AddTabPage.TabIndex = 0;
-            this.AddTabPage.Text = "Add";
-            this.AddTabPage.VerticalScrollbarBarColor = true;
-            this.AddTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.AddTabPage.VerticalScrollbarSize = 10;
+            this.mtpAddTabPage.Controls.Add(this.btnAddProfile);
+            this.mtpAddTabPage.Controls.Add(this.txtAddProfile);
+            this.mtpAddTabPage.Controls.Add(this.lblAddProfile1);
+            this.mtpAddTabPage.HorizontalScrollbarBarColor = true;
+            this.mtpAddTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpAddTabPage.HorizontalScrollbarSize = 10;
+            this.mtpAddTabPage.Location = new System.Drawing.Point(4, 38);
+            this.mtpAddTabPage.Name = "mtpAddTabPage";
+            this.mtpAddTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.mtpAddTabPage.Size = new System.Drawing.Size(523, 123);
+            this.mtpAddTabPage.TabIndex = 0;
+            this.mtpAddTabPage.Text = "Add";
+            this.mtpAddTabPage.VerticalScrollbarBarColor = true;
+            this.mtpAddTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpAddTabPage.VerticalScrollbarSize = 10;
             // 
-            // AddPageButton
+            // btnAddProfile
             // 
-            this.AddPageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.AddPageButton.Location = new System.Drawing.Point(8, 88);
-            this.AddPageButton.Name = "AddPageButton";
-            this.AddPageButton.Size = new System.Drawing.Size(76, 26);
-            this.AddPageButton.TabIndex = 2;
-            this.AddPageButton.Text = "Add";
-            this.AddPageButton.UseSelectable = true;
-            this.AddPageButton.Click += new System.EventHandler(this.AddPageButton_Click);
+            this.btnAddProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnAddProfile.Name = "btnAddProfile";
+            this.btnAddProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnAddProfile.TabIndex = 2;
+            this.btnAddProfile.Text = "Add";
+            this.btnAddProfile.UseSelectable = true;
+            this.btnAddProfile.Click += new System.EventHandler(this.AddPageButton_Click);
             // 
-            // AddPageTextbox
-            // 
-            // 
+            // txtAddProfile
             // 
             // 
-            this.AddPageTextbox.CustomButton.Image = null;
-            this.AddPageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
-            this.AddPageTextbox.CustomButton.Name = "";
-            this.AddPageTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.AddPageTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.AddPageTextbox.CustomButton.TabIndex = 1;
-            this.AddPageTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.AddPageTextbox.CustomButton.UseSelectable = true;
-            this.AddPageTextbox.CustomButton.Visible = false;
-            this.AddPageTextbox.Lines = new string[0];
-            this.AddPageTextbox.Location = new System.Drawing.Point(96, 10);
-            this.AddPageTextbox.MaxLength = 20;
-            this.AddPageTextbox.Name = "AddPageTextbox";
-            this.AddPageTextbox.PasswordChar = '\0';
-            this.AddPageTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.AddPageTextbox.SelectedText = "";
-            this.AddPageTextbox.SelectionLength = 0;
-            this.AddPageTextbox.SelectionStart = 0;
-            this.AddPageTextbox.ShortcutsEnabled = true;
-            this.AddPageTextbox.Size = new System.Drawing.Size(178, 25);
-            this.AddPageTextbox.TabIndex = 1;
-            this.AddPageTextbox.UseSelectable = true;
-            this.AddPageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.AddPageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.AddPageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
-            // AddPageLabel1
             // 
-            this.AddPageLabel1.AutoSize = true;
-            this.AddPageLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.AddPageLabel1.Location = new System.Drawing.Point(7, 9);
-            this.AddPageLabel1.Name = "AddPageLabel1";
-            this.AddPageLabel1.Size = new System.Drawing.Size(87, 19);
-            this.AddPageLabel1.TabIndex = 0;
-            this.AddPageLabel1.Text = "Profile Name";
+            this.txtAddProfile.CustomButton.Image = null;
+            this.txtAddProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
+            this.txtAddProfile.CustomButton.Name = "";
+            this.txtAddProfile.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.txtAddProfile.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtAddProfile.CustomButton.TabIndex = 1;
+            this.txtAddProfile.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtAddProfile.CustomButton.UseSelectable = true;
+            this.txtAddProfile.CustomButton.Visible = false;
+            this.txtAddProfile.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtAddProfile.Lines = new string[0];
+            this.txtAddProfile.Location = new System.Drawing.Point(96, 10);
+            this.txtAddProfile.MaxLength = 20;
+            this.txtAddProfile.Name = "txtAddProfile";
+            this.txtAddProfile.PasswordChar = '\0';
+            this.txtAddProfile.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtAddProfile.SelectedText = "";
+            this.txtAddProfile.SelectionLength = 0;
+            this.txtAddProfile.SelectionStart = 0;
+            this.txtAddProfile.ShortcutsEnabled = true;
+            this.txtAddProfile.Size = new System.Drawing.Size(178, 29);
+            this.txtAddProfile.TabIndex = 1;
+            this.txtAddProfile.UseSelectable = true;
+            this.txtAddProfile.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtAddProfile.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtAddProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
-            // RenameTabPage
+            // lblAddProfile1
             // 
-            this.RenameTabPage.Controls.Add(this.RenameButton);
-            this.RenameTabPage.Controls.Add(this.RenamePageTextbox);
-            this.RenameTabPage.Controls.Add(this.RenamePageLabel2);
-            this.RenameTabPage.Controls.Add(this.RenamePageCombobox);
-            this.RenameTabPage.Controls.Add(this.RenamePageLabel1);
-            this.RenameTabPage.HorizontalScrollbarBarColor = true;
-            this.RenameTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.RenameTabPage.HorizontalScrollbarSize = 10;
-            this.RenameTabPage.Location = new System.Drawing.Point(4, 38);
-            this.RenameTabPage.Name = "RenameTabPage";
-            this.RenameTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.RenameTabPage.Size = new System.Drawing.Size(344, 123);
-            this.RenameTabPage.TabIndex = 3;
-            this.RenameTabPage.Text = "Rename";
-            this.RenameTabPage.VerticalScrollbarBarColor = true;
-            this.RenameTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.RenameTabPage.VerticalScrollbarSize = 10;
+            this.lblAddProfile1.AutoSize = true;
+            this.lblAddProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblAddProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblAddProfile1.Name = "lblAddProfile1";
+            this.lblAddProfile1.Size = new System.Drawing.Size(87, 19);
+            this.lblAddProfile1.TabIndex = 0;
+            this.lblAddProfile1.Text = "Profile Name";
             // 
-            // RenameButton
+            // mtpRenameTabPage
             // 
-            this.RenameButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RenameButton.Location = new System.Drawing.Point(8, 88);
-            this.RenameButton.Name = "RenameButton";
-            this.RenameButton.Size = new System.Drawing.Size(76, 26);
-            this.RenameButton.TabIndex = 4;
-            this.RenameButton.Text = "Rename";
-            this.RenameButton.UseSelectable = true;
-            this.RenameButton.Click += new System.EventHandler(this.RenameButton_Click);
+            this.mtpRenameTabPage.Controls.Add(this.btnRenameProfile);
+            this.mtpRenameTabPage.Controls.Add(this.txtRenameProfile);
+            this.mtpRenameTabPage.Controls.Add(this.lblRenameProfile2);
+            this.mtpRenameTabPage.Controls.Add(this.cboProfileRename);
+            this.mtpRenameTabPage.Controls.Add(this.lblRenameProfile1);
+            this.mtpRenameTabPage.HorizontalScrollbarBarColor = true;
+            this.mtpRenameTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpRenameTabPage.HorizontalScrollbarSize = 10;
+            this.mtpRenameTabPage.Location = new System.Drawing.Point(4, 38);
+            this.mtpRenameTabPage.Name = "mtpRenameTabPage";
+            this.mtpRenameTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.mtpRenameTabPage.Size = new System.Drawing.Size(523, 123);
+            this.mtpRenameTabPage.TabIndex = 3;
+            this.mtpRenameTabPage.Text = "Rename";
+            this.mtpRenameTabPage.VerticalScrollbarBarColor = true;
+            this.mtpRenameTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpRenameTabPage.VerticalScrollbarSize = 10;
             // 
-            // RenamePageTextbox
+            // btnRenameProfile
             // 
-            this.RenamePageTextbox.CustomButton.Image = null;
-            this.RenamePageTextbox.CustomButton.Location = new System.Drawing.Point(154, 1);
-            this.RenamePageTextbox.CustomButton.Name = "";
-            this.RenamePageTextbox.CustomButton.Size = new System.Drawing.Size(23, 23);
-            this.RenamePageTextbox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.RenamePageTextbox.CustomButton.TabIndex = 1;
-            this.RenamePageTextbox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.RenamePageTextbox.CustomButton.UseSelectable = true;
-            this.RenamePageTextbox.CustomButton.Visible = false;
-            this.RenamePageTextbox.Lines = new string[0];
-            this.RenamePageTextbox.Location = new System.Drawing.Point(96, 45);
-            this.RenamePageTextbox.MaxLength = 20;
-            this.RenamePageTextbox.Name = "RenamePageTextbox";
-            this.RenamePageTextbox.PasswordChar = '\0';
-            this.RenamePageTextbox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.RenamePageTextbox.SelectedText = "";
-            this.RenamePageTextbox.SelectionLength = 0;
-            this.RenamePageTextbox.SelectionStart = 0;
-            this.RenamePageTextbox.ShortcutsEnabled = true;
-            this.RenamePageTextbox.Size = new System.Drawing.Size(178, 25);
-            this.RenamePageTextbox.TabIndex = 3;
-            this.RenamePageTextbox.UseSelectable = true;
-            this.RenamePageTextbox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.RenamePageTextbox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.RenamePageTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
+            this.btnRenameProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRenameProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnRenameProfile.Name = "btnRenameProfile";
+            this.btnRenameProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnRenameProfile.TabIndex = 4;
+            this.btnRenameProfile.Text = "Rename";
+            this.btnRenameProfile.UseSelectable = true;
+            this.btnRenameProfile.Click += new System.EventHandler(this.RenameButton_Click);
             // 
-            // RenamePageLabel2
+            // txtRenameProfile
             // 
-            this.RenamePageLabel2.AutoSize = true;
-            this.RenamePageLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.RenamePageLabel2.Location = new System.Drawing.Point(7, 47);
-            this.RenamePageLabel2.Name = "RenamePageLabel2";
-            this.RenamePageLabel2.Size = new System.Drawing.Size(87, 19);
-            this.RenamePageLabel2.TabIndex = 2;
-            this.RenamePageLabel2.Text = "Profile Name";
             // 
-            // RenamePageCombobox
             // 
-            this.RenamePageCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RenamePageCombobox.FormattingEnabled = true;
-            this.RenamePageCombobox.ItemHeight = 23;
-            this.RenamePageCombobox.Location = new System.Drawing.Point(96, 7);
-            this.RenamePageCombobox.Name = "RenamePageCombobox";
-            this.RenamePageCombobox.Size = new System.Drawing.Size(192, 29);
-            this.RenamePageCombobox.TabIndex = 1;
-            this.RenamePageCombobox.UseSelectable = true;
-            this.RenamePageCombobox.SelectedIndexChanged += new System.EventHandler(this.RenameComboboxChanged);
             // 
-            // RenamePageLabel1
+            this.txtRenameProfile.CustomButton.Image = null;
+            this.txtRenameProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
+            this.txtRenameProfile.CustomButton.Name = "";
+            this.txtRenameProfile.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.txtRenameProfile.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtRenameProfile.CustomButton.TabIndex = 1;
+            this.txtRenameProfile.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtRenameProfile.CustomButton.UseSelectable = true;
+            this.txtRenameProfile.CustomButton.Visible = false;
+            this.txtRenameProfile.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtRenameProfile.Lines = new string[0];
+            this.txtRenameProfile.Location = new System.Drawing.Point(96, 45);
+            this.txtRenameProfile.MaxLength = 20;
+            this.txtRenameProfile.Name = "txtRenameProfile";
+            this.txtRenameProfile.PasswordChar = '\0';
+            this.txtRenameProfile.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtRenameProfile.SelectedText = "";
+            this.txtRenameProfile.SelectionLength = 0;
+            this.txtRenameProfile.SelectionStart = 0;
+            this.txtRenameProfile.ShortcutsEnabled = true;
+            this.txtRenameProfile.Size = new System.Drawing.Size(178, 29);
+            this.txtRenameProfile.TabIndex = 3;
+            this.txtRenameProfile.UseSelectable = true;
+            this.txtRenameProfile.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtRenameProfile.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtRenameProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
-            this.RenamePageLabel1.AutoSize = true;
-            this.RenamePageLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.RenamePageLabel1.Location = new System.Drawing.Point(7, 9);
-            this.RenamePageLabel1.Name = "RenamePageLabel1";
-            this.RenamePageLabel1.Size = new System.Drawing.Size(47, 19);
-            this.RenamePageLabel1.TabIndex = 0;
-            this.RenamePageLabel1.Text = "Profile";
+            // lblRenameProfile2
             // 
-            // MoveTabPage
+            this.lblRenameProfile2.AutoSize = true;
+            this.lblRenameProfile2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblRenameProfile2.Location = new System.Drawing.Point(7, 47);
+            this.lblRenameProfile2.Name = "lblRenameProfile2";
+            this.lblRenameProfile2.Size = new System.Drawing.Size(87, 19);
+            this.lblRenameProfile2.TabIndex = 2;
+            this.lblRenameProfile2.Text = "Profile Name";
             // 
-            this.MoveTabPage.Controls.Add(this.MovePageButton);
-            this.MoveTabPage.Controls.Add(this.MovePageLabel2);
-            this.MoveTabPage.Controls.Add(this.MoveToCombobox);
-            this.MoveTabPage.Controls.Add(this.MovePageLabel1);
-            this.MoveTabPage.Controls.Add(this.MoveFromCombobox);
-            this.MoveTabPage.HorizontalScrollbarBarColor = true;
-            this.MoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.MoveTabPage.HorizontalScrollbarSize = 10;
-            this.MoveTabPage.Location = new System.Drawing.Point(4, 38);
-            this.MoveTabPage.Name = "MoveTabPage";
-            this.MoveTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.MoveTabPage.Size = new System.Drawing.Size(344, 123);
-            this.MoveTabPage.TabIndex = 1;
-            this.MoveTabPage.Text = "Move";
-            this.MoveTabPage.VerticalScrollbarBarColor = true;
-            this.MoveTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.MoveTabPage.VerticalScrollbarSize = 10;
+            // cboProfileRename
             // 
-            // MovePageButton
+            this.cboProfileRename.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboProfileRename.FormattingEnabled = true;
+            this.cboProfileRename.ItemHeight = 23;
+            this.cboProfileRename.Location = new System.Drawing.Point(96, 7);
+            this.cboProfileRename.Name = "cboProfileRename";
+            this.cboProfileRename.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileRename.TabIndex = 1;
+            this.cboProfileRename.UseSelectable = true;
+            this.cboProfileRename.SelectedIndexChanged += new System.EventHandler(this.RenameComboboxChanged);
             // 
-            this.MovePageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MovePageButton.Location = new System.Drawing.Point(8, 88);
-            this.MovePageButton.Name = "MovePageButton";
-            this.MovePageButton.Size = new System.Drawing.Size(76, 26);
-            this.MovePageButton.TabIndex = 4;
-            this.MovePageButton.Text = "Move";
-            this.MovePageButton.UseSelectable = true;
-            this.MovePageButton.Click += new System.EventHandler(this.MovePageButton_Click);
+            // lblRenameProfile1
             // 
-            // MovePageLabel2
+            this.lblRenameProfile1.AutoSize = true;
+            this.lblRenameProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblRenameProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblRenameProfile1.Name = "lblRenameProfile1";
+            this.lblRenameProfile1.Size = new System.Drawing.Size(47, 19);
+            this.lblRenameProfile1.TabIndex = 0;
+            this.lblRenameProfile1.Text = "Profile";
             // 
-            this.MovePageLabel2.AutoSize = true;
-            this.MovePageLabel2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.MovePageLabel2.Location = new System.Drawing.Point(7, 47);
-            this.MovePageLabel2.Name = "MovePageLabel2";
-            this.MovePageLabel2.Size = new System.Drawing.Size(23, 19);
-            this.MovePageLabel2.TabIndex = 3;
-            this.MovePageLabel2.Text = "To";
+            // mtpMoveTabPage
             // 
-            // MoveToCombobox
+            this.mtpMoveTabPage.Controls.Add(this.btnMoveProfile);
+            this.mtpMoveTabPage.Controls.Add(this.lblMoveProfile2);
+            this.mtpMoveTabPage.Controls.Add(this.cboProfileMoveTo);
+            this.mtpMoveTabPage.Controls.Add(this.lblMoveProfile1);
+            this.mtpMoveTabPage.Controls.Add(this.cboProfileMoveFrom);
+            this.mtpMoveTabPage.HorizontalScrollbarBarColor = true;
+            this.mtpMoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpMoveTabPage.HorizontalScrollbarSize = 10;
+            this.mtpMoveTabPage.Location = new System.Drawing.Point(4, 38);
+            this.mtpMoveTabPage.Name = "mtpMoveTabPage";
+            this.mtpMoveTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.mtpMoveTabPage.Size = new System.Drawing.Size(523, 123);
+            this.mtpMoveTabPage.TabIndex = 1;
+            this.mtpMoveTabPage.Text = "Move";
+            this.mtpMoveTabPage.VerticalScrollbarBarColor = true;
+            this.mtpMoveTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpMoveTabPage.VerticalScrollbarSize = 10;
             // 
-            this.MoveToCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MoveToCombobox.FormattingEnabled = true;
-            this.MoveToCombobox.ItemHeight = 23;
-            this.MoveToCombobox.Location = new System.Drawing.Point(96, 45);
-            this.MoveToCombobox.Name = "MoveToCombobox";
-            this.MoveToCombobox.Size = new System.Drawing.Size(192, 29);
-            this.MoveToCombobox.TabIndex = 2;
-            this.MoveToCombobox.UseSelectable = true;
+            // btnMoveProfile
             // 
-            // MovePageLabel1
+            this.btnMoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMoveProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnMoveProfile.Name = "btnMoveProfile";
+            this.btnMoveProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnMoveProfile.TabIndex = 4;
+            this.btnMoveProfile.Text = "Move";
+            this.btnMoveProfile.UseSelectable = true;
+            this.btnMoveProfile.Click += new System.EventHandler(this.MovePageButton_Click);
             // 
-            this.MovePageLabel1.AutoSize = true;
-            this.MovePageLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.MovePageLabel1.Location = new System.Drawing.Point(7, 9);
-            this.MovePageLabel1.Name = "MovePageLabel1";
-            this.MovePageLabel1.Size = new System.Drawing.Size(41, 19);
-            this.MovePageLabel1.TabIndex = 1;
-            this.MovePageLabel1.Text = "From";
+            // lblMoveProfile2
             // 
-            // MoveFromCombobox
+            this.lblMoveProfile2.AutoSize = true;
+            this.lblMoveProfile2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblMoveProfile2.Location = new System.Drawing.Point(7, 47);
+            this.lblMoveProfile2.Name = "lblMoveProfile2";
+            this.lblMoveProfile2.Size = new System.Drawing.Size(23, 19);
+            this.lblMoveProfile2.TabIndex = 3;
+            this.lblMoveProfile2.Text = "To";
             // 
-            this.MoveFromCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.MoveFromCombobox.FormattingEnabled = true;
-            this.MoveFromCombobox.ItemHeight = 23;
-            this.MoveFromCombobox.Location = new System.Drawing.Point(96, 7);
-            this.MoveFromCombobox.Name = "MoveFromCombobox";
-            this.MoveFromCombobox.Size = new System.Drawing.Size(192, 29);
-            this.MoveFromCombobox.TabIndex = 0;
-            this.MoveFromCombobox.UseSelectable = true;
+            // cboProfileMoveTo
             // 
-            // RemoveTabPage
+            this.cboProfileMoveTo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboProfileMoveTo.FormattingEnabled = true;
+            this.cboProfileMoveTo.ItemHeight = 23;
+            this.cboProfileMoveTo.Location = new System.Drawing.Point(96, 45);
+            this.cboProfileMoveTo.Name = "cboProfileMoveTo";
+            this.cboProfileMoveTo.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileMoveTo.TabIndex = 2;
+            this.cboProfileMoveTo.UseSelectable = true;
             // 
-            this.RemoveTabPage.Controls.Add(this.RemovePageButton);
-            this.RemoveTabPage.Controls.Add(this.RemoveProfileCombobox);
-            this.RemoveTabPage.Controls.Add(this.RemovePageLabel1);
-            this.RemoveTabPage.HorizontalScrollbarBarColor = true;
-            this.RemoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
-            this.RemoveTabPage.HorizontalScrollbarSize = 10;
-            this.RemoveTabPage.Location = new System.Drawing.Point(4, 38);
-            this.RemoveTabPage.Name = "RemoveTabPage";
-            this.RemoveTabPage.Size = new System.Drawing.Size(344, 123);
-            this.RemoveTabPage.TabIndex = 2;
-            this.RemoveTabPage.Text = "Remove";
-            this.RemoveTabPage.VerticalScrollbarBarColor = true;
-            this.RemoveTabPage.VerticalScrollbarHighlightOnWheel = false;
-            this.RemoveTabPage.VerticalScrollbarSize = 10;
+            // lblMoveProfile1
             // 
-            // RemovePageButton
+            this.lblMoveProfile1.AutoSize = true;
+            this.lblMoveProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblMoveProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblMoveProfile1.Name = "lblMoveProfile1";
+            this.lblMoveProfile1.Size = new System.Drawing.Size(41, 19);
+            this.lblMoveProfile1.TabIndex = 1;
+            this.lblMoveProfile1.Text = "From";
             // 
-            this.RemovePageButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RemovePageButton.Location = new System.Drawing.Point(8, 88);
-            this.RemovePageButton.Name = "RemovePageButton";
-            this.RemovePageButton.Size = new System.Drawing.Size(76, 26);
-            this.RemovePageButton.TabIndex = 2;
-            this.RemovePageButton.Text = "Remove";
-            this.RemovePageButton.UseSelectable = true;
-            this.RemovePageButton.Click += new System.EventHandler(this.RemovePageButton_Click);
+            // cboProfileMoveFrom
             // 
-            // RemoveProfileCombobox
+            this.cboProfileMoveFrom.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboProfileMoveFrom.FormattingEnabled = true;
+            this.cboProfileMoveFrom.ItemHeight = 23;
+            this.cboProfileMoveFrom.Location = new System.Drawing.Point(96, 7);
+            this.cboProfileMoveFrom.Name = "cboProfileMoveFrom";
+            this.cboProfileMoveFrom.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileMoveFrom.TabIndex = 0;
+            this.cboProfileMoveFrom.UseSelectable = true;
             // 
-            this.RemoveProfileCombobox.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RemoveProfileCombobox.FormattingEnabled = true;
-            this.RemoveProfileCombobox.Location = new System.Drawing.Point(96, 7);
-            this.RemoveProfileCombobox.Name = "RemoveProfileCombobox";
-            this.RemoveProfileCombobox.Size = new System.Drawing.Size(192, 22);
-            this.RemoveProfileCombobox.TabIndex = 1;
-            this.RemoveProfileCombobox.UseSelectable = true;
+            // mtpRemoveTabPage
             // 
-            // RemovePageLabel1
+            this.mtpRemoveTabPage.Controls.Add(this.btnRemoveProfile);
+            this.mtpRemoveTabPage.Controls.Add(this.cboProfileRemove);
+            this.mtpRemoveTabPage.Controls.Add(this.lblRemoveProfile1);
+            this.mtpRemoveTabPage.HorizontalScrollbarBarColor = true;
+            this.mtpRemoveTabPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpRemoveTabPage.HorizontalScrollbarSize = 10;
+            this.mtpRemoveTabPage.Location = new System.Drawing.Point(4, 38);
+            this.mtpRemoveTabPage.Name = "mtpRemoveTabPage";
+            this.mtpRemoveTabPage.Size = new System.Drawing.Size(523, 123);
+            this.mtpRemoveTabPage.TabIndex = 2;
+            this.mtpRemoveTabPage.Text = "Remove";
+            this.mtpRemoveTabPage.VerticalScrollbarBarColor = true;
+            this.mtpRemoveTabPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpRemoveTabPage.VerticalScrollbarSize = 10;
             // 
-            this.RemovePageLabel1.AutoSize = true;
-            this.RemovePageLabel1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.RemovePageLabel1.Location = new System.Drawing.Point(7, 9);
-            this.RemovePageLabel1.Name = "RemovePageLabel1";
-            this.RemovePageLabel1.Size = new System.Drawing.Size(47, 19);
-            this.RemovePageLabel1.TabIndex = 0;
-            this.RemovePageLabel1.Text = "Profile";
+            // btnRemoveProfile
+            // 
+            this.btnRemoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRemoveProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnRemoveProfile.Name = "btnRemoveProfile";
+            this.btnRemoveProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnRemoveProfile.TabIndex = 2;
+            this.btnRemoveProfile.Text = "Remove";
+            this.btnRemoveProfile.UseSelectable = true;
+            this.btnRemoveProfile.Click += new System.EventHandler(this.RemovePageButton_Click);
+            // 
+            // cboProfileRemove
+            // 
+            this.cboProfileRemove.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboProfileRemove.FormattingEnabled = true;
+            this.cboProfileRemove.ItemHeight = 23;
+            this.cboProfileRemove.Location = new System.Drawing.Point(96, 7);
+            this.cboProfileRemove.Name = "cboProfileRemove";
+            this.cboProfileRemove.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileRemove.TabIndex = 1;
+            this.cboProfileRemove.UseSelectable = true;
+            // 
+            // lblRemoveProfile1
+            // 
+            this.lblRemoveProfile1.AutoSize = true;
+            this.lblRemoveProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblRemoveProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblRemoveProfile1.Name = "lblRemoveProfile1";
+            this.lblRemoveProfile1.Size = new System.Drawing.Size(47, 19);
+            this.lblRemoveProfile1.TabIndex = 0;
+            this.lblRemoveProfile1.Text = "Profile";
             // 
             // EditProfiles
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(548, 596);
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(548, 623);
+            this.Controls.Add(this.mtcTabControl);
+            this.Controls.Add(this.grpProfiles);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -428,50 +434,49 @@
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 20);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = true;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Profile Settings";
             this.Load += new System.EventHandler(this.EditProfiles_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditProfile_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.ProfileList)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.tabControl1.ResumeLayout(false);
-            this.AddTabPage.ResumeLayout(false);
-            this.AddTabPage.PerformLayout();
-            this.RenameTabPage.ResumeLayout(false);
-            this.RenameTabPage.PerformLayout();
-            this.MoveTabPage.ResumeLayout(false);
-            this.MoveTabPage.PerformLayout();
-            this.RemoveTabPage.ResumeLayout(false);
-            this.RemoveTabPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProfiles)).EndInit();
+            this.grpProfiles.ResumeLayout(false);
+            this.mtcTabControl.ResumeLayout(false);
+            this.mtpAddTabPage.ResumeLayout(false);
+            this.mtpAddTabPage.PerformLayout();
+            this.mtpRenameTabPage.ResumeLayout(false);
+            this.mtpRenameTabPage.PerformLayout();
+            this.mtpMoveTabPage.ResumeLayout(false);
+            this.mtpMoveTabPage.PerformLayout();
+            this.mtpRemoveTabPage.ResumeLayout(false);
+            this.mtpRemoveTabPage.PerformLayout();
             this.ResumeLayout(false);
         }
 
         #endregion
-        private System.Windows.Forms.DataGridView ProfileList;
-        private MetroFramework.Controls.MetroButton ProfileListUp;
-        private MetroFramework.Controls.MetroButton ProfileListDown;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private MetroFramework.Controls.MetroTabControl tabControl1;
-        private MetroFramework.Controls.MetroTabPage AddTabPage;
-        private MetroFramework.Controls.MetroButton AddPageButton;
-        private MetroFramework.Controls.MetroTextBox AddPageTextbox;
-        private MetroFramework.Controls.MetroLabel AddPageLabel1;
-        private MetroFramework.Controls.MetroTabPage MoveTabPage;
-        private MetroFramework.Controls.MetroButton MovePageButton;
-        private MetroFramework.Controls.MetroLabel MovePageLabel2;
-        private MetroFramework.Controls.MetroComboBox MoveToCombobox;
-        private MetroFramework.Controls.MetroLabel MovePageLabel1;
-        private MetroFramework.Controls.MetroComboBox MoveFromCombobox;
-        private MetroFramework.Controls.MetroTabPage RemoveTabPage;
-        private MetroFramework.Controls.MetroButton RemovePageButton;
-        private MetroFramework.Controls.MetroComboBox RemoveProfileCombobox;
-        private MetroFramework.Controls.MetroLabel RemovePageLabel1;
-        private MetroFramework.Controls.MetroTabPage RenameTabPage;
-        private MetroFramework.Controls.MetroButton RenameButton;
-        private MetroFramework.Controls.MetroTextBox RenamePageTextbox;
-        private MetroFramework.Controls.MetroLabel RenamePageLabel2;
-        private MetroFramework.Controls.MetroComboBox RenamePageCombobox;
-        private MetroFramework.Controls.MetroLabel RenamePageLabel1;
+        private System.Windows.Forms.DataGridView dgvProfiles;
+        private MetroFramework.Controls.MetroButton btnProfileUp;
+        private MetroFramework.Controls.MetroButton btnProfileDown;
+        private System.Windows.Forms.GroupBox grpProfiles;
+        private MetroFramework.Controls.MetroTabControl mtcTabControl;
+        private MetroFramework.Controls.MetroTabPage mtpAddTabPage;
+        private MetroFramework.Controls.MetroButton btnAddProfile;
+        private MetroFramework.Controls.MetroTextBox txtAddProfile;
+        private MetroFramework.Controls.MetroLabel lblAddProfile1;
+        private MetroFramework.Controls.MetroTabPage mtpMoveTabPage;
+        private MetroFramework.Controls.MetroButton btnMoveProfile;
+        private MetroFramework.Controls.MetroLabel lblMoveProfile2;
+        private MetroFramework.Controls.MetroComboBox cboProfileMoveTo;
+        private MetroFramework.Controls.MetroLabel lblMoveProfile1;
+        private MetroFramework.Controls.MetroComboBox cboProfileMoveFrom;
+        private MetroFramework.Controls.MetroTabPage mtpRemoveTabPage;
+        private MetroFramework.Controls.MetroButton btnRemoveProfile;
+        private MetroFramework.Controls.MetroComboBox cboProfileRemove;
+        private MetroFramework.Controls.MetroLabel lblRemoveProfile1;
+        private MetroFramework.Controls.MetroTabPage mtpRenameTabPage;
+        private MetroFramework.Controls.MetroButton btnRenameProfile;
+        private MetroFramework.Controls.MetroTextBox txtRenameProfile;
+        private MetroFramework.Controls.MetroLabel lblRenameProfile2;
+        private MetroFramework.Controls.MetroComboBox cboProfileRename;
+        private MetroFramework.Controls.MetroLabel lblRenameProfile1;
     }
 }

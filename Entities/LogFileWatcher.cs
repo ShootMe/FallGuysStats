@@ -423,13 +423,9 @@ namespace FallGuysStats {
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        private string ReplaceCreativeLevel(string showId, string roundId) {
+        private string ReplaceLevelIdInDigisShuffleShow(string showId, string roundId) {
             if (showId.Equals("wle_mrs_shuffle_show")) {
-                if (roundId.StartsWith("mrs_wle_fp")) {
-                    return $"current{roundId.Substring(3)}";
-                } else if (roundId.StartsWith("mrs_wle_s10_player_round_wk")) {
-                    return roundId.Substring(4);
-                }
+                return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
             }
             return roundId;
         }
@@ -775,7 +771,7 @@ namespace FallGuysStats {
                 if (_roundNameReplacer.TryGetValue(logRound.Info.Name, out string newName)) {
                     logRound.Info.Name = newName;
                 } else {
-                    logRound.Info.Name = this.ReplaceCreativeLevel(logRound.Info.ShowNameId, logRound.Info.Name);
+                    logRound.Info.Name = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId, logRound.Info.Name);
                 }
                 logRound.Info.Round = round.Count;
                 logRound.Info.Start = line.Date;
@@ -1023,7 +1019,7 @@ namespace FallGuysStats {
                         if (_roundNameReplacer.TryGetValue(roundName, out string newName)) {
                             roundName = newName;
                         } else {
-                            roundName = this.ReplaceCreativeLevel(logRound.Info.ShowNameId, logRound.Info.Name);
+                            roundName = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId, logRound.Info.Name);
                         }
 
                         if (roundNum - 1 < round.Count) {
