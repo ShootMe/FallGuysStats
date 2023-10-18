@@ -128,18 +128,42 @@ namespace FallGuysStats {
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
-        public static bool InShow = false; 
-        public static bool EndedShow = false;
-        public static bool IsPlaying = false;
-        public static bool IsPrePlaying = false;
-        public static bool IsQueued = false;
-        public static int QueuedPlayers = 0;
-        public static int PingSwitcher = 10;
-        public static long LastServerPing = 0;
-        public static bool IsBadPing = false;
-        public static string LastCountryAlpha2Code = string.Empty;
         public static int CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
+        
+        public static bool InShow = false; 
+        public static bool EndedShow = false;
+        
+        public static bool IsDisplayOverlayTime = true;
+        public static bool IsDisplayOverlayPing = false;
+
+        public static bool IsGameRunning = false;
+        public static bool IsGameHasBeenClosed = false;
+        
+        public static bool ToggleServerInfo = false;
+        public static DateTime ConnectedToServerDate = DateTime.MinValue;
+        public static string LastServerIp = string.Empty;
+        public static string LastCountryAlpha2Code = string.Empty;
+        public static long LastServerPing = 0;
+        public static bool IsBadServerPing = false;
+        
+        public static List<string> SucceededPlayerIds = new List<string>();
+        
+        public static int SavedRoundCount { get; set; }
+        public static int NumPlayersSucceeded { get; set; }
+        public static bool IsLastRoundRunning { get; set; }
+        public static bool IsLastPlayedRoundStillPlaying { get; set; }
+        public static DateTime LastGameStart { get; set; } = DateTime.MinValue;
+        public static DateTime LastRoundLoad { get; set; } = DateTime.MinValue;
+        public static DateTime? LastPlayedRoundStart { get; set; } = null;
+        public static DateTime? LastPlayedRoundEnd { get; set; } = null;
+        
+        public static bool IsPlaying = false;
+        public static bool IsPrePlaying = false;
+        
+        public static bool IsQueued = false;
+        public static int QueuedPlayers = 0;
+        
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
         public enum OnlineServiceTypes { None = -1, EpicGames = 0, Steam = 1 }
         public static string OnlineServiceId = string.Empty;
@@ -189,7 +213,7 @@ namespace FallGuysStats {
         public UserSettings CurrentSettings;
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
-        private DateTime startupTime = DateTime.UtcNow;
+        public DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile;
@@ -302,9 +326,7 @@ namespace FallGuysStats {
                     HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
                 }
             });
-// #if AllowUpdate
-//             this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
-// #endif
+            
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -440,7 +462,6 @@ namespace FallGuysStats {
             this.logFile.StatsForm = this;
             this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
             this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
-            this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
             
             string fixedPosition = this.CurrentSettings.OverlayFixedPosition;
             this.overlay.SetFixedPosition(
@@ -2737,6 +2758,7 @@ namespace FallGuysStats {
 
                             if (info == null && stat.Start > this.lastAddedShow) {
                                 if (stat.ShowEnd < this.startupTime && this.askedPreviousShows == 0) {
+                                    IsDisplayOverlayTime = false;
                                     using (EditShows editShows = new EditShows()) {
                                         editShows.FunctionFlag = "add";
                                         //editShows.Icon = this.Icon;
@@ -2759,6 +2781,7 @@ namespace FallGuysStats {
                                         }
                                         this.EnableInfoStrip(true);
                                         this.EnableMainMenu(true);
+                                        IsDisplayOverlayTime = true;
                                     }
                                 }
                                 
@@ -2983,7 +3006,7 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            if (OnlineServiceType != OnlineServiceTypes.None && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race) && stat.Qualified && stat.Finish.HasValue) {
+            if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
                 if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                     string[] userInfo = null;
                     if (OnlineServiceType == OnlineServiceTypes.Steam) {
@@ -3107,6 +3130,7 @@ namespace FallGuysStats {
         
         public bool IsCreativeShow(string showId) {
             return showId.StartsWith("show_wle_s10_") ||
+                   showId.StartsWith("event_wle_s10_") ||
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
                    showId.Equals("wle_mrs_bagel") ||
                    showId.Equals("wle_mrs_shuffle_show") ||
@@ -3240,7 +3264,8 @@ namespace FallGuysStats {
         private void SetProfileMenu(int profile) {
             if (profile == -1 || this.AllProfiles.Count == 0) return;
             ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
-            if (tsmi.Checked) return;
+            if (tsmi.Checked) { return; }
+            
             this.menuStats_Click(tsmi, EventArgs.Empty);
         }
         private void SetCurrentProfileIcon(bool linked) {
@@ -3303,8 +3328,6 @@ namespace FallGuysStats {
                 TotalFinals = 0
             };
             
-            //MatchCollection matches = Regex.Matches(name, @"^\d{4}-\d{4}-\d{4}$");
-            //if (matches.Count > 0) { // user creative round
             if (useShareCode) { // user creative round
                 List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelType.CreativeLevelTypeId().Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
@@ -5619,7 +5642,9 @@ namespace FallGuysStats {
                         this.Invalidate();
                         this.logFile.autoChangeProfile = this.CurrentSettings.AutoChangeProfile;
                         this.logFile.preventOverlayMouseClicks = this.CurrentSettings.PreventOverlayMouseClicks;
-                        this.logFile.isDisplayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
+                        
+                        IsDisplayOverlayPing = this.CurrentSettings.OverlayVisible && !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
+                        
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && lastLogPath.Equals(this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await this.logFile.Stop();
@@ -5649,25 +5674,27 @@ namespace FallGuysStats {
         private void menuOverlay_Click(object sender, EventArgs e) {
             this.ToggleOverlay(this.overlay);
         }
-        public void ToggleOverlay(Overlay ol) {
-            if (ol.Visible) {
-                ol.Hide();
+        public void ToggleOverlay(Overlay overlay) {
+            if (overlay.Visible) {
+                IsDisplayOverlayPing = false;
+                overlay.Hide();
                 this.menuOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_gray_icon;
                 this.trayOverlay.Text = $"{Multilingual.GetWord("main_show_overlay")}";
-                if (!ol.IsFixed()) {
-                    this.CurrentSettings.OverlayLocationX = ol.Location.X;
-                    this.CurrentSettings.OverlayLocationY = ol.Location.Y;
-                    this.CurrentSettings.OverlayWidth = ol.Width;
-                    this.CurrentSettings.OverlayHeight = ol.Height;
+                if (!overlay.IsFixed()) {
+                    this.CurrentSettings.OverlayLocationX = overlay.Location.X;
+                    this.CurrentSettings.OverlayLocationY = overlay.Location.Y;
+                    this.CurrentSettings.OverlayWidth = overlay.Width;
+                    this.CurrentSettings.OverlayHeight = overlay.Height;
                 }
                 this.CurrentSettings.OverlayVisible = false;
                 this.SaveUserSettings();
             } else {
-                ol.Show();
-                ol.TopMost = !this.CurrentSettings.OverlayNotOnTop;
-                ol.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
+                IsDisplayOverlayPing = !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
+                overlay.TopMost = !this.CurrentSettings.OverlayNotOnTop;
+                overlay.Show();
+                overlay.ShowInTaskbar = this.CurrentSettings.OverlayNotOnTop;
                 this.menuOverlay.Image = Properties.Resources.stat_icon;
                 this.menuOverlay.Text = $"{Multilingual.GetWord("main_hide_overlay")}";
                 this.trayOverlay.Image = Properties.Resources.stat_icon;
@@ -5675,17 +5702,17 @@ namespace FallGuysStats {
                 this.CurrentSettings.OverlayVisible = true;
                 this.SaveUserSettings();
 
-                if (ol.IsFixed()) {
+                if (overlay.IsFixed()) {
                     if (this.CurrentSettings.OverlayFixedPositionX.HasValue &&
-                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, ol.Width, ol.Height))
+                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
                     {
-                        ol.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
-                        ol.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
+                        overlay.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
+                        overlay.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
                     } else {
-                        ol.Location = this.Location;
+                        overlay.Location = this.Location;
                     }
                 } else {
-                    ol.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, ol.Width, ol.Height)
+                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
                                         ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                         : this.Location;
                 }

@@ -63,7 +63,8 @@ namespace FallGuysStats {
                 );
                 
                 this.HighlightedPoint = this.formsPlot.Plot.AddPoint(0, 0);
-                this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.SlateGray : Color.LightGray;
+                // this.HighlightedPoint.Color = this.Theme == MetroThemeStyle.Light ? Color.SlateGray : Color.LightGray;
+                this.HighlightedPoint.Color = Color.Red;
                 this.HighlightedPoint.MarkerSize = 7;
                 this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                 this.HighlightedPoint.IsVisible = false;
@@ -272,7 +273,7 @@ namespace FallGuysStats {
                         }
 
                         if (index > 0) {
-                            if (levelCount > 10) {
+                            if (levelCount > 5) {
                                 if (index % 2 == 0) {
                                     builder.Append(Environment.NewLine);
                                     builder.Append("   •  ");
@@ -308,15 +309,16 @@ namespace FallGuysStats {
                 if (this.switchGraphStyle == 1) { // LollipopPlot
                     this.HighlightedPoint.MarkerShape = MarkerShape.none;
                 } else if (this.switchGraphStyle == 2) { // BarPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.eks;
+                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
                 } else { // ScatterPlot
                     this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                 }
             }
             this.tooltip.BorderWidth = 1.7f;
-            this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
+            // this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
+            this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
             this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
-            this.tooltip.Font.Color = Color.Snow;
+            this.tooltip.Font.Color = Color.White;
             this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
             this.tooltip.Font.Size = 15f;
             this.tooltip.ArrowSize = 5;

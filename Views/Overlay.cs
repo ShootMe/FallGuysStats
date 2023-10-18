@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+
 namespace FallGuysStats {
     public sealed partial class Overlay : Form {
         private const int WM_NCLBUTTONDOWN = 0xA1;
@@ -681,8 +682,8 @@ namespace FallGuysStats {
                     int fastestSwitchCount = this.switchCount;
                     
                     if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0
-                            : this.levelException == 1 ? 1 : this.levelException == 2 ? 2 : type.FastestLabel();
+                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 :
+                                             (type == LevelType.Team && this.levelException != 1) || this.levelException == 2 ? 2 : 1;
                     }
                     switch (fastestSwitchCount % ((levelSummary.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
                         case 0:
@@ -690,8 +691,17 @@ namespace FallGuysStats {
                             this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
                             break;
                         case 1:
-                            this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
-                            this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
+                            if (this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
+                                this.lblFastest.Text = $"{Multilingual.GetWord("overlay_fastest")} :";
+                                this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
+                            } else {
+                                this.lblFastest.Text = $"{Multilingual.GetWord("overlay_personal_best")} :";
+                                if ((type == LevelType.Survival || type == LevelType.Logic) && this.levelException != 1) {
+                                    this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
+                                } else {
+                                    this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
+                                }
+                            }
                             break;
                         case 2:
                             this.lblFastest.Text = $"{Multilingual.GetWord("overlay_best_score")} :";
@@ -763,7 +773,7 @@ namespace FallGuysStats {
                         this.lblPlayersPc.DrawVisible = false;
                         this.lblCountryIcon.DrawVisible = true;
                         this.lblPingIcon.DrawVisible = true;
-                        if (Stats.IsBadPing) {
+                        if (Stats.IsBadServerPing) {
                             this.lblCountryIcon.ImageX = 49;
                             this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
                             this.lblPingIcon.ImageX = 40;
@@ -801,7 +811,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetDurationLabel(LevelStats level, int overlaySetting) {
+        private void SetDurationLabel(LevelStats level, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
                 this.lblDuration.OverlaySetting = overlaySetting;
                 this.lblDuration.TickProgress = 0;
@@ -814,11 +824,6 @@ namespace FallGuysStats {
                 this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
                 this.lblDuration.TickProgress = 0;
-                // if (this.lastRound.UseShareCode && this.lastRound.CreativeTimeLimitSeconds == 0) {
-                //     this.lastRound.CreativeTimeLimitSeconds = this.StatsForm.GetTimeLimitSecondsFromShareCode(this.lastRound.ShowNameId, levelType);
-                // }
-                DateTime start = this.lastRound.Start;
-                DateTime end = this.lastRound.End;
                 if (this.lastRound.UseShareCode) {
                     this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
                                                                                         : $"{Multilingual.GetWord("overlay_duration")} :";
@@ -832,7 +837,19 @@ namespace FallGuysStats {
                     }
                 }
                 
-                if (end != DateTime.MinValue) {
+                DateTime start = this.lastRound.Start;
+                DateTime end = this.lastRound.End;
+                TimeSpan runningTime = start > currentUTC ? currentUTC - this.startTime : currentUTC - start;
+                int maxRunningTime = 12; // in minutes
+                
+                if (!Stats.IsDisplayOverlayTime) {
+                    this.lblDuration.TextRight = "-";
+                } else if (Stats.LastPlayedRoundEnd.HasValue && Stats.LastPlayedRoundEnd > Stats.LastPlayedRoundStart) {
+                    this.lblDuration.TextRight = $"{Stats.LastPlayedRoundEnd - Stats.LastPlayedRoundStart:m\\:ss\\.ff}";
+                } else if (Stats.IsLastPlayedRoundStillPlaying) {
+                    runningTime = currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC);
+                    this.lblDuration.TextRight = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning ? "-" : $"{runningTime:m\\:ss}";
+                } else if (end != DateTime.MinValue) {
                     if (this.lastRound.UseShareCode) {
                         if (this.lastRound.CreativeTimeLimitSeconds > 0) {
                             this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
@@ -848,20 +865,20 @@ namespace FallGuysStats {
                             this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                         }
                     }
-                } else if (this.lastRound.Playing && Stats.IsPlaying) {
+                } else if (this.lastRound.Playing) {
                     if (this.lastRound.UseShareCode) {
                         if (this.lastRound.CreativeTimeLimitSeconds > 0) {
-                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start)):m\\:ss}";
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - runningTime:m\\:ss}";
                         } else {
-                            this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start):m\\:ss}";
+                            this.lblDuration.TextRight = $"{runningTime:m\\:ss}";
                         }
                     } else {
                         if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start)):m\\:ss}";
+                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - runningTime:m\\:ss}";
                         } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - (DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start)):m\\:ss}";
+                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - runningTime:m\\:ss}";
                         } else {
-                            this.lblDuration.TextRight = $"{DateTime.UtcNow - (start > DateTime.UtcNow ? this.startTime : start):m\\:ss}";
+                            this.lblDuration.TextRight = $"{runningTime:m\\:ss}";
                         }
                     }
                 } else {
@@ -869,7 +886,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFinishLabel(StatSummary levelInfo, LevelType levelType, int overlaySetting) {
+        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsPrePlaying && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
@@ -883,9 +900,17 @@ namespace FallGuysStats {
                 } else {
                     this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
                     DateTime start = this.lastRound.Start;
+                    DateTime end = this.lastRound.End;
                     DateTime? finish = this.lastRound.Finish;
-                    if (finish.HasValue) {
-                        TimeSpan time = finish.GetValueOrDefault(start) - start;
+                    TimeSpan runningTime = start > currentUTC ? currentUTC - this.startTime : currentUTC - start;
+                    int maxRunningTime = 12; // in minutes
+                    
+                    if (!Stats.IsDisplayOverlayTime) {
+                        this.lblFinish.TextRight = "-";
+                        this.lblFinish.ForeColor = this.ForeColor;
+                    } else if (finish.HasValue) {
+                        TimeSpan time = finish.GetValueOrDefault(end) - start;
+                        
                         if (this.lastRound.Crown) {
                             this.lblFinish.TextRight = $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.ff}";
                         } else {
@@ -898,22 +923,34 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans || this.levelException == 1) {
-                            if (time < levelInfo.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                        if ((this.levelException == 0 && (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans)) || this.levelException == 1) {
+                            if (time < levelSummary.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
-                            } else if (time < levelInfo.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
+                            } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.Gold;
                             }
-                        } else if (time > levelInfo.LongestFinish && time < levelInfo.LongestFinishOverall) {
+                        } else if (time > levelSummary.LongestFinish && time < levelSummary.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.LightGreen;
-                        } else if (time > levelInfo.LongestFinishOverall) {
+                        } else if (time > levelSummary.LongestFinishOverall) {
                             this.lblFinish.ForeColor = Color.Gold;
+                        } else {
+                            this.lblFinish.ForeColor = this.ForeColor;
                         }
-                    } else if (this.lastRound.Playing && Stats.IsPlaying) {
-                        this.lblFinish.TextRight = start > DateTime.UtcNow ? $"{DateTime.UtcNow - this.startTime:m\\:ss}" : $"{DateTime.UtcNow - start:m\\:ss}";
+                    } else if (end != DateTime.MinValue) {
+                        TimeSpan time = end - start;
+                        this.lblFinish.TextRight = !this.lastRound.Crown ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
+                        this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : Color.Pink;
+                    } else if (this.lastRound.Playing) {
+                        if (runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning) {
+                            this.lblFinish.TextRight = "-";
+                            this.lblFinish.ForeColor = Color.Pink;
+                        } else {
+                            this.lblFinish.TextRight = $"{runningTime:m\\:ss}";
+                            this.lblFinish.ForeColor = !Stats.EndedShow ? this.ForeColor : Color.Pink;
+                        }
                     } else {
                         this.lblFinish.TextRight = "-";
-                        this.lblFinish.ForeColor = this.ForeColor;
+                        this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : Color.Pink;
                     }
                 }
             }
@@ -938,11 +975,22 @@ namespace FallGuysStats {
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
                     string roundName = this.lastRound.VerifiedName();
+                    
                     this.levelException = 0;
-                    if (roundName == "round_pixelperfect_almond" || roundName == "round_hoverboardsurvival_s4_show" || roundName == "round_hoverboardsurvival2_almond" || roundName == "round_snowy_scrap" || roundName == "round_jinxed" || roundName == "round_rocknroll" || roundName == "round_conveyor_arena") {
-                        this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
-                    } else if (roundName == "round_1v1_button_basher" || roundName == "round_1v1_volleyfall_symphony_launch_show") {
-                        this.levelException = 2; // Level is like a "Team" level type (score info is most important)
+                    switch (roundName) {
+                        case "round_pixelperfect_almond":
+                        case "round_hoverboardsurvival_s4_show":
+                        case "round_hoverboardsurvival2_almond":
+                        case "round_snowy_scrap":
+                        case "round_jinxed":
+                        case "round_rocknroll":
+                        case "round_conveyor_arena":
+                            this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
+                            break;
+                        case "round_1v1_button_basher":
+                        case "round_1v1_volleyfall_symphony_launch_show":
+                            this.levelException = 2; // Level is like a "Team" level type (score info is most important)
+                            break;
                     }
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
@@ -965,16 +1013,20 @@ namespace FallGuysStats {
                     if (this.isTimeToSwitch) {
                         this.switchCount++;
                     }
-
+                    
+                    DateTime start = this.lastRound.Start;
+                    DateTime end = this.lastRound.End;
+                    DateTime? finish = this.lastRound.Finish;
+                    DateTime currentUTC = DateTime.UtcNow;
                     if (this.lastRound.Playing != this.startedPlaying) {
                         if (this.lastRound.Playing) {
-                            this.startTime = DateTime.UtcNow;
+                            this.startTime = currentUTC;
                         }
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetFinishLabel(levelSummary, levelType, overlaySetting);
-                    this.SetDurationLabel(level, overlaySetting);
+                    this.SetFinishLabel(levelSummary, levelType, currentUTC, overlaySetting);
+                    this.SetDurationLabel(level, currentUTC, overlaySetting);
                 }
                 this.Invalidate();
             }

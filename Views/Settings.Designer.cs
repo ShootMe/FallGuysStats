@@ -153,6 +153,7 @@
             // lblLogPath
             // 
             this.lblLogPath.AutoSize = true;
+            this.lblLogPath.FontSize = MetroFramework.MetroLabelSize.Medium;
             this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPath.Location = new System.Drawing.Point(8, 12);
             this.lblLogPath.Name = "lblLogPath";
@@ -166,18 +167,15 @@
             this.lblLogPathNote.FontSize = MetroFramework.MetroLabelSize.Small;
             this.lblLogPathNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPathNote.ForeColor = System.Drawing.Color.DimGray;
-            this.lblLogPathNote.Location = new System.Drawing.Point(8, 37);
+            this.lblLogPathNote.Location = new System.Drawing.Point(8, 40);
             this.lblLogPathNote.Name = "lblLogPathNote";
             this.lblLogPathNote.Size = new System.Drawing.Size(515, 15);
             this.lblLogPathNote.TabIndex = 2;
-            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the c" + "orrect location.";
+            this.lblLogPathNote.Text = "* You should not need to set this. Only use when the program is not reading the correct location.";
             // 
             // txtLogPath
             // 
             this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
-            // 
-            // 
-            // 
             this.txtLogPath.CustomButton.Image = null;
             this.txtLogPath.CustomButton.Location = new System.Drawing.Point(520, 2);
             this.txtLogPath.CustomButton.Name = "";
@@ -187,6 +185,7 @@
             this.txtLogPath.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtLogPath.CustomButton.UseSelectable = true;
             this.txtLogPath.CustomButton.Visible = false;
+            this.txtLogPath.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtLogPath.Lines = new string[0];
             this.txtLogPath.Location = new System.Drawing.Point(98, 12);
             this.txtLogPath.MaxLength = 32767;
@@ -197,7 +196,7 @@
             this.txtLogPath.SelectionLength = 0;
             this.txtLogPath.SelectionStart = 0;
             this.txtLogPath.ShortcutsEnabled = true;
-            this.txtLogPath.Size = new System.Drawing.Size(540, 22);
+            this.txtLogPath.Size = new System.Drawing.Size(540, 25);
             this.txtLogPath.TabIndex = 1;
             this.txtLogPath.UseSelectable = true;
             this.txtLogPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -663,9 +662,6 @@
             // 
             // txtCycleTimeSeconds
             // 
-            // 
-            // 
-            // 
             this.txtCycleTimeSeconds.CustomButton.Image = null;
             this.txtCycleTimeSeconds.CustomButton.Location = new System.Drawing.Point(4, 1);
             this.txtCycleTimeSeconds.CustomButton.Name = "";
@@ -675,8 +671,9 @@
             this.txtCycleTimeSeconds.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtCycleTimeSeconds.CustomButton.UseSelectable = true;
             this.txtCycleTimeSeconds.CustomButton.Visible = false;
+            this.txtCycleTimeSeconds.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtCycleTimeSeconds.Lines = new string[] { "5" };
-            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(96, 170);
+            this.txtCycleTimeSeconds.Location = new System.Drawing.Point(96, 167);
             this.txtCycleTimeSeconds.MaxLength = 2;
             this.txtCycleTimeSeconds.Name = "txtCycleTimeSeconds";
             this.txtCycleTimeSeconds.PasswordChar = '\0';
@@ -685,7 +682,7 @@
             this.txtCycleTimeSeconds.SelectionLength = 0;
             this.txtCycleTimeSeconds.SelectionStart = 0;
             this.txtCycleTimeSeconds.ShortcutsEnabled = true;
-            this.txtCycleTimeSeconds.Size = new System.Drawing.Size(24, 21);
+            this.txtCycleTimeSeconds.Size = new System.Drawing.Size(22, 26);
             this.txtCycleTimeSeconds.TabIndex = 6;
             this.txtCycleTimeSeconds.Text = "5";
             this.txtCycleTimeSeconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -969,9 +966,6 @@
             // 
             // txtPreviousWins
             // 
-            // 
-            // 
-            // 
             this.txtPreviousWins.CustomButton.Image = null;
             this.txtPreviousWins.CustomButton.Location = new System.Drawing.Point(20, 1);
             this.txtPreviousWins.CustomButton.Name = "";
@@ -981,8 +975,9 @@
             this.txtPreviousWins.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtPreviousWins.CustomButton.UseSelectable = true;
             this.txtPreviousWins.CustomButton.Visible = false;
+            this.txtPreviousWins.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtPreviousWins.Lines = new string[] { "0" };
-            this.txtPreviousWins.Location = new System.Drawing.Point(99, 12);
+            this.txtPreviousWins.Location = new System.Drawing.Point(99, 10);
             this.txtPreviousWins.MaxLength = 5;
             this.txtPreviousWins.Name = "txtPreviousWins";
             this.txtPreviousWins.PasswordChar = '\0';
@@ -991,7 +986,7 @@
             this.txtPreviousWins.SelectionLength = 0;
             this.txtPreviousWins.SelectionStart = 0;
             this.txtPreviousWins.ShortcutsEnabled = true;
-            this.txtPreviousWins.Size = new System.Drawing.Size(40, 21);
+            this.txtPreviousWins.Size = new System.Drawing.Size(50, 24);
             this.txtPreviousWins.TabIndex = 1;
             this.txtPreviousWins.Text = "0";
             this.txtPreviousWins.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -1013,9 +1008,6 @@
             // 
             // txtGameExeLocation
             // 
-            // 
-            // 
-            // 
             this.txtGameExeLocation.CustomButton.Image = null;
             this.txtGameExeLocation.CustomButton.Location = new System.Drawing.Point(369, 1);
             this.txtGameExeLocation.CustomButton.Name = "";
@@ -1026,6 +1018,7 @@
             this.txtGameExeLocation.CustomButton.UseSelectable = true;
             this.txtGameExeLocation.CustomButton.Visible = false;
             this.txtGameExeLocation.Enabled = false;
+            this.txtGameExeLocation.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtGameExeLocation.Lines = new string[0];
             this.txtGameExeLocation.Location = new System.Drawing.Point(162, 46);
             this.txtGameExeLocation.Margin = new System.Windows.Forms.Padding(2);
@@ -1045,9 +1038,6 @@
             // 
             // txtGameShortcutLocation
             // 
-            // 
-            // 
-            // 
             this.txtGameShortcutLocation.CustomButton.Image = null;
             this.txtGameShortcutLocation.CustomButton.Location = new System.Drawing.Point(381, 1);
             this.txtGameShortcutLocation.CustomButton.Name = "";
@@ -1058,6 +1048,7 @@
             this.txtGameShortcutLocation.CustomButton.UseSelectable = true;
             this.txtGameShortcutLocation.CustomButton.Visible = false;
             this.txtGameShortcutLocation.Enabled = false;
+            this.txtGameShortcutLocation.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtGameShortcutLocation.Lines = new string[0];
             this.txtGameShortcutLocation.Location = new System.Drawing.Point(162, 46);
             this.txtGameShortcutLocation.Margin = new System.Windows.Forms.Padding(2);
@@ -1584,8 +1575,9 @@
             this.txtFallalyticsAPIKey.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtFallalyticsAPIKey.CustomButton.UseSelectable = true;
             this.txtFallalyticsAPIKey.CustomButton.Visible = false;
+            this.txtFallalyticsAPIKey.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtFallalyticsAPIKey.Lines = new string[] { "4d328236-b3c2-4449-a158-d07128671920" };
-            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 102);
+            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 105);
             this.txtFallalyticsAPIKey.MaxLength = 32767;
             this.txtFallalyticsAPIKey.Name = "txtFallalyticsAPIKey";
             this.txtFallalyticsAPIKey.PasswordChar = '\0';
@@ -1594,7 +1586,7 @@
             this.txtFallalyticsAPIKey.SelectionLength = 0;
             this.txtFallalyticsAPIKey.SelectionStart = 0;
             this.txtFallalyticsAPIKey.ShortcutsEnabled = true;
-            this.txtFallalyticsAPIKey.Size = new System.Drawing.Size(303, 23);
+            this.txtFallalyticsAPIKey.Size = new System.Drawing.Size(303, 29);
             this.txtFallalyticsAPIKey.TabIndex = 4;
             this.txtFallalyticsAPIKey.Text = "4d328236-b3c2-4449-a158-d07128671920";
             this.txtFallalyticsAPIKey.UseSelectable = true;

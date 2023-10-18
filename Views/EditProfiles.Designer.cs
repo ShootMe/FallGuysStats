@@ -162,9 +162,6 @@
             // 
             // txtAddProfile
             // 
-            // 
-            // 
-            // 
             this.txtAddProfile.CustomButton.Image = null;
             this.txtAddProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
             this.txtAddProfile.CustomButton.Name = "";
@@ -234,9 +231,6 @@
             this.btnRenameProfile.Click += new System.EventHandler(this.RenameButton_Click);
             // 
             // txtRenameProfile
-            // 
-            // 
-            // 
             // 
             this.txtRenameProfile.CustomButton.Image = null;
             this.txtRenameProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
