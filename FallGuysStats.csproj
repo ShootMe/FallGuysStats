@@ -71,12 +71,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
-<!--  <ItemGroup>-->
-<!--    <Content Include="Entities\SecretKey.tt">-->
-<!--      <Generator>TextTemplatingFileGenerator</Generator>-->
-<!--      <LastGenOutput>SecretKey.cs</LastGenOutput>-->
-<!--    </Content>-->
-<!--  </ItemGroup>-->
   <ItemGroup>
     <Compile Include="Controls\ImageComboBox.cs">
       <SubType>Component</SubType>
@@ -97,17 +91,14 @@
     <Compile Include="Entities\CustomRangeTemplates.cs" />
     <Compile Include="Entities\FallalyticsReporter.cs" />
     <Compile Include="Entities\FallalyticsPbInfo.cs" />
+    <Compile Include="Entities\GameStateWatcher.cs" />
     <Compile Include="Entities\ImageItem.cs" />
     <Compile Include="Entities\Json.cs" />
     <Compile Include="Entities\LevelType.cs" />
     <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\Multilingual.cs" />
     <Compile Include="Entities\Profiles.cs" />
-<!--    <Compile Include="Entities\SecretKey.cs">-->
-<!--      <AutoGen>True</AutoGen>-->
-<!--      <DesignTime>True</DesignTime>-->
-<!--      <DependentUpon>SecretKey.tt</DependentUpon>-->
-<!--    </Compile>-->
+    <Compile Include="Entities\ServerPingWatcher.cs" />
     <Compile Include="Entities\StatSummary.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Views\EditShows.cs">
