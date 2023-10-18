@@ -107,6 +107,7 @@
             this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Title";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectLanguage_FormClosing);
             this.Load += new System.EventHandler(this.SelectLanguage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picLanguageSelection)).EndInit();

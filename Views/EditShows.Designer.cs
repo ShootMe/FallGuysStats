@@ -146,6 +146,7 @@
             this.ShowInTaskbar = true;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Edit Shows";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.EditShows_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditShows_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.picEditShowsIcon)).EndInit();
