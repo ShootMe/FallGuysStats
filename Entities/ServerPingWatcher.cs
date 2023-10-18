@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 
 namespace FallGuysStats {
     public class ServerPingWatcher {
-        public Stats StatsForm { get; set; }
-        
         private const int UpdateDelay = 2000;
 
         private bool running;
@@ -18,15 +16,12 @@ namespace FallGuysStats {
         private int randomElement;
         private readonly int[] moreDelayValues = { 0, 100, 200, 300, 400, 500 };
         private int addMoreRandomDelay;
-        private bool toggleRequestCountryInfoApi;
 
         public void Start() {
             if (this.running) { return; }
             
             this.stop = false;
             Task.Run(this.CheckServerPing);
-            this.toggleRequestCountryInfoApi = false;
-            Task.Run(this.GetIpToCountryInfo);
         }
 
         private async void CheckServerPing() {
@@ -60,28 +55,6 @@ namespace FallGuysStats {
                     this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
                 }
                 await Task.Delay(UpdateDelay + addMoreRandomDelay);
-            }
-        }
-
-        private void GetIpToCountryInfo() {
-            while (!this.toggleRequestCountryInfoApi) {
-                try {
-                    this.toggleRequestCountryInfoApi = true;
-                    Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
-                                                    
-                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                            System.Windows.Forms.ToolTipIcon.Info, 2000);
-                    }
-
-                    if (string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                        this.toggleRequestCountryInfoApi = false;
-                    }
-                } catch {
-                    this.toggleRequestCountryInfoApi = false;
-                    Stats.LastCountryAlpha2Code = string.Empty;
-                }
             }
         }
     }

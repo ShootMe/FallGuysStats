@@ -158,9 +158,6 @@ namespace FallGuysStats {
         public static DateTime? LastPlayedRoundStart { get; set; } = null;
         public static DateTime? LastPlayedRoundEnd { get; set; } = null;
         
-        public static bool IsPlaying = false;
-        public static bool IsPrePlaying = false;
-        
         public static bool IsQueued = false;
         public static int QueuedPlayers = 0;
         

@@ -83,8 +83,8 @@ namespace FallGuysStats {
         public event Action<DateTime> OnNewLogFileDate;
         public event Action<string> OnError;
 
-        private readonly ServerPingWatcher serverPing = new ServerPingWatcher();
-        private readonly GameStateWatcher gameState = new GameStateWatcher();
+        private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
+        private readonly GameStateWatcher gameStateWatcher = new GameStateWatcher();
 
         public void Start(string logDirectory, string fileName) {
             if (this.running) { return; }
@@ -461,9 +461,37 @@ namespace FallGuysStats {
             }
         }
 
+        private void SetCountryCode() {
+            if (!this.toggleRequestCountryInfoApi) {
+                this.toggleRequestCountryInfoApi = true;
+                Task.Run(() => {
+                    if (Stats.IsClientRunning()) {
+                        try {
+                            Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
+
+                            if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
+                                    this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                        System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                }
+                            } else {
+                                this.toggleRequestCountryInfoApi = false;
+                            }
+                        } catch {
+                            this.toggleRequestCountryInfoApi = false;
+                            Stats.LastCountryAlpha2Code = string.Empty;
+                        }
+                    } else {
+                        Stats.LastCountryAlpha2Code = string.Empty;
+                    }
+                });
+            }
+        }
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (!Stats.IsPrePlaying && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
+            if (!Stats.ToggleServerInfo && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
                 string detail;
                 StringReader sr = new StringReader(line.Line);
                 while ((detail = sr.ReadLine()) != null) {
@@ -515,17 +543,14 @@ namespace FallGuysStats {
             } else if (Stats.IsDisplayOverlayPing && !Stats.EndedShow && line.Line.IndexOf("[FG_UnityInternetNetworkManager] Client connected to Server", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (!Stats.ToggleServerInfo) {
                     Stats.ToggleServerInfo = true;
-                    Stats.IsPrePlaying = true;
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
-                    // Stats.LastCountryAlpha2Code = this.StatsForm.GetCountryCode(this.StatsForm.pathToGeoLite2Db, Stats.LastServerIp).ToLower();
+                    this.SetCountryCode();
                 }
-
-                if (line.Date > this.StatsForm.startupTime) {
-                    this.serverPing.StatsForm = this.StatsForm;
-                    this.serverPing.Start();
-                }
+                
+                this.serverPingWatcher.Start();
+                // if (line.Date > this.StatsForm.startupTime) { this.serverPing.Start(); }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.selectedShowId.StartsWith("ugc-")) {
@@ -547,7 +572,9 @@ namespace FallGuysStats {
                     Stats.IsLastPlayedRoundStillPlaying = false;
                     Stats.LastPlayedRoundStart = null;
                     Stats.LastPlayedRoundEnd = null;
-                    if (line.Date > this.StatsForm.startupTime) { this.gameState.Start(); }
+                    
+                    this.gameStateWatcher.Start();
+                    // if (line.Date > this.StatsForm.startupTime) { this.gameState.Start(); }
                 }
 
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode };
@@ -643,7 +670,6 @@ namespace FallGuysStats {
                 int prevIndex = line.Line.IndexOf(",", index + 11);
                 logRound.CurrentPlayerID = line.Line.Substring(index + 11, prevIndex - index - 11);
             } else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
-                Stats.IsPlaying = true;
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
                 logRound.CountingPlayers = false;
@@ -697,8 +723,6 @@ namespace FallGuysStats {
                 }
 
                 Stats.ToggleServerInfo = false;
-                Stats.IsPlaying = false;
-                Stats.IsPrePlaying = false;
 
                 if (Stats.InShow && Stats.LastPlayedRoundStart.HasValue && !Stats.LastPlayedRoundEnd.HasValue) {
                     Stats.LastPlayedRoundEnd = line.Date;
