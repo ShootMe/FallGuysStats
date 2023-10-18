@@ -86,9 +86,9 @@
             // btnProfileUp
             // 
             this.btnProfileUp.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfileUp.Location = new System.Drawing.Point(506, 20);
+            this.btnProfileUp.Location = new System.Drawing.Point(506, 19);
             this.btnProfileUp.Name = "btnProfileUp";
-            this.btnProfileUp.Size = new System.Drawing.Size(20, 160);
+            this.btnProfileUp.Size = new System.Drawing.Size(20, 174);
             this.btnProfileUp.TabIndex = 3;
             this.btnProfileUp.Text = "∧";
             this.btnProfileUp.UseSelectable = true;
@@ -97,9 +97,9 @@
             // btnProfileDown
             // 
             this.btnProfileDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfileDown.Location = new System.Drawing.Point(506, 184);
+            this.btnProfileDown.Location = new System.Drawing.Point(506, 197);
             this.btnProfileDown.Name = "btnProfileDown";
-            this.btnProfileDown.Size = new System.Drawing.Size(20, 160);
+            this.btnProfileDown.Size = new System.Drawing.Size(20, 174);
             this.btnProfileDown.TabIndex = 4;
             this.btnProfileDown.Text = "∨";
             this.btnProfileDown.UseSelectable = true;

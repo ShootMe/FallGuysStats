@@ -2819,24 +2819,22 @@ namespace FallGuysStats {
                                         stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                         //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                         stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                    } catch (WebException we) {
-                                        if (we.Status == WebExceptionStatus.ProtocolError) {
-                                            RoundInfo ri = this.GetRoundInfoFromShareCode(stat.ShowNameId);
-                                            if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
-                                                stat.CreativeOnlinePlatformId = ri.CreativePlatformId;
-                                                stat.CreativeAuthor = ri.CreativeAuthor;
-                                                stat.CreativeShareCode = ri.CreativeShareCode;
-                                                stat.CreativeVersion = ri.CreativeVersion;
-                                                stat.CreativeStatus = ri.CreativeStatus;
-                                                stat.CreativeTitle = ri.CreativeTitle;
-                                                stat.CreativeDescription = ri.CreativeDescription;
-                                                stat.CreativeMaxPlayer = ri.CreativeMaxPlayer;
-                                                stat.CreativePlatformId = ri.CreativePlatformId;
-                                                stat.CreativeLastModifiedDate = ri.CreativeLastModifiedDate;
-                                                stat.CreativePlayCount = ri.CreativePlayCount;
-                                                stat.CreativeQualificationPercent = ri.CreativeQualificationPercent;
-                                                stat.CreativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
-                                            }
+                                    } catch {
+                                        RoundInfo ri = this.GetRoundInfoFromShareCode(stat.ShowNameId);
+                                        if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
+                                            stat.CreativeOnlinePlatformId = ri.CreativePlatformId;
+                                            stat.CreativeAuthor = ri.CreativeAuthor;
+                                            stat.CreativeShareCode = ri.CreativeShareCode;
+                                            stat.CreativeVersion = ri.CreativeVersion;
+                                            stat.CreativeStatus = ri.CreativeStatus;
+                                            stat.CreativeTitle = ri.CreativeTitle;
+                                            stat.CreativeDescription = ri.CreativeDescription;
+                                            stat.CreativeMaxPlayer = ri.CreativeMaxPlayer;
+                                            stat.CreativePlatformId = ri.CreativePlatformId;
+                                            stat.CreativeLastModifiedDate = ri.CreativeLastModifiedDate;
+                                            stat.CreativePlayCount = ri.CreativePlayCount;
+                                            stat.CreativeQualificationPercent = ri.CreativeQualificationPercent;
+                                            stat.CreativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                                         } else {
                                             stat.CreativeShareCode = null;
                                             stat.CreativeOnlinePlatformId = null;
@@ -2852,20 +2850,6 @@ namespace FallGuysStats {
                                             stat.CreativeQualificationPercent = 0;
                                             stat.CreativeTimeLimitSeconds = 0;
                                         }
-                                    } catch (Exception ex) {
-                                        stat.CreativeShareCode = null;
-                                        stat.CreativeOnlinePlatformId = null;
-                                        stat.CreativeAuthor = null;
-                                        stat.CreativeVersion = 0;
-                                        stat.CreativeStatus = null;
-                                        stat.CreativeTitle = null;
-                                        stat.CreativeDescription = null;
-                                        stat.CreativeMaxPlayer = 0;
-                                        stat.CreativePlatformId = null;
-                                        stat.CreativeLastModifiedDate = DateTime.MinValue;
-                                        stat.CreativePlayCount = 0;
-                                        stat.CreativeQualificationPercent = 0;
-                                        stat.CreativeTimeLimitSeconds = 0;
                                     }
                                 }
 
