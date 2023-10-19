@@ -452,6 +452,7 @@ namespace FallGuysStats {
                     }
                 }
             } else {
+                this.toggleFgdbCreativeApi = true;
                 RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
                 if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
                     this.creativeOnlinePlatformId = ri.CreativePlatformId;
@@ -468,7 +469,6 @@ namespace FallGuysStats {
                     this.creativeQualificationPercent = ri.CreativeQualificationPercent;
                     this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                 } else {
-                    this.toggleFgdbCreativeApi = false;
                     this.ClearCreativeLevelVariable();
                 }
             }
