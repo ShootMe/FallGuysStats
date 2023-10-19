@@ -841,13 +841,29 @@ namespace FallGuysStats {
                 DateTime end = this.lastRound.End;
                 TimeSpan runningTime = start > currentUTC ? currentUTC - this.startTime : currentUTC - start;
                 int maxRunningTime = 12; // in minutes
+                int showType = (("main_show".Equals(this.lastRound.ShowNameId) || "turbo_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                             : (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squadcelebration".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 
                 if (!Stats.IsDisplayOverlayTime) {
                     this.lblDuration.TextRight = "-";
                 } else if (Stats.LastPlayedRoundEnd.HasValue && Stats.LastPlayedRoundEnd > Stats.LastPlayedRoundStart) {
                     this.lblDuration.TextRight = $"{Stats.LastPlayedRoundEnd - Stats.LastPlayedRoundStart:m\\:ss\\.ff}";
                 } else if (Stats.IsLastPlayedRoundStillPlaying) {
-                    runningTime = currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC);
+                    if (this.lastRound.UseShareCode) {
+                        if (this.lastRound.CreativeTimeLimitSeconds > 0) {
+                            runningTime = TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC));
+                        } else {
+                            runningTime = currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC);
+                        }
+                    } else {
+                        if (showType == 1) {
+                            runningTime = TimeSpan.FromSeconds(level.TimeLimitSeconds) - (currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC));
+                        } else if (showType == 2) {
+                            runningTime = TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC));
+                        } else {
+                            runningTime = currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC);
+                        }
+                    }
                     this.lblDuration.TextRight = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning ? "-" : $"{runningTime:m\\:ss}";
                 } else if (end != DateTime.MinValue) {
                     if (this.lastRound.UseShareCode) {
@@ -857,9 +873,9 @@ namespace FallGuysStats {
                             this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
                         }
                     } else {
-                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
+                        if (showType == 1) {
                             this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - (end - start):m\\:ss\\.ff}";
-                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
+                        } else if (showType == 2) {
                             this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - (end - start):m\\:ss\\.ff}";
                         } else {
                             this.lblDuration.TextRight = $"{end - start:m\\:ss\\.ff}";
@@ -873,10 +889,10 @@ namespace FallGuysStats {
                             this.lblDuration.TextRight = $"{runningTime:m\\:ss}";
                         }
                     } else {
-                        if ((("main_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0) {
-                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSeconds)) - runningTime:m\\:ss}";
-                        } else if (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0) {
-                            this.lblDuration.TextRight = $"{(TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad)) - runningTime:m\\:ss}";
+                        if (showType == 1) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSeconds) - runningTime:m\\:ss}";
+                        } else if (showType == 2) {
+                            this.lblDuration.TextRight = $"{TimeSpan.FromSeconds(level.TimeLimitSecondsForSquad) - runningTime:m\\:ss}";
                         } else {
                             this.lblDuration.TextRight = $"{runningTime:m\\:ss}";
                         }
