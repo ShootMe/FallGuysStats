@@ -854,10 +854,11 @@ namespace FallGuysStats {
                     }
                     this.lblDuration.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
                 } else if (end != DateTime.MinValue) {
+                    TimeSpan time = end - start;
                     if (this.lastRound.UseShareCode) {
-                        this.lblDuration.TextRight = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (end - start):m\\:ss\\.ff}" : $"{end - start:m\\:ss\\.ff}";
+                        this.lblDuration.TextRight = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                     } else {
-                        this.lblDuration.TextRight = timeLimit > 0? $"{TimeSpan.FromSeconds(timeLimit) - (end - start):m\\:ss\\.ff}" : $"{end - start:m\\:ss\\.ff}";
+                        this.lblDuration.TextRight = timeLimit > 0? $"{TimeSpan.FromSeconds(timeLimit) - time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                     }
                 } else if (this.lastRound.Playing) {
                     if (this.lastRound.UseShareCode) {
@@ -929,7 +930,7 @@ namespace FallGuysStats {
                         }
                     } else if (end != DateTime.MinValue) {
                         TimeSpan time = end - start;
-                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && !this.lastRound.Crown) ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
+                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && ((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{time:m\\:ss\\.ff}" : $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}";
                         this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : this.StatsForm.ColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
                         bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
