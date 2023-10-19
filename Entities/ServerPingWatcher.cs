@@ -14,7 +14,7 @@ namespace FallGuysStats {
 
         private readonly Random random = new Random();
         private int randomElement;
-        private readonly int[] moreDelayValues = { 0, 200, 400, 600, 800, 1000 };
+        private readonly int[] moreDelayValues = { 0, 100, 200, 300, 400, 500 };
         private int addMoreRandomDelay;
 
         public void Start() {
@@ -54,7 +54,7 @@ namespace FallGuysStats {
                     this.randomElement = this.random.Next(0, this.moreDelayValues.Length);
                     this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
                 }
-                await Task.Delay(UpdateDelay + addMoreRandomDelay);
+                await Task.Delay(UpdateDelay + this.addMoreRandomDelay);
             }
         }
     }
