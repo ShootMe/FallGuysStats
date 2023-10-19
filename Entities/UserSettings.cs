@@ -43,6 +43,7 @@ namespace FallGuysStats {
         public bool AutoChangeProfile { get; set; }
         public bool ShadeTheFlagImage { get; set; }
         public bool DisplayCurrentTime { get; set; }
+        public bool DisplayGamePlayedInfo { get; set; }
         public int PreviousWins { get; set; }
         public int WinsFilter { get; set; }
         public int FastestFilter { get; set; }

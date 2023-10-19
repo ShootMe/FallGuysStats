@@ -505,7 +505,7 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
+            if (!Stats.ToggleServerInfo && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
                 string detail;
                 StringReader sr = new StringReader(line.Line);
                 while ((detail = sr.ReadLine()) != null) {

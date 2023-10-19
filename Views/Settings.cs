@@ -91,6 +91,7 @@ namespace FallGuysStats {
             this.chkAutoChangeProfile.Checked = this.CurrentSettings.AutoChangeProfile;
             this.chkShadeTheFlagImage.Checked = this.CurrentSettings.ShadeTheFlagImage;
             this.chkDisplayCurrentTime.Checked = this.CurrentSettings.DisplayCurrentTime;
+            this.chkDisplayGamePlayedInfo.Checked = this.CurrentSettings.DisplayGamePlayedInfo;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -408,6 +409,7 @@ namespace FallGuysStats {
             this.CurrentSettings.AutoChangeProfile = this.chkAutoChangeProfile.Checked;
             this.CurrentSettings.ShadeTheFlagImage = this.chkShadeTheFlagImage.Checked;
             this.CurrentSettings.DisplayCurrentTime = this.chkDisplayCurrentTime.Checked;
+            this.CurrentSettings.DisplayGamePlayedInfo = this.chkDisplayGamePlayedInfo.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -866,6 +868,7 @@ namespace FallGuysStats {
             this.chkAutoChangeProfile.Text = Multilingual.GetWord("settings_auto_change_profile");
             this.chkShadeTheFlagImage.Text = Multilingual.GetWord("settings_shade_the_flag_image");
             this.chkDisplayCurrentTime.Text = Multilingual.GetWord("settings_diaplay_current_time");
+            this.chkDisplayGamePlayedInfo.Text = Multilingual.GetWord("settings_diaplay_game_played_info");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");

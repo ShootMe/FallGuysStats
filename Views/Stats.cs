@@ -2142,6 +2142,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 58;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 58) {
+                this.CurrentSettings.DisplayGamePlayedInfo = true;
+                this.CurrentSettings.Version = 59;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2187,6 +2193,7 @@ namespace FallGuysStats {
                 AutoChangeProfile = false,
                 ShadeTheFlagImage = false,
                 DisplayCurrentTime = false,
+                DisplayGamePlayedInfo = false,
                 PreviousWins = 0,
                 WinsFilter = 1,
                 QualifyFilter = 1,
@@ -2219,7 +2226,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 58
+                Version = 59
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {

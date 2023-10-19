@@ -65,6 +65,7 @@
             this.chkAutoChangeProfile = new MetroFramework.Controls.MetroCheckBox();
             this.chkShadeTheFlagImage = new MetroFramework.Controls.MetroCheckBox();
             this.chkDisplayCurrentTime = new MetroFramework.Controls.MetroCheckBox();
+            this.chkDisplayGamePlayedInfo = new MetroFramework.Controls.MetroCheckBox();
             this.lblCycleTimeSecondsTag = new MetroFramework.Controls.MetroLabel();
             this.lblCycleTimeSeconds = new MetroFramework.Controls.MetroLabel();
             this.txtCycleTimeSeconds = new MetroFramework.Controls.MetroTextBox();
@@ -219,7 +220,7 @@
             // 
             this.lblOverlayFont.AutoSize = true;
             this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblOverlayFont.Location = new System.Drawing.Point(21, 690);
+            this.lblOverlayFont.Location = new System.Drawing.Point(21, 719);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(140, 19);
             this.lblOverlayFont.TabIndex = 27;
@@ -228,7 +229,7 @@
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(169, 689);
+            this.btnSelectFont.Location = new System.Drawing.Point(169, 718);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -240,7 +241,7 @@
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 689);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 718);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -252,7 +253,7 @@
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 714);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 743);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
@@ -639,6 +640,18 @@
             this.chkDisplayCurrentTime.TabIndex = 28;
             this.chkDisplayCurrentTime.Text = "Display the current time while waiting";
             this.chkDisplayCurrentTime.UseSelectable = true;
+            // 
+            // chkDisplayGamePlayedInfo
+            // 
+            this.chkDisplayGamePlayedInfo.AutoSize = true;
+            this.chkDisplayGamePlayedInfo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkDisplayGamePlayedInfo.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkDisplayGamePlayedInfo.Location = new System.Drawing.Point(21, 668);
+            this.chkDisplayGamePlayedInfo.Name = "chkDisplayGamePlayedInfo";
+            this.chkDisplayGamePlayedInfo.Size = new System.Drawing.Size(255, 19);
+            this.chkDisplayGamePlayedInfo.TabIndex = 29;
+            this.chkDisplayGamePlayedInfo.Text = "Display game played information at the end of a round";
+            this.chkDisplayGamePlayedInfo.UseSelectable = true;
             // 
             // lblCycleTimeSecondsTag
             // 
@@ -1227,6 +1240,7 @@
             this.panelOverlay.Controls.Add(this.chkAutoChangeProfile);
             this.panelOverlay.Controls.Add(this.chkShadeTheFlagImage);
             this.panelOverlay.Controls.Add(this.chkDisplayCurrentTime);
+            this.panelOverlay.Controls.Add(this.chkDisplayGamePlayedInfo);
             this.panelOverlay.Controls.Add(this.chkColorByRoundType);
             this.panelOverlay.Controls.Add(this.chkPlayerByConsoleType);
             this.panelOverlay.Controls.Add(this.chkOverlayOnTop);
@@ -1710,6 +1724,7 @@
         private MetroFramework.Controls.MetroCheckBox chkAutoChangeProfile;
         private MetroFramework.Controls.MetroCheckBox chkShadeTheFlagImage;
         private MetroFramework.Controls.MetroCheckBox chkDisplayCurrentTime;
+        private MetroFramework.Controls.MetroCheckBox chkDisplayGamePlayedInfo;
         private MetroFramework.Controls.MetroComboBox cboFastestFilter;
         private MetroFramework.Controls.MetroLabel lblFastestFilter;
         private MetroFramework.Controls.MetroComboBox cboQualifyFilter;
