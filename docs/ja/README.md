@@ -66,8 +66,8 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
 
 ---
 
->ファイルのダウンロード中にWebブラウザがマルウェアと疑われてダウンロードを中止する場合は、下のスクリーンショットをご覧ください。
-FallGuysStatsはオープンソースなので、誰でもコードを見ることができます。 だから安心してダウンロードしてください。
+>よくある質問: ファイルのダウンロード中にWebブラウザなどにマルウェアと疑われてダウンロードが中止された
+FallGuysStatsはソースコードが公開されており、誰でもコードを見ることができます(オープンソース)。安心してダウンロードしてください。
 
 ![Download](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/docs/ja/download.png)
 
@@ -113,7 +113,7 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 ![Fall Guys Stats Dark Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/levelWindowDarkTheme.png)
 
 ## 多言語
-  - FallGuysStatsは次の言語に対応しています:
+  - FallGuysStatsは以下の言語に対応しています:
     - 🇺🇸 `英語`
     - 🇫🇷 `フランス語`
     - 🇰🇷 `韓国語`
@@ -143,10 +143,10 @@ FallGuysStatsはオープンソースなので、誰でもコードを見るこ�
 
 
 ### オーバーレイの画像を変更する方法
-  - **Step 1.** オーバーレイのオリジナル画像を[ダウンロード](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip)してください。
+  - **Step 1.** オーバーレイのオリジナル画像を[ダウンロード](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/original_image_for_overlay.zip)します。
 
 
-  - **Step 2.** `background.png`と`tab.png`ファイルを[ここで](https://www.photopea.com/)好きなように編集します。
+  - **Step 2.** `background.png`と`tab.png`ファイルを画像編集アプリ([Photopea](https://www.photopea.com/)など)で好きなように編集します。
 
 
   - **Step 3.** 編集した画像ファイルを次のように名前を変更します。
