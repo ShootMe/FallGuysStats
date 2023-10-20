@@ -786,16 +786,16 @@ namespace FallGuysStats {
                             }
                             this.lblCountryIcon.Image = (Image)(Stats.ToggleServerInfo && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                             this.lblCountryIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing < 1000)
-                                                            ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39 :
-                                                               Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30 :
-                                                               Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -3 :
-                                                               Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -6 : 0) : -12;
+                                                         ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39
+                                                           : Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30
+                                                           : Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -3
+                                                           : Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -6 : 0) : -12;
                             
-                            this.lblPingIcon.Image = (Stats.ToggleServerInfo && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon :
-                                                      (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
-                            this.lblPingIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15 :
-                                                       (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17 :
-                                                       (Stats.ToggleServerInfo && Stats.LastServerPing > 999) ? -24 : 0;
+                            this.lblPingIcon.Image = (Stats.ToggleServerInfo && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon
+                                                     : (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                            this.lblPingIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15
+                                                      : (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17
+                                                      : (Stats.ToggleServerInfo && Stats.LastServerPing > 999) ? -24 : 0;
                             
                             if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
                                 this.lblCountryIcon.ImageX += 7;
@@ -824,7 +824,7 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 
                 int showType = (("main_show".Equals(this.lastRound.ShowNameId) || "turbo_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
-                    : (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squadcelebration".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
+                               : (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squadcelebration".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
                 if (this.lastRound.UseShareCode) {
@@ -918,11 +918,17 @@ namespace FallGuysStats {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.Gold;
+                            } else {
+                                this.lblFinish.ForeColor = this.ForeColor;
                             }
-                        } else if (time > levelSummary.LongestFinish && time < levelSummary.LongestFinishOverall) {
-                            this.lblFinish.ForeColor = Color.LightGreen;
-                        } else if (time > levelSummary.LongestFinishOverall) {
-                            this.lblFinish.ForeColor = Color.Gold;
+                        } else if (recordType == BestRecordType.Longest) {
+                            if (time > levelSummary.LongestFinish && time < levelSummary.LongestFinishOverall) {
+                                this.lblFinish.ForeColor = Color.LightGreen;
+                            } else if (time > levelSummary.LongestFinishOverall) {
+                                this.lblFinish.ForeColor = Color.Gold;
+                            } else {
+                                this.lblFinish.ForeColor = this.ForeColor;
+                            }
                         } else {
                             this.lblFinish.ForeColor = this.ForeColor;
                         }
