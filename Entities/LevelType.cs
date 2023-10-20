@@ -17,7 +17,7 @@ namespace FallGuysStats {
         Invisibeans,
         Final
     }
-    public enum RecordType {
+    public enum BestRecordType {
         Fastest,
         Longest,
         HighScore

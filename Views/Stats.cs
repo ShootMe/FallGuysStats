@@ -2943,7 +2943,7 @@ namespace FallGuysStats {
                                 roundName = roundName.Substring(6).Replace('_', ' ');
                             }
 
-                            LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, RecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                            LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -3312,7 +3312,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        public StatSummary GetLevelInfo(string name, LevelType levelType, RecordType recordType, bool useShareCode) {
+        public StatSummary GetLevelInfo(string name, LevelType levelType, BestRecordType recordType, bool useShareCode) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
                 TotalShows = 0,
@@ -3325,7 +3325,7 @@ namespace FallGuysStats {
                 List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelType.CreativeLevelTypeId().Equals(r.Name) && name.Equals(r.ShowNameId));
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue(levelType.CreativeLevelTypeId(), out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, RecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                    currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                 }
                 
                 for (int i = 0; i < filteredInfo.Count; i++) {
@@ -3376,7 +3376,7 @@ namespace FallGuysStats {
                         }
 
                         if (isInFastestFilter) {
-                            if ((!hasLevelDetails || recordType == RecordType.HighScore)
+                            if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
                                 && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                                 summary.BestScore = info.Score;
                             }
@@ -3446,7 +3446,7 @@ namespace FallGuysStats {
             } else {
                 int lastShow = -1;
                 if (!this.StatLookup.TryGetValue(name, out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, RecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                    currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                 }
 
                 for (int i = 0; i < this.AllStats.Count; i++) {
@@ -3500,7 +3500,7 @@ namespace FallGuysStats {
                         }
 
                         if (isInFastestFilter) {
-                            if ((!hasLevelDetails || recordType == RecordType.HighScore)
+                            if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
                                 && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                                 summary.BestScore = info.Score;
                             }

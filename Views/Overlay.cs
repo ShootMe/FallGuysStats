@@ -665,7 +665,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFastestLabel(StatSummary levelSummary, LevelType type, RecordType recordType, int overlaySetting) {
+        private void SetFastestLabel(StatSummary levelSummary, BestRecordType recordType, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 2)) {
                 this.lblFastest.OverlaySetting = overlaySetting;
                 this.lblFastest.TickProgress = DateTime.Now.Second;
@@ -681,9 +681,9 @@ namespace FallGuysStats {
                     int fastestSwitchCount = this.switchCount;
                     
                     if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 : recordType == RecordType.HighScore ? 2 : 1;
+                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 : recordType == BestRecordType.HighScore ? 2 : 1;
                     }
-                    switch (fastestSwitchCount % ((levelSummary.BestScore.HasValue && recordType != RecordType.Fastest) ? 3 : 2)) {
+                    switch (fastestSwitchCount % ((levelSummary.BestScore.HasValue && recordType != BestRecordType.Fastest) ? 3 : 2)) {
                         case 0:
                             this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
                             this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
@@ -694,7 +694,7 @@ namespace FallGuysStats {
                                 this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
                             } else {
                                 this.lblFastest.Text = $"{Multilingual.GetWord("overlay_personal_best")} :";
-                                if (recordType == RecordType.Longest) {
+                                if (recordType == BestRecordType.Longest) {
                                     this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
                                 } else {
                                     this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
@@ -869,7 +869,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, RecordType recordType, DateTime currentUTC, int overlaySetting) {
+        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, BestRecordType recordType, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
@@ -913,7 +913,7 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (recordType == RecordType.Fastest) {
+                        if (recordType == BestRecordType.Fastest) {
                             if (time < levelSummary.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
@@ -966,7 +966,7 @@ namespace FallGuysStats {
                     }
                     
                     LevelType levelType = (level?.Type).GetValueOrDefault(LevelType.Unknown);
-                    RecordType recordType = (level?.RecordType).GetValueOrDefault(RecordType.Fastest);
+                    BestRecordType recordType = (level?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
                     StatSummary levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, levelType, recordType, this.lastRound.UseShareCode);
                     
                     this.SetRoundLabel(level, levelType, roundName, overlaySetting);
@@ -974,7 +974,7 @@ namespace FallGuysStats {
                     this.SetFinalsLabel(levelSummary, overlaySetting);
                     this.SetQualifyChanceLabel(levelSummary, overlaySetting);
                     this.SetPlayersLabel(overlaySetting);
-                    this.SetFastestLabel(levelSummary, levelType, recordType, overlaySetting);
+                    this.SetFastestLabel(levelSummary, recordType, overlaySetting);
                     this.SetStreakLabel(levelSummary, overlaySetting);
                     
                     if (this.isTimeToSwitch) {
