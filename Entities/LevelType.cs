@@ -17,6 +17,11 @@ namespace FallGuysStats {
         Invisibeans,
         Final
     }
+    public enum RecordType {
+        Fastest,
+        Longest,
+        HighScore
+    }
     internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
             switch (type) {

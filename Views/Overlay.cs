@@ -29,7 +29,6 @@ namespace FallGuysStats {
         private Bitmap Background, DrawImage;
         private Graphics DrawGraphics;
         private RoundInfo lastRound;
-        private int levelException;
         private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
@@ -666,7 +665,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFastestLabel(StatSummary levelSummary, LevelType type, int overlaySetting) {
+        private void SetFastestLabel(StatSummary levelSummary, LevelType type, RecordType recordType, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 2)) {
                 this.lblFastest.OverlaySetting = overlaySetting;
                 this.lblFastest.TickProgress = DateTime.Now.Second;
@@ -682,10 +681,9 @@ namespace FallGuysStats {
                     int fastestSwitchCount = this.switchCount;
                     
                     if (!this.StatsForm.CurrentSettings.SwitchBetweenLongest) {
-                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 :
-                                             (type == LevelType.Team && this.levelException != 1) || this.levelException == 2 ? 2 : 1;
+                        fastestSwitchCount = this.StatsForm.CurrentSettings.OnlyShowLongest ? 0 : recordType == RecordType.HighScore ? 2 : 1;
                     }
-                    switch (fastestSwitchCount % ((levelSummary.BestScore.HasValue && this.levelException != 1) ? 3 : 2)) {
+                    switch (fastestSwitchCount % ((levelSummary.BestScore.HasValue && recordType != RecordType.Fastest) ? 3 : 2)) {
                         case 0:
                             this.lblFastest.Text = $"{Multilingual.GetWord("overlay_longest")} :";
                             this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
@@ -696,7 +694,7 @@ namespace FallGuysStats {
                                 this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
                             } else {
                                 this.lblFastest.Text = $"{Multilingual.GetWord("overlay_personal_best")} :";
-                                if ((type == LevelType.Survival || type == LevelType.Logic) && this.levelException != 1) {
+                                if (recordType == RecordType.Longest) {
                                     this.lblFastest.TextRight = levelSummary.LongestFinish.HasValue ? $"{levelSummary.LongestFinish:m\\:ss\\.ff}" : "-";
                                 } else {
                                     this.lblFastest.TextRight = levelSummary.BestFinish.HasValue ? $"{levelSummary.BestFinish:m\\:ss\\.ff}" : "-";
@@ -871,7 +869,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, DateTime currentUTC, int overlaySetting) {
+        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, RecordType recordType, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
@@ -915,7 +913,7 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (this.levelException == 1 || (this.levelException == 0 && (levelType == LevelType.CreativeRace || levelType == LevelType.Race || levelType == LevelType.Hunt || levelType == LevelType.Invisibeans))) {
+                        if (recordType == RecordType.Fastest) {
                             if (time < levelSummary.BestFinish.GetValueOrDefault(TimeSpan.MaxValue) && time > levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
@@ -961,25 +959,6 @@ namespace FallGuysStats {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
                     string roundName = this.lastRound.VerifiedName();
                     
-                    switch (roundName) {
-                        case "round_pixelperfect_almond": // Pixel Painters
-                        case "round_hoverboardsurvival_s4_show": // Hoverboard Heroes
-                        case "round_hoverboardsurvival2_almond": // Hyperdrive Heroes
-                        case "round_snowy_scrap": // Snowy Scrap
-                        case "round_jinxed": // Jinxed
-                        case "round_rocknroll": // Rock 'n' Roll
-                        case "round_conveyor_arena": // Team Tail Tag
-                            this.levelException = 1; // Level is like a "Race" level type (fastest time info is most important - also hide high-score info)
-                            break;
-                        case "round_1v1_button_basher": // Button Bashers
-                        case "round_1v1_volleyfall_symphony_launch_show": // Volleyfall
-                            this.levelException = 2; // Level is like a "Team" level type (score info is most important)
-                            break;
-                        default:
-                            this.levelException = 0;
-                            break;
-                    }
-                    
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
                         roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
@@ -987,14 +966,15 @@ namespace FallGuysStats {
                     }
                     
                     LevelType levelType = (level?.Type).GetValueOrDefault(LevelType.Unknown);
-                    StatSummary levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, levelType, this.levelException, this.lastRound.UseShareCode);
+                    RecordType recordType = (level?.RecordType).GetValueOrDefault(RecordType.Fastest);
+                    StatSummary levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, levelType, recordType, this.lastRound.UseShareCode);
                     
                     this.SetRoundLabel(level, levelType, roundName, overlaySetting);
                     this.SetWinsLabel(levelSummary, overlaySetting);
                     this.SetFinalsLabel(levelSummary, overlaySetting);
                     this.SetQualifyChanceLabel(levelSummary, overlaySetting);
                     this.SetPlayersLabel(overlaySetting);
-                    this.SetFastestLabel(levelSummary, levelType, overlaySetting);
+                    this.SetFastestLabel(levelSummary, levelType, recordType, overlaySetting);
                     this.SetStreakLabel(levelSummary, overlaySetting);
                     
                     if (this.isTimeToSwitch) {
@@ -1009,7 +989,7 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetFinishLabel(levelSummary, levelType, currentUTC, overlaySetting);
+                    this.SetFinishLabel(levelSummary, levelType, recordType, currentUTC, overlaySetting);
                     this.SetDurationLabel(level, currentUTC, overlaySetting);
                 }
                 this.Invalidate();
