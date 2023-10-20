@@ -17,12 +17,13 @@ namespace FallGuysStats {
         //public Dictionary<string, double[]> roundRecordData;
         public Dictionary<string, int[]> roundScoreData;
         public IOrderedEnumerable<KeyValuePair<string, string>> roundList;
+        private RadialGaugePlot radialGauges;
         private string[] labelList = {
             Multilingual.GetWord("main_played"), Multilingual.GetWord("level_detail_gold"),
             Multilingual.GetWord("level_detail_silver"), Multilingual.GetWord("level_detail_bronze"),
             Multilingual.GetWord("level_detail_pink"), Multilingual.GetWord("level_detail_eliminated")
         };
-        private bool isStartingUp;
+        private bool isInitComplete;
         private string goldMedalCount, silverMedalCount, bronzeMedalCount, pinkMedalCount, eliminatedMedalCount;
         private string goldMedalPercent, silverMedalPercent, bronzeMedalPercent, pinkMedalPercent, eliminatedMedalPercent;
         public RoundStatsDisplay() {
@@ -46,14 +47,13 @@ namespace FallGuysStats {
             this.ResumeLayout(false);
             this.ChangeLanguage();
             
-            this.isStartingUp = true;
             this.cboRoundList.DataSource = new BindingSource(this.roundList, null);
             this.cboRoundList.DisplayMember = "Value";
             this.cboRoundList.ValueMember = "Key";
 
             this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
             this.SetGraph();
-            this.isStartingUp = false;
+            this.isInitComplete = true;
         }
         
         private void SetTheme(MetroThemeStyle theme) {
@@ -159,16 +159,17 @@ namespace FallGuysStats {
             this.lblCountPinkMedal.Text = this.pinkMedalCount;
             this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
             
-            RadialGaugePlot gauges = this.formsPlot.Plot.AddRadialGauge(values);
-            gauges.OrderInsideOut = false;
-            //gauges.Clockwise = false;
-            gauges.SpaceFraction = .1;
-            //gauges.BackgroundTransparencyFraction = .3;
-            gauges.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            gauges.LabelPositionFraction = 0;
-            gauges.FontSizeFraction = .5;
-            //gauges.Font.Color = Color.Black;
-            gauges.Labels = this.labelList;
+            this.radialGauges = this.formsPlot.Plot.AddRadialGauge(values);
+            this.radialGauges.OrderInsideOut = false;
+            //this.radialGauges.Clockwise = false;
+            this.radialGauges.SpaceFraction = .1;
+            //this.radialGauges.BackgroundTransparencyFraction = .3;
+            //this.radialGauges.StartingAngle = 270;
+            this.radialGauges.EndCap = System.Drawing.Drawing2D.LineCap.Round;
+            this.radialGauges.LabelPositionFraction = 1;
+            this.radialGauges.FontSizeFraction = .7;
+            //this.radialGauges.Font.Color = Color.Black;
+            this.radialGauges.Labels = this.labelList;
             this.formsPlot.Plot.AxisZoom(.9, .9);
             this.formsPlot.Refresh();
         }
@@ -190,7 +191,7 @@ namespace FallGuysStats {
         }
 
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
-            if (!this.isStartingUp) {
+            if (this.isInitComplete) {
                 this.formsPlot.Plot.Clear();
                 this.SetGraph();
             }

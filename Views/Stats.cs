@@ -3464,18 +3464,18 @@ namespace FallGuysStats {
 
                     bool isInWinsFilter = !endRound.PrivateLobby &&
                                           (this.CurrentSettings.WinsFilter == 0 ||
-                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                            (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
-                                            (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
-                                            (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
-                                            (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
+                                          (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
+                                          (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
+                                          (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
+                                          (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
+                                          (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
                     bool isInQualifyFilter = !endRound.PrivateLobby &&
                                              (this.CurrentSettings.QualifyFilter == 0 ||
-                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                               (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
+                                             (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
+                                             (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
+                                             (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
+                                             (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
+                                             (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
                     bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
                                              (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
                                              (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
