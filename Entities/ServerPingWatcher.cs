@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 
 namespace FallGuysStats {
     public class ServerPingWatcher {
-        private const int UpdateDelay = 2000;
+        private readonly object pingCheckLock = new object();
+        private const int CheckDelay = 2000;
 
         private bool running;
         private bool stop;
@@ -14,7 +15,7 @@ namespace FallGuysStats {
 
         private readonly Random random = new Random();
         private int randomElement;
-        private readonly int[] moreDelayValues = { 0, 200, 400, 600, 800, 1000 };
+        private readonly int[] moreDelayValues = { 0, 100, 200, 300, 400, 500 };
         private int addMoreRandomDelay;
 
         public void Start() {
@@ -27,34 +28,37 @@ namespace FallGuysStats {
         private async void CheckServerPing() {
             this.running = true;
             while (!this.stop) {
-                try {
-                    TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
-                    if (!Stats.IsDisplayOverlayPing || !Stats.ToggleServerInfo || timeDiff.TotalMinutes >= 40) {
-                        Stats.LastServerPing = 0;
-                        Stats.IsBadServerPing = false;
-                        this.stop = true;
-                        this.running = false;
-                        return;
-                    }
-                    
-                    this.pingReply = this.pingSender.Send(Stats.LastServerIp, 1000, new byte[32]);
-                    if (this.pingReply != null && this.pingReply.Status == IPStatus.Success) {
-                        Stats.LastServerPing = this.pingReply.RoundtripTime;
-                        Stats.IsBadServerPing = false;
-                    } else {
-                        Stats.LastServerPing = this.pingReply?.RoundtripTime ?? 0;
-                        Stats.IsBadServerPing = true;
-                    }
-                    
-                    this.randomElement = this.random.Next(0, this.moreDelayValues.Length);
-                    this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
-                } catch {
+                TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
+                if (!Stats.IsDisplayOverlayPing || !Stats.ToggleServerInfo || timeDiff.TotalMinutes >= 40) {
                     Stats.LastServerPing = 0;
-                    Stats.IsBadServerPing = true;
-                    this.randomElement = this.random.Next(0, this.moreDelayValues.Length);
-                    this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
+                    Stats.IsBadServerPing = false;
+                    this.stop = true;
+                    this.running = false;
+                    return;
                 }
-                await Task.Delay(UpdateDelay + this.addMoreRandomDelay);
+                
+                lock (this.pingCheckLock) {
+                    try {
+                        this.pingReply = this.pingSender.Send(Stats.LastServerIp, 1000, new byte[32]);
+                        if (this.pingReply != null && this.pingReply.Status == IPStatus.Success) {
+                            Stats.LastServerPing = this.pingReply.RoundtripTime;
+                            Stats.IsBadServerPing = false;
+                        } else {
+                            Stats.LastServerPing = this.pingReply?.RoundtripTime ?? 0;
+                            Stats.IsBadServerPing = true;
+                        }
+
+                        this.randomElement = this.random.Next(0, this.moreDelayValues.Length);
+                        this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
+                    } catch {
+                        Stats.LastServerPing = 0;
+                        Stats.IsBadServerPing = true;
+                        this.randomElement = this.random.Next(0, this.moreDelayValues.Length);
+                        this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
+                    }
+                }
+                
+                await Task.Delay(CheckDelay + this.addMoreRandomDelay);
             }
         }
     }

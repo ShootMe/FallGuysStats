@@ -930,7 +930,7 @@ namespace FallGuysStats {
                         }
                     } else if (end != DateTime.MinValue) {
                         TimeSpan time = end - start;
-                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && ((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{time:m\\:ss\\.ff}" : $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}";
+                        this.lblFinish.TextRight = (!this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && ((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{time:m\\:ss\\.ff}" : $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}";
                         this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
                         bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;

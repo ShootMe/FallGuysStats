@@ -536,12 +536,12 @@ namespace FallGuysStats {
                 }
             } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMatchmaking with FGClient.StateDisconnectingFromServer", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0) {
-                Stats.LastServerPing = 0;
-                Stats.IsBadServerPing = false;
-                Stats.LastCountryAlpha2Code = string.Empty;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
                 Stats.ToggleServerInfo = false;
+                Stats.LastServerPing = 0;
+                Stats.IsBadServerPing = false;
+                Stats.LastCountryAlpha2Code = string.Empty;
                 this.toggleRequestCountryInfoApi = false;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {

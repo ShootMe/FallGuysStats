@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 
 namespace FallGuysStats {
     public class GameStateWatcher {
-        private const int UpdateDelay = 2000;
+        private readonly object gameStateCheckLock = new object();
+        private const int CheckDelay = 2000;
 
         private bool running;
         private bool stop;
@@ -20,25 +21,28 @@ namespace FallGuysStats {
         private async void CheckGameState() {
             this.running = true;
             while (!this.stop) {
-                try {
-                    if (!Stats.InShow) {
-                        this.stop = true;
-                        this.running = false;
-                        return;
-                    }
-
-                    if (Stats.IsClientRunning()) {
-                        Stats.IsGameRunning = true;
-                    } else {
-                        Stats.IsGameRunning = false;
-                        Stats.IsGameHasBeenClosed = true;
-                        this.stop = true;
-                        this.running = false;
-                    }
-                } catch (Exception ex) {
-                    this.OnError?.Invoke(ex.ToString());
+                if (!Stats.InShow) {
+                    this.stop = true;
+                    this.running = false;
+                    return;
                 }
-                await Task.Delay(UpdateDelay);
+                
+                lock (this.gameStateCheckLock) {
+                    try {
+                        if (Stats.IsClientRunning()) {
+                            Stats.IsGameRunning = true;
+                        } else {
+                            Stats.IsGameRunning = false;
+                            Stats.IsGameHasBeenClosed = true;
+                            this.stop = true;
+                            this.running = false;
+                        }
+                    } catch (Exception ex) {
+                        this.OnError?.Invoke(ex.ToString());
+                    }
+                }
+
+                await Task.Delay(CheckDelay);
             }
         }
     }
