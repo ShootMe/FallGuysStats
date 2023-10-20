@@ -691,7 +691,11 @@ namespace FallGuysStats {
             //}
         }
         
-        public Color ColorBrightnessAdjustment(Color sourceColor, float fBrightness) {
+        public Color GetComplementaryColor(Color source, int alpha = 255) {
+            return Color.FromArgb(Math.Min(255, Math.Max(0, alpha)), Math.Min(255, Math.Max(0, 255 - source.R)), Math.Min(255, Math.Max(0, 255 - source.G)), Math.Min(255, Math.Max(0, 255 - source.B)));
+        }
+        
+        public Color GetColorBrightnessAdjustment(Color sourceColor, float fBrightness) {
             return Color.FromArgb(Math.Min(255, Math.Max(0, (int)(sourceColor.R * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.G * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.B * fBrightness))));
         }
         
@@ -3685,9 +3689,6 @@ namespace FallGuysStats {
         public void HideTooltip(IWin32Window window) {
             this.mtt.Hide(window);
         }
-        private Color GetComplementaryColor(Color source, int alpha = 255) {
-            return Color.FromArgb(alpha, 255 - source.R, 255 - source.G, 255 - source.B);
-        }
         
         private void lblCreativeLevel_Click(object sender, EventArgs e) {
             this.mtgCreativeLevel.Checked = !this.mtgCreativeLevel.Checked;
@@ -3826,16 +3827,9 @@ namespace FallGuysStats {
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             try {
                 if (e.RowIndex < 0) { return; }
+                if (!this.gridDetails.Rows[e.RowIndex].Visible) { return; }
+                
                 LevelStats levelStats = this.gridDetails.Rows[e.RowIndex].DataBoundItem as LevelStats;
-                if (this.CurrentSettings.GroupingCreativeRoundLevels) {
-                    if (levelStats.IsCreative && !(levelStats.Id.Equals("creative_race_round") || levelStats.Id.Equals("creative_race_final_round") || levelStats.Id.Equals("user_creative_race_round"))) {
-                        return;
-                    }
-                } else {
-                    if (levelStats.IsCreative && (levelStats.Id.Equals("creative_race_round") || levelStats.Id.Equals("creative_race_final_round"))) {
-                        return;
-                    }
-                }
                 float fBrightness = 0.85F;
                 Color cellColor;
                 switch (this.gridDetails.Columns[e.ColumnIndex].Name) {
@@ -3844,51 +3838,37 @@ namespace FallGuysStats {
                             cellColor = Color.FromArgb(255, 240, 200);
                             e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
                                 ? cellColor
-                                : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                             break;
                         }
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Invisibeans:
                                 cellColor = Color.FromArgb(255, 255, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Unknown:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -3900,63 +3880,43 @@ namespace FallGuysStats {
                     case "Name":
                         e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, CurrentLanguage);
                         e.CellStyle.ForeColor = Color.Black;
-                        // e.CellStyle.ForeColor = this.GetComplementaryColor(e.CellStyle.BackColor);
                         if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
-                        //this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_tooltiptext");
                         if (levelStats.IsFinal) {
                             cellColor = Color.FromArgb(255, 240, 200);
-                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                ? cellColor
-                                : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                             break;
                         }
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Invisibeans:
                                 cellColor = Color.FromArgb(255, 255, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? cellColor
-                                    : this.ColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Unknown:
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.LightGray
-                                    : Color.DarkGray;
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.DarkGray;
                                 break;
                         }
                         break;
@@ -3964,18 +3924,14 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 126, 222);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "Qualified":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 20, 147);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
@@ -3989,9 +3945,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 215, 0);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
@@ -4005,9 +3959,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.3f;
                         cellColor = Color.FromArgb(192, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
@@ -4021,9 +3973,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(205, 127, 50);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
@@ -4037,36 +3987,28 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(218, 112, 214);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
                         break;
                     case "Longest":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light
-                            ? this.ColorBrightnessAdjustment(cellColor, fBrightness)
-                            : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.Longest.ToString("m\\:ss\\.ff");
                         break;
                 }

@@ -931,14 +931,14 @@ namespace FallGuysStats {
                     } else if (end != DateTime.MinValue) {
                         TimeSpan time = end - start;
                         this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && ((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{time:m\\:ss\\.ff}" : $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}";
-                        this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : this.StatsForm.ColorBrightnessAdjustment(this.ForeColor, fBrightness);
+                        this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
                         bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
                         this.lblFinish.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
-                        this.lblFinish.ForeColor = isOverRunningTime ? this.StatsForm.ColorBrightnessAdjustment(this.ForeColor, fBrightness) : (!Stats.EndedShow ? this.ForeColor : this.StatsForm.ColorBrightnessAdjustment(this.ForeColor, fBrightness));
+                        this.lblFinish.ForeColor = isOverRunningTime ? this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness) : (!Stats.EndedShow ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness));
                     } else {
                         this.lblFinish.TextRight = "-";
-                        this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : this.StatsForm.ColorBrightnessAdjustment(this.ForeColor, fBrightness);
+                        this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     }
                 }
             }
