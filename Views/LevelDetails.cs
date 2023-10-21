@@ -752,6 +752,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void updateShows_Click(object sender, EventArgs e) {
             if (this.StatsForm.IsInternetConnected()) {
                 if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
@@ -759,64 +760,79 @@ namespace FallGuysStats {
                     if ((ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) || (ri.UseShareCode && ri.CreativeQualificationPercent == 0 && ri.CreativeTimeLimitSeconds == 0)) {
                         if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{ri.ShowNameId}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
+                            bool isSucceed = false;
+                            int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             try {
-                                JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json").GetProperty("data").GetProperty("snapshot");
-                                JsonElement versionMetadata = resData.GetProperty("version_metadata");
-                                List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
-                                                                                    (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
-                                int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                                this.gridDetails.DataSource = null;
-                                lock (this.StatsForm.StatsDB) {
-                                    this.StatsForm.StatsDB.BeginTrans();
-                                    foreach (RoundInfo info in filteredInfo) {
-                                        string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(resData.GetProperty("author").GetProperty("name_per_platform"));
-                                        info.CreativeShareCode = resData.GetProperty("share_code").GetString();
-                                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                        info.CreativeAuthor = onlinePlatformInfo[1];
-                                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                        info.CreativePlayCount = resData.GetProperty("play_count").GetInt32();
-                                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                        //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
-                                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                        this.StatsForm.RoundDetails.Update(info);
+                                JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json");
+                                if (resData.TryGetProperty("data", out JsonElement je)) {
+                                    JsonElement snapshot = je.GetProperty("snapshot");
+                                    JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
+                                        (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
+                                    lock (this.StatsForm.StatsDB) {
+                                        this.StatsForm.StatsDB.BeginTrans();
+                                        foreach (RoundInfo info in filteredInfo) {
+                                            string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                            info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                                            info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                            info.CreativeAuthor = onlinePlatformInfo[1];
+                                            info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                            info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                            info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                            info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                            info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                            info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                            info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                            info.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                                            info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                            info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                            this.StatsForm.RoundDetails.Update(info);
+                                        }
+                                        this.StatsForm.StatsDB.Commit();
                                     }
-                                    this.StatsForm.StatsDB.Commit();
+                                    isSucceed = true;
                                 }
-
-                                this.gridDetails.DataSource = this.RoundDetails;
-                                if (minIndex < this.RoundDetails.Count) {
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                                } else if (this.RoundDetails.Count > 0) {
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
-                                }
-                            } catch (WebException we) {
-                                if (we.Status == WebExceptionStatus.ProtocolError) {
-                                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    // int statusCode = (int)((HttpWebResponse)we.Response).StatusCode;
-                                    // switch (statusCode) {
-                                    //     case 500:
-                                    //         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                    //             MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //         break;
-                                    //     default:
-                                    //         MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                    //             MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    //         break;
-                                    // }
+                            } catch {
+                                isSucceed = false;
+                            }
+                            
+                            if (!isSucceed) {
+                                RoundInfo urInfo = this.StatsForm.GetRoundInfoFromShareCode(ri.ShowNameId);
+                                if (urInfo != null && !string.IsNullOrEmpty(urInfo.CreativeTitle)) {
+                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => urInfo.ShowNameId.Equals(r.ShowNameId) &&
+                                        (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
+                                    lock (this.StatsForm.StatsDB) {
+                                        this.StatsForm.StatsDB.BeginTrans();
+                                        foreach (RoundInfo info in filteredInfo) {
+                                            info.CreativeShareCode = urInfo.CreativeShareCode;
+                                            info.CreativeOnlinePlatformId = urInfo.CreativeOnlinePlatformId;
+                                            info.CreativeAuthor = urInfo.CreativeAuthor;
+                                            info.CreativeVersion = urInfo.CreativeVersion;
+                                            info.CreativeStatus = urInfo.CreativeStatus;
+                                            info.CreativeTitle = urInfo.CreativeTitle;
+                                            info.CreativeDescription = urInfo.CreativeDescription;
+                                            info.CreativeMaxPlayer = urInfo.CreativeMaxPlayer;
+                                            info.CreativePlatformId = urInfo.CreativePlatformId;
+                                            info.CreativeLastModifiedDate = urInfo.CreativeLastModifiedDate;
+                                            info.CreativePlayCount = urInfo.CreativePlayCount;
+                                            info.CreativeQualificationPercent = urInfo.CreativeQualificationPercent;
+                                            info.CreativeTimeLimitSeconds = urInfo.CreativeTimeLimitSeconds;
+                                            this.StatsForm.RoundDetails.Update(info);
+                                        }
+                                        this.StatsForm.StatsDB.Commit();
+                                    }
                                 } else {
                                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
                                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
-                            } catch (Exception ex) {
-                                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            
+                            this.gridDetails.DataSource = null;
+                            this.gridDetails.DataSource = this.RoundDetails;
+                            if (minIndex < this.RoundDetails.Count) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                            } else if (this.RoundDetails.Count > 0) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
                             }
                         }
                     }
