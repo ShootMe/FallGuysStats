@@ -266,7 +266,7 @@ namespace FallGuysStats {
             }
         }
 
-        private void AddLineAfterGameShutdown() {
+        private void AddLineAfterClientShutdown() {
             try {
                 bool isValidSemiColon, isValidDot, isValid;
                 string lastTime = DateTime.UtcNow.ToString("hh:mm:ss.fff");
@@ -740,10 +740,17 @@ namespace FallGuysStats {
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0
-                       || Stats.IsGameHasBeenClosed) {
-                if (Stats.IsGameHasBeenClosed) {
-                    Stats.IsGameHasBeenClosed = false;
-                    this.AddLineAfterGameShutdown();
+                       || Stats.IsClientHasBeenClosed) {
+                if (Stats.IsClientHasBeenClosed) {
+                    Stats.QueuedPlayers = 0;
+                    Stats.IsQueued = false;
+                    Stats.ToggleServerInfo = false;
+                    Stats.LastServerPing = 0;
+                    Stats.IsBadServerPing = false;
+                    Stats.LastCountryAlpha2Code = string.Empty;
+                    
+                    Stats.IsClientHasBeenClosed = false;
+                    this.AddLineAfterClientShutdown();
                     return false;
                 }
 

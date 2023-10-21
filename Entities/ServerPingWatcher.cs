@@ -15,7 +15,7 @@ namespace FallGuysStats {
 
         private readonly Random random = new Random();
         private int randomElement;
-        private readonly int[] moreDelayValues = { 0, 100, 200, 300, 400, 500 };
+        private readonly int[] moreDelayValues = { 200, 400, 600, 800, 1000 };
         private int addMoreRandomDelay;
 
         public void Start() {

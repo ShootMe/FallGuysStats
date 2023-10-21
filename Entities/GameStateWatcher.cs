@@ -33,7 +33,7 @@ namespace FallGuysStats {
                             Stats.IsGameRunning = true;
                         } else {
                             Stats.IsGameRunning = false;
-                            Stats.IsGameHasBeenClosed = true;
+                            Stats.IsClientHasBeenClosed = true;
                             this.stop = true;
                             this.running = false;
                         }

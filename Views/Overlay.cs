@@ -918,16 +918,12 @@ namespace FallGuysStats {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.Gold;
-                            } else {
-                                this.lblFinish.ForeColor = this.ForeColor;
                             }
                         } else if (recordType == BestRecordType.Longest) {
                             if (time > levelSummary.LongestFinish && time < levelSummary.LongestFinishOverall) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time > levelSummary.LongestFinishOverall) {
                                 this.lblFinish.ForeColor = Color.Gold;
-                            } else {
-                                this.lblFinish.ForeColor = this.ForeColor;
                             }
                         } else {
                             this.lblFinish.ForeColor = this.ForeColor;

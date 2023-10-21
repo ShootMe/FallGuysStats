@@ -138,7 +138,7 @@ namespace FallGuysStats {
         public static bool IsDisplayOverlayPing = false;
 
         public static bool IsGameRunning = false;
-        public static bool IsGameHasBeenClosed = false;
+        public static bool IsClientHasBeenClosed = false;
         
         public static bool ToggleServerInfo = false;
         public static DateTime ConnectedToServerDate = DateTime.MinValue;
