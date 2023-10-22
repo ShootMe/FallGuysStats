@@ -2809,7 +2809,7 @@ namespace FallGuysStats {
                                     this.nextShowID++;
                                     this.lastAddedShow = stat.Start;
                                 }
-                                stat.ShowID = nextShowID;
+                                stat.ShowID = this.nextShowID;
                                 stat.Profile = profile;
 
                                 if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode) && this.IsInternetConnected()) {
@@ -3181,7 +3181,7 @@ namespace FallGuysStats {
             string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
             return currentProfileLinkedShowId ?? string.Empty;
         }
-        private string GetLinkedShowId(string showId) {
+        private string GetAlternateShowId(string showId) {
             switch (showId) {
                 case "squadcelebration": return "squads_4player";
                 case "turbo_show": return "main_show";
@@ -3190,7 +3190,7 @@ namespace FallGuysStats {
         }
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
-            showId = this.GetLinkedShowId(showId);
+            showId = this.GetAlternateShowId(showId);
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
                     if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
@@ -3220,7 +3220,7 @@ namespace FallGuysStats {
         }
         public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
-            showId = this.GetLinkedShowId(showId);
+            showId = this.GetAlternateShowId(showId);
             if (string.IsNullOrEmpty(showId) && this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
             for (int i = 0; i < this.AllProfiles.Count; i++) {
                 if (isPrivateLobbies) {
