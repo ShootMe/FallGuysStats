@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace FallGuysStats {
     public class ServerPingWatcher {
-        private readonly object pingCheckLock = new object();
+        private readonly object lockObject = new object();
         private const int CheckDelay = 2000;
 
-        private Task pingCheckTask;
+        private Task task;
         private bool running;
         private bool stop;
 
@@ -20,19 +20,17 @@ namespace FallGuysStats {
         private int addMoreRandomDelay;
 
         public void Start() {
-            lock (pingCheckLock) {
-                if (this.running || (this.pingCheckTask != null && this.pingCheckTask.Status != TaskStatus.RanToCompletion)) { return; }
-            
-                this.stop = false;
-                this.pingCheckTask = new Task(this.CheckServerPing);
-                this.pingCheckTask.Start();
-            }
+            if (this.running || (this.task != null && this.task.Status != TaskStatus.RanToCompletion)) { return; }
+        
+            this.stop = false;
+            this.task = new Task(this.CheckServerPing);
+            this.task.Start();
         }
 
         private async void CheckServerPing() {
             this.running = true;
             while (!this.stop) {
-                lock (this.pingCheckLock) {
+                lock (this.lockObject) {
                     TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
                     if (!Stats.IsDisplayOverlayPing || !Stats.ToggleServerInfo || timeDiff.TotalMinutes >= 40) {
                         Stats.LastServerPing = 0;
@@ -41,7 +39,7 @@ namespace FallGuysStats {
                         this.running = false;
                         return;
                     }
-                
+
                     try {
                         this.pingReply = this.pingSender.Send(Stats.LastServerIp, 1000, new byte[32]);
                         if (this.pingReply != null && this.pingReply.Status == IPStatus.Success) {
@@ -61,7 +59,7 @@ namespace FallGuysStats {
                         this.addMoreRandomDelay = this.moreDelayValues[this.randomElement];
                     }
                 }
-                
+
                 await Task.Delay(CheckDelay + this.addMoreRandomDelay);
             }
         }

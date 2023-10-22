@@ -61,7 +61,7 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         
-        private readonly object fgdbCreativeApiLock = new object();
+        private readonly object lockObject = new object();
         private bool toggleRequestCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         private string creativeShareCode;
@@ -408,34 +408,32 @@ namespace FallGuysStats {
             TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
             bool isSucceed = false;
             if (timeDiff.TotalMinutes <= 15 && this.StatsForm.IsInternetConnected()) {
-                lock (this.fgdbCreativeApiLock) {
-                    if (!this.toggleFgdbCreativeApi) {
-                        this.toggleFgdbCreativeApi = true;
-                        try {
-                            JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
-                            if (resData.TryGetProperty("data", out JsonElement je)) {
-                                JsonElement snapshot = je.GetProperty("snapshot");
-                                JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
-                                string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
-                                this.creativeOnlinePlatformId = onlinePlatformInfo[0];
-                                this.creativeAuthor = onlinePlatformInfo[1];
-                                this.creativeShareCode = snapshot.GetProperty("share_code").GetString();
-                                this.creativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                this.creativeStatus = versionMetadata.GetProperty("status").GetString();
-                                this.creativeTitle = versionMetadata.GetProperty("title").GetString();
-                                this.creativeDescription = versionMetadata.GetProperty("description").GetString();
-                                this.creativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                this.creativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                this.creativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                this.creativePlayCount = snapshot.GetProperty("play_count").GetInt32();
-                                this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                Task.Run(() => { this.StatsForm.UpdateUserCreativeLevel(shareCode, snapshot); });
-                                isSucceed = true;
-                            }
-                        } catch {
-                            isSucceed = false;
+                if (!this.toggleFgdbCreativeApi) {
+                    this.toggleFgdbCreativeApi = true;
+                    try {
+                        JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
+                        if (resData.TryGetProperty("data", out JsonElement je)) {
+                            JsonElement snapshot = je.GetProperty("snapshot");
+                            JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                            string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                            this.creativeOnlinePlatformId = onlinePlatformInfo[0];
+                            this.creativeAuthor = onlinePlatformInfo[1];
+                            this.creativeShareCode = snapshot.GetProperty("share_code").GetString();
+                            this.creativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                            this.creativeStatus = versionMetadata.GetProperty("status").GetString();
+                            this.creativeTitle = versionMetadata.GetProperty("title").GetString();
+                            this.creativeDescription = versionMetadata.GetProperty("description").GetString();
+                            this.creativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                            this.creativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                            this.creativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                            this.creativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                            this.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                            this.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                            Task.Run(() => { this.StatsForm.UpdateUserCreativeLevel(shareCode, snapshot); });
+                            isSucceed = true;
                         }
+                    } catch {
+                        isSucceed = false;
                     }
                 }
             }
@@ -564,7 +562,11 @@ namespace FallGuysStats {
                 }
                 
                 // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.serverPingWatcher.Start(); }
-                if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) { this.serverPingWatcher.Start(); }
+                lock (this.lockObject) {
+                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                        this.serverPingWatcher.Start();
+                    }
+                }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
                 if (this.selectedShowId.StartsWith("ugc-")) {
@@ -588,14 +590,18 @@ namespace FallGuysStats {
                     Stats.LastPlayedRoundEnd = null;
                     
                     // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.gameStateWatcher.Start(); }
-                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) { this.gameStateWatcher.Start(); }
+                    lock (this.lockObject) {
+                        if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                            this.gameStateWatcher.Start();
+                        }
+                    }
                 }
 
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode };
 
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
-                    this.SetCreativeLevelInfo(logRound.Info.ShowNameId);
+                    lock (this.lockObject) { this.SetCreativeLevelInfo(logRound.Info.ShowNameId); }
                 } else {
                     int index2 = line.Line.IndexOf(" ", index + 44);
                     if (index2 < 0) { index2 = line.Line.Length; }
