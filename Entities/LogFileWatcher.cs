@@ -521,8 +521,8 @@ namespace FallGuysStats {
                         }
                     }
                 }
-            } else if (line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateMatchmaking with FGClient.StateDisconnectingFromServer", StringComparison.OrdinalIgnoreCase) >= 0
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0) {
+            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) >= 0) {
+                Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
                 Stats.ToggleServerInfo = false;
