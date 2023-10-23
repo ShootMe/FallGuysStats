@@ -773,7 +773,7 @@ namespace FallGuysStats {
                         this.lblPingIcon.DrawVisible = true;
                         if (Stats.IsBadServerPing) {
                             this.lblCountryIcon.ImageX = 49;
-                            this.lblCountryIcon.Image = (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+                            this.lblCountryIcon.Image = string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
                             this.lblPingIcon.ImageX = 40;
                             this.lblPingIcon.Image = Properties.Resources.ping_200_icon;
                         } else {
@@ -784,7 +784,7 @@ namespace FallGuysStats {
                             } else {
                                 this.lblPlayers.PingColor = Color.Green;
                             }
-                            this.lblCountryIcon.Image = (Image)(Stats.ToggleServerInfo && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
+                            this.lblCountryIcon.Image = (Image)(!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) && Stats.ToggleServerInfo && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
                             this.lblCountryIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing < 1000)
                                                          ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39
                                                            : Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30

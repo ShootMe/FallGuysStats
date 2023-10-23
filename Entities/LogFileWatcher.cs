@@ -62,7 +62,7 @@ namespace FallGuysStats {
         private string sessionId;
         
         private readonly object lockObject = new object();
-        private bool toggleRequestCountryInfoApi;
+        private bool toggleCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         private string creativeShareCode;
         private string creativeOnlinePlatformId;
@@ -405,10 +405,10 @@ namespace FallGuysStats {
         }
 
         private void SetCreativeLevelInfo(string shareCode) {
-            TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
-            bool isSucceed = false;
-            if (timeDiff.TotalMinutes <= 15 && this.StatsForm.IsInternetConnected()) {
-                if (!this.toggleFgdbCreativeApi) {
+            if (!this.toggleFgdbCreativeApi) {
+                TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
+                bool isSucceed = false;
+                if (timeDiff.TotalMinutes <= 15 && this.StatsForm.IsInternetConnected()) {
                     this.toggleFgdbCreativeApi = true;
                     try {
                         JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
@@ -436,60 +436,51 @@ namespace FallGuysStats {
                         isSucceed = false;
                     }
                 }
-            }
-            
-            if (!isSucceed) {
-                RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
-                if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
-                    this.creativeOnlinePlatformId = ri.CreativePlatformId;
-                    this.creativeAuthor = ri.CreativeAuthor;
-                    this.creativeShareCode = ri.CreativeShareCode;
-                    this.creativeVersion = ri.CreativeVersion;
-                    this.creativeStatus = ri.CreativeStatus;
-                    this.creativeTitle = ri.CreativeTitle;
-                    this.creativeDescription = ri.CreativeDescription;
-                    this.creativeMaxPlayer = ri.CreativeMaxPlayer;
-                    this.creativePlatformId = ri.CreativePlatformId;
-                    this.creativeLastModifiedDate = ri.CreativeLastModifiedDate;
-                    this.creativePlayCount = ri.CreativePlayCount;
-                    this.creativeQualificationPercent = ri.CreativeQualificationPercent;
-                    this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
-                } else {
-                    this.toggleFgdbCreativeApi = false;
-                    this.ClearCreativeLevelVariable();
+                
+                if (!isSucceed) {
+                    RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
+                    if (ri != null && !string.IsNullOrEmpty(ri.CreativeTitle)) {
+                        this.creativeOnlinePlatformId = ri.CreativePlatformId;
+                        this.creativeAuthor = ri.CreativeAuthor;
+                        this.creativeShareCode = ri.CreativeShareCode;
+                        this.creativeVersion = ri.CreativeVersion;
+                        this.creativeStatus = ri.CreativeStatus;
+                        this.creativeTitle = ri.CreativeTitle;
+                        this.creativeDescription = ri.CreativeDescription;
+                        this.creativeMaxPlayer = ri.CreativeMaxPlayer;
+                        this.creativePlatformId = ri.CreativePlatformId;
+                        this.creativeLastModifiedDate = ri.CreativeLastModifiedDate;
+                        this.creativePlayCount = ri.CreativePlayCount;
+                        this.creativeQualificationPercent = ri.CreativeQualificationPercent;
+                        this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
+                    } else {
+                        this.toggleFgdbCreativeApi = false;
+                        this.ClearCreativeLevelVariable();
+                    }
                 }
             }
         }
 
         private void SetIpToCountryCode() {
-            Task.Run(() => {
-                lock (this.lockObject) {
-                    while (!this.toggleRequestCountryInfoApi) {
-                        if (Stats.IsClientRunning()) {
-                            try {
-                                Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
-                                if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                    this.toggleRequestCountryInfoApi = true;
-                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
-                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
-                                    }
-                                } else {
-                                    this.toggleRequestCountryInfoApi = false;
-                                }
-                            } catch {
-                                this.toggleRequestCountryInfoApi = false;
-                                Stats.LastCountryAlpha2Code = string.Empty;
+            if (this.toggleCountryInfoApi) { return; }
+            this.toggleCountryInfoApi = true;
+            Stats.LastCountryAlpha2Code = String.Empty;
+            if (Stats.IsClientRunning()) {
+                Task.Run(() => {
+                    try {
+                        Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
+                        if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                            if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
+                                this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                    System.Windows.Forms.ToolTipIcon.Info, 2000);
                             }
-                            if (!this.toggleRequestCountryInfoApi) { Task.Delay(UpdateDelay); }
-                        } else {
-                            this.toggleRequestCountryInfoApi = true;
-                            Stats.LastCountryAlpha2Code = string.Empty;
                         }
+                    } catch {
+                        Stats.LastCountryAlpha2Code = string.Empty;
                     }
-                }
-            });
+                });
+            }
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
@@ -531,7 +522,8 @@ namespace FallGuysStats {
                 Stats.LastServerPing = 0;
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
-                this.toggleRequestCountryInfoApi = false;
+                this.toggleCountryInfoApi = false;
+                this.toggleFgdbCreativeApi = false;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (line.Date > Stats.LastGameStart) {
@@ -559,19 +551,13 @@ namespace FallGuysStats {
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
-                    // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.SetIpToCountryCode(); }
-                    lock (this.lockObject) {
-                        if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                            this.SetIpToCountryCode();
-                        }
+                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                        this.SetIpToCountryCode();
                     }
                 }
                 
-                // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.serverPingWatcher.Start(); }
-                lock (this.lockObject) {
-                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        this.serverPingWatcher.Start();
-                    }
+                if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                    this.serverPingWatcher.Start();
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 this.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
@@ -595,11 +581,8 @@ namespace FallGuysStats {
                     Stats.LastPlayedRoundStart = null;
                     Stats.LastPlayedRoundEnd = null;
                     
-                    // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.gameStateWatcher.Start(); }
-                    lock (this.lockObject) {
-                        if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                            this.gameStateWatcher.Start();
-                        }
+                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                        this.gameStateWatcher.Start();
                     }
                 }
 
@@ -756,7 +739,8 @@ namespace FallGuysStats {
                 }
 
                 Stats.ToggleServerInfo = false;
-                this.toggleRequestCountryInfoApi = false;
+                this.toggleCountryInfoApi = false;
+                this.toggleFgdbCreativeApi = false;
 
                 if (Stats.InShow && Stats.LastPlayedRoundStart.HasValue && !Stats.LastPlayedRoundEnd.HasValue) {
                     Stats.LastPlayedRoundEnd = line.Date;

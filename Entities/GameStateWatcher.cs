@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace FallGuysStats {
     public class GameStateWatcher {
-        private readonly object lockObject = new object();
         private const int CheckDelay = 2000;
 
         private Task task;
@@ -11,31 +9,29 @@ namespace FallGuysStats {
         private bool stop;
 
         public void Start() {
-            if (this.running || (this.task != null && this.task.Status != TaskStatus.RanToCompletion)) { return; }
+            if (this.running) { return; }
 
             this.stop = false;
-            if (this.task == null) { this.task = new Task(this.CheckGameState); }
+            this.task = new Task(this.CheckGameState);
             this.task.Start();
         }
 
         private async void CheckGameState() {
             this.running = true;
             while (!this.stop) {
-                lock (this.lockObject) {
-                    if (!Stats.InShow) {
-                        this.stop = true;
-                        this.running = false;
-                        return;
-                    }
+                if (!Stats.InShow) {
+                    this.stop = true;
+                    this.running = false;
+                    return;
+                }
 
-                    if (Stats.IsClientRunning()) {
-                        Stats.IsGameRunning = true;
-                    } else {
-                        Stats.IsGameRunning = false;
-                        Stats.IsClientHasBeenClosed = true;
-                        this.stop = true;
-                        this.running = false;
-                    }
+                if (Stats.IsClientRunning()) {
+                    Stats.IsGameRunning = true;
+                } else {
+                    Stats.IsGameRunning = false;
+                    Stats.IsClientHasBeenClosed = true;
+                    this.stop = true;
+                    this.running = false;
                 }
 
                 await Task.Delay(CheckDelay);
