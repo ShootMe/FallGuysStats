@@ -19,7 +19,7 @@ jobs:
       - name: Restore Packages
         run: nuget restore FallGuysStats.sln
       - name: Build
-        run: msbuild /t:build /p:configuration=Release /p:platform="Any CPU"
+        run: msbuild /t:build /p:configuration=Release /p:platform="x64"
       - name: Upload artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
@@ -39,7 +39,7 @@ jobs:
       - name: Restore Packages
         run: nuget restore FallGuysStats.sln
       - name: Build
-        run: msbuild /t:build /p:configuration=ReleaseUpdate /p:platform="Any CPU"
+        run: msbuild /t:build /p:configuration=ReleaseUpdate /p:platform="x64"
       - name: Upload artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
