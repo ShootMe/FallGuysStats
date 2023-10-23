@@ -49,6 +49,28 @@
     <ErrorReport>prompt</ErrorReport>
     <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <DebugType>embedded</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseUpdate|x64' ">
+    <DefineConstants>TRACE;AllowUpdate</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>embedded</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
+    <OutputPath>bin\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32bit>false</Prefer32bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LiteDB">
       <HintPath>.\LiteDB.dll</HintPath>
