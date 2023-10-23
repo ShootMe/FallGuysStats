@@ -463,28 +463,30 @@ namespace FallGuysStats {
 
         private void SetIpToCountryCode() {
             Task.Run(() => {
-                while (!this.toggleRequestCountryInfoApi) {
-                    if (Stats.IsClientRunning()) {
-                        try {
-                            Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
-                            if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                this.toggleRequestCountryInfoApi = true;
-                                if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
-                                    this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                        System.Windows.Forms.ToolTipIcon.Info, 2000);
+                lock (this.lockObject) {
+                    while (!this.toggleRequestCountryInfoApi) {
+                        if (Stats.IsClientRunning()) {
+                            try {
+                                Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
+                                if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                    this.toggleRequestCountryInfoApi = true;
+                                    if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
+                                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                                            System.Windows.Forms.ToolTipIcon.Info, 2000);
+                                    }
+                                } else {
+                                    this.toggleRequestCountryInfoApi = false;
                                 }
-                            } else {
+                            } catch {
                                 this.toggleRequestCountryInfoApi = false;
+                                Stats.LastCountryAlpha2Code = string.Empty;
                             }
-                        } catch {
-                            this.toggleRequestCountryInfoApi = false;
+                            if (!this.toggleRequestCountryInfoApi) { Task.Delay(UpdateDelay); }
+                        } else {
+                            this.toggleRequestCountryInfoApi = true;
                             Stats.LastCountryAlpha2Code = string.Empty;
                         }
-                        if (!this.toggleRequestCountryInfoApi) { Task.Delay(UpdateDelay); }
-                    } else {
-                        this.toggleRequestCountryInfoApi = true;
-                        Stats.LastCountryAlpha2Code = string.Empty;
                     }
                 }
             });
@@ -558,7 +560,11 @@ namespace FallGuysStats {
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
                     // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.SetIpToCountryCode(); }
-                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) { this.SetIpToCountryCode(); }
+                    lock (this.lockObject) {
+                        if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                            this.SetIpToCountryCode();
+                        }
+                    }
                 }
                 
                 // if (line.Date.AddMinutes(40) > this.StatsForm.startupTime) { this.serverPingWatcher.Start(); }

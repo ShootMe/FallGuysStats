@@ -23,7 +23,7 @@ namespace FallGuysStats {
             if (this.running || (this.task != null && this.task.Status != TaskStatus.RanToCompletion)) { return; }
         
             this.stop = false;
-            this.task = new Task(this.CheckServerPing);
+            if (this.task == null) { this.task = new Task(this.CheckServerPing); }
             this.task.Start();
         }
 
