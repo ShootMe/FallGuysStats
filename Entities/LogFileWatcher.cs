@@ -461,7 +461,7 @@ namespace FallGuysStats {
             }
         }
 
-        private void SetIpToCountryCode() {
+        private void SetCountryCodeByIP() {
             if (this.toggleCountryInfoApi) { return; }
             this.toggleCountryInfoApi = true;
             Stats.LastCountryAlpha2Code = String.Empty;
@@ -552,7 +552,7 @@ namespace FallGuysStats {
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
                     if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        this.SetIpToCountryCode();
+                        this.SetCountryCodeByIP();
                     }
                 }
                 

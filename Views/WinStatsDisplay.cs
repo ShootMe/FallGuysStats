@@ -258,19 +258,52 @@ namespace FallGuysStats {
                     int winLevelCount = infos.Keys.Count(s => s.EndsWith(";crown"));
                     int lossLevelCount = infos.Keys.Count(s => s.EndsWith(";eliminated"));
                     int levelCount = winLevelCount > lossLevelCount ? winLevelCount : lossLevelCount;
+                    // KeyValuePair<string, int> longest = infos.OrderByDescending(kv => kv.Key.Length + kv.Value.ToString().Length).First();
+                    // int longestLength = longest.Key.Length + longest.Value.ToString().Length;
                     
+                    string pl = string.Empty;
+                    int i = 0;
+                    StringBuilder c = new StringBuilder();
+                    int longestLength = 0;
+                    foreach (KeyValuePair<string, int> kv in infos) {
+                        if (!string.IsNullOrEmpty(pl) && kv.Key.Split(';')[0].Equals(pl)) {
+                            c.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                            continue;
+                        }
+                        
+                        if (!string.IsNullOrEmpty(pl) && !kv.Key.Split(';')[0].Equals(pl)) {
+                            // c.Append(" ⟩");
+                            if (i % 2 != 0) {
+                                if (longestLength < c.ToString().Length) {
+                                    longestLength = c.ToString().Length;
+                                }
+                            }
+                            c.Clear();
+                        }
+                        
+                        c.Append($"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                        pl = kv.Key.Split(';')[0];
+                        i++;
+                    }
+
                     builder.Append($"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫ - {Math.Truncate(winsCount * 100d / (winsCount + lossesCount) * 10) / 10}%{Environment.NewLine}");
                     string prevLevel = string.Empty;
+                    int prevLength = 0;
+                    string temp = string.Empty;
                     int index = 0;
                     foreach (KeyValuePair<string, int> kv in infos) {
                         if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
-                            builder.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                            temp = $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                            builder.Append(temp);
+                            prevLength += temp.Length;
                             continue;
                         }
 
-                        if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
-                            builder.Append(" ⟩    ");
-                        }
+                        // if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
+                        //     temp = " ⟩";
+                        //     prevLength += temp.Length;
+                        //     builder.Append(temp);
+                        // }
 
                         if (index > 0) {
                             if (levelCount > 5) {
@@ -278,7 +311,10 @@ namespace FallGuysStats {
                                     builder.Append(Environment.NewLine);
                                     builder.Append("   •  ");
                                 } else {
-                                    builder.Append("      •  ");
+                                    temp = "       •  ";
+                                    int d = longestLength - prevLength;
+                                    if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1d / d))));
+                                    builder.Append(temp);
                                 }
                             } else {
                                 builder.Append($"{Environment.NewLine}");
@@ -287,11 +323,15 @@ namespace FallGuysStats {
                         } else {
                             builder.Append("   •  ");
                         }
-                        builder.Append($"{kv.Key.Split(';')[0]} :  ⟨ {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+
+                        temp = $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                        prevLength = temp.Length;
+                        builder.Append(temp);
                         prevLevel = kv.Key.Split(';')[0];
+                        
                         index++;
                     }
-                    builder.Append(" ⟩");
+                    // builder.Append(" ⟩");
                 }
                 
                 this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
