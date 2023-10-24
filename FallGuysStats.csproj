@@ -72,9 +72,6 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteDB">
-      <HintPath>.\LiteDB.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -1071,6 +1068,7 @@
     <PackageReference Include="Fody" Version="6.8.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="LiteDB" Version="5.0.17" />
     <PackageReference Include="MetroModernUI" Version="1.4.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
     <PackageReference Include="Microsoft.NETCore.Platforms" Version="7.0.4" />
