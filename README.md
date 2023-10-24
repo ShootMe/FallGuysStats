@@ -35,7 +35,7 @@
 
 Simple program to generate stats for the game Fall Guys. Reads the games log file to track how you are doing.
 
-![Fall Guys Stats Light Theme](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
+![Fall Guys Stats Welcome Logo](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/mainFallguysSeason.png)
 
 # Table of Contents
   - [**Download**](#download)
@@ -238,6 +238,9 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.283`
+    - Updated new show and round names
+    - Bugfix and program optimization
   - `1.282`
     - Bugfix and program optimization
   - `1.281`
