@@ -289,11 +289,16 @@ namespace FallGuysStats {
         }
 
         private readonly Dictionary<string, string> _sceneNameReplacer = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-            { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" }, { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
+            { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" },
+            { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
 
         private string ReplaceLevelIdInDigisShuffleShow(string showId, string roundId) {
             if (showId.Equals("wle_mrs_shuffle_show")) {
+                if (this.StatsForm.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+
                 return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
             }
             return roundId;

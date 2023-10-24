@@ -110,6 +110,7 @@ namespace FallGuysStats {
                 this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
             }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
+            this.lblthirdpartyLicences.Font = Overlay.GetMainFont(18);
 
             ArrayList imageItemArray = new ArrayList();
             if (Directory.Exists("Overlay")) {
@@ -1024,6 +1025,9 @@ namespace FallGuysStats {
             }
             if (sender.Equals(this.fglink2)) {
                 this.openLink(@"https://github.com/ShootMe/FallGuysStats/issues");
+            }
+            if (sender.Equals(this.lbltpl0)) {
+                this.openLink(@"https://github.com/mbdavid/LiteDB/blob/master/LICENSE");
             }
             if (sender.Equals(this.lbltpl1)) {
                 this.openLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");

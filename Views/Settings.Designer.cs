@@ -118,8 +118,9 @@
             this.lbltpl4 = new MetroFramework.Controls.MetroLink();
             this.lbltpl3 = new MetroFramework.Controls.MetroLink();
             this.lbltpl2 = new MetroFramework.Controls.MetroLink();
-            this.lblthirdpartyLicences = new MetroFramework.Controls.MetroLabel();
             this.lbltpl1 = new MetroFramework.Controls.MetroLink();
+            this.lbltpl0 = new MetroFramework.Controls.MetroLink();
+            this.lblthirdpartyLicences = new System.Windows.Forms.Label();
             this.fglink2 = new MetroFramework.Controls.MetroLink();
             this.fglink1 = new MetroFramework.Controls.MetroLink();
             this.btnCheckUpdates = new MetroFramework.Controls.MetroButton();
@@ -156,7 +157,7 @@
             this.lblLogPath.AutoSize = true;
             this.lblLogPath.FontSize = MetroFramework.MetroLabelSize.Medium;
             this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblLogPath.Location = new System.Drawing.Point(8, 12);
+            this.lblLogPath.Location = new System.Drawing.Point(15, 12);
             this.lblLogPath.Name = "lblLogPath";
             this.lblLogPath.Size = new System.Drawing.Size(88, 19);
             this.lblLogPath.TabIndex = 0;
@@ -168,7 +169,7 @@
             this.lblLogPathNote.FontSize = MetroFramework.MetroLabelSize.Small;
             this.lblLogPathNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblLogPathNote.ForeColor = System.Drawing.Color.DimGray;
-            this.lblLogPathNote.Location = new System.Drawing.Point(8, 40);
+            this.lblLogPathNote.Location = new System.Drawing.Point(15, 40);
             this.lblLogPathNote.Name = "lblLogPathNote";
             this.lblLogPathNote.Size = new System.Drawing.Size(515, 15);
             this.lblLogPathNote.TabIndex = 2;
@@ -812,7 +813,7 @@
             this.grpLaunchPlatform.Controls.Add(this.picPlatformCheck);
             this.grpLaunchPlatform.Controls.Add(this.picEpicGames);
             this.grpLaunchPlatform.Controls.Add(this.picSteam);
-            this.grpLaunchPlatform.Location = new System.Drawing.Point(8, 12);
+            this.grpLaunchPlatform.Location = new System.Drawing.Point(15, 12);
             this.grpLaunchPlatform.Margin = new System.Windows.Forms.Padding(0);
             this.grpLaunchPlatform.Name = "grpLaunchPlatform";
             this.grpLaunchPlatform.Padding = new System.Windows.Forms.Padding(2);
@@ -865,7 +866,7 @@
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(49, 242);
+            this.cboMultilingual.Location = new System.Drawing.Point(53, 242);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -876,7 +877,7 @@
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(8, 205);
+            this.lblTheme.Location = new System.Drawing.Point(12, 205);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(50, 19);
             this.lblTheme.TabIndex = 5;
@@ -887,7 +888,7 @@
             this.chkChangeHoopsieLegends.AutoSize = true;
             this.chkChangeHoopsieLegends.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkChangeHoopsieLegends.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(8, 46);
+            this.chkChangeHoopsieLegends.Location = new System.Drawing.Point(15, 46);
             this.chkChangeHoopsieLegends.Name = "chkChangeHoopsieLegends";
             this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(301, 19);
             this.chkChangeHoopsieLegends.TabIndex = 4;
@@ -901,7 +902,7 @@
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(63, 200);
+            this.cboTheme.Location = new System.Drawing.Point(67, 200);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -913,7 +914,7 @@
             this.chkAutoUpdate.AutoSize = true;
             this.chkAutoUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoUpdate.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkAutoUpdate.Location = new System.Drawing.Point(8, 90);
+            this.chkAutoUpdate.Location = new System.Drawing.Point(15, 90);
             this.chkAutoUpdate.Name = "chkAutoUpdate";
             this.chkAutoUpdate.Size = new System.Drawing.Size(161, 19);
             this.chkAutoUpdate.TabIndex = 4;
@@ -925,7 +926,7 @@
             this.chkSystemTrayIcon.AutoSize = true;
             this.chkSystemTrayIcon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkSystemTrayIcon.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkSystemTrayIcon.Location = new System.Drawing.Point(8, 120);
+            this.chkSystemTrayIcon.Location = new System.Drawing.Point(15, 120);
             this.chkSystemTrayIcon.Name = "chkSystemTrayIcon";
             this.chkSystemTrayIcon.Size = new System.Drawing.Size(176, 19);
             this.chkSystemTrayIcon.TabIndex = 5;
@@ -937,7 +938,7 @@
             this.chkNotifyServerConnected.AutoSize = true;
             this.chkNotifyServerConnected.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkNotifyServerConnected.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkNotifyServerConnected.Location = new System.Drawing.Point(8, 150);
+            this.chkNotifyServerConnected.Location = new System.Drawing.Point(15, 150);
             this.chkNotifyServerConnected.Name = "chkNotifyServerConnected";
             this.chkNotifyServerConnected.Size = new System.Drawing.Size(420, 19);
             this.chkNotifyServerConnected.TabIndex = 5;
@@ -949,7 +950,7 @@
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(8, 310);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 310);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
@@ -971,7 +972,7 @@
             // 
             this.lblPreviousWins.AutoSize = true;
             this.lblPreviousWins.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblPreviousWins.Location = new System.Drawing.Point(8, 12);
+            this.lblPreviousWins.Location = new System.Drawing.Point(12, 12);
             this.lblPreviousWins.Name = "lblPreviousWins";
             this.lblPreviousWins.Size = new System.Drawing.Size(103, 19);
             this.lblPreviousWins.TabIndex = 0;
@@ -1096,7 +1097,7 @@
             this.chkLaunchGameOnStart.AutoSize = true;
             this.chkLaunchGameOnStart.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkLaunchGameOnStart.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkLaunchGameOnStart.Location = new System.Drawing.Point(8, 90);
+            this.chkLaunchGameOnStart.Location = new System.Drawing.Point(15, 90);
             this.chkLaunchGameOnStart.Margin = new System.Windows.Forms.Padding(2);
             this.chkLaunchGameOnStart.Name = "chkLaunchGameOnStart";
             this.chkLaunchGameOnStart.Size = new System.Drawing.Size(226, 19);
@@ -1107,7 +1108,7 @@
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(11, 242);
+            this.picLanguageSelection.Location = new System.Drawing.Point(15, 242);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1119,7 +1120,7 @@
             this.chkIgnoreLevelTypeWhenSorting.AutoSize = true;
             this.chkIgnoreLevelTypeWhenSorting.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkIgnoreLevelTypeWhenSorting.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(8, 100);
+            this.chkIgnoreLevelTypeWhenSorting.Location = new System.Drawing.Point(15, 100);
             this.chkIgnoreLevelTypeWhenSorting.Margin = new System.Windows.Forms.Padding(2);
             this.chkIgnoreLevelTypeWhenSorting.Name = "chkIgnoreLevelTypeWhenSorting";
             this.chkIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(216, 19);
@@ -1132,7 +1133,7 @@
             this.chkGroupingCreativeRoundLevels.AutoSize = true;
             this.chkGroupingCreativeRoundLevels.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkGroupingCreativeRoundLevels.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkGroupingCreativeRoundLevels.Location = new System.Drawing.Point(8, 131);
+            this.chkGroupingCreativeRoundLevels.Location = new System.Drawing.Point(15, 131);
             this.chkGroupingCreativeRoundLevels.Margin = new System.Windows.Forms.Padding(2);
             this.chkGroupingCreativeRoundLevels.Name = "chkGroupingCreativeRoundLevels";
             this.chkGroupingCreativeRoundLevels.Size = new System.Drawing.Size(324, 19);
@@ -1369,8 +1370,9 @@
             this.panelAbout.Controls.Add(this.lbltpl4);
             this.panelAbout.Controls.Add(this.lbltpl3);
             this.panelAbout.Controls.Add(this.lbltpl2);
-            this.panelAbout.Controls.Add(this.lblthirdpartyLicences);
             this.panelAbout.Controls.Add(this.lbltpl1);
+            this.panelAbout.Controls.Add(this.lbltpl0);
+            this.panelAbout.Controls.Add(this.lblthirdpartyLicences);
             this.panelAbout.Controls.Add(this.fglink2);
             this.panelAbout.Controls.Add(this.fglink1);
             this.panelAbout.Controls.Add(this.btnCheckUpdates);
@@ -1402,7 +1404,7 @@
             // 
             this.lbltpl4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl4.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.lbltpl4.Location = new System.Drawing.Point(12, 785);
+            this.lbltpl4.Location = new System.Drawing.Point(12, 845);
             this.lbltpl4.Name = "lbltpl4";
             this.lbltpl4.Size = new System.Drawing.Size(121, 23);
             this.lbltpl4.TabIndex = 13;
@@ -1415,7 +1417,7 @@
             // 
             this.lbltpl3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl3.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.lbltpl3.Location = new System.Drawing.Point(12, 756);
+            this.lbltpl3.Location = new System.Drawing.Point(12, 816);
             this.lbltpl3.Name = "lbltpl3";
             this.lbltpl3.Size = new System.Drawing.Size(121, 23);
             this.lbltpl3.TabIndex = 12;
@@ -1428,7 +1430,7 @@
             // 
             this.lbltpl2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl2.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.lbltpl2.Location = new System.Drawing.Point(12, 727);
+            this.lbltpl2.Location = new System.Drawing.Point(12, 787);
             this.lbltpl2.Name = "lbltpl2";
             this.lbltpl2.Size = new System.Drawing.Size(121, 23);
             this.lbltpl2.TabIndex = 11;
@@ -1437,21 +1439,11 @@
             this.lbltpl2.UseSelectable = true;
             this.lbltpl2.Click += new System.EventHandler(this.link_Click);
             // 
-            // lblthirdpartyLicences
-            // 
-            this.lblthirdpartyLicences.AutoSize = true;
-            this.lblthirdpartyLicences.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblthirdpartyLicences.Location = new System.Drawing.Point(8, 675);
-            this.lblthirdpartyLicences.Name = "lblthirdpartyLicences";
-            this.lblthirdpartyLicences.Size = new System.Drawing.Size(126, 19);
-            this.lblthirdpartyLicences.TabIndex = 9;
-            this.lblthirdpartyLicences.Text = "Thirdparty Licences";
-            // 
             // lbltpl1
             // 
             this.lbltpl1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lbltpl1.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.lbltpl1.Location = new System.Drawing.Point(12, 700);
+            this.lbltpl1.Location = new System.Drawing.Point(12, 760);
             this.lbltpl1.Name = "lbltpl1";
             this.lbltpl1.Size = new System.Drawing.Size(121, 23);
             this.lbltpl1.TabIndex = 8;
@@ -1459,6 +1451,29 @@
             this.lbltpl1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lbltpl1.UseSelectable = true;
             this.lbltpl1.Click += new System.EventHandler(this.link_Click);
+            // 
+            // lbltpl0
+            // 
+            this.lbltpl0.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbltpl0.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.lbltpl0.Location = new System.Drawing.Point(12, 733);
+            this.lbltpl0.Name = "lbltpl0";
+            this.lbltpl0.Size = new System.Drawing.Size(121, 23);
+            this.lbltpl0.TabIndex = 8;
+            this.lbltpl0.Text = "LiteDB";
+            this.lbltpl0.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lbltpl0.UseSelectable = true;
+            this.lbltpl0.Click += new System.EventHandler(this.link_Click);
+            // 
+            // lblthirdpartyLicences
+            // 
+            this.lblthirdpartyLicences.AutoSize = true;
+            this.lblthirdpartyLicences.ForeColor = System.Drawing.Color.Teal;
+            this.lblthirdpartyLicences.Location = new System.Drawing.Point(8, 696);
+            this.lblthirdpartyLicences.Name = "lblthirdpartyLicences";
+            this.lblthirdpartyLicences.Size = new System.Drawing.Size(126, 19);
+            this.lblthirdpartyLicences.TabIndex = 9;
+            this.lblthirdpartyLicences.Text = "Thirdparty Licences";
             // 
             // fglink2
             // 
@@ -1801,7 +1816,8 @@
         private MetroFramework.Controls.MetroButton btnCheckUpdates;
         private MetroFramework.Controls.MetroLabel lblLicence;
         private MetroFramework.Controls.MetroLink fglink1;
-        private MetroFramework.Controls.MetroLabel lblthirdpartyLicences;
+        private System.Windows.Forms.Label lblthirdpartyLicences;
+        private MetroFramework.Controls.MetroLink lbltpl0;
         private MetroFramework.Controls.MetroLink lbltpl1;
         private MetroFramework.Controls.MetroLink fglink2;
         private MetroFramework.Controls.MetroLink lbltpl2;

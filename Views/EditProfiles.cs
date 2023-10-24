@@ -107,7 +107,7 @@ namespace FallGuysStats {
             showsData.Columns.Add("showName");
             showsData.Columns.Add("showId");
             showsData.Rows.Add("", "");
-            foreach (string showId in this.StatsForm.publicShowIdList) {
+            foreach (string showId in this.StatsForm.PublicShowIdList) {
                 showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
             }
 

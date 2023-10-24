@@ -253,7 +253,7 @@ namespace FallGuysStats {
         private readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json or https://ipinfo.io/ip
         private readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
         private int profileIdWithLinkedCustomShow = -1;
-        public readonly string[] publicShowIdList = {
+        public readonly string[] PublicShowIdList = {
             "main_show",
             "squads_2player_template",
             "squads_4player",
@@ -277,6 +277,90 @@ namespace FallGuysStats {
             "xtreme_party",
             "fall_guys_creative_mode",
             "private_lobbies"
+        };
+        
+        public readonly Dictionary<string, string> LevelIdReplacerInDigisShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "wle_shuffle_halloween_1", "current_wle_fp5_falloween_7_01_01" },
+            { "wle_shuffle_halloween_2", "current_wle_fp5_falloween_7_01_02" },
+            { "wle_shuffle_halloween_3", "current_wle_fp5_falloween_7_02_01" },
+            { "wle_shuffle_halloween_4", "current_wle_fp5_falloween_7_01_03" },
+            { "wle_shuffle_halloween_5", "current_wle_fp5_falloween_7_01_05" },
+            { "wle_shuffle_halloween_6", "current_wle_fp5_falloween_7_01_06" },
+            { "wle_shuffle_halloween_7", "current_wle_fp5_falloween_7_01_07" },
+            { "wle_shuffle_halloween_8", "current_wle_fp5_falloween_7_01_08" },
+            { "wle_shuffle_halloween_9", "current_wle_fp5_falloween_7_01_09" },
+            { "wle_shuffle_halloween_10", "current_wle_fp5_falloween_7_04_01" },
+            { "wle_shuffle_halloween_12", "current_wle_fp5_falloween_7_10_01" },
+            { "wle_shuffle_halloween_13", "current_wle_fp5_falloween_7_04_03" },
+            { "wle_shuffle_halloween_14", "current_wle_fp5_falloween_7_04_04" },
+            { "wle_shuffle_halloween_15", "current_wle_fp5_falloween_7_03_01" },
+            { "wle_shuffle_halloween_16", "current_wle_fp5_falloween_7_05_01" },
+            { "wle_shuffle_halloween_17", "current_wle_fp5_falloween_7_06_01" },
+            { "wle_shuffle_halloween_18", "current_wle_fp5_falloween_7_05_02" },
+            { "wle_shuffle_halloween_19", "current_wle_fp5_falloween_7_05_03" },
+            { "wle_shuffle_halloween_20", "current_wle_fp5_falloween_7_06_02" },
+            { "wle_shuffle_halloween_22", "current_wle_fp5_falloween_7_06_04" },
+            { "wle_shuffle_halloween_23", "current_wle_fp5_falloween_7_06_05" },
+            { "wle_shuffle_halloween_25", "current_wle_fp5_falloween_1_04" },
+            { "wle_shuffle_halloween_26", "current_wle_fp5_falloween_1_12" },
+            { "wle_shuffle_halloween_27", "current_wle_fp5_falloween_1_14" },
+            { "wle_shuffle_halloween_29", "current_wle_fp5_falloween_1_11" },
+            { "wle_shuffle_halloween_30", "current_wle_fp5_falloween_1_01" },
+            { "wle_shuffle_halloween_31", "current_wle_fp5_falloween_1_05" }, 
+            { "wle_shuffle_halloween_32", "current_wle_fp5_falloween_1_06" },
+            { "wle_shuffle_halloween_33", "current_wle_fp5_falloween_2_01" },
+            { "wle_shuffle_halloween_34", "current_wle_fp5_falloween_6_02" },
+            { "wle_shuffle_halloween_35", "current_wle_fp5_falloween_6_03" },
+            { "wle_shuffle_halloween_36", "current_wle_fp5_falloween_11_01" },
+            { "wle_shuffle_halloween_37", "current_wle_fp5_falloween_2_02" },
+            { "wle_shuffle_halloween_38", "current_wle_fp5_falloween_1_09" },
+            { "wle_shuffle_halloween_40", "current_wle_fp5_falloween_1_08" },
+            { "wle_shuffle_halloween_41", "current_wle_fp5_falloween_2_03" },
+            { "wle_shuffle_halloween_42", "current_wle_fp5_falloween_4_03" },
+            { "wle_shuffle_halloween_43", "current_wle_fp5_falloween_4_11" },
+            { "wle_shuffle_halloween_44", "current_wle_fp5_falloween_4_08" },
+            { "wle_shuffle_halloween_45", "current_wle_fp5_falloween_4_13" },
+            { "wle_shuffle_halloween_47", "current_wle_fp5_falloween_4_12" },
+            { "wle_shuffle_halloween_48", "current_wle_fp5_falloween_9_01" },
+            { "wle_shuffle_halloween_49", "current_wle_fp5_falloween_2_03_01" },
+            { "wle_shuffle_halloween_50", "current_wle_fp5_falloween_9_03" },
+            { "wle_shuffle_halloween_51", "current_wle_fp5_falloween_9_02" },
+            { "wle_shuffle_halloween_52", "current_wle_fp5_falloween_9_04" },
+            { "wle_shuffle_halloween_53", "current_wle_fp5_falloween_2_03_02" },
+            { "wle_shuffle_halloween_54", "current_wle_fp5_falloween_9_05" },
+            { "wle_shuffle_halloween_55", "current_wle_fp5_falloween_2_03_03" },
+            { "wle_shuffle_halloween_56", "current_wle_fp5_falloween_2_03_04" },
+            { "wle_shuffle_halloween_57", "current_wle_fp5_falloween_2_03_05" },
+            { "wle_shuffle_halloween_58", "current_wle_fp5_falloween_2_03_06" },
+            { "wle_shuffle_halloween_59", "current_wle_fp5_falloween_10_01" },
+            { "wle_shuffle_halloween_60", "current_wle_fp5_falloween_14_01" },
+            { "wle_shuffle_halloween_61", "current_wle_fp5_falloween_10_02" },
+            { "wle_shuffle_halloween_64", "current_wle_fp5_falloween_12_01" },
+            { "wle_shuffle_halloween_65", "current_wle_fp5_falloween_12_02" },
+            { "wle_shuffle_halloween_66", "current_wle_fp5_falloween_13_01" },
+            { "wle_shuffle_halloween_67", "current_wle_fp5_falloween_4_02" },
+            { "wle_shuffle_halloween_68", "current_wle_fp5_falloween_4_09" },
+            { "wle_shuffle_halloween_69", "current_wle_fp5_falloween_4_19" },
+            { "wle_shuffle_halloween_70", "current_wle_fp5_falloween_5_05" },
+            { "wle_shuffle_halloween_71", "current_wle_fp5_falloween_5_04" },
+            { "wle_shuffle_halloween_72", "current_wle_fp5_falloween_5_03" },
+            { "wle_shuffle_halloween_73", "current_wle_fp5_falloween_5_07" },
+            { "wle_shuffle_halloween_74", "current_wle_fp5_falloween_5_06" },
+            { "wle_shuffle_halloween_75", "current_wle_fp5_falloween_4_10" },
+            { "wle_shuffle_halloween_76", "current_wle_fp5_falloween_4_05" },
+            { "wle_shuffle_halloween_77", "current_wle_fp5_falloween_4_15" },
+            { "wle_shuffle_halloween_78", "current_wle_fp5_falloween_4_06" },
+            { "wle_shuffle_halloween_79", "current_wle_fp5_falloween_4_17" },
+            { "wle_shuffle_halloween_80", "current_wle_fp5_falloween_4_07" },
+            { "wle_shuffle_halloween_81", "current_wle_fp5_falloween_4_14" },
+            { "wle_shuffle_halloween_82", "current_wle_fp5_falloween_4_01" },
+            { "wle_shuffle_halloween_83", "current_wle_fp5_falloween_4_16" },
+            { "wle_shuffle_halloween_84", "current_wle_fp5_falloween_4_04" },
+            { "wle_shuffle_halloween_85", "current_wle_fp5_falloween_4_18" },
+            { "wle_shuffle_halloween_86", "current_wle_fp5_falloween_1_03" },
+            { "wle_shuffle_halloween_87", "current_wle_fp5_falloween_3_04" },
+            { "wle_shuffle_halloween_88", "current_wle_fp5_falloween_3_03" },
+            { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
 
         public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
@@ -408,8 +492,8 @@ namespace FallGuysStats {
                         Overlay.SetDefaultFont(18, CurrentLanguage);
                         this.CurrentSettings.Multilingual = initLanguageForm.selectedLanguage;
                         if (initLanguageForm.autoGenerateProfiles) {
-                            for (int i = this.publicShowIdList.Length; i >= 1; i--) {
-                                string showId = this.publicShowIdList[i - 1];
+                            for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
+                                string showId = this.PublicShowIdList[i - 1];
                                 this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId });
                             }
                             this.CurrentSettings.AutoChangeProfile = true;
@@ -2152,6 +2236,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 59;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 59) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_shuffle_show") &&
+                          ri.Name.StartsWith("shuffle_halloween_")
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue($"wle_{ri.Name}", out string newName)) {
+                        ri.Name = newName;
+                    }
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 60;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2230,7 +2332,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 59
+                Version = 60
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
