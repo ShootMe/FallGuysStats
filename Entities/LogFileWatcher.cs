@@ -466,26 +466,23 @@ namespace FallGuysStats {
             }
         }
 
-        private void SetCountryCodeByIP() {
-            if (this.toggleCountryInfoApi) { return; }
+        private void SetCountryCodeByIP(string ip) {
+            if (this.toggleCountryInfoApi || !Stats.IsClientRunning()) { return; }
             this.toggleCountryInfoApi = true;
-            Stats.LastCountryAlpha2Code = String.Empty;
-            if (Stats.IsClientRunning()) {
-                Task.Run(() => {
-                    try {
-                        Stats.LastCountryAlpha2Code = this.StatsForm.GetIpToCountryCode(Stats.LastServerIp).ToLower();
-                        if (!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                            if (this.StatsForm.CurrentSettings.NotifyServerConnected) {
-                                this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                                    $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(Stats.LastCountryAlpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                                    System.Windows.Forms.ToolTipIcon.Info, 2000);
-                            }
-                        }
-                    } catch {
-                        Stats.LastCountryAlpha2Code = string.Empty;
+            Stats.LastCountryAlpha2Code = string.Empty;
+            Task.Run(() => {
+                try {
+                    string alpha2Code = this.StatsForm.GetIpToCountryCode(ip).ToLower();
+                    Stats.LastCountryAlpha2Code = alpha2Code;
+                    if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(alpha2Code)) {
+                        this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                            $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                            System.Windows.Forms.ToolTipIcon.Info, 2000);
                     }
-                });
-            }
+                } catch {
+                    Stats.LastCountryAlpha2Code = string.Empty;
+                }
+            });
         }
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
@@ -555,9 +552,10 @@ namespace FallGuysStats {
                     Stats.ToggleServerInfo = true;
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
-                    Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
+                    string ip = line.Line.Substring(ipIndex + 3);
+                    Stats.LastServerIp = ip;
                     if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        this.SetCountryCodeByIP();
+                        lock (this.lockObject) { this.SetCountryCodeByIP(ip); }
                     }
                 }
                 
