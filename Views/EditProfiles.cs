@@ -146,13 +146,13 @@ namespace FallGuysStats {
             this.cboProfileRemove.Items.Clear();
             for (int i = 0; i < this.Profiles.Count; i++) {
                 if (this.Profiles[i].ProfileOrder == 0) { this.Profiles[i].ProfileOrder = this.Profiles.Count - i; }
-                this.cboProfileRename.Items.Insert(0, this.Profiles[i].ProfileName);
-                this.cboProfileMoveTo.Items.Insert(0, this.Profiles[i].ProfileName);
+                this.cboProfileRename.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
+                this.cboProfileMoveTo.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
                 if (this.AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
-                    this.cboProfileMoveFrom.Items.Insert(0, this.Profiles[i].ProfileName);
+                    this.cboProfileMoveFrom.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
                 }
                 if (this.Profiles[i].ProfileId != 0) {
-                    this.cboProfileRemove.Items.Insert(0, this.Profiles[i].ProfileName);
+                    this.cboProfileRemove.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
                 }
             }
             this.RefreshComponent();
@@ -211,9 +211,9 @@ namespace FallGuysStats {
             }
         }
 
-        private void DeleteAmpersand_KeyPress(object sender, KeyPressEventArgs e) {
-            if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
-        }
+        // private void DeleteAmpersand_KeyPress(object sender, KeyPressEventArgs e) {
+        //     if (e.KeyChar == 0x26) e.KeyChar = Convert.ToChar(0);
+        // }
 
         private void AddPageButton_Click(object sender, EventArgs e) {
             if (this.txtAddProfile.Text.Length == 0) { return; }
@@ -248,9 +248,9 @@ namespace FallGuysStats {
                     }
                 }
 
-                int prevProfileId = string.IsNullOrEmpty(prevProfileName) ? 0 : this.Profiles.Find(p => p.ProfileName == prevProfileName).ProfileId;
-                int profileId = this.Profiles.Find(p => p.ProfileName == this.cboProfileRemove.SelectedItem.ToString()).ProfileId;
-                this.Profiles.Remove(this.Profiles.Find(p => p.ProfileName == this.cboProfileRemove.SelectedItem.ToString()));
+                int prevProfileId = string.IsNullOrEmpty(prevProfileName) ? 0 : this.Profiles.Find(p => p.ProfileName == prevProfileName.Replace("&&", "&")).ProfileId;
+                int profileId = this.Profiles.Find(p => p.ProfileName == this.cboProfileRemove.SelectedItem.ToString().Replace("&&", "&")).ProfileId;
+                this.Profiles.Remove(this.Profiles.Find(p => p.ProfileName == this.cboProfileRemove.SelectedItem.ToString().Replace("&&", "&")));
                 this.AllStats.RemoveAll(r => r.Profile == profileId);
                 this.DeleteList.Add(profileId);
                 this.IsDelete = true;
@@ -269,8 +269,8 @@ namespace FallGuysStats {
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_move_profile_prefix")} ({this.cboProfileMoveFrom.SelectedItem}) {Multilingual.GetWord("message_move_profile_infix")} ({this.cboProfileMoveTo.SelectedItem}) {Multilingual.GetWord("message_move_profile_suffix")}",
                     Multilingual.GetWord("message_move_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                int fromId = this.Profiles.Find(p => p.ProfileName == this.cboProfileMoveFrom.SelectedItem.ToString()).ProfileId;
-                int toId = this.Profiles.Find(p => p.ProfileName == this.cboProfileMoveTo.SelectedItem.ToString()).ProfileId;
+                int fromId = this.Profiles.Find(p => p.ProfileName == this.cboProfileMoveFrom.SelectedItem.ToString().Replace("&&", "&")).ProfileId;
+                int toId = this.Profiles.Find(p => p.ProfileName == this.cboProfileMoveTo.SelectedItem.ToString().Replace("&&", "&")).ProfileId;
                 List<RoundInfo> targetList = this.AllStats.FindAll(r => r.Profile == fromId);
                 if (targetList.Count > 0) {
                     foreach (RoundInfo target in targetList) {
@@ -285,15 +285,15 @@ namespace FallGuysStats {
         private void RenameButton_Click(object sender, EventArgs e) {
             if (this.cboProfileRename.SelectedIndex < 0) { return; }
             if (this.txtRenameProfile.Text.Length == 0) { return; }
-            if (this.cboProfileRename.SelectedItem.ToString() == this.txtRenameProfile.Text) { return; }
+            if (this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&") == this.txtRenameProfile.Text) { return; }
             if (this.Profiles.Find(p => p.ProfileName.Equals(this.txtRenameProfile.Text)) != null) {
                 MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             if (MetroMessageBox.Show(this,
-                    $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.cboProfileRename.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.txtRenameProfile.Text}) {Multilingual.GetWord("message_rename_profile_suffix")}",
+                    $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.cboProfileRename.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.txtRenameProfile.Text.Replace("&", "&&")}) {Multilingual.GetWord("message_rename_profile_suffix")}",
                     Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                Profiles profileToUpdate = this.Profiles.Find(p => p.ProfileName.Equals(this.cboProfileRename.SelectedItem.ToString()));
+                Profiles profileToUpdate = this.Profiles.Find(p => p.ProfileName.Equals(this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&")));
                 if (profileToUpdate != null) {
                     profileToUpdate.ProfileName = this.txtRenameProfile.Text;
                     this.IsUpdate = true;
@@ -327,7 +327,7 @@ namespace FallGuysStats {
         }
 
         private void RenameComboboxChanged(object sender, EventArgs e) {
-            this.txtRenameProfile.Text = this.cboProfileRename.SelectedItem.ToString();
+            this.txtRenameProfile.Text = this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&");
         }
         
         private void EditProfile_KeyDown(object sender, KeyEventArgs e) {

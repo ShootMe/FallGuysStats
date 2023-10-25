@@ -823,7 +823,7 @@ namespace FallGuysStats {
             } else {
                 this.lblDuration.TickProgress = 0;
                 
-                int showType = (("main_show".Equals(this.lastRound.ShowNameId) || "turbo_show".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                int showType = (("main_show".Equals(this.lastRound.ShowNameId) || "turbo_show".Equals(this.lastRound.ShowNameId) || "invisibeans_template".Equals(this.lastRound.ShowNameId) || "invisibeans_pistachio_template".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
                                : (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squadcelebration".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
@@ -1628,6 +1628,7 @@ namespace FallGuysStats {
             this.DisplayProfile(this.drawHeight > 99);
             this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (this.drawHeight > 99 ? 11 : -6));
         }
+        
         private int GetCountNumeric(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1697,16 +1698,25 @@ namespace FallGuysStats {
             int count = 0;
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
-                if ((0x61 <= ch && ch <= 0x7A)) count++;
+                if (0x61 <= ch && ch <= 0x7A) count++;
             }
             return count;
         }
+        private int GetCountAmpersand(string s) {
+            int count = 0;
+            char[] charArr = s.ToCharArray();
+            foreach (char ch in charArr) {
+                if (0x26 == ch) count++;
+            }
+            return count;
+        }
+        
         public void SetCurrentProfileForeColor(Color color) {
             this.lblProfile.ForeColor = color;
         }
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, new Font(this.lblProfile.Font.FontFamily, this.lblProfile.Font.Size, FontStyle.Regular, this.lblProfile.Font.Unit)).Width;
-            return sizeOfText - 22;
+            return sizeOfText + (this.GetCountAmpersand(s) * 14) - 22;
         }
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {

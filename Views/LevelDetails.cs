@@ -140,19 +140,19 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridShowsStats";
                 this.gridDetails.MultiSelect = true;
                 this.BackImage = Properties.Resources.fallguys_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 2;
             } else if (this.LevelName == "Rounds") {
                 this.gridDetails.Name = "gridRoundsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 1;
             } else if (this.LevelName == "Finals") {
                 this.gridDetails.Name = "gridFinalsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName()} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                 this._showStats = 1;
             } else {
                 this.gridDetails.Name = "gridRoundStats";

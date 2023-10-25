@@ -6872,6 +6872,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "Custom Show"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
+                    {"invisibeans_mode", "Sweet Thieves"},
                 }
             },
             { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -7653,6 +7654,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "Partie Personnalisée"},
                     {"fall_guys_creative_mode", "Créatif de Fall Guys"},
+                    {"invisibeans_mode", "Voleurs Sucrés"},
                 }
             },
             { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -8434,6 +8436,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "커스텀 쇼"},
                     {"fall_guys_creative_mode", "폴크리"},
+                    {"invisibeans_mode", "달콤한 도둑들"},
                 }
             },
             { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -9215,6 +9218,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "カスタムショー"},
                     {"fall_guys_creative_mode", "フォールガイズ クリエイティブ"},
+                    {"invisibeans_mode", "キャンディードロボー"},
                 }
             },
             { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -9996,6 +10000,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "自定义节目"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
+                    {"invisibeans_mode", "糖果窃贼"},
                 }
             },
             { "cht", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -10777,6 +10782,7 @@ namespace FallGuysStats {
                     
                     {"private_lobbies", "自定義節目"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
+                    {"invisibeans_mode", "糖果竊賊"},
                 }
             },
         };

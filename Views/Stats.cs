@@ -275,6 +275,7 @@ namespace FallGuysStats {
             "event_le_anchovy_template",
             "event_pixel_palooza_template",
             "xtreme_party",
+            "invisibeans_mode",
             "fall_guys_creative_mode",
             "private_lobbies"
         };
@@ -1235,7 +1236,7 @@ namespace FallGuysStats {
                 menuItem.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 menuItem.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                 menuItem.Size = new Size(180, 22);
-                menuItem.Text = profile.ProfileName;
+                menuItem.Text = profile.ProfileName.Replace("&", "&&");
                 menuItem.Click += this.menuStats_Click;
                 menuItem.Paint += this.menuProfile_Paint;
                 menuItem.MouseMove += this.setCursor_MouseMove;
@@ -1246,7 +1247,7 @@ namespace FallGuysStats {
                 trayItem.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 trayItem.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                 trayItem.Size = new Size(180, 22);
-                trayItem.Text = profile.ProfileName;
+                trayItem.Text = profile.ProfileName.Replace("&", "&&");
                 trayItem.Click += this.menuStats_Click;
                 trayItem.Paint += this.menuProfile_Paint;
                 this.trayProfile.DropDownItems.Add(trayItem);
@@ -3274,7 +3275,7 @@ namespace FallGuysStats {
         public int GetCurrentProfileId() {
             return this.currentProfile;
         }
-        private int GetProfileIdFromName(string profileName) {
+        private int GetProfileIdByName(string profileName) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(profileName)) return 0;
             return this.AllProfiles.Find(p => p.ProfileName.Equals(profileName)).ProfileId;
         }
@@ -3287,6 +3288,9 @@ namespace FallGuysStats {
             switch (showId) {
                 case "squadcelebration": return "squads_4player";
                 case "turbo_show": return "main_show";
+                case "invisibeans_template":
+                case "invisibeans_pistachio_template":
+                    return "invisibeans_mode";
             }
             return showId;
         }
@@ -3706,7 +3710,7 @@ namespace FallGuysStats {
         }
         private void UpdateTotals() {
             try {
-                this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName()}";
+                this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName().Replace("&", "&&")}";
                 //this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
                 this.lblTotalShows.Text = $"{this.Shows:N0}{Multilingual.GetWord("main_inning")}";
                 if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows:N0}{Multilingual.GetWord("main_inning")})";
@@ -4384,7 +4388,7 @@ namespace FallGuysStats {
             
             using (WinStatsDisplay display = new WinStatsDisplay {
                        StatsForm = this,
-                       Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfileName()} ({this.GetCurrentFilterName()})",
+                       Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
                        BackImage = Properties.Resources.crown_icon,
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
@@ -4506,7 +4510,7 @@ namespace FallGuysStats {
         private void ShowRoundGraph() {
             using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
                        StatsForm = this,
-                       Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName()} ({this.GetCurrentFilterName()})",
+                       Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
                        BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon,
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
@@ -5283,15 +5287,13 @@ namespace FallGuysStats {
                     if (this.AllProfiles.Count != 0) {
                         for (int i = this.ProfileMenuItems.Count - 1; i >= 0; i--) {
                             if (this.ProfileMenuItems[i].Name == button.Name) {
-                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
-                                    return p.ProfileName == this.ProfileMenuItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
-                                }) != -1);
+                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileName.Equals(this.ProfileMenuItems[i].Text.Replace("&&", "&")) && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                             }
                             this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                             this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                         }
                     }
-                    this.currentProfile = this.GetProfileIdFromName(button.Text);
+                    this.currentProfile = this.GetProfileIdByName(button.Text.Replace("&&", "&"));
                     this.updateSelectedProfile = true;
                 } else if (button == this.trayAllStats || button == this.traySeasonStats || button == this.trayWeekStats || button == this.trayDayStats || button == this.traySessionStats) {
                     if (!this.trayAllStats.Checked && !this.traySeasonStats.Checked && !this.trayWeekStats.Checked && !this.trayDayStats.Checked && !this.traySessionStats.Checked) {
@@ -5397,15 +5399,13 @@ namespace FallGuysStats {
                     if (this.AllProfiles.Count != 0) {
                         for (int i = this.ProfileTrayItems.Count - 1; i >= 0; i--) {
                             if (this.ProfileTrayItems[i].Name == button.Name) {
-                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => {
-                                    return p.ProfileName == this.ProfileTrayItems[i].Text && !string.IsNullOrEmpty(p.LinkedShowId);
-                                }) != -1);
+                                this.SetCurrentProfileIcon(this.AllProfiles.FindIndex(p => p.ProfileName.Equals(this.ProfileTrayItems[i].Text.Replace("&&", "&")) && !string.IsNullOrEmpty(p.LinkedShowId)) != -1);
                             }
                             this.ProfileTrayItems[i].Checked = this.ProfileTrayItems[i].Name == button.Name;
                             this.ProfileMenuItems[i].Checked = this.ProfileMenuItems[i].Name == button.Name;
                         }
                     }
-                    this.currentProfile = this.GetProfileIdFromName(button.Text);
+                    this.currentProfile = this.GetProfileIdByName(button.Text.Replace("&&", "&"));
                     this.updateSelectedProfile = true;
                 }
                 

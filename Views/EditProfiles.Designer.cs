@@ -182,12 +182,12 @@
             this.txtAddProfile.SelectionLength = 0;
             this.txtAddProfile.SelectionStart = 0;
             this.txtAddProfile.ShortcutsEnabled = true;
-            this.txtAddProfile.Size = new System.Drawing.Size(178, 29);
+            this.txtAddProfile.Size = new System.Drawing.Size(230, 29);
             this.txtAddProfile.TabIndex = 1;
             this.txtAddProfile.UseSelectable = true;
             this.txtAddProfile.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtAddProfile.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtAddProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
+            // this.txtAddProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
             // lblAddProfile1
             // 
@@ -252,12 +252,12 @@
             this.txtRenameProfile.SelectionLength = 0;
             this.txtRenameProfile.SelectionStart = 0;
             this.txtRenameProfile.ShortcutsEnabled = true;
-            this.txtRenameProfile.Size = new System.Drawing.Size(178, 29);
+            this.txtRenameProfile.Size = new System.Drawing.Size(230, 29);
             this.txtRenameProfile.TabIndex = 3;
             this.txtRenameProfile.UseSelectable = true;
             this.txtRenameProfile.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtRenameProfile.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtRenameProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
+            // this.txtRenameProfile.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DeleteAmpersand_KeyPress);
             // 
             // lblRenameProfile2
             // 
@@ -276,7 +276,7 @@
             this.cboProfileRename.ItemHeight = 23;
             this.cboProfileRename.Location = new System.Drawing.Point(96, 7);
             this.cboProfileRename.Name = "cboProfileRename";
-            this.cboProfileRename.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileRename.Size = new System.Drawing.Size(230, 29);
             this.cboProfileRename.TabIndex = 1;
             this.cboProfileRename.UseSelectable = true;
             this.cboProfileRename.SelectedIndexChanged += new System.EventHandler(this.RenameComboboxChanged);
@@ -339,7 +339,7 @@
             this.cboProfileMoveTo.ItemHeight = 23;
             this.cboProfileMoveTo.Location = new System.Drawing.Point(96, 45);
             this.cboProfileMoveTo.Name = "cboProfileMoveTo";
-            this.cboProfileMoveTo.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileMoveTo.Size = new System.Drawing.Size(230, 29);
             this.cboProfileMoveTo.TabIndex = 2;
             this.cboProfileMoveTo.UseSelectable = true;
             // 
@@ -360,7 +360,7 @@
             this.cboProfileMoveFrom.ItemHeight = 23;
             this.cboProfileMoveFrom.Location = new System.Drawing.Point(96, 7);
             this.cboProfileMoveFrom.Name = "cboProfileMoveFrom";
-            this.cboProfileMoveFrom.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileMoveFrom.Size = new System.Drawing.Size(230, 29);
             this.cboProfileMoveFrom.TabIndex = 0;
             this.cboProfileMoveFrom.UseSelectable = true;
             // 
@@ -399,7 +399,7 @@
             this.cboProfileRemove.ItemHeight = 23;
             this.cboProfileRemove.Location = new System.Drawing.Point(96, 7);
             this.cboProfileRemove.Name = "cboProfileRemove";
-            this.cboProfileRemove.Size = new System.Drawing.Size(192, 29);
+            this.cboProfileRemove.Size = new System.Drawing.Size(230, 29);
             this.cboProfileRemove.TabIndex = 1;
             this.cboProfileRemove.UseSelectable = true;
             // 
