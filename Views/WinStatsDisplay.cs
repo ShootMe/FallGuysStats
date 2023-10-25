@@ -315,7 +315,7 @@ namespace FallGuysStats {
                                 } else {
                                     temp = "       •  ";
                                     int d = longestLength - prevLength;
-                                    if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1d / d))));
+                                    if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1f / d))));
                                     builder.Append(temp);
                                 }
                             } else {

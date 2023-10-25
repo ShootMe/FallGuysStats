@@ -94,7 +94,7 @@ namespace FallGuysStats {
         }
         private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
             StringBuilder strBuilder = new StringBuilder();
-            strBuilder.Append($"{{\"country\":\"{Stats.HostCountry}\",");
+            strBuilder.Append($"{{\"country\":\"{Stats.HostCountryCode}\",");
             strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
             strBuilder.Append($"\"onlineServiceId\":\"{Stats.OnlineServiceId}\",");
             strBuilder.Append($"\"onlineServiceNickname\":\"{Stats.OnlineServiceNickname}\",");

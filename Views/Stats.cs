@@ -166,7 +166,7 @@ namespace FallGuysStats {
         public static string OnlineServiceId = string.Empty;
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
-        public static string HostCountry = string.Empty;
+        public static string HostCountryCode = string.Empty;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -205,7 +205,8 @@ namespace FallGuysStats {
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
         public ILiteCollection<Profiles> Profiles;
-        public ILiteCollection<FallalyticsPbInfo> FallalyticsPbInfo;
+        public ILiteCollection<FallalyticsPbLog> FallalyticsPbLog;
+        public ILiteCollection<ServerConnectionLog> ServerConnectionLog;
         public List<Profiles> AllProfiles = new List<Profiles>();
         public UserSettings CurrentSettings;
         public Overlay overlay;
@@ -242,9 +243,7 @@ namespace FallGuysStats {
         public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
-// #if AllowUpdate
-//         public DateTime timeSwitcherForCheckUpdate;
-// #endif
+        private int profileIdWithLinkedCustomShow = -1;
         
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
@@ -252,7 +251,9 @@ namespace FallGuysStats {
         private readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}
         private readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json or https://ipinfo.io/ip
         private readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
-        private int profileIdWithLinkedCustomShow = -1;
+        private readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip={ip}
+        
+        
         public readonly string[] PublicShowIdList = {
             "main_show",
             "squads_2player_template",
@@ -402,10 +403,10 @@ namespace FallGuysStats {
         //     return destinationArray;
         // }
 
-        private Stats() {
+        private Stats() { 
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
-                    HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
+                    HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
                 }
             });
             
@@ -465,7 +466,10 @@ namespace FallGuysStats {
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
-            this.FallalyticsPbInfo = this.StatsDB.GetCollection<FallalyticsPbInfo>("FallalyticsPbInfo");
+            this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
+            this.ServerConnectionLog = this.StatsDB.GetCollection<ServerConnectionLog>("ServerConnectionLog");
+
+            this.ClearServerConnectionLog();
             
             this.StatsDB.BeginTrans();
             this.RoundDetails.EnsureIndex(r => r.Name);
@@ -476,9 +480,11 @@ namespace FallGuysStats {
             
             this.Profiles.EnsureIndex(p => p.ProfileId);
 
-            this.FallalyticsPbInfo.EnsureIndex(f => f.PbId);
-            this.FallalyticsPbInfo.EnsureIndex(f => f.RoundId);
-            this.FallalyticsPbInfo.EnsureIndex(f => f.ShowNameId);
+            this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
+            this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
+            this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
+            
+            this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
             
             
             if (this.Profiles.Count() == 0) {
@@ -2255,6 +2261,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 60;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 60) {
+                this.StatsDB.DropCollection("FallalyticsPbInfo");
+                this.CurrentSettings.Version = 61;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2333,7 +2345,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 60
+                Version = 61
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
@@ -3110,6 +3122,34 @@ namespace FallGuysStats {
             }
         }
 
+        public bool SelectServerConnectionLog(string sessionId, string showId) {
+            if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return true;
+            BsonExpression condition = Query.And(
+                Query.EQ("_id", sessionId),
+                Query.EQ("ShowId", showId)
+            );
+            return this.ServerConnectionLog.Exists(condition);
+        }
+
+        public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate) {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
+                this.StatsDB.Commit();
+            }
+        }
+
+        private void ClearServerConnectionLog() {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                DateTime threeDyasAgo = DateTime.Now.AddDays(-3);
+                BsonExpression condition = Query.LT("ConnectionDate", threeDyasAgo);
+                this.ServerConnectionLog.DeleteMany(condition);
+                this.StatsDB.Commit();
+            }
+        }
+
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
             if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
                 if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
@@ -3127,8 +3167,8 @@ namespace FallGuysStats {
                 }
             
                 if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                    if (string.IsNullOrEmpty(HostCountry)) {
-                        HostCountry = this.GetIpToCountryCode(this.GetUserPublicIp());
+                    if (string.IsNullOrEmpty(HostCountryCode)) {
+                        HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
                     }
                     
                     BsonExpression pbInfoQuery = Query.And(
@@ -3138,7 +3178,7 @@ namespace FallGuysStats {
                         Query.EQ("OnlineServiceId", OnlineServiceId),
                         Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
                     );
-                    List<FallalyticsPbInfo> pbInfo = this.FallalyticsPbInfo.Find(pbInfoQuery).ToList();
+                    List<FallalyticsPbLog> pbInfo = this.FallalyticsPbLog.Find(pbInfoQuery).ToList();
                     
                     double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
                     DateTime currentFinish = stat.Finish.Value;
@@ -3170,9 +3210,9 @@ namespace FallGuysStats {
                         
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
-                            this.FallalyticsPbInfo.Insert(new FallalyticsPbInfo { RoundId = stat.Name, ShowNameId = stat.ShowNameId,
+                            this.FallalyticsPbLog.Insert(new FallalyticsPbLog { RoundId = stat.Name, ShowId = stat.ShowNameId,
                                                           Record = record, PbDate = finish,
-                                                          Country = HostCountry, OnlineServiceType = (int)OnlineServiceType,
+                                                          CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                                                           OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                                                           IsTransferSuccess = isTransferSuccess });
                             this.StatsDB.Commit();
@@ -3190,12 +3230,12 @@ namespace FallGuysStats {
                                     
                                     lock (this.StatsDB) {
                                         this.StatsDB.BeginTrans();
-                                        foreach (FallalyticsPbInfo f in pbInfo) {
+                                        foreach (FallalyticsPbLog f in pbInfo) {
                                             f.Record = currentRecord;
                                             f.PbDate = currentFinish;
                                             f.IsTransferSuccess = isTransferSuccess;
                                         }
-                                        this.FallalyticsPbInfo.Update(pbInfo);
+                                        this.FallalyticsPbLog.Update(pbInfo);
                                         this.StatsDB.Commit();
                                     }
                                 }
@@ -3207,24 +3247,24 @@ namespace FallGuysStats {
                                 
                                 lock (this.StatsDB) {
                                     this.StatsDB.BeginTrans();
-                                    foreach (FallalyticsPbInfo f in pbInfo) {
+                                    foreach (FallalyticsPbLog f in pbInfo) {
                                         f.Record = currentRecord < record ? currentRecord : record;
                                         f.PbDate = currentRecord < record ? currentFinish : finish;
                                         f.IsTransferSuccess = isTransferSuccess;
                                     }
-                                    this.FallalyticsPbInfo.Update(pbInfo);
+                                    this.FallalyticsPbLog.Update(pbInfo);
                                     this.StatsDB.Commit();
                                 }
                             }
                         } catch {
                             lock (this.StatsDB) {
                                 this.StatsDB.BeginTrans();
-                                foreach (FallalyticsPbInfo f in pbInfo) {
+                                foreach (FallalyticsPbLog f in pbInfo) {
                                     f.Record = currentRecord < record ? currentRecord : record;
                                     f.PbDate = currentRecord < record ? currentFinish : finish;
                                     f.IsTransferSuccess = false;
                                 }
-                                this.FallalyticsPbInfo.Update(pbInfo);
+                                this.FallalyticsPbLog.Update(pbInfo);
                                 this.StatsDB.Commit();
                             }
                         }
@@ -4747,16 +4787,24 @@ namespace FallGuysStats {
         }
         public string GetIpToCountryCode(string ip) {
             string countryCode = string.Empty;
+            string[] rtnValue;
             if (!string.IsNullOrEmpty(ip)) {
                 try {
-                    countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
-
+                    // countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
+                    
                     if (string.IsNullOrEmpty(countryCode)) {
-                        countryCode = this.GetCountryCodeUsingIpapi(ip)[0]; // alpha-2 code
+                        rtnValue = this.GetCountryCodeUsingIpapi(ip);
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
                     }
-                
+                    
                     if (string.IsNullOrEmpty(countryCode)) {
-                        countryCode = this.GetCountryCodeUsingIpinfo(ip)[0]; // alpha-2 code
+                        rtnValue = this.GetCountryCodeUsingIpinfo(ip);
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
+                    }
+                    
+                    if (string.IsNullOrEmpty(countryCode)) {
+                        rtnValue = this.GetCountryCodeUsingNordvpn(ip);
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
                     }
                 } catch {
                     return string.Empty;
@@ -5532,9 +5580,21 @@ namespace FallGuysStats {
                 string resJsonStr = web.DownloadString($"{this.IPAPI_COM_URL}{host}");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
                 if (!string.IsNullOrEmpty(json["countryCode"].AsString())) countryInfo[0] = json["countryCode"].AsString(); // alpha-2 code
-                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
-                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[2] = json["regionName"].AsString();
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[3] = json["city"].AsString();
+                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
+                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[1] = json["regionName"].AsString();
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
+            }
+            return countryInfo;
+        }
+        public string[] GetCountryCodeUsingNordvpn(string host) {
+            string[] countryInfo = { string.Empty, string.Empty, string.Empty, string.Empty };
+            using (ApiWebClient web = new ApiWebClient()) {
+                string resJsonStr = web.DownloadString($"{this.NORDVPN_COM_URL}{host}");
+                JsonClass json = Json.Read(resJsonStr) as JsonClass;
+                if (!string.IsNullOrEmpty(json["country_code"].AsString())) countryInfo[0] = json["country_code"].AsString(); // alpha-2 code
+                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
+                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = json["region"].AsString();
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
             }
             return countryInfo;
         }
