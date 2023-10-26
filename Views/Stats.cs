@@ -2843,7 +2843,8 @@ namespace FallGuysStats {
         private void LogFile_OnShowToastNotification(string alpha2Code, string region) {
             this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
                 $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.MuteNotificationSounds);
+                string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
+                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.MuteNotificationSounds, true);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
@@ -3801,22 +3802,14 @@ namespace FallGuysStats {
             }
         }
 
-        public void ShowToastNotification(IWin32Window window, string caption, string description, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, bool muting) {
-            // Toast toast = new ToastBuilder(this)
-            //     .SetThumbnail(Properties.Resources.main_120_icon)
-            //     .SetCaption(caption)
-            //     .SetDescription(description)
-            //     .SetDuration(duration)
-            //     .SetAnimation(animation)
-            //     .SetCloseStyle(CloseStyle.ButtonAndClickEntire)
-            //     .SetPosition(position)
-            //     .SetTheme(theme)
-            //     .SetMuting(muting)
-            //     .Build();
-            // toast.ShowAsync();
+        public void ShowToastNotification(IWin32Window window, string caption, string description, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, bool muting, bool isAsync) {
             this.BeginInvoke((MethodInvoker)delegate {
-                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, muting);
-                this.toast.ShowAsync();
+                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, muting);
+                if (isAsync) {
+                    this.toast.ShowAsync();
+                } else {
+                    this.toast.Show();
+                }
             });
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
