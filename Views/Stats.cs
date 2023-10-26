@@ -146,6 +146,7 @@ namespace FallGuysStats {
         public static DateTime ConnectedToServerDate = DateTime.MinValue;
         public static string LastServerIp = string.Empty;
         public static string LastCountryAlpha2Code = string.Empty;
+        public static string LastCountryRegion = string.Empty;
         public static long LastServerPing = 0;
         public static bool IsBadServerPing = false;
         
@@ -3135,20 +3136,31 @@ namespace FallGuysStats {
             }
         }
 
-        public bool SelectServerConnectionLog(string sessionId, string showId) {
-            if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return true;
+        public bool ExistsServerConnectionLog(string sessionId, string showId) {
+            if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
                 Query.EQ("ShowId", showId)
             );
             return this.ServerConnectionLog.Exists(condition);
         }
+        
+        public ServerConnectionLog SelectServerConnectionLog(string sessionId, string showId) {
+            // Console.WriteLine($"{sessionId} / {showId}");
+            BsonExpression condition = Query.And(
+                Query.EQ("_id", sessionId),
+                Query.EQ("ShowId", showId)
+            );
+            return this.ServerConnectionLog.FindOne(condition);
+        }
 
-        public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate) {
+        public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
                 this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
-                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname });
+                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                    IsNotify = isNotify, IsPlaying = isPlaying
+                });
                 this.StatsDB.Commit();
             }
         }

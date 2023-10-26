@@ -163,7 +163,7 @@ namespace FallGuysStats {
                              (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFastest":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                              (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
                              (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
