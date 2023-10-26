@@ -88,6 +88,7 @@
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
             this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
             this.chkNotifyServerConnected = new MetroFramework.Controls.MetroCheckBox();
+            this.chkMuteNotificationSounds = new MetroFramework.Controls.MetroCheckBox();
             this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
@@ -866,7 +867,7 @@
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(53, 242);
+            this.cboMultilingual.Location = new System.Drawing.Point(53, 272);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -877,7 +878,7 @@
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(12, 205);
+            this.lblTheme.Location = new System.Drawing.Point(12, 235);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(50, 19);
             this.lblTheme.TabIndex = 5;
@@ -902,7 +903,7 @@
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(67, 200);
+            this.cboTheme.Location = new System.Drawing.Point(67, 230);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -944,13 +945,26 @@
             this.chkNotifyServerConnected.TabIndex = 5;
             this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
             this.chkNotifyServerConnected.UseSelectable = true;
+            this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotifyServerConnected_CheckedChanged);
+            // 
+            // chkMuteNotificationSounds
+            // 
+            this.chkMuteNotificationSounds.AutoSize = true;
+            this.chkMuteNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkMuteNotificationSounds.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkMuteNotificationSounds.Location = new System.Drawing.Point(15, 180);
+            this.chkMuteNotificationSounds.Name = "chkMuteNotificationSounds";
+            this.chkMuteNotificationSounds.Size = new System.Drawing.Size(420, 19);
+            this.chkMuteNotificationSounds.TabIndex = 5;
+            this.chkMuteNotificationSounds.Text = "Mute notification sounds";
+            this.chkMuteNotificationSounds.UseSelectable = true;
             // 
             // chkPreventOverlayMouseClicks
             // 
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 310);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 340);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
@@ -1108,7 +1122,7 @@
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(15, 242);
+            this.picLanguageSelection.Location = new System.Drawing.Point(15, 272);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -1183,6 +1197,7 @@
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
             this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
+            this.panelProgram.Controls.Add(this.chkMuteNotificationSounds);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
@@ -1755,6 +1770,7 @@
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
         private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
         private MetroFramework.Controls.MetroCheckBox chkNotifyServerConnected;
+        private MetroFramework.Controls.MetroCheckBox chkMuteNotificationSounds;
         private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;

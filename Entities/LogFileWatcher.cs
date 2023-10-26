@@ -82,6 +82,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
+        public event Action<string, string> OnShowToastNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -473,14 +474,13 @@ namespace FallGuysStats {
             try {
                 string countryInfo = this.StatsForm.GetIpToCountryCode(ip);
                 string alpha2Code = countryInfo.Split(';')[0].ToLower();
+                string region = countryInfo.Split(';').Length > 1 ? countryInfo.Split(';')[1] : string.Empty;
                 Stats.LastCountryAlpha2Code = alpha2Code;
                 if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(alpha2Code)) {
                     // this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                    //     $"{Multilingual.GetWord("message_connected_to_server_prefix")} {Multilingual.GetCountryName(alpha2Code)}, {countryInfo.Split(';')[1]} {Multilingual.GetWord("message_connected_to_server_suffix")}",
+                    //     $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(countryInfo.Split(';').Length > 1 ? $", {countryInfo.Split(';')[1]}" : "")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                     //     System.Windows.Forms.ToolTipIcon.Info, 2000);
-                    this.StatsForm.ShowToastNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(countryInfo.Split(';').Length > 1 ? $", {countryInfo.Split(';')[1]}" : "")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                        Position.BottomRight, Duration.LENGTH_LONG, Animation.FADE, this.StatsForm.Theme == MetroFramework.MetroThemeStyle.Light ? Theme.SuccessLight : Theme.SuccessDark, false);
+                    this.OnShowToastNotification?.Invoke(alpha2Code, region);
                 }
             } catch {
                 this.toggleCountryInfoApi = false;
@@ -742,6 +742,9 @@ namespace FallGuysStats {
                 }
 
                 Stats.ToggleServerInfo = false;
+                Stats.LastServerPing = 0;
+                Stats.IsBadServerPing = false;
+                Stats.LastCountryAlpha2Code = string.Empty;
                 this.toggleCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
 

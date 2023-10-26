@@ -246,6 +246,7 @@ namespace FallGuysStats {
         private bool isAvailableNewVersion;
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
+        private Toast toast;
         
         public Point screenCenter;
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
@@ -532,6 +533,7 @@ namespace FallGuysStats {
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
             this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
+            this.logFile.OnShowToastNotification += this.LogFile_OnShowToastNotification;
             this.logFile.OnError += this.LogFile_OnError;
             this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
             this.logFile.StatsForm = this;
@@ -2266,6 +2268,8 @@ namespace FallGuysStats {
 
             if (this.CurrentSettings.Version == 60) {
                 this.StatsDB.DropCollection("FallalyticsPbInfo");
+                this.CurrentSettings.NotifyServerConnected = true;
+                this.CurrentSettings.MuteNotificationSounds = false;
                 this.CurrentSettings.Version = 61;
                 this.SaveUserSettings();
             }
@@ -2288,6 +2292,7 @@ namespace FallGuysStats {
                 OverlayBackgroundOpacity = 100,
                 IsOverlayBackgroundCustomized = false,
                 NotifyServerConnected = false,
+                MuteNotificationSounds = false,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -2834,6 +2839,11 @@ namespace FallGuysStats {
                     // ignored
                 }
             }
+        }
+        private void LogFile_OnShowToastNotification(string alpha2Code, string region) {
+            this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
+                $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.MuteNotificationSounds);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
@@ -3791,19 +3801,23 @@ namespace FallGuysStats {
             }
         }
 
-        public void ShowToastNotification(string caption, string description, Position position, Duration duration, Animation animation, Theme theme, bool muting) {
-            Toast toast = new ToastBuilder(this)
-                .SetThumbnail(Properties.Resources.main_120_icon)
-                .SetCaption(caption)
-                .SetDescription(description)
-                .SetDuration(duration)
-                .SetAnimation(animation)
-                .SetCloseStyle(CloseStyle.ButtonAndClickEntire)
-                .SetPosition(position)
-                .SetTheme(theme)
-                .SetMuting(muting)
-                .Build();
-            toast.ShowAsync();
+        public void ShowToastNotification(IWin32Window window, string caption, string description, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, bool muting) {
+            // Toast toast = new ToastBuilder(this)
+            //     .SetThumbnail(Properties.Resources.main_120_icon)
+            //     .SetCaption(caption)
+            //     .SetDescription(description)
+            //     .SetDuration(duration)
+            //     .SetAnimation(animation)
+            //     .SetCloseStyle(CloseStyle.ButtonAndClickEntire)
+            //     .SetPosition(position)
+            //     .SetTheme(theme)
+            //     .SetMuting(muting)
+            //     .Build();
+            // toast.ShowAsync();
+            this.BeginInvoke((MethodInvoker)delegate {
+                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, muting);
+                this.toast.ShowAsync();
+            });
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
             if (this.trayIcon.Visible) {
@@ -3811,12 +3825,13 @@ namespace FallGuysStats {
                 this.trayIcon.BalloonTipText = text;
                 this.trayIcon.BalloonTipIcon = toolTipIcon;
                 this.trayIcon.ShowBalloonTip(timeout);
-            } else {
-                MetroMessageBox.Show(this, text, title, MessageBoxButtons.OK, toolTipIcon == ToolTipIcon.None ? MessageBoxIcon.None :
-                                                                                            toolTipIcon == ToolTipIcon.Error ? MessageBoxIcon.Error :
-                                                                                            toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
-                                                                                            toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             }
+            // else {
+            //     MetroMessageBox.Show(this, text, title, MessageBoxButtons.OK, toolTipIcon == ToolTipIcon.None ? MessageBoxIcon.None :
+            //                                                                                 toolTipIcon == ToolTipIcon.Error ? MessageBoxIcon.Error :
+            //                                                                                 toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
+            //                                                                                 toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
+            // }
         }
         public void AllocOverlayTooltip() {
             this.omtt = new MetroToolTip();
@@ -5819,6 +5834,7 @@ namespace FallGuysStats {
                 this.EnableMainMenu(true);
             }
         }
+
         private void menuOverlay_Click(object sender, EventArgs e) {
             this.ToggleOverlay(this.overlay);
         }

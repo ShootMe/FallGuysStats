@@ -59,6 +59,7 @@ namespace FallGuysStats {
         public bool SystemTrayIcon { get; set; }
         public bool PreventOverlayMouseClicks { get; set; }
         public bool NotifyServerConnected { get; set; }
+        public bool MuteNotificationSounds { get; set; }
         public bool MaximizedWindowState { get; set; }
         public int? FormLocationX { get; set; }
         public int? FormLocationY { get; set; }

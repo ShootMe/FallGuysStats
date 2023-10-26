@@ -100,6 +100,10 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Checked = this.CurrentSettings.AutoUpdate;
             this.chkSystemTrayIcon.Checked = this.CurrentSettings.SystemTrayIcon;
             this.chkNotifyServerConnected.Checked = this.CurrentSettings.NotifyServerConnected;
+            this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
+            if (this.chkNotifyServerConnected.Checked) {
+                this.chkMuteNotificationSounds.Checked = this.CurrentSettings.MuteNotificationSounds;
+            }
             this.chkPreventOverlayMouseClicks.Checked = this.CurrentSettings.PreventOverlayMouseClicks;
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
@@ -449,6 +453,7 @@ namespace FallGuysStats {
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
+            this.CurrentSettings.MuteNotificationSounds = this.chkMuteNotificationSounds.Checked;
             this.CurrentSettings.PreventOverlayMouseClicks = this.chkPreventOverlayMouseClicks.Checked;
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
@@ -729,6 +734,12 @@ namespace FallGuysStats {
                 this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
             }
         }
+        private void chkNotifyServerConnected_CheckedChanged(object sender, EventArgs e) {
+            this.chkMuteNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
+            if (!((MetroCheckBox)sender).Checked) {
+                this.chkMuteNotificationSounds.Checked = ((MetroCheckBox)sender).Checked;
+            }
+        }
 
         private void ChangeLanguage(int lang) {
             this.DisplayLang = lang;
@@ -887,6 +898,7 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
             this.chkNotifyServerConnected.Text = Multilingual.GetWord("settings_notify_server_connected");
+            this.chkMuteNotificationSounds.Text = Multilingual.GetWord("settings_mute_notification_sounds");
             this.chkPreventOverlayMouseClicks.Text = Multilingual.GetWord("settings_prevent_overlay_mouse_clicks");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
@@ -902,7 +914,7 @@ namespace FallGuysStats {
             this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 25);
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 10);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
-            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, 200);
+            this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, this.cboTheme.Location.Y);
             this.txtCycleTimeSeconds.Location = new Point(this.lblCycleTimeSeconds.Location.X + this.lblCycleTimeSeconds.Width + 4, 167);
             this.lblCycleTimeSecondsTag.Location = new Point(this.txtCycleTimeSeconds.Location.X + this.txtCycleTimeSeconds.Width + 4, 170);
             if (this.LaunchPlatform == 0) {

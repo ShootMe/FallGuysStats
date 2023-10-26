@@ -264,6 +264,7 @@ namespace FallGuysStats {
                 
                 factor += (this.GetCountSpace(text) * factorOffsetForSpace)
                           + (this.GetCountEngUppercase(text) * factorOffsetForEngUppercase) + (this.GetCountEngLowercase(text) * factorOffsetForEngLowercase)
+                          + (this.GetCountRusUppercase(text) * factorOffsetForEngUppercase) + (this.GetCountRusLowercase(text) * factorOffsetForEngLowercase)
                           + (this.GetCountKorCharacter(text) * factorOffsetForKorCharacter)
                           + (this.GetCountJpnCharacter(text) * factorOffsetForJpnCharacter) + (this.GetCountChineseCharacter(text) * factorOffsetForChineseCharacter)
                           + (this.GetCountSignCharacter(text) * factorOffsetForSignCharacter) + (this.GetCountNumeric(text) * factorOffsetForNumeric);
@@ -385,6 +386,22 @@ namespace FallGuysStats {
             char[] charArr = s.ToCharArray();
             foreach (char ch in charArr) {
                 if ((0x61 <= ch && ch <= 0x7A)) count++;
+            }
+            return count;
+        }
+        private int GetCountRusUppercase(string s) {
+            int count = 0;
+            char[] charArr = s.ToCharArray();
+            foreach (char ch in charArr) {
+                if ((0x410 <= ch && ch <= 0x42F)) count++;
+            }
+            return count;
+        }
+        private int GetCountRusLowercase(string s) {
+            int count = 0;
+            char[] charArr = s.ToCharArray();
+            foreach (char ch in charArr) {
+                if ((0x430 <= ch && ch <= 0x44F)) count++;
             }
             return count;
         }
