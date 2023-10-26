@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Enums;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -474,9 +475,12 @@ namespace FallGuysStats {
                 string alpha2Code = countryInfo.Split(';')[0].ToLower();
                 Stats.LastCountryAlpha2Code = alpha2Code;
                 if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(alpha2Code)) {
-                    this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
-                        $"{Multilingual.GetWord("message_connected_to_server_prefix")} {Multilingual.GetCountryName(alpha2Code)}, {countryInfo.Split(';')[1]} {Multilingual.GetWord("message_connected_to_server_suffix")}",
-                        System.Windows.Forms.ToolTipIcon.Info, 2000);
+                    // this.StatsForm.ShowNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                    //     $"{Multilingual.GetWord("message_connected_to_server_prefix")} {Multilingual.GetCountryName(alpha2Code)}, {countryInfo.Split(';')[1]} {Multilingual.GetWord("message_connected_to_server_suffix")}",
+                    //     System.Windows.Forms.ToolTipIcon.Info, 2000);
+                    this.StatsForm.ShowToastNotification(Multilingual.GetWord("message_connected_to_server_caption"),
+                        $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(countryInfo.Split(';').Length > 1 ? $", {countryInfo.Split(';')[1]}" : "")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                        Position.BottomRight, Duration.LENGTH_LONG, Animation.FADE, this.StatsForm.Theme == MetroFramework.MetroThemeStyle.Light ? Theme.SuccessLight : Theme.SuccessDark, false);
                 }
             } catch {
                 this.toggleCountryInfoApi = false;
@@ -582,7 +586,6 @@ namespace FallGuysStats {
                     if (!this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId) && (DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                         this.gameStateWatcher.Start();
                     }
-                    Console.WriteLine($"{this.sessionId} / {this.selectedShowId} / {!this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId)}");
                     this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate);
                 }
                 

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
+using System.Enums;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using System.UI.Widget;
 using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
@@ -403,7 +405,7 @@ namespace FallGuysStats {
         //     return destinationArray;
         // }
 
-        private Stats() { 
+        private Stats() {
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
                     HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
@@ -437,21 +439,6 @@ namespace FallGuysStats {
             this.SetSecretKey();
             
             this.InitializeComponent();
-            
-            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
-            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-            DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             
 #if !AllowUpdate
             this.menu.Items.Remove(this.menuUpdate);
@@ -572,6 +559,21 @@ namespace FallGuysStats {
             this.SaveUserSettings();
 
             this.SetTheme(CurrentTheme);
+            
+            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
+            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
+            DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+            DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
         
         [DllImport("User32.dll")]
@@ -3788,6 +3790,21 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        public void ShowToastNotification(string caption, string description, Position position, Duration duration, Animation animation, Theme theme, bool muting) {
+            Toast toast = new ToastBuilder(this)
+                .SetThumbnail(Properties.Resources.main_120_icon)
+                .SetCaption(caption)
+                .SetDescription(description)
+                .SetDuration(duration)
+                .SetAnimation(animation)
+                .SetCloseStyle(CloseStyle.ButtonAndClickEntire)
+                .SetPosition(position)
+                .SetTheme(theme)
+                .SetMuting(muting)
+                .Build();
+            toast.ShowAsync();
+        }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
             if (this.trayIcon.Visible) {
                 this.trayIcon.BalloonTipTitle = title;
@@ -4791,7 +4808,6 @@ namespace FallGuysStats {
             if (!string.IsNullOrEmpty(ip)) {
                 try {
                     // countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
-                    
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingIpapi(ip);
                         countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
@@ -4805,6 +4821,10 @@ namespace FallGuysStats {
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingNordvpn(ip);
                         countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
+                    }
+
+                    if (string.IsNullOrEmpty(countryCode)) {
+                        countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
                     }
                 } catch {
                     return string.Empty;
@@ -5800,6 +5820,9 @@ namespace FallGuysStats {
             }
         }
         private void menuOverlay_Click(object sender, EventArgs e) {
+            this.ShowToastNotification("서버 연결 알림",
+                "(미국, New York) 서버에 연결되었습니다.",
+                Position.BottomRight, System.Enums.Duration.LENGTH_LONG, Animation.FADE, this.Theme == MetroThemeStyle.Light ? System.Enums.Theme.SuccessLight : System.Enums.Theme.SuccessDark, false);
             this.ToggleOverlay(this.overlay);
         }
         public void ToggleOverlay(Overlay overlay) {

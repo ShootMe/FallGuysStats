@@ -48,6 +48,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <AllowedReferenceRelatedFileExtensions>.allowedextension</AllowedReferenceRelatedFileExtensions>
+    <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>embedded</DebugType>
@@ -72,6 +73,9 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EunmaToast">
+      <HintPath>.\EunmaToast.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -263,6 +267,7 @@
     <None Include="Resources\fallguys_icon.png" />
     <None Include="Resources\fallguys_db_logo.png" />
     <None Include="Resources\main_icon.png" />
+    <None Include="Resources\main_120_icon.png" />
     <None Include="Resources\fandom_icon.png" />
     <None Include="Resources\reddit_icon.png" />
     <None Include="Resources\roll_off_club_icon.png" />
