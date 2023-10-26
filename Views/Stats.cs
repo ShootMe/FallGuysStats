@@ -5820,9 +5820,6 @@ namespace FallGuysStats {
             }
         }
         private void menuOverlay_Click(object sender, EventArgs e) {
-            this.ShowToastNotification("서버 연결 알림",
-                "(미국, New York) 서버에 연결되었습니다.",
-                Position.BottomRight, System.Enums.Duration.LENGTH_LONG, Animation.FADE, this.Theme == MetroThemeStyle.Light ? System.Enums.Theme.SuccessLight : System.Enums.Theme.SuccessDark, false);
             this.ToggleOverlay(this.overlay);
         }
         public void ToggleOverlay(Overlay overlay) {
