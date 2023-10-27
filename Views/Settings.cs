@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Enums;
 using System.IO;
-using System.Media;
 using System.Reflection;
-using System.UI.Widget;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -334,8 +332,7 @@ namespace FallGuysStats {
                 // SoundPlayer player = new SoundPlayer(sound);
                 // player.Play();
                 this.StatsForm.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    // $"{Multilingual.GetWord("message_connected_to_server_prefix", this.DisplayLang)}{Multilingual.GetCountryName(Stats.HostCountryCode.ToLower(), this.DisplayLang)}{(string.IsNullOrEmpty(Stats.HostCountryRegion) ? "" : $", {Stats.HostCountryRegion}")}{(string.IsNullOrEmpty(Stats.HostCountryCity) ? "" : $", {Stats.HostCountryCity}")}{Multilingual.GetWord("message_connected_to_server_suffix", this.DisplayLang)}",
-                    Overlay.GetMainFont(17), string.IsNullOrEmpty(Stats.HostCountryCode) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.HostCountryCode.ToLower()}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
+                    Overlay.GetMainFont(17), (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
                     ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark),
                     this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01, this.chkMuteNotificationSounds.Checked, true);
             });
@@ -1075,11 +1072,11 @@ namespace FallGuysStats {
                             }
                         } else {
                             this.lblupdateNote.Text = Multilingual.GetWord("message_update_not_determine_version", this.DisplayLang);
-                            this.lblupdateNote.ForeColor = Color.Red;
+                            this.lblupdateNote.ForeColor = Color.Crimson;
                         }
                     }
 #else
-                    this.lblupdateNote.Text = $"{Multilingual.GetWordWithLang("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWordWithLang("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
+                    this.lblupdateNote.Text = $"{Multilingual.GetWord("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
 #endif
                 }
             });

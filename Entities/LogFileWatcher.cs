@@ -475,12 +475,13 @@ namespace FallGuysStats {
             Stats.LastCountryCity = string.Empty;
             try {
                 string countryInfo = this.StatsForm.GetCountryInfoByIp(ip);
-                string alpha2Code = countryInfo.Split(';')[0].ToLower();
-                string region = countryInfo.Split(';').Length > 1 ? countryInfo.Split(';')[1] : string.Empty;
-                string city = countryInfo.Split(';').Length > 2 ? countryInfo.Split(';')[2] : string.Empty;
+                string[] countryInfoArr = countryInfo.Split(';');
+                string alpha2Code = countryInfoArr[0].ToLower();
+                string region = countryInfoArr.Length > 1 && !"unknown".Equals(countryInfoArr[1].ToLower()) ? countryInfoArr[1] : string.Empty;
+                string city = countryInfoArr.Length > 2 && !"unknown".Equals(countryInfoArr[2].ToLower()) ? countryInfoArr[2] : string.Empty;
                 Stats.LastCountryAlpha2Code = alpha2Code;
                 Stats.LastCountryRegion = region;
-                Stats.LastCountryCity = region.Equals(city) ? string.Empty : city;
+                Stats.LastCountryCity = city;
             } catch {
                 this.toggleCountryInfoApi = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
