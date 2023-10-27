@@ -12,7 +12,6 @@ namespace FallGuysStats {
         public ZipWebClient ZipWebClient { get; set; }
         public string FileName { get; set; }
         public string DownloadUrl { get; set; }
-        private int _percentage;
 
         public DownloadProgress() => this.InitializeComponent();
 
@@ -29,8 +28,7 @@ namespace FallGuysStats {
         }
         
         private void zipWebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
-            if (this._percentage != e.ProgressPercentage) {
-                this._percentage = e.ProgressPercentage;
+            if (this.mpbProgressBar.Value != e.ProgressPercentage) {
                 this.mpbProgressBar.Value = e.ProgressPercentage;
                 this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
                 this.Invalidate();

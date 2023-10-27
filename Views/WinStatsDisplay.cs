@@ -93,87 +93,93 @@ namespace FallGuysStats {
 
         private void ChangeFormsPlotStyle(int style) {
             this.StatsForm.CurrentSettings.WinPerDayGraphStyle = style;
-            if (style == 1) { // LollipopPlot
-                this.MyBarPlot1.IsVisible = false;
-                this.MyBarPlot2.IsVisible = false;
-                this.MyBarPlot3.IsVisible = false;
-                this.MyBarPlot1.Label = null;
-                this.MyBarPlot2.Label = null;
-                this.MyBarPlot3.Label = null;
-                
-                this.MyLollipopPlot1.IsVisible = this.chkShows.Checked;
-                this.MyLollipopPlot2.IsVisible = this.chkFinals.Checked;
-                this.MyLollipopPlot3.IsVisible = this.chkWins.Checked;
-                this.MyLollipopPlot1.Label = Multilingual.GetWord("level_detail_shows");
-                this.MyLollipopPlot2.Label = Multilingual.GetWord("level_detail_finals");
-                this.MyLollipopPlot3.Label = Multilingual.GetWord("level_detail_wins");
-                
-                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
-                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
-                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
-                this.MyScatterPlot1.Label = null;
-                this.MyScatterPlot2.Label = null;
-                this.MyScatterPlot3.Label = null;
-                
-                this.HighlightedPoint.MarkerShape = MarkerShape.none;
-            } else if (style == 2) { // BarPlot
-                this.MyBarPlot1.IsVisible = this.chkShows.Checked;
-                this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
-                this.MyBarPlot3.IsVisible = this.chkWins.Checked;
-                this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
-                this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
-                this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
-                
-                this.MyLollipopPlot1.IsVisible = false;
-                this.MyLollipopPlot2.IsVisible = false;
-                this.MyLollipopPlot3.IsVisible = false;
-                this.MyLollipopPlot1.Label = null;
-                this.MyLollipopPlot2.Label = null;
-                this.MyLollipopPlot3.Label = null;
-                
-                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
-                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
-                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
-                this.MyScatterPlot1.Label = null;
-                this.MyScatterPlot2.Label = null;
-                this.MyScatterPlot3.Label = null;
-                
-                this.HighlightedPoint.MarkerShape = MarkerShape.none;
-            } else { // ScatterPlot
-                this.MyBarPlot1.IsVisible = false;
-                this.MyBarPlot2.IsVisible = false;
-                this.MyBarPlot3.IsVisible = false;
-                this.MyBarPlot1.Label = null;
-                this.MyBarPlot2.Label = null;
-                this.MyBarPlot3.Label = null;
-                
-                this.MyLollipopPlot1.IsVisible = false;
-                this.MyLollipopPlot2.IsVisible = false;
-                this.MyLollipopPlot3.IsVisible = false;
-                this.MyLollipopPlot1.Label = null;
-                this.MyLollipopPlot2.Label = null;
-                this.MyLollipopPlot3.Label = null;
-                
-                this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 255);
-                this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 255);
-                this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 255);
-                this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
-                this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
-                this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
-                this.MyScatterPlot1.Label = Multilingual.GetWord("level_detail_shows");
-                this.MyScatterPlot2.Label = Multilingual.GetWord("level_detail_finals");
-                this.MyScatterPlot3.Label = Multilingual.GetWord("level_detail_wins");
-                
-                this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
-            }
-            this.formsPlot.Plot.SetAxisLimits(
-                yMin: (this.dates.Length / 14D) * -1,
-                yMax: this.yMax + (this.dates.Length / 14D),
-                xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
-                xMax: DateTime.FromOADate(this.dates[this.dates.Length-1]).AddDays(4).ToOADate()
-            );
-            this.formsPlot.Plot.AxisZoom(.9, .9);
-            this.formsPlot.Refresh();
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (style == 1) {
+                    // LollipopPlot
+                    this.MyBarPlot1.IsVisible = false;
+                    this.MyBarPlot2.IsVisible = false;
+                    this.MyBarPlot3.IsVisible = false;
+                    this.MyBarPlot1.Label = null;
+                    this.MyBarPlot2.Label = null;
+                    this.MyBarPlot3.Label = null;
+
+                    this.MyLollipopPlot1.IsVisible = this.chkShows.Checked;
+                    this.MyLollipopPlot2.IsVisible = this.chkFinals.Checked;
+                    this.MyLollipopPlot3.IsVisible = this.chkWins.Checked;
+                    this.MyLollipopPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                    this.MyLollipopPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                    this.MyLollipopPlot3.Label = Multilingual.GetWord("level_detail_wins");
+
+                    this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
+                    this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
+                    this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
+                    this.MyScatterPlot1.Label = null;
+                    this.MyScatterPlot2.Label = null;
+                    this.MyScatterPlot3.Label = null;
+
+                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                } else if (style == 2) {
+                    // BarPlot
+                    this.MyBarPlot1.IsVisible = this.chkShows.Checked;
+                    this.MyBarPlot2.IsVisible = this.chkFinals.Checked;
+                    this.MyBarPlot3.IsVisible = this.chkWins.Checked;
+                    this.MyBarPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                    this.MyBarPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                    this.MyBarPlot3.Label = Multilingual.GetWord("level_detail_wins");
+
+                    this.MyLollipopPlot1.IsVisible = false;
+                    this.MyLollipopPlot2.IsVisible = false;
+                    this.MyLollipopPlot3.IsVisible = false;
+                    this.MyLollipopPlot1.Label = null;
+                    this.MyLollipopPlot2.Label = null;
+                    this.MyLollipopPlot3.Label = null;
+
+                    this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 0);
+                    this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 0);
+                    this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 0);
+                    this.MyScatterPlot1.Label = null;
+                    this.MyScatterPlot2.Label = null;
+                    this.MyScatterPlot3.Label = null;
+
+                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                } else {
+                    // ScatterPlot
+                    this.MyBarPlot1.IsVisible = false;
+                    this.MyBarPlot2.IsVisible = false;
+                    this.MyBarPlot3.IsVisible = false;
+                    this.MyBarPlot1.Label = null;
+                    this.MyBarPlot2.Label = null;
+                    this.MyBarPlot3.Label = null;
+
+                    this.MyLollipopPlot1.IsVisible = false;
+                    this.MyLollipopPlot2.IsVisible = false;
+                    this.MyLollipopPlot3.IsVisible = false;
+                    this.MyLollipopPlot1.Label = null;
+                    this.MyLollipopPlot2.Label = null;
+                    this.MyLollipopPlot3.Label = null;
+
+                    this.MyScatterPlot1.Color = this.GetColorWithAlpha(this.chkShows.ForeColor, 255);
+                    this.MyScatterPlot2.Color = this.GetColorWithAlpha(this.chkFinals.ForeColor, 255);
+                    this.MyScatterPlot3.Color = this.GetColorWithAlpha(this.chkWins.ForeColor, 255);
+                    this.MyScatterPlot1.IsVisible = this.chkShows.Checked;
+                    this.MyScatterPlot2.IsVisible = this.chkFinals.Checked;
+                    this.MyScatterPlot3.IsVisible = this.chkWins.Checked;
+                    this.MyScatterPlot1.Label = Multilingual.GetWord("level_detail_shows");
+                    this.MyScatterPlot2.Label = Multilingual.GetWord("level_detail_finals");
+                    this.MyScatterPlot3.Label = Multilingual.GetWord("level_detail_wins");
+
+                    this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
+                }
+
+                this.formsPlot.Plot.SetAxisLimits(
+                    yMin: (this.dates.Length / 14D) * -1,
+                    yMax: this.yMax + (this.dates.Length / 14D),
+                    xMin: DateTime.FromOADate(this.dates[0]).AddDays(-4).ToOADate(),
+                    xMax: DateTime.FromOADate(this.dates[this.dates.Length - 1]).AddDays(4).ToOADate()
+                );
+                this.formsPlot.Plot.AxisZoom(.9, .9);
+                this.formsPlot.Refresh();
+            });
         }
 
         private Color GetColorWithAlpha(Color color, int alpha) {
@@ -188,184 +194,215 @@ namespace FallGuysStats {
             if (this.dates == null) { return; }
             if (!(this.MyScatterPlot1.IsVisible || this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible)) { return; }
             
-            this.formsPlot.Plot.Remove(this.tooltip);
-            (double mouseCoordX, double mouseCoordY) = this.formsPlot.GetMouseCoordinates();
-            double xyRatio = this.formsPlot.Plot.XAxis.Dims.PxPerUnit / this.formsPlot.Plot.YAxis.Dims.PxPerUnit;
-            
-            (double pointX1, double pointY1, int pointIndex1) = MyScatterPlot1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-            (double pointX2, double pointY2, int pointIndex2) = MyScatterPlot2.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-            (double pointX3, double pointY3, int pointIndex3) = MyScatterPlot3.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+            this.BeginInvoke((MethodInvoker)delegate {
+                this.formsPlot.Plot.Remove(this.tooltip);
+                (double mouseCoordX, double mouseCoordY) = this.formsPlot.GetMouseCoordinates();
+                double xyRatio = this.formsPlot.Plot.XAxis.Dims.PxPerUnit / this.formsPlot.Plot.YAxis.Dims.PxPerUnit;
 
-            int currentIndex = -1;
-            double ans = -1;
-            int p = 0;
-            if (this.MyScatterPlot1.IsVisible) {
-                double d = this.DistanceToPoint(mouseCoordX,mouseCoordY,pointX1,pointY1);
-                if (ans == -1 || ans > d) {
-                    ans = d;
-                    p += 1;
-                }
-            }
-            
-            if (this.MyScatterPlot2.IsVisible) {
-                double d = this.DistanceToPoint(mouseCoordX,mouseCoordY,pointX2,pointY2);
-                if (ans == -1 || ans > d) {
-                    ans = d;
-                    p += 2;
-                }
-            }
-            
-            if (this.MyScatterPlot3.IsVisible) {
-                double d = this.DistanceToPoint(mouseCoordX,mouseCoordY,pointX3,pointY3);
-                if (ans == -1 || ans > d) {
-                    p += 4;
-                }
-            }
+                (double pointX1, double pointY1, int pointIndex1) =
+                    MyScatterPlot1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX2, double pointY2, int pointIndex2) =
+                    MyScatterPlot2.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX3, double pointY3, int pointIndex3) =
+                    MyScatterPlot3.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
 
-            switch (p) {
-                case 1:
-                    this.HighlightedPoint.X = pointX1;
-                    this.HighlightedPoint.Y = pointY1;
-                    currentIndex = pointIndex1;
-                    break;
-                case 2:
-                case 3:
-                    this.HighlightedPoint.X = pointX2;
-                    this.HighlightedPoint.Y = pointY2;
-                    currentIndex = pointIndex2;
-                    break;
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    this.HighlightedPoint.X = pointX3;
-                    this.HighlightedPoint.Y = pointY3;
-                    currentIndex = pointIndex3;
-                    break;
-            }
-            
-            this.HighlightedPoint.IsVisible = true;
-            if (this.MyScatterPlot1.Ys[currentIndex] > 0 || this.MyScatterPlot2.Ys[currentIndex] > 0 || this.MyScatterPlot3.Ys[currentIndex] > 0) {
-                StringBuilder builder = new StringBuilder();
-                builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
-                builder.Append((this.MyScatterPlot1.IsVisible ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
-                builder.Append((this.MyScatterPlot2.IsVisible ? $" - {Multilingual.GetWord("level_detail_finals")} :  ⟪ {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}" : ""));
-                builder.Append((this.MyScatterPlot3.IsVisible ? $" - {Multilingual.GetWord("level_detail_wins")} :  ⟪ {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}" : ""));
-                if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
-                    SortedList<string, int> infos = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
-                    int winsCount = infos.Where(kv => kv.Key.EndsWith(";crown")).Sum(kv => kv.Value);
-                    int lossesCount = infos.Where(kv => kv.Key.EndsWith(";eliminated")).Sum(kv => kv.Value);
-                    int winLevelCount = infos.Keys.Count(s => s.EndsWith(";crown"));
-                    int lossLevelCount = infos.Keys.Count(s => s.EndsWith(";eliminated"));
-                    int levelCount = winLevelCount > lossLevelCount ? winLevelCount : lossLevelCount;
-                    // KeyValuePair<string, int> longest = infos.OrderByDescending(kv => kv.Key.Length + kv.Value.ToString().Length).First();
-                    // int longestLength = longest.Key.Length + longest.Value.ToString().Length;
-                    
-                    int longestLength = 0;
-                    if (levelCount > 5) {
-                        int i = 0;
-                        string pl = string.Empty;
-                        StringBuilder c = new StringBuilder();
+                int currentIndex = -1;
+                double ans = -1;
+                int p = 0;
+                if (this.MyScatterPlot1.IsVisible) {
+                    double d = this.DistanceToPoint(mouseCoordX, mouseCoordY, pointX1, pointY1);
+                    if (ans == -1 || ans > d) {
+                        ans = d;
+                        p += 1;
+                    }
+                }
+
+                if (this.MyScatterPlot2.IsVisible) {
+                    double d = this.DistanceToPoint(mouseCoordX, mouseCoordY, pointX2, pointY2);
+                    if (ans == -1 || ans > d) {
+                        ans = d;
+                        p += 2;
+                    }
+                }
+
+                if (this.MyScatterPlot3.IsVisible) {
+                    double d = this.DistanceToPoint(mouseCoordX, mouseCoordY, pointX3, pointY3);
+                    if (ans == -1 || ans > d) {
+                        p += 4;
+                    }
+                }
+
+                switch (p) {
+                    case 1:
+                        this.HighlightedPoint.X = pointX1;
+                        this.HighlightedPoint.Y = pointY1;
+                        currentIndex = pointIndex1;
+                        break;
+                    case 2:
+                    case 3:
+                        this.HighlightedPoint.X = pointX2;
+                        this.HighlightedPoint.Y = pointY2;
+                        currentIndex = pointIndex2;
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        this.HighlightedPoint.X = pointX3;
+                        this.HighlightedPoint.Y = pointY3;
+                        currentIndex = pointIndex3;
+                        break;
+                }
+
+                this.HighlightedPoint.IsVisible = true;
+                if (this.MyScatterPlot1.Ys[currentIndex] > 0 || this.MyScatterPlot2.Ys[currentIndex] > 0 ||
+                    this.MyScatterPlot3.Ys[currentIndex] > 0) {
+                    StringBuilder builder = new StringBuilder();
+                    builder.Append(
+                        $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
+                    builder.Append((this.MyScatterPlot1.IsVisible
+                        ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
+                        : ""));
+                    builder.Append((this.MyScatterPlot2.IsVisible
+                        ? $" - {Multilingual.GetWord("level_detail_finals")} :  ⟪ {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
+                        : ""));
+                    builder.Append((this.MyScatterPlot3.IsVisible
+                        ? $" - {Multilingual.GetWord("level_detail_wins")} :  ⟪ {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
+                        : ""));
+                    if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
+                        SortedList<string, int> infos = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
+                        int winsCount = infos.Where(kv => kv.Key.EndsWith(";crown")).Sum(kv => kv.Value);
+                        int lossesCount = infos.Where(kv => kv.Key.EndsWith(";eliminated")).Sum(kv => kv.Value);
+                        int winLevelCount = infos.Keys.Count(s => s.EndsWith(";crown"));
+                        int lossLevelCount = infos.Keys.Count(s => s.EndsWith(";eliminated"));
+                        int levelCount = winLevelCount > lossLevelCount ? winLevelCount : lossLevelCount;
+                        // KeyValuePair<string, int> longest = infos.OrderByDescending(kv => kv.Key.Length + kv.Value.ToString().Length).First();
+                        // int longestLength = longest.Key.Length + longest.Value.ToString().Length;
+
+                        int longestLength = 0;
+                        if (levelCount > 5) {
+                            int i = 0;
+                            string pl = string.Empty;
+                            StringBuilder c = new StringBuilder();
+                            foreach (KeyValuePair<string, int> kv in infos) {
+                                if (!string.IsNullOrEmpty(pl) && kv.Key.Split(';')[0].Equals(pl)) {
+                                    c.Append(
+                                        $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                    continue;
+                                }
+
+                                if (!string.IsNullOrEmpty(pl) && !kv.Key.Split(';')[0].Equals(pl)) {
+                                    // c.Append(" ⟩");
+                                    if (i % 2 != 0) {
+                                        if (longestLength < c.ToString().Length) {
+                                            longestLength = c.ToString().Length;
+                                        }
+                                    }
+
+                                    c.Clear();
+                                }
+
+                                c.Append(
+                                    $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                pl = kv.Key.Split(';')[0];
+                                i++;
+                            }
+                        }
+
+                        builder.Append(
+                            $"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫ - {Math.Truncate(winsCount * 100d / (winsCount + lossesCount) * 10) / 10}%{Environment.NewLine}");
+                        string prevLevel = string.Empty;
+                        int prevLength = 0;
+                        string temp = string.Empty;
+                        int index = 0;
                         foreach (KeyValuePair<string, int> kv in infos) {
-                            if (!string.IsNullOrEmpty(pl) && kv.Key.Split(';')[0].Equals(pl)) {
-                                c.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                            if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
+                                temp =
+                                    $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                                builder.Append(temp);
+                                prevLength += temp.Length;
                                 continue;
                             }
-                            
-                            if (!string.IsNullOrEmpty(pl) && !kv.Key.Split(';')[0].Equals(pl)) {
-                                // c.Append(" ⟩");
-                                if (i % 2 != 0) {
-                                    if (longestLength < c.ToString().Length) {
-                                        longestLength = c.ToString().Length;
+
+                            // if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
+                            //     temp = " ⟩";
+                            //     prevLength += temp.Length;
+                            //     builder.Append(temp);
+                            // }
+
+                            if (index > 0) {
+                                if (levelCount > 5) {
+                                    if (index % 2 == 0) {
+                                        builder.Append(Environment.NewLine);
+                                        builder.Append("   •  ");
+                                    } else {
+                                        temp = "       •  ";
+                                        int d = longestLength - prevLength;
+                                        if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1f / d))));
+                                        builder.Append(temp);
                                     }
-                                }
-                                c.Clear();
-                            }
-                            
-                            c.Append($"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
-                            pl = kv.Key.Split(';')[0];
-                            i++;
-                        }
-                    }
-
-                    builder.Append($"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫ - {Math.Truncate(winsCount * 100d / (winsCount + lossesCount) * 10) / 10}%{Environment.NewLine}");
-                    string prevLevel = string.Empty;
-                    int prevLength = 0;
-                    string temp = string.Empty;
-                    int index = 0;
-                    foreach (KeyValuePair<string, int> kv in infos) {
-                        if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
-                            temp = $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
-                            builder.Append(temp);
-                            prevLength += temp.Length;
-                            continue;
-                        }
-
-                        // if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
-                        //     temp = " ⟩";
-                        //     prevLength += temp.Length;
-                        //     builder.Append(temp);
-                        // }
-
-                        if (index > 0) {
-                            if (levelCount > 5) {
-                                if (index % 2 == 0) {
-                                    builder.Append(Environment.NewLine);
-                                    builder.Append("   •  ");
                                 } else {
-                                    temp = "       •  ";
-                                    int d = longestLength - prevLength;
-                                    if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1f / d))));
-                                    builder.Append(temp);
+                                    builder.Append($"{Environment.NewLine}");
+                                    builder.Append("   •  ");
                                 }
                             } else {
-                                builder.Append($"{Environment.NewLine}");
                                 builder.Append("   •  ");
                             }
-                        } else {
-                            builder.Append("   •  ");
-                        }
 
-                        temp = $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
-                        prevLength = temp.Length;
-                        builder.Append(temp);
-                        prevLevel = kv.Key.Split(';')[0];
-                        
-                        index++;
+                            temp =
+                                $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                            prevLength = temp.Length;
+                            builder.Append(temp);
+                            prevLevel = kv.Key.Split(';')[0];
+
+                            index++;
+                        }
+                        // builder.Append(" ⟩");
                     }
-                    // builder.Append(" ⟩");
+
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X,
+                        y: this.HighlightedPoint.Y);
+
+                    if (this.switchGraphStyle == 1) {
+                        // LollipopPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    } else if (this.switchGraphStyle == 2) {
+                        // BarPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    } else {
+                        // ScatterPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
+                    }
+                } else {
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(
+                        label:
+                        $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}",
+                        x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
+
+                    if (this.switchGraphStyle == 1) {
+                        // LollipopPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    } else if (this.switchGraphStyle == 2) {
+                        // BarPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.none;
+                    } else {
+                        // ScatterPlot
+                        this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
+                    }
                 }
-                
-                this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
-                
-                if (this.switchGraphStyle == 1) { // LollipopPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
-                } else if (this.switchGraphStyle == 2) { // BarPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
-                } else { // ScatterPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
-                }
-            } else {
-                this.tooltip = this.formsPlot.Plot.AddTooltip(label: $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}", x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
-                
-                if (this.switchGraphStyle == 1) { // LollipopPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
-                } else if (this.switchGraphStyle == 2) { // BarPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.none;
-                } else { // ScatterPlot
-                    this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
-                }
-            }
-            this.tooltip.BorderWidth = 1.7f;
-            // this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
-            this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
-            this.tooltip.FillColor = Color.FromArgb(239, 49,51,56);
-            this.tooltip.Font.Color = Color.White;
-            this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
-            this.tooltip.Font.Size = 15f;
-            this.tooltip.ArrowSize = 5;
-            
-            this.formsPlot.Render();
+
+                this.tooltip.BorderWidth = 1.7f;
+                // this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
+                this.tooltip.BorderColor =
+                    Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
+                this.tooltip.FillColor = Color.FromArgb(239, 49, 51, 56);
+                this.tooltip.Font.Color = Color.White;
+                this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);
+                this.tooltip.Font.Size = 15f;
+                this.tooltip.ArrowSize = 5;
+
+                this.formsPlot.Render();
+            });
         }
 
         private void formsPlot_MouseLeave(object sender, EventArgs e) {

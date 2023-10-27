@@ -90,6 +90,7 @@
             this.chkNotifyServerConnected = new MetroFramework.Controls.MetroCheckBox();
             this.chkMuteNotificationSounds = new MetroFramework.Controls.MetroCheckBox();
             this.cboNotificationSounds = new MetroFramework.Controls.MetroComboBox();
+            this.cboNotificationWindowAnimation = new MetroFramework.Controls.MetroComboBox();
             this.btnPlayNotificationSounds = new MetroFramework.Controls.MetroButton();
             this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
@@ -984,13 +985,26 @@
             this.cboNotificationSounds.TabIndex = 1;
             this.cboNotificationSounds.UseSelectable = true;
             // 
+            // cboNotificationWindowAnimation
+            // 
+            this.cboNotificationWindowAnimation.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboNotificationWindowAnimation.FormattingEnabled = true;
+            this.cboNotificationWindowAnimation.IntegralHeight = false;
+            this.cboNotificationWindowAnimation.ItemHeight = 23;
+            this.cboNotificationWindowAnimation.Items.AddRange(new object[] { "FADE", "SLIDE" });
+            this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 240);
+            this.cboNotificationWindowAnimation.Name = "cboNotificationWindowAnimation";
+            this.cboNotificationWindowAnimation.Size = new System.Drawing.Size(70, 29);
+            this.cboNotificationWindowAnimation.TabIndex = 1;
+            this.cboNotificationWindowAnimation.UseSelectable = true;
+            // 
             // btnPlayNotificationSounds
             // 
             this.btnPlayNotificationSounds.AutoSize = true;
             this.btnPlayNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPlayNotificationSounds.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnPlayNotificationSounds.FontWeight = MetroFramework.MetroButtonWeight.Bold;
-            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(190, 240);
+            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 240);
             this.btnPlayNotificationSounds.Name = "btnPlayNotificationSounds";
             this.btnPlayNotificationSounds.Size = new System.Drawing.Size(29, 29);
             this.btnPlayNotificationSounds.TabIndex = 3;
@@ -1228,6 +1242,7 @@
             this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
             this.panelProgram.Controls.Add(this.chkMuteNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationSounds);
+            this.panelProgram.Controls.Add(this.cboNotificationWindowAnimation);
             this.panelProgram.Controls.Add(this.btnPlayNotificationSounds);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
             this.panelProgram.Controls.Add(this.lblLogPath);
@@ -1440,11 +1455,12 @@
             // lblupdateNote
             // 
             this.lblupdateNote.AutoSize = true;
-            this.lblupdateNote.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblupdateNote.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblupdateNote.Location = new System.Drawing.Point(9, 90);
             this.lblupdateNote.Name = "lblupdateNote";
             this.lblupdateNote.Size = new System.Drawing.Size(0, 0);
             this.lblupdateNote.TabIndex = 14;
+            this.lblupdateNote.UseCustomForeColor = true;
             // 
             // lbltpl4
             // 
@@ -1803,6 +1819,7 @@
         private MetroFramework.Controls.MetroCheckBox chkNotifyServerConnected;
         private MetroFramework.Controls.MetroCheckBox chkMuteNotificationSounds;
         private MetroFramework.Controls.MetroComboBox cboNotificationSounds;
+        private MetroFramework.Controls.MetroComboBox cboNotificationWindowAnimation;
         private MetroFramework.Controls.MetroButton btnPlayNotificationSounds;
         private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
         private FallGuysStats.ImageComboBox cboOverlayBackground;

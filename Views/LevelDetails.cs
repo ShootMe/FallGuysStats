@@ -18,6 +18,10 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public LevelDetails() {
             this.InitializeComponent();
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.UpdateStyles();
         }
         private void SetTheme(MetroThemeStyle theme) {
             this.Theme = theme;

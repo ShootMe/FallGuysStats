@@ -442,6 +442,10 @@ namespace FallGuysStats {
             this.SetSecretKey();
             
             this.InitializeComponent();
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.UpdateStyles();
             
 #if !AllowUpdate
             this.menu.Items.Remove(this.menuUpdate);
@@ -506,10 +510,6 @@ namespace FallGuysStats {
                 }
             }
             this.StatsDB.Commit();
-
-            this.BackImage = this.Icon.ToBitmap();
-            this.BackMaxSize = 32;
-            this.BackImagePadding = new Padding(18, 18, 0, 0);
             
             this.UpdateDatabaseVersion();
             
@@ -517,13 +517,16 @@ namespace FallGuysStats {
                 this.StatLookup.Add(entry.Key, entry.Value);
                 this.StatDetails.Add(entry.Value);
             }
-            
+
+            this.BackImage = this.Icon.ToBitmap();
+            this.BackMaxSize = 32;
+            this.BackImagePadding = new Padding(18, 18, 0, 0);
             this.SetMinimumSize();
             this.ChangeMainLanguage();
             this.InitMainDataGridView();
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
-            
+
             this.CurrentRound = new List<RoundInfo>();
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
@@ -556,28 +559,9 @@ namespace FallGuysStats {
             this.overlay.Hide();
             this.overlay.StartTimer();
             
-            this.ReloadProfileMenuItems();
-            
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
-
-            this.SetTheme(CurrentTheme);
-            
-            this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
-            this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-            DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
         
         [DllImport("User32.dll")]
@@ -2304,6 +2288,7 @@ namespace FallGuysStats {
                 NotifyServerConnected = false,
                 MuteNotificationSounds = false,
                 NotificationSounds = 0,
+                NotificationWindowAnimation = 0,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -2708,13 +2693,33 @@ namespace FallGuysStats {
         }
         private void Stats_Load(object sender, EventArgs e) {
             try {
-                if (this.CurrentSettings.AutoLaunchGameOnStartup) {
-                    this.LaunchGame(true);
-                }
+                this.SetTheme(CurrentTheme);
+                this.ReloadProfileMenuItems();
+                
+                this.BeginInvoke((MethodInvoker)delegate {
+                    this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
+                    this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
+                    DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                });
                 
                 this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
 
                 this.UpdateDates();
+                
+                if (this.CurrentSettings.AutoLaunchGameOnStartup) {
+                    this.LaunchGame(true);
+                }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -2859,7 +2864,8 @@ namespace FallGuysStats {
             this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
                 $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{(string.IsNullOrEmpty(city) ? "" : $" - {city}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                 string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
-                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01, this.CurrentSettings.MuteNotificationSounds, true);
+                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, (this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE), (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark),
+                (this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01), this.CurrentSettings.MuteNotificationSounds, true);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
@@ -3829,14 +3835,15 @@ namespace FallGuysStats {
         }
 
         public void ShowToastNotification(IWin32Window window, string caption, string description, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
-            this.BeginInvoke((MethodInvoker)delegate {
-                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
+            this.BeginInvoke((MethodInvoker)(() => {
+                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon,
+                    duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
                 if (isAsync) {
                     this.toast.ShowAsync();
                 } else {
                     this.toast.Show();
                 }
-            });
+            }));
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
             if (this.trayIcon.Visible) {

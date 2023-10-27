@@ -19,7 +19,9 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 
-        public EditProfiles() => this.InitializeComponent();
+        public EditProfiles() {
+            this.InitializeComponent();
+        }
 
         private void EditProfiles_Load(object sender, EventArgs e) {
             this.dgvProfiles.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
@@ -165,6 +167,7 @@ namespace FallGuysStats {
             this.cboProfileMoveFrom.Invalidate();
             this.cboProfileMoveTo.Invalidate();
             this.cboProfileRemove.Invalidate();
+            this.dgvProfiles.Invalidate();
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
