@@ -954,7 +954,7 @@ namespace FallGuysStats {
                             {"main_overlay_hide_tooltip", " (Ctrl + O) 키를 눌러 통계창 숨기기"},
                             {"main_overlay_shortcut_tooltip", " (Ctrl + M) 키를 누르면 통계창을 맨 위에 두는 옵션이 토글 됩니다.\n (Ctrl + T) 키를 누르면 통계창의 배경색이 전환됩니다.\n (Ctrl + F) 키를 누르면 통계창 좌우 반전 옵션이 토글 됩니다.\n (Ctrl + C) 키를 누르면 플랫폼별 사용자 수가 표시됩니다.\n (Ctrl + R) 키를 누르면 라운드 이름에 해당 라운드 유형에 대한 색상 배지 옵션이 토글 됩니다.\n (Ctrl + Shift + ↑ 또는 ↓) 키를 누르면 통계창의 투명도가 조절됩니다.\n (Ctrl + Shift + Z) 키를 누르면 연동된 프로필로 자동 변경 옵션이 토글 됩니다.\n (Ctrl + Shift + X) 키를 누르면 통계창의 크기가 재설정됩니다.\n (Ctrl + Shift + C) 키를 누르면 통계창의 위치가 재설정됩니다."},
                             {"main_update_prefix_tooltip", " 폴 가이즈 스탯츠가 지속적으로 업데이트되기를 원하신다면, "},
-                            {"main_update_suffix_tooltip", "GitHub 저장소에서 별 누르는 것을 잊지 마세요!"},
+                            {"main_update_suffix_tooltip", "GitHub 저장소에 방문하셔서 별을 눌러주세요!"},
                             {"main_you_can_update_new_version_prefix_tooltip", "새로운 버전 [ "},
                             {"main_you_can_update_new_version_suffix_tooltip", " ] 으로 업데이트할 수 있어요!"},
                             {"main_exit_program", "종료"},
@@ -1406,7 +1406,7 @@ namespace FallGuysStats {
                             {"main_overlay_hide_tooltip", "(Ctrl + O) オーバーレイを非表示"},
                             {"main_overlay_shortcut_tooltip", "(Ctrl + M) 常に一番上に表示する\n(Ctrl + T) 背景色を変更する\n(Ctrl + F) 向きを変更する\n(Ctrl + C) プラットフォーム別の人数を表示する\n(Ctrl + R) ラウンドタイプ別に色を変更する\n(Ctrl + Shift + ↑ または ↓) オーバーレイの透明度を調整する\n(Ctrl + Shift + Z) リンク先のプロファイルに自動で変更する\n(Ctrl + Shift + X) オーバーレイのサイズがリセットする\n(Ctrl + Shift + C) オーバーレイの位置をリセットする"},
                             {"main_update_prefix_tooltip", "FallGuysStatsが絶えず更新されるようにしたい場合は、"},
-                            {"main_update_suffix_tooltip", "        GitHubリポジトリでスターを押すことを忘れないでください。      "},
+                            {"main_update_suffix_tooltip", "        GitHubリポジトリにアクセスして星を押してください!      "},
                             {"main_you_can_update_new_version_prefix_tooltip", "      新バージョン（"},
                             {"main_you_can_update_new_version_suffix_tooltip", "）にアップデートできます！    "},
                             {"main_exit_program", "終了"},
@@ -12350,6 +12350,7 @@ namespace FallGuysStats {
             }
             return lang;
         }
+        
         public static string GetWord(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
@@ -12357,7 +12358,7 @@ namespace FallGuysStats {
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        public static string GetWordWithLang(string keyword, int lang) {
+        public static string GetWord(string keyword, int lang) {
             string word = string.Empty;
             string nation = string.Empty;
             switch (lang) {
@@ -12372,13 +12373,14 @@ namespace FallGuysStats {
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        public static string GetWordWithLang(string keyword, string lang) {
+        public static string GetWord(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(lang, out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
+        
         public static string GetRoundName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
@@ -12387,6 +12389,29 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(name)) { name = keyword; }
             return name;
         }
+        public static string GetRoundName(string keyword, int lang) {
+            string name = string.Empty;
+            string nation = string.Empty;
+            switch (lang) {
+                case 0: nation = "eng"; break;
+                case 1: nation = "fre"; break;
+                case 2: nation = "kor"; break;
+                case 3: nation = "jpn"; break;
+                case 4: nation = "chs"; break;
+                case 5: nation = "cht"; break;
+            }
+            MultilingualRoundsDictionary.TryGetValue(nation, out Dictionary<string, string> roundDictionary);
+            roundDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        public static string GetRoundName(string keyword, string lang) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
+            string name = string.Empty;
+            MultilingualRoundsDictionary.TryGetValue(lang, out Dictionary<string, string> roundDictionary);
+            roundDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        
         public static string GetShowName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
@@ -12394,6 +12419,29 @@ namespace FallGuysStats {
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
+        public static string GetShowName(string keyword, int lang) {
+            string name = string.Empty;
+            string nation = string.Empty;
+            switch (lang) {
+                case 0: nation = "eng"; break;
+                case 1: nation = "fre"; break;
+                case 2: nation = "kor"; break;
+                case 3: nation = "jpn"; break;
+                case 4: nation = "chs"; break;
+                case 5: nation = "cht"; break;
+            }
+            MultilingualShowsDictionary.TryGetValue(nation, out Dictionary<string, string> showsDictionary);
+            showsDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        public static string GetShowName(string keyword, string lang) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
+            string name = string.Empty;
+            MultilingualShowsDictionary.TryGetValue(lang, out Dictionary<string, string> showsDictionary);
+            showsDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        
         public static string GetCountryName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
@@ -12401,6 +12449,30 @@ namespace FallGuysStats {
             countryDictionary?.TryGetValue(keyword, out name);
             return name;
         }
+        public static string GetCountryName(string keyword, int lang) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
+            string name = string.Empty;
+            string nation = string.Empty;
+            switch (lang) {
+                case 0: nation = "eng"; break;
+                case 1: nation = "fre"; break;
+                case 2: nation = "kor"; break;
+                case 3: nation = "jpn"; break;
+                case 4: nation = "chs"; break;
+                case 5: nation = "cht"; break;
+            }
+            MultilingualCountryDictionary.TryGetValue(nation, out Dictionary<string, string> countryDictionary);
+            countryDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        public static string GetCountryName(string keyword, string lang) {
+            if (string.IsNullOrEmpty(keyword)) return String.Empty;
+            string name = string.Empty;
+            MultilingualCountryDictionary.TryGetValue(lang, out Dictionary<string, string> countryDictionary);
+            countryDictionary?.TryGetValue(keyword, out name);
+            return name;
+        }
+        
         public static Dictionary<string, string> GetRoundsDictionary() {
             MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundsDictionary);
             return roundsDictionary;

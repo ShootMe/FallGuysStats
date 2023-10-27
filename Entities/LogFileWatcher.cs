@@ -474,7 +474,7 @@ namespace FallGuysStats {
             Stats.LastCountryRegion = string.Empty;
             Stats.LastCountryCity = string.Empty;
             try {
-                string countryInfo = this.StatsForm.GetIpToCountryCode(ip);
+                string countryInfo = this.StatsForm.GetCountryInfoByIp(ip);
                 string alpha2Code = countryInfo.Split(';')[0].ToLower();
                 string region = countryInfo.Split(';').Length > 1 ? countryInfo.Split(';')[1] : string.Empty;
                 string city = countryInfo.Split(';').Length > 2 ? countryInfo.Split(';')[2] : string.Empty;

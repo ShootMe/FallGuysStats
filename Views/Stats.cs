@@ -171,6 +171,8 @@ namespace FallGuysStats {
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountryCode = string.Empty;
+        public static string HostCountryRegion = string.Empty;
+        public static string HostCountryCity = string.Empty;
         public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
             Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
             Graphics gp = Graphics.FromImage(bmp);
@@ -249,15 +251,14 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
-        
         public Point screenCenter;
+        
         public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         private readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}
         private readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json or https://ipinfo.io/ip
         private readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
         private readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip={ip}
-        
         
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -411,7 +412,10 @@ namespace FallGuysStats {
         private Stats() {
             Task.Run(() => {
                 if (this.IsInternetConnected()) {
-                    HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
+                    string countryInfo = this.GetCountryInfoByIp(this.GetUserPublicIp());
+                    HostCountryCode = countryInfo.Split(';')[0];
+                    HostCountryRegion = countryInfo.Split(';').Length > 1 ? countryInfo.Split(';')[1] : string.Empty;
+                    HostCountryCity = countryInfo.Split(';').Length > 2 ? countryInfo.Split(';')[2] : string.Empty;
                 }
             });
             
@@ -2863,7 +2867,7 @@ namespace FallGuysStats {
         private void LogFile_OnShowToastNotification(string alpha2Code, string region, string city) {
             this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
                 $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{(string.IsNullOrEmpty(city) ? "" : $" - {city}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
+                Overlay.GetMainFont(17), string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
                 ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, (this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE), (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark),
                 (this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01), this.CurrentSettings.MuteNotificationSounds, true);
         }
@@ -3213,7 +3217,7 @@ namespace FallGuysStats {
             
                 if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
                     if (string.IsNullOrEmpty(HostCountryCode)) {
-                        HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
+                        HostCountryCode = this.GetCountryInfoByIp(this.GetUserPublicIp()).Split(';')[0];
                     }
                     
                     BsonExpression pbLogQuery = Query.And(
@@ -3382,29 +3386,26 @@ namespace FallGuysStats {
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
             showId = this.GetAlternateShowId(showId);
-            for (int i = 0; i < this.AllProfiles.Count; i++) {
+            foreach (Profiles profiles in this.AllProfiles) {
                 if (isPrivateLobbies) {
-                    if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
-                        return this.AllProfiles[i].ProfileId;
+                    if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("private_lobbies")) {
+                        return profiles.ProfileId;
                     }
                 } else {
                     if (isCreativeShow) {
-                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
-                            return this.AllProfiles[i].ProfileId;
+                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("fall_guys_creative_mode")) {
+                            return profiles.ProfileId;
                         }
                     } else {
-                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                            return this.AllProfiles[i].ProfileId;
+                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                            return profiles.ProfileId;
                         }
                     }
                 }
             }
-            if (isPrivateLobbies) { // return corresponding linked profile when possible if no linked "private_lobbies" profile was found
-                for (int j = 0; j < this.AllProfiles.Count; j++) {
-                    if (!string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) && showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                        return this.AllProfiles[j].ProfileId;
-                    }
-                }
+            if (isPrivateLobbies) {
+                // return corresponding linked profile when possible if no linked "private_lobbies" profile was found
+                return (from profiles in this.AllProfiles where !string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1 select profiles.ProfileId).FirstOrDefault();
             }
             // return ProfileId 0 if no linked profile was found/matched
             return 0;
@@ -3438,20 +3439,22 @@ namespace FallGuysStats {
             }
             if (isPrivateLobbies) { // select corresponding linked profile when possible if no linked "private_lobbies" profile was found
                 for (int j = 0; j < this.AllProfiles.Count; j++) {
-                    if (!string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) && showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                        ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
-                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                        return;
+                    if (string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) {
+                        continue;
                     }
+
+                    ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                    if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                    return;
                 }
             }
             // select ProfileId 0 if no linked profile was found/matched
             for (int k = 0; k < this.AllProfiles.Count; k++) {
-                if (this.AllProfiles[k].ProfileId == 0) {
-                    ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
-                    if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                    return;
-                }
+                if (this.AllProfiles[k].ProfileId != 0) { continue; }
+
+                ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
+                if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                return;
             }
         }
         private void SetProfileMenu(int profile) {
@@ -3486,30 +3489,30 @@ namespace FallGuysStats {
         }
         public void UpdateUserCreativeLevel(string shareCode, JsonElement snapshot) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && (string.IsNullOrEmpty(r.CreativeTitle) || string.IsNullOrEmpty(r.CreativeShareCode)));
-            if (filteredInfo.Count > 0) {
-                lock (this.StatsDB) {
-                    this.StatsDB.BeginTrans();
-                    JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
-                    string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
-                    foreach (RoundInfo info in filteredInfo) {
-                        info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
-                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                        info.CreativeAuthor = onlinePlatformInfo[1];
-                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                        info.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
-                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                        //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
-                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                        this.RoundDetails.Update(info);
-                    }
-                    this.StatsDB.Commit();
+            if (filteredInfo.Count <= 0) { return; }
+
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                foreach (RoundInfo info in filteredInfo) {
+                    info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                    info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                    info.CreativeAuthor = onlinePlatformInfo[1];
+                    info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                    info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                    info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                    info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                    info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                    info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                    info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                    info.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                    info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                    //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
+                    info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                    this.RoundDetails.Update(info);
                 }
+                this.StatsDB.Commit();
             }
         }
         public StatSummary GetLevelInfo(string name, LevelType levelType, BestRecordType recordType, bool useShareCode) {
@@ -3834,9 +3837,9 @@ namespace FallGuysStats {
             }
         }
 
-        public void ShowToastNotification(IWin32Window window, string caption, string description, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
+        public void ShowToastNotification(IWin32Window window, string caption, string description, Font font, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
             this.BeginInvoke((MethodInvoker)(() => {
-                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon,
+                this.toast = Toast.Build(window, caption, description, font, Properties.Resources.main_120_icon, appOwnerIcon,
                     duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
                 if (isAsync) {
                     this.toast.ShowAsync();
@@ -4832,7 +4835,8 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private string GetUserPublicIp() {
+        
+        public string GetUserPublicIp() {
             using (ApiWebClient web = new ApiWebClient()) {
                 string publicIp;
                 try {
@@ -4843,24 +4847,22 @@ namespace FallGuysStats {
                 return publicIp;
             }
         }
-        public string GetIpToCountryCode(string ip) {
+        public string GetCountryInfoByIp(string ip) {
             string countryCode = string.Empty;
             string[] rtnValue;
             if (!string.IsNullOrEmpty(ip)) {
                 try {
                     // countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
                     if (string.IsNullOrEmpty(countryCode)) {
-                        rtnValue = this.GetCountryCodeUsingIpapi(ip);
+                        rtnValue = this.GetCountryCodeUsingNordvpn(ip);
                         countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
-                    
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingIpinfo(ip);
                         countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
-                    
                     if (string.IsNullOrEmpty(countryCode)) {
-                        rtnValue = this.GetCountryCodeUsingNordvpn(ip);
+                        rtnValue = this.GetCountryCodeUsingIpapi(ip);
                         countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
 
@@ -4873,6 +4875,7 @@ namespace FallGuysStats {
             }
             return countryCode;
         }
+        
         public void UpdateGameExeLocation() {
             string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();
             string fallGuysExeLocation = this.FindSteamExeLocation();
@@ -5636,7 +5639,7 @@ namespace FallGuysStats {
             return countryInfo;
         }
         public string[] GetCountryCodeUsingIpapi(string host) {
-            string[] countryInfo = { string.Empty, string.Empty, string.Empty, string.Empty };
+            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{this.IPAPI_COM_URL}{host}");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
@@ -5648,7 +5651,7 @@ namespace FallGuysStats {
             return countryInfo;
         }
         public string[] GetCountryCodeUsingNordvpn(string host) {
-            string[] countryInfo = { string.Empty, string.Empty, string.Empty, string.Empty };
+            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{this.NORDVPN_COM_URL}{host}");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
