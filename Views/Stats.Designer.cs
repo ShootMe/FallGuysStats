@@ -60,10 +60,12 @@
             this.menuSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuLostTempleAnalyzer = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.menuFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFallGuysOfficial = new System.Windows.Forms.ToolStripMenuItem();
             this.infoStrip = new System.Windows.Forms.ToolStrip();
             this.lblCurrentProfileIcon = new System.Windows.Forms.ToolStripLabel();
@@ -111,10 +113,12 @@
             this.traySubSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.trayRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.trayFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayLostTempleAnalyzer = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.trayFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayFallGuysReddit = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysWiki = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.trayFallGuysOfficial = new System.Windows.Forms.ToolStripMenuItem();
             this.trayUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.trayHelp = new System.Windows.Forms.ToolStripMenuItem();
@@ -400,7 +404,7 @@
             // 
             // menuLookHere
             // 
-            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuRollOffClub, this.menuSeparator5, this.menuFallGuysReddit, this.menuSeparator6, this.menuFallGuysWiki, this.menuSeparator7, this.menuFallGuysOfficial });
+            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuRollOffClub, this.menuSeparator5, this.menuLostTempleAnalyzer, this.menuSeparator6, this.menuFallGuysReddit, this.menuSeparator7, this.menuFallGuysWiki, this.menuSeparator8, this.menuFallGuysOfficial });
             this.menuLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.menuLookHere.Name = "menuLookHere";
             this.menuLookHere.Size = new System.Drawing.Size(91, 23);
@@ -454,6 +458,22 @@
             this.menuSeparator5.Name = "menuSeparator5";
             this.menuSeparator5.Size = new System.Drawing.Size(159, 6);
             // 
+            // menuRollOffClub
+            // 
+            this.menuLostTempleAnalyzer.Image = global::FallGuysStats.Properties.Resources.lost_temple_analyzer_icon;
+            this.menuLostTempleAnalyzer.Name = "menuLostTempleAnalyzer";
+            this.menuLostTempleAnalyzer.Size = new System.Drawing.Size(162, 22);
+            this.menuLostTempleAnalyzer.Text = "Lost Temple Analyzer";
+            this.menuLostTempleAnalyzer.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.menuLostTempleAnalyzer.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
+            this.menuLostTempleAnalyzer.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuLostTempleAnalyzer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator6
+            // 
+            this.menuSeparator6.Name = "menuSeparator6";
+            this.menuSeparator6.Size = new System.Drawing.Size(159, 6);
+            // 
             // menuFallGuysReddit
             // 
             this.menuFallGuysReddit.Image = global::FallGuysStats.Properties.Resources.reddit_icon;
@@ -465,10 +485,10 @@
             this.menuFallGuysReddit.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
             this.menuFallGuysReddit.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
-            // menuSeparator6
+            // menuSeparator7
             // 
-            this.menuSeparator6.Name = "menuSeparator6";
-            this.menuSeparator6.Size = new System.Drawing.Size(159, 6);
+            this.menuSeparator7.Name = "menuSeparator7";
+            this.menuSeparator7.Size = new System.Drawing.Size(159, 6);
             // 
             // menuFallGuysWiki
             // 
@@ -481,10 +501,10 @@
             this.menuFallGuysWiki.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
             this.menuFallGuysWiki.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
-            // menuSeparator7
+            // menuSeparator8
             // 
-            this.menuSeparator7.Name = "menuSeparator7";
-            this.menuSeparator7.Size = new System.Drawing.Size(159, 6);
+            this.menuSeparator8.Name = "menuSeparator8";
+            this.menuSeparator8.Size = new System.Drawing.Size(159, 6);
             // 
             // menuFallGuysOfficial
             // 
@@ -879,7 +899,7 @@
             // 
             // trayLookHere
             // 
-            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayRollOffClub, this.traySubSeparator5, this.trayFallGuysReddit, this.traySubSeparator6, this.trayFallGuysWiki, this.traySubSeparator7, this.trayFallGuysOfficial });
+            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayRollOffClub, this.traySubSeparator5, this.trayLostTempleAnalyzer, this.traySubSeparator6, this.trayFallGuysReddit, this.traySubSeparator7, this.trayFallGuysWiki, this.traySubSeparator8, this.trayFallGuysOfficial });
             this.trayLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
             this.trayLookHere.Name = "trayLookHere";
             this.trayLookHere.Size = new System.Drawing.Size(165, 22);
@@ -924,6 +944,19 @@
             this.traySubSeparator5.Name = "traySubSeparator5";
             this.traySubSeparator5.Size = new System.Drawing.Size(159, 6);
             // 
+            // trayLostTempleAnalyzer
+            // 
+            this.trayLostTempleAnalyzer.Image = global::FallGuysStats.Properties.Resources.lost_temple_analyzer_icon;
+            this.trayLostTempleAnalyzer.Name = "trayLostTempleAnalyzer";
+            this.trayLostTempleAnalyzer.Size = new System.Drawing.Size(162, 22);
+            this.trayLostTempleAnalyzer.Text = "Lost Temple Analyzer";
+            this.trayLostTempleAnalyzer.Click += new System.EventHandler(this.menuLookHere_Click);
+            // 
+            // traySubSeparator6
+            // 
+            this.traySubSeparator6.Name = "traySubSeparator6";
+            this.traySubSeparator6.Size = new System.Drawing.Size(159, 6);
+            // 
             // trayFallGuysReddit
             // 
             this.trayFallGuysReddit.Image = global::FallGuysStats.Properties.Resources.reddit_icon;
@@ -932,10 +965,10 @@
             this.trayFallGuysReddit.Text = "Fall Guys Reddit";
             this.trayFallGuysReddit.Click += new System.EventHandler(this.menuLookHere_Click);
             // 
-            // traySubSeparator6
+            // traySubSeparator7
             // 
-            this.traySubSeparator6.Name = "traySubSeparator6";
-            this.traySubSeparator6.Size = new System.Drawing.Size(159, 6);
+            this.traySubSeparator7.Name = "traySubSeparator7";
+            this.traySubSeparator7.Size = new System.Drawing.Size(159, 6);
             // 
             // trayFallGuysWiki
             // 
@@ -945,10 +978,10 @@
             this.trayFallGuysWiki.Text = "Fall Guys Wiki";
             this.trayFallGuysWiki.Click += new System.EventHandler(this.menuLookHere_Click);
             // 
-            // traySubSeparator7
+            // traySubSeparator8
             // 
-            this.traySubSeparator7.Name = "traySubSeparator7";
-            this.traySubSeparator7.Size = new System.Drawing.Size(159, 6);
+            this.traySubSeparator8.Name = "traySubSeparator8";
+            this.traySubSeparator8.Size = new System.Drawing.Size(159, 6);
             // 
             // trayFallGuysOfficial
             // 
@@ -1086,8 +1119,10 @@
         private System.Windows.Forms.ToolStripSeparator menuSeparator5;
         private System.Windows.Forms.ToolStripMenuItem menuRollOffClub;
         private System.Windows.Forms.ToolStripSeparator menuSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
+        private System.Windows.Forms.ToolStripMenuItem menuLostTempleAnalyzer;
         private System.Windows.Forms.ToolStripSeparator menuSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator8;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysOfficial;
         
         private System.Windows.Forms.ContextMenuStrip trayCMenu;
@@ -1113,8 +1148,10 @@
         private System.Windows.Forms.ToolStripSeparator traySubSeparator5;
         private System.Windows.Forms.ToolStripMenuItem trayRollOffClub;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
+        private System.Windows.Forms.ToolStripMenuItem trayLostTempleAnalyzer;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator8;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysOfficial;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;
         private System.Windows.Forms.ToolStripMenuItem trayLaunchFallGuys;

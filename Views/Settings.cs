@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.UI.Widget;
 using System.Windows.Forms;
 using MetroFramework;
@@ -106,6 +105,7 @@ namespace FallGuysStats {
             this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
             this.cboNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
+            this.btnPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
             if (this.chkNotifyServerConnected.Checked) {
                 this.chkMuteNotificationSounds.Checked = this.CurrentSettings.MuteNotificationSounds;
             }
@@ -763,6 +763,7 @@ namespace FallGuysStats {
         private void chkNotifyServerConnected_CheckedChanged(object sender, EventArgs e) {
             this.chkMuteNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
             this.cboNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
+            this.btnPlayNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
             if (!((MetroCheckBox)sender).Checked) {
                 this.chkMuteNotificationSounds.Checked = ((MetroCheckBox)sender).Checked;
             }

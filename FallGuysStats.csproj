@@ -271,6 +271,7 @@
     <None Include="Resources\fandom_icon.png" />
     <None Include="Resources\reddit_icon.png" />
     <None Include="Resources\roll_off_club_icon.png" />
+    <None Include="Resources\lost_temple_analyzer_icon.png" />
     <None Include="Resources\fallalytics_icon.png" />
     <None Include="Resources\fallguys_official_icon.png" />
     <None Include="Resources\export.png" />

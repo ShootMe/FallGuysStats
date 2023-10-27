@@ -192,6 +192,9 @@
     <data name="roll_off_club_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\roll_off_club_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="lost_temple_analyzer_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\lost_temple_analyzer_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="fallalytics_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\fallalytics_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>

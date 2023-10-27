@@ -2485,13 +2485,13 @@ namespace FallGuysStats {
         
         private void menuLookHere_Click(object sender, EventArgs e) {
             try {
-                if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysWiki") != -1) {
+                if (sender.Equals(this.menuFallGuysWiki) || sender.Equals(this.trayFallGuysWiki)) {
                     Process.Start(@"https://fallguysultimateknockout.fandom.com/wiki/Fall_Guys:_Ultimate_Knockout_Wiki");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysReddit") != -1) {
+                } else if (sender.Equals(this.menuFallGuysReddit) || sender.Equals(this.trayFallGuysReddit)) {
                     Process.Start(@"https://www.reddit.com/r/FallGuysGame/");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("Fallalytics") != -1) {
+                } else if (sender.Equals(this.menuFallalytics) || sender.Equals(this.trayFallalytics)) {
                     Process.Start(@"https://fallalytics.com/");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("RollOffClub") != -1) {
+                } else if (sender.Equals(this.menuRollOffClub) || sender.Equals(this.trayRollOffClub)) {
                     if (CurrentLanguage == 2) {
                         Process.Start(@"https://rolloff.club/ko/");
                     } else if (CurrentLanguage == 4) {
@@ -2499,9 +2499,11 @@ namespace FallGuysStats {
                     } else {
                         Process.Start(@"https://rolloff.club/");
                     }
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysDB") != -1) {
+                } else if (sender.Equals(this.menuLostTempleAnalyzer) || sender.Equals(this.trayLostTempleAnalyzer)) {
+                    Process.Start(@"https://alexjlockwood.github.io/lost-temple-analyzer/");
+                } else if (sender.Equals(this.menuFallGuysDB) || sender.Equals(this.trayFallGuysDB)) {
                     Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
-                } else if (((ToolStripMenuItem)sender).Name.IndexOf("FallGuysOfficial") != -1) {
+                } else if (sender.Equals(this.menuFallGuysOfficial) || sender.Equals(this.trayFallGuysOfficial)) {
                     Process.Start(@"https://fallguys.com/");
                 }
             } catch (Exception ex) {
@@ -2510,19 +2512,21 @@ namespace FallGuysStats {
         }
         private void menuLookHere_MouseEnter(object sender, EventArgs e) {
             Rectangle rectangle = this.menuLookHere.Bounds;
-            Point position = new Point(rectangle.Left, rectangle.Bottom + 232);
+            Point position = new Point(rectangle.Left, rectangle.Bottom + 260);
             this.AllocCustomTooltip(this.cmtt_center_Draw);
-            if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysWiki")) {
+            if (sender.Equals(this.menuFallGuysWiki)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_wiki_tooltip"), this, position);
-            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysReddit")) {
+            } else if (sender.Equals(this.menuFallGuysReddit)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_reddit_tooltip"), this, position);
-            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallalytics")) {
+            } else if (sender.Equals(this.menuFallalytics)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
-            } else if (((ToolStripMenuItem)sender).Name.Equals("menuRollOffClub")) {
+            } else if (sender.Equals(this.menuRollOffClub)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
-            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysDB")) {
+            } else if (sender.Equals(this.menuLostTempleAnalyzer)) {
+                this.ShowCustomTooltip(Multilingual.GetWord("main_lost_temple_analyzer_tooltip"), this, position);
+            } else if (sender.Equals(this.menuFallGuysDB)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
-            } else if (((ToolStripMenuItem)sender).Name.Equals("menuFallGuysOfficial")) {
+            } else if (sender.Equals(this.menuFallGuysOfficial)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_official_tooltip"), this, position);
             }
         }
@@ -3178,8 +3182,8 @@ namespace FallGuysStats {
         private void ClearServerConnectionLog() {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                DateTime threeDyasAgo = DateTime.Now.AddDays(-3);
-                BsonExpression condition = Query.LT("ConnectionDate", threeDyasAgo);
+                DateTime threeDaysAgo = DateTime.Now.AddDays(-3);
+                BsonExpression condition = Query.LT("ConnectionDate", threeDaysAgo);
                 this.ServerConnectionLog.DeleteMany(condition);
                 this.StatsDB.Commit();
             }
@@ -3206,19 +3210,19 @@ namespace FallGuysStats {
                         HostCountryCode = this.GetIpToCountryCode(this.GetUserPublicIp()).Split(';')[0];
                     }
                     
-                    BsonExpression pbInfoQuery = Query.And(
+                    BsonExpression pbLogQuery = Query.And(
                         Query.EQ("RoundId", stat.Name),
                         Query.EQ("ShowNameId", stat.ShowNameId),
                         Query.EQ("OnlineServiceType", (int)OnlineServiceType),
                         Query.EQ("OnlineServiceId", OnlineServiceId),
                         Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
                     );
-                    List<FallalyticsPbLog> pbInfo = this.FallalyticsPbLog.Find(pbInfoQuery).ToList();
+                    List<FallalyticsPbLog> pbLogList = this.FallalyticsPbLog.Find(pbLogQuery).ToList();
                     
                     double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
                     DateTime currentFinish = stat.Finish.Value;
                     bool isTransferSuccess = false;
-                    if (pbInfo.Count == 0) { // first transfer
+                    if (pbLogList.Count == 0) { // first transfer
                         BsonExpression recordQuery = Query.And(
                             Query.Not("Finish", null),
                             Query.EQ("RoundId", stat.Name),
@@ -3252,11 +3256,11 @@ namespace FallGuysStats {
                                                           IsTransferSuccess = isTransferSuccess });
                             this.StatsDB.Commit();
                         }
-                    } else if (pbInfo.Count > 0) {
-                        double record = pbInfo[0].Record;
-                        DateTime finish = pbInfo[0].PbDate;
+                    } else if (pbLogList.Count > 0) {
+                        double record = pbLogList[0].Record;
+                        DateTime finish = pbLogList[0].PbDate;
                         try {
-                            if (pbInfo[0].IsTransferSuccess) {
+                            if (pbLogList[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
                                     if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
                                         await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
@@ -3265,12 +3269,12 @@ namespace FallGuysStats {
                                     
                                     lock (this.StatsDB) {
                                         this.StatsDB.BeginTrans();
-                                        foreach (FallalyticsPbLog f in pbInfo) {
+                                        foreach (FallalyticsPbLog f in pbLogList) {
                                             f.Record = currentRecord;
                                             f.PbDate = currentFinish;
                                             f.IsTransferSuccess = isTransferSuccess;
                                         }
-                                        this.FallalyticsPbLog.Update(pbInfo);
+                                        this.FallalyticsPbLog.Update(pbLogList);
                                         this.StatsDB.Commit();
                                     }
                                 }
@@ -3282,24 +3286,24 @@ namespace FallGuysStats {
                                 
                                 lock (this.StatsDB) {
                                     this.StatsDB.BeginTrans();
-                                    foreach (FallalyticsPbLog f in pbInfo) {
+                                    foreach (FallalyticsPbLog f in pbLogList) {
                                         f.Record = currentRecord < record ? currentRecord : record;
                                         f.PbDate = currentRecord < record ? currentFinish : finish;
                                         f.IsTransferSuccess = isTransferSuccess;
                                     }
-                                    this.FallalyticsPbLog.Update(pbInfo);
+                                    this.FallalyticsPbLog.Update(pbLogList);
                                     this.StatsDB.Commit();
                                 }
                             }
                         } catch {
                             lock (this.StatsDB) {
                                 this.StatsDB.BeginTrans();
-                                foreach (FallalyticsPbLog f in pbInfo) {
+                                foreach (FallalyticsPbLog f in pbLogList) {
                                     f.Record = currentRecord < record ? currentRecord : record;
                                     f.PbDate = currentRecord < record ? currentFinish : finish;
                                     f.IsTransferSuccess = false;
                                 }
-                                this.FallalyticsPbLog.Update(pbInfo);
+                                this.FallalyticsPbLog.Update(pbLogList);
                                 this.StatsDB.Commit();
                             }
                         }
@@ -6009,6 +6013,7 @@ namespace FallGuysStats {
             this.trayFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.trayFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
+            this.trayLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.trayFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
@@ -6044,6 +6049,7 @@ namespace FallGuysStats {
             this.menuFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.menuFallalytics.Text = Multilingual.GetWord("main_fallalytics");
             this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
+            this.menuLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.menuFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
         }
