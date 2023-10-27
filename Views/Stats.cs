@@ -2275,6 +2275,14 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 61;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 61) {
+                this.CurrentSettings.NotifyServerConnected = true;
+                this.CurrentSettings.MuteNotificationSounds = false;
+                this.CurrentSettings.NotificationSounds = 0;
+                this.CurrentSettings.Version = 62;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2355,7 +2363,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 61
+                Version = 62
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
