@@ -147,6 +147,7 @@ namespace FallGuysStats {
         public static string LastServerIp = string.Empty;
         public static string LastCountryAlpha2Code = string.Empty;
         public static string LastCountryRegion = string.Empty;
+        public static string LastCountryCity = string.Empty;
         public static long LastServerPing = 0;
         public static bool IsBadServerPing = false;
         
@@ -2294,6 +2295,7 @@ namespace FallGuysStats {
                 IsOverlayBackgroundCustomized = false,
                 NotifyServerConnected = false,
                 MuteNotificationSounds = false,
+                NotificationSounds = 0,
                 OverlayColor = 0,
                 OverlayLocationX = null,
                 OverlayLocationY = null,
@@ -2841,11 +2843,11 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void LogFile_OnShowToastNotification(string alpha2Code, string region) {
+        private void LogFile_OnShowToastNotification(string alpha2Code, string region, string city) {
             this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
-                $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
+                $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{(string.IsNullOrEmpty(city) ? "" : $" - {city}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
                 string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
-                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.MuteNotificationSounds, true);
+                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01, this.CurrentSettings.MuteNotificationSounds, true);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
@@ -3814,9 +3816,9 @@ namespace FallGuysStats {
             }
         }
 
-        public void ShowToastNotification(IWin32Window window, string caption, string description, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, bool muting, bool isAsync) {
+        public void ShowToastNotification(IWin32Window window, string caption, string description, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
             this.BeginInvoke((MethodInvoker)delegate {
-                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, muting);
+                this.toast = Toast.Build(window, caption, description, Properties.Resources.main_120_icon, appOwnerIcon, duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
                 if (isAsync) {
                     this.toast.ShowAsync();
                 } else {
@@ -4830,17 +4832,17 @@ namespace FallGuysStats {
                     // countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingIpapi(ip);
-                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
                     
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingIpinfo(ip);
-                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
                     
                     if (string.IsNullOrEmpty(countryCode)) {
                         rtnValue = this.GetCountryCodeUsingNordvpn(ip);
-                        countryCode = $"{rtnValue[0]};{rtnValue[1]}"; // alpha-2 code ; region
+                        countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                     }
 
                     if (string.IsNullOrEmpty(countryCode)) {
@@ -5841,6 +5843,10 @@ namespace FallGuysStats {
         }
 
         private void menuOverlay_Click(object sender, EventArgs e) {
+            this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
+                "(대한민국, Seoul) 서버에 연결되었습니다.",
+                (Image)Properties.Resources.ResourceManager.GetObject($"country_unkown{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
+                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), ToastSound.Generic03, this.CurrentSettings.MuteNotificationSounds, true);
             this.ToggleOverlay(this.overlay);
         }
         public void ToggleOverlay(Overlay overlay) {

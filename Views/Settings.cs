@@ -3,8 +3,10 @@ using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Media;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.UI.Widget;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -33,6 +35,7 @@ namespace FallGuysStats {
         }
         public Settings() {
             this.InitializeComponent();
+            this.cboNotificationSounds.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboMultilingual.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboTheme.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboWinsFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
@@ -101,6 +104,8 @@ namespace FallGuysStats {
             this.chkSystemTrayIcon.Checked = this.CurrentSettings.SystemTrayIcon;
             this.chkNotifyServerConnected.Checked = this.CurrentSettings.NotifyServerConnected;
             this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
+            this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
+            this.cboNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
             if (this.chkNotifyServerConnected.Checked) {
                 this.chkMuteNotificationSounds.Checked = this.CurrentSettings.MuteNotificationSounds;
             }
@@ -306,6 +311,25 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
         }
+
+        private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
+            Stream sound;
+            switch (this.cboNotificationSounds.SelectedIndex) {
+                case 1:
+                    sound = Toast.NotificationSound02;
+                    break;
+                case 2:
+                    sound = Toast.NotificationSound03;
+                    break;
+                default:
+                    sound = Toast.NotificationSound01;
+                    break;
+            }
+
+            sound.Position = 0;
+            SoundPlayer player = new SoundPlayer(sound);
+            player.Play();
+        }
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.Invalidate(true);
@@ -454,7 +478,9 @@ namespace FallGuysStats {
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
             this.CurrentSettings.MuteNotificationSounds = this.chkMuteNotificationSounds.Checked;
+            this.CurrentSettings.NotificationSounds = this.cboNotificationSounds.SelectedIndex;
             this.CurrentSettings.PreventOverlayMouseClicks = this.chkPreventOverlayMouseClicks.Checked;
+            
             this.CurrentSettings.FlippedDisplay = this.chkFlipped.Checked;
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
@@ -736,6 +762,7 @@ namespace FallGuysStats {
         }
         private void chkNotifyServerConnected_CheckedChanged(object sender, EventArgs e) {
             this.chkMuteNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
+            this.cboNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
             if (!((MetroCheckBox)sender).Checked) {
                 this.chkMuteNotificationSounds.Checked = ((MetroCheckBox)sender).Checked;
             }
@@ -899,6 +926,15 @@ namespace FallGuysStats {
             this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
             this.chkNotifyServerConnected.Text = Multilingual.GetWord("settings_notify_server_connected");
             this.chkMuteNotificationSounds.Text = Multilingual.GetWord("settings_mute_notification_sounds");
+            this.cboNotificationSounds.Items.Clear();
+            this.cboNotificationSounds.Items.AddRange(new object[] {
+                Multilingual.GetWord("settings_notification_sounds_01"),
+                Multilingual.GetWord("settings_notification_sounds_02"),
+                Multilingual.GetWord("settings_notification_sounds_03"),
+            });
+            this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
+            this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
+            this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.btnPlayNotificationSounds.Location.Y);
             this.chkPreventOverlayMouseClicks.Text = Multilingual.GetWord("settings_prevent_overlay_mouse_clicks");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");

@@ -82,7 +82,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
-        public event Action<string, string> OnShowToastNotification;
+        public event Action<string, string, string> OnShowToastNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -472,16 +472,20 @@ namespace FallGuysStats {
             this.toggleCountryInfoApi = true;
             Stats.LastCountryAlpha2Code = string.Empty;
             Stats.LastCountryRegion = string.Empty;
+            Stats.LastCountryCity = string.Empty;
             try {
                 string countryInfo = this.StatsForm.GetIpToCountryCode(ip);
                 string alpha2Code = countryInfo.Split(';')[0].ToLower();
                 string region = countryInfo.Split(';').Length > 1 ? countryInfo.Split(';')[1] : string.Empty;
+                string city = countryInfo.Split(';').Length > 2 ? countryInfo.Split(';')[2] : string.Empty;
                 Stats.LastCountryAlpha2Code = alpha2Code;
                 Stats.LastCountryRegion = region;
+                Stats.LastCountryCity = region.Equals(city) ? string.Empty : city;
             } catch {
                 this.toggleCountryInfoApi = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
                 Stats.LastCountryRegion = string.Empty;
+                Stats.LastCountryCity = string.Empty;
             }
         }
 
@@ -529,6 +533,7 @@ namespace FallGuysStats {
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
                 Stats.LastCountryRegion = string.Empty;
+                Stats.LastCountryCity = string.Empty;
                 this.toggleCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
@@ -574,7 +579,7 @@ namespace FallGuysStats {
                     if (serverConnectionLog != null) {
                         if (!serverConnectionLog.IsNotify) {
                             if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion);
+                                this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                             }
                         }
 
@@ -587,7 +592,7 @@ namespace FallGuysStats {
                         this.serverPingWatcher.Start();
                         this.SetCountryCodeByIP(Stats.LastServerIp);
                         if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                            this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion);
+                            this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                         }
                     }
                 }
@@ -754,6 +759,7 @@ namespace FallGuysStats {
                     Stats.IsBadServerPing = false;
                     Stats.LastCountryAlpha2Code = string.Empty;
                     Stats.LastCountryRegion = string.Empty;
+                    Stats.LastCountryCity = string.Empty;
                     
                     Stats.IsClientHasBeenClosed = false;
                     this.AddLineAfterClientShutdown();
@@ -765,6 +771,7 @@ namespace FallGuysStats {
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
                 Stats.LastCountryRegion = string.Empty;
+                Stats.LastCountryCity = string.Empty;
                 this.toggleCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
 
