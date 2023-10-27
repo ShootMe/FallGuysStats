@@ -5843,10 +5843,6 @@ namespace FallGuysStats {
         }
 
         private void menuOverlay_Click(object sender, EventArgs e) {
-            this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
-                "(대한민국, Seoul) 서버에 연결되었습니다.",
-                (Image)Properties.Resources.ResourceManager.GetObject($"country_unkown{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
-                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, ToastAnimation.FADE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.SuccessLight : ToastTheme.SuccessDark), ToastSound.Generic03, this.CurrentSettings.MuteNotificationSounds, true);
             this.ToggleOverlay(this.overlay);
         }
         public void ToggleOverlay(Overlay overlay) {
