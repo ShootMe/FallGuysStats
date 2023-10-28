@@ -804,7 +804,9 @@ namespace FallGuysStats {
         }
         
         public void PreventOverlayMouseClicks() {
-            if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
+            });
         }
         public void SetCursorPositionCenter() {
             if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
@@ -2273,6 +2275,20 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 62;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 62) {
+                this.StatsDB.BeginTrans();
+                List<Profiles> profileList = (from p in this.Profiles.FindAll()
+                    where string.IsNullOrEmpty(p.ProfileName)
+                    select p).ToList();
+                foreach (Profiles p in profileList) {
+                    p.ProfileName = ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
+                }
+                this.Profiles.Update(profileList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 63;
+                this.SaveUserSettings();
+            }
         }
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
@@ -2355,7 +2371,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 62
+                Version = 63
             };
         }
         private bool IsFinalWithCreativeLevel(string levelId) {
@@ -3444,68 +3460,74 @@ namespace FallGuysStats {
         public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
             showId = this.GetAlternateShowId(showId);
-            if (string.IsNullOrEmpty(showId) && this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
-            for (int i = 0; i < this.AllProfiles.Count; i++) {
-                if (isPrivateLobbies) {
-                    if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
-                        ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                        return;
-                    }
-                } else {
-                    if (isCreativeShow) {
-                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
+            if (this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
+            this.BeginInvoke((MethodInvoker)delegate {
+                for (int i = 0; i < this.AllProfiles.Count; i++) {
+                    if (isPrivateLobbies) {
+                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
                             if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
                             return;
                         }
                     } else {
-                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                            ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
-                            if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                            return;
+                        if (isCreativeShow) {
+                            if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
+                                ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
+                                if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                                return;
+                            }
+                        } else {
+                            if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && showId.IndexOf(this.AllProfiles[i].LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                                ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
+                                if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                                return;
+                            }
                         }
                     }
                 }
-            }
-            if (isPrivateLobbies) { // select corresponding linked profile when possible if no linked "private_lobbies" profile was found
-                for (int j = 0; j < this.AllProfiles.Count; j++) {
-                    if (string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) {
-                        continue;
-                    }
+                if (isPrivateLobbies) { // select corresponding linked profile when possible if no linked "private_lobbies" profile was found
+                    for (int j = 0; j < this.AllProfiles.Count; j++) {
+                        if (string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) {
+                            continue;
+                        }
 
-                    ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                        ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                        return;
+                    }
+                }
+                // select ProfileId 0 if no linked profile was found/matched
+                for (int k = 0; k < this.AllProfiles.Count; k++) {
+                    if (this.AllProfiles[k].ProfileId != 0) { continue; }
+
+                    ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
                     if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
                     return;
                 }
-            }
-            // select ProfileId 0 if no linked profile was found/matched
-            for (int k = 0; k < this.AllProfiles.Count; k++) {
-                if (this.AllProfiles[k].ProfileId != 0) { continue; }
-
-                ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
-                if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                return;
-            }
+            });
         }
         private void SetProfileMenu(int profile) {
             if (profile == -1 || this.AllProfiles.Count == 0) return;
-            ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
-            if (tsmi.Checked) { return; }
-            
-            this.menuStats_Click(tsmi, EventArgs.Empty);
+            this.Invoke((MethodInvoker)delegate {
+                ToolStripMenuItem tsmi = this.menuProfile.DropDownItems[$"menuProfile{profile}"] as ToolStripMenuItem;
+                if (tsmi.Checked) { return; }
+
+                this.menuStats_Click(tsmi, EventArgs.Empty);
+            });
         }
         private void SetCurrentProfileIcon(bool linked) {
-            if (this.CurrentSettings.AutoChangeProfile) {
-                this.lblCurrentProfileIcon.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
-                this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow
-                    : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
-                    : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
-            } else {
-                this.lblCurrentProfileIcon.Image = Properties.Resources.profile2_icon;
-                this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
-                    : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
-            }
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (this.CurrentSettings.AutoChangeProfile) {
+                    this.lblCurrentProfileIcon.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
+                    this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow
+                        : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
+                        : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
+                } else {
+                    this.lblCurrentProfileIcon.Image = Properties.Resources.profile2_icon;
+                    this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
+                        : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
+                }
+            });
         }
         // public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
         //     RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
@@ -3869,7 +3891,7 @@ namespace FallGuysStats {
         }
 
         public void ShowToastNotification(IWin32Window window, Image thumbNail, string caption, string description, Font font, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
-            this.BeginInvoke((MethodInvoker)(() => {
+            this.BeginInvoke((MethodInvoker)delegate {
                 this.toast = Toast.Build(window, caption, description, font, thumbNail, appOwnerIcon,
                     duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
                 if (isAsync) {
@@ -3877,7 +3899,7 @@ namespace FallGuysStats {
                 } else {
                     this.toast.Show();
                 }
-            }));
+            });
         }
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
             if (this.trayIcon.Visible) {
@@ -4882,7 +4904,7 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(ip)) { return string.Empty; }
             string countryCode = string.Empty;
             try {
-                if (string.IsNullOrEmpty(countryCode)) {
+                if (this.CurrentSettings.NotifyServerConnected) {
                     string[] rtnValue = this.GetCountryCodeUsingNordvpn(ip);
                     countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
                 }
