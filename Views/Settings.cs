@@ -34,6 +34,7 @@ namespace FallGuysStats {
         public Settings() {
             this.InitializeComponent();
             this.cboNotificationSounds.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboNotificationWindowPosition.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboNotificationWindowAnimation.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboMultilingual.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboTheme.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
@@ -105,6 +106,7 @@ namespace FallGuysStats {
             this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
             this.cboNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
+            this.cboNotificationWindowPosition.Enabled = this.chkNotifyServerConnected.Checked;
             this.cboNotificationWindowAnimation.Enabled = this.chkNotifyServerConnected.Checked;
             this.btnPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
             if (this.chkNotifyServerConnected.Checked) {
@@ -332,12 +334,13 @@ namespace FallGuysStats {
                 // SoundPlayer player = new SoundPlayer(sound);
                 // player.Play();
                 Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+                ToastPosition toastPosition = this.cboNotificationWindowPosition.SelectedIndex == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
                 
                 this.StatsForm.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    Overlay.GetMainFont(17), flagImage, ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
+                    Overlay.GetMainFont(17), flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
@@ -489,6 +492,7 @@ namespace FallGuysStats {
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
             this.CurrentSettings.MuteNotificationSounds = this.chkMuteNotificationSounds.Checked;
             this.CurrentSettings.NotificationSounds = this.cboNotificationSounds.SelectedIndex;
+            this.CurrentSettings.NotificationWindowPosition = this.cboNotificationWindowPosition.SelectedIndex;
             this.CurrentSettings.NotificationWindowAnimation = this.cboNotificationWindowAnimation.SelectedIndex;
             this.CurrentSettings.PreventOverlayMouseClicks = this.chkPreventOverlayMouseClicks.Checked;
             
@@ -778,6 +782,7 @@ namespace FallGuysStats {
         private void chkNotifyServerConnected_CheckedChanged(object sender, EventArgs e) {
             this.chkMuteNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
             this.cboNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
+            this.cboNotificationWindowPosition.Enabled = ((MetroCheckBox)sender).Checked;
             this.cboNotificationWindowAnimation.Enabled = ((MetroCheckBox)sender).Checked;
             this.btnPlayNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
             if (!((MetroCheckBox)sender).Checked) {
@@ -951,8 +956,16 @@ namespace FallGuysStats {
             });
             this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
+            this.cboNotificationWindowPosition.Items.Clear();
+            this.cboNotificationWindowPosition.Items.AddRange(new object[] {
+                Multilingual.GetWord("settings_notification_window_bottom_right"),
+                Multilingual.GetWord("settings_notification_window_top_right"),
+            });
+            this.cboNotificationWindowPosition.Width = lang == 0 ? 116 : lang == 1 ? 131 : lang == 2 ? 94 : lang == 3 ? 62 : lang == 4 ? 62 : lang == 5 ? 62 : 120;
+            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
+            this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.cboNotificationWindowAnimation.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
-            this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
+            this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.btnPlayNotificationSounds.Location.Y);
             this.chkPreventOverlayMouseClicks.Text = Multilingual.GetWord("settings_prevent_overlay_mouse_clicks");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");

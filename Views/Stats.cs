@@ -2293,6 +2293,7 @@ namespace FallGuysStats {
                 NotifyServerConnected = false,
                 MuteNotificationSounds = false,
                 NotificationSounds = 0,
+                NotificationWindowPosition = 0,
                 NotificationWindowAnimation = 0,
                 OverlayColor = 0,
                 OverlayLocationX = null,
@@ -2892,12 +2893,13 @@ namespace FallGuysStats {
             string description = $"{Multilingual.GetWord("message_connected_to_server_prefix")}{countryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}";
             
             Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_{(string.IsNullOrEmpty(alpha2Code) ? "unknown" : alpha2Code)}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-            ToastTheme toastTheme = (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark);
+            ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+            ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
             ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
             
             this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(17),
-                flagImage, ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
+                flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {

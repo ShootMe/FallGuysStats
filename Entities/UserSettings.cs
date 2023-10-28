@@ -61,6 +61,7 @@ namespace FallGuysStats {
         public bool NotifyServerConnected { get; set; }
         public bool MuteNotificationSounds { get; set; }
         public int NotificationSounds { get; set; }
+        public int NotificationWindowPosition { get; set; }
         public int NotificationWindowAnimation { get; set; }
         public bool MaximizedWindowState { get; set; }
         public int? FormLocationX { get; set; }

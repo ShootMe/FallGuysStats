@@ -90,6 +90,7 @@
             this.chkNotifyServerConnected = new MetroFramework.Controls.MetroCheckBox();
             this.chkMuteNotificationSounds = new MetroFramework.Controls.MetroCheckBox();
             this.cboNotificationSounds = new MetroFramework.Controls.MetroComboBox();
+            this.cboNotificationWindowPosition = new MetroFramework.Controls.MetroComboBox();
             this.cboNotificationWindowAnimation = new MetroFramework.Controls.MetroComboBox();
             this.btnPlayNotificationSounds = new MetroFramework.Controls.MetroButton();
             this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
@@ -882,7 +883,7 @@
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
             this.cboMultilingual.Location = new System.Drawing.Point(53, 352);
             this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(105, 29);
+            this.cboMultilingual.Size = new System.Drawing.Size(107, 29);
             this.cboMultilingual.TabIndex = 99;
             this.cboMultilingual.UseSelectable = true;
             this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
@@ -985,12 +986,25 @@
             this.cboNotificationSounds.TabIndex = 1;
             this.cboNotificationSounds.UseSelectable = true;
             // 
+            // cboNotificationWindowPosition
+            // 
+            this.cboNotificationWindowPosition.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboNotificationWindowPosition.FormattingEnabled = true;
+            this.cboNotificationWindowPosition.IntegralHeight = false;
+            this.cboNotificationWindowPosition.ItemHeight = 24;
+            this.cboNotificationWindowPosition.Items.AddRange(new object[] { "Bottom Right", "Top Right" });
+            this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 240);
+            this.cboNotificationWindowPosition.Name = "cboNotificationWindowPosition";
+            this.cboNotificationWindowPosition.Size = new System.Drawing.Size(116, 29);
+            this.cboNotificationWindowPosition.TabIndex = 1;
+            this.cboNotificationWindowPosition.UseSelectable = true;
+            // 
             // cboNotificationWindowAnimation
             // 
             this.cboNotificationWindowAnimation.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboNotificationWindowAnimation.FormattingEnabled = true;
             this.cboNotificationWindowAnimation.IntegralHeight = false;
-            this.cboNotificationWindowAnimation.ItemHeight = 23;
+            this.cboNotificationWindowAnimation.ItemHeight = 25;
             this.cboNotificationWindowAnimation.Items.AddRange(new object[] { "FADE", "SLIDE" });
             this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 240);
             this.cboNotificationWindowAnimation.Name = "cboNotificationWindowAnimation";
@@ -1242,6 +1256,7 @@
             this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
             this.panelProgram.Controls.Add(this.chkMuteNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationSounds);
+            this.panelProgram.Controls.Add(this.cboNotificationWindowPosition);
             this.panelProgram.Controls.Add(this.cboNotificationWindowAnimation);
             this.panelProgram.Controls.Add(this.btnPlayNotificationSounds);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
@@ -1819,6 +1834,7 @@
         private MetroFramework.Controls.MetroCheckBox chkNotifyServerConnected;
         private MetroFramework.Controls.MetroCheckBox chkMuteNotificationSounds;
         private MetroFramework.Controls.MetroComboBox cboNotificationSounds;
+        private MetroFramework.Controls.MetroComboBox cboNotificationWindowPosition;
         private MetroFramework.Controls.MetroComboBox cboNotificationWindowAnimation;
         private MetroFramework.Controls.MetroButton btnPlayNotificationSounds;
         private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
