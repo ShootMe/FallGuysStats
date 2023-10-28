@@ -2866,11 +2866,38 @@ namespace FallGuysStats {
             }
         }
         private void LogFile_OnShowToastNotification(string alpha2Code, string region, string city) {
-            this.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption"),
-                $"{Multilingual.GetWord("message_connected_to_server_prefix")}{Multilingual.GetCountryName(alpha2Code)}{(string.IsNullOrEmpty(region) ? "" : $", {region}")}{(string.IsNullOrEmpty(city) ? "" : $" - {city}")}{Multilingual.GetWord("message_connected_to_server_suffix")}",
-                Overlay.GetMainFont(17), string.IsNullOrEmpty(alpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{alpha2Code}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
-                ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, (this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE), (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark),
-                (this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01), this.CurrentSettings.MuteNotificationSounds, true);
+            string countryFullName;
+            if (!string.IsNullOrEmpty(alpha2Code)) {
+                countryFullName = Multilingual.GetCountryName(alpha2Code);
+                if (!string.IsNullOrEmpty(region)) {
+                    countryFullName += $" ({region}";
+                    if (!string.IsNullOrEmpty(city)) {
+
+                        if (!city.Equals(region)) {
+                            countryFullName += $", {city})";
+                        } else {
+                            countryFullName += ")";
+                        }
+                    } else {
+                        countryFullName += ")";
+                    }
+                } else {
+                    if (!string.IsNullOrEmpty(city)) {
+                        countryFullName += $" ({city})";
+                    }
+                }
+            } else {
+                countryFullName = "UNKNOWN";
+            }
+            string description = $"{Multilingual.GetWord("message_connected_to_server_prefix")}{countryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}";
+            
+            Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_{(string.IsNullOrEmpty(alpha2Code) ? "unknown" : alpha2Code)}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+            ToastTheme toastTheme = (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark);
+            ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
+            ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+            
+            this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(17),
+                flagImage, ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
@@ -3838,9 +3865,9 @@ namespace FallGuysStats {
             }
         }
 
-        public void ShowToastNotification(IWin32Window window, string caption, string description, Font font, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
+        public void ShowToastNotification(IWin32Window window, Image thumbNail, string caption, string description, Font font, Image appOwnerIcon, ToastDuration duration, ToastPosition position, ToastAnimation animation, ToastTheme theme, ToastSound toastSound, bool muting, bool isAsync) {
             this.BeginInvoke((MethodInvoker)(() => {
-                this.toast = Toast.Build(window, caption, description, font, Properties.Resources.main_120_icon, appOwnerIcon,
+                this.toast = Toast.Build(window, caption, description, font, thumbNail, appOwnerIcon,
                     duration, position, animation, ToastCloseStyle.ButtonAndClickEntire, theme, toastSound, muting);
                 if (isAsync) {
                     this.toast.ShowAsync();

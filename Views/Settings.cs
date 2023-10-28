@@ -331,10 +331,13 @@ namespace FallGuysStats {
             this.BeginInvoke((MethodInvoker)delegate {
                 // SoundPlayer player = new SoundPlayer(sound);
                 // player.Play();
-                this.StatsForm.ShowToastNotification(this, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    Overlay.GetMainFont(17), (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon"),
-                    ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE, (this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark),
-                    this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01, this.chkMuteNotificationSounds.Checked, true);
+                Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+                ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
+                ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
+                ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+                
+                this.StatsForm.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
+                    Overlay.GetMainFont(17), flagImage, ToastDuration.LENGTH_LONG, ToastPosition.BottomRight, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
