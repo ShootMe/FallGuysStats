@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.UI.Widget;
@@ -5642,7 +5643,7 @@ namespace FallGuysStats {
         public string[] GetCountryCodeUsingIp2c(string host) {
             string[] countryInfo = { string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
-                string resStr = web.DownloadString($"{this.IP2C_ORG_URL}{host}");
+                string resStr = Regex.Unescape(web.DownloadString($"{this.IP2C_ORG_URL}{host}"));
                 string[] resArr = resStr.Split(';');
                 if ("1".Equals(resArr[0])) {
                     countryInfo[0] = resArr[1]; // alpha-2 code
@@ -5656,9 +5657,9 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{this.IPINFO_IO_URL}{host}/json");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[0] = json["country"].AsString(); // alpha-2 code
-                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = json["region"].AsString();
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
+                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[0] = Regex.Unescape(json["country"].AsString()); // alpha-2 code
+                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = Regex.Unescape(json["region"].AsString());
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
             }
             return countryInfo;
         }
@@ -5667,10 +5668,10 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{this.IPAPI_COM_URL}{host}");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["countryCode"].AsString())) countryInfo[0] = json["countryCode"].AsString(); // alpha-2 code
-                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
-                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[1] = json["regionName"].AsString();
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
+                if (!string.IsNullOrEmpty(json["countryCode"].AsString())) countryInfo[0] = Regex.Unescape(json["countryCode"].AsString()); // alpha-2 code
+                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = Regex.Unescape(json["country"].AsString()); // a full country name
+                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[1] = Regex.Unescape(json["regionName"].AsString());
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
             }
             return countryInfo;
         }
@@ -5679,10 +5680,10 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{this.NORDVPN_COM_URL}{host}");
                 JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["country_code"].AsString())) countryInfo[0] = json["country_code"].AsString(); // alpha-2 code
-                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = json["country"].AsString(); // a full country name
-                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = json["region"].AsString();
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = json["city"].AsString();
+                if (!string.IsNullOrEmpty(json["country_code"].AsString())) countryInfo[0] = Regex.Unescape(json["country_code"].AsString()); // alpha-2 code
+                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = Regex.Unescape(json["country"].AsString()); // a full country name
+                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = Regex.Unescape(json["region"].AsString());
+                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
             }
             return countryInfo;
         }

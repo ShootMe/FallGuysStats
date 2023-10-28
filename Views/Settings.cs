@@ -962,8 +962,8 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_window_top_right"),
             });
             this.cboNotificationWindowPosition.Width = lang == 0 ? 116 : lang == 1 ? 131 : lang == 2 ? 94 : lang == 3 ? 62 : lang == 4 ? 62 : lang == 5 ? 62 : 120;
-            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
-            this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
+            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
+            this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.btnPlayNotificationSounds.Location.Y);
