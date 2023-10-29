@@ -222,22 +222,12 @@ namespace FallGuysStats {
 		
 		public int NextSequentialId(ToastPosition toastPosition) {
 			if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 0)) return 0;
-			{
-				if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 1)) return 1;
-				{
-					if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 2)) return 2;
-					{
-						if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 3)) return 3;
-						{
-							if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 4)) return 4;
-							{
-								return _privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 5) ? 0 : 5;
-							}
-						}
-					}
-				}
-			}
-		}
+            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 1)) return 1;
+            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 2)) return 2;
+            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 3)) return 3;
+            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 4)) return 4;
+            return !_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 5) ? 5 : 0;
+        }
 
 		/// <summary>
 		/// Get all Top-Right Toasts in collection

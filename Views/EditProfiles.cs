@@ -137,7 +137,7 @@ namespace FallGuysStats {
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
             this.ProfilesData.Clear();
             foreach (Profiles profile in this.Profiles) {
-                this.ProfilesData.Rows.Add($"{profile.ProfileName} [{this.AllStats.FindAll(r => r.Profile == profile.ProfileId).Count:N0} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
+                this.ProfilesData.Rows.Add($"{profile.ProfileName} [{this.AllStats.Count(r => r.Profile == profile.ProfileId):N0} {Multilingual.GetWord("profile_rounds_suffix")}]", profile.LinkedShowId);
             }
             this.Profiles = this.Profiles.OrderByDescending(p => p.ProfileOrder).ToList();
             this.txtAddProfile.Text = "";
@@ -148,26 +148,29 @@ namespace FallGuysStats {
             this.cboProfileRemove.Items.Clear();
             for (int i = 0; i < this.Profiles.Count; i++) {
                 if (this.Profiles[i].ProfileOrder == 0) { this.Profiles[i].ProfileOrder = this.Profiles.Count - i; }
-                this.cboProfileRename.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
-                this.cboProfileMoveTo.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
-                if (this.AllStats.FindAll(r => r.Profile == this.Profiles[i].ProfileId).Count != 0) {
-                    this.cboProfileMoveFrom.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
+                string profileName = this.Profiles[i].ProfileName.Replace("&", "&&");
+                this.cboProfileRename.Items.Insert(0, profileName);
+                this.cboProfileMoveTo.Items.Insert(0, profileName);
+                if (this.AllStats.Count(r => r.Profile == this.Profiles[i].ProfileId) != 0) {
+                    this.cboProfileMoveFrom.Items.Insert(0, profileName);
                 }
                 if (this.Profiles[i].ProfileId != 0) {
-                    this.cboProfileRemove.Items.Insert(0, this.Profiles[i].ProfileName.Replace("&", "&&"));
+                    this.cboProfileRemove.Items.Insert(0, profileName);
                 }
             }
             this.RefreshComponent();
         }
 
         private void RefreshComponent() {
-            this.txtAddProfile.Invalidate();
-            this.txtRenameProfile.Invalidate();
-            this.cboProfileRename.Invalidate();
-            this.cboProfileMoveFrom.Invalidate();
-            this.cboProfileMoveTo.Invalidate();
-            this.cboProfileRemove.Invalidate();
-            this.dgvProfiles.Invalidate();
+            this.BeginInvoke((MethodInvoker)delegate {
+                this.txtAddProfile.Invalidate();
+                this.txtRenameProfile.Invalidate();
+                this.cboProfileRename.Invalidate();
+                this.cboProfileMoveFrom.Invalidate();
+                this.cboProfileMoveTo.Invalidate();
+                this.cboProfileRemove.Invalidate();
+                this.dgvProfiles.Invalidate();
+            });
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {
@@ -313,8 +316,10 @@ namespace FallGuysStats {
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex + 1].ProfileOrder) = (this.Profiles[profileIndex + 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.IsUpdate = true;
             this.ReloadProfileList();
-            this.dgvProfiles[0, profileListIndex - 1].Selected = true;
-            this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 7 < 0 ? 0 : profileListIndex - 7;
+            this.Invoke((MethodInvoker)delegate { 
+                this.dgvProfiles[0, profileListIndex - 1].Selected = true;
+                this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 7 < 0 ? 0 : profileListIndex - 7;
+            });
         }
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
@@ -325,8 +330,10 @@ namespace FallGuysStats {
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);
             this.IsUpdate = true;
             this.ReloadProfileList();
-            this.dgvProfiles[0, profileListIndex + 1].Selected = true;
-            this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 5 < 0 ? 0 : profileListIndex - 5;
+            this.Invoke((MethodInvoker)delegate { 
+                this.dgvProfiles[0, profileListIndex + 1].Selected = true;
+                this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 5 < 0 ? 0 : profileListIndex - 5;
+            });
         }
 
         private void RenameComboboxChanged(object sender, EventArgs e) {
