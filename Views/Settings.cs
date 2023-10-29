@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
-using System.Enums;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -27,10 +26,7 @@ namespace FallGuysStats {
         private int DisplayLang;
         private bool CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
-
-        private Bitmap ResizeImage(Bitmap source, int scale) {
-            return new Bitmap(source, new Size(source.Width / scale, source.Height / scale));
-        }
+        
         public Settings() {
             this.InitializeComponent();
             this.cboNotificationSounds.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
@@ -1100,31 +1096,31 @@ namespace FallGuysStats {
 
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.fglink1)) {
-                this.openLink(@"https://github.com/ShootMe/FallGuysStats");
+                this.OpenLink(@"https://github.com/ShootMe/FallGuysStats");
             }
             if (sender.Equals(this.fglink2)) {
-                this.openLink(@"https://github.com/ShootMe/FallGuysStats/issues");
+                this.OpenLink(@"https://github.com/ShootMe/FallGuysStats/issues");
             }
             if (sender.Equals(this.lbltpl0)) {
-                this.openLink(@"https://github.com/mbdavid/LiteDB/blob/master/LICENSE");
+                this.OpenLink(@"https://github.com/mbdavid/LiteDB/blob/master/LICENSE");
             }
             if (sender.Equals(this.lbltpl1)) {
-                this.openLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");
+                this.OpenLink(@"https://github.com/Fody/Costura/blob/develop/LICENSE");
             }
             if (sender.Equals(this.lbltpl2)) {
-                this.openLink(@"https://github.com/Fody/Home/blob/master/license.txt");
+                this.OpenLink(@"https://github.com/Fody/Home/blob/master/license.txt");
             }
             if (sender.Equals(this.lbltpl3)) {
-                this.openLink(@"https://github.com/dennismagno/metroframework-modern-ui/blob/master/LICENSE.md");
+                this.OpenLink(@"https://github.com/dennismagno/metroframework-modern-ui/blob/master/LICENSE.md");
             }
             if (sender.Equals(this.lbltpl4)) {
-                this.openLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
+                this.OpenLink(@"https://github.com/ScottPlot/ScottPlot/blob/main/LICENSE");
             }
             if (sender.Equals(this.linkFallalytics)) {
-                this.openLink(@"https://fallalytics.com/");
+                this.OpenLink(@"https://fallalytics.com/");
             }
         }
-        private void openLink(string link) {
+        private void OpenLink(string link) {
             try {
                 Process.Start(link);
             } catch (Exception ex) {
@@ -1157,7 +1153,7 @@ namespace FallGuysStats {
                              using (DownloadProgress progress = new DownloadProgress()) {
                                  this.StatsForm.StatsDB?.Dispose();
                                  progress.ZipWebClient = web;
-                                 progress.DownloadUrl = this.StatsForm.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
+                                 progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                  progress.FileName = "FallGuysStats.zip";
                                  progress.ShowDialog(this);
                              }

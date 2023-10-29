@@ -22,7 +22,7 @@ namespace FallGuysStats {
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
         private Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
-        private Stats.DWM_WINDOW_CORNER_PREFERENCE conerPreference = Stats.DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
+        private DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private class CustomColorTable : ProfessionalColorTable {
             public CustomColorTable() { UseSystemColors = false; }
             public override Color MenuBorder {
@@ -52,7 +52,7 @@ namespace FallGuysStats {
         }
         public Grid() {
             this.SetContextMenu();
-            Stats.DwmSetWindowAttribute(this.CMenu.Handle, Stats.DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
+            Utils.DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
             this.AllowUserToAddRows = false;
             this.AllowUserToOrderColumns = true;

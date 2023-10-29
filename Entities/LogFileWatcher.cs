@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Enums;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -136,10 +135,10 @@ namespace FallGuysStats {
                                         string subsystemsPath = line.Substring(44);
                                         string[] userInfo;
                                         if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                            Stats.OnlineServiceType = Stats.OnlineServiceTypes.Steam;
+                                            Stats.OnlineServiceType = OnlineServiceTypes.Steam;
                                             userInfo = this.StatsForm.FindSteamNickname();
                                         } else {
-                                            Stats.OnlineServiceType = Stats.OnlineServiceTypes.EpicGames;
+                                            Stats.OnlineServiceType = OnlineServiceTypes.EpicGames;
                                             userInfo = this.StatsForm.FindEpicGamesNickname();
                                         }
                                         
@@ -415,10 +414,10 @@ namespace FallGuysStats {
             if (this.toggleFgdbCreativeApi) { return; }
             TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
             bool isSucceed = false;
-            if (timeDiff.TotalMinutes <= 15 && this.StatsForm.IsInternetConnected()) {
+            if (timeDiff.TotalMinutes <= 15 && Utils.IsInternetConnected()) {
                 this.toggleFgdbCreativeApi = true;
                 try {
-                    JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
+                    JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
                     if (resData.TryGetProperty("data", out JsonElement je)) {
                         JsonElement snapshot = je.GetProperty("snapshot");
                         JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
@@ -468,13 +467,13 @@ namespace FallGuysStats {
         }
 
         private void SetCountryCodeByIP(string ip) {
-            if (this.toggleCountryInfoApi || !Stats.IsClientRunning()) { return; }
+            if (this.toggleCountryInfoApi || !Utils.IsProcessRunning("FallGuys_client_game")) { return; }
             this.toggleCountryInfoApi = true;
             Stats.LastCountryAlpha2Code = string.Empty;
             Stats.LastCountryRegion = string.Empty;
             Stats.LastCountryCity = string.Empty;
             try {
-                string countryInfo = this.StatsForm.GetCountryInfoByIp(ip);
+                string countryInfo = Utils.GetCountryInfoByIp(ip, this.StatsForm.CurrentSettings.NotifyServerConnected);
                 string[] countryInfoArr = countryInfo.Split(';');
                 string alpha2Code = countryInfoArr[0].ToLower();
                 string region = countryInfoArr.Length > 1 && !"unknown".Equals(countryInfoArr[1].ToLower()) ? countryInfoArr[1] : string.Empty;

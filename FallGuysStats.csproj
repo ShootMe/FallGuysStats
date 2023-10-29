@@ -73,9 +73,6 @@
     <Prefer32bit>false</Prefer32bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EunmaToast">
-      <HintPath>.\EunmaToast.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -124,7 +121,13 @@
     <Compile Include="Entities\ServerConnectionLog.cs" />
     <Compile Include="Entities\ServerPingWatcher.cs" />
     <Compile Include="Entities\StatSummary.cs" />
+    <Compile Include="Entities\Toast.cs" />
+    <Compile Include="Entities\ToastBuilder.cs" />
+    <Compile Include="Entities\ToastManager.cs" />
+    <Compile Include="Entities\ToastThemeBuilder.cs" />
     <Compile Include="Entities\UserSettings.cs" />
+    <Compile Include="Entities\Utils.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Views\EditShows.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -149,6 +152,8 @@
     <Compile Include="Views\DownloadProgress.Designer.cs">
       <DependentUpon>DownloadProgress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EunmaToast.cs" />
+    <Compile Include="Views\EunmaToast.Designer.cs" />
     <Compile Include="Views\RoundStatsDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +214,7 @@
     <EmbeddedResource Include="Views\DownloadProgress.resx">
       <DependentUpon>DownloadProgress.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EunmaToast.resx" />
     <EmbeddedResource Include="Views\RoundStatsDisplay.resx">
       <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
@@ -1067,6 +1073,9 @@
     <None Include="Resources\country_icon\ZM_SHINY.png" />
     <None Include="Resources\country_icon\ZW_SHINY.png" />
     <None Include="Resources\country_icon\UNKNOWN_SHINY.png" />
+    <None Include="Resources\notify_sound\notify_sound_01.wav" />
+    <None Include="Resources\notify_sound\notify_sound_02.wav" />
+    <None Include="Resources\notify_sound\notify_sound_03.wav" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0">

@@ -38,26 +38,26 @@ namespace FallGuysStats {
         private string backgroundResourceNameCache, tabResourceNameCache;
 
         private bool isPositionButtonMouseEnter;
-        private readonly Image positionNeOffBlur = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
-        private readonly Image positionNwOffBlur = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
-        private readonly Image positionSeOffBlur = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.4F);
-        private readonly Image positionSwOffBlur = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.4F);
-        private readonly Image positionNeOffFocus = Stats.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.8F);
-        private readonly Image positionNwOffFocus = Stats.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.8F);
-        private readonly Image positionSeOffFocus = Stats.ImageOpacity(Properties.Resources.position_se_off_icon, 0.8F);
-        private readonly Image positionSwOffFocus = Stats.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.8F);
-        private readonly Image positionNeOnBlur = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.4F);
-        private readonly Image positionNwOnBlur = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.4F);
-        private readonly Image positionSeOnBlur = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.4F);
-        private readonly Image positionSwOnBlur = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.4F);
-        private readonly Image positionNeOnFocus = Stats.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.8F);
-        private readonly Image positionNwOnFocus = Stats.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.8F);
-        private readonly Image positionSeOnFocus = Stats.ImageOpacity(Properties.Resources.position_se_on_icon, 0.8F);
-        private readonly Image positionSwOnFocus = Stats.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.8F);
-        private readonly Image positionLockBlur = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.4F);
-        private readonly Image positionLockFocus = Stats.ImageOpacity(Properties.Resources.switch_lock_icon, 0.8F);
-        private readonly Image positionUnlockBlur = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
-        private readonly Image positionUnlockFocus = Stats.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
+        private readonly Image positionNeOffBlur = Utils.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.4F);
+        private readonly Image positionNwOffBlur = Utils.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.4F);
+        private readonly Image positionSeOffBlur = Utils.ImageOpacity(Properties.Resources.position_se_off_icon, 0.4F);
+        private readonly Image positionSwOffBlur = Utils.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.4F);
+        private readonly Image positionNeOffFocus = Utils.ImageOpacity(Properties.Resources.position_ne_off_icon, 0.8F);
+        private readonly Image positionNwOffFocus = Utils.ImageOpacity(Properties.Resources.position_nw_off_icon, 0.8F);
+        private readonly Image positionSeOffFocus = Utils.ImageOpacity(Properties.Resources.position_se_off_icon, 0.8F);
+        private readonly Image positionSwOffFocus = Utils.ImageOpacity(Properties.Resources.position_sw_off_icon, 0.8F);
+        private readonly Image positionNeOnBlur = Utils.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.4F);
+        private readonly Image positionNwOnBlur = Utils.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.4F);
+        private readonly Image positionSeOnBlur = Utils.ImageOpacity(Properties.Resources.position_se_on_icon, 0.4F);
+        private readonly Image positionSwOnBlur = Utils.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.4F);
+        private readonly Image positionNeOnFocus = Utils.ImageOpacity(Properties.Resources.position_ne_on_icon, 0.8F);
+        private readonly Image positionNwOnFocus = Utils.ImageOpacity(Properties.Resources.position_nw_on_icon, 0.8F);
+        private readonly Image positionSeOnFocus = Utils.ImageOpacity(Properties.Resources.position_se_on_icon, 0.8F);
+        private readonly Image positionSwOnFocus = Utils.ImageOpacity(Properties.Resources.position_sw_on_icon, 0.8F);
+        private readonly Image positionLockBlur = Utils.ImageOpacity(Properties.Resources.switch_lock_icon, 0.4F);
+        private readonly Image positionLockFocus = Utils.ImageOpacity(Properties.Resources.switch_lock_icon, 0.8F);
+        private readonly Image positionUnlockBlur = Utils.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
+        private readonly Image positionUnlockFocus = Utils.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
         public bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
         private bool isFocused, isMouseEnter;
         
@@ -242,12 +242,12 @@ namespace FallGuysStats {
         private void Position_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 string iconName = ((PictureBox)sender).Name;
-                Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                Screen screen = Utils.GetCurrentScreen(this.Location);
                 Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                 Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
                 if (iconName.Equals("picPositionNE")) {
                     if (this.isFixedPositionNe) {
-                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
+                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
                         }
                         this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
@@ -280,7 +280,7 @@ namespace FallGuysStats {
                     }
                 } else if (iconName.Equals("picPositionNW")) {
                     if (this.isFixedPositionNw) {
-                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
+                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
                         }
                         this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
@@ -313,7 +313,7 @@ namespace FallGuysStats {
                     }
                 } else if (iconName.Equals("picPositionSE")) {
                     if (this.isFixedPositionSe) {
-                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
+                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
                         }
                         this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
@@ -346,7 +346,7 @@ namespace FallGuysStats {
                     }
                 } else if (iconName.Equals("picPositionSW")) {
                     if (this.isFixedPositionSw) {
-                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && this.StatsForm.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
+                        if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
                         }
                         this.FlipDisplay(this.StatsForm.CurrentSettings.FlippedDisplay);
@@ -931,14 +931,14 @@ namespace FallGuysStats {
                     } else if (end != DateTime.MinValue) {
                         TimeSpan time = end - start;
                         this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && !((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
-                        this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
+                        this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
                         bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
                         this.lblFinish.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
-                        this.lblFinish.ForeColor = isOverRunningTime ? this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness) : (!Stats.EndedShow ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness));
+                        this.lblFinish.ForeColor = isOverRunningTime ? Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness) : (!Stats.EndedShow ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness));
                     } else {
                         this.lblFinish.TextRight = "-";
-                        this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : this.StatsForm.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
+                        this.lblFinish.ForeColor = Stats.InShow && !Stats.EndedShow ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     }
                 }
             }
@@ -1592,12 +1592,12 @@ namespace FallGuysStats {
             if (this.IsFixed()) {
                 if (this.isFixedPositionSe || this.isFixedPositionSw) {
                     if (this.isFixedPositionSe) {
-                        Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                        Screen screen = Utils.GetCurrentScreen(this.Location);
                         Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                         Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
                         this.Location = new Point(screenLocation.X, screenLocation.Y + screenSize.Height - this.Height);
                     } else if (this.isFixedPositionSw) {
-                        Screen screen = this.StatsForm.GetCurrentScreen(this.Location);
+                        Screen screen = Utils.GetCurrentScreen(this.Location);
                         Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                         Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
                         this.Location = new Point(screenLocation.X + screenSize.Width - this.Width, screenLocation.Y + screenSize.Height - this.Height);

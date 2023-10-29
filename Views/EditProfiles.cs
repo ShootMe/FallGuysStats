@@ -230,7 +230,7 @@ namespace FallGuysStats {
                     Multilingual.GetWord("message_create_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 int maxId = this.Profiles.Max(p => p.ProfileId);
                 int maxOrder = this.Profiles.Max(p => p.ProfileOrder);
-                this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = string.IsNullOrEmpty(this.txtAddProfile.Text) ? Stats.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), Stats.HashTypes.MD5).Substring(0, 20) : this.txtAddProfile.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty });
+                this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = string.IsNullOrEmpty(this.txtAddProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtAddProfile.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty });
                 this.IsUpdate = true;
                 this.ReloadProfileList();
                 this.dgvProfiles[0, this.dgvProfiles.Rows.Count - 1].Selected = true;
@@ -298,7 +298,7 @@ namespace FallGuysStats {
                     Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 Profiles profileToUpdate = this.Profiles.Find(p => p.ProfileName.Equals(this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&")));
                 if (profileToUpdate != null) {
-                    profileToUpdate.ProfileName = string.IsNullOrEmpty(this.txtRenameProfile.Text) ? Stats.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), Stats.HashTypes.MD5).Substring(0, 20) : this.txtRenameProfile.Text;
+                    profileToUpdate.ProfileName = string.IsNullOrEmpty(this.txtRenameProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtRenameProfile.Text;
                     this.IsUpdate = true;
                     this.ReloadProfileList();
                 }

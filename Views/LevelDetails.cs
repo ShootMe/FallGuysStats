@@ -757,7 +757,7 @@ namespace FallGuysStats {
         }
         
         private void updateShows_Click(object sender, EventArgs e) {
-            if (this.StatsForm.IsInternetConnected()) {
+            if (Utils.IsInternetConnected()) {
                 if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
                     RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
                     if ((ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) || (ri.UseShareCode && ri.CreativeQualificationPercent == 0 && ri.CreativeTimeLimitSeconds == 0)) {
@@ -766,7 +766,7 @@ namespace FallGuysStats {
                             bool isSucceed = false;
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             try {
-                                JsonElement resData = this.StatsForm.GetApiData(this.StatsForm.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json");
+                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json");
                                 if (resData.TryGetProperty("data", out JsonElement je)) {
                                     JsonElement snapshot = je.GetProperty("snapshot");
                                     JsonElement versionMetadata = snapshot.GetProperty("version_metadata");

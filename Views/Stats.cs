@@ -5,21 +5,15 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Drawing.Text;
-using System.Enums;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.UI.Widget;
 using System.Windows.Forms;
 using LiteDB;
 using Microsoft.Win32;
@@ -29,38 +23,6 @@ using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
-        [DllImport("user32.dll")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-        [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-        
-        //[DllImport("user32.dll")]
-        //private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-        //[DllImport("user32.dll")]
-        //public static extern IntPtr GetForegroundWindow();
-        //[DllImport("user32.dll")]
-        //private static extern IntPtr GetActiveWindow();
-        
-        public enum DWMWINDOWATTRIBUTE {
-            DWMWA_WINDOW_CORNER_PREFERENCE = 33
-        }
-
-        // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
-        // what value of the enum to set.
-        public enum DWM_WINDOW_CORNER_PREFERENCE {
-            DWMWCP_DEFAULT      = 0,
-            DWMWCP_DONOTROUND   = 1,
-            DWMWCP_ROUND        = 2,
-            DWMWCP_ROUNDSMALL   = 3
-        }
-
-        // Import dwmapi.dll and define DwmSetWindowAttribute in C# corresponding to the native function.
-        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern long DwmSetWindowAttribute(IntPtr hWnd,
-            DWMWINDOWATTRIBUTE attribute,
-            ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
-            uint cbAttribute);
-        
         [STAThread]
         static void Main() {
             try {
@@ -79,6 +41,7 @@ namespace FallGuysStats {
                 MessageBox.Show(ex.ToString(), @"Run Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private static bool IsAlreadyRunning() {
             try {
                 int processCount = 0;
@@ -105,17 +68,7 @@ namespace FallGuysStats {
                 return true;
             }
         }
-        public static bool IsClientRunning() {
-            try {
-                Process[] processes = Process.GetProcessesByName("FallGuys_client_game");
-                if (processes.Length > 0) {
-                    return true;
-                }
-                return false;
-            } catch {
-                return false;
-            }
-        }
+        
         private static string LOGFILENAME = "Player.log";
         public static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
@@ -167,23 +120,14 @@ namespace FallGuysStats {
         public static int QueuedPlayers = 0;
         
         private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
-        public enum OnlineServiceTypes { None = -1, EpicGames = 0, Steam = 1 }
+        
         public static string OnlineServiceId = string.Empty;
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountryCode = string.Empty;
         public static string HostCountryRegion = string.Empty;
         public static string HostCountryCity = string.Empty;
-        public static Bitmap ImageOpacity(Image sourceImage, float opacity = 1F) {
-            Bitmap bmp = new Bitmap(sourceImage.Width, sourceImage.Height);
-            Graphics gp = Graphics.FromImage(bmp);
-            ColorMatrix clrMatrix = new ColorMatrix { Matrix33 = opacity };
-            ImageAttributes imgAttribute = new ImageAttributes();
-            imgAttribute.SetColorMatrix(clrMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-            gp.DrawImage(sourceImage, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, sourceImage.Width, sourceImage.Height, GraphicsUnit.Pixel, imgAttribute);
-            gp.Dispose();
-            return bmp;
-        }
+        
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<LevelStats> StatDetails = new List<LevelStats>();
@@ -227,15 +171,15 @@ namespace FallGuysStats {
         public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
         public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
 
-        private readonly Image numberOne = ImageOpacity(Properties.Resources.number_1,   0.5F);
-        private readonly Image numberTwo = ImageOpacity(Properties.Resources.number_2,   0.5F);
-        private readonly Image numberThree = ImageOpacity(Properties.Resources.number_3, 0.5F);
-        private readonly Image numberFour = ImageOpacity(Properties.Resources.number_4,  0.5F);
-        private readonly Image numberFive = ImageOpacity(Properties.Resources.number_5,  0.5F);
-        private readonly Image numberSix = ImageOpacity(Properties.Resources.number_6,   0.5F);
-        private readonly Image numberSeven = ImageOpacity(Properties.Resources.number_7, 0.5F);
-        private readonly Image numberEight = ImageOpacity(Properties.Resources.number_8, 0.5F);
-        private readonly Image numberNine = ImageOpacity(Properties.Resources.number_9,  0.5F);
+        private readonly Image numberOne = Utils.ImageOpacity(Properties.Resources.number_1,   0.5F);
+        private readonly Image numberTwo = Utils.ImageOpacity(Properties.Resources.number_2,   0.5F);
+        private readonly Image numberThree = Utils.ImageOpacity(Properties.Resources.number_3, 0.5F);
+        private readonly Image numberFour = Utils.ImageOpacity(Properties.Resources.number_4,  0.5F);
+        private readonly Image numberFive = Utils.ImageOpacity(Properties.Resources.number_5,  0.5F);
+        private readonly Image numberSix = Utils.ImageOpacity(Properties.Resources.number_6,   0.5F);
+        private readonly Image numberSeven = Utils.ImageOpacity(Properties.Resources.number_7, 0.5F);
+        private readonly Image numberEight = Utils.ImageOpacity(Properties.Resources.number_8, 0.5F);
+        private readonly Image numberNine = Utils.ImageOpacity(Properties.Resources.number_9,  0.5F);
 
         private bool maximizedForm;
         private bool isFocused;
@@ -253,13 +197,6 @@ namespace FallGuysStats {
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
         public Point screenCenter;
-        
-        public readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
-        public readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
-        private readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}
-        private readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json or https://ipinfo.io/ip
-        private readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
-        private readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip={ip}
         
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -372,48 +309,10 @@ namespace FallGuysStats {
             { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
 
-        public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
-        public static string ComputeHash(byte[] input, HashTypes hashType) {
-            if (input == null || input.Length == 0) return string.Empty;
-            HashAlgorithm hashAlgorithm = null;
-            switch (hashType) {
-                case HashTypes.MD5:
-                    hashAlgorithm = MD5.Create(); break;
-                case HashTypes.RIPEMD160:
-                    hashAlgorithm = RIPEMD160.Create(); break;
-                case HashTypes.SHA1:
-                    hashAlgorithm = SHA1.Create(); break;
-                case HashTypes.SHA256:
-                    hashAlgorithm = SHA256.Create(); break;
-                case HashTypes.SHA384:
-                    hashAlgorithm = SHA384.Create(); break;
-                case HashTypes.SHA512:
-                    hashAlgorithm = SHA512.Create(); break;
-            }
-
-            if (hashAlgorithm != null) {
-                return BitConverter.ToString(hashAlgorithm.ComputeHash(input)).Replace("-", "").ToLowerInvariant();
-            }
-
-            return string.Empty;
-        }
-        // public T[] ConcatArrays<T>(params T[][] sourceArrays) {
-        //     int totalLength = sourceArrays.Sum(arr => arr.Length);
-        //     T[] destinationArray = new T[totalLength];
-        //
-        //     int destinationIndex = 0;
-        //     foreach (T[] sourceArray in sourceArrays) {
-        //         Array.Copy(sourceArray, 0, destinationArray, destinationIndex, sourceArray.Length);
-        //         destinationIndex += sourceArray.Length;
-        //     }
-        //
-        //     return destinationArray;
-        // }
-
         private Stats() {
             Task.Run(() => {
-                if (this.IsInternetConnected()) {
-                    string countryInfo = this.GetCountryInfoByIp(this.GetUserPublicIp());
+                if (Utils.IsInternetConnected()) {
+                    string countryInfo = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
                     string[] countryInfoArr = countryInfo.Split(';');
                     HostCountryCode = countryInfoArr[0];
                     HostCountryRegion = countryInfoArr.Length > 1 && !"unknown".Equals(countryInfoArr[1].ToLower()) ? countryInfoArr[1] : string.Empty;
@@ -537,7 +436,7 @@ namespace FallGuysStats {
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
-            Screen screen = this.GetCurrentScreen(this.overlay.Location);
+            Screen screen = Utils.GetCurrentScreen(this.overlay.Location);
             Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
             Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
             this.screenCenter = new Point(screenLocation.X + (screenSize.Width / 2), screenLocation.Y + (screenSize.Height / 2));
@@ -569,9 +468,6 @@ namespace FallGuysStats {
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
         }
-        
-        [DllImport("User32.dll")]
-        static extern bool MoveWindow(IntPtr h, int x, int y, int width, int height, bool redraw);
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
             Graphics g = e.Graphics;
@@ -620,8 +516,9 @@ namespace FallGuysStats {
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
+        
         private void cmtt_overlay_Draw(object sender, DrawToolTipEventArgs e) {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -642,8 +539,9 @@ namespace FallGuysStats {
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
+        
         public void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
             Graphics g = e.Graphics;
             g.SmoothingMode = SmoothingMode.HighQuality;
@@ -671,7 +569,7 @@ namespace FallGuysStats {
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
             Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
@@ -778,15 +676,6 @@ namespace FallGuysStats {
             //}
         }
         
-        public Color GetComplementaryColor(Color source, int alpha = 255) {
-            return Color.FromArgb(Math.Min(255, Math.Max(0, alpha)), Math.Min(255, Math.Max(0, 255 - source.R)), Math.Min(255, Math.Max(0, 255 - source.G)), Math.Min(255, Math.Max(0, 255 - source.B)));
-        }
-        
-        public Color GetColorBrightnessAdjustment(Color sourceColor, float fBrightness) {
-            return Color.FromArgb(Math.Min(255, Math.Max(0, (int)(sourceColor.R * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.G * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.B * fBrightness))));
-        }
-        
-        private enum TaskbarPosition { Top, Bottom, Left, Right }
         private TaskbarPosition GetTaskbarPosition() {
             TaskbarPosition taskbarPosition = TaskbarPosition.Bottom;
             Rectangle screenBounds = Screen.GetBounds(Cursor.Position);
@@ -808,6 +697,7 @@ namespace FallGuysStats {
                 if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
             });
         }
+        
         public void SetCursorPositionCenter() {
             if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
                 Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
@@ -832,59 +722,6 @@ namespace FallGuysStats {
                 }
             } else {
                 Environment.SetEnvironmentVariable("FALLALYTICS_KEY", "");
-            }
-        }
-        
-        public bool IsInternetConnected() {
-            const string NCSI_TEST_URL = "http://www.msftncsi.com/ncsi.txt";
-            const string NCSI_TEST_RESULT = "Microsoft NCSI";
-            const string NCSI_DNS = "dns.msftncsi.com";
-            const string NCSI_DNS_IP_ADDRESS = "131.107.255.255";
-
-            try {
-                // Check NCSI test link
-                var webClient = new WebClient();
-                string result = webClient.DownloadString(NCSI_TEST_URL);
-                if (result != NCSI_TEST_RESULT){
-                    return false;
-                }
-
-                // Check NCSI DNS IP
-                IPHostEntry dnsHost = Dns.GetHostEntry(NCSI_DNS);
-                if (dnsHost.AddressList.Count() < 0 || dnsHost.AddressList[0].ToString() != NCSI_DNS_IP_ADDRESS) {
-                    return false;
-                }
-            } catch {
-                return false;
-            }
-
-            return true;
-        }
-        
-        private bool IsDomainNameValid(string url) {
-            try {
-                Uri uri = new Uri(url);
-                string host = uri.Host;
-                IPAddress[] addresses = Dns.GetHostAddresses(host);
-                return addresses.Length > 0;
-            } catch {
-                return false;
-            }
-        }
-        
-        private bool IsEndpointValid(string url) {
-            try {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "HEAD";
-                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
-                    if (response.StatusCode == HttpStatusCode.OK) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            } catch {
-                return false;
             }
         }
         
@@ -1072,11 +909,13 @@ namespace FallGuysStats {
             this.ResumeLayout();
             this.Refresh();
         }
+        
         private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
         }
+        
         private void CMenu_MouseEnter(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = Color.Black;
@@ -1097,6 +936,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void CMenu_MouseLeave(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -1118,6 +958,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void menu_MouseEnter(object sender, EventArgs e) {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             switch (tsmi.Name) {
@@ -1133,6 +974,7 @@ namespace FallGuysStats {
             }
             tsmi.ForeColor = Color.Black;
         }
+        
         private void menu_MouseLeave(object sender, EventArgs e) {
             ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
             switch (tsmi.Name) {
@@ -1149,6 +991,7 @@ namespace FallGuysStats {
             }
             tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
+        
         private void infoStrip_MouseEnter(object sender, EventArgs e) {
             if (sender is ToolStripLabel lblInfo) {
                 //this.infoStripForeColor = lblInfo.ForeColor;
@@ -1181,6 +1024,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void infoStrip_MouseLeave(object sender, EventArgs e) {
             this.Cursor = Cursors.Default;
             this.HideCustomTooltip(this);
@@ -1274,6 +1118,7 @@ namespace FallGuysStats {
                                      Properties.Resources.link_gray_icon, 20, 5, 11, 11);
             }
         }
+        
         private void RemoveUpdateFiles() {
 #if AllowUpdate
             string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
@@ -1285,6 +1130,7 @@ namespace FallGuysStats {
             }
 #endif
         }
+        
         private void UpdateDatabaseVersion() {
             if (!this.CurrentSettings.UpdatedDateFormat) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
@@ -2282,14 +2128,18 @@ namespace FallGuysStats {
                     where string.IsNullOrEmpty(p.ProfileName)
                     select p).ToList();
                 foreach (Profiles p in profileList) {
-                    p.ProfileName = ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
+                    p.ProfileName = Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
                 }
                 this.Profiles.Update(profileList);
                 this.StatsDB.Commit();
+                this.CurrentSettings.NotificationSounds = 0;
+                this.CurrentSettings.NotificationWindowPosition = 0;
+                this.CurrentSettings.NotificationWindowAnimation = 1;
                 this.CurrentSettings.Version = 63;
                 this.SaveUserSettings();
             }
         }
+        
         private UserSettings GetDefaultSettings() {
             return new UserSettings {
                 ID = 1,
@@ -2374,6 +2224,7 @@ namespace FallGuysStats {
                 Version = 63
             };
         }
+        
         private bool IsFinalWithCreativeLevel(string levelId) {
             return levelId.Equals("wle_s10_orig_round_010") ||
                    levelId.Equals("wle_s10_orig_round_011") ||
@@ -2386,6 +2237,7 @@ namespace FallGuysStats {
                    levelId.Equals("wle_s10_round_004") ||
                    levelId.Equals("wle_s10_round_009");
         }
+        
         private void UpdateHoopsieLegends() {
             LevelStats level = this.StatLookup["round_hoops_blockade_solo"];
             string newName = this.CurrentSettings.HoopsieHeros ? Multilingual.GetWord("main_hoopsie_heroes") : Multilingual.GetWord("main_hoopsie_legends");
@@ -2393,6 +2245,7 @@ namespace FallGuysStats {
                 level.Name = newName;
             }
         }
+        
         private bool IsCreativeLevel(string levelId) {
             return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_")
                    || levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_")
@@ -2400,6 +2253,7 @@ namespace FallGuysStats {
                    || levelId.StartsWith("wle_s10_cf_round_") || levelId.StartsWith("wle_s10_long_round_")
                    || levelId.Equals("wle_fp2_wk6_01");
         }
+        
         private void UpdateGridRoundName() {
             foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
                 if (this.IsCreativeLevel(item.Key)) { continue; }
@@ -2409,6 +2263,7 @@ namespace FallGuysStats {
             this.SortGridDetails(true);
             this.gridDetails.Invalidate();
         }
+        
         public void UpdateDates() {
             if (DateTime.Now.Date.ToUniversalTime() == DayStart) { return; }
 
@@ -2424,6 +2279,7 @@ namespace FallGuysStats {
 
             this.ResetStats();
         }
+        
         public void SaveUserSettings() {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
@@ -2431,6 +2287,7 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
             }
         }
+        
         public void ResetStats() {
             for (int i = 0; i < this.StatDetails.Count; i++) {
                 LevelStats calculator = this.StatDetails[i];
@@ -2518,6 +2375,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void menuLookHere_MouseEnter(object sender, EventArgs e) {
             Rectangle rectangle = this.menuLookHere.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 260);
@@ -2538,6 +2396,7 @@ namespace FallGuysStats {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_official_tooltip"), this, position);
             }
         }
+        
         private void menuLookHere_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
@@ -2551,6 +2410,7 @@ namespace FallGuysStats {
                 $"{Multilingual.GetWord("main_update_prefix_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip")}",
                 this, position);
         }
+        
         private void menuUpdate_MouseLeave(object sender, EventArgs e) {
             this.HideTooltip(this);
             this.Cursor = Cursors.Default;
@@ -2563,6 +2423,7 @@ namespace FallGuysStats {
             this.AllocCustomTooltip(this.cmtt_overlay_Draw);
             this.ShowCustomTooltip($"{Multilingual.GetWord(this.overlay.Visible ? "main_overlay_hide_tooltip" : "main_overlay_show_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_overlay_shortcut_tooltip")}", this, position);
         }
+        
         private void menuOverlay_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
@@ -2579,9 +2440,11 @@ namespace FallGuysStats {
         private void trayCMenu_Closing(object sender, ToolStripDropDownClosingEventArgs e) {
             this.trayCMenu.Opacity = 0;
         }
+        
         private void trayCMenu_Opening(object sender, CancelEventArgs e) {
             this.trayCMenu.Opacity = 100;
         }
+        
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Right) {
                 int menuPositionX = 0, menuPositionY = 0;
@@ -2626,20 +2489,21 @@ namespace FallGuysStats {
                 this.trayCMenu.Location = new Point(menuPositionX, menuPositionY);
             }
         }
+        
         private void trayIcon_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 if (this.Visible && this.WindowState == FormWindowState.Minimized) {
                     this.isFocused = true;
                     this.WindowState = this.maximizedForm ? FormWindowState.Maximized : FormWindowState.Normal;
-                    SetForegroundWindow(FindWindow(null, this.mainWndTitle));
+                    Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                 } else if (this.Visible && this.WindowState != FormWindowState.Minimized) {
                     if (this.isFocused) {
                         this.isFocused = false;
                         this.Hide();
-                        //SetForegroundWindow(FindWindow(null, "Fall Guys Stats Overlay"));
+                        //Utils.SetForegroundWindow(Utils.FindWindow(null, "Fall Guys Stats Overlay"));
                     } else {
                         this.isFocused = true;
-                        SetForegroundWindow(FindWindow(null, this.mainWndTitle));
+                        Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                     }
                 } else {
                     this.isFocused = true;
@@ -2647,15 +2511,18 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void trayIcon_MouseMove(object sender, MouseEventArgs e) {
             this.isFocused = ActiveForm == this;
         }
+        
         private void Stats_VisibleChanged(object sender, EventArgs e) {
             if (this.Visible) {
-                SetForegroundWindow(FindWindow(null, this.mainWndTitle));
+                Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                 this.SetMainDataGridViewOrder();
             }
         }
+        
         private void Stats_Resize(object sender, EventArgs e) {
             this.isFocused = true;
             if (this.WindowState == FormWindowState.Maximized) {
@@ -2664,6 +2531,7 @@ namespace FallGuysStats {
                 this.maximizedForm = false;
             }
         }
+        
         public void SaveWindowState() {
             this.CurrentSettings.Visible = this.Visible;
             if (this.overlay.Visible) {
@@ -2722,18 +2590,18 @@ namespace FallGuysStats {
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
                     this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
-                    DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                    DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menuFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                    Utils.DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 });
                 
                 this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
@@ -2764,7 +2632,7 @@ namespace FallGuysStats {
         private void Stats_Shown(object sender, EventArgs e) {
             try {
 #if AllowUpdate
-                if (this.IsInternetConnected()) {
+                if (Utils.IsInternetConnected()) {
                     if (this.CurrentSettings.AutoUpdate) {
                         if (this.CheckForUpdate(true)) {
                             this.Stats_ExitProgram(this, null);
@@ -2776,7 +2644,7 @@ namespace FallGuysStats {
 
                     if (this.CurrentSettings.ShowChangelog) {
                         try {
-                            string changelog = this.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                            string changelog = Utils.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
                             changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
                         
                             MetroMessageBox.Show(this,
@@ -2811,7 +2679,7 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.FormWidth.HasValue) {
                     this.Size = new Size(this.CurrentSettings.FormWidth.Value, this.CurrentSettings.FormHeight.Value);
                 }
-                if (this.CurrentSettings.FormLocationX.HasValue && IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width, this.Height)) {
+                if (this.CurrentSettings.FormLocationX.HasValue && Utils.IsOnScreen(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value, this.Width, this.Height)) {
                     this.Location = new Point(this.CurrentSettings.FormLocationX.Value, this.CurrentSettings.FormLocationY.Value);
                 }
                 
@@ -3012,10 +2880,10 @@ namespace FallGuysStats {
                                 stat.ShowID = this.nextShowID;
                                 stat.Profile = profile;
 
-                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode) && this.IsInternetConnected()) {
+                                if (stat.UseShareCode && string.IsNullOrEmpty(stat.CreativeShareCode) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
                                     try {
-                                        JsonElement resData = this.GetApiData(this.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json");
+                                        JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{stat.ShowNameId}.json");
                                         if (resData.TryGetProperty("data", out JsonElement je)) {
                                             JsonElement snapshot = je.GetProperty("snapshot");
                                             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
@@ -3264,7 +3132,7 @@ namespace FallGuysStats {
             
                 if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
                     if (string.IsNullOrEmpty(HostCountryCode)) {
-                        HostCountryCode = this.GetCountryInfoByIp(this.GetUserPublicIp()).Split(';')[0];
+                        HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false).Split(';')[0];
                     }
                     
                     BsonExpression pbLogQuery = Query.And(
@@ -3295,7 +3163,7 @@ namespace FallGuysStats {
                         }
                         
                         try {
-                            if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                            if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
                                 await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId },
                                                                      record, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
@@ -3319,7 +3187,7 @@ namespace FallGuysStats {
                         try {
                             if (pbLogList[0].IsTransferSuccess) {
                                 if (currentRecord < record) {
-                                    if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                    if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
                                         await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                         isTransferSuccess = true;
                                     }
@@ -3336,7 +3204,7 @@ namespace FallGuysStats {
                                     }
                                 }
                             } else { // re-send
-                                if (this.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
                                     await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                     isTransferSuccess = true;
                                 }
@@ -3378,6 +3246,7 @@ namespace FallGuysStats {
                    showId.StartsWith("current_wle_fp") ||
                    showId.StartsWith("wle_s10_cf_round_");
         }
+        
         private bool IsInStatsFilter(RoundInfo info) {
             return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
                     this.menuAllStats.Checked ||
@@ -3386,11 +3255,13 @@ namespace FallGuysStats {
                    (this.menuDayStats.Checked && info.Start > DayStart) ||
                    (this.menuSessionStats.Checked && info.Start > SessionStart);
         }
+        
         private bool IsInPartyFilter(RoundInfo info) {
             return this.menuAllPartyStats.Checked ||
                    (this.menuSoloStats.Checked && !info.InParty) ||
                    (this.menuPartyStats.Checked && info.InParty);
         }
+        
         public string GetCurrentFilterName() {
             if (this.menuCustomRangeStats.Checked && this.selectedCustomTemplateSeason > -1) {
                 return (this.selectedCustomTemplateSeason >= 0 && this.selectedCustomTemplateSeason <= 5) ? $"S{this.selectedCustomTemplateSeason + 1}" :
@@ -3404,22 +3275,27 @@ namespace FallGuysStats {
                         this.menuDayStats.Checked ? Multilingual.GetWord("main_day") : Multilingual.GetWord("main_session");
             }
         }
+        
         public string GetCurrentProfileName() {
             if (this.AllProfiles.Count == 0) return String.Empty;
             return this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).ProfileName;
         }
+        
         public int GetCurrentProfileId() {
             return this.currentProfile;
         }
+        
         private int GetProfileIdByName(string profileName) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(profileName)) return 0;
             return this.AllProfiles.Find(p => p.ProfileName.Equals(profileName)).ProfileId;
         }
+        
         private string GetCurrentProfileLinkedShowId() {
             if (this.AllProfiles.Count == 0) return String.Empty;
             string currentProfileLinkedShowId = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).LinkedShowId;
             return currentProfileLinkedShowId ?? string.Empty;
         }
+        
         private string GetAlternateShowId(string showId) {
             switch (showId) {
                 case "squadcelebration": return "squads_4player";
@@ -3430,6 +3306,7 @@ namespace FallGuysStats {
             }
             return showId;
         }
+        
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
             showId = this.GetAlternateShowId(showId);
@@ -3457,6 +3334,7 @@ namespace FallGuysStats {
             // return ProfileId 0 if no linked profile was found/matched
             return 0;
         }
+        
         public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
             showId = this.GetAlternateShowId(showId);
@@ -3506,6 +3384,7 @@ namespace FallGuysStats {
                 }
             });
         }
+        
         private void SetProfileMenu(int profile) {
             if (profile == -1 || this.AllProfiles.Count == 0) return;
             this.Invoke((MethodInvoker)delegate {
@@ -3515,6 +3394,7 @@ namespace FallGuysStats {
                 this.menuStats_Click(tsmi, EventArgs.Empty);
             });
         }
+        
         private void SetCurrentProfileIcon(bool linked) {
             this.BeginInvoke((MethodInvoker)delegate {
                 if (this.CurrentSettings.AutoChangeProfile) {
@@ -3529,17 +3409,21 @@ namespace FallGuysStats {
                 }
             });
         }
+        
         // public string GetRoundNameFromShareCode(string shareCode, LevelType levelType) {
         //     RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         //     return filteredInfo != null ? (string.IsNullOrEmpty(filteredInfo.CreativeTitle) ? shareCode : filteredInfo.CreativeTitle) : shareCode;
         // }
+        
         // public int GetTimeLimitSecondsFromShareCode(string shareCode, LevelType levelType) {
         //     RoundInfo filteredInfo = this.AllStats.FindLast(r => levelType.CreativeLevelTypeId().Equals(r.Name) && shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         //     return filteredInfo?.CreativeTimeLimitSeconds ?? 0;
         // }
+        
         public RoundInfo GetRoundInfoFromShareCode(string shareCode) {
             return this.AllStats.FindLast(r => shareCode.Equals(r.ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
+        
         public void UpdateUserCreativeLevel(string shareCode, JsonElement snapshot) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => shareCode.Equals(r.ShowNameId) && (string.IsNullOrEmpty(r.CreativeTitle) || string.IsNullOrEmpty(r.CreativeShareCode)));
             if (filteredInfo.Count <= 0) { return; }
@@ -3568,6 +3452,7 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
             }
         }
+        
         public StatSummary GetLevelInfo(string name, LevelType levelType, BestRecordType recordType, bool useShareCode) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
@@ -3829,6 +3714,7 @@ namespace FallGuysStats {
 
             return summary;
         }
+        
         private void ClearTotals() {
             this.Wins = 0;
             this.Shows = 0;
@@ -3849,6 +3735,7 @@ namespace FallGuysStats {
             this.CustomEliminatedMedals = 0;
             this.Kudos = 0;
         }
+        
         private void UpdateTotals() {
             try {
                 this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName().Replace("&", "&&")}";
@@ -3901,6 +3788,7 @@ namespace FallGuysStats {
                 }
             });
         }
+        
         public void ShowNotification(string title, string text, ToolTipIcon toolTipIcon, int timeout) {
             if (this.trayIcon.Visible) {
                 this.trayIcon.BalloonTipTitle = title;
@@ -3915,10 +3803,12 @@ namespace FallGuysStats {
             //                                                                                 toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             // }
         }
+        
         public void AllocOverlayTooltip() {
             this.omtt = new MetroToolTip();
             this.omtt.Theme = this.Theme;
         }
+        
         public void ShowOverlayTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
                 this.omtt.Show(message, window, position);
@@ -3926,14 +3816,17 @@ namespace FallGuysStats {
                 this.omtt.Show(message, window, position, duration);
             }
         }
+        
         public void HideOverlayTooltip(IWin32Window window) {
             this.omtt.Hide(window);
         }
+        
         public void AllocCustomTooltip(DrawToolTipEventHandler drawFunc) {
             this.cmtt = new MetroToolTip();
             this.cmtt.OwnerDraw = true;
             this.cmtt.Draw += drawFunc;
         }
+        
         public void ShowCustomTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
                 this.cmtt.Show(message, window, position);
@@ -3941,13 +3834,16 @@ namespace FallGuysStats {
                 this.cmtt.Show(message, window, position, duration);
             }
         }
+        
         public void HideCustomTooltip(IWin32Window window) {
             this.cmtt.Hide(window);
         }
+        
         public void AllocTooltip() {
             this.mtt = new MetroToolTip();
             this.mtt.Theme = this.Theme;
         }
+        
         public void ShowTooltip(string message, IWin32Window window, Point position, int duration = -1) {
             if (duration == -1) {
                 this.mtt.Show(message, window, position);
@@ -3955,6 +3851,7 @@ namespace FallGuysStats {
                 this.mtt.Show(message, window, position, duration);
             }
         }
+        
         public void HideTooltip(IWin32Window window) {
             this.mtt.Hide(window);
         }
@@ -3962,6 +3859,7 @@ namespace FallGuysStats {
         private void lblCreativeLevel_Click(object sender, EventArgs e) {
             this.mtgCreativeLevel.Checked = !this.mtgCreativeLevel.Checked;
         }
+        
         private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             this.VisibleGridRowOfCreativeLevel(mtgChecked);
@@ -3969,9 +3867,11 @@ namespace FallGuysStats {
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
         }
+        
         private void lblIgnoreLevelTypeWhenSorting_Click(object sender, EventArgs e) {
             this.mtgIgnoreLevelTypeWhenSorting.Checked = !this.mtgIgnoreLevelTypeWhenSorting.Checked;
         }
+        
         private void mtgIgnoreLevelTypeWhenSorting_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
@@ -3979,9 +3879,11 @@ namespace FallGuysStats {
             this.SortGridDetails(true);
             this.SaveUserSettings();
         }
+        
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             this.SetMainDataGridView();
         }
+        
         private int GetDataGridViewColumnWidth(string columnName, string columnText) {
             int sizeOfText;
             switch (columnName) {
@@ -4030,6 +3932,7 @@ namespace FallGuysStats {
             
             return sizeOfText + 24;
         }
+        
         private void InitMainDataGridView() {
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -4054,6 +3957,7 @@ namespace FallGuysStats {
 
             this.gridDetails.DataSource = this.StatDetails;
         }
+        
         private void SetMainDataGridView() {
             try {
                 if (this.gridDetails.Columns.Count == 0) { return; }
@@ -4079,6 +3983,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void SetMainDataGridViewOrder() {
             int pos = 0;
             this.gridDetails.Columns["RoundIcon"].DisplayIndex = pos++;
@@ -4093,6 +3998,7 @@ namespace FallGuysStats {
             this.gridDetails.Columns["Longest"].DisplayIndex = pos++;
             this.gridDetails.Columns["AveFinish"].DisplayIndex = pos;
         }
+        
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             try {
                 if (e.RowIndex < 0) { return; }
@@ -4107,37 +4013,37 @@ namespace FallGuysStats {
                             cellColor = Color.FromArgb(255, 240, 200);
                             e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
                                 ? cellColor
-                                : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                             break;
                         }
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Invisibeans:
                                 cellColor = Color.FromArgb(255, 255, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Unknown:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
@@ -4152,37 +4058,37 @@ namespace FallGuysStats {
                         if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
                         if (levelStats.IsFinal) {
                             cellColor = Color.FromArgb(255, 240, 200);
-                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                             break;
                         }
                         switch (levelStats.Type) {
                             case LevelType.CreativeRace:
                                 cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Invisibeans:
                                 cellColor = Color.FromArgb(255, 255, 255);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : this.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Unknown:
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.DarkGray;
@@ -4193,14 +4099,14 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 126, 222);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "Qualified":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 20, 147);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
@@ -4214,7 +4120,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 215, 0);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
@@ -4228,7 +4134,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.3f;
                         cellColor = Color.FromArgb(192, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
@@ -4242,7 +4148,7 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(205, 127, 50);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                         if (this.CurrentSettings.ShowPercentages) {
                             e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
@@ -4256,28 +4162,28 @@ namespace FallGuysStats {
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(218, 112, 214);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
                         break;
                     case "Longest":
                         e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
-                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? this.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.Longest.ToString("m\\:ss\\.ff");
                         break;
                 }
@@ -4285,6 +4191,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void gridDetails_CellMouseLeave(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex >= 0) {
                 this.gridDetails.SuspendLayout();
@@ -4293,6 +4200,7 @@ namespace FallGuysStats {
                 this.gridDetails.ResumeLayout();
             }
         }
+        
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             try {
                 this.gridDetails.SuspendLayout();
@@ -4314,6 +4222,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void gridDetails_CellClick(object sender, DataGridViewCellEventArgs e) {
             try {
                 if (e.RowIndex < 0) { return; }
@@ -4343,6 +4252,7 @@ namespace FallGuysStats {
                 this.EnableMainMenu(true);
             }
         }
+        
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             this.gridDetails.Invalidate();
@@ -4351,6 +4261,7 @@ namespace FallGuysStats {
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
             this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
         }
+        
         private void VisibleGridRowOfCreativeLevel(bool visible) {
             List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
             CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
@@ -4366,6 +4277,7 @@ namespace FallGuysStats {
             }
             currencyManager.ResumeBinding();
         }
+        
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
             SortOrder sortOrder = isInitialize ? SortOrder.None : this.gridDetails.GetSortOrder(columnName);
@@ -4411,19 +4323,23 @@ namespace FallGuysStats {
             this.gridDetails.DataSource = this.StatDetails;
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
+        
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             this.SortGridDetails(false, e.ColumnIndex);
         }
+        
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (this.gridDetails.SelectedCells.Count > 0) {
                 this.gridDetails.ClearSelection();
             }
         }
+        
         private void ToggleWinPercentageDisplay() {
             this.CurrentSettings.ShowPercentages = !this.CurrentSettings.ShowPercentages;
             this.SaveUserSettings();
             this.gridDetails.Invalidate();
         }
+        
         private void ShowShows() {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
@@ -4490,6 +4406,7 @@ namespace FallGuysStats {
                 levelDetails.ShowDialog(this);
             }
         }
+        
         private void ShowRounds() {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
@@ -4505,6 +4422,7 @@ namespace FallGuysStats {
                 levelDetails.ShowDialog(this);
             }
         }
+        
         private void ShowFinals() {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
@@ -4532,6 +4450,7 @@ namespace FallGuysStats {
                 levelDetails.ShowDialog(this);
             }
         }
+        
         private void ShowWinGraph() {
             List<RoundInfo> rounds = new List<RoundInfo>();
             for (int i = 0; i < this.StatDetails.Count; i++) {
@@ -4661,6 +4580,7 @@ namespace FallGuysStats {
                 display.ShowDialog(this);
             }
         }
+        
         private void ShowRoundGraph() {
             using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
                        StatsForm = this,
@@ -4808,6 +4728,7 @@ namespace FallGuysStats {
                 roundStatsDisplay.ShowDialog(this);
             }
         }
+        
         private void LaunchHelpInBrowser() {
             try {
                 if (CurrentLanguage == 1) { // French
@@ -4823,6 +4744,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void LaunchGame(bool ignoreExisting) {
             try {
                 //this.UpdateGameExeLocation();
@@ -4889,40 +4811,6 @@ namespace FallGuysStats {
             }
         }
         
-        public string GetUserPublicIp() {
-            using (ApiWebClient web = new ApiWebClient()) {
-                string publicIp;
-                try {
-                    publicIp = web.DownloadString($"{this.IPINFO_IO_URL}ip").Trim();
-                } catch {
-                    publicIp = string.Empty;
-                }
-                return publicIp;
-            }
-        }
-        public string GetCountryInfoByIp(string ip) {
-            if (string.IsNullOrEmpty(ip)) { return string.Empty; }
-            string countryCode = string.Empty;
-            try {
-                if (this.CurrentSettings.NotifyServerConnected) {
-                    string[] rtnValue = this.GetCountryCodeUsingNordvpn(ip);
-                    countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
-                }
-                if (string.IsNullOrEmpty(countryCode)) {
-                    countryCode = this.GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
-                }
-                if (string.IsNullOrEmpty(countryCode)) {
-                    countryCode = this.GetCountryCodeUsingIpinfo(ip)[0]; // alpha-2 code
-                }
-                if (string.IsNullOrEmpty(countryCode)) {
-                    countryCode = this.GetCountryCodeUsingIpapi(ip)[0]; // alpha-2 code
-                }
-            } catch {
-                return string.Empty;
-            }
-            return countryCode;
-        }
-        
         public void UpdateGameExeLocation() {
             string fallGuysShortcutLocation = this.FindEpicGamesShortcutLocation();
             string fallGuysExeLocation = this.FindSteamExeLocation();
@@ -4943,6 +4831,7 @@ namespace FallGuysStats {
             this.CurrentSettings.GameShortcutLocation = fallGuysShortcutLocation;
             this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
         }
+        
         public string[] FindEpicGamesNickname() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
@@ -4973,6 +4862,7 @@ namespace FallGuysStats {
             }
             return userInfo;
         }
+        
         public string[] FindSteamNickname() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
@@ -5003,6 +4893,7 @@ namespace FallGuysStats {
             }
             return userInfo;
         }
+        
         public string FindEpicGamesShortcutLocation() {
             try {
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
@@ -5028,6 +4919,7 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
+        
         public string FindSteamExeLocation() {
             try {
                 // get steam install folder
@@ -5069,6 +4961,7 @@ namespace FallGuysStats {
 
             return string.Empty;
         }
+        
         private void EnableMainMenu(bool enable) {
             this.menuSettings.Enabled = enable;
             this.menuFilters.Enabled = enable;
@@ -5087,6 +4980,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void EnableInfoStrip(bool enable) {
             this.infoStrip.Enabled = enable;
             this.infoStrip2.Enabled = enable;
@@ -5104,6 +4998,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void Stats_KeyUp(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -5114,6 +5009,7 @@ namespace FallGuysStats {
                     break;
             }
         }
+        
         private void Stats_KeyDown(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -5194,10 +5090,12 @@ namespace FallGuysStats {
             }
             e.SuppressKeyPress = true;
         }
+        
         private void lblCurrentProfileIcon_Click(object sender, EventArgs e) {
             this.SetAutoChangeProfile(!this.CurrentSettings.AutoChangeProfile);
             this.HideCustomTooltip(this);
         }
+        
         private void lblCurrentProfile_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 for (int i = 0; i < this.ProfileMenuItems.Count; i++) {
@@ -5236,6 +5134,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void lblTotalTime_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -5249,6 +5148,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void lblTotalFinals_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -5262,6 +5162,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void lblTotalShows_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -5275,6 +5176,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void lblTotalRounds_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -5288,6 +5190,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void lblTotalWins_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -5301,6 +5204,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         public void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
@@ -5626,9 +5530,10 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void menuUpdate_Click(object sender, EventArgs e) {
             try {
-                if (this.IsInternetConnected()) {
+                if (Utils.IsInternetConnected()) {
                     if (this.CheckForUpdate(false)) {
                         this.Stats_ExitProgram(this, null);
                     }
@@ -5641,10 +5546,12 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         public string FindCreativeLevelInfo(string code) {
             string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round")).CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
+        
         public string[] FindCreativeAuthor(JsonElement authorData) {
             string[] onlinePlatformInfo = { "N/A", "N/A" };
             string onlinePlatformId = string.Empty;
@@ -5662,62 +5569,7 @@ namespace FallGuysStats {
             }
             return onlinePlatformInfo;
         }
-        public string[] GetCountryCodeUsingIp2c(string host) {
-            string[] countryInfo = { string.Empty, string.Empty };
-            using (ApiWebClient web = new ApiWebClient()) {
-                string resStr = Regex.Unescape(web.DownloadString($"{this.IP2C_ORG_URL}{host}"));
-                string[] resArr = resStr.Split(';');
-                if ("1".Equals(resArr[0])) {
-                    countryInfo[0] = resArr[1]; // alpha-2 code
-                    countryInfo[1] = resArr[3]; // a full country name
-                }
-            }
-            return countryInfo;
-        }
-        public string[] GetCountryCodeUsingIpinfo(string host) {
-            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
-            using (ApiWebClient web = new ApiWebClient()) {
-                string resJsonStr = web.DownloadString($"{this.IPINFO_IO_URL}{host}/json");
-                JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[0] = Regex.Unescape(json["country"].AsString()); // alpha-2 code
-                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = Regex.Unescape(json["region"].AsString());
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
-            }
-            return countryInfo;
-        }
-        public string[] GetCountryCodeUsingIpapi(string host) {
-            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
-            using (ApiWebClient web = new ApiWebClient()) {
-                string resJsonStr = web.DownloadString($"{this.IPAPI_COM_URL}{host}");
-                JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["countryCode"].AsString())) countryInfo[0] = Regex.Unescape(json["countryCode"].AsString()); // alpha-2 code
-                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = Regex.Unescape(json["country"].AsString()); // a full country name
-                if (!string.IsNullOrEmpty(json["regionName"].AsString())) countryInfo[1] = Regex.Unescape(json["regionName"].AsString());
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
-            }
-            return countryInfo;
-        }
-        public string[] GetCountryCodeUsingNordvpn(string host) {
-            string[] countryInfo = { string.Empty, string.Empty, string.Empty };
-            using (ApiWebClient web = new ApiWebClient()) {
-                string resJsonStr = web.DownloadString($"{this.NORDVPN_COM_URL}{host}");
-                JsonClass json = Json.Read(resJsonStr) as JsonClass;
-                if (!string.IsNullOrEmpty(json["country_code"].AsString())) countryInfo[0] = Regex.Unescape(json["country_code"].AsString()); // alpha-2 code
-                // if (!string.IsNullOrEmpty(json["country"].AsString())) countryInfo[1] = Regex.Unescape(json["country"].AsString()); // a full country name
-                if (!string.IsNullOrEmpty(json["region"].AsString())) countryInfo[1] = Regex.Unescape(json["region"].AsString());
-                if (!string.IsNullOrEmpty(json["city"].AsString())) countryInfo[2] = Regex.Unescape(json["city"].AsString());
-            }
-            return countryInfo;
-        }
-        public JsonElement GetApiData(string apiUrl, string apiEndPoint) {
-            JsonElement resJroot;
-            using (ApiWebClient web = new ApiWebClient()) {
-                string responseJsonString = web.DownloadString($"{apiUrl}{apiEndPoint}");
-                JsonDocument jdom = JsonDocument.Parse(responseJsonString);
-                resJroot = jdom.RootElement;
-            }
-            return resJroot;
-        }
+        
 #if AllowUpdate
         public void ChangeStateForAvailableNewVersion(string newVersion) {
             // this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
@@ -5726,6 +5578,7 @@ namespace FallGuysStats {
             this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
             this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
         }
+        
         public bool CheckForNewVersion() {
             using (ZipWebClient web = new ZipWebClient()) {
                 try {
@@ -5746,6 +5599,7 @@ namespace FallGuysStats {
             return true;
         }
 #endif
+        
         private bool CheckForUpdate(bool isSilent) {
 #if AllowUpdate
             using (ZipWebClient web = new ZipWebClient()) {
@@ -5776,7 +5630,7 @@ namespace FallGuysStats {
                                 using (DownloadProgress progress = new DownloadProgress()) {
                                     this.StatsDB?.Dispose();
                                     progress.ZipWebClient = web;
-                                    progress.DownloadUrl = this.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
+                                    progress.DownloadUrl = Utils.FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL;
                                     progress.FileName = "FallGuysStats.zip";
                                     progress.ShowDialog(this);
                                 }
@@ -5806,6 +5660,7 @@ namespace FallGuysStats {
 #endif
             return false;
         }
+        
         private void SetSystemTrayIcon(bool enable) {
             this.trayIcon.Visible = enable;
             if (!enable && !this.Visible) {
@@ -5813,6 +5668,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.Visible = true;
             }
         }
+        
         public void SetOverlayTopMost(bool topMost) {
             this.overlay.TopMost = topMost;
             if (this.overlay.Visible) {
@@ -5823,6 +5679,7 @@ namespace FallGuysStats {
                 this.overlay.ShowInTaskbar = !topMost;
             }
         }
+        
         public void SetAutoChangeProfile(bool autoChangeProfile) {
             this.CurrentSettings.AutoChangeProfile = autoChangeProfile;
             this.logFile.autoChangeProfile = autoChangeProfile;
@@ -5831,6 +5688,7 @@ namespace FallGuysStats {
             }
             this.SaveUserSettings();
         }
+        
         public void SetOverlayBackgroundOpacity(int opacity) {
             if (opacity > 100) { opacity = 100; }
             if (opacity < 0) { opacity = 0; }
@@ -5838,12 +5696,14 @@ namespace FallGuysStats {
             this.overlay.Opacity = opacity / 100d;
             this.SaveUserSettings();
         }
+        
         private void SetMinimumSize() {
             this.MinimumSize = new Size(CurrentLanguage == 0 ? 720 :
                                         CurrentLanguage == 1 ? 845 :
                                         CurrentLanguage == 2 ? 650 :
                                         CurrentLanguage == 3 ? 795 : 600, 350);
         }
+        
         private async void menuSettings_Click(object sender, EventArgs e) {
             try {
                 using (Settings settings = new Settings()) {
@@ -5914,6 +5774,7 @@ namespace FallGuysStats {
         private void menuOverlay_Click(object sender, EventArgs e) {
             this.ToggleOverlay(this.overlay);
         }
+        
         public void ToggleOverlay(Overlay overlay) {
             if (overlay.Visible) {
                 IsDisplayOverlayPing = false;
@@ -5944,7 +5805,7 @@ namespace FallGuysStats {
 
                 if (overlay.IsFixed()) {
                     if (this.CurrentSettings.OverlayFixedPositionX.HasValue &&
-                        this.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
+                        Utils.IsOnScreen(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value, overlay.Width, overlay.Height))
                     {
                         overlay.FlipDisplay(this.CurrentSettings.FixedFlippedDisplay);
                         overlay.Location = new Point(this.CurrentSettings.OverlayFixedPositionX.Value, this.CurrentSettings.OverlayFixedPositionY.Value);
@@ -5952,15 +5813,17 @@ namespace FallGuysStats {
                         overlay.Location = this.Location;
                     }
                 } else {
-                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && this.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
+                    overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
                                         ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                         : this.Location;
                 }
             }
         }
+        
         private void menuHelp_Click(object sender, EventArgs e) {
             this.LaunchHelpInBrowser();
         }
+        
         private void menuEditProfiles_Click(object sender, EventArgs e) {
             try {
                 using (EditProfiles editProfiles = new EditProfiles()) {
@@ -5996,6 +5859,7 @@ namespace FallGuysStats {
                 this.EnableMainMenu(true);
             }
         }
+        
         private void menuLaunchFallGuys_Click(object sender, EventArgs e) {
             try {
                 this.LaunchGame(false);
@@ -6003,26 +5867,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        public bool IsOnScreen(int x, int y, int w, int h) {
-            Screen[] screens = Screen.AllScreens;
-            foreach (Screen screen in screens) {
-                if (screen.WorkingArea.Contains(new Point(x, y)) || screen.WorkingArea.Contains(new Point(x + w, y + h))) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public Screen GetCurrentScreen(Point location) {
-            Screen[] scr = Screen.AllScreens;
-            Screen screen = Screen.PrimaryScreen;
-            foreach (Screen s in scr) {
-                if (s.WorkingArea.Contains(location)) {
-                    screen = s;
-                    break;
-                }
-            }
-            return screen;
-        }
+        
         private void ChangeLaunchPlatformLogo(int launchPlatform) {
             this.trayLaunchFallGuys.Image = launchPlatform == 0
                 ? Properties.Resources.epic_main_icon
@@ -6031,6 +5876,7 @@ namespace FallGuysStats {
                 ? Properties.Resources.epic_main_icon
                 : Properties.Resources.steam_main_icon;
         }
+        
         private void ChangeMainLanguage() {
             this.currentLanguage = CurrentLanguage;
             this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
