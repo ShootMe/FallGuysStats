@@ -315,13 +315,13 @@ namespace FallGuysStats {
             // Stream sound;
             // switch (this.cboNotificationSounds.SelectedIndex) {
             //     case 1:
-            //         sound = Toast.NotificationSound02;
+            //         sound = Properties.Resources.NotificationSound02;
             //         break;
             //     case 2:
-            //         sound = Toast.NotificationSound03;
+            //         sound = Properties.Resources.NotificationSound03;
             //         break;
             //     default:
-            //         sound = Toast.NotificationSound01;
+            //         sound = Properties.Resources.NotificationSound01;
             //         break;
             // }
             //
@@ -335,7 +335,7 @@ namespace FallGuysStats {
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
                 
-                this.StatsForm.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
+                this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
                     Overlay.GetMainFont(17), flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
