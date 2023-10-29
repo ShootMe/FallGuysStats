@@ -49,7 +49,7 @@ namespace FallGuysStats {
 		[DefaultValue(null)] internal Font ToastFont { get; set; }
 
 		/// <summary>
-		/// Gets or sets timeout duration of Toas
+		/// Gets or sets timeout duration of Toast
 		/// </summary>
 		[DefaultValue(ToastDuration.LENGTH_SHORT)]
 		internal ToastDuration ToastDuration { get; set; } = ToastDuration.LENGTH_SHORT;

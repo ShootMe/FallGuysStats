@@ -136,10 +136,10 @@ namespace FallGuysStats {
                                         string[] userInfo;
                                         if (subsystemsPath.IndexOf("steamapps", StringComparison.OrdinalIgnoreCase) >= 0) {
                                             Stats.OnlineServiceType = OnlineServiceTypes.Steam;
-                                            userInfo = this.StatsForm.FindSteamNickname();
+                                            userInfo = this.StatsForm.FindSteamUserInfo();
                                         } else {
                                             Stats.OnlineServiceType = OnlineServiceTypes.EpicGames;
-                                            userInfo = this.StatsForm.FindEpicGamesNickname();
+                                            userInfo = this.StatsForm.FindEpicGamesUserInfo();
                                         }
                                         
                                         Stats.OnlineServiceId = userInfo[0];
@@ -473,11 +473,10 @@ namespace FallGuysStats {
             Stats.LastCountryRegion = string.Empty;
             Stats.LastCountryCity = string.Empty;
             try {
-                string countryInfo = Utils.GetCountryInfoByIp(ip, this.StatsForm.CurrentSettings.NotifyServerConnected);
-                string[] countryInfoArr = countryInfo.Split(';');
-                string alpha2Code = countryInfoArr[0].ToLower();
-                string region = countryInfoArr.Length > 1 && !"unknown".Equals(countryInfoArr[1].ToLower()) ? countryInfoArr[1] : string.Empty;
-                string city = countryInfoArr.Length > 2 && !"unknown".Equals(countryInfoArr[2].ToLower()) ? countryInfoArr[2] : string.Empty;
+                string[] countryInfo = Utils.GetCountryInfoByIp(ip, this.StatsForm.CurrentSettings.NotifyServerConnected).Split(';');
+                string alpha2Code = countryInfo[0].ToLower();
+                string region = countryInfo.Length > 1 && !"unknown".Equals(countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
+                string city = countryInfo.Length > 2 && !"unknown".Equals(countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
                 Stats.LastCountryAlpha2Code = alpha2Code;
                 Stats.LastCountryRegion = region;
                 Stats.LastCountryCity = city;

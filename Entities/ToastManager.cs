@@ -180,7 +180,6 @@ namespace FallGuysStats {
 					return true;
 				}
 			}
-
 			return false;
 		}
 
@@ -195,7 +194,6 @@ namespace FallGuysStats {
 		/// <param name="toast"></param>
 		/// <returns></returns>
 		public bool Remove(Toast toast) {
-			
 			var res = _privateList.Remove(toast);
 			if (res) {
 				ToastRemoved?.Invoke(this, new ToastChangedEventArgs(toast));
@@ -203,7 +201,6 @@ namespace FallGuysStats {
 					CollectionTruncated?.Invoke(this, EventArgs.Empty);
 				}
 			}
-
 			return res;
 		}
 
@@ -221,12 +218,10 @@ namespace FallGuysStats {
 		}
 		
 		public int NextSequentialId(ToastPosition toastPosition) {
-			if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 0)) return 0;
-            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 1)) return 1;
-            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 2)) return 2;
-            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 3)) return 3;
-            if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 4)) return 4;
-            return !_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == 5) ? 5 : 0;
+            for (int i = 0; i < ToastManager.MAX_TOASTS_ALLOWED; i++) {
+                if (!_privateList.Exists(toast => toast.ToastPosition == toastPosition && toast.SequentialId == i)) return i;
+            }
+            return 0;
         }
 
 		/// <summary>

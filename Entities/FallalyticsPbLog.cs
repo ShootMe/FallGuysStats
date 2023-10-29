@@ -5,6 +5,7 @@ namespace FallGuysStats {
     public class FallalyticsPbLog {
         [BsonId(true)]
         public int PbId { get; set; }
+        public string SessionId { get; set; }
         public string RoundId { get; set; }
         public string ShowId { get; set; }
         public double Record { get; set; }

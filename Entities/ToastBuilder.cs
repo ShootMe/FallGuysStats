@@ -34,7 +34,7 @@ namespace FallGuysStats {
 		}
 		
 		/// <summary>
-		/// Set description for Toast
+		/// Set font for Toast
 		/// </summary>
 		/// <param name="description"></param>
 		/// <returns></returns>

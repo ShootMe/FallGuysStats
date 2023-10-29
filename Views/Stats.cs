@@ -312,11 +312,7 @@ namespace FallGuysStats {
         private Stats() {
             Task.Run(() => {
                 if (Utils.IsInternetConnected()) {
-                    string countryInfo = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
-                    string[] countryInfoArr = countryInfo.Split(';');
-                    HostCountryCode = countryInfoArr[0];
-                    HostCountryRegion = countryInfoArr.Length > 1 && !"unknown".Equals(countryInfoArr[1].ToLower()) ? countryInfoArr[1] : string.Empty;
-                    HostCountryCity = countryInfoArr.Length > 2 && !"unknown".Equals(countryInfoArr[2].ToLower()) ? countryInfoArr[2] : string.Empty;
+                    HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
                 }
             });
             
@@ -3115,123 +3111,130 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
-                    string[] userInfo = null;
-                    if (OnlineServiceType == OnlineServiceTypes.Steam) {
-                        userInfo = this.FindSteamNickname();
-                    } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
-                        userInfo = this.FindEpicGamesNickname();
-                    }
-                    
-                    if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                        OnlineServiceId = userInfo[0];
-                        OnlineServiceNickname = userInfo[1];
-                    }
+            if (OnlineServiceType == OnlineServiceTypes.None || !stat.Qualified || !stat.Finish.HasValue ||
+                (!LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) || level.Type != LevelType.Race)) return;
+                
+            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
+                string[] userInfo = null;
+                if (OnlineServiceType == OnlineServiceTypes.Steam) {
+                    userInfo = this.FindSteamUserInfo();
+                } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
+                    userInfo = this.FindEpicGamesUserInfo();
                 }
+
+                if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                    OnlineServiceId = userInfo[0];
+                    OnlineServiceNickname = userInfo[1];
+                }
+            }
+
+            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
             
-                if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                    if (string.IsNullOrEmpty(HostCountryCode)) {
-                        HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false).Split(';')[0];
+            if (string.IsNullOrEmpty(HostCountryCode)) {
+                HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
+            }
+
+            BsonExpression pbLogQuery = Query.And(
+                Query.EQ("RoundId", stat.Name)
+                , Query.EQ("ShowNameId", stat.ShowNameId)
+                , Query.EQ("OnlineServiceType", (int)OnlineServiceType)
+                , Query.EQ("OnlineServiceId", OnlineServiceId)
+                // , Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
+            );
+
+            double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+            DateTime currentFinish = stat.Finish.Value;
+            bool isTransferSuccess = false;
+            if (!this.FallalyticsPbLog.Exists(pbLogQuery)) {
+                // first transfer
+                BsonExpression recordQuery = Query.And(
+                    Query.Not("Finish", null),
+                    Query.EQ("RoundId", stat.Name),
+                    Query.EQ("ShowNameId", stat.ShowNameId)
+                );
+                
+                List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
+                double record = queryResult.Any() ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                DateTime finish = queryResult.Any() ? queryResult.Min(r => r.Finish.Value) : stat.Finish.Value;
+                
+                if (currentRecord < record) {
+                    record = currentRecord;
+                    finish = currentFinish;
+                }
+
+                try {
+                    if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                        isTransferSuccess = true;
                     }
-                    
-                    BsonExpression pbLogQuery = Query.And(
-                        Query.EQ("RoundId", stat.Name),
-                        Query.EQ("ShowNameId", stat.ShowNameId),
-                        Query.EQ("OnlineServiceType", (int)OnlineServiceType),
-                        Query.EQ("OnlineServiceId", OnlineServiceId),
-                        Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
-                    );
-                    List<FallalyticsPbLog> pbLogList = this.FallalyticsPbLog.Find(pbLogQuery).ToList();
-                    
-                    double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
-                    DateTime currentFinish = stat.Finish.Value;
-                    bool isTransferSuccess = false;
-                    if (pbLogList.Count == 0) { // first transfer
-                        BsonExpression recordQuery = Query.And(
-                            Query.Not("Finish", null),
-                            Query.EQ("RoundId", stat.Name),
-                            Query.EQ("ShowNameId", stat.ShowNameId)
-                        );
-                        IEnumerable<RoundInfo> qr = this.RoundDetails.Find(recordQuery);
-                        
-                        double record = qr.Any() ? qr.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
-                        DateTime finish = qr.Any() ? qr.Min(r => r.Finish.Value) : stat.Finish.Value;
+                } catch {
+                    isTransferSuccess = false;
+                }
+
+                lock (this.StatsDB) {
+                    this.StatsDB.BeginTrans();
+                    this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
+                        SessionId = stat.SessionId, RoundId = stat.Name, ShowId = stat.ShowNameId,
+                        Record = record, PbDate = finish,
+                        CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
+                        OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                        IsTransferSuccess = isTransferSuccess
+                    });
+                    this.StatsDB.Commit();
+                }
+            } else {
+                FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery);
+                double record = pbLog.Record;
+                DateTime finish = pbLog.PbDate;
+                try {
+                    if (pbLog.IsTransferSuccess) {
                         if (currentRecord < record) {
-                            record = currentRecord;
-                            finish = currentFinish;
+                            try {
+                                if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    isTransferSuccess = true;
+                                }
+                            } catch {
+                                isTransferSuccess = false;
+                            }
+
+                            lock (this.StatsDB) {
+                                this.StatsDB.BeginTrans();
+                                pbLog.Record = currentRecord;
+                                pbLog.PbDate = currentFinish;
+                                pbLog.IsTransferSuccess = isTransferSuccess;
+                                this.FallalyticsPbLog.Update(pbLog);
+                                this.StatsDB.Commit();
+                            }
                         }
-                        
+                    } else {
+                        // re-send
                         try {
                             if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(new RoundInfo { Name = stat.Name, ShowNameId = stat.ShowNameId },
-                                                                     record, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
                             }
                         } catch {
                             isTransferSuccess = false;
                         }
-                        
+
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
-                            this.FallalyticsPbLog.Insert(new FallalyticsPbLog { RoundId = stat.Name, ShowId = stat.ShowNameId,
-                                                          Record = record, PbDate = finish,
-                                                          CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
-                                                          OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
-                                                          IsTransferSuccess = isTransferSuccess });
+                            pbLog.Record = currentRecord < record ? currentRecord : record;
+                            pbLog.PbDate = currentRecord < record ? currentFinish : finish;
+                            pbLog.IsTransferSuccess = isTransferSuccess;
+                            this.FallalyticsPbLog.Update(pbLog);
                             this.StatsDB.Commit();
                         }
-                    } else if (pbLogList.Count > 0) {
-                        double record = pbLogList[0].Record;
-                        DateTime finish = pbLogList[0].PbDate;
-                        try {
-                            if (pbLogList[0].IsTransferSuccess) {
-                                if (currentRecord < record) {
-                                    if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                        await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                        isTransferSuccess = true;
-                                    }
-                                    
-                                    lock (this.StatsDB) {
-                                        this.StatsDB.BeginTrans();
-                                        foreach (FallalyticsPbLog f in pbLogList) {
-                                            f.Record = currentRecord;
-                                            f.PbDate = currentFinish;
-                                            f.IsTransferSuccess = isTransferSuccess;
-                                        }
-                                        this.FallalyticsPbLog.Update(pbLogList);
-                                        this.StatsDB.Commit();
-                                    }
-                                }
-                            } else { // re-send
-                                if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                    isTransferSuccess = true;
-                                }
-                                
-                                lock (this.StatsDB) {
-                                    this.StatsDB.BeginTrans();
-                                    foreach (FallalyticsPbLog f in pbLogList) {
-                                        f.Record = currentRecord < record ? currentRecord : record;
-                                        f.PbDate = currentRecord < record ? currentFinish : finish;
-                                        f.IsTransferSuccess = isTransferSuccess;
-                                    }
-                                    this.FallalyticsPbLog.Update(pbLogList);
-                                    this.StatsDB.Commit();
-                                }
-                            }
-                        } catch {
-                            lock (this.StatsDB) {
-                                this.StatsDB.BeginTrans();
-                                foreach (FallalyticsPbLog f in pbLogList) {
-                                    f.Record = currentRecord < record ? currentRecord : record;
-                                    f.PbDate = currentRecord < record ? currentFinish : finish;
-                                    f.IsTransferSuccess = false;
-                                }
-                                this.FallalyticsPbLog.Update(pbLogList);
-                                this.StatsDB.Commit();
-                            }
-                        }
+                    }
+                } catch {
+                    lock (this.StatsDB) {
+                        this.StatsDB.BeginTrans();
+                        pbLog.Record = currentRecord < record ? currentRecord : record;
+                        pbLog.PbDate = currentRecord < record ? currentFinish : finish;
+                        pbLog.IsTransferSuccess = false;
+                        this.FallalyticsPbLog.Update(pbLog);
+                        this.StatsDB.Commit();
                     }
                 }
             }
@@ -4832,7 +4835,7 @@ namespace FallGuysStats {
             this.CurrentSettings.GameExeLocation = fallGuysExeLocation;
         }
         
-        public string[] FindEpicGamesNickname() {
+        public string[] FindEpicGamesUserInfo() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
                 string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
@@ -4863,7 +4866,7 @@ namespace FallGuysStats {
             return userInfo;
         }
         
-        public string[] FindSteamNickname() {
+        public string[] FindSteamUserInfo() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
