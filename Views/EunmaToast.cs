@@ -184,7 +184,9 @@ namespace FallGuysStats {
 			if (!_isMuted) {
 				PlaySound();
 			}
+            
 			SetTheme();
+            
 			switch (_toastAnimation) {
 				case ToastAnimation.FADE:
 					FadeIn();

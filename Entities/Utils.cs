@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace FallGuysStats {
 	public static class Utils {
+        public static readonly string GITHUB_API_URL = "https://api.github.com/";
         public static readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
         public static readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
         private static readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}

@@ -10,9 +10,10 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using MetroFramework;
+using MetroFramework.Controls;
 
 namespace FallGuysStats {
-    public sealed class Grid : DataGridView {
+    public sealed class Grid : MetroGrid {
         public ContextMenuStrip CMenu;
         private IContainer components;
         private SaveFileDialog _saveFile;

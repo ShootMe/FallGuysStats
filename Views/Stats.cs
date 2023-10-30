@@ -2581,7 +2581,6 @@ namespace FallGuysStats {
         private void Stats_Load(object sender, EventArgs e) {
             try {
                 this.SetTheme(CurrentTheme);
-                this.ReloadProfileMenuItems();
                 
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
@@ -2599,14 +2598,8 @@ namespace FallGuysStats {
                     Utils.DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                     Utils.DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 });
-                
-                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
 
                 this.UpdateDates();
-                
-                if (this.CurrentSettings.AutoLaunchGameOnStartup) {
-                    this.LaunchGame(true);
-                }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -2640,7 +2633,7 @@ namespace FallGuysStats {
 
                     if (this.CurrentSettings.ShowChangelog) {
                         try {
-                            string changelog = Utils.GetApiData("https://api.github.com", "/repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                            string changelog = Utils.GetApiData(Utils.GITHUB_API_URL, "repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
                             changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
                         
                             MetroMessageBox.Show(this,
@@ -2691,6 +2684,9 @@ namespace FallGuysStats {
                     this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
                 
+                this.ReloadProfileMenuItems();
+                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
+                
                 this.selectedCustomTemplateSeason = this.CurrentSettings.SelectedCustomTemplateSeason;
                 this.customfilterRangeStart = this.CurrentSettings.CustomFilterRangeStart;
                 this.customfilterRangeEnd = this.CurrentSettings.CustomFilterRangeEnd;
@@ -2730,6 +2726,10 @@ namespace FallGuysStats {
                 }
                 
                 this.isStartingUp = false;
+                
+                if (this.CurrentSettings.AutoLaunchGameOnStartup) {
+                    this.LaunchGame(true);
+                }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -2947,7 +2947,11 @@ namespace FallGuysStats {
                                 // Must be a game that is played after FallGuysStats started
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
-                                    // Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    
+                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
+                                        (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    }
                                 }
                             } else {
                                 continue;
@@ -3020,7 +3024,8 @@ namespace FallGuysStats {
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
-                            this.gridDetails.DataSource = this.StatDetails;
+                            // this.gridDetails.DataSource = this.StatDetails;
+                            this.gridDetails.DataSource = this.GetFilteredDataSource(this.CurrentSettings.GroupingCreativeRoundLevels);
                         }
 
                         stat.ToLocalTime();
@@ -3111,9 +3116,6 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            if (OnlineServiceType == OnlineServiceTypes.None || !stat.Qualified || !stat.Finish.HasValue ||
-                (!LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) || level.Type != LevelType.Race)) return;
-                
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                 string[] userInfo = null;
                 if (OnlineServiceType == OnlineServiceTypes.Steam) {
@@ -3865,10 +3867,12 @@ namespace FallGuysStats {
         
         private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
-            this.VisibleGridRowOfCreativeLevel(mtgChecked);
+            // this.VisibleGridRowOfCreativeLevel(mtgChecked);
             this.lblCreativeLevel.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
+            this.gridDetails.DataSource = null;
+            this.gridDetails.DataSource = this.GetFilteredDataSource(this.CurrentSettings.GroupingCreativeRoundLevels);
         }
         
         private void lblIgnoreLevelTypeWhenSorting_Click(object sender, EventArgs e) {
@@ -3958,7 +3962,8 @@ namespace FallGuysStats {
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.gridDetails.RowTemplate.Height = 25;
 
-            this.gridDetails.DataSource = this.StatDetails;
+            // this.gridDetails.DataSource = this.StatDetails;
+            this.gridDetails.DataSource = this.GetFilteredDataSource(this.CurrentSettings.GroupingCreativeRoundLevels);
         }
         
         private void SetMainDataGridView() {
@@ -4257,29 +4262,37 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
-            this.gridDetails.Invalidate();
+            // this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
+            // this.gridDetails.Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
             this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
             this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
         }
-        
-        private void VisibleGridRowOfCreativeLevel(bool visible) {
-            List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
-            CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
-            currencyManager.SuspendBinding();
-            for (var i = 0; i < levelStatsList.Count; i++) {
-                LevelStats levelStats = levelStatsList[i];
-                if (levelStats.IsCreative && !levelStats.Id.Equals("user_creative_race_round")) {
-                    this.gridDetails.Rows[i].Visible = !visible;
-                }
-                if (levelStats.Id.Equals("creative_race_round") || levelStats.Id.Equals("creative_race_final_round")) {
-                    this.gridDetails.Rows[i].Visible = visible;
-                }
+
+        private List<LevelStats> GetFilteredDataSource(bool isFilter) {
+            if (isFilter) {
+                return this.StatDetails.Where(l => l.IsCreative != true || (l.Id.Equals("creative_race_round") || l.Id.Equals("creative_race_final_round") || l.Id.Equals("user_creative_race_round"))).ToList();   
+            } else {
+                return this.StatDetails.Where(l => !(l.Id.Equals("creative_race_round") || l.Id.Equals("creative_race_final_round"))).ToList();
             }
-            currencyManager.ResumeBinding();
         }
+        
+        // private void VisibleGridRowOfCreativeLevel(bool visible) {
+            // List<LevelStats> levelStatsList = this.gridDetails.DataSource as List<LevelStats>;
+            // CurrencyManager currencyManager = (CurrencyManager)BindingContext[this.gridDetails.DataSource];  
+            // currencyManager.SuspendBinding();
+            // for (var i = 0; i < levelStatsList.Count; i++) {
+            //     LevelStats levelStats = levelStatsList[i];
+            //     if (levelStats.IsCreative && !levelStats.Id.Equals("user_creative_race_round")) {
+            //         this.gridDetails.Rows[i].Visible = !visible;
+            //     }
+            //     if (levelStats.Id.Equals("creative_race_round") || levelStats.Id.Equals("creative_race_final_round")) {
+            //         this.gridDetails.Rows[i].Visible = visible;
+            //     }
+            // }
+            // currencyManager.ResumeBinding();
+        // }
         
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
             string columnName = this.gridDetails.Columns[columnIndex].Name;
@@ -4323,7 +4336,8 @@ namespace FallGuysStats {
             });
 
             this.gridDetails.DataSource = null;
-            this.gridDetails.DataSource = this.StatDetails;
+            // this.gridDetails.DataSource = this.StatDetails;
+            this.gridDetails.DataSource = this.GetFilteredDataSource(this.CurrentSettings.GroupingCreativeRoundLevels);
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
@@ -4759,10 +4773,8 @@ namespace FallGuysStats {
                             string name = processes[i].ProcessName;
                             if (name.IndexOf(fallGuysProcessName, StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (!ignoreExisting) {
-                                    MetroMessageBox.Show(this,
-                                        Multilingual.GetWord("message_fall_guys_already_running"),
-                                        Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
+                                    MetroMessageBox.Show(this, Multilingual.GetWord("message_fall_guys_already_running"),
+                                        Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 return;
                             }
@@ -4789,8 +4801,7 @@ namespace FallGuysStats {
                             if (name.IndexOf(fallGuysProcessName, StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (!ignoreExisting) {
                                     MetroMessageBox.Show(this, Multilingual.GetWord("message_fall_guys_already_running"),
-                                        Multilingual.GetWord("message_already_running_caption"),
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        Multilingual.GetWord("message_already_running_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 return;
                             }
@@ -4805,8 +4816,7 @@ namespace FallGuysStats {
                         }
                     } else {
                         MetroMessageBox.Show(this, Multilingual.GetWord("message_register_exe"),
-                            Multilingual.GetWord("message_register_exe_caption"),
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Multilingual.GetWord("message_register_exe_caption"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             } catch (Exception ex) {
