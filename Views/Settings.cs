@@ -317,6 +317,7 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
             this.ResumeLayout();
+            this.Invalidate(true);
         }
 
         private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
@@ -342,9 +343,8 @@ namespace FallGuysStats {
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
-                
                 this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    Overlay.GetMainFont(17), flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
+                    Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
         

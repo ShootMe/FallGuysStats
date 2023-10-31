@@ -81,7 +81,8 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
-        public event Action<string, string, string> OnShowToastNotification;
+        public event Action<string, string, string> OnServerConnectionNotification;
+        public event Action<RoundInfo> OnPersonalBestNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -579,7 +580,7 @@ namespace FallGuysStats {
                     if (serverConnectionLog != null) {
                         if (!serverConnectionLog.IsNotify) {
                             if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
+                                this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                             }
                         }
 
@@ -592,7 +593,7 @@ namespace FallGuysStats {
                         this.serverPingWatcher.Start();
                         this.SetCountryCodeByIP(Stats.LastServerIp);
                         if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                            this.OnShowToastNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
+                            this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                         }
                     }
                 }
@@ -611,7 +612,6 @@ namespace FallGuysStats {
                         this.gameStateWatcher.Start();
                     }
                 }
-                
                 logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode };
                 
                 if (logRound.Info.UseShareCode) {
@@ -625,7 +625,6 @@ namespace FallGuysStats {
                         logRound.Info.SceneName = newName;
                     }
                 }
-
                 logRound.FindingPosition = false;
 
                 round.Add(logRound.Info);
@@ -724,6 +723,12 @@ namespace FallGuysStats {
                 if (position > 0) {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
+
+                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
+                        if (!logRound.Info.PrivateLobby && logRound.Info.Finish.HasValue) {
+                            this.OnPersonalBestNotification?.Invoke(logRound.Info);
+                        }
+                    }
                 }
             } else if (line.Date > Stats.LastRoundLoad && (index = line.Line.IndexOf("HandleServerPlayerProgress PlayerId=", StringComparison.OrdinalIgnoreCase)) >= 0 && line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) >= 0) {
                 int prevIndex = line.Line.IndexOf(" ", index + 36);

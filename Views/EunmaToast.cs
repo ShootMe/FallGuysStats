@@ -105,7 +105,7 @@ namespace FallGuysStats {
 				_toastFont = value;
 				if (value != null) {
 					lblCaption.Font = value;
-					lblDescription.Font = new Font(value.FontFamily, value.Size * 0.75f, value.Style, value.Unit);
+					lblDescription.Font = new Font(value.FontFamily, value.Size * 0.81f, FontStyle.Regular, value.Unit);
 				}
 			}
 		}

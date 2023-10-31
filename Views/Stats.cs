@@ -153,6 +153,7 @@ namespace FallGuysStats {
         public ILiteCollection<Profiles> Profiles;
         public ILiteCollection<FallalyticsPbLog> FallalyticsPbLog;
         public ILiteCollection<ServerConnectionLog> ServerConnectionLog;
+        public ILiteCollection<PersonalBestLog> PersonalBestLog;
         public List<Profiles> AllProfiles = new List<Profiles>();
         public UserSettings CurrentSettings;
         public Overlay overlay;
@@ -356,8 +357,10 @@ namespace FallGuysStats {
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
             this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
             this.ServerConnectionLog = this.StatsDB.GetCollection<ServerConnectionLog>("ServerConnectionLog");
+            this.PersonalBestLog = this.StatsDB.GetCollection<PersonalBestLog>("PersonalBestLog");
 
             this.ClearServerConnectionLog();
+            this.ClearPersonalBestLog();
             
             this.StatsDB.BeginTrans();
             this.RoundDetails.EnsureIndex(r => r.Name);
@@ -373,6 +376,7 @@ namespace FallGuysStats {
             this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
             
             this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
+            this.PersonalBestLog.EnsureIndex(f => f.SessionId);
             
             
             if (this.Profiles.Count() == 0) {
@@ -432,7 +436,8 @@ namespace FallGuysStats {
             
             this.logFile.OnParsedLogLines += this.LogFile_OnParsedLogLines;
             this.logFile.OnNewLogFileDate += this.LogFile_OnNewLogFileDate;
-            this.logFile.OnShowToastNotification += this.LogFile_OnShowToastNotification;
+            this.logFile.OnServerConnectionNotification += this.LogFile_OnServerConnectionNotification;
+            this.logFile.OnPersonalBestNotification += this.LogFile_OnPersonalBestNotification;
             this.logFile.OnError += this.LogFile_OnError;
             this.logFile.OnParsedLogLinesCurrent += this.LogFile_OnParsedLogLinesCurrent;
             this.logFile.StatsForm = this;
@@ -897,6 +902,7 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
             this.ResumeLayout();
+            this.Invalidate(true);
         }
         
         private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
@@ -2127,6 +2133,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 63;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 63) {
+                this.CurrentSettings.RecordEscapeDuringAGame = true;
+                this.CurrentSettings.Version = 64;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -2211,7 +2223,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 63
+                Version = 64
             };
         }
         
@@ -2747,8 +2759,33 @@ namespace FallGuysStats {
                 }
             }
         }
-        
-        private void LogFile_OnShowToastNotification(string alpha2Code, string region, string city) {
+
+        private void LogFile_OnPersonalBestNotification(RoundInfo info) {
+            if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) && level.Type == LevelType.Race) {
+                double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
+                BsonExpression recordQuery = Query.And(
+                    Query.Not("Finish", null),
+                    Query.EQ("Name", info.Name),
+                    Query.EQ("ShowNameId", info.ShowNameId)
+                );
+                List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
+                double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                
+                if (currentRecord < record && !this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+                    string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")} ";
+                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}";
+                    ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+                    ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
+                    ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
+                    ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+                    this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_new_personal_best_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
+                        null, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
+                }
+                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
+            }
+        }
+
+        private void LogFile_OnServerConnectionNotification(string alpha2Code, string region, string city) {
             string countryFullName;
             if (!string.IsNullOrEmpty(alpha2Code)) {
                 countryFullName = Multilingual.GetCountryName(alpha2Code);
@@ -2779,8 +2816,7 @@ namespace FallGuysStats {
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
             ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
-            
-            this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(17),
+            this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
                 flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }
         
@@ -3079,6 +3115,45 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
+        public bool ExistsPersonalBestLog(string sessionId, string showId, string roundId) {
+            if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
+            BsonExpression condition = Query.And(
+                Query.EQ("_id", sessionId),
+                Query.EQ("ShowId", showId),
+                Query.EQ("RoundId", roundId)
+            );
+            return this.PersonalBestLog.Exists(condition);
+        }
+        
+        public PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
+            BsonExpression condition = Query.And(
+                Query.EQ("_id", sessionId),
+                Query.EQ("ShowId", showId),
+                Query.EQ("RoundId", roundId)
+            );
+            return this.PersonalBestLog.FindOne(condition);
+        }
+
+        public void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+                    CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
+                });
+                this.StatsDB.Commit();
+            }
+        }
+
+        private void ClearPersonalBestLog() {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5);
+                BsonExpression condition = Query.LT("PbDate", fiveDaysAgo);
+                this.PersonalBestLog.DeleteMany(condition);
+                this.StatsDB.Commit();
+            }
+        }
 
         public bool ExistsServerConnectionLog(string sessionId, string showId) {
             if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
@@ -3090,7 +3165,6 @@ namespace FallGuysStats {
         }
         
         public ServerConnectionLog SelectServerConnectionLog(string sessionId, string showId) {
-            // Console.WriteLine($"{sessionId} / {showId}");
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
                 Query.EQ("ShowId", showId)
@@ -3112,8 +3186,8 @@ namespace FallGuysStats {
         private void ClearServerConnectionLog() {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                DateTime threeDaysAgo = DateTime.Now.AddDays(-3);
-                BsonExpression condition = Query.LT("ConnectionDate", threeDaysAgo);
+                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5);
+                BsonExpression condition = Query.LT("ConnectionDate", fiveDaysAgo);
                 this.ServerConnectionLog.DeleteMany(condition);
                 this.StatsDB.Commit();
             }
@@ -3155,13 +3229,13 @@ namespace FallGuysStats {
                 // first transfer
                 BsonExpression recordQuery = Query.And(
                     Query.Not("Finish", null),
-                    Query.EQ("RoundId", stat.Name),
+                    Query.EQ("Name", stat.Name),
                     Query.EQ("ShowNameId", stat.ShowNameId)
                 );
                 
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
-                double record = queryResult.Any() ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
-                DateTime finish = queryResult.Any() ? queryResult.Min(r => r.Finish.Value) : stat.Finish.Value;
+                double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                DateTime finish = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value) : stat.Finish.Value;
                 
                 if (currentRecord < record) {
                     record = currentRecord;
