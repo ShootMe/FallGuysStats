@@ -117,6 +117,7 @@
     <Compile Include="Entities\LevelType.cs" />
     <Compile Include="Entities\LineReader.cs" />
     <Compile Include="Entities\Multilingual.cs" />
+    <Compile Include="Entities\PersonalBestLog.cs" />
     <Compile Include="Entities\Profiles.cs" />
     <Compile Include="Entities\ServerConnectionLog.cs" />
     <Compile Include="Entities\ServerPingWatcher.cs" />
