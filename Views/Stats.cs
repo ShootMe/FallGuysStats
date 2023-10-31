@@ -135,23 +135,18 @@ namespace FallGuysStats {
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
-        private int Shows, Rounds;
-        private int CustomShows, CustomRounds;
+        private int Shows, Rounds, CustomShows, CustomRounds;
         private TimeSpan Duration;
-        private int Wins;
-        private int Finals;
-        private int Kudos;
+        private int Wins, Finals, Kudos;
         private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals, EliminatedMedals;
         private int CustomGoldMedals, CustomSilverMedals, CustomBronzeMedals, CustomPinkMedals, CustomEliminatedMedals;
         private int nextShowID;
         private bool loadingExisting;
-        private bool updateFilterType;
-        private bool updateFilterRange;
+        private bool updateFilterType, updateFilterRange;
         private DateTime customfilterRangeStart = DateTime.MinValue;
         private DateTime customfilterRangeEnd = DateTime.MaxValue;
         private int selectedCustomTemplateSeason;
-        private bool updateSelectedProfile;
-        private bool useLinkedProfiles;
+        private bool updateSelectedProfile, useLinkedProfiles;
         public LiteDatabase StatsDB;
         public ILiteCollection<RoundInfo> RoundDetails;
         public ILiteCollection<UserSettings> UserSettings;
@@ -165,8 +160,7 @@ namespace FallGuysStats {
         public DateTime startupTime = DateTime.UtcNow;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
-        private int currentProfile;
-        private int currentLanguage;
+        private int currentProfile, currentLanguage;
         private Color infoStripForeColor;
         public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
         public List<ToolStripMenuItem> ProfileTrayItems = new List<ToolStripMenuItem>();
@@ -182,8 +176,7 @@ namespace FallGuysStats {
         private readonly Image numberNine = Utils.ImageOpacity(Properties.Resources.number_9,  0.5F);
 
         private bool maximizedForm;
-        private bool isFocused;
-        private bool isFormClosing;
+        private bool isFocused, isFormClosing;
         private bool shiftKeyToggle, ctrlKeyToggle;
         private MetroToolTip mtt = new MetroToolTip();
         private MetroToolTip cmtt = new MetroToolTip();
@@ -722,7 +715,6 @@ namespace FallGuysStats {
         }
         
         private void SetTheme(MetroThemeStyle theme) {
-            //if (this.Theme == theme) return;
             this.SuspendLayout();
             this.mtt.Theme = theme;
             this.omtt.Theme = theme;
@@ -843,6 +835,8 @@ namespace FallGuysStats {
                 }
             }
 
+            this.gridDetails.Theme = theme;
+            this.gridDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
             this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
@@ -903,7 +897,6 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
             this.ResumeLayout();
-            this.Refresh();
         }
         
         private void CustomToolStripSeparatorCustom_Paint(Object sender, PaintEventArgs e) {
@@ -2211,6 +2204,7 @@ namespace FallGuysStats {
                 GameShortcutLocation = string.Empty,
                 IgnoreLevelTypeWhenSorting = false,
                 GroupingCreativeRoundLevels = false,
+                RecordEscapeDuringAGame = false,
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 EnableFallalyticsReporting = false,
@@ -2558,10 +2552,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.MaximizedWindowState = false;
             }
         }
+        
         public void Stats_ExitProgram(object sender, EventArgs e) {
             this.isFormClosing = true;
             this.Close();
         }
+        
         private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
@@ -2578,6 +2574,7 @@ namespace FallGuysStats {
                 this.Hide();
             }
         }
+        
         private void Stats_Load(object sender, EventArgs e) {
             try {
                 this.SetTheme(CurrentTheme);
@@ -2604,6 +2601,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private string TranslateChangelog(string s) {
             string[] lines = s.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string rtnStr = string.Empty;
@@ -2618,6 +2616,7 @@ namespace FallGuysStats {
             }
             return rtnStr;
         }
+        
         private void Stats_Shown(object sender, EventArgs e) {
             try {
 #if AllowUpdate
@@ -2654,11 +2653,11 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.Visible) {
                     this.Show();
                     this.ShowInTaskbar = true;
-                    this.Opacity = 100;
+                    this.Opacity = 1;
                 } else {
                     this.Hide();
                     this.ShowInTaskbar = true;
-                    this.Opacity = 100;
+                    this.Opacity = 1;
                 }
                 this.SetMainDataGridViewOrder();
 
@@ -2685,7 +2684,7 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.OverlayVisible) { this.ToggleOverlay(this.overlay); }
                 
                 this.ReloadProfileMenuItems();
-                this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
+                // this.menuStats_Click(this.menuProfile.DropDownItems[$@"menuProfile{this.CurrentSettings.SelectedProfile}"], EventArgs.Empty);
                 
                 this.selectedCustomTemplateSeason = this.CurrentSettings.SelectedCustomTemplateSeason;
                 this.customfilterRangeStart = this.CurrentSettings.CustomFilterRangeStart;
@@ -2734,6 +2733,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void LogFile_OnError(string error) {
             if (!this.Disposing && !this.IsDisposed) {
                 try {
@@ -2747,6 +2747,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void LogFile_OnShowToastNotification(string alpha2Code, string region, string city) {
             string countryFullName;
             if (!string.IsNullOrEmpty(alpha2Code)) {
@@ -2782,6 +2783,7 @@ namespace FallGuysStats {
             this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(17),
                 flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }
+        
         private void LogFile_OnNewLogFileDate(DateTime newDate) {
             if (SessionStart != newDate) {
                 SessionStart = newDate;
@@ -2790,6 +2792,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void LogFile_OnParsedLogLinesCurrent(List<RoundInfo> round) {
             lock (this.CurrentRound) {
                 if (this.CurrentRound == null || this.CurrentRound.Count != round.Count) {
@@ -2805,6 +2808,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void LogFile_OnParsedLogLines(List<RoundInfo> round) {
             try {
                 if (this.InvokeRequired) {
@@ -2948,10 +2952,10 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
                                     
-                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
-                                        (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
-                                    }
+                                    // if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
+                                    //     (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                    //     Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    // }
                                 }
                             } else {
                                 continue;
@@ -4213,12 +4217,14 @@ namespace FallGuysStats {
             try {
                 this.gridDetails.SuspendLayout();
                 if (e.RowIndex >= 0 && (this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")) {
+                    this.gridDetails.ShowCellToolTips = false;
                     this.gridDetails.Cursor = Cursors.Hand;
                     Point cursorPosition = this.PointToClient(Cursor.Position);
                     Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
                     this.AllocCustomTooltip(this.cmtt_center_Draw);
                     this.ShowCustomTooltip($"{Multilingual.GetWord("level_detail_tooltiptext_prefix")}{this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value}{Multilingual.GetWord("level_detail_tooltiptext_suffix")}", this, position);
                 } else if (e.RowIndex >= 0) {
+                    this.gridDetails.ShowCellToolTips = true;
                     this.gridDetails.Cursor = e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")
                         ? this.Theme == MetroThemeStyle.Light
                             ? new Cursor(Properties.Resources.transform_icon.GetHicon())

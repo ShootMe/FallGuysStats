@@ -10,13 +10,13 @@ using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class Settings : MetroFramework.Forms.MetroForm {
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;
-                return cp;
-            }
-        }
+        // protected override CreateParams CreateParams {
+        //     get {
+        //         CreateParams cp = base.CreateParams;
+        //         cp.ExStyle |= 0x02000000;
+        //         return cp;
+        //     }
+        // }
         
         private string overlayFontSerialized = string.Empty;
         private string overlayFontColorSerialized = string.Empty;
@@ -30,6 +30,7 @@ namespace FallGuysStats {
         
         public Settings() {
             this.InitializeComponent();
+            this.Opacity = 0;
             this.cboNotificationSounds.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboNotificationWindowPosition.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboNotificationWindowAnimation.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
@@ -41,11 +42,9 @@ namespace FallGuysStats {
             this.cboOverlayBackground.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboOverlayColor.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
         }
-        
+
         private void Settings_Load(object sender, EventArgs e) {
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
 
             this.ChangeTab(this.tileProgram, null);
             
@@ -224,6 +223,7 @@ namespace FallGuysStats {
             this.chkLaunchGameOnStart.Checked = this.CurrentSettings.AutoLaunchGameOnStartup;
             this.chkIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
             this.chkGroupingCreativeRoundLevels.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
+            this.chkRecordEscapeDuringAGame.Checked = this.CurrentSettings.RecordEscapeDuringAGame;
 
             //this.picPlatformCheck.Image = Stats.ImageOpacity(this.picPlatformCheck.Image, 0.8F);
             if (this.LaunchPlatform == 0) { // Epic Games
@@ -256,8 +256,13 @@ namespace FallGuysStats {
             
             this.trkOverlayOpacity.Value = this.CurrentSettings.OverlayBackgroundOpacity;
         }
+        
+        private void Settings_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
 
         private void SetTheme(MetroThemeStyle theme) {
+            this.SuspendLayout();
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
             this.cboOverlayBackground_blur(theme);
             foreach (Control c1 in Controls) {
@@ -311,6 +316,7 @@ namespace FallGuysStats {
                 }
             }
             this.Theme = theme;
+            this.ResumeLayout();
         }
 
         private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
@@ -570,6 +576,7 @@ namespace FallGuysStats {
 
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = this.chkIgnoreLevelTypeWhenSorting.Checked;
             this.CurrentSettings.GroupingCreativeRoundLevels = this.chkGroupingCreativeRoundLevels.Checked;
+            this.CurrentSettings.RecordEscapeDuringAGame = this.chkRecordEscapeDuringAGame.Checked;
             this.CurrentSettings.LaunchPlatform = this.LaunchPlatform;
             this.CurrentSettings.GameExeLocation = this.txtGameExeLocation.Text;
             this.CurrentSettings.GameShortcutLocation = this.txtGameShortcutLocation.Text;
@@ -998,6 +1005,7 @@ namespace FallGuysStats {
             this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             this.chkGroupingCreativeRoundLevels.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
+            this.chkRecordEscapeDuringAGame.Text = Multilingual.GetWord("settings_record_escape_during_a_game");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
 
             this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
@@ -1085,7 +1093,6 @@ namespace FallGuysStats {
                     this.tileFallalytics.Style = MetroColorStyle.Teal;
                     this.panelFallalytics.Visible = true;
                 }
-                this.Invalidate();
 
                 if (sender.Equals(this.tileAbout)) {
 #if AllowUpdate
@@ -1118,6 +1125,7 @@ namespace FallGuysStats {
                     this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
 #endif
                 }
+                this.Invalidate(true);
             });
         }
 

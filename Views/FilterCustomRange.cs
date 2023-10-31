@@ -14,6 +14,7 @@ namespace FallGuysStats {
         private List<DateTime[]> periodDateTemplates = new List<DateTime[]>();
         public FilterCustomRange() {
             InitializeComponent();
+            this.Opacity = 0;
         }
 
         private void FilterCustomRange_Load(object sender, EventArgs e) {
@@ -57,7 +58,12 @@ namespace FallGuysStats {
             this.ChangeLanguage();
         }
 
+        private void FilterCustomRange_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
+
         private void SetTheme(MetroThemeStyle theme) {
+            this.SuspendLayout();
             this.Theme = theme;
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 17, 0, 0);
@@ -89,6 +95,7 @@ namespace FallGuysStats {
                     }
                 }
             }
+            this.ResumeLayout();
         }
         
         private void FixDates() {

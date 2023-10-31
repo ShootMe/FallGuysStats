@@ -16,6 +16,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         public WinStatsDisplay() {
             this.InitializeComponent();
+            this.Opacity = 0;
         }
 
         private int switchGraphStyle;
@@ -27,9 +28,7 @@ namespace FallGuysStats {
         private Tooltip tooltip;
 
         private void WinStatsDisplay_Load(object sender, EventArgs e) {
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
             this.ChangeLanguage();
             //this.formsPlot.Plot.Title("Title");
             //this.formsPlot.Plot.XLabel("Horizontal Axis");
@@ -89,6 +88,10 @@ namespace FallGuysStats {
             } else {
                 this.formsPlot.Refresh();
             }
+        }
+
+        private void WinStatsDisplay_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
         }
 
         private void ChangeFormsPlotStyle(int style) {
@@ -416,7 +419,7 @@ namespace FallGuysStats {
         }
 
         private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
+            this.SuspendLayout();
             this.picSwitchGraphStyle.Image = this.switchGraphStyle == 0 ? Properties.Resources.scatter_plot_teal_icon : (this.switchGraphStyle == 1 ? Properties.Resources.lollipop_plot_teal_icon : Properties.Resources.bar_plot_teal_icon);
             this.chkWins.Theme = theme;
             this.chkFinals.Theme = theme;
@@ -430,12 +433,16 @@ namespace FallGuysStats {
                 this.formsPlot.Plot.Style(dataBackground: Color.FromArgb(17, 17, 17));
                 this.formsPlot.Plot.Style(tick: Color.WhiteSmoke);
             }
+            this.Theme = theme;
+            this.ResumeLayout();
         }
+        
         private void WinStatsDisplay_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Escape) {
                 this.Close();
             }
         }
+        
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 this.switchGraphStyle += 1;
@@ -448,6 +455,7 @@ namespace FallGuysStats {
             if (this.dates == null) { return; }
             this.ChangeFormsPlotStyle(this.switchGraphStyle);
         }
+        
         private void chkWins_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
@@ -463,6 +471,7 @@ namespace FallGuysStats {
             }
             this.formsPlot.Refresh();
         }
+        
         private void chkFinals_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
@@ -478,6 +487,7 @@ namespace FallGuysStats {
             }
             this.formsPlot.Refresh();
         }
+        
         private void chkShows_CheckedChanged(object sender, EventArgs e) {
             if (this.dates == null) { return; }
             if (this.switchGraphStyle == 1) {
@@ -493,6 +503,7 @@ namespace FallGuysStats {
             }
             this.formsPlot.Refresh();
         }
+        
         private void ChangeLanguage() {
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");

@@ -149,6 +149,7 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.EditShows_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditShows_KeyDown);
+            this.Shown += new System.EventHandler(this.EditShows_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picEditShowsIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -83,6 +83,7 @@
             this.Text = "Level Stats";
             this.Load += new System.EventHandler(this.LevelDetails_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LevelDetails_KeyDown);
+            this.Shown += new System.EventHandler(this.LevelDetails_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
         }

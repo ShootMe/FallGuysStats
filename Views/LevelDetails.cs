@@ -16,109 +16,14 @@ namespace FallGuysStats {
         private int _showStats;
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        
         public LevelDetails() {
             this.InitializeComponent();
-            this.SetStyle(ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            this.UpdateStyles();
+            this.Opacity = 0;
         }
-        private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
-            this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
-            this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkMagenta;
-            this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
-            
-            this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
-            this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
-            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-        }
-        private int GetClientWidth(string level) {
-            int lang = Stats.CurrentLanguage;
-            switch (level) {
-                case "Shows":
-                    return this.Width - (lang == 0 ? -100 : lang == 1 ? -113 : lang == 2 ? -90 : lang == 3 ? -90 : -95);
-                case "Rounds":
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
-                case "Finals":
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
-                default:
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
-            }
-        }
-        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
-            int sizeOfText;
-            switch (columnName) {
-                case "RoundIcon":
-                    return 37;
-                case "Medal":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "IsFinalIcon":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "ShowID":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "ShowNameId":
-                    return 0;
-                case "Round":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "Name":
-                    return 0;
-                case "Players":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "PlayersPs4":
-                    sizeOfText = 25;
-                    break;
-                case "PlayersPs5":
-                    sizeOfText = 25;
-                    break;
-                case "PlayersXb1":
-                    sizeOfText = 51;
-                    break;
-                case "PlayersXsx":
-                    sizeOfText = 70;
-                    break;
-                case "PlayersSw":
-                    sizeOfText = 41;
-                    break;
-                case "PlayersPc":
-                    sizeOfText = 19;
-                    break;
-                case "PlayersBots":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "Start":
-                    return 0;
-                case "End":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "Finish":
-                    return 70;
-                case "Position":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "Score":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                case "Kudos":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
-                default:
-                    return 0;
-            }
-            
-            return sizeOfText + 24;
-        }
+        
         private void LevelDetails_Load(object sender, EventArgs e) {
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
             //
             // dataGridViewCellStyle1
             //
@@ -254,14 +159,120 @@ namespace FallGuysStats {
                 }
             }
         }
+
+        private void LevelDetails_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
+        
+        private void SetTheme(MetroThemeStyle theme) {
+            this.SuspendLayout();
+            this.gridDetails.Theme = theme;
+            this.gridDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
+            this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkMagenta;
+            this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
+            
+            this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
+            this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
+            this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
+            this.Theme = theme;
+            this.ResumeLayout();
+        }
+        
+        private int GetClientWidth(string level) {
+            int lang = Stats.CurrentLanguage;
+            switch (level) {
+                case "Shows":
+                    return this.Width - (lang == 0 ? -100 : lang == 1 ? -113 : lang == 2 ? -90 : lang == 3 ? -90 : -95);
+                case "Rounds":
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+                case "Finals":
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+                default:
+                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+            }
+        }
+        
+        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
+            int sizeOfText;
+            switch (columnName) {
+                case "RoundIcon":
+                    return 37;
+                case "Medal":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "IsFinalIcon":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "ShowID":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "ShowNameId":
+                    return 0;
+                case "Round":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "Name":
+                    return 0;
+                case "Players":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "PlayersPs4":
+                    sizeOfText = 25;
+                    break;
+                case "PlayersPs5":
+                    sizeOfText = 25;
+                    break;
+                case "PlayersXb1":
+                    sizeOfText = 51;
+                    break;
+                case "PlayersXsx":
+                    sizeOfText = 70;
+                    break;
+                case "PlayersSw":
+                    sizeOfText = 41;
+                    break;
+                case "PlayersPc":
+                    sizeOfText = 19;
+                    break;
+                case "PlayersBots":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "Start":
+                    return 0;
+                case "End":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "Finish":
+                    return 70;
+                case "Position":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "Score":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                case "Kudos":
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    break;
+                default:
+                    return 0;
+            }
+            
+            return sizeOfText + 24;
+        }
+
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
         }
+        
         private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
         }
+        
         private void CMenu_MouseEnter(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = Color.Black;
@@ -280,6 +291,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void CMenu_MouseLeave(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -298,6 +310,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             if (this.gridDetails.Columns.Count == 0) { return; }
 
@@ -400,6 +413,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
 
@@ -544,6 +558,7 @@ namespace FallGuysStats {
                 e.Value = $"{e.Value:N0}";
             }
         }
+        
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
@@ -634,6 +649,7 @@ namespace FallGuysStats {
             this.gridDetails.DataSource = this.RoundDetails;
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
+        
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0) {
                 if (((DataGridView)sender).SelectedRows.Count == 1) {
@@ -659,6 +675,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void LevelDetails_KeyDown(object sender, KeyEventArgs e) {
             try {
                 if (e.KeyCode == Keys.Delete) {
@@ -671,9 +688,11 @@ namespace FallGuysStats {
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        
         private void deleteShows_Click(object sender, EventArgs e) {
             this.DeleteShow();
         }
+        
         private void DeleteShow() {
             int selectedCount = this.gridDetails.SelectedRows.Count;
             if (selectedCount > 0) {
@@ -861,6 +880,7 @@ namespace FallGuysStats {
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+                this.gridDetails.ShowCellToolTips = false;
                 RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;
                 StringBuilder strBuilder = new StringBuilder();
@@ -903,8 +923,10 @@ namespace FallGuysStats {
 
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
-                Point position = new Point(cursorPosition.X, cursorPosition.Y);
+                Point position = new Point(cursorPosition.X + 120, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
+            } else {
+                this.gridDetails.ShowCellToolTips = true;
             }
         }
 

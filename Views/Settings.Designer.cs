@@ -105,6 +105,7 @@
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.chkIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroCheckBox();
             this.chkGroupingCreativeRoundLevels = new MetroFramework.Controls.MetroCheckBox();
+            this.chkRecordEscapeDuringAGame = new MetroFramework.Controls.MetroCheckBox();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.dlgOverlayFont = new System.Windows.Forms.FontDialog();
             this.platformToolTip = new MetroFramework.Components.MetroToolTip();
@@ -869,7 +870,7 @@
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(15, 352);
+            this.picLanguageSelection.Location = new System.Drawing.Point(15, 382);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -881,7 +882,7 @@
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(53, 352);
+            this.cboMultilingual.Location = new System.Drawing.Point(53, 382);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(107, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -892,7 +893,7 @@
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(12, 315);
+            this.lblTheme.Location = new System.Drawing.Point(12, 345);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(50, 19);
             this.lblTheme.TabIndex = 5;
@@ -917,7 +918,7 @@
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(67, 310);
+            this.cboTheme.Location = new System.Drawing.Point(67, 340);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -948,12 +949,25 @@
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
             this.chkSystemTrayIcon.UseSelectable = true;
             // 
+            // chkRecordEscapeDuringAGame
+            // 
+            this.chkRecordEscapeDuringAGame.AutoSize = true;
+            this.chkRecordEscapeDuringAGame.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkRecordEscapeDuringAGame.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkRecordEscapeDuringAGame.Location = new System.Drawing.Point(15, 150);
+            this.chkRecordEscapeDuringAGame.Margin = new System.Windows.Forms.Padding(2);
+            this.chkRecordEscapeDuringAGame.Name = "chkRecordEscapeDuringAGame";
+            this.chkRecordEscapeDuringAGame.Size = new System.Drawing.Size(324, 19);
+            this.chkRecordEscapeDuringAGame.TabIndex = 5;
+            this.chkRecordEscapeDuringAGame.Text = "If you escape during a game, record it as a loss";
+            this.chkRecordEscapeDuringAGame.UseSelectable = true;
+            // 
             // chkNotifyServerConnected
             // 
             this.chkNotifyServerConnected.AutoSize = true;
             this.chkNotifyServerConnected.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkNotifyServerConnected.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkNotifyServerConnected.Location = new System.Drawing.Point(15, 180);
+            this.chkNotifyServerConnected.Location = new System.Drawing.Point(15, 210);
             this.chkNotifyServerConnected.Name = "chkNotifyServerConnected";
             this.chkNotifyServerConnected.Size = new System.Drawing.Size(420, 19);
             this.chkNotifyServerConnected.TabIndex = 5;
@@ -966,7 +980,7 @@
             this.chkMuteNotificationSounds.AutoSize = true;
             this.chkMuteNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkMuteNotificationSounds.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkMuteNotificationSounds.Location = new System.Drawing.Point(15, 210);
+            this.chkMuteNotificationSounds.Location = new System.Drawing.Point(15, 240);
             this.chkMuteNotificationSounds.Name = "chkMuteNotificationSounds";
             this.chkMuteNotificationSounds.Size = new System.Drawing.Size(420, 19);
             this.chkMuteNotificationSounds.TabIndex = 5;
@@ -980,7 +994,7 @@
             this.cboNotificationSounds.IntegralHeight = false;
             this.cboNotificationSounds.ItemHeight = 23;
             this.cboNotificationSounds.Items.AddRange(new object[] { "Notification Sounds 01", "Notification Sounds 02", "Notification Sounds 03" });
-            this.cboNotificationSounds.Location = new System.Drawing.Point(15, 240);
+            this.cboNotificationSounds.Location = new System.Drawing.Point(15, 270);
             this.cboNotificationSounds.Name = "cboNotificationSounds";
             this.cboNotificationSounds.Size = new System.Drawing.Size(170, 29);
             this.cboNotificationSounds.TabIndex = 1;
@@ -993,7 +1007,7 @@
             this.cboNotificationWindowPosition.IntegralHeight = false;
             this.cboNotificationWindowPosition.ItemHeight = 24;
             this.cboNotificationWindowPosition.Items.AddRange(new object[] { "Bottom Right", "Top Right" });
-            this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 240);
+            this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 270);
             this.cboNotificationWindowPosition.Name = "cboNotificationWindowPosition";
             this.cboNotificationWindowPosition.Size = new System.Drawing.Size(116, 29);
             this.cboNotificationWindowPosition.TabIndex = 1;
@@ -1006,7 +1020,7 @@
             this.cboNotificationWindowAnimation.IntegralHeight = false;
             this.cboNotificationWindowAnimation.ItemHeight = 25;
             this.cboNotificationWindowAnimation.Items.AddRange(new object[] { "FADE", "SLIDE" });
-            this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 240);
+            this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 270);
             this.cboNotificationWindowAnimation.Name = "cboNotificationWindowAnimation";
             this.cboNotificationWindowAnimation.Size = new System.Drawing.Size(70, 29);
             this.cboNotificationWindowAnimation.TabIndex = 1;
@@ -1018,7 +1032,7 @@
             this.btnPlayNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPlayNotificationSounds.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnPlayNotificationSounds.FontWeight = MetroFramework.MetroButtonWeight.Bold;
-            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 240);
+            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 270);
             this.btnPlayNotificationSounds.Name = "btnPlayNotificationSounds";
             this.btnPlayNotificationSounds.Size = new System.Drawing.Size(29, 29);
             this.btnPlayNotificationSounds.TabIndex = 3;
@@ -1031,7 +1045,7 @@
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 420);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 450);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
@@ -1253,6 +1267,7 @@
             this.panelProgram.Controls.Add(this.cboMultilingual);
             this.panelProgram.Controls.Add(this.chkAutoUpdate);
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
+            this.panelProgram.Controls.Add(this.chkRecordEscapeDuringAGame);
             this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
             this.panelProgram.Controls.Add(this.chkMuteNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationSounds);
@@ -1268,7 +1283,7 @@
             this.panelProgram.HorizontalScrollbarSize = 10;
             this.panelProgram.Location = new System.Drawing.Point(22, 15);
             this.panelProgram.Name = "panelProgram";
-            this.panelProgram.Size = new System.Drawing.Size(667, 450);
+            this.panelProgram.Size = new System.Drawing.Size(667, 500);
             this.panelProgram.TabIndex = 10;
             this.panelProgram.VerticalScrollbarBarColor = true;
             this.panelProgram.VerticalScrollbarHighlightOnWheel = false;
@@ -1287,7 +1302,7 @@
             this.panelDisplay.HorizontalScrollbarSize = 10;
             this.panelDisplay.Location = new System.Drawing.Point(22, 119);
             this.panelDisplay.Name = "panelDisplay";
-            this.panelDisplay.Size = new System.Drawing.Size(667, 162);
+            this.panelDisplay.Size = new System.Drawing.Size(667, 195);
             this.panelDisplay.TabIndex = 11;
             this.panelDisplay.VerticalScrollbarBarColor = true;
             this.panelDisplay.VerticalScrollbarHighlightOnWheel = false;
@@ -1769,6 +1784,7 @@
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Settings";
             this.Load += new System.EventHandler(this.Settings_Load);
+            this.Shown += new System.EventHandler(this.Settings_Shown);
             this.grpOverlayFontExample.ResumeLayout(false);
             this.grpCycleQualifyGold.ResumeLayout(false);
             this.grpCycleQualifyGold.PerformLayout();
@@ -1856,6 +1872,7 @@
         private MetroFramework.Controls.MetroCheckBox chkLaunchGameOnStart;
         private MetroFramework.Controls.MetroCheckBox chkIgnoreLevelTypeWhenSorting;
         private MetroFramework.Controls.MetroCheckBox chkGroupingCreativeRoundLevels;
+        private MetroFramework.Controls.MetroCheckBox chkRecordEscapeDuringAGame;
         private MetroFramework.Controls.MetroButton btnCancel;
         private System.Windows.Forms.GroupBox grpCycleQualifyGold;
         private MetroFramework.Controls.MetroRadioButton chkOnlyShowGold;

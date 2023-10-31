@@ -28,6 +28,7 @@ namespace FallGuysStats {
         private string goldMedalPercent, silverMedalPercent, bronzeMedalPercent, pinkMedalPercent, eliminatedMedalPercent;
         public RoundStatsDisplay() {
             this.InitializeComponent();
+            this.Opacity = 0;
         }
         
         private class CustomPalette : IPalette {
@@ -42,9 +43,7 @@ namespace FallGuysStats {
         }
 
         private void RoundStatsDisplay_Load(object sender, EventArgs e) {
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
             this.ChangeLanguage();
             
             this.cboRoundList.DataSource = new BindingSource(this.roundList, null);
@@ -55,9 +54,13 @@ namespace FallGuysStats {
             this.SetGraph();
             this.isInitComplete = true;
         }
-        
+
+        private void RoundStatsDisplay_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
+
         private void SetTheme(MetroThemeStyle theme) {
-            this.Theme = theme;
+            this.SuspendLayout();
             if (theme == MetroThemeStyle.Dark) {
                 this.formsPlot.Plot.Style(ScottPlot.Style.Black);
                 this.formsPlot.Plot.Style(figureBackground: Color.FromArgb(17, 17, 17));
@@ -74,6 +77,8 @@ namespace FallGuysStats {
                     }
                 }
             }
+            this.Theme = theme;
+            this.ResumeLayout();
         }
 
         private void SetGraph() {

@@ -1,22 +1,22 @@
 ![Fall Guys Stats](https://capsule-render.vercel.app/api?type=waving&color=timeAuto&height=300&section=header&text=폴%20가이즈%20스탯츠&desc=폴%20가이즈%20통계%20추적기&fontSize=70&descAlignY=70)
 
 <p align="center">
-  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/LICENSE">
+  <a href="https://github.com/ShootMe/FallGuysStats/blob/master/LICENSE" style="text-decoration: none;">
     <img alt="MIT License" src="https://img.shields.io/badge/License-MIT-green.svg" />
   </a>
-  <a href="https://github.com/ShootMe/FallGuysStats/actions">
+  <a href="https://github.com/ShootMe/FallGuysStats/actions" style="text-decoration: none;">
     <img alt="Tests Passing" src="https://github.com/ShootMe/FallGuysStats/actions/workflows/build_workflow.yml/badge.svg" />
   </a>
-  <a href="https://github.com/ShootMe/FallGuysStats/issues">
+  <a href="https://github.com/ShootMe/FallGuysStats/issues" style="text-decoration: none;">
     <img alt="Issues" src="https://img.shields.io/github/issues/ShootMe/FallGuysStats" />
   </a>
-  <a href="https://github.com/ShootMe/FallGuysStats/pulls">
+  <a href="https://github.com/ShootMe/FallGuysStats/pulls" style="text-decoration: none;">
     <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/ShootMe/FallGuysStats" />
   </a>
-  <a href="https://github.com/ShootMe/FallGuysStats/releases/latest">
+  <a href="https://github.com/ShootMe/FallGuysStats/releases/latest" style="text-decoration: none;">
     <img alt="" src="https://img.shields.io/github/downloads/ShootMe/FallGuysStats/total" />
   </a>
-  <a href="https://github.com/ShootMe/FallGuysStats">
+  <a href="https://github.com/ShootMe/FallGuysStats" style="text-decoration: none;">
     <img alt="" src="https://img.shields.io/github/stars/shootme/fallguysstats" />
   </a>
   <br>

@@ -13,12 +13,13 @@ namespace FallGuysStats {
         public string FunctionFlag = string.Empty;
         public int SelectedCount = 0;
         public bool UseLinkedProfiles;
-        public EditShows() => this.InitializeComponent();
+        public EditShows() {
+            this.InitializeComponent();
+            this.Opacity = 0;
+        }
 
         private void EditShows_Load(object sender, EventArgs e) {
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
             this.ChangeLanguage();
             this.Profiles = this.Profiles.OrderBy(p => p.ProfileOrder).ToList();
             this.cboEditShows.Items.Clear();
@@ -42,8 +43,13 @@ namespace FallGuysStats {
                 }
             }
         }
-        
+
+        private void EditShows_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
+
         private void SetTheme(MetroThemeStyle theme) {
+            this.SuspendLayout();
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -106,6 +112,7 @@ namespace FallGuysStats {
                 }
             }
             this.Theme = theme;
+            this.ResumeLayout();
         }
         
         private void cboEditShows_Changed(object sender, EventArgs e) {

@@ -432,6 +432,7 @@
             this.Text = "Profile Settings";
             this.Load += new System.EventHandler(this.EditProfiles_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditProfile_KeyDown);
+            this.Shown += new System.EventHandler(this.EditProfiles_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfiles)).EndInit();
             this.grpProfiles.ResumeLayout(false);
             this.mtcTabControl.ResumeLayout(false);

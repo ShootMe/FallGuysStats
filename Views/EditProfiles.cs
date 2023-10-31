@@ -21,25 +21,31 @@ namespace FallGuysStats {
 
         public EditProfiles() {
             this.InitializeComponent();
+            this.Opacity = 0;
         }
 
         private void EditProfiles_Load(object sender, EventArgs e) {
             this.dgvProfiles.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
             this.dgvProfiles.DefaultCellStyle = this.dataGridViewCellStyle2;
-            this.SuspendLayout();
             this.SetTheme(Stats.CurrentTheme);
-            this.ResumeLayout(false);
             this.ChangeLanguage();
             this.InitProfileList();
             this.ReloadProfileList();
             this.dgvProfiles.ClearSelection();
         }
-        
+
+        private void EditProfiles_Shown(object sender, EventArgs e) {
+            this.Opacity = 1;
+        }
+
         private void SetTheme(MetroThemeStyle theme) {
+            this.SuspendLayout();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 19, 0, 0);
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
-            
+
+            this.dgvProfiles.Theme = theme;
+            this.dgvProfiles.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
             this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
@@ -99,6 +105,7 @@ namespace FallGuysStats {
                 }
             }
             this.Theme = theme;
+            this.ResumeLayout();
         }
 
         private void InitProfileList() {

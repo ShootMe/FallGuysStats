@@ -267,6 +267,7 @@
             this.Text = "Round Stats Display";
             this.Load += new System.EventHandler(this.RoundStatsDisplay_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RoundStatsDisplay_KeyDown);
+            this.Shown += new System.EventHandler(this.RoundStatsDisplay_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picRoundIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picGoldMedalIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSilverMedalIcon)).EndInit();

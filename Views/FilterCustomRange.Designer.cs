@@ -117,9 +117,6 @@
             // 
             // txtTemplateName
             // 
-            // 
-            // 
-            // 
             this.txtTemplateName.CustomButton.Image = null;
             this.txtTemplateName.CustomButton.Location = new System.Drawing.Point(138, 1);
             this.txtTemplateName.CustomButton.Name = "";
@@ -206,6 +203,7 @@
             this.Text = "Custom Range";
             this.Load += new System.EventHandler(this.FilterCustomRange_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FilterCustomRange_KeyDown);
+            this.Shown += new System.EventHandler(this.FilterCustomRange_Shown);
             this.grpTemplates.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picStartDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picEndDate)).EndInit();

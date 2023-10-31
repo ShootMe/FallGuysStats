@@ -13,7 +13,9 @@ namespace FallGuysStats {
         public string FileName { get; set; }
         public string DownloadUrl { get; set; }
 
-        public DownloadProgress() => this.InitializeComponent();
+        public DownloadProgress() {
+            this.InitializeComponent();
+        }
 
         private void Progress_Load(object sender, EventArgs e) {
             this.SetTheme(Stats.CurrentTheme);

@@ -535,6 +535,7 @@ namespace FallGuysStats {
                 Stats.LastCountryCity = string.Empty;
                 this.toggleCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
+                this.ClearCreativeLevelVariable();
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (line.Date > Stats.LastGameStart) {
@@ -615,7 +616,7 @@ namespace FallGuysStats {
                 
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";
-                    lock (this.lockObject) { this.SetCreativeLevelInfo(logRound.Info.ShowNameId); }
+                    this.SetCreativeLevelInfo(logRound.Info.ShowNameId);
                 } else {
                     int index2 = line.Line.IndexOf(" ", index + 44);
                     if (index2 < 0) { index2 = line.Line.Length; }
@@ -766,6 +767,7 @@ namespace FallGuysStats {
                 }
 
                 Stats.ToggleServerInfo = false;
+                this.ClearCreativeLevelVariable();
                 Stats.LastServerPing = 0;
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
@@ -783,13 +785,14 @@ namespace FallGuysStats {
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
                 logRound.FindingPosition = false;
-
+                
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
                     logRound.Info.Playing = false;
-                    if (!Stats.EndedShow) {
+                    // if (!Stats.EndedShow) {
+                    if (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame) {
                         DateTime showStart = DateTime.MinValue;
                         DateTime showEnd = logRound.Info.End;
                         for (int i = 0; i < round.Count; i++) {
