@@ -797,7 +797,8 @@ namespace FallGuysStats {
                     }
                     logRound.Info.Playing = false;
                     // if (!Stats.EndedShow) {
-                    if (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame) {
+                    if ((logRound.Info.UseShareCode && this.StatsForm.CurrentSettings.RecordEscapeDuringAGame)
+                            || (!logRound.Info.UseShareCode && this.StatsForm.CurrentSettings.RecordEscapeDuringAGame)) {
                         DateTime showStart = DateTime.MinValue;
                         DateTime showEnd = logRound.Info.End;
                         for (int i = 0; i < round.Count; i++) {

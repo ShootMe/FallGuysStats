@@ -144,7 +144,7 @@
             this.picAppOwnerIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.picAppOwnerIcon.BackColor = System.Drawing.Color.Transparent;
             this.picAppOwnerIcon.Image = global::FallGuysStats.Properties.Resources.country_unknown_icon;
-            this.picAppOwnerIcon.Location = new System.Drawing.Point(331, 49);
+            this.picAppOwnerIcon.Location = new System.Drawing.Point(331, 46);
             this.picAppOwnerIcon.Name = "picAppOwnerIcon";
             this.picAppOwnerIcon.Size = new System.Drawing.Size(24, 24);
             this.picAppOwnerIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -162,7 +162,7 @@
             this.lblDescription.Location = new System.Drawing.Point(0, 0);
             this.lblDescription.Name = "lblDescription";
             this.lblDescription.Padding = new System.Windows.Forms.Padding(2);
-            this.lblDescription.Size = new System.Drawing.Size(360, 73);
+            this.lblDescription.Size = new System.Drawing.Size(360, 76);
             this.lblDescription.TabIndex = 1;
             this.lblDescription.Click += new System.EventHandler(this.ToastContentClick);
             // 
