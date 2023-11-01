@@ -321,30 +321,14 @@ namespace FallGuysStats {
         }
 
         private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
-            // Stream sound;
-            // switch (this.cboNotificationSounds.SelectedIndex) {
-            //     case 1:
-            //         sound = Properties.Resources.NotificationSound02;
-            //         break;
-            //     case 2:
-            //         sound = Properties.Resources.NotificationSound03;
-            //         break;
-            //     default:
-            //         sound = Properties.Resources.NotificationSound01;
-            //         break;
-            // }
-            //
-            // sound.Position = 0;
             this.BeginInvoke((MethodInvoker)delegate {
-                // SoundPlayer player = new SoundPlayer(sound);
-                // player.Play();
                 Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
                 ToastPosition toastPosition = this.cboNotificationWindowPosition.SelectedIndex == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
                 this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.LENGTH_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
+                    Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_LONG, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
         

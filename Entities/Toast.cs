@@ -51,8 +51,8 @@ namespace FallGuysStats {
 		/// <summary>
 		/// Gets or sets timeout duration of Toast
 		/// </summary>
-		[DefaultValue(ToastDuration.LENGTH_SHORT)]
-		internal ToastDuration ToastDuration { get; set; } = ToastDuration.LENGTH_SHORT;
+		[DefaultValue(ToastDuration.VERY_SHORT)]
+		internal ToastDuration ToastDuration { get; set; } = ToastDuration.VERY_SHORT;
 		
 		[DefaultValue(ToastSound.Generic01)]
 		internal ToastSound ToastSound { get; set; } = ToastSound.Generic01;

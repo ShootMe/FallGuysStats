@@ -39,9 +39,11 @@
     /// Duration definition. Short is 2 seconds, long is 3 seconds
     /// </summary>
     public enum ToastDuration {
-        LENGTH_SHORT = 0,
-        LENGTH_MEDIUM = 1,
-        LENGTH_LONG = 2
+        VERY_SHORT = 2,
+        SHORT = 3,
+        MEDIUM = 4,
+        LONG = 5,
+        VERY_LONG = 6
     }
     
     /// <summary>

@@ -73,7 +73,7 @@ namespace FallGuysStats {
 
 		internal bool IsShown => _shown;
 		
-		[DefaultValue(ToastDuration.LENGTH_SHORT)]
+		[DefaultValue(ToastDuration.VERY_SHORT)]
 		internal ToastDuration ToastDuration {
 			get => _toastDuration;
 			set => _toastDuration = value;
@@ -169,17 +169,19 @@ namespace FallGuysStats {
 					break;
 			}
 
-			switch (_toastDuration) {
-				case ToastDuration.LENGTH_SHORT:
-					_counter = 2;
-					break;
-				case ToastDuration.LENGTH_MEDIUM:
-					_counter = 3;
-					break;
-				case ToastDuration.LENGTH_LONG:
-					_counter = 4;
-					break;
-			}
+			// switch (_toastDuration) {
+			// 	case ToastDuration.LENGTH_SHORT:
+			// 		_counter = 2;
+			// 		break;
+			// 	case ToastDuration.LENGTH_MEDIUM:
+			// 		_counter = 3;
+			// 		break;
+			// 	case ToastDuration.LENGTH_LONG:
+			// 		_counter = 4;
+			// 		break;
+			// }
+
+            _counter = (byte)_toastDuration;
 			
 			if (!_isMuted) {
 				PlaySound();
