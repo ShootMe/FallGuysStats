@@ -236,7 +236,7 @@
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(169, 718);
+            this.btnSelectFont.Location = new System.Drawing.Point(200, 720);
             this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
@@ -248,7 +248,7 @@
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(269, 718);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(303, 720);
             this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
@@ -260,7 +260,7 @@
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 743);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 745);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);

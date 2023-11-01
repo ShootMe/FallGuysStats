@@ -40,10 +40,10 @@
     /// </summary>
     public enum ToastDuration {
         VERY_SHORT = 2,
-        SHORT = 3,
-        MEDIUM = 4,
-        LONG = 5,
-        VERY_LONG = 6
+        SHORT = 4,
+        MEDIUM = 6,
+        LONG = 8,
+        VERY_LONG = 10
     }
     
     /// <summary>

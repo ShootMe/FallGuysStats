@@ -57,7 +57,7 @@ namespace FallGuysStats {
                                           "ja".Equals(sysLang, StringComparison.Ordinal) ? 3 :
                                           "zh-chs".Equals(sysLang, StringComparison.Ordinal) ? 4 :
                                           "zh-cht".Equals(sysLang, StringComparison.Ordinal) ? 5 : 0;
-                        MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("message_already_running_caption"),
+                        MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("main_fall_guys_stats"),
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
                     }
