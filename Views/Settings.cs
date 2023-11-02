@@ -327,7 +327,7 @@ namespace FallGuysStats {
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound;
-                switch (this.CurrentSettings.NotificationSounds) {
+                switch (this.cboNotificationSounds.SelectedIndex) {
                     case 1: toastSound = ToastSound.Generic02; break;
                     case 2: toastSound = ToastSound.Generic03; break;
                     case 3: toastSound = ToastSound.Generic04; break;
@@ -974,6 +974,7 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_sounds_01"),
                 Multilingual.GetWord("settings_notification_sounds_02"),
                 Multilingual.GetWord("settings_notification_sounds_03"),
+                Multilingual.GetWord("settings_notification_sounds_04"),
             });
             this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;

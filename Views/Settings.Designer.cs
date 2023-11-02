@@ -993,7 +993,7 @@
             this.cboNotificationSounds.FormattingEnabled = true;
             this.cboNotificationSounds.IntegralHeight = false;
             this.cboNotificationSounds.ItemHeight = 23;
-            this.cboNotificationSounds.Items.AddRange(new object[] { "Notification Sounds 01", "Notification Sounds 02", "Notification Sounds 03" });
+            this.cboNotificationSounds.Items.AddRange(new object[] { "Notification Sounds 01", "Notification Sounds 02", "Notification Sounds 03", "Notification Sounds 04" });
             this.cboNotificationSounds.Location = new System.Drawing.Point(15, 270);
             this.cboNotificationSounds.Name = "cboNotificationSounds";
             this.cboNotificationSounds.Size = new System.Drawing.Size(170, 29);
