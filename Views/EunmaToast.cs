@@ -313,7 +313,6 @@ namespace FallGuysStats {
 					if (ToastThemeBuilder.CustomScheme == null) {
 						throw new NullReferenceException($"You must create your scheme before set custom theme. Use ${nameof(ToastThemeBuilder.CreateCustomScheme)}() to create a custom scheme");
 					}
-
                     lblProgress.BackColor = Color.FromArgb(99, 230, 190);
                     lblCaption.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
                     btnClose.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
@@ -384,6 +383,14 @@ namespace FallGuysStats {
 				return size;
 			}
 		}
+        
+        private void FrmToast_FormEnter(object sender, EventArgs e) {
+            tmrClose.Stop();
+        }
+        
+        private void FrmToast_FormLeave(object sender, EventArgs e) {
+            tmrClose.Start();
+        }
 
 		private void FrmToast_FormClosed(object sender, FormClosedEventArgs e) {
 			ToastManager.ToastCollection.Remove(_toast);

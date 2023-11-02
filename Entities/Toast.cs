@@ -146,6 +146,8 @@ namespace FallGuysStats {
 			ToastManager.CurrentToast = this;
 			_eunmaToast.Click += EunmaToastClick;
 			_eunmaToast.MouseHover += EunmaToastMouseHover;
+            _eunmaToast.MouseEnter += EunmaToastMouseEnter;
+            _eunmaToast.MouseLeave += EunmaToastMouseLeave;
 			_eunmaToast.FormClosed += EunmaToastFormClosed;
 			ToastManager.AddToCollection();
 		}
@@ -153,6 +155,14 @@ namespace FallGuysStats {
 		private void EunmaToastFormClosed(object sender, FormClosedEventArgs e) {
 			OnClosed?.Invoke(this, EventArgs.Empty);
 		}
+        
+        private void EunmaToastMouseEnter(object sender, EventArgs e) {
+            OnEnter?.Invoke(this, e);
+        }
+        
+        private void EunmaToastMouseLeave(object sender, EventArgs e) {
+            OnLeave?.Invoke(this, e);
+        }
 
 		private void EunmaToastMouseHover(object sender, EventArgs e) {
 			OnHover?.Invoke(this, e);
@@ -397,6 +407,14 @@ namespace FallGuysStats {
 		public delegate void ClickEventHandler(object sender, EventArgs e);
 
 		public event ClickEventHandler OnClick;
+        
+        public delegate void EnterEventHandler(object sender, EventArgs e);
+
+        public event EnterEventHandler OnEnter;
+        
+        public delegate void LeaveEventHandler(object sender, EventArgs e);
+
+        public event LeaveEventHandler OnLeave;
 
 		public delegate void HoverEventHandler(object sender, EventArgs e);
 
