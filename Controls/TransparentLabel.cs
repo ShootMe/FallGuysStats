@@ -33,6 +33,7 @@ namespace FallGuysStats {
         public Image RoundIcon { get; set; }
         public int TickProgress { get; set; }
         public int OverlaySetting { get; set; }
+        
         public void Draw(Graphics g) {
             if (!this.DrawVisible) { return; }
             if (this.PlatformIcon != null) {
@@ -136,9 +137,11 @@ namespace FallGuysStats {
                 }
             }
         }
-        public Color GetComplementaryColor(Color source, int alpha = 255) {
+        
+        private Color GetComplementaryColor(Color source, int alpha = 255) {
             return Color.FromArgb(Math.Min(255, Math.Max(0, alpha)), Math.Min(255, Math.Max(0, 255 - source.R)), Math.Min(255, Math.Max(0, 255 - source.G)), Math.Min(255, Math.Max(0, 255 - source.B)));
         }
+        
         private float GetFontSizeFactor() {
             float factor;
             switch (this.Name) {
@@ -188,9 +191,11 @@ namespace FallGuysStats {
             }
             return factor > 1f ? 1f : factor;
         }
+        
         private Font GetFontForRoundName(string text) {
             return new Font(this.Font.FontFamily, this.Font.Size * this.GetFontSizeFactorForRoundName(text), this.Font.Style, GraphicsUnit.Pixel);
         }
+        
         private float GetFontSizeFactorForRoundName(string text) {
             float factor = 1f,
                   factorOffsetForSpace = 0f,
@@ -318,6 +323,7 @@ namespace FallGuysStats {
             
             return factor > 1f ? 1f : factor;
         }
+        
         private RectangleF FillRoundedRectangleF(Graphics g, Pen pen, Brush brush, float x, float y, float width, float height, float radius) {
             using (GraphicsPath path = new GraphicsPath()) {
                 RectangleF rect = new RectangleF(x, y, radius, radius);
@@ -334,6 +340,7 @@ namespace FallGuysStats {
                 return rect;
             }
         }
+        
         private void DrawOutlineText(Graphics g, RectangleF layoutRect, Pen outlinePen, Brush fillBrush, FontFamily fontFamily, FontStyle fontStyle, float fontSize, string text, StringFormat stringFormat) {
             using (GraphicsPath path = new GraphicsPath()) {
                 path.AddString(text, fontFamily, (int)fontStyle, fontSize, layoutRect, stringFormat);
@@ -342,6 +349,7 @@ namespace FallGuysStats {
                 if (outlinePen != null) g.DrawPath(outlinePen, path);
             }
         }
+        
         private int GetCountKorCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -352,6 +360,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountJpnCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -365,6 +374,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountChineseCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -373,6 +383,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountEngUppercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -381,6 +392,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountEngLowercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -389,6 +401,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountRusUppercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -397,6 +410,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountRusLowercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -405,6 +419,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountSpace(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -413,6 +428,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountSignCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -425,6 +441,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountNumeric(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();

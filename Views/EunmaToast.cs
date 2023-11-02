@@ -34,6 +34,12 @@ namespace FallGuysStats {
 		private const int AW_CENTER = 0x00000010;
 
 		private byte _counter = 2;
+        
+		private byte _transitionCounter;
+        
+		private int _maxTransition;
+        
+		private double _deltaTransition;
 		
 		private ToastDuration _toastDuration;
 		
@@ -182,6 +188,7 @@ namespace FallGuysStats {
 			// }
 
             _counter = (byte)_toastDuration;
+            _deltaTransition = (double)lblDescription.Width / ((byte)_toastDuration * 100);
 			
 			if (!_isMuted) {
 				PlaySound();
@@ -197,7 +204,7 @@ namespace FallGuysStats {
                     Utils.AnimateWindow(Handle, 100, AW_SLIDE | AW_HOR_NEGATIVE | AW_ACTIVATE);
 					break;
 			}
-		}
+        }
 
 		private async void PlaySound() {
 			Stream sound;
@@ -223,6 +230,7 @@ namespace FallGuysStats {
 		private void SetTheme() {
 			switch (ToastTheme) {
 				case ToastTheme.Light:
+                    lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.Black;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetForegroundColor();
@@ -230,6 +238,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.LightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.PrimaryLight:
+                    lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetForegroundColor();
@@ -237,6 +246,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.PrimaryLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.SuccessLight:
+                    lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetForegroundColor();
@@ -244,6 +254,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.SuccessLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.WarningLight:
+                    lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetForegroundColor();
@@ -251,6 +262,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.WarningLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.ErrorLight:
+                    lblProgress.BackColor = Color.Red;
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetForegroundColor();
@@ -258,6 +270,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.ErrorLightScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.Dark:
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetForegroundColor();
@@ -265,6 +278,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.DarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.PrimaryDark:
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetForegroundColor();
@@ -272,6 +286,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.PrimaryDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.SuccessDark:
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetForegroundColor();
@@ -279,6 +294,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.SuccessDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.WarningDark:
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetForegroundColor();
@@ -286,6 +302,7 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.WarningDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.ErrorDark:
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
 					lblCaption.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorDarkScheme.GetForegroundColor();
 					lblDescription.ForeColor = Color.White;
 					btnClose.ForeColor = ToastThemeBuilder.BuiltinScheme.ErrorDarkScheme.GetForegroundColor();
@@ -293,18 +310,16 @@ namespace FallGuysStats {
 					btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.BuiltinScheme.ErrorDarkScheme.GetBackgroundColor();
 					break;
 				case ToastTheme.Custom:
-					if (ToastThemeBuilder.CustomScheme == null)
-					{
+					if (ToastThemeBuilder.CustomScheme == null) {
 						throw new NullReferenceException($"You must create your scheme before set custom theme. Use ${nameof(ToastThemeBuilder.CreateCustomScheme)}() to create a custom scheme");
 					}
-					else
-					{
-						lblCaption.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
-						btnClose.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
-						BackColor = ToastThemeBuilder.CustomScheme.GetBackgroundColor();
-						btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.CustomScheme.GetBackgroundColor();
-					}
-					break;
+
+                    lblProgress.BackColor = Color.FromArgb(99, 230, 190);
+                    lblCaption.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
+                    btnClose.ForeColor = ToastThemeBuilder.CustomScheme.GetForegroundColor();
+                    BackColor = ToastThemeBuilder.CustomScheme.GetBackgroundColor();
+                    btnClose.FlatAppearance.BorderColor = ToastThemeBuilder.CustomScheme.GetBackgroundColor();
+                    break;
 			}
 		}
 
@@ -314,8 +329,7 @@ namespace FallGuysStats {
 		}
 
 		private void FrmToast_FormClosing(object sender, FormClosingEventArgs e) {
-			switch (_toastAnimation)
-			{
+			switch (_toastAnimation) {
 				case ToastAnimation.FADE:
                     Utils.AnimateWindow(Handle, 150, AW_BLEND | AW_HIDE);
 					break;
@@ -327,8 +341,7 @@ namespace FallGuysStats {
 		}
 
 		private void ToastContentClick(object sender, EventArgs e) {
-			switch (ToastCloseStyle)
-			{
+			switch (ToastCloseStyle) {
 				case ToastCloseStyle.ClickEntire:
 				case ToastCloseStyle.ButtonAndClickEntire:
 					Close();
@@ -338,12 +351,21 @@ namespace FallGuysStats {
 			}
 		}
 
-		private void TmrClose_Tick(object sender, EventArgs e) {
-			_counter--;
-			if (_counter != 0) return;
-			tmrClose.Stop();
-			Close();
-		}
+        private void TmrClose_Tick(object sender, EventArgs e) {
+            _transitionCounter++;
+            _maxTransition++;
+            
+            lblProgress.Width = (int)(_deltaTransition * _maxTransition);
+
+            if (_transitionCounter >= 100) {
+                _transitionCounter = 0;
+                _counter--;
+            }
+            
+            if (_counter != 0) return;
+            tmrClose.Stop();
+            Close();
+        }
 
 		private async void FadeIn() {
 			Opacity = 0;
@@ -357,8 +379,7 @@ namespace FallGuysStats {
 
 		private SizeF CalculateString() {
 			if (string.IsNullOrEmpty(lblCaption.Text)) return SizeF.Empty;
-			using (var g = CreateGraphics())
-			{
+			using (var g = CreateGraphics()) {
 				var size = g.MeasureString(lblCaption.Text, lblCaption.Font);
 				return size;
 			}

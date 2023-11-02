@@ -328,7 +328,7 @@ namespace FallGuysStats {
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                 ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
                 this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
-                    Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
+                    Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
         
@@ -954,10 +954,8 @@ namespace FallGuysStats {
             this.lblOverlayFont.Text = Multilingual.GetWord("settings_custom_overlay_font");
             this.btnSelectFont.Text = Multilingual.GetWord("settings_select_font");
             this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
-
             this.btnSelectFont.Left = this.lblOverlayFont.Right + 15;
             this.btnResetOverlayFont.Left = this.btnSelectFont.Right + 6;
-            
             this.grpOverlayFontExample.Text = Multilingual.GetWord("settings_font_example");
             this.lblOverlayFontExample.Text = Multilingual.GetWord("settings_round_example");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");

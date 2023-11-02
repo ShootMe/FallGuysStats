@@ -463,25 +463,25 @@
         }
 
         #endregion
-        private TransparentLabel lblRound;
-        private TransparentLabel lblDuration;
-        private TransparentLabel lblFinish;
-        private TransparentLabel lblFastest;
-        private TransparentLabel lblQualifyChance;
-        private TransparentLabel lblWins;
-        private TransparentLabel lblFinals;
-        private TransparentLabel lblPlayers;
-        private TransparentLabel lblPingIcon;
-        private TransparentLabel lblCountryIcon;
+        private FallGuysStats.TransparentLabel lblRound;
+        private FallGuysStats.TransparentLabel lblDuration;
+        private FallGuysStats.TransparentLabel lblFinish;
+        private FallGuysStats.TransparentLabel lblFastest;
+        private FallGuysStats.TransparentLabel lblQualifyChance;
+        private FallGuysStats.TransparentLabel lblWins;
+        private FallGuysStats.TransparentLabel lblFinals;
+        private FallGuysStats.TransparentLabel lblPlayers;
+        private FallGuysStats.TransparentLabel lblPingIcon;
+        private FallGuysStats.TransparentLabel lblCountryIcon;
 
-        private TransparentLabel lblPlayersPc;
-        private TransparentLabel lblPlayersPs;
-        private TransparentLabel lblPlayersXbox;
-        private TransparentLabel lblPlayersSwitch;
+        private FallGuysStats.TransparentLabel lblPlayersPc;
+        private FallGuysStats.TransparentLabel lblPlayersPs;
+        private FallGuysStats.TransparentLabel lblPlayersXbox;
+        private FallGuysStats.TransparentLabel lblPlayersSwitch;
         
-        private TransparentLabel lblStreak;
-        private TransparentLabel lblFilter;
-        private TransparentLabel lblProfile;
+        private FallGuysStats.TransparentLabel lblStreak;
+        private FallGuysStats.TransparentLabel lblFilter;
+        private FallGuysStats.TransparentLabel lblProfile;
         
         private System.Windows.Forms.PictureBox picPositionNE;
         private System.Windows.Forms.PictureBox picPositionNW;

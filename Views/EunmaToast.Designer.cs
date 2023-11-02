@@ -25,6 +25,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.lblProgress = new System.Windows.Forms.Label();
             this.mainContainer = new System.Windows.Forms.SplitContainer();
             this.picImage = new System.Windows.Forms.PictureBox();
             this.textContainer = new System.Windows.Forms.SplitContainer();
@@ -95,6 +96,7 @@
             // textContainer.Panel1
             // 
             this.textContainer.Panel1.BackColor = System.Drawing.Color.Transparent;
+            this.textContainer.Panel1.Controls.Add(this.lblProgress);
             this.textContainer.Panel1.Controls.Add(this.btnClose);
             this.textContainer.Panel1.Controls.Add(this.lblCaption);
             this.textContainer.Panel1.Click += new System.EventHandler(this.ToastContentClick);
@@ -110,6 +112,15 @@
             this.textContainer.SplitterWidth = 1;
             this.textContainer.TabIndex = 1;
             this.textContainer.Click += new System.EventHandler(this.ToastContentClick);
+            // 
+            // lblProgress
+            // 
+            this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblProgress.BackColor = System.Drawing.Color.Teal;
+            this.lblProgress.Location = new System.Drawing.Point(0, 0);
+            this.lblProgress.Name = "lblProgress";
+            this.lblProgress.Size = new System.Drawing.Size(0, 2);
+            this.lblProgress.TabIndex = 1;
             // 
             // btnClose
             // 
@@ -168,7 +179,7 @@
             // 
             // tmrClose
             // 
-            this.tmrClose.Interval = 1000;
+            this.tmrClose.Interval = 10;
             this.tmrClose.Tick += new System.EventHandler(this.TmrClose_Tick);
             // 
             // EunmaToast
@@ -208,6 +219,7 @@
 
 		#endregion
 
+		private System.Windows.Forms.Label lblProgress;
 		private System.Windows.Forms.SplitContainer mainContainer;
 		private System.Windows.Forms.PictureBox picImage;
 		private System.Windows.Forms.Label lblCaption;
