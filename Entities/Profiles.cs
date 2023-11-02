@@ -1,6 +1,4 @@
-﻿using LiteDB;
-
-namespace FallGuysStats {
+﻿namespace FallGuysStats {
     public class Profiles {
         public int ProfileId { get; set; }
         public string ProfileName { get; set; }

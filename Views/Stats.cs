@@ -2772,8 +2772,14 @@ namespace FallGuysStats {
                 double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                 
                 if (currentRecord < record && !this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
-                    string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")} ";
-                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}";
+                    string timeDiffContent = String.Empty;
+                    if (record != Double.MaxValue) {
+                        TimeSpan timeDiff = TimeSpan.FromMilliseconds(record - currentRecord);
+                        timeDiffContent = timeDiff.Minutes > 0 ? $"{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
+                            : $"{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
+                    }
+                    string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")}";
+                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")} {timeDiffContent}";
                     ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                     ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                     ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
