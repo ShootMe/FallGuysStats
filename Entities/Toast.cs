@@ -144,8 +144,8 @@ namespace FallGuysStats {
 		private void InternalDisplayToast(bool async = false) {
 			_eunmaToast.IsAsync = async;
 			ToastManager.CurrentToast = this;
-			_eunmaToast.Click += EunmaToastClick;
-			_eunmaToast.MouseHover += EunmaToastMouseHover;
+			_eunmaToast.MouseClick += EunmaToastClick;
+			// _eunmaToast.MouseHover += EunmaToastMouseHover;
             _eunmaToast.MouseEnter += EunmaToastMouseEnter;
             _eunmaToast.MouseLeave += EunmaToastMouseLeave;
 			_eunmaToast.FormClosed += EunmaToastFormClosed;
@@ -168,7 +168,7 @@ namespace FallGuysStats {
 			OnHover?.Invoke(this, e);
 		}
 
-		private void EunmaToastClick(object sender, EventArgs e) {
+		private void EunmaToastClick(object sender, MouseEventArgs e) {
 			OnClick?.Invoke(this, e);
 		}
 

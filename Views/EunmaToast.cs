@@ -339,11 +339,13 @@ namespace FallGuysStats {
 			}
 		}
 
-		private void ToastContentClick(object sender, EventArgs e) {
+		private void ToastContentClick(object sender, MouseEventArgs e) {
 			switch (ToastCloseStyle) {
 				case ToastCloseStyle.ClickEntire:
 				case ToastCloseStyle.ButtonAndClickEntire:
-					Close();
+                    if (e.Button == MouseButtons.Left) {
+					    Close();
+                    }
 					break;
 				case ToastCloseStyle.Button:
 					return;

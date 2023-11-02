@@ -65,7 +65,7 @@
             // mainContainer.Panel1
             // 
             this.mainContainer.Panel1.Controls.Add(this.picImage);
-            this.mainContainer.Panel1.Click += new System.EventHandler(this.ToastContentClick);
+            this.mainContainer.Panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.mainContainer.Panel1.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.mainContainer.Panel1.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -73,7 +73,7 @@
             // 
             this.mainContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.mainContainer.Panel2.Controls.Add(this.textContainer);
-            this.mainContainer.Panel2.Click += new System.EventHandler(this.ToastContentClick);
+            this.mainContainer.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.mainContainer.Panel2.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.mainContainer.Panel2.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -87,7 +87,7 @@
             this.picImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picImage.TabIndex = 0;
             this.picImage.TabStop = false;
-            this.picImage.Click += new System.EventHandler(this.ToastContentClick);
+            this.picImage.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.picImage.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.picImage.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -103,7 +103,7 @@
             this.textContainer.SplitterDistance = 30;
             this.textContainer.SplitterWidth = 1;
             this.textContainer.TabIndex = 1;
-            this.textContainer.Click += new System.EventHandler(this.ToastContentClick);
+            this.textContainer.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.textContainer.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.textContainer.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -113,7 +113,7 @@
             this.textContainer.Panel1.Controls.Add(this.lblProgress);
             this.textContainer.Panel1.Controls.Add(this.btnClose);
             this.textContainer.Panel1.Controls.Add(this.lblCaption);
-            this.textContainer.Panel1.Click += new System.EventHandler(this.ToastContentClick);
+            this.textContainer.Panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.textContainer.Panel1.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.textContainer.Panel1.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -122,7 +122,7 @@
             this.textContainer.Panel2.BackColor = System.Drawing.Color.Transparent;
             this.textContainer.Panel2.Controls.Add(this.picAppOwnerIcon);
             this.textContainer.Panel2.Controls.Add(this.lblDescription);
-            this.textContainer.Panel2.Click += new System.EventHandler(this.ToastContentClick);
+            this.textContainer.Panel2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             // 
             // lblProgress
             // 
@@ -161,7 +161,7 @@
             this.lblCaption.Size = new System.Drawing.Size(323, 25);
             this.lblCaption.TabIndex = 0;
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblCaption.Click += new System.EventHandler(this.ToastContentClick);
+            this.lblCaption.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.lblCaption.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.lblCaption.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -176,7 +176,7 @@
             this.picAppOwnerIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picAppOwnerIcon.TabIndex = 2;
             this.picAppOwnerIcon.TabStop = false;
-            this.picAppOwnerIcon.Click += new System.EventHandler(this.ToastContentClick);
+            this.picAppOwnerIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.picAppOwnerIcon.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.picAppOwnerIcon.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -192,7 +192,7 @@
             this.lblDescription.Padding = new System.Windows.Forms.Padding(2);
             this.lblDescription.Size = new System.Drawing.Size(360, 76);
             this.lblDescription.TabIndex = 1;
-            this.lblDescription.Click += new System.EventHandler(this.ToastContentClick);
+            this.lblDescription.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.lblDescription.MouseEnter += new System.EventHandler(this.FrmToast_FormEnter);
             this.lblDescription.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             // 
@@ -225,7 +225,7 @@
             this.MouseLeave += new System.EventHandler(this.FrmToast_FormLeave);
             this.Load += new System.EventHandler(this.FrmToast_Load);
             this.Shown += new System.EventHandler(this.FrmToast_Shown);
-            this.Click += new System.EventHandler(this.ToastContentClick);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ToastContentClick);
             this.mainContainer.Panel1.ResumeLayout(false);
             this.mainContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mainContainer)).EndInit();
