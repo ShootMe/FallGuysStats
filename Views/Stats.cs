@@ -369,14 +369,14 @@ namespace FallGuysStats {
             this.RoundDetails.EnsureIndex(r => r.Start);
             this.RoundDetails.EnsureIndex(r => r.InParty);
             
-            this.Profiles.EnsureIndex(p => p.ProfileId);
-
-            this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
-            this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
-            this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
-            
-            this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
-            this.PersonalBestLog.EnsureIndex(f => f.SessionId);
+            // this.Profiles.EnsureIndex(p => p.ProfileId);
+            //
+            // this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
+            // this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
+            // this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
+            //
+            // this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
+            // this.PersonalBestLog.EnsureIndex(f => f.SessionId);
             
             
             if (this.Profiles.Count() == 0) {
@@ -2223,7 +2223,7 @@ namespace FallGuysStats {
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
-                Version = 64
+                Version = 0
             };
         }
         
@@ -2777,7 +2777,13 @@ namespace FallGuysStats {
                     ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                     ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                     ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
-                    ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+                    ToastSound toastSound;
+                    switch (this.CurrentSettings.NotificationSounds) {
+                        case 1: toastSound = ToastSound.Generic02; break;
+                        case 2: toastSound = ToastSound.Generic03; break;
+                        case 3: toastSound = ToastSound.Generic04; break;
+                        default: toastSound = ToastSound.Generic01; break;
+                    }
                     this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_new_personal_best_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
                         null, ToastDuration.MEDIUM, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
                 }
@@ -2814,7 +2820,13 @@ namespace FallGuysStats {
             ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
-            ToastSound toastSound = this.CurrentSettings.NotificationSounds == 1 ? ToastSound.Generic02 : this.CurrentSettings.NotificationSounds == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+            ToastSound toastSound;
+            switch (this.CurrentSettings.NotificationSounds) {
+                case 1: toastSound = ToastSound.Generic02; break;
+                case 2: toastSound = ToastSound.Generic03; break;
+                case 3: toastSound = ToastSound.Generic04; break;
+                default: toastSound = ToastSound.Generic01; break;
+            }
             this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
                 flagImage, ToastDuration.MEDIUM, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }

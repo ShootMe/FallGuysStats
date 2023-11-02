@@ -210,13 +210,16 @@ namespace FallGuysStats {
 			Stream sound;
 			switch (_toastSound) {
 				case ToastSound.Generic02:
-					sound = Properties.Resources.notificationSound02;
+					sound = Properties.Resources.notify_sound_02;
 					break;
 				case ToastSound.Generic03:
-					sound = Properties.Resources.notificationSound03;
+					sound = Properties.Resources.notify_sound_03;
+					break;
+				case ToastSound.Generic04:
+					sound = Properties.Resources.notify_sound_04;
 					break;
 				default:
-					sound = Properties.Resources.notificationSound01;
+					sound = Properties.Resources.notify_sound_01;
 					break;
 			}
 			sound.Position = 0;

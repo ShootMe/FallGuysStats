@@ -5672,27 +5672,36 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream notificationSound01 {
+        internal static System.IO.UnmanagedMemoryStream notify_sound_01 {
             get {
-                return ResourceManager.GetStream("notificationSound01", resourceCulture);
+                return ResourceManager.GetStream("notify_sound_01", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream notificationSound02 {
+        internal static System.IO.UnmanagedMemoryStream notify_sound_02 {
             get {
-                return ResourceManager.GetStream("notificationSound02", resourceCulture);
+                return ResourceManager.GetStream("notify_sound_02", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream notificationSound03 {
+        internal static System.IO.UnmanagedMemoryStream notify_sound_03 {
             get {
-                return ResourceManager.GetStream("notificationSound03", resourceCulture);
+                return ResourceManager.GetStream("notify_sound_03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream notify_sound_04 {
+            get {
+                return ResourceManager.GetStream("notify_sound_04", resourceCulture);
             }
         }
         

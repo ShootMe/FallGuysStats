@@ -57,7 +57,8 @@
     public enum ToastSound {
         Generic01,
         Generic02,
-        Generic03
+        Generic03,
+        Generic04
     }
     
     public enum ToastTheme {

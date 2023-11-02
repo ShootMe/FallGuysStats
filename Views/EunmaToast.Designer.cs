@@ -130,7 +130,7 @@
             this.lblProgress.BackColor = System.Drawing.Color.Teal;
             this.lblProgress.Location = new System.Drawing.Point(0, 0);
             this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(0, 2);
+            this.lblProgress.Size = new System.Drawing.Size(0, 3);
             this.lblProgress.TabIndex = 1;
             // 
             // btnClose
@@ -158,6 +158,7 @@
             this.lblCaption.ForeColor = System.Drawing.Color.Gainsboro;
             this.lblCaption.Location = new System.Drawing.Point(3, 0);
             this.lblCaption.Name = "lblCaption";
+            this.lblCaption.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.lblCaption.Size = new System.Drawing.Size(323, 25);
             this.lblCaption.TabIndex = 0;
             this.lblCaption.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

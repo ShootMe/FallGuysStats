@@ -326,7 +326,13 @@ namespace FallGuysStats {
                 ToastPosition toastPosition = this.cboNotificationWindowPosition.SelectedIndex == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
-                ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 : this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic01;
+                ToastSound toastSound;
+                switch (this.CurrentSettings.NotificationSounds) {
+                    case 1: toastSound = ToastSound.Generic02; break;
+                    case 2: toastSound = ToastSound.Generic03; break;
+                    case 3: toastSound = ToastSound.Generic04; break;
+                    default: toastSound = ToastSound.Generic01; break;
+                }
                 this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
                     Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
