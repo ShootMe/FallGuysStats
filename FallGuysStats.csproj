@@ -1077,6 +1077,7 @@
     <None Include="Resources\notify_sound\notify_sound_01.wav" />
     <None Include="Resources\notify_sound\notify_sound_02.wav" />
     <None Include="Resources\notify_sound\notify_sound_03.wav" />
+    <None Include="Resources\notify_sound\notify_sound_04.wav" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0">
