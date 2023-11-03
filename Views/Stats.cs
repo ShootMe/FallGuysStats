@@ -2771,7 +2771,10 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
                 double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                 
-                if (IsGameRunning && currentRecord < record && !this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+                if (IsGameRunning && currentRecord < record) {
+                    if (this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) return;
+                    this.InsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
+                    
                     string timeDiffContent = String.Empty;
                     if (record != Double.MaxValue) {
                         TimeSpan timeDiff = TimeSpan.FromMilliseconds(record - currentRecord);
@@ -2793,7 +2796,6 @@ namespace FallGuysStats {
                     this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_new_personal_best_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
                         null, ToastDuration.MEDIUM, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
                 }
-                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
             }
         }
 
@@ -3133,7 +3135,7 @@ namespace FallGuysStats {
             }
         }
         
-        public bool ExistsPersonalBestLog(string sessionId, string showId, string roundId) {
+        private bool ExistsPersonalBestLog(string sessionId, string showId, string roundId) {
             if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
@@ -3143,7 +3145,7 @@ namespace FallGuysStats {
             return this.PersonalBestLog.Exists(condition);
         }
         
-        public PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
+        private PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
                 Query.EQ("ShowId", showId),
@@ -3152,10 +3154,10 @@ namespace FallGuysStats {
             return this.PersonalBestLog.FindOne(condition);
         }
 
-        public void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+        private void InsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+                this.PersonalBestLog.Insert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 });
                 this.StatsDB.Commit();
