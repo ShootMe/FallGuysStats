@@ -2771,7 +2771,7 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
                 double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                 
-                if (currentRecord < record && !this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+                if (IsGameRunning && currentRecord < record && !this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
                     string timeDiffContent = String.Empty;
                     if (record != Double.MaxValue) {
                         TimeSpan timeDiff = TimeSpan.FromMilliseconds(record - currentRecord);

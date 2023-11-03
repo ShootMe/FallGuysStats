@@ -61,7 +61,7 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         
-        private readonly object lockObject = new object();
+        // private readonly object lockObject = new object();
         private bool toggleCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         private string creativeShareCode;
@@ -212,12 +212,12 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
-                            } else if (line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (this.autoChangeProfile && Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
+                            } else if (this.autoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.StatsForm.IsCreativeShow(this.selectedShowId));
                                 }
-                            } else if (line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (this.preventOverlayMouseClicks && Stats.InShow && !Stats.EndedShow) {
+                            } else if (this.preventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
+                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
@@ -579,7 +579,7 @@ namespace FallGuysStats {
                     ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId);
                     if (serverConnectionLog != null) {
                         if (!serverConnectionLog.IsNotify) {
-                            if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                            if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                 this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                             }
                         }
@@ -592,7 +592,7 @@ namespace FallGuysStats {
                         this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
                         this.serverPingWatcher.Start();
                         this.SetCountryCodeByIP(Stats.LastServerIp);
-                        if (this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                        if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                             this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                         }
                     }
