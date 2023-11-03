@@ -576,24 +576,26 @@ namespace FallGuysStats {
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 this.sessionId = line.Line.Substring(index + 33);
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                    ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId);
-                    if (serverConnectionLog != null) {
-                        if (!serverConnectionLog.IsNotify) {
+                    lock (this.lockObject) {
+                        ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId);
+                        if (serverConnectionLog != null) {
+                            if (!serverConnectionLog.IsNotify) {
+                                if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                                    this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
+                                }
+                            }
+
+                            if (serverConnectionLog.IsPlaying) {
+                                this.serverPingWatcher.Start();
+                                this.SetCountryCodeByIP(Stats.LastServerIp);
+                            }
+                        } else {
+                            this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                            this.serverPingWatcher.Start();
+                            this.SetCountryCodeByIP(Stats.LastServerIp);
                             if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                                 this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                             }
-                        }
-
-                        if (serverConnectionLog.IsPlaying) {
-                            this.serverPingWatcher.Start();
-                            this.SetCountryCodeByIP(Stats.LastServerIp);
-                        }
-                    } else {
-                        this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
-                        this.serverPingWatcher.Start();
-                        this.SetCountryCodeByIP(Stats.LastServerIp);
-                        if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                            this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
                         }
                     }
                 }
