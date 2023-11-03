@@ -2762,6 +2762,8 @@ namespace FallGuysStats {
 
         private void LogFile_OnPersonalBestNotification(RoundInfo info) {
             if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) && level.Type == LevelType.Race) {
+                bool isExists = this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name);
+                
                 double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
                 BsonExpression recordQuery = Query.And(
                     Query.Not("Finish", null),
@@ -2771,9 +2773,9 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
                 double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                 
-                if (IsGameRunning && currentRecord < record) {
-                    if (this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) return;
+                if (!isExists && currentRecord < record) {
                     this.InsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
+                    if (!IsGameRunning) { return; }
                     
                     string timeDiffContent = String.Empty;
                     if (record != Double.MaxValue) {
