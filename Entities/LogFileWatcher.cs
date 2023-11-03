@@ -61,7 +61,7 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         
-        // private readonly object lockObject = new object();
+        private readonly object lockObject = new object();
         private bool toggleCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         private string creativeShareCode;
@@ -726,7 +726,11 @@ namespace FallGuysStats {
 
                     if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                         if (!logRound.Info.PrivateLobby && logRound.Info.Finish.HasValue) {
-                            this.OnPersonalBestNotification?.Invoke(logRound.Info);
+                            lock (this.lockObject) {
+                                if (!this.StatsForm.ExistsPersonalBestLog(logRound.Info.SessionId, logRound.Info.ShowNameId, logRound.Info.Name)) {
+                                    this.OnPersonalBestNotification?.Invoke(logRound.Info);
+                                }
+                            }
                         }
                     }
                 }

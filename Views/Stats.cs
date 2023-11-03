@@ -2762,8 +2762,6 @@ namespace FallGuysStats {
 
         private void LogFile_OnPersonalBestNotification(RoundInfo info) {
             if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) && level.Type == LevelType.Race) {
-                bool isExists = this.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name);
-                
                 double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
                 BsonExpression recordQuery = Query.And(
                     Query.Not("Finish", null),
@@ -2773,18 +2771,16 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
                 double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
                 
-                if (!isExists && currentRecord < record) {
-                    this.InsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
-                    if (!IsGameRunning) { return; }
-                    
+                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
+                if (IsGameRunning && currentRecord < record) {
                     string timeDiffContent = String.Empty;
                     if (record != Double.MaxValue) {
                         TimeSpan timeDiff = TimeSpan.FromMilliseconds(record - currentRecord);
-                        timeDiffContent = timeDiff.Minutes > 0 ? $"{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
-                            : $"{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
+                        timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
+                            : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
                     }
                     string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")}";
-                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")} {timeDiffContent}";
+                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
                     ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
                     ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
                     ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
@@ -3137,7 +3133,7 @@ namespace FallGuysStats {
             }
         }
         
-        private bool ExistsPersonalBestLog(string sessionId, string showId, string roundId) {
+        public bool ExistsPersonalBestLog(string sessionId, string showId, string roundId) {
             if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
@@ -3156,10 +3152,10 @@ namespace FallGuysStats {
             return this.PersonalBestLog.FindOne(condition);
         }
 
-        private void InsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+        private void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Insert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+                this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 });
                 this.StatsDB.Commit();
