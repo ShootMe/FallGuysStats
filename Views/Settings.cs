@@ -99,16 +99,21 @@ namespace FallGuysStats {
             //this.chkShowProfile.Checked = this.CurrentSettings.ShowOverlayProfile;
             this.chkAutoUpdate.Checked = this.CurrentSettings.AutoUpdate;
             this.chkSystemTrayIcon.Checked = this.CurrentSettings.SystemTrayIcon;
+            
             this.chkNotifyServerConnected.Checked = this.CurrentSettings.NotifyServerConnected;
-            this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
+            this.chkNotifyPersonalBest.Checked = this.CurrentSettings.NotifyPersonalBest;
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
-            this.cboNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
-            this.cboNotificationWindowPosition.Enabled = this.chkNotifyServerConnected.Checked;
-            this.cboNotificationWindowAnimation.Enabled = this.chkNotifyServerConnected.Checked;
-            this.btnPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked;
-            if (this.chkNotifyServerConnected.Checked) {
+            this.cboNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
+            this.cboNotificationWindowPosition.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            this.cboNotificationWindowAnimation.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
+            this.cboNotificationWindowAnimation.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            this.btnPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            if (this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked) {
                 this.chkMuteNotificationSounds.Checked = this.CurrentSettings.MuteNotificationSounds;
             }
+            
             this.chkPreventOverlayMouseClicks.Checked = this.CurrentSettings.PreventOverlayMouseClicks;
             this.chkFlipped.Checked = this.CurrentSettings.FlippedDisplay;
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
@@ -119,7 +124,6 @@ namespace FallGuysStats {
                 this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
             }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
-            this.lblthirdpartyLicences.Font = Overlay.GetMainFont(18);
 
             ArrayList imageItemArray = new ArrayList();
             if (Directory.Exists("Overlay")) {
@@ -491,6 +495,7 @@ namespace FallGuysStats {
             this.CurrentSettings.AutoUpdate = this.chkAutoUpdate.Checked;
             this.CurrentSettings.SystemTrayIcon = this.chkSystemTrayIcon.Checked;
             this.CurrentSettings.NotifyServerConnected = this.chkNotifyServerConnected.Checked;
+            this.CurrentSettings.NotifyPersonalBest = this.chkNotifyPersonalBest.Checked;
             this.CurrentSettings.MuteNotificationSounds = this.chkMuteNotificationSounds.Checked;
             this.CurrentSettings.NotificationSounds = this.cboNotificationSounds.SelectedIndex;
             this.CurrentSettings.NotificationWindowPosition = this.cboNotificationWindowPosition.SelectedIndex;
@@ -798,14 +803,14 @@ namespace FallGuysStats {
             }
         }
         
-        private void chkNotifyServerConnected_CheckedChanged(object sender, EventArgs e) {
-            this.chkMuteNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
-            this.cboNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
-            this.cboNotificationWindowPosition.Enabled = ((MetroCheckBox)sender).Checked;
-            this.cboNotificationWindowAnimation.Enabled = ((MetroCheckBox)sender).Checked;
-            this.btnPlayNotificationSounds.Enabled = ((MetroCheckBox)sender).Checked;
-            if (!((MetroCheckBox)sender).Checked) {
-                this.chkMuteNotificationSounds.Checked = ((MetroCheckBox)sender).Checked;
+        private void chkNotify_CheckedChanged(object sender, EventArgs e) {
+            this.chkMuteNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+            this.cboNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+            this.cboNotificationWindowPosition.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+            this.cboNotificationWindowAnimation.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+            this.btnPlayNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+            if (!this.chkNotifyPersonalBest.Checked && !this.chkNotifyServerConnected.Checked) {
+                this.chkMuteNotificationSounds.Checked = false;
             }
         }
 
@@ -968,6 +973,7 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Text = Multilingual.GetWord("settings_auto_update_program");
             this.chkSystemTrayIcon.Text = Multilingual.GetWord("settings_system_tray_icon");
             this.chkNotifyServerConnected.Text = Multilingual.GetWord("settings_notify_server_connected");
+            this.chkNotifyPersonalBest.Text = Multilingual.GetWord("settings_notify_personal_best");
             this.chkMuteNotificationSounds.Text = Multilingual.GetWord("settings_mute_notification_sounds");
             this.cboNotificationSounds.Items.Clear();
             this.cboNotificationSounds.Items.AddRange(new object[] {
@@ -977,16 +983,13 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_sounds_04"),
             });
             this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
-            this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
             this.cboNotificationWindowPosition.Items.Clear();
             this.cboNotificationWindowPosition.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
                 Multilingual.GetWord("settings_notification_window_top_right"),
             });
             this.cboNotificationWindowPosition.Width = lang == 0 ? 116 : lang == 1 ? 131 : lang == 2 ? 94 : lang == 3 ? 62 : lang == 4 ? 62 : lang == 5 ? 62 : 120;
-            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
-            this.cboNotificationWindowAnimation.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.btnPlayNotificationSounds.Location.Y);
             this.chkPreventOverlayMouseClicks.Text = Multilingual.GetWord("settings_prevent_overlay_mouse_clicks");
@@ -1032,6 +1035,7 @@ namespace FallGuysStats {
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
             this.btnCheckUpdates.Width = 54;
+            this.lblthirdpartyLicences.Font = Overlay.GetMainFont(18);
 #if AllowUpdate
             this.lblVersion.Text = $"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
 #else

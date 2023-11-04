@@ -88,6 +88,7 @@
             this.chkAutoUpdate = new MetroFramework.Controls.MetroCheckBox();
             this.chkSystemTrayIcon = new MetroFramework.Controls.MetroCheckBox();
             this.chkNotifyServerConnected = new MetroFramework.Controls.MetroCheckBox();
+            this.chkNotifyPersonalBest = new MetroFramework.Controls.MetroCheckBox();
             this.chkMuteNotificationSounds = new MetroFramework.Controls.MetroCheckBox();
             this.cboNotificationSounds = new MetroFramework.Controls.MetroComboBox();
             this.cboNotificationWindowPosition = new MetroFramework.Controls.MetroComboBox();
@@ -870,7 +871,7 @@
             // picLanguageSelection
             // 
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(15, 382);
+            this.picLanguageSelection.Location = new System.Drawing.Point(15, 412);
             this.picLanguageSelection.Name = "picLanguageSelection";
             this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -882,7 +883,7 @@
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
-            this.cboMultilingual.Location = new System.Drawing.Point(53, 382);
+            this.cboMultilingual.Location = new System.Drawing.Point(53, 412);
             this.cboMultilingual.Name = "cboMultilingual";
             this.cboMultilingual.Size = new System.Drawing.Size(107, 29);
             this.cboMultilingual.TabIndex = 99;
@@ -893,7 +894,7 @@
             // 
             this.lblTheme.AutoSize = true;
             this.lblTheme.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTheme.Location = new System.Drawing.Point(12, 345);
+            this.lblTheme.Location = new System.Drawing.Point(12, 375);
             this.lblTheme.Name = "lblTheme";
             this.lblTheme.Size = new System.Drawing.Size(50, 19);
             this.lblTheme.TabIndex = 5;
@@ -918,7 +919,7 @@
             this.cboTheme.IntegralHeight = false;
             this.cboTheme.ItemHeight = 23;
             this.cboTheme.Items.AddRange(new object[] { "Light", "Dark" });
-            this.cboTheme.Location = new System.Drawing.Point(67, 340);
+            this.cboTheme.Location = new System.Drawing.Point(67, 370);
             this.cboTheme.Name = "cboTheme";
             this.cboTheme.Size = new System.Drawing.Size(85, 29);
             this.cboTheme.TabIndex = 1;
@@ -962,6 +963,19 @@
             this.chkRecordEscapeDuringAGame.Text = "If you escape during a game, record it as a loss";
             this.chkRecordEscapeDuringAGame.UseSelectable = true;
             // 
+            // chkNotifyPersonalBest
+            // 
+            this.chkNotifyPersonalBest.AutoSize = true;
+            this.chkNotifyPersonalBest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkNotifyPersonalBest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkNotifyPersonalBest.Location = new System.Drawing.Point(15, 240);
+            this.chkNotifyPersonalBest.Name = "chkNotifyPersonalBest";
+            this.chkNotifyPersonalBest.Size = new System.Drawing.Size(420, 19);
+            this.chkNotifyPersonalBest.TabIndex = 5;
+            this.chkNotifyPersonalBest.Text = "Windows notification when you break your personal best during a race round";
+            this.chkNotifyPersonalBest.UseSelectable = true;
+            this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            // 
             // chkNotifyServerConnected
             // 
             this.chkNotifyServerConnected.AutoSize = true;
@@ -973,14 +987,14 @@
             this.chkNotifyServerConnected.TabIndex = 5;
             this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
             this.chkNotifyServerConnected.UseSelectable = true;
-            this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotifyServerConnected_CheckedChanged);
+            this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
             // 
             // chkMuteNotificationSounds
             // 
             this.chkMuteNotificationSounds.AutoSize = true;
             this.chkMuteNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkMuteNotificationSounds.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkMuteNotificationSounds.Location = new System.Drawing.Point(15, 240);
+            this.chkMuteNotificationSounds.Location = new System.Drawing.Point(15, 270);
             this.chkMuteNotificationSounds.Name = "chkMuteNotificationSounds";
             this.chkMuteNotificationSounds.Size = new System.Drawing.Size(420, 19);
             this.chkMuteNotificationSounds.TabIndex = 5;
@@ -994,7 +1008,7 @@
             this.cboNotificationSounds.IntegralHeight = false;
             this.cboNotificationSounds.ItemHeight = 23;
             this.cboNotificationSounds.Items.AddRange(new object[] { "Notification Sounds 01", "Notification Sounds 02", "Notification Sounds 03", "Notification Sounds 04" });
-            this.cboNotificationSounds.Location = new System.Drawing.Point(15, 270);
+            this.cboNotificationSounds.Location = new System.Drawing.Point(15, 300);
             this.cboNotificationSounds.Name = "cboNotificationSounds";
             this.cboNotificationSounds.Size = new System.Drawing.Size(170, 29);
             this.cboNotificationSounds.TabIndex = 1;
@@ -1007,7 +1021,7 @@
             this.cboNotificationWindowPosition.IntegralHeight = false;
             this.cboNotificationWindowPosition.ItemHeight = 24;
             this.cboNotificationWindowPosition.Items.AddRange(new object[] { "Bottom Right", "Top Right" });
-            this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 270);
+            this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 300);
             this.cboNotificationWindowPosition.Name = "cboNotificationWindowPosition";
             this.cboNotificationWindowPosition.Size = new System.Drawing.Size(116, 29);
             this.cboNotificationWindowPosition.TabIndex = 1;
@@ -1020,7 +1034,7 @@
             this.cboNotificationWindowAnimation.IntegralHeight = false;
             this.cboNotificationWindowAnimation.ItemHeight = 25;
             this.cboNotificationWindowAnimation.Items.AddRange(new object[] { "FADE", "SLIDE" });
-            this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 270);
+            this.cboNotificationWindowAnimation.Location = new System.Drawing.Point(15, 300);
             this.cboNotificationWindowAnimation.Name = "cboNotificationWindowAnimation";
             this.cboNotificationWindowAnimation.Size = new System.Drawing.Size(70, 29);
             this.cboNotificationWindowAnimation.TabIndex = 1;
@@ -1032,7 +1046,7 @@
             this.btnPlayNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnPlayNotificationSounds.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnPlayNotificationSounds.FontWeight = MetroFramework.MetroButtonWeight.Bold;
-            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 270);
+            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 300);
             this.btnPlayNotificationSounds.Name = "btnPlayNotificationSounds";
             this.btnPlayNotificationSounds.Size = new System.Drawing.Size(29, 29);
             this.btnPlayNotificationSounds.TabIndex = 3;
@@ -1045,7 +1059,7 @@
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 450);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 480);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
@@ -1269,6 +1283,7 @@
             this.panelProgram.Controls.Add(this.chkSystemTrayIcon);
             this.panelProgram.Controls.Add(this.chkRecordEscapeDuringAGame);
             this.panelProgram.Controls.Add(this.chkNotifyServerConnected);
+            this.panelProgram.Controls.Add(this.chkNotifyPersonalBest);
             this.panelProgram.Controls.Add(this.chkMuteNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationWindowPosition);
@@ -1848,6 +1863,7 @@
         private MetroFramework.Controls.MetroCheckBox chkAutoUpdate;
         private MetroFramework.Controls.MetroCheckBox chkSystemTrayIcon;
         private MetroFramework.Controls.MetroCheckBox chkNotifyServerConnected;
+        private MetroFramework.Controls.MetroCheckBox chkNotifyPersonalBest;
         private MetroFramework.Controls.MetroCheckBox chkMuteNotificationSounds;
         private MetroFramework.Controls.MetroComboBox cboNotificationSounds;
         private MetroFramework.Controls.MetroComboBox cboNotificationWindowPosition;

@@ -81,7 +81,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
-        public event Action<string, string, string> OnServerConnectionNotification;
+        public event Action OnServerConnectionNotification;
         public event Action<RoundInfo> OnPersonalBestNotification;
         public event Action<string> OnError;
 
@@ -581,7 +581,7 @@ namespace FallGuysStats {
                         if (serverConnectionLog != null) {
                             if (!serverConnectionLog.IsNotify) {
                                 if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                    this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
+                                    this.OnServerConnectionNotification?.Invoke();
                                 }
                             }
 
@@ -594,7 +594,7 @@ namespace FallGuysStats {
                             this.serverPingWatcher.Start();
                             this.SetCountryCodeByIP(Stats.LastServerIp);
                             if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                this.OnServerConnectionNotification?.Invoke(Stats.LastCountryAlpha2Code, Stats.LastCountryRegion, Stats.LastCountryCity);
+                                this.OnServerConnectionNotification?.Invoke();
                             }
                         }
                     }
@@ -650,9 +650,7 @@ namespace FallGuysStats {
                     logRound.Info.CreativeQualificationPercent = this.creativeQualificationPercent;
                     logRound.Info.CreativeTimeLimitSeconds = this.creativeTimeLimitSeconds;
                 } else {
-                    logRound.Info.Name = !logRound.Info.ShowNameId.Equals("wle_mrs_shuffle_show")
-                                         ? line.Line.Substring(index + 62, index2 - index - 62)
-                                         : this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId, line.Line.Substring(index + 62, index2 - index - 62));
+                    logRound.Info.Name = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
                 if (this.IsRealFinalRound(logRound.Info.Name, this.selectedShowId) || logRound.Info.UseShareCode) {

@@ -309,9 +309,10 @@ namespace FallGuysStats {
                     HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
                 }
             });
+            this.SetSecretKey();
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
-            this.StatsDB = new LiteDatabase(@"data.db");
+            this.StatsDB = new LiteDatabase(@"Filename=data.db;Timeout=120000;Upgrade=true");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
             this.StatsDB.BeginTrans();
@@ -322,19 +323,16 @@ namespace FallGuysStats {
                 try {
                     this.CurrentSettings = this.UserSettings.FindAll().First();
                     CurrentLanguage = this.CurrentSettings.Multilingual;
-                    CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light :
-                                   this.CurrentSettings.Theme == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
+                    CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
                 } catch {
                     this.UserSettings.DeleteAll();
                     this.CurrentSettings = GetDefaultSettings();
                     this.UserSettings.Insert(this.CurrentSettings);
                 }
             }
-            this.StatsDB.Commit();
-            
-            this.RemoveUpdateFiles();
 
-            this.SetSecretKey();
+            this.StatsDB.Commit();
+            this.RemoveUpdateFiles();
             
             this.InitializeComponent();
             this.SetStyle(ControlStyles.UserPaint, true);
@@ -355,9 +353,9 @@ namespace FallGuysStats {
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
-            this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
             this.ServerConnectionLog = this.StatsDB.GetCollection<ServerConnectionLog>("ServerConnectionLog");
             this.PersonalBestLog = this.StatsDB.GetCollection<PersonalBestLog>("PersonalBestLog");
+            this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
 
             this.ClearServerConnectionLog();
             this.ClearPersonalBestLog();
@@ -369,15 +367,14 @@ namespace FallGuysStats {
             this.RoundDetails.EnsureIndex(r => r.Start);
             this.RoundDetails.EnsureIndex(r => r.InParty);
             
-            // this.Profiles.EnsureIndex(p => p.ProfileId);
-            //
-            // this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
-            // this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
-            // this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
-            //
-            // this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
-            // this.PersonalBestLog.EnsureIndex(f => f.SessionId);
+            this.Profiles.EnsureIndex(p => p.ProfileId);
             
+            this.ServerConnectionLog.EnsureIndex(f => f.SessionId);
+            this.PersonalBestLog.EnsureIndex(f => f.SessionId);
+            
+            this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
+            this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
+            this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
             
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
@@ -723,8 +720,8 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.mtt.Theme = theme;
             this.omtt.Theme = theme;
-            this.menu.Renderer = theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
-            this.trayCMenu.Renderer = theme == MetroThemeStyle.Light ? (ToolStripRenderer)new CustomLightArrowRenderer() : new CustomDarkArrowRenderer();
+            this.menu.Renderer = theme == MetroThemeStyle.Light ? new CustomLightArrowRenderer() : new CustomDarkArrowRenderer() as ToolStripRenderer;
+            this.trayCMenu.Renderer = theme == MetroThemeStyle.Light ? new CustomLightArrowRenderer() : new CustomDarkArrowRenderer() as ToolStripRenderer;
             foreach (Control c1 in Controls) {
                 if (c1 is MenuStrip ms1) {
                     foreach (var item in ms1.Items) {
@@ -824,7 +821,7 @@ namespace FallGuysStats {
                 }
             }
             
-            foreach (object item in this.gridDetails.CMenu.Items) {
+            foreach (var item in this.gridDetails.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
                     tsi.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     tsi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -2159,6 +2156,7 @@ namespace FallGuysStats {
                 OverlayBackgroundOpacity = 100,
                 IsOverlayBackgroundCustomized = false,
                 NotifyServerConnected = false,
+                NotifyPersonalBest = false,
                 MuteNotificationSounds = false,
                 NotificationSounds = 0,
                 NotificationWindowPosition = 0,
@@ -2772,7 +2770,7 @@ namespace FallGuysStats {
                 TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 
                 this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
-                if (IsGameRunning && currentRecord < record) {
+                if (this.CurrentSettings.NotifyPersonalBest && IsGameRunning && currentRecord < record) {
                     string timeDiffContent = String.Empty;
                     if (record != TimeSpan.MaxValue) {
                         TimeSpan timeDiff = record - currentRecord;
@@ -2797,16 +2795,16 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnServerConnectionNotification(string alpha2Code, string region, string city) {
+        private void LogFile_OnServerConnectionNotification() {
             string countryFullName;
-            if (!string.IsNullOrEmpty(alpha2Code)) {
-                countryFullName = Multilingual.GetCountryName(alpha2Code);
-                if (!string.IsNullOrEmpty(region)) {
-                    countryFullName += $" ({region}";
-                    if (!string.IsNullOrEmpty(city)) {
+            if (!string.IsNullOrEmpty(LastCountryAlpha2Code)) {
+                countryFullName = Multilingual.GetCountryName(LastCountryAlpha2Code);
+                if (!string.IsNullOrEmpty(LastCountryRegion)) {
+                    countryFullName += $" ({LastCountryRegion}";
+                    if (!string.IsNullOrEmpty(LastCountryCity)) {
 
-                        if (!city.Equals(region)) {
-                            countryFullName += $", {city})";
+                        if (!LastCountryCity.Equals(LastCountryRegion)) {
+                            countryFullName += $", {LastCountryCity})";
                         } else {
                             countryFullName += ")";
                         }
@@ -2814,15 +2812,15 @@ namespace FallGuysStats {
                         countryFullName += ")";
                     }
                 } else {
-                    if (!string.IsNullOrEmpty(city)) {
-                        countryFullName += $" ({city})";
+                    if (!string.IsNullOrEmpty(LastCountryCity)) {
+                        countryFullName += $" ({LastCountryCity})";
                     }
                 }
             } else {
                 countryFullName = "UNKNOWN";
             }
             string description = $"{Multilingual.GetWord("message_connected_to_server_prefix")}{countryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}";
-            Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_{(string.IsNullOrEmpty(alpha2Code) ? "unknown" : alpha2Code)}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
+            Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_{(string.IsNullOrEmpty(LastCountryAlpha2Code) ? "unknown" : LastCountryAlpha2Code)}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
             ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
