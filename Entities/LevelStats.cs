@@ -70,6 +70,7 @@ namespace FallGuysStats {
                 this.FinishLocal = this.Finish.Value.ToLocalTime();
             }
         }
+        
         public void VerifyName() {
             if (string.IsNullOrEmpty(this.SceneName)) { return; }
 
@@ -77,14 +78,17 @@ namespace FallGuysStats {
                 this.Name = roundName;
             }
         }
+        
         public string VerifiedName() {
             return string.IsNullOrEmpty(this.SceneName)
                 ? this.Name
                 : LevelStats.SceneToRound.TryGetValue(this.SceneName, out string roundName) ? roundName : this.Name;
         }
+        
         public override string ToString() {
             return $"{this.Name}: Round={this.Round} Position={this.Position} Duration={this.End - this.Start} Kudos={this.Kudos}";
         }
+        
         public override bool Equals(object obj) {
             return obj is RoundInfo info
                    && info.End == this.End
@@ -111,20 +115,17 @@ namespace FallGuysStats {
                    && info.SessionId == this.SessionId
                    && info.UseShareCode == this.UseShareCode;
         }
+        
         public override int GetHashCode() {
             return Name.GetHashCode() ^ ShowID ^ Round;
         }
+        
         public int CompareTo(RoundInfo other) {
             int showCompare = ShowID.CompareTo(other.ShowID);
             return showCompare != 0 ? showCompare : Round.CompareTo(other.Round);
         }
     }
-    public enum QualifyTier {
-        Pink,
-        Gold,
-        Silver,
-        Bronze
-    }
+    
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
             { "user_creative_race_round",          new LevelStats("user_creative_race_round", "User Creative Race Round", LevelType.CreativeRace, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_creative_icon, Properties.Resources.round_creative_big_icon) },
@@ -698,6 +699,7 @@ namespace FallGuysStats {
             { "round_thin_ice",                   new LevelStats("round_thin_ice", "Thin Ice", LevelType.Survival, BestRecordType.Longest, false, true, 3, 300, 300, Properties.Resources.round_thin_ice_icon, Properties.Resources.round_thin_ice_big_icon) },
             { "round_tiptoefinale_almond",        new LevelStats("round_tiptoefinale_almond", "Tip Toe Finale", LevelType.Race, BestRecordType.Fastest, false, true, 8, 300, 300, Properties.Resources.round_tip_toe_finale_icon, Properties.Resources.round_tip_toe_finale_big_icon) },
         };
+        
         public static Dictionary<string, string> SceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "FallGuy_DoorDash",                  "round_door_dash" },
             { "FallGuy_Gauntlet_02_01",            "round_gauntlet_02" },
@@ -834,6 +836,7 @@ namespace FallGuysStats {
             this.Stats = new List<RoundInfo>();
             this.Clear();
         }
+        
         public void Clear() {
             this.Qualified = 0;
             this.Gold = 0;
@@ -848,6 +851,7 @@ namespace FallGuysStats {
             this.Longest = TimeSpan.Zero;
             this.Stats.Clear();
         }
+        
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
             if (!stat.PrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
                 this.Played++;
@@ -882,6 +886,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         public void Add(RoundInfo stat) {
             this.Stats.Add(stat);
         }

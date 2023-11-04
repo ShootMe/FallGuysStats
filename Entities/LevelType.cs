@@ -2,26 +2,6 @@
 using MetroFramework;
 
 namespace FallGuysStats {
-    public enum LevelType {
-        Unknown,
-        CreativeRace,
-        CreativeSurvival,
-        CreativeHunt,
-        CreativeLogic,
-        CreativeTeam,
-        Race,
-        Survival,
-        Hunt,
-        Logic,
-        Team,
-        Invisibeans,
-        Final
-    }
-    public enum BestRecordType {
-        Fastest,
-        Longest,
-        HighScore
-    }
     internal static class LevelTypeBehavior {
         public static int FastestLabel(this LevelType type) {
             switch (type) {
@@ -38,6 +18,7 @@ namespace FallGuysStats {
             }
             return 1;
         }
+        
         public static string CreativeLevelTypeId(this LevelType type) {
             switch (type) {
                 case LevelType.CreativeRace:
@@ -53,6 +34,7 @@ namespace FallGuysStats {
             }
             return "Unknown";
         }
+        
         public static string LevelTitle(this LevelType type, bool isFinal) {
             if (isFinal) {
                 return Multilingual.GetWord("level_detail_final");
@@ -74,6 +56,7 @@ namespace FallGuysStats {
             }
             return "Unknown";
         }
+        
         public static Color LevelDefaultColor(this LevelType type, bool isFinal) {
             if (isFinal) {
                 return Color.FromArgb(251, 198, 0);
@@ -95,6 +78,7 @@ namespace FallGuysStats {
             }
             return Color.DarkGray;
         }
+        
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
             if (isFinal && type != LevelType.CreativeRace) {
                 return Color.FromArgb(alpha, 250, 195, 0);
@@ -120,6 +104,7 @@ namespace FallGuysStats {
             }
             return Color.DarkGray;
         }
+        
         public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
             if (isFinal && type != LevelType.CreativeRace) {
                 return Color.FromArgb(130, 100, 0);

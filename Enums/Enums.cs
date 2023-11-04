@@ -1,4 +1,33 @@
 ﻿namespace FallGuysStats {
+    public enum LevelType {
+        Unknown,
+        CreativeRace,
+        CreativeSurvival,
+        CreativeHunt,
+        CreativeLogic,
+        CreativeTeam,
+        Race,
+        Survival,
+        Hunt,
+        Logic,
+        Team,
+        Invisibeans,
+        Final
+    }
+    
+    public enum BestRecordType {
+        Fastest,
+        Longest,
+        HighScore
+    }
+    
+    public enum QualifyTier {
+        Pink,
+        Gold,
+        Silver,
+        Bronze
+    }
+    
     public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
     
     public enum DWMWINDOWATTRIBUTE {

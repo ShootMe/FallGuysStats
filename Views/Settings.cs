@@ -337,7 +337,7 @@ namespace FallGuysStats {
                     case 3: toastSound = ToastSound.Generic04; break;
                     default: toastSound = ToastSound.Generic01; break;
                 }
-                this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_connected_to_server_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
+                this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_test_notifications_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
                     Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
         }
@@ -859,7 +859,6 @@ namespace FallGuysStats {
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
 
-
             this.cboOverlayColor.Items.Clear();
             this.cboOverlayColor.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_transparent"),
@@ -982,12 +981,14 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_sounds_03"),
                 Multilingual.GetWord("settings_notification_sounds_04"),
             });
+            this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
             this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
             this.cboNotificationWindowPosition.Items.Clear();
             this.cboNotificationWindowPosition.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
                 Multilingual.GetWord("settings_notification_window_top_right"),
             });
+            this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
             this.cboNotificationWindowPosition.Width = lang == 0 ? 116 : lang == 1 ? 131 : lang == 2 ? 94 : lang == 3 ? 62 : lang == 4 ? 62 : lang == 5 ? 62 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
