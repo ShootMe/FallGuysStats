@@ -727,11 +727,11 @@ namespace FallGuysStats {
                     logRound.Info.Position = position;
 
                     if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        if (!logRound.Info.PrivateLobby && logRound.Info.Finish.HasValue) {
-                            lock (this.lockObject) {
-                                if (!this.StatsForm.ExistsPersonalBestLog(logRound.Info.SessionId, logRound.Info.ShowNameId, logRound.Info.Name)) {
-                                    this.OnPersonalBestNotification?.Invoke(logRound.Info);
-                                }
+                        lock (this.lockObject) {
+                            if (!logRound.Info.PrivateLobby && logRound.Info.Finish.HasValue) {
+                                    if (!this.StatsForm.ExistsPersonalBestLog(logRound.Info.SessionId, logRound.Info.ShowNameId, logRound.Info.Name)) {
+                                        this.OnPersonalBestNotification?.Invoke(logRound.Info);
+                                    }
                             }
                         }
                     }

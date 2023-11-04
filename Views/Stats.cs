@@ -2762,20 +2762,20 @@ namespace FallGuysStats {
 
         private void LogFile_OnPersonalBestNotification(RoundInfo info) {
             if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) && level.Type == LevelType.Race) {
-                double currentRecord = (info.Finish.Value - info.Start).TotalMilliseconds;
+                TimeSpan currentRecord = info.Finish.Value - info.Start;
                 BsonExpression recordQuery = Query.And(
                     Query.Not("Finish", null),
                     Query.EQ("Name", info.Name),
                     Query.EQ("ShowNameId", info.ShowNameId)
                 );
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
-                double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 
-                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord, info.Finish.Value, currentRecord < record);
+                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
                 if (IsGameRunning && currentRecord < record) {
                     string timeDiffContent = String.Empty;
-                    if (record != Double.MaxValue) {
-                        TimeSpan timeDiff = TimeSpan.FromMilliseconds(record - currentRecord);
+                    if (record != TimeSpan.MaxValue) {
+                        TimeSpan timeDiff = record - currentRecord;
                         timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                             : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
                     }
@@ -3239,7 +3239,7 @@ namespace FallGuysStats {
                 // , Query.EQ("OnlineServiceNickname", OnlineServiceNickname)
             );
 
-            double currentRecord = (stat.Finish.Value - stat.Start).TotalMilliseconds;
+            TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
             if (!this.FallalyticsPbLog.Exists(pbLogQuery)) {
@@ -3251,7 +3251,7 @@ namespace FallGuysStats {
                 );
                 
                 List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
-                double record = queryResult.Count > 0 ? queryResult.Min(r => (r.Finish.Value - r.Start).TotalMilliseconds) : Double.MaxValue;
+                TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 DateTime finish = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value) : stat.Finish.Value;
                 
                 if (currentRecord < record) {
@@ -3261,7 +3261,7 @@ namespace FallGuysStats {
 
                 try {
                     if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record.TotalMilliseconds, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                         isTransferSuccess = true;
                     }
                 } catch {
@@ -3272,7 +3272,7 @@ namespace FallGuysStats {
                     this.StatsDB.BeginTrans();
                     this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
                         SessionId = stat.SessionId, RoundId = stat.Name, ShowId = stat.ShowNameId,
-                        Record = record, PbDate = finish,
+                        Record = record.TotalMilliseconds, PbDate = finish,
                         CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                         OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                         IsTransferSuccess = isTransferSuccess
@@ -3281,14 +3281,14 @@ namespace FallGuysStats {
                 }
             } else {
                 FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery);
-                double record = pbLog.Record;
+                TimeSpan record = TimeSpan.FromMilliseconds(pbLog.Record);
                 DateTime finish = pbLog.PbDate;
                 try {
                     if (pbLog.IsTransferSuccess) {
                         if (currentRecord < record) {
                             try {
                                 if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                     isTransferSuccess = true;
                                 }
                             } catch {
@@ -3297,7 +3297,7 @@ namespace FallGuysStats {
 
                             lock (this.StatsDB) {
                                 this.StatsDB.BeginTrans();
-                                pbLog.Record = currentRecord;
+                                pbLog.Record = currentRecord.TotalMilliseconds;
                                 pbLog.PbDate = currentFinish;
                                 pbLog.IsTransferSuccess = isTransferSuccess;
                                 this.FallalyticsPbLog.Update(pbLog);
@@ -3308,7 +3308,7 @@ namespace FallGuysStats {
                         // re-send
                         try {
                             if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord : record, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord.TotalMilliseconds : record.TotalMilliseconds, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
                             }
                         } catch {
@@ -3317,7 +3317,7 @@ namespace FallGuysStats {
 
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
-                            pbLog.Record = currentRecord < record ? currentRecord : record;
+                            pbLog.Record = currentRecord < record ? currentRecord.TotalMilliseconds : record.TotalMilliseconds;
                             pbLog.PbDate = currentRecord < record ? currentFinish : finish;
                             pbLog.IsTransferSuccess = isTransferSuccess;
                             this.FallalyticsPbLog.Update(pbLog);
@@ -3327,7 +3327,7 @@ namespace FallGuysStats {
                 } catch {
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
-                        pbLog.Record = currentRecord < record ? currentRecord : record;
+                        pbLog.Record = currentRecord < record ? currentRecord.TotalMilliseconds : record.TotalMilliseconds;
                         pbLog.PbDate = currentRecord < record ? currentFinish : finish;
                         pbLog.IsTransferSuccess = false;
                         this.FallalyticsPbLog.Update(pbLog);
