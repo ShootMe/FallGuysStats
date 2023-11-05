@@ -386,35 +386,35 @@ namespace FallGuysStats {
             //this.ApplyChangeButton.Text = Multilingual.GetWord("profile_apply_change_button");
             //this.UndoChangeButton.Text = Multilingual.GetWord("profile_undo_change_button");
             
-            if (Stats.CurrentLanguage == 0) { // English
+            if (Stats.CurrentLanguage == Language.English) {
                 this.txtAddProfile.Location = new Point(107, 7);
                 this.cboProfileRename.Location = new Point(107, 7);
                 this.txtRenameProfile.Location = new Point(107, 45);
                 this.cboProfileMoveFrom.Location = new Point(107, 7);
                 this.cboProfileMoveTo.Location = new Point(107, 45);
                 this.cboProfileRemove.Location = new Point(107, 7);
-            } else if (Stats.CurrentLanguage == 1) { // French
+            } else if (Stats.CurrentLanguage == Language.French) {
                 this.txtAddProfile.Location = new Point(99, 7);
                 this.cboProfileRename.Location = new Point(99, 7);
                 this.txtRenameProfile.Location = new Point(99, 45);
                 this.cboProfileMoveFrom.Location = new Point(99, 7);
                 this.cboProfileMoveTo.Location = new Point(99, 45);
                 this.cboProfileRemove.Location = new Point(99, 7);
-            } else if (Stats.CurrentLanguage == 2) { // Korean
+            } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.txtAddProfile.Location = new Point(96, 7);
                 this.cboProfileRename.Location = new Point(96, 7);
                 this.txtRenameProfile.Location = new Point(96, 45);
                 this.cboProfileMoveFrom.Location = new Point(96, 7);
                 this.cboProfileMoveTo.Location = new Point(96, 45);
                 this.cboProfileRemove.Location = new Point(96, 7);
-            } else if (Stats.CurrentLanguage == 3) { // Japanese
+            } else if (Stats.CurrentLanguage == Language.Japanese) {
                 this.txtAddProfile.Location = new Point(130, 7);
                 this.cboProfileRename.Location = new Point(130, 7);
                 this.txtRenameProfile.Location = new Point(130, 45);
                 this.cboProfileMoveFrom.Location = new Point(96, 7);
                 this.cboProfileMoveTo.Location = new Point(96, 45);
                 this.cboProfileRemove.Location = new Point(130, 7);
-            } else if (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) { // Simplified Chinese & Traditional Chinese
+            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 this.txtAddProfile.Location = new Point(120, 7);
                 this.cboProfileRename.Location = new Point(120, 7);
                 this.txtRenameProfile.Location = new Point(120, 45);

@@ -12419,12 +12419,12 @@ namespace FallGuysStats {
         public static string GetCurrentLanguage() {
             string lang = string.Empty;
             switch (Stats.CurrentLanguage) {
-                case 0: lang = "eng"; break;
-                case 1: lang = "fre"; break;
-                case 2: lang = "kor"; break;
-                case 3: lang = "jpn"; break;
-                case 4: lang = "chs"; break;
-                case 5: lang = "cht"; break;
+                case Language.English: lang = "eng"; break;
+                case Language.French: lang = "fre"; break;
+                case Language.Korean: lang = "kor"; break;
+                case Language.Japanese: lang = "jpn"; break;
+                case Language.SimplifiedChinese: lang = "chs"; break;
+                case Language.TraditionalChinese: lang = "cht"; break;
             }
             return lang;
         }
@@ -12436,21 +12436,23 @@ namespace FallGuysStats {
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
-        public static string GetWord(string keyword, int lang) {
+        
+        public static string GetWord(string keyword, Language lang) {
             string word = string.Empty;
             string nation = string.Empty;
             switch (lang) {
-                case 0: nation = "eng"; break;
-                case 1: nation = "fre"; break;
-                case 2: nation = "kor"; break;
-                case 3: nation = "jpn"; break;
-                case 4: nation = "chs"; break;
-                case 5: nation = "cht"; break;
+                case Language.English: nation = "eng"; break;
+                case Language.French: nation = "fre"; break;
+                case Language.Korean: nation = "kor"; break;
+                case Language.Japanese: nation = "jpn"; break;
+                case Language.SimplifiedChinese: nation = "chs"; break;
+                case Language.TraditionalChinese: nation = "cht"; break;
             }
             MultilingualDictionary.TryGetValue(nation, out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
+        
         public static string GetWord(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
@@ -12467,21 +12469,23 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(name)) { name = keyword; }
             return name;
         }
-        public static string GetRoundName(string keyword, int lang) {
+        
+        public static string GetRoundName(string keyword, Language lang) {
             string name = string.Empty;
             string nation = string.Empty;
             switch (lang) {
-                case 0: nation = "eng"; break;
-                case 1: nation = "fre"; break;
-                case 2: nation = "kor"; break;
-                case 3: nation = "jpn"; break;
-                case 4: nation = "chs"; break;
-                case 5: nation = "cht"; break;
+                case Language.English: nation = "eng"; break;
+                case Language.French: nation = "fre"; break;
+                case Language.Korean: nation = "kor"; break;
+                case Language.Japanese: nation = "jpn"; break;
+                case Language.SimplifiedChinese: nation = "chs"; break;
+                case Language.TraditionalChinese: nation = "cht"; break;
             }
             MultilingualRoundsDictionary.TryGetValue(nation, out Dictionary<string, string> roundDictionary);
             roundDictionary?.TryGetValue(keyword, out name);
             return name;
         }
+        
         public static string GetRoundName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
@@ -12497,21 +12501,23 @@ namespace FallGuysStats {
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
-        public static string GetShowName(string keyword, int lang) {
+        
+        public static string GetShowName(string keyword, Language lang) {
             string name = string.Empty;
             string nation = string.Empty;
             switch (lang) {
-                case 0: nation = "eng"; break;
-                case 1: nation = "fre"; break;
-                case 2: nation = "kor"; break;
-                case 3: nation = "jpn"; break;
-                case 4: nation = "chs"; break;
-                case 5: nation = "cht"; break;
+                case Language.English: nation = "eng"; break;
+                case Language.French: nation = "fre"; break;
+                case Language.Korean: nation = "kor"; break;
+                case Language.Japanese: nation = "jpn"; break;
+                case Language.SimplifiedChinese: nation = "chs"; break;
+                case Language.TraditionalChinese: nation = "cht"; break;
             }
             MultilingualShowsDictionary.TryGetValue(nation, out Dictionary<string, string> showsDictionary);
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
+        
         public static string GetShowName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
@@ -12527,22 +12533,24 @@ namespace FallGuysStats {
             countryDictionary?.TryGetValue(keyword, out name);
             return name;
         }
-        public static string GetCountryName(string keyword, int lang) {
+        
+        public static string GetCountryName(string keyword, Language lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             string nation = string.Empty;
             switch (lang) {
-                case 0: nation = "eng"; break;
-                case 1: nation = "fre"; break;
-                case 2: nation = "kor"; break;
-                case 3: nation = "jpn"; break;
-                case 4: nation = "chs"; break;
-                case 5: nation = "cht"; break;
+                case Language.English: nation = "eng"; break;
+                case Language.French: nation = "fre"; break;
+                case Language.Korean: nation = "kor"; break;
+                case Language.Japanese: nation = "jpn"; break;
+                case Language.SimplifiedChinese: nation = "chs"; break;
+                case Language.TraditionalChinese: nation = "cht"; break;
             }
             MultilingualCountryDictionary.TryGetValue(nation, out Dictionary<string, string> countryDictionary);
             countryDictionary?.TryGetValue(keyword, out name);
             return name;
         }
+        
         public static string GetCountryName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;

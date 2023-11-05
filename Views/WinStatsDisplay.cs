@@ -508,23 +508,23 @@ namespace FallGuysStats {
             this.chkWins.Text = Multilingual.GetWord("level_detail_wins");
             this.chkFinals.Text = Multilingual.GetWord("level_detail_finals");
             this.chkShows.Text = Multilingual.GetWord("level_detail_shows");
-            if (Stats.CurrentLanguage == 0) { // English
+            if (Stats.CurrentLanguage == Language.English) {
                 this.chkShows.Location = new Point(1147, 35);
                 this.chkFinals.Location = new Point(1053, 35);
                 this.chkWins.Location = new Point(961, 35);
-            } else if (Stats.CurrentLanguage == 1) { // French
+            } else if (Stats.CurrentLanguage == Language.French) {
                 this.chkShows.Location = new Point(1147, 35);
                 this.chkFinals.Location = new Point(1042, 35);
                 this.chkWins.Location = new Point(925, 35);
-            } else if (Stats.CurrentLanguage == 2) { // Korean
+            } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.chkShows.Location = new Point(1187, 35);
                 this.chkFinals.Location = new Point(1088, 35);
                 this.chkWins.Location = new Point(1001, 35);
-            } else if (Stats.CurrentLanguage == 3) { // Japanese
+            } else if (Stats.CurrentLanguage == Language.Japanese) {
                 this.chkShows.Location = new Point(1147, 35);
                 this.chkFinals.Location = new Point(1048, 35);
                 this.chkWins.Location = new Point(961, 35);
-            } else if (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) { // Simplified Chinese & Traditional Chinese
+            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 this.chkShows.Location = new Point(1147, 35);
                 this.chkFinals.Location = new Point(1053, 35);
                 this.chkWins.Location = new Point(961, 35);

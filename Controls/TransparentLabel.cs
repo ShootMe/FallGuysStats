@@ -144,46 +144,47 @@ namespace FallGuysStats {
         
         private float GetFontSizeFactor() {
             float factor;
+            Language lang = Stats.CurrentLanguage;
             switch (this.Name) {
                 case "lblWins":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinals":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblStreak":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 0 && this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 70 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length > 0 && this.TextRight.Length > 12 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.Text.Length > 0 && this.TextRight.Length > 10 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length > 0 && this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 70 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length > 0 && this.TextRight.Length > 12 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length > 0 && this.TextRight.Length > 10 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblQualifyChance":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 78 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 78 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFastest":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 7 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblPlayers":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblDuration":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length > 16 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : (this.Text.Length > 13 && this.TextRight.Length == 8 ? 1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f) : 1f)) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length > 16 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : (this.Text.Length > 13 && this.TextRight.Length == 8 ? 1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f) : 1f)) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinish":
-                    factor = (Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) ? (this.Text.Length <= 8 ? (this.TextRight.Length > 14 ? 1f - (((this.TextRight.Length * 2.5f) - 26) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
-                             (Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
-                             (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length <= 8 ? (this.TextRight.Length > 14 ? 1f - (((this.TextRight.Length * 2.5f) - 26) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
                     break;
                 default:
                     factor = 1f;
@@ -197,6 +198,7 @@ namespace FallGuysStats {
         }
         
         private float GetFontSizeFactorForRoundName(string text) {
+            Language lang = Stats.CurrentLanguage;
             float factor = 1f,
                   factorOffsetForSpace = 0f,
                   factorOffsetForEngUppercase = 0f,
@@ -209,25 +211,25 @@ namespace FallGuysStats {
             
             if (text.Length >= 9 && 30 >= text.Length) {
                 factor = 0.33f;
-                if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(0).Name)) { // English & French // default font
-                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.07f : 0.065f) : 0.085f;
-                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0307f : 0.0278f) : 0.034f;
-                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0333f : 0.0302f) : 0.037f;
-                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
-                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.017f : 0.015f) : 0.0192f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0284f : 0.0257f) : 0.0315f;
-                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0312f : 0.0282f) : 0.0345f;
-                } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(2).Name)) { // Korean & Japanese // default font
-                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.087f : 0.075f) : 0.093f;
-                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.034f : 0.029f) : 0.034f;
-                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.043f : 0.0372f) : 0.0427f;
-                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0237f : 0.02f) : 0.0245f;
-                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
-                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.021f : 0.0175f) : 0.0217f;
-                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0315f : 0.0267f) : 0.0315f;
-                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.046f : 0.0397f) : 0.046f;
-                } else if ((Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(4).Name)) { // Simplified Chinese & Traditional Chinese // default font
+                if ((lang == Language.English || lang == Language.French) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.English).Name)) {
+                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.07f : 0.065f) : 0.085f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0307f : 0.0278f) : 0.034f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0333f : 0.0302f) : 0.037f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.017f : 0.015f) : 0.0192f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0284f : 0.0257f) : 0.0315f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0312f : 0.0282f) : 0.0345f;
+                } else if ((lang == Language.Korean || lang == Language.Japanese) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.Korean).Name)) {
+                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.087f : 0.075f) : 0.093f;
+                    factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.034f : 0.029f) : 0.034f;
+                    factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.043f : 0.0372f) : 0.0427f;
+                    factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0237f : 0.02f) : 0.0245f;
+                    factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.021f : 0.0175f) : 0.0217f;
+                    factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.021f : 0.0175f) : 0.0217f;
+                    factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0315f : 0.0267f) : 0.0315f;
+                    factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.046f : 0.0397f) : 0.046f;
+                } else if ((lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.SimplifiedChinese).Name)) {
                     factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.1f : 0.085f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0366f : 0.0277f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0459f : 0.035f;
@@ -237,24 +239,24 @@ namespace FallGuysStats {
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? 0.0335f : 0.0252f;
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.049f : 0.0375f;
                 } else { // Custom font
-                    if ((Stats.CurrentLanguage == 0 || Stats.CurrentLanguage == 1)) { // English & French
-                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.08f : 0.073f) : 0.1f;
-                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0282f : 0.0247f) : 0.0305f;
-                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0382f : 0.0341f) : 0.0412f;
-                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
-                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
-                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0205f : 0.0178f) : 0.0225f;
-                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0265f : 0.0235f) : 0.0288f;
-                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 0 ? 0.0375f : 0.0335f) : 0.0406f;
-                    } else if ((Stats.CurrentLanguage == 2 || Stats.CurrentLanguage == 3)) { // Korean & Japanese
-                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.085f : 0.075f) : 0.09f;
-                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0308f : 0.027f) : 0.0305f;
-                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0412f : 0.0367f) : 0.0407f;
-                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
-                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
-                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0225f : 0.0195f) : 0.0228f;
-                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0285f : 0.025f) : 0.0287f;
-                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (Stats.CurrentLanguage == 2 ? 0.0405f : 0.036f) : 0.04f;
+                    if (lang == Language.English || lang == Language.French) {
+                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.08f : 0.073f) : 0.1f;
+                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0282f : 0.0247f) : 0.0305f;
+                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0382f : 0.0341f) : 0.0412f;
+                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0205f : 0.0178f) : 0.0225f;
+                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0265f : 0.0235f) : 0.0288f;
+                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0375f : 0.0335f) : 0.0406f;
+                    } else if (lang == Language.Korean || lang == Language.Japanese) {
+                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.085f : 0.075f) : 0.09f;
+                        factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0308f : 0.027f) : 0.0305f;
+                        factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0412f : 0.0367f) : 0.0407f;
+                        factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForJpnCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0225f : 0.0195f) : 0.0228f;
+                        factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0285f : 0.025f) : 0.0287f;
+                        factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0405f : 0.036f) : 0.04f;
                     } else { // Simplified Chinese & Traditional Chinese
                         factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.095f : 0.08f;
                         factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0345f : 0.0255f;

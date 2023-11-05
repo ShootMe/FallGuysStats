@@ -108,7 +108,6 @@
     <Compile Include="Entities\ApiWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Entities\CustomRangeTemplates.cs" />
     <Compile Include="Entities\FallalyticsReporter.cs" />
     <Compile Include="Entities\FallalyticsPbLog.cs" />
     <Compile Include="Entities\GameStateWatcher.cs" />

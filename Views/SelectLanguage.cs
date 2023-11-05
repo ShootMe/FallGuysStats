@@ -3,26 +3,26 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public partial class SelectLanguage : MetroFramework.Forms.MetroForm {
-        private int defaultLanguage;
-        public int selectedLanguage;
+        private Language defaultLanguage;
+        public Language selectedLanguage;
         public bool autoGenerateProfiles;
 
         public SelectLanguage(string sysLang) {
-            this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.Ordinal) ? 1 :
-                                   string.Equals(sysLang, "ko", StringComparison.Ordinal) ? 2 :
-                                   string.Equals(sysLang, "ja", StringComparison.Ordinal) ? 3 :
-                                   string.Equals(sysLang, "zh-chs", StringComparison.Ordinal) ? 4 :
-                                   string.Equals(sysLang, "zh-cht", StringComparison.Ordinal) ? 5 : 0;
+            this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.Ordinal) ? Language.French :
+                                   string.Equals(sysLang, "ko", StringComparison.Ordinal) ? Language.Korean :
+                                   string.Equals(sysLang, "ja", StringComparison.Ordinal) ? Language.Japanese :
+                                   string.Equals(sysLang, "zh-chs", StringComparison.Ordinal) ? Language.SimplifiedChinese :
+                                   string.Equals(sysLang, "zh-cht", StringComparison.Ordinal) ? Language.TraditionalChinese : Language.English;
             this.InitializeComponent();
         }
 
         private void SelectLanguage_Load(object sender, EventArgs e) {
-            this.cboLanguage.SelectedIndex = this.defaultLanguage;
+            this.cboLanguage.SelectedIndex = (int)this.defaultLanguage;
             this.ChangeLanguage(this.defaultLanguage);
         }
         
         private void cboLanguage_SelectedIndexChanged(object sender, EventArgs e) {
-            this.selectedLanguage = ((ComboBox)sender).SelectedIndex;
+            this.selectedLanguage = (Language)((ComboBox)sender).SelectedIndex;
             this.ChangeLanguage(this.selectedLanguage);
         }
         
@@ -39,7 +39,7 @@ namespace FallGuysStats {
             this.DialogResult = DialogResult.OK;
         }
 
-        private void ChangeLanguage(int lang) {
+        private void ChangeLanguage(Language lang) {
             this.Font = Overlay.GetMainFont(9, FontStyle.Regular, lang);
             this.Text = Multilingual.GetWord("settings_select_language_title", lang);
             this.chkAutoGenerateProfile.Text = Multilingual.GetWord("settings_auto_generate_profiles", lang);

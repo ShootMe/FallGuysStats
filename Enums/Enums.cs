@@ -27,6 +27,15 @@
         Silver,
         Bronze
     }
+
+    public enum Language {
+        English,
+        French,
+        Korean,
+        Japanese,
+        SimplifiedChinese,
+        TraditionalChinese
+    }
     
     public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
     

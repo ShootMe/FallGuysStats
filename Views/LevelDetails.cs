@@ -182,16 +182,16 @@ namespace FallGuysStats {
         }
         
         private int GetClientWidth(string level) {
-            int lang = Stats.CurrentLanguage;
+            Language lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
-                    return this.Width - (lang == 0 ? -100 : lang == 1 ? -113 : lang == 2 ? -90 : lang == 3 ? -90 : -95);
+                    return this.Width - (lang == Language.English ? -100 : lang == Language.French ? -113 : lang == Language.Korean ? -90 : lang == Language.Japanese ? -90 : -95);
                 case "Rounds":
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
                 case "Finals":
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
                 default:
-                    return this.Width + (lang == 0 ? 955 : lang == 1 ? 1088 : lang == 2 ? 900 : lang == 3 ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
             }
         }
         
@@ -893,11 +893,11 @@ namespace FallGuysStats {
                 strBuilder.Append(Environment.NewLine);
                 string[] createAuthorArr = info.CreativeAuthor.Split(';');
                 string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
-                string indent = Stats.CurrentLanguage == 0 ? "            " :
-                                Stats.CurrentLanguage == 1 ? "                " :
-                                Stats.CurrentLanguage == 2 ? "            " :
-                                Stats.CurrentLanguage == 3 ? "            " :
-                                Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5 ? "         " : "            ";
+                string indent = Stats.CurrentLanguage == Language.English ? "            " :
+                                Stats.CurrentLanguage == Language.French ? "                " :
+                                Stats.CurrentLanguage == Language.Korean ? "            " :
+                                Stats.CurrentLanguage == Language.Japanese ? "            " :
+                                Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese ? "         " : "            ";
                 for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
                     strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
                                              : $"{Environment.NewLine}{indent}{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");

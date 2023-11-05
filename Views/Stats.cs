@@ -52,11 +52,11 @@ namespace FallGuysStats {
                         string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                          CultureInfo.CurrentUICulture.Name :
                                          CultureInfo.CurrentUICulture.Name.Substring(0, 2);
-                        CurrentLanguage = "fr".Equals(sysLang, StringComparison.Ordinal) ? 1 :
-                                          "ko".Equals(sysLang, StringComparison.Ordinal) ? 2 :
-                                          "ja".Equals(sysLang, StringComparison.Ordinal) ? 3 :
-                                          "zh-chs".Equals(sysLang, StringComparison.Ordinal) ? 4 :
-                                          "zh-cht".Equals(sysLang, StringComparison.Ordinal) ? 5 : 0;
+                        CurrentLanguage = "fr".Equals(sysLang, StringComparison.Ordinal) ? Language.French :
+                                          "ko".Equals(sysLang, StringComparison.Ordinal) ? Language.Korean :
+                                          "ja".Equals(sysLang, StringComparison.Ordinal) ? Language.Japanese :
+                                          "zh-chs".Equals(sysLang, StringComparison.Ordinal) ? Language.SimplifiedChinese :
+                                          "zh-cht".Equals(sysLang, StringComparison.Ordinal) ? Language.TraditionalChinese : Language.English;
                         MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("main_fall_guys_stats"),
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return true;
@@ -84,7 +84,7 @@ namespace FallGuysStats {
         };
         private static DateTime SeasonStart, WeekStart, DayStart;
         private static DateTime SessionStart = DateTime.UtcNow;
-        public static int CurrentLanguage;
+        public static Language CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
         
         public static bool InShow = false; 
@@ -322,7 +322,7 @@ namespace FallGuysStats {
             } else {
                 try {
                     this.CurrentSettings = this.UserSettings.FindAll().First();
-                    CurrentLanguage = this.CurrentSettings.Multilingual;
+                    CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
                     CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
                 } catch {
                     this.UserSettings.DeleteAll();
@@ -386,7 +386,7 @@ namespace FallGuysStats {
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
                         CurrentLanguage = initLanguageForm.selectedLanguage;
                         Overlay.SetDefaultFont(18, CurrentLanguage);
-                        this.CurrentSettings.Multilingual = initLanguageForm.selectedLanguage;
+                        this.CurrentSettings.Multilingual = (int)initLanguageForm.selectedLanguage;
                         if (initLanguageForm.autoGenerateProfiles) {
                             for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
                                 string showId = this.PublicShowIdList[i - 1];
@@ -2357,9 +2357,9 @@ namespace FallGuysStats {
                 } else if (sender.Equals(this.menuFallalytics) || sender.Equals(this.trayFallalytics)) {
                     Process.Start(@"https://fallalytics.com/");
                 } else if (sender.Equals(this.menuRollOffClub) || sender.Equals(this.trayRollOffClub)) {
-                    if (CurrentLanguage == 2) {
+                    if (CurrentLanguage == Language.Korean) {
                         Process.Start(@"https://rolloff.club/ko/");
-                    } else if (CurrentLanguage == 4) {
+                    } else if (CurrentLanguage == Language.SimplifiedChinese) {
                         Process.Start(@"https://rolloff.club/zh/");
                     } else {
                         Process.Start(@"https://rolloff.club/");
@@ -2615,7 +2615,7 @@ namespace FallGuysStats {
             string rtnStr = string.Empty;
             for (int i = 0; i < lines.Length; i++) {
                 if (i > 0) rtnStr += Environment.NewLine;
-                rtnStr += CurrentLanguage == 0 || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
+                rtnStr += CurrentLanguage == Language.English || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
                             ? lines[i]
                             : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
             }
@@ -3995,34 +3995,34 @@ namespace FallGuysStats {
                     break;
                 case "Qualified":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 2 || CurrentLanguage == 3 ||CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.English || CurrentLanguage == Language.French ? 0 : 5;
                     break;
                 case "Gold":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 1 ? 12 : CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.French ? 12 : CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
                     break;
                 case "Silver":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
                     break;
                 case "Bronze":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 5 : 0;
+                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 5 : 0;
                     break;
                 case "Kudos":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Fastest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 case "Longest":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 case "AveFinish":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    sizeOfText += CurrentLanguage == 4 || CurrentLanguage == 5 ? 20 : 0;
+                    sizeOfText += CurrentLanguage == Language.SimplifiedChinese || CurrentLanguage == Language.TraditionalChinese ? 20 : 0;
                     break;
                 default:
                     return 0;
@@ -4839,11 +4839,11 @@ namespace FallGuysStats {
         
         private void LaunchHelpInBrowser() {
             try {
-                if (CurrentLanguage == 1) { // French
+                if (CurrentLanguage == Language.French) {
                     Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/fr/README.md#table-des-mati%C3%A8res");
-                } else if (CurrentLanguage == 2) { // Korean
+                } else if (CurrentLanguage == Language.Korean) {
                     Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ko/README.md#%EB%AA%A9%EC%B0%A8");
-                } else if (CurrentLanguage == 3) { // Japanese
+                } else if (CurrentLanguage == Language.Japanese) {
                     Process.Start("https://github.com/ShootMe/FallGuysStats/blob/master/docs/ja/README.md#%E7%9B%AE%E6%AC%A1");
                 } else {
                     Process.Start("https://github.com/ShootMe/FallGuysStats#table-of-contents");
@@ -5802,10 +5802,11 @@ namespace FallGuysStats {
         }
         
         private void SetMinimumSize() {
-            this.MinimumSize = new Size(CurrentLanguage == 0 ? 720 :
-                                        CurrentLanguage == 1 ? 845 :
-                                        CurrentLanguage == 2 ? 650 :
-                                        CurrentLanguage == 3 ? 795 : 600, 350);
+            this.MinimumSize = new Size(CurrentLanguage == Language.English ? 720 :
+                                        CurrentLanguage == Language.French ? 845 :
+                                        CurrentLanguage == Language.Korean ? 650 :
+                                        CurrentLanguage == Language.Japanese ? 795 : 600
+                                        , 350);
         }
         
         private async void menuSettings_Click(object sender, EventArgs e) {
@@ -5825,7 +5826,7 @@ namespace FallGuysStats {
                         this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                         this.SetTheme(CurrentTheme);
                         this.SaveUserSettings();
-                        if (this.currentLanguage != CurrentLanguage) {
+                        if (this.currentLanguage != (int)CurrentLanguage) {
                             this.SetMinimumSize();
                             this.ChangeMainLanguage();
                             this.UpdateTotals();
@@ -5982,7 +5983,7 @@ namespace FallGuysStats {
         }
         
         private void ChangeMainLanguage() {
-            this.currentLanguage = CurrentLanguage;
+            this.currentLanguage = (int)CurrentLanguage;
             this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.trayIcon.Text = this.mainWndTitle.Trim();
             this.Text = this.mainWndTitle;

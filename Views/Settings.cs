@@ -24,7 +24,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         public Overlay Overlay { get; set; }
         private int LaunchPlatform;
-        private int DisplayLang;
+        private Language DisplayLang;
         private bool CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
         
@@ -51,7 +51,7 @@ namespace FallGuysStats {
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
-            this.cboMultilingual.SelectedIndex = Stats.CurrentLanguage;
+            this.cboMultilingual.SelectedIndex = (int)Stats.CurrentLanguage;
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
@@ -385,7 +385,7 @@ namespace FallGuysStats {
 
         private void btnSave_Click(object sender, EventArgs e) {
             this.CurrentSettings.LogPath = this.txtLogPath.Text;
-            Stats.CurrentLanguage = this.cboMultilingual.SelectedIndex;
+            Stats.CurrentLanguage = (Language)this.cboMultilingual.SelectedIndex;
             this.CurrentSettings.Multilingual = this.cboMultilingual.SelectedIndex;
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
             Stats.CurrentTheme = this.cboTheme.SelectedIndex == 0 ? MetroThemeStyle.Light :
@@ -765,8 +765,8 @@ namespace FallGuysStats {
         }
         
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
-            if (this.DisplayLang == ((ComboBox)sender).SelectedIndex) return;
-            this.ChangeLanguage(((ComboBox)sender).SelectedIndex);
+            if (this.DisplayLang == (Language)((ComboBox)sender).SelectedIndex) return;
+            this.ChangeLanguage((Language)((ComboBox)sender).SelectedIndex);
         }
         
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
@@ -814,10 +814,10 @@ namespace FallGuysStats {
             }
         }
 
-        private void ChangeLanguage(int lang) {
+        private void ChangeLanguage(Language lang) {
             this.DisplayLang = lang;
             this.Font = Overlay.GetMainFont(12, FontStyle.Regular, this.DisplayLang);
-            int tempLanguage = Stats.CurrentLanguage;
+            Language tempLanguage = Stats.CurrentLanguage;
             Stats.CurrentLanguage = lang;
 
             this.Text = $@"     {Multilingual.GetWord("settings_title")}";
@@ -982,14 +982,14 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_sounds_04"),
             });
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
-            this.cboNotificationSounds.Width = (lang == 0 || lang == 1) ? 172 : lang == 2 ? 115 : lang == 3 ? 95 : 110;
+            this.cboNotificationSounds.Width = (lang == Language.English || lang == Language.French) ? 172 : lang == Language.Korean ? 115 : lang == Language.Japanese ? 95 : 110;
             this.cboNotificationWindowPosition.Items.Clear();
             this.cboNotificationWindowPosition.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
                 Multilingual.GetWord("settings_notification_window_top_right"),
             });
             this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
-            this.cboNotificationWindowPosition.Width = lang == 0 ? 116 : lang == 1 ? 131 : lang == 2 ? 94 : lang == 3 ? 62 : lang == 4 ? 62 : lang == 5 ? 62 : 120;
+            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 131 : lang == Language.Korean ? 94 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 62 : lang == Language.TraditionalChinese ? 62 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.btnPlayNotificationSounds.Location.Y);
@@ -997,7 +997,7 @@ namespace FallGuysStats {
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
             this.grpLaunchPlatform.Text = Multilingual.GetWord("settings_game_options_platform");
-            this.grpLaunchPlatform.Width = lang == 3 ? 120 : 95;
+            this.grpLaunchPlatform.Width = lang == Language.Japanese ? 120 : 95;
             this.btnGameExeLocationBrowse.Text = Multilingual.GetWord("settings_browse");
             this.chkLaunchGameOnStart.Text = Multilingual.GetWord("settings_launch_fall_guys_on_tracker_launch");
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");

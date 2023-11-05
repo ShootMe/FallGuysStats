@@ -207,20 +207,20 @@ namespace FallGuysStats {
         private void SetFontColor(Color color) {
             this.ForeColor = color;
         }
-        public static void SetDefaultFont(float emSize, int language) {
-            DefaultFont = new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+        public static void SetDefaultFont(float emSize, Language lang) {
+            DefaultFont = new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
         }
-        public static Font GetDefaultFont(float emSize, int language) {
-            return new Font(GetDefaultFontFamilies(language), emSize, (language == 2 || language == 3 || language == 4 || language == 5) ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+        public static Font GetDefaultFont(float emSize, Language lang) {
+            return new Font(GetDefaultFontFamilies(lang), emSize, (lang == Language.English || lang == Language.French) ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel);
         }
-        public static FontFamily GetDefaultFontFamilies(int language = 0) {
-            return language <= 1 ? DefaultFontCollection.Families[2] : (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        public static FontFamily GetDefaultFontFamilies(Language lang = Language.English) {
+            return (lang == Language.English || lang == Language.French) ? DefaultFontCollection.Families[2] : (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
-        public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, int language = 0) {
-            return new Font(GetMainFontFamilies(language), emSize, fontStyle, GraphicsUnit.Pixel);
+        public static Font GetMainFont(float emSize, FontStyle fontStyle = FontStyle.Regular, Language lang = Language.English) {
+            return new Font(GetMainFontFamilies(lang), emSize, fontStyle, GraphicsUnit.Pixel);
         }
-        public static FontFamily GetMainFontFamilies(int language) {
-            return (language == 4 || language == 5) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
+        public static FontFamily GetMainFontFamilies(Language lang) {
+            return (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? DefaultFontCollection.Families[1] : DefaultFontCollection.Families[0];
         }
         public bool IsFocused() {
             return this.isFocused;
@@ -623,8 +623,8 @@ namespace FallGuysStats {
                 switch (streakSwitchCount % 2) {
                     case 0:
                         this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
-                        string currentStreakSuffix = Stats.CurrentLanguage == 2 ? (levelSummary.CurrentStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
-                        string bestStreakSuffix = Stats.CurrentLanguage == 2 ? (levelSummary.BestStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
+                        string currentStreakSuffix = Stats.CurrentLanguage == Language.Korean ? (levelSummary.CurrentStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
+                        string bestStreakSuffix = Stats.CurrentLanguage == Language.Korean ? (levelSummary.BestStreak > 1 ? Multilingual.GetWord("overlay_streak_suffix") : Multilingual.GetWord("overlay_win")) : Multilingual.GetWord("overlay_streak_suffix");
                         this.lblStreak.TextRight = $"{levelSummary.CurrentStreak:N0}{currentStreakSuffix} ({Multilingual.GetWord("overlay_best")}{levelSummary.BestStreak:N0}{bestStreakSuffix})";
                         break;
                     case 1:

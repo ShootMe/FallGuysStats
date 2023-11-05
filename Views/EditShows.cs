@@ -177,35 +177,35 @@ namespace FallGuysStats {
             this.lblEditShowslabel.Text = Multilingual.GetWord("profile_list");
             this.btnEditShowsSave.Text = Multilingual.GetWord("profile_apply_change_button");
             this.btnEditShowsCancel.Text = Multilingual.GetWord("profile_undo_change_button");
-            if (Stats.CurrentLanguage == 0) { // English
+            if (Stats.CurrentLanguage == Language.English) {
                 this.ClientSize = new Size(455, 255);
                 this.cboEditShows.Location = new Point(185, 135);
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(455, 65);
                 this.btnEditShowsSave.Location = new Point(248, 210);
                 this.btnEditShowsCancel.Location = new Point(347, 210);
-            } else if (Stats.CurrentLanguage == 1) { // French
+            } else if (Stats.CurrentLanguage == Language.French) {
                 this.ClientSize = new Size(525, 255);
                 this.cboEditShows.Location = new Point(185, 135);
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(525, 65);
                 this.btnEditShowsSave.Location = new Point(318, 210);
                 this.btnEditShowsCancel.Location = new Point(417, 210);
-            } else if (Stats.CurrentLanguage == 2) { // Korean
+            } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.ClientSize = new Size(455, 255);
                 this.cboEditShows.Location = new Point(185, 135);
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(455, 65);
                 this.btnEditShowsSave.Location = new Point(248, 210);
                 this.btnEditShowsCancel.Location = new Point(347, 210);
-            } else if (Stats.CurrentLanguage == 3) { // Japanese
+            } else if (Stats.CurrentLanguage == Language.Japanese) {
                 this.ClientSize = new Size(540, 255);
                 this.cboEditShows.Location = new Point(230, 135);
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(540, 65);
                 this.btnEditShowsSave.Location = new Point(333, 210);
                 this.btnEditShowsCancel.Location = new Point(432, 210);
-            } else if (Stats.CurrentLanguage == 4 || Stats.CurrentLanguage == 5) { // Simplified Chinese & Traditional Chinese
+            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 this.ClientSize = new Size(445, 255);
                 this.cboEditShows.Location = new Point(185, 135);
                 //this.cboEditShows.Size = new Size(198, 29);

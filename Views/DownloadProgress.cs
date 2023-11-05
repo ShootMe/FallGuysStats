@@ -64,7 +64,7 @@ namespace FallGuysStats {
 
         private void ChangeLanguage() {
             this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_program");
-            this.lblDownloadDescription.Font = new Font(Overlay.GetDefaultFontFamilies(Stats.CurrentLanguage), 18, Stats.CurrentLanguage > 1 ? FontStyle.Bold : FontStyle.Regular, GraphicsUnit.Pixel);
+            this.lblDownloadDescription.Font = Overlay.GetDefaultFont(18, Stats.CurrentLanguage);
         }
     }
 }
