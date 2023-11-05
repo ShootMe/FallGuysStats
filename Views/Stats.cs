@@ -315,6 +315,7 @@ namespace FallGuysStats {
             this.StatsDB = new LiteDatabase(@"Filename=data.db;Timeout=120000;Upgrade=true");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
+            
             this.StatsDB.BeginTrans();
             if (this.UserSettings.Count() == 0) {
                 this.CurrentSettings = this.GetDefaultSettings();
@@ -330,8 +331,20 @@ namespace FallGuysStats {
                     this.UserSettings.Insert(this.CurrentSettings);
                 }
             }
-
             this.StatsDB.Commit();
+            
+            if (this.CurrentSettings.Version == 64) {
+                if (this.StatsDB.CollectionExists("ServerConnectionLog")) {
+                    this.StatsDB.DropCollection("ServerConnectionLog");
+                }
+                if (this.StatsDB.CollectionExists("PersonalBestLog")) {
+                    this.StatsDB.DropCollection("PersonalBestLog");
+                }
+                if (this.StatsDB.CollectionExists("FallalyticsPbLog")) {
+                    this.StatsDB.DropCollection("FallalyticsPbLog");
+                }
+            }
+            
             this.RemoveUpdateFiles();
             
             this.InitializeComponent();
@@ -356,9 +369,6 @@ namespace FallGuysStats {
             this.ServerConnectionLog = this.StatsDB.GetCollection<ServerConnectionLog>("ServerConnectionLog");
             this.PersonalBestLog = this.StatsDB.GetCollection<PersonalBestLog>("PersonalBestLog");
             this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
-
-            this.ClearServerConnectionLog();
-            this.ClearPersonalBestLog();
             
             this.StatsDB.BeginTrans();
             this.RoundDetails.EnsureIndex(r => r.Name);
@@ -421,6 +431,9 @@ namespace FallGuysStats {
             this.InitMainDataGridView();
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
+            
+            this.ClearServerConnectionLog();
+            this.ClearPersonalBestLog();
 
             this.CurrentRound = new List<RoundInfo>();
             
@@ -2136,6 +2149,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 64;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 64) {
+                this.CurrentSettings.NotifyPersonalBest = true;
+                this.CurrentSettings.Version = 65;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -2756,41 +2775,27 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnPersonalBestNotification(RoundInfo info) {
-            if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) && level.Type == LevelType.Race) {
-                TimeSpan currentRecord = info.Finish.Value - info.Start;
-                BsonExpression recordQuery = Query.And(
-                    Query.Not("Finish", null),
-                    Query.EQ("Name", info.Name),
-                    Query.EQ("ShowNameId", info.ShowNameId)
-                );
-                List<RoundInfo> queryResult = this.RoundDetails.Find(recordQuery).ToList();
-                TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                
-                this.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
-                if (this.CurrentSettings.NotifyPersonalBest && IsGameRunning && currentRecord < record) {
-                    string timeDiffContent = String.Empty;
-                    if (record != TimeSpan.MaxValue) {
-                        TimeSpan timeDiff = record - currentRecord;
-                        timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
-                            : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
-                    }
-                    string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")}";
-                    string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
-                    ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
-                    ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
-                    ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
-                    ToastSound toastSound;
-                    switch (this.CurrentSettings.NotificationSounds) {
-                        case 1: toastSound = ToastSound.Generic02; break;
-                        case 2: toastSound = ToastSound.Generic03; break;
-                        case 3: toastSound = ToastSound.Generic04; break;
-                        default: toastSound = ToastSound.Generic01; break;
-                    }
-                    this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_new_personal_best_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
-                        null, ToastDuration.MEDIUM, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
-                }
+        private void LogFile_OnPersonalBestNotification(RoundInfo info, TimeSpan record, TimeSpan currentRecord) {
+            string timeDiffContent = String.Empty;
+            if (record != TimeSpan.MaxValue) {
+                TimeSpan timeDiff = record - currentRecord;
+                timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
+                    : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
+            string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")}";
+            string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
+            ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+            ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
+            ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
+            ToastSound toastSound;
+            switch (this.CurrentSettings.NotificationSounds) {
+                case 1: toastSound = ToastSound.Generic02; break;
+                case 2: toastSound = ToastSound.Generic03; break;
+                case 3: toastSound = ToastSound.Generic04; break;
+                default: toastSound = ToastSound.Generic01; break;
+            }
+            this.ShowToastNotification(this, Properties.Resources.main_120_icon, Multilingual.GetWord("message_new_personal_best_caption"), description, Overlay.GetMainFont(16, FontStyle.Bold, CurrentLanguage),
+                null, ToastDuration.MEDIUM, toastPosition, toastAnimation, toastTheme, toastSound, this.CurrentSettings.MuteNotificationSounds, true);
         }
 
         private void LogFile_OnServerConnectionNotification() {
@@ -3139,7 +3144,7 @@ namespace FallGuysStats {
             return this.PersonalBestLog.Exists(condition);
         }
         
-        private PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
+        public PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
             BsonExpression condition = Query.And(
                 Query.EQ("_id", sessionId),
                 Query.EQ("ShowId", showId),
@@ -3147,16 +3152,26 @@ namespace FallGuysStats {
             );
             return this.PersonalBestLog.FindOne(condition);
         }
-
-        private void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+        
+        public void InsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+                this.PersonalBestLog.Insert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 });
                 this.StatsDB.Commit();
             }
         }
+
+        // private void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+        //     lock (this.StatsDB) {
+        //         this.StatsDB.BeginTrans();
+        //         this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+        //             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
+        //         });
+        //         this.StatsDB.Commit();
+        //     }
+        // }
 
         private void ClearPersonalBestLog() {
             lock (this.StatsDB) {
@@ -3184,17 +3199,40 @@ namespace FallGuysStats {
             );
             return this.ServerConnectionLog.FindOne(condition);
         }
-
-        public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+        
+        public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                this.ServerConnectionLog.Insert(new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                     IsNotify = isNotify, IsPlaying = isPlaying
                 });
                 this.StatsDB.Commit();
             }
         }
+        
+        public void UpdateServerConnectionLog(string sessionId, string showId, bool isPlaying) {
+            lock (this.StatsDB) {
+                ServerConnectionLog serverConnectionLog = this.SelectServerConnectionLog(sessionId, showId);
+                if (serverConnectionLog != null) {
+                    this.StatsDB.BeginTrans();
+                    serverConnectionLog.IsPlaying = isPlaying;
+                    this.ServerConnectionLog.Update(serverConnectionLog);
+                    this.StatsDB.Commit();
+                }
+            }
+        }
+
+        // public void UpsertServerConnectionLog(string sessionId, string showNameId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+        //     lock (this.StatsDB) {
+        //         this.StatsDB.BeginTrans();
+        //         this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showNameId, ServerIp = serverIp, ConnectionDate = connectionDate,
+        //             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+        //             IsNotify = isNotify, IsPlaying = isPlaying
+        //         });
+        //         this.StatsDB.Commit();
+        //     }
+        // }
 
         private void ClearServerConnectionLog() {
             lock (this.StatsDB) {

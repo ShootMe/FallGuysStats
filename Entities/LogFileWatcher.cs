@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using LiteDB;
 
 namespace FallGuysStats {
     public class LogLine {
@@ -82,7 +84,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
         public event Action OnServerConnectionNotification;
-        public event Action<RoundInfo> OnPersonalBestNotification;
+        public event Action<RoundInfo, TimeSpan, TimeSpan> OnPersonalBestNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -489,6 +491,54 @@ namespace FallGuysStats {
             }
         }
 
+        private void UpdateServerConnectionLog(string session, string show) {
+            lock (this.lockObject) {
+                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
+                if (serverConnectionLog == null) {
+                    this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                    this.serverPingWatcher.Start();
+                    this.SetCountryCodeByIP(Stats.LastServerIp);
+                    if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                        this.OnServerConnectionNotification?.Invoke();
+                    }
+                } else {
+                    if (!serverConnectionLog.IsNotify) {
+                        if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                            this.OnServerConnectionNotification?.Invoke();
+                        }
+                    }
+
+                    if (serverConnectionLog.IsPlaying) {
+                        this.serverPingWatcher.Start();
+                        this.SetCountryCodeByIP(Stats.LastServerIp);
+                    }
+                }
+            }
+        }
+
+        private void UpdatePersonalBestLog(RoundInfo info) {
+            if (info.PrivateLobby || !info.Finish.HasValue || !LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) || level.Type != LevelType.Race) {
+                return;
+            }
+
+            lock (this.lockObject) {
+                if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+                    TimeSpan currentRecord = info.Finish.Value - info.Start;
+                    BsonExpression recordQuery = Query.And(
+                        Query.Not("Finish", null),
+                        Query.EQ("Name", info.Name),
+                        Query.EQ("ShowNameId", info.ShowNameId)
+                    );
+                    List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
+                    TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                    this.StatsForm.InsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
+                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < record) {
+                        this.OnPersonalBestNotification?.Invoke(info, record, currentRecord);
+                    }
+                }
+            }
+        }
+
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
             if (!Stats.ToggleServerInfo && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
@@ -521,10 +571,7 @@ namespace FallGuysStats {
                     }
                 }
             } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) >= 0) {
-                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId);
-                if (serverConnectionLog != null) {
-                    this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, false);
-                }
+                this.StatsForm.UpdateServerConnectionLog(this.sessionId, this.selectedShowId, false);
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
@@ -576,28 +623,7 @@ namespace FallGuysStats {
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 this.sessionId = line.Line.Substring(index + 33);
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                    lock (this.lockObject) {
-                        ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(this.sessionId, this.selectedShowId);
-                        if (serverConnectionLog != null) {
-                            if (!serverConnectionLog.IsNotify) {
-                                if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                    this.OnServerConnectionNotification?.Invoke();
-                                }
-                            }
-
-                            if (serverConnectionLog.IsPlaying) {
-                                this.serverPingWatcher.Start();
-                                this.SetCountryCodeByIP(Stats.LastServerIp);
-                            }
-                        } else {
-                            this.StatsForm.UpsertServerConnectionLog(this.sessionId, this.selectedShowId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
-                            this.serverPingWatcher.Start();
-                            this.SetCountryCodeByIP(Stats.LastServerIp);
-                            if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                                this.OnServerConnectionNotification?.Invoke();
-                            }
-                        }
-                    }
+                    this.UpdateServerConnectionLog(this.sessionId, this.selectedShowId);
                 }
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) >= 0) {
                 if (line.Date > Stats.LastRoundLoad) {
@@ -725,13 +751,7 @@ namespace FallGuysStats {
                     logRound.Info.Position = position;
 
                     if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        lock (this.lockObject) {
-                            if (!logRound.Info.PrivateLobby && logRound.Info.Finish.HasValue) {
-                                    if (!this.StatsForm.ExistsPersonalBestLog(logRound.Info.SessionId, logRound.Info.ShowNameId, logRound.Info.Name)) {
-                                        this.OnPersonalBestNotification?.Invoke(logRound.Info);
-                                    }
-                            }
-                        }
+                        this.UpdatePersonalBestLog(logRound.Info);
                     }
                 }
             } else if (line.Date > Stats.LastRoundLoad && (index = line.Line.IndexOf("HandleServerPlayerProgress PlayerId=", StringComparison.OrdinalIgnoreCase)) >= 0 && line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) >= 0) {
@@ -839,7 +859,7 @@ namespace FallGuysStats {
                             }
                             round[i].ShowEnd = showEnd;
                         }
-                        this.StatsForm.UpsertServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, false);
+                        this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, false);
                         logRound.Info = null;
                         Stats.InShow = false;
                         Stats.EndedShow = true;
@@ -953,7 +973,7 @@ namespace FallGuysStats {
                     logRound.GetCurrentPlayerID = false;
                     logRound.FindingPosition = false;
                 }
-                this.StatsForm.UpsertServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, Stats.LastServerIp, Stats.ConnectedToServerDate, true, false);
+                this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, false);
                 logRound.Info = null;
                 return true;
             }
