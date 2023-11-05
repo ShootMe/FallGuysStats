@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 namespace FallGuysStats {
     public static class Multilingual {
-        public static readonly Dictionary<string, Dictionary<string, string>> MultilingualDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
-            { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualDictionary = new Dictionary<Language, Dictionary<string, string>> {
+            { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Eunma"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
@@ -284,12 +284,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "Fallalytics is a tool to explore data collected about round distribution in Fall Guys."},
                             {"settings_visit_fallalytics", "Visit Fallalytics"},
                             {"settings_about", "About"},
-                            {"settings_log_path", "Log File Path:"},
-                            {"settings_log_path_description", "* You should not need to set this. Only use when the program is not reading the correct location."},
+                            {"settings_log_path", "📁 Log File Path :"},
+                            {"settings_log_path_description", "🏷️ You should not need to set this. Only use when the program is not reading the correct location."},
                             {"settings_stats", "Stats"},
                             {"settings_theme", "Theme"},
-                            {"settings_theme_light", "Light"},
-                            {"settings_theme_dark", "Dark"},
+                            {"settings_theme_light", "☀️ Light"},
+                            {"settings_theme_dark", "🌑 Dark"},
                             {"settings_previous_win", "Previous Win(s)"},
                             {"settings_before_using_tracker", "(before using tracker)"},
                             {"settings_auto_update_program", "🔄️ Check update on startup"},
@@ -336,7 +336,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "Flip display horizontally (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 Always show on top (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 Display players based on platform (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "Color round name based on round type (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 Color round name based on round type (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 Automatically change to linked profile (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 Shading the server's flag image to display"},
                             {"settings_diaplay_current_time", "🕓 Display the current time while waiting"},
@@ -370,7 +370,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "Select your language"},
                             {"settings_auto_generate_profiles", "Auto-generate profiles"},
                             {"settings_select_language_button", "Confirm"},
-                            {"settings_system_tray_icon", "Use the system tray icon"},
+                            {"settings_system_tray_icon", "📍 Use the system tray icon"},
                             {"settings_notify_personal_best", "🔔 Windows notification when you break your personal best during a race round"},
                             {"settings_notify_server_connected", "🔔 Windows notification with the country name of the server when the server is connected"},
                             {"settings_mute_notification_sounds", "🔇 Mute notification sounds"},
@@ -469,7 +469,7 @@ namespace FallGuysStats {
                             {"custom_range_filter", "Filter"},
                         }
             },
-            { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Micdu70 & Eunma"},
                             {"main_by", "par"},
                             {"main_on_twitch", "sur Twitch"},
@@ -750,12 +750,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "Fallalytics est un outil pour explorer les données collectées sur la distribution des rondes dans Fall Guys."},
                             {"settings_visit_fallalytics", "Visiter Fallalytics"},
                             {"settings_about", "À propos de l'application"},
-                            {"settings_log_path", "Chemin vers les logs du jeu :"},
-                            {"settings_log_path_description", "* Vous n'avez normalement pas besoin de configurer ceci. Ne le faites qu'en cas de problème."},
+                            {"settings_log_path", "📁 Chemin vers les logs du jeu :"},
+                            {"settings_log_path_description", "🏷️ Vous n'avez normalement pas besoin de configurer ceci. Ne le faites qu'en cas de problème."},
                             {"settings_stats", "Tracker"},
                             {"settings_theme", "Thème :"},
-                            {"settings_theme_light", "Clair"},
-                            {"settings_theme_dark", "Sombre"},
+                            {"settings_theme_light", "☀️ Clair"},
+                            {"settings_theme_dark", "🌑 Sombre"},
                             {"settings_previous_win", "Win(s) précédente(s) :"},
                             {"settings_before_using_tracker", "(avant l'utilisation du tracker)"},
                             {"settings_auto_update_program", "🔄️ Vérifier s'il y a une nouvelle version (au lancement du programme)"},
@@ -802,7 +802,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "Inversion horizontale de l'affichage (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 Toujours afficher en haut (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 Afficher les joueurs par support de jeu (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "Colorer la manche selon son type (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 Colorer la manche selon son type (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 Passer automatiquement sur le profil lié (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 Ombrage de l'image du drapeau du serveur à afficher"},
                             {"settings_diaplay_current_time", "🕓 Affichage de l'heure actuelle pendant l'attente"},
@@ -836,7 +836,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "Sélectionnez votre langue"},
                             {"settings_auto_generate_profiles", "Créer un profil pour chaque émission"},
                             {"settings_select_language_button", "Confirmer"},
-                            {"settings_system_tray_icon", "Utiliser l'icône de la barre des tâches"},
+                            {"settings_system_tray_icon", "📍 Utiliser l'icône de la barre des tâches"},
                             {"settings_notify_personal_best", "🔔 Notification Windows lorsque vous battez votre record personnel lors d'une course"},
                             {"settings_notify_server_connected", "🔔 Notification Windows avec le nom du pays du serveur lorsque le serveur est connecté"},
                             {"settings_mute_notification_sounds", "🔇 Couper les sons des notifications"},
@@ -935,7 +935,7 @@ namespace FallGuysStats {
                             {"custom_range_filter", "Filtrer"},
                         }
             },
-            { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "신모씨_"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
@@ -1216,12 +1216,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "폴라리틱스는 폴 가이즈의 라운드 분포에 대해 수집된 데이터를 탐색하는 도구입니다."},
                             {"settings_visit_fallalytics", "Fallalytics 방문하기"},
                             {"settings_about", "이 앱 정보"},
-                            {"settings_log_path", "로그파일 경로"},
-                            {"settings_log_path_description", "* 스탯츠가 로그파일 경로를 찾지 못할 경우, 이 곳에 폴 가이즈 클라이언트의 로그파일 경로를 직접 입력해주세요."},
+                            {"settings_log_path", "📁 로그파일 경로 :"},
+                            {"settings_log_path_description", "🏷️ 스탯츠가 로그파일 경로를 찾지 못할 경우, 이 곳에 폴 가이즈 클라이언트의 로그파일 경로를 직접 입력해주세요."},
                             {"settings_stats", "스탯츠"},
                             {"settings_theme", "테마"},
-                            {"settings_theme_light", "라이트"},
-                            {"settings_theme_dark", "다크"},
+                            {"settings_theme_light", "☀️ 라이트"},
+                            {"settings_theme_dark", "🌑 다크"},
                             {"settings_previous_win", "이전 우승 횟수"},
                             {"settings_before_using_tracker", "(트래커를 사용하기 전)"},
                             {"settings_auto_update_program", "🔄️ 스탯츠를 실행할 때 새로운 업데이트 확인하기"},
@@ -1268,7 +1268,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "통계창 좌우 반전 (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 통계창을 항상 맨 위에 두기 (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 플랫폼별 인원 표시 (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "라운드 유형별 색상 배지 표시 (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 라운드 유형별 색상 배지 표시 (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 연동된 프로필로 자동 변경 (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 서버의 국기 이미지를 음영 처리해서 표시"},
                             {"settings_diaplay_current_time", "🕓 대기하는 동안 현재 시간을 표시"},
@@ -1302,7 +1302,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "언어 선택"},
                             {"settings_auto_generate_profiles", "프로필 자동 생성"},
                             {"settings_select_language_button", "확인"},
-                            {"settings_system_tray_icon", "작업 표시줄 아이콘 사용"},
+                            {"settings_system_tray_icon", "📍 작업 표시줄 아이콘 사용"},
                             {"settings_notify_personal_best", "🔔 레이스 라운드에서 개인 최고 기록을 경신하면 팝업 알림"},
                             {"settings_notify_server_connected", "🔔 서버가 연결되면 서버가 위치한 나라의 이름을 팝업 알림"},
                             {"settings_mute_notification_sounds", "🔇 알림 소리 음소거"},
@@ -1400,7 +1400,7 @@ namespace FallGuysStats {
                             {"custom_range_filter", "필터링 적용"},
                         }
             },
-            { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Eunma"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
@@ -1682,12 +1682,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "Fallalytics は、Fall Guysのラウンド分布に関するデータを収集し、調査するツールです。"},
                             {"settings_visit_fallalytics", "Fallalyticsにアクセスする"},
                             {"settings_about", "このアプリについて"},
-                            {"settings_log_path", "ログファイルパス"},
-                            {"settings_log_path_description", "* これを設定する必要はありません。 プログラムが正しい位置を読み取らない場合にのみ使用してください。"},
+                            {"settings_log_path", "📁 ログファイルパス :"},
+                            {"settings_log_path_description", "🏷️ これを設定する必要はありません。 プログラムが正しい位置を読み取らない場合にのみ使用してください。"},
                             {"settings_stats", "プログラム設定"},
                             {"settings_theme", "テーマ"},
-                            {"settings_theme_light", "ライト"},
-                            {"settings_theme_dark", "ダーク"},
+                            {"settings_theme_light", "☀️ ライト"},
+                            {"settings_theme_dark", "🌑 ダーク"},
                             {"settings_previous_win", "以前の優勝回数"},
                             {"settings_before_using_tracker", "(Statsを使用する前の回数)"},
                             {"settings_auto_update_program", "🔄️ Statsを実行すると、新しいアップデートを確認する"},
@@ -1734,7 +1734,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "オーバーレイを水平に反転 (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 オーバーレイを常に一番上に置く (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 機種別の人数を表示する (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "ラウンドタイプ別に色を変更する (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 ラウンドタイプ別に色を変更する (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 リンク先のプロファイルに自動で変更する (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 サーバーの旗のイメージを網掛けして表示する"},
                             {"settings_diaplay_current_time", "🕓 待機中に現在時刻を表示する"},
@@ -1768,7 +1768,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "言語を選択"},
                             {"settings_auto_generate_profiles", "プロファイルの自動生成"},
                             {"settings_select_language_button", "保存"},
-                            {"settings_system_tray_icon", "システムトレイアイコンを使用する"},
+                            {"settings_system_tray_icon", "📍 システムトレイアイコンを使用する"},
                             {"settings_notify_personal_best", "🔔 レースラウンドで個人トップ記録更新時にWindows通知を送信する"},
                             {"settings_notify_server_connected", "🔔 サーバー接続時にサーバーの国名を含む Windows 通知を送信する"},
                             {"settings_mute_notification_sounds", "🔇 通知音をミュート"},
@@ -1867,7 +1867,7 @@ namespace FallGuysStats {
                             {"custom_range_filter", "フィルタ"},
                         }
             },
-            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Eunma"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
@@ -2148,12 +2148,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "Fallalytics 是一个工具，用于探索收集到的有关 Fall Guys 回合分布的数据。"},
                             {"settings_visit_fallalytics", "访问Fallalytics"},
                             {"settings_about", "关于这个应用程序"},
-                            {"settings_log_path", "日志文件路径"},
-                            {"settings_log_path_description", "* 仅在程序无法正确读取日志地址时才改动此设置。"},
+                            {"settings_log_path", "📁 日志文件路径 :"},
+                            {"settings_log_path_description", "🏷️ 仅在程序无法正确读取日志地址时才改动此设置。"},
                             {"settings_stats", "统计"},
                             {"settings_theme", "主题"},
-                            {"settings_theme_light", "轻"},
-                            {"settings_theme_dark", "深色"},
+                            {"settings_theme_light", "☀️ 轻"},
+                            {"settings_theme_dark", "🌑 深色"},
                             {"settings_previous_win", "之前获胜次数"},
                             {"settings_before_using_tracker", "(使用此软件前)"},
                             {"settings_auto_update_program", "🔄️ 启动时检查更新"},
@@ -2200,7 +2200,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "水平翻转 (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 置顶显示 (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 按照平台显示玩家 (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "按照关卡类型显示颜色 (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 按照关卡类型显示颜色 (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 自动改变为链接的个人资料 (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 对要显示的服务器标志图像进行着色"},
                             {"settings_diaplay_current_time", "🕓 等待时显示当前时间"},
@@ -2234,7 +2234,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "选择你的语言"},
                             {"settings_auto_generate_profiles", "自动生成配置文件"},
                             {"settings_select_language_button", "选择"},
-                            {"settings_system_tray_icon", "使用系统托盘图标"},
+                            {"settings_system_tray_icon", "📍 使用系统托盘图标"},
                             {"settings_notify_personal_best", "🔔 当您在比赛中打破个人最好成绩时，会收到 Windows 通知"},
                             {"settings_notify_server_connected", "🔔 连接服务器时，带有服务器国家/地区名称的 Windows 通知"},
                             {"settings_mute_notification_sounds", "🔇 将通知声音静音"},
@@ -2333,7 +2333,7 @@ namespace FallGuysStats {
                             {"custom_range_filter", "筛选"},
                         }
             },
-            { "cht", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Eunma"},
                             {"main_by", "by"},
                             {"main_on_twitch", "on Twitch"},
@@ -2614,12 +2614,12 @@ namespace FallGuysStats {
                             {"settings_fallalytics_desc", "Fallalytics 是一個工具，用於探索收集到的有關 Fall Guys 回合分佈的數據。"},
                             {"settings_visit_fallalytics", "訪問Fallalytics"},
                             {"settings_about", "關於這個應用程序"},
-                            {"settings_log_path", "日誌文件路徑"},
-                            {"settings_log_path_description", "* 僅在程序無法正確讀取日誌地址時才改動此設置。"},
+                            {"settings_log_path", "📁 日誌文件路徑 :"},
+                            {"settings_log_path_description", "🏷️ 僅在程序無法正確讀取日誌地址時才改動此設置。"},
                             {"settings_stats", "統計"},
                             {"settings_theme", "主題"},
-                            {"settings_theme_light", "輕"},
-                            {"settings_theme_dark", "深色"},
+                            {"settings_theme_light", "☀️ 輕"},
+                            {"settings_theme_dark", "🌑 深色"},
                             {"settings_previous_win", "之前獲勝次數"},
                             {"settings_before_using_tracker", "(使用此軟件前)"},
                             {"settings_auto_update_program", "🔄️ 啟動時檢查更新"},
@@ -2666,7 +2666,7 @@ namespace FallGuysStats {
                             {"settings_flip_display_horizontally", "水平翻轉 (Ctrl + F)"},
                             {"settings_always_show_on_top", "📌 置頂顯示 (Ctrl + M)"},
                             {"settings_display_players_based_on_platform", "🚹 按照平台顯示玩家 (Ctrl + C)"},
-                            {"settings_color_round_name_based_on_round_type", "按照關卡類型顯示顏色 (Ctrl + R)"},
+                            {"settings_color_round_name_based_on_round_type", "🏳️‍🌈 按照關卡類型顯示顏色 (Ctrl + R)"},
                             {"settings_auto_change_profile", "🔃 自動改變為鏈接的個人資料 (Ctrl + Shift + Z)"},
                             {"settings_shade_the_flag_image", "🏁 對要顯示的服務器標誌圖像進行著色"},
                             {"settings_diaplay_current_time", "🕓 等待時顯示當前時間"},
@@ -2700,7 +2700,7 @@ namespace FallGuysStats {
                             {"settings_select_language_title", "選擇你的語言"},
                             {"settings_auto_generate_profiles", "自動生成配置文件"},
                             {"settings_select_language_button", "選擇"},
-                            {"settings_system_tray_icon", "使用系統托盤圖標"},
+                            {"settings_system_tray_icon", "📍 使用系統托盤圖標"},
                             {"settings_notify_personal_best", "🔔 當您在比賽中打破個人最佳成績時，您會收到 Windows 通知"},
                             {"settings_notify_server_connected", "🔔 連接服務器時，帶有服務器國家/地區名稱的 Windows 通知"},
                             {"settings_mute_notification_sounds", "🔇 將通知聲音靜音"},
@@ -2801,8 +2801,8 @@ namespace FallGuysStats {
             },
         };
 
-        public static readonly Dictionary<string, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
-            { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<Language, Dictionary<string, string>> {
+            { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "Airtime"},
                             {"round_bluejay", "Bean Hill Zone"},
                             {"round_biggestfan", "Big Fans"},
@@ -3369,7 +3369,7 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                         }
             },
-            { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "Haute Voltige"},
                             {"round_bluejay", "Zone de Colline de Haricot"},
                             {"round_biggestfan", "Ventilateurs d'Avion"},
@@ -3936,7 +3936,7 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                         }
             },
-            { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "공중 묘기"},
                             {"round_biggestfan", "대형 선풍기"},
                             {"round_hoops_revenge_symphony_launch_show", "통통 파티"},
@@ -4503,7 +4503,7 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                         }
             },
-            { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "エアータイム"},
                             {"round_bluejay", "ジェリービーンズヒルゾーン"},
                             {"round_biggestfan", "大ファン"},
@@ -5070,7 +5070,7 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                         }
             },
-            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "空中竞赛"},
                             {"round_bluejay", "糖豆山世界"},
                             {"round_biggestfan", "大风车转转转"},
@@ -5637,7 +5637,7 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                         }
             },
-            { "cht", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "空中競賽"},
                             {"round_bluejay", "糖豆山世界"},
                             {"round_biggestfan", "大風車轉轉轉"},
@@ -6206,8 +6206,8 @@ namespace FallGuysStats {
             },
         };
 
-        public static readonly Dictionary<string, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
-            { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
+            { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "Debug Lobbies Show"},
@@ -6989,7 +6989,7 @@ namespace FallGuysStats {
                     {"invisibeans_mode", "Sweet Thieves"},
                 }
             },
-            { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "Émission dans lobbies de debug"},
@@ -7771,7 +7771,7 @@ namespace FallGuysStats {
                     {"invisibeans_mode", "Voleurs Sucrés"},
                 }
             },
-            { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "대기실 쇼 디버그"},
@@ -8553,7 +8553,7 @@ namespace FallGuysStats {
                     {"invisibeans_mode", "달콤한 도둑들"},
                 }
             },
-            { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "デバッグロビーショー"},
@@ -9335,7 +9335,7 @@ namespace FallGuysStats {
                     {"invisibeans_mode", "キャンディードロボー"},
                 }
             },
-            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "调试用专题"},
@@ -10117,7 +10117,7 @@ namespace FallGuysStats {
                     {"invisibeans_mode", "糖果窃贼"},
                 }
             },
-            { "cht", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model2", "調試用專題"},
@@ -10901,8 +10901,8 @@ namespace FallGuysStats {
             },
         };
         
-        public static readonly Dictionary<string, Dictionary<string, string>> MultilingualCountryDictionary = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase) {
-            { "eng", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualCountryDictionary = new Dictionary<Language, Dictionary<string, string>> {
+            { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AF", "Afghanistan"},
                     {"AX", "Åland Islands"},
                     {"AL", "Albania"},
@@ -11154,7 +11154,7 @@ namespace FallGuysStats {
                     {"ZW", "Zimbabwe"},
                 }
             },
-            { "fre", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AF", "Afghanistan"},
                     {"ZA", "Afrique du Sud"},
                     {"AX", "Îles Åland"},
@@ -11406,7 +11406,7 @@ namespace FallGuysStats {
                     {"ZW", "Zimbabwe"},
                 }
             },
-            { "kor", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AW", "아루바"},
                     {"AF", "아프가니스탄"},
                     {"AO", "앙골라"},
@@ -11658,7 +11658,7 @@ namespace FallGuysStats {
                     {"ZW", "짐바브웨"},
                 }
             },
-            { "jpn", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AW", "アルバ"},
                     {"AF", "アフガニスタン"},
                     {"AO", "アンゴラ"},
@@ -11910,7 +11910,7 @@ namespace FallGuysStats {
                     {"ZW", "ジンバブエ"},
                 }
             },
-            { "chs", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AW", "阿鲁巴"},
                     {"AF", "阿富汗"},
                     {"AO", "安哥拉"},
@@ -12162,7 +12162,7 @@ namespace FallGuysStats {
                     {"ZW", "辛巴威"},
                 }
             },
-            { "cht", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AW", "阿魯巴"},
                     {"AF", "阿富汗"},
                     {"AO", "安哥拉"},
@@ -12415,45 +12415,16 @@ namespace FallGuysStats {
                 }
             },
         };
-
-        public static string GetCurrentLanguage() {
-            string lang = string.Empty;
-            switch (Stats.CurrentLanguage) {
-                case Language.English: lang = "eng"; break;
-                case Language.French: lang = "fre"; break;
-                case Language.Korean: lang = "kor"; break;
-                case Language.Japanese: lang = "jpn"; break;
-                case Language.SimplifiedChinese: lang = "chs"; break;
-                case Language.TraditionalChinese: lang = "cht"; break;
-            }
-            return lang;
-        }
         
         public static string GetWord(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
-            MultilingualDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> wordsDictionary);
+            MultilingualDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> wordsDictionary);
             wordsDictionary?.TryGetValue(keyword, out word);
             return word;
         }
         
         public static string GetWord(string keyword, Language lang) {
-            string word = string.Empty;
-            string nation = string.Empty;
-            switch (lang) {
-                case Language.English: nation = "eng"; break;
-                case Language.French: nation = "fre"; break;
-                case Language.Korean: nation = "kor"; break;
-                case Language.Japanese: nation = "jpn"; break;
-                case Language.SimplifiedChinese: nation = "chs"; break;
-                case Language.TraditionalChinese: nation = "cht"; break;
-            }
-            MultilingualDictionary.TryGetValue(nation, out Dictionary<string, string> wordsDictionary);
-            wordsDictionary?.TryGetValue(keyword, out word);
-            return word;
-        }
-        
-        public static string GetWord(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string word = string.Empty;
             MultilingualDictionary.TryGetValue(lang, out Dictionary<string, string> wordsDictionary);
@@ -12464,29 +12435,13 @@ namespace FallGuysStats {
         public static string GetRoundName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
-            MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundDictionary);
+            MultilingualRoundsDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> roundDictionary);
             roundDictionary?.TryGetValue(keyword, out name);
             if (string.IsNullOrEmpty(name)) { name = keyword; }
             return name;
         }
         
         public static string GetRoundName(string keyword, Language lang) {
-            string name = string.Empty;
-            string nation = string.Empty;
-            switch (lang) {
-                case Language.English: nation = "eng"; break;
-                case Language.French: nation = "fre"; break;
-                case Language.Korean: nation = "kor"; break;
-                case Language.Japanese: nation = "jpn"; break;
-                case Language.SimplifiedChinese: nation = "chs"; break;
-                case Language.TraditionalChinese: nation = "cht"; break;
-            }
-            MultilingualRoundsDictionary.TryGetValue(nation, out Dictionary<string, string> roundDictionary);
-            roundDictionary?.TryGetValue(keyword, out name);
-            return name;
-        }
-        
-        public static string GetRoundName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualRoundsDictionary.TryGetValue(lang, out Dictionary<string, string> roundDictionary);
@@ -12497,28 +12452,12 @@ namespace FallGuysStats {
         public static string GetShowName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
-            MultilingualShowsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> showsDictionary);
+            MultilingualShowsDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> showsDictionary);
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
         }
         
         public static string GetShowName(string keyword, Language lang) {
-            string name = string.Empty;
-            string nation = string.Empty;
-            switch (lang) {
-                case Language.English: nation = "eng"; break;
-                case Language.French: nation = "fre"; break;
-                case Language.Korean: nation = "kor"; break;
-                case Language.Japanese: nation = "jpn"; break;
-                case Language.SimplifiedChinese: nation = "chs"; break;
-                case Language.TraditionalChinese: nation = "cht"; break;
-            }
-            MultilingualShowsDictionary.TryGetValue(nation, out Dictionary<string, string> showsDictionary);
-            showsDictionary?.TryGetValue(keyword, out name);
-            return name;
-        }
-        
-        public static string GetShowName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualShowsDictionary.TryGetValue(lang, out Dictionary<string, string> showsDictionary);
@@ -12529,29 +12468,12 @@ namespace FallGuysStats {
         public static string GetCountryName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
-            MultilingualCountryDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> countryDictionary);
+            MultilingualCountryDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> countryDictionary);
             countryDictionary?.TryGetValue(keyword, out name);
             return name;
         }
         
         public static string GetCountryName(string keyword, Language lang) {
-            if (string.IsNullOrEmpty(keyword)) return String.Empty;
-            string name = string.Empty;
-            string nation = string.Empty;
-            switch (lang) {
-                case Language.English: nation = "eng"; break;
-                case Language.French: nation = "fre"; break;
-                case Language.Korean: nation = "kor"; break;
-                case Language.Japanese: nation = "jpn"; break;
-                case Language.SimplifiedChinese: nation = "chs"; break;
-                case Language.TraditionalChinese: nation = "cht"; break;
-            }
-            MultilingualCountryDictionary.TryGetValue(nation, out Dictionary<string, string> countryDictionary);
-            countryDictionary?.TryGetValue(keyword, out name);
-            return name;
-        }
-        
-        public static string GetCountryName(string keyword, string lang) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
             string name = string.Empty;
             MultilingualCountryDictionary.TryGetValue(lang, out Dictionary<string, string> countryDictionary);
@@ -12560,7 +12482,7 @@ namespace FallGuysStats {
         }
         
         public static Dictionary<string, string> GetRoundsDictionary() {
-            MultilingualRoundsDictionary.TryGetValue(GetCurrentLanguage(), out Dictionary<string, string> roundsDictionary);
+            MultilingualRoundsDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> roundsDictionary);
             return roundsDictionary;
         }
     }
