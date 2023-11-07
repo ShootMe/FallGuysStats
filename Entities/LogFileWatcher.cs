@@ -215,11 +215,11 @@ namespace FallGuysStats {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             } else if (this.autoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
+                                if (Stats.IsClientRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.StatsForm.IsCreativeShow(this.selectedShowId));
                                 }
                             } else if (this.preventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
+                                if (Stats.IsClientRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
@@ -337,7 +337,10 @@ namespace FallGuysStats {
                     || roundId.EndsWith("_xtreme_party_final", StringComparison.OrdinalIgnoreCase)
 
                     || (roundId.IndexOf("_squads_squadcelebration", StringComparison.OrdinalIgnoreCase) != -1
-                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase));
+                        && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
+            
+                    || (showId.Equals("event_only_hoverboard_template")
+                        && roundId.Equals("round_hoverboardsurvival_final"));
         }
 
         private bool IsModeException(string roundId) {
@@ -493,17 +496,17 @@ namespace FallGuysStats {
 
         private void UpdateServerConnectionLog(string session, string show) {
             lock (this.lockObject) {
-                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
-                if (serverConnectionLog == null) {
-                    this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                if (!this.StatsForm.ExistsServerConnectionLog(session, show)) {
+                    this.StatsForm.UpsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
                     this.serverPingWatcher.Start();
                     this.SetCountryCodeByIP(Stats.LastServerIp);
-                    if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                    if (Stats.IsClientRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                         this.OnServerConnectionNotification?.Invoke();
                     }
                 } else {
+                    ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
                     if (!serverConnectionLog.IsNotify) {
-                        if (Stats.IsGameRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                        if (Stats.IsClientRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                             this.OnServerConnectionNotification?.Invoke();
                         }
                     }
@@ -531,8 +534,8 @@ namespace FallGuysStats {
                     );
                     List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
                     TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                    this.StatsForm.InsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
-                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < record) {
+                    this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
+                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsClientRunning && currentRecord < record) {
                         this.OnPersonalBestNotification?.Invoke(info, record, currentRecord);
                     }
                 }

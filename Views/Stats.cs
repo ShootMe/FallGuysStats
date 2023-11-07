@@ -93,7 +93,7 @@ namespace FallGuysStats {
         public static bool IsDisplayOverlayTime = true;
         public static bool IsDisplayOverlayPing = false;
 
-        public static bool IsGameRunning = false;
+        public static bool IsClientRunning = false;
         public static bool IsClientHasBeenClosed = false;
         
         public static bool ToggleServerInfo = false;
@@ -208,6 +208,7 @@ namespace FallGuysStats {
             "event_only_thin_ice_template",
             "event_only_slime_climb",
             "event_only_jump_club_template",
+            "event_only_hoverboard_template",
             "event_walnut_template",
             "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
@@ -3163,10 +3164,10 @@ namespace FallGuysStats {
             return this.PersonalBestLog.FindOne(condition);
         }
         
-        public void InsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
+        public void UpsertPersonalBestLog(string sessionId, string showId, string roundId, double record, DateTime finish, bool isPb) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Insert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
+                this.PersonalBestLog.Upsert(new PersonalBestLog { SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, PbDate = finish, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
                 });
                 this.StatsDB.Commit();
@@ -3210,10 +3211,10 @@ namespace FallGuysStats {
             return this.ServerConnectionLog.FindOne(condition);
         }
         
-        public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+        public void UpsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.ServerConnectionLog.Insert(new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                     IsNotify = isNotify, IsPlaying = isPlaying
                 });
@@ -3443,8 +3444,10 @@ namespace FallGuysStats {
         
         private string GetAlternateShowId(string showId) {
             switch (showId) {
-                case "squadcelebration": return "squads_4player";
                 case "turbo_show": return "main_show";
+                case "squadcelebration":
+                case "event_day_at_races_squads_template":
+                    return "squads_4player";
                 case "invisibeans_template":
                 case "invisibeans_pistachio_template":
                     return "invisibeans_mode";
