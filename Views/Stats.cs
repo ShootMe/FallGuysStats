@@ -310,6 +310,7 @@ namespace FallGuysStats {
                     using (var targetDb = new LiteDatabase(@"Filename=data_new.db;Upgrade=true")) {
                         string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog" };
                         foreach (var tableName in tableNames) {
+                            if (!sourceDb.CollectionExists(tableName)) continue;
                             var sourceData = sourceDb.GetCollection(tableName).FindAll();
                             var targetCollection = targetDb.GetCollection(tableName);
                             targetCollection.InsertBulk(sourceData);
@@ -332,7 +333,7 @@ namespace FallGuysStats {
             this.SetSecretKey();
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
-            this.StatsDB = new LiteDatabase(@"Filename=data.db;Timeout=120000;Upgrade=true");
+            this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
             
@@ -3016,7 +3017,8 @@ namespace FallGuysStats {
                                     
                                     if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
                                         (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                        string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+                                        if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.FallalyticsRegisterPb(stat, apiKey)); }
                                     }
                                 }
                             } else {
@@ -3252,8 +3254,7 @@ namespace FallGuysStats {
             }
         }
 
-        private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+        private async Task FallalyticsRegisterPb(RoundInfo stat, string apiKey) {
             if (string.IsNullOrEmpty(apiKey)) { return; }
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                 string[] userInfo = null;

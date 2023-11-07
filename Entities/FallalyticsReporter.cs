@@ -26,7 +26,6 @@ namespace FallGuysStats {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, ReportAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-            request.Headers.Referrer= new Uri($"FallGuysStatsV{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}");
             request.Content = new StringContent(this.RoundInfoToReportJsonString(stat), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
