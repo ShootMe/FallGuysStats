@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FallGuysStats {
@@ -35,28 +36,30 @@ namespace FallGuysStats {
         }
         
         private string RoundInfoToReportJsonString(RoundInfo round) {
-            StringBuilder strBuilder = new StringBuilder();
-            strBuilder.Append($"{{\"round\":\"{round.Name}\",");
-            strBuilder.Append($"\"index\":\"{round.Round}\",");
-            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
-            strBuilder.Append($"\"isfinal\":{round.IsFinal.ToString().ToLower()},");
-            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
-            return strBuilder.ToString();
+            var payload = new {
+                round = round.Name,
+                index = round.Round,
+                show = round.ShowNameId,
+                isfinal = round.IsFinal,
+                session = round.SessionId
+            };
+            return JsonSerializer.Serialize(payload);
         }
         
         private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
-            StringBuilder strBuilder = new StringBuilder();
-            strBuilder.Append($"{{\"country\":\"{Stats.HostCountryCode}\",");
-            strBuilder.Append($"\"onlineServiceType\":\"{(int)Stats.OnlineServiceType}\",");
-            strBuilder.Append($"\"onlineServiceId\":\"{Stats.OnlineServiceId}\",");
-            strBuilder.Append($"\"onlineServiceNickname\":\"{Stats.OnlineServiceNickname}\",");
-            strBuilder.Append($"\"isAnonymous\":{isAnonymous.ToString().ToLower()},");
-            strBuilder.Append($"\"finish\":\"{finish:o}\",");
-            strBuilder.Append($"\"record\":{record},");
-            strBuilder.Append($"\"round\":\"{round.Name}\",");
-            strBuilder.Append($"\"show\":\"{round.ShowNameId}\",");
-            strBuilder.Append($"\"session\":\"{round.SessionId}\"}}");
-            return strBuilder.ToString();
+            var payload = new {
+                country = Stats.HostCountryCode,
+                onlineServiceType = $"{(int)Stats.OnlineServiceType}",
+                onlineServiceId = Stats.OnlineServiceId,
+                onlineServiceNickname = Stats.OnlineServiceNickname,
+                isAnonymous,
+                finish = $"{finish:o}",
+                record,
+                round = round.Name,
+                show = round.ShowNameId,
+                session = round.SessionId
+            };
+            return JsonSerializer.Serialize(payload);
         }
     }
 }
