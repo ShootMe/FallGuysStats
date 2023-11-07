@@ -266,6 +266,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "Updated new show and round names"},
                             {"message_changelog_overlay_display_improvements", "Overlay display improvements"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "Added and improved win per day graph feature"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "Released the FALLALYTICS Speedrun Leaderboard"},
                             
                             {"numeric_suffix", ""},
                             {"message_question_mark", "?"},
@@ -732,6 +733,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de rondes mis à jour"},
                             {"message_changelog_overlay_display_improvements", "Améliorations de l'affichage en l'overlay"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "Fonctionnalité graphique des victoire par jour ajoutée et améliorée"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "Publication du classement du speedrun FALLALYTICS"},
 
                             {"numeric_suffix", ""},
                             {"message_question_mark", " ?"},
@@ -1198,6 +1200,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "새로운 쇼 및 라운드 이름 업데이트"},
                             {"message_changelog_overlay_display_improvements", "통계창 표시 개선"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "일일 승리 그래프 기능 추가 및 향상"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "폴라리틱스 스피드런 순위표 출시"},
 
                             {"numeric_suffix", "개"},
                             {"message_question_mark", ""},
@@ -1664,6 +1667,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "新しいショーとラウンド名を更新しました。"},
                             {"message_changelog_overlay_display_improvements", "オーバーレイ表示を改善しました。"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "日ごとの勝利数推移グラフ機能を追加・改善しました。"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "FALLALYTICSスピードランリーダーボード発売"},
 
                             {"numeric_suffix", "つ"},
                             {"message_question_mark", ""},
@@ -2130,6 +2134,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的节目和回合名称。"},
                             {"message_changelog_overlay_display_improvements", "叠加显示改进。"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "添加并改进了每日获胜图表功能。"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "发布《FALLALYTICS》竞速排行榜"},
 
                             {"numeric_suffix", ""},
                             {"message_question_mark", "？"},
@@ -2596,6 +2601,7 @@ namespace FallGuysStats {
                             {"message_changelog_updated_new_show_and_round_names", "更新了新的節目和回合名稱。"},
                             {"message_changelog_overlay_display_improvements", "疊加顯示改進。"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "新增並改進了每日獲勝圖表功能。"},
+                            {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "發布《FALLALYTICS》競速排行榜"},
 
                             {"numeric_suffix", ""},
                             {"message_question_mark", "？"},
