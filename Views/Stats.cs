@@ -302,8 +302,28 @@ namespace FallGuysStats {
             { "wle_shuffle_halloween_88", "current_wle_fp5_falloween_3_03" },
             { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
+        
+        private void DatabaseMigration() {
+            if (File.Exists("data.db")) {
+                using (var sourceDb = new LiteDatabase(@"data.db")) {
+                    if (sourceDb.UserVersion != 0) { return; }
+                    using (var targetDb = new LiteDatabase(@"Filename=data_new.db;Upgrade=true")) {
+                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog" };
+                        foreach (var tableName in tableNames) {
+                            var sourceData = sourceDb.GetCollection(tableName).FindAll();
+                            var targetCollection = targetDb.GetCollection(tableName);
+                            targetCollection.InsertBulk(sourceData);
+                        }
+                        targetDb.UserVersion += 1;
+                    }
+                }
+                File.Move("data.db", "data.db_bak");
+                File.Move("data_new.db", "data.db");
+            }
+        }
 
         private Stats() {
+            this.DatabaseMigration();
             Task.Run(() => {
                 if (Utils.IsInternetConnected()) {
                     HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), false);
@@ -332,18 +352,6 @@ namespace FallGuysStats {
                 }
             }
             this.StatsDB.Commit();
-            
-            if (this.CurrentSettings.Version == 64) {
-                if (this.StatsDB.CollectionExists("ServerConnectionLog")) {
-                    this.StatsDB.DropCollection("ServerConnectionLog");
-                }
-                if (this.StatsDB.CollectionExists("PersonalBestLog")) {
-                    this.StatsDB.DropCollection("PersonalBestLog");
-                }
-                if (this.StatsDB.CollectionExists("FallalyticsPbLog")) {
-                    this.StatsDB.DropCollection("FallalyticsPbLog");
-                }
-            }
             
             this.RemoveUpdateFiles();
             
@@ -3006,10 +3014,10 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
                                     
-                                    // if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
-                                    //     (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                    //     Task.Run(() => this.FallalyticsRegisterPb(stat));
-                                    // }
+                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
+                                        (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    }
                                 }
                             } else {
                                 continue;
@@ -3245,6 +3253,8 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat) {
+            string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+            if (string.IsNullOrEmpty(apiKey)) { return; }
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                 string[] userInfo = null;
                 if (OnlineServiceType == OnlineServiceTypes.Steam) {
@@ -3295,7 +3305,7 @@ namespace FallGuysStats {
 
                 try {
                     if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record.TotalMilliseconds, finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record.TotalMilliseconds, finish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
                         isTransferSuccess = true;
                     }
                 } catch {
@@ -3322,7 +3332,7 @@ namespace FallGuysStats {
                         if (currentRecord < record) {
                             try {
                                 if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
                                     isTransferSuccess = true;
                                 }
                             } catch {
@@ -3342,7 +3352,7 @@ namespace FallGuysStats {
                         // re-send
                         try {
                             if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord.TotalMilliseconds : record.TotalMilliseconds, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                                await FallalyticsReporter.RegisterPb(stat, currentRecord < record ? currentRecord.TotalMilliseconds : record.TotalMilliseconds, currentRecord < record ? currentFinish : finish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
                                 isTransferSuccess = true;
                             }
                         } catch {
