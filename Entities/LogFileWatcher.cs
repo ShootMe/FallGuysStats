@@ -520,7 +520,9 @@ namespace FallGuysStats {
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (info.PrivateLobby || !info.Finish.HasValue || !LevelStats.ALL.TryGetValue(info.Name, out LevelStats level) || level.Type != LevelType.Race) {
+            if (info.PrivateLobby || !info.Finish.HasValue
+                || (LevelStats.SceneToRound.TryGetValue(info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats l1) && l1.Type != LevelType.Race)
+                || (LevelStats.ALL.TryGetValue(info.Name, out LevelStats l2) && l2.Type != LevelType.Race)) {
                 return;
             }
 
@@ -738,12 +740,12 @@ namespace FallGuysStats {
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
             } else if (logRound.Info != null && line.Line.IndexOf($"HandleServerPlayerProgress PlayerId={logRound.CurrentPlayerID} is succeeded=", StringComparison.OrdinalIgnoreCase) >= 0) {
-                index = line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase);
-                if (index > 0) {
+                if (line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) >= 0) {
                     logRound.Info.Finish = logRound.Info.End == DateTime.MinValue ? line.Date : logRound.Info.End;
                     if (line.Date > Stats.LastRoundLoad && !Stats.SucceededPlayerIds.Contains(logRound.CurrentPlayerID)) {
                         Stats.SucceededPlayerIds.Add(logRound.CurrentPlayerID);
                         Stats.NumPlayersSucceeded++;
+                        this.UpdatePersonalBestLog(logRound.Info);
                     }
                     logRound.FindingPosition = true;
                 }
@@ -752,10 +754,6 @@ namespace FallGuysStats {
                 if (position > 0) {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
-
-                    if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                        this.UpdatePersonalBestLog(logRound.Info);
-                    }
                 }
             } else if (line.Date > Stats.LastRoundLoad && (index = line.Line.IndexOf("HandleServerPlayerProgress PlayerId=", StringComparison.OrdinalIgnoreCase)) >= 0 && line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) >= 0) {
                 int prevIndex = line.Line.IndexOf(" ", index + 36);

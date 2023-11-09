@@ -70,7 +70,7 @@ namespace FallGuysStats {
                 this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
             }
 
-            this.gridDetails.DataSource = RoundDetails;
+            this.gridDetails.DataSource = this.RoundDetails;
             if (this.gridDetails.RowCount == 0) {
                 this.gridDetails.DeallocContextMenu();
             }
@@ -344,7 +344,7 @@ namespace FallGuysStats {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
             }
-            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "Medal" });
+            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "Medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("level_detail_medal") });
             this.gridDetails.Setup("Medal", pos++, this.GetDataGridViewColumnWidth("Medal", $"{Multilingual.GetWord("level_detail_medal")}"), $"{Multilingual.GetWord("level_detail_medal")}", DataGridViewContentAlignment.MiddleCenter);
             if (this._showStats == 2) { // Shows
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "IsFinalIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "IsFinalIcon" });
@@ -427,7 +427,6 @@ namespace FallGuysStats {
                 e.CellStyle.Font = Overlay.GetMainFont(14f);
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Start") {
-                //e.Value = info.StartLocal.ToString("yyyy-MM-dd HH:mm");
                 e.CellStyle.Font = Overlay.GetMainFont(14f);
                 e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
