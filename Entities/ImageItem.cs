@@ -7,11 +7,12 @@ using System.Windows.Forms;
 namespace FallGuysStats {
     public class ImageItem {
         #region Public Field
-        public Image Image;
-        public string[] ResourceName;
-        public string Text;
-        public Font Font;
-        public bool IsCustomized;
+        public Image Image { get; set; }
+        public string[] DataArray { get; set; }
+        public string Text { get; set; }
+        public Font Font { get; set; }
+        public bool IsCustomized { get; set; }
+
         #endregion
 
         #region Private Field
@@ -23,9 +24,9 @@ namespace FallGuysStats {
         #endregion
 
         #region Public Constructor - ImageItem(image, text, font)
-        public ImageItem(Image image, string[] resourceName, string text, Font font, bool isCustomized) {
+        public ImageItem(Image image, string text, Font font, string[] dataArray = null, bool isCustomized = false) {
             this.Image = image;
-            this.ResourceName = resourceName;
+            this.DataArray = dataArray;
             this.Text = text;
             this.Font = font;
             this.IsCustomized = isCustomized;
@@ -46,8 +47,15 @@ namespace FallGuysStats {
         #endregion
         
         #region Public Method - DrawItem(e)
-        public void DrawItem(DrawItemEventArgs e, Color foreColor) {
-            e.DrawBackground();
+        public void DrawItem(DrawItemEventArgs e, Color foreColor, Color backColor) {
+            // e.DrawBackground();
+            
+            bool isComboBoxEdit = (e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit;
+            bool isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+
+            Brush backgroundBrush = (isSelected && !isComboBoxEdit) ? new SolidBrush(Color.FromArgb(0, 174, 219)) : new SolidBrush(backColor);
+
+            e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
             
             float height = e.Bounds.Height - 2 * MARGIN_HEIGHT;
             float scale = height / this.Image.Height;
@@ -62,43 +70,28 @@ namespace FallGuysStats {
             );
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
             e.Graphics.DrawImage(this.Image, rectangle);
-            //if (e.Bounds.Height <= 25) {
-            //    e.Graphics.DrawImage(e.Index > 0 ? this.BrightnessImage(this.Image, 60) : this.Image, rectangle);
-            //} else {
-            //    e.Graphics.DrawImage(this.Image, rectangle);
-            //}
-            
-            if (e.Bounds.Height <= 25) {
-                //string visibleText = this.Text;
+                
+            width = e.Bounds.Width - rectangle.Right - (3 * MARGIN_WIDTH);
 
-                //if(e.Bounds.Height < this.Image.Height) {
-                //    visibleText = Text.Substring(0, this.Text.IndexOf('\n'));
-                //}
+            rectangle = new RectangleF
+            (
+                rectangle.Right + (2 * MARGIN_WIDTH),
+                isComboBoxEdit ? rectangle.Y + MARGIN_HEIGHT : rectangle.Y,
+                width,
+                height
+            );
 
-                width = e.Bounds.Width - rectangle.Right - (3 * MARGIN_WIDTH);
+            using (StringFormat stringFormat = new StringFormat()) {
+                stringFormat.Alignment = StringAlignment.Far;
+                stringFormat.LineAlignment = StringAlignment.Far;
 
-                rectangle = new RectangleF
-                (
-                    rectangle.Right + (2 * MARGIN_WIDTH),
-                    rectangle.Y,
-                    width,
-                    height
-                );
-
-                using (StringFormat stringFormat = new StringFormat()) {
-                    stringFormat.Alignment = StringAlignment.Far;
-                    stringFormat.LineAlignment = StringAlignment.Far;
-
-                    e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
-                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                    e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
-                    e.Graphics.DrawString(this.Text, this.Font, new SolidBrush(foreColor), rectangle, stringFormat);
-                }
-
-                //e.Graphics.DrawRectangle(Pens.Blue, Rectangle.Round(rectangle));
+                // e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+                // e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+                e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
+                e.Graphics.DrawString(this.Text, this.Font, (isSelected && !isComboBoxEdit) ? new SolidBrush(Color.White) : new SolidBrush(foreColor), rectangle, stringFormat);
             }
             
-            e.DrawFocusRectangle();
+            // e.DrawFocusRectangle();
         }
         #endregion
         

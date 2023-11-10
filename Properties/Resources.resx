@@ -123,11 +123,17 @@
     <data name="medal_pink_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_pink_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_pink_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_pink_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_gold" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_gold.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="medal_gold_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_gold_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="medal_gold_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_gold_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="medal_bronze" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_bronze.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -135,17 +141,26 @@
     <data name="medal_bronze_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_bronze_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_bronze_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_bronze_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_eliminated" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_eliminated.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="medal_eliminated_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_eliminated_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
+    <data name="medal_eliminated_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_eliminated_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
     <data name="medal_silver" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_silver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="medal_silver_original" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\medal_silver_original.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="medal_silver_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\medal_silver_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="export" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\export.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -353,6 +368,12 @@
     </data>
     <data name="epic_main_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\epic_main_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="steam_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\steam_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="epic_grid_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\epic_grid_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
     <data name="position_ne_off_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\position_ne_off_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -2558,5 +2579,11 @@
     </data>
     <data name="notify_sound_04" type="System.Resources.ResXFileRef, System.Windows.Forms">
         <value>..\Resources\notify_sound\notify_sound_04.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </data>
+    <data name="leaderboard_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\leaderboard_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    </data>
+    <data name="leaderboard_gray_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>..\Resources\leaderboard_gray_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
     </data>
 </root>

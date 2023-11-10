@@ -27,14 +27,14 @@ namespace FallGuysStats {
             //
             // dataGridViewCellStyle1
             //
-            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
+            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
             //
             // dataGridViewCellStyle2
             //
-            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
+            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
@@ -220,22 +220,22 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersPs4":
-                    sizeOfText = 25;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersPs5":
-                    sizeOfText = 25;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersXb1":
-                    sizeOfText = 51;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersXsx":
-                    sizeOfText = 70;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersSw":
-                    sizeOfText = 41;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersPc":
-                    sizeOfText = 19;
+                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "PlayersBots":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
@@ -363,7 +363,7 @@ namespace FallGuysStats {
             } else {
                 this.gridDetails.Columns["Name"].Visible = false;
             }
-            if (this._showStats == 2) { // Shows
+            if (this._showStats == 2) { // Shows  
                 this.gridDetails.Columns["Players"].Visible = false;
                 this.gridDetails.Columns["PlayersPs4"].Visible = false;
                 this.gridDetails.Columns["PlayersPs5"].Visible = false;
@@ -407,7 +407,6 @@ namespace FallGuysStats {
                 }
 
                 if (colorSwitch) {
-                    //this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 58, 66);
                     this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
                     this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
                 }

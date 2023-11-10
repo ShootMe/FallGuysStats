@@ -521,8 +521,8 @@ namespace FallGuysStats {
 
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || !info.Finish.HasValue
-                || (LevelStats.SceneToRound.TryGetValue(info.SceneName, out string roundName) && LevelStats.ALL.TryGetValue(roundName, out LevelStats l1) && l1.Type != LevelType.Race)
-                || (LevelStats.ALL.TryGetValue(info.Name, out LevelStats l2) && l2.Type != LevelType.Race)) {
+                || (!LevelStats.SceneToRound.TryGetValue(info.SceneName, out string roundName) || !LevelStats.ALL.TryGetValue(roundName, out LevelStats l1) || l1 == null || l1.Type != LevelType.Race)
+                || (!LevelStats.ALL.TryGetValue(info.Name, out LevelStats l2) || l2 == null || l2.Type != LevelType.Race)) {
                 return;
             }
 

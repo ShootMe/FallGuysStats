@@ -291,5 +291,117 @@ namespace FallGuysStats {
             }
             return countryCode;
         }
+        
+        public static string GetRelativeTime(DateTime targetTime) {
+            TimeSpan diff = DateTime.Now - targetTime;
+            // if (diff.TotalMinutes < 1)
+            //     return Stats.CurrentLanguage == Language.Korean ? "방금 전" : "Just now";
+            // else if (diff.TotalMinutes < 60)
+            //     return Stats.CurrentLanguage == Language.Korean ? $"{Math.Floor(diff.TotalMinutes)}분 전" : $"{Math.Floor(diff.TotalMinutes)} minutes ago";
+            // else if (diff.TotalHours < 24)
+            //     return Stats.CurrentLanguage == Language.Korean ? $"{Math.Floor(diff.TotalHours)}시간 전" : $"{Math.Floor(diff.TotalHours)} hour ago";
+            if (diff.TotalHours < 24) {
+                if (Stats.CurrentLanguage == Language.English) {
+                    return "Today";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return "Aujourd'hui";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return "오늘";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return "今日";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return "今天";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return "今天";
+                } else {
+                    return "Today";
+                }
+            } else if (diff.TotalDays < 2) {
+                if (Stats.CurrentLanguage == Language.English) {
+                    return "Yesterday";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return "Hier";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return "어제";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return "昨日";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return "昨天";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return "昨天";
+                } else {
+                    return "Yesterday";
+                }
+            } else if (diff.TotalDays < 3) {
+                if (Stats.CurrentLanguage == Language.English) {
+                    return "The day before yesterday";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return "Avant hier";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return "그저께";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return "一昨日";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return "前天";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return "前天";
+                } else {
+                    return "The day before yesterday";
+                }
+            } else{
+                if (Stats.CurrentLanguage == Language.English) {
+                    return $"{Math.Floor(diff.TotalDays)} days ago";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return $"Il y a {Math.Floor(diff.TotalDays)} jours";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return $"{Math.Floor(diff.TotalDays)}일 전";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return $"{Math.Floor(diff.TotalDays)}日前";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return $"{Math.Floor(diff.TotalDays)} 天前";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return $"{Math.Floor(diff.TotalDays)} 天前";
+                } else {
+                    return $"{Math.Floor(diff.TotalDays)} days ago";
+                }
+            }
+        }
+        
+        public static string FormatTime(double value) {
+            TimeSpan time = TimeSpan.FromMilliseconds(value);
+            if (time.TotalSeconds < 60) {
+                if (Stats.CurrentLanguage == Language.English) {
+                    return $"{time.TotalSeconds:F3} seconds";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return $"{time.TotalSeconds:F3} secondes";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return $"{time.TotalSeconds:F3} 초";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return $"{time.TotalSeconds:F3} 秒";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return $"{time.TotalSeconds:F3}s";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return $"{time.TotalSeconds:F3}s";
+                } else {
+                    return $"{time.TotalSeconds:F3}s";
+                }
+            } else {
+                if (Stats.CurrentLanguage == Language.English) {
+                    return $"{time.Minutes} minutes {time.Seconds:D2}.{time.Milliseconds:D3} seconds";
+                } else if (Stats.CurrentLanguage == Language.French) {
+                    return $"{time.Minutes} minutes {time.Seconds:D2}.{time.Milliseconds:D3} secondes";
+                } else if (Stats.CurrentLanguage == Language.Korean) {
+                    return $"{time.Minutes} 분 {time.Seconds:D2}.{time.Milliseconds:D3} 초";
+                } else if (Stats.CurrentLanguage == Language.Japanese) {
+                    return $"{time.Minutes} 分 {time.Seconds:D2}.{time.Milliseconds:D3} 秒";
+                } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
+                    return $"{time.Minutes} 分 {time.Seconds:D2}.{time.Milliseconds:D3} 秒";
+                } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
+                    return $"{time.Minutes} 分 {time.Seconds:D2}.{time.Milliseconds:D3} 秒";
+                } else {
+                    return $"{time.Minutes}:{time.Seconds:D2}.{time.Milliseconds:D3}s";
+                }
+            }
+        }
     }
 }

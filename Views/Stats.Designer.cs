@@ -74,6 +74,7 @@
             this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalFinals = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
+            this.lblLeaderboard = new System.Windows.Forms.ToolStripLabel();
             this.infoStrip2 = new System.Windows.Forms.ToolStrip();
             this.lblTotalTime = new System.Windows.Forms.ToolStripLabel();
             this.lblGoldMedal = new System.Windows.Forms.ToolStripLabel();
@@ -525,7 +526,7 @@
             this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfileIcon, this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfileIcon, this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins, this.lblLeaderboard });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 93);
             this.infoStrip.Name = "infoStrip";
@@ -603,6 +604,18 @@
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
+            // 
+            // lblLeaderboard
+            // 
+            this.lblLeaderboard.ForeColor = System.Drawing.Color.Blue;
+            this.lblLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
+            this.lblLeaderboard.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblLeaderboard.Name = "lblLeaderboard";
+            this.lblLeaderboard.Size = new System.Drawing.Size(69, 16);
+            this.lblLeaderboard.Text = "Leaderboard";
+            this.lblLeaderboard.Click += new System.EventHandler(this.lblLeaderboard_Click);
+            this.lblLeaderboard.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
+            this.lblLeaderboard.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
             // infoStrip2
             // 
@@ -1102,6 +1115,7 @@
         private System.Windows.Forms.ToolStripLabel lblTotalShows;
         private System.Windows.Forms.ToolStripLabel lblTotalRounds;
         private System.Windows.Forms.ToolStripLabel lblTotalWins;
+        private System.Windows.Forms.ToolStripLabel lblLeaderboard;
         private System.Windows.Forms.ToolStripLabel lblTotalFinals;
         private System.Windows.Forms.ToolStripLabel lblGoldMedal;
         private System.Windows.Forms.ToolStripLabel lblSilverMedal;

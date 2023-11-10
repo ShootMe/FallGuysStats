@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
@@ -25,6 +25,7 @@ namespace FallGuysStats {
         public Overlay Overlay { get; set; }
         private int LaunchPlatform;
         private Language DisplayLang;
+        private bool CboMultilingualIsFocus;
         private bool CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
         
@@ -51,7 +52,18 @@ namespace FallGuysStats {
             this.LaunchPlatform = this.CurrentSettings.LaunchPlatform;
             this.DisplayLang = Stats.CurrentLanguage;
             this.ChangeLanguage(Stats.CurrentLanguage);
+            
+            List<ImageItem> flagItemArray = new List<ImageItem> {
+                new ImageItem(Properties.Resources.country_us_shiny_icon, "English", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_fr_shiny_icon, "Français", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_kr_shiny_icon, "한국어", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_jp_shiny_icon, "日本語", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_cn_shiny_icon, "简体中文", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_cn_shiny_icon, "繁體中文", Overlay.GetMainFont(13.5f)),
+            };
+            this.cboMultilingual.SetImageItemData(flagItemArray);
             this.cboMultilingual.SelectedIndex = (int)Stats.CurrentLanguage;
+            
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
@@ -125,7 +137,7 @@ namespace FallGuysStats {
             }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
 
-            ArrayList imageItemArray = new ArrayList();
+            List<ImageItem> overlayItemArray = new List<ImageItem>();
             if (Directory.Exists("Overlay")) {
                 DirectoryInfo di = new DirectoryInfo("Overlay");
                 foreach (FileInfo file in di.GetFiles()) {
@@ -135,52 +147,52 @@ namespace FallGuysStats {
                         backgroundName = backgroundName.Remove(backgroundName.Length - 4);
                         Bitmap background = new Bitmap(file.FullName);
                         if (background.Width == 786 && background.Height == 99) {
-                            imageItemArray.Add(new ImageItem(background, new[] { $"background_{backgroundName}", $"tab_{backgroundName}" }, backgroundName, this.Font, true));
+                            overlayItemArray.Add(new ImageItem(background, backgroundName, this.Font, new[] { $"background_{backgroundName}", $"tab_{backgroundName}" }, true));
                         }
                     }
                 }
             }
 
-            int customizedBacgroundCount = imageItemArray.Count;
-            ImageItem[] imageItems = {
-                new ImageItem(Properties.Resources.background, new[] { "background", "tab_unselected" }, "Default", this.Font, false),
-                new ImageItem(Properties.Resources.background_monarch, new[] { "background_monarch", "tab_unselected_monarch" }, "Monarch", this.Font, false),
-                new ImageItem(Properties.Resources.background_candycane, new[] { "background_candycane", "tab_unselected_candycane" }, "Candy Cane", this.Font, false),
-                new ImageItem(Properties.Resources.background_coffee, new[] { "background_coffee", "tab_unselected_coffee" }, "Coffee", this.Font, false),
-                new ImageItem(Properties.Resources.background_dove, new[] { "background_dove", "tab_unselected_dove" }, "Dove", this.Font, false),
-                new ImageItem(Properties.Resources.background_fall_guys_logo, new[] { "background_fall_guys_logo", "tab_unselected_fall_guys_logo" }, "Fall Guys Logo", this.Font, false),
-                new ImageItem(Properties.Resources.background_helter_skelter, new[] { "background_helter_skelter", "tab_unselected_helter_skelter" }, "Helter Skelter", this.Font, false),
-                new ImageItem(Properties.Resources.background_hex_a_thon, new[] { "background_hex_a_thon", "tab_unselected_hex_a_thon" }, "Hex A Thon", this.Font, false),
-                new ImageItem(Properties.Resources.background_ill_be_slime, new[] { "background_ill_be_slime", "tab_unselected_ill_be_slime" }, "I'll Be Slime", this.Font, false),
-                new ImageItem(Properties.Resources.background_mockingbird, new[] { "background_mockingbird", "tab_unselected_mockingbird" }, "Mocking Bird", this.Font, false),
-                new ImageItem(Properties.Resources.background_newlove, new[] { "background_newlove", "tab_unselected_newlove" }, "New Love", this.Font, false),
-                new ImageItem(Properties.Resources.background_parade_guy, new[] { "background_parade_guy", "tab_unselected_parade_guy" }, "Parade Guy", this.Font, false),
-                new ImageItem(Properties.Resources.background_party_pegwin, new[] { "background_party_pegwin", "tab_unselected_party_pegwin" }, "Party Pegwin", this.Font, false),
-                new ImageItem(Properties.Resources.background_penguin, new[] { "background_penguin", "tab_unselected_penguin" }, "Penguin", this.Font, false),
-                new ImageItem(Properties.Resources.background_suits_you, new[] { "background_suits_you", "tab_unselected_suits_you" }, "Suits You", this.Font, false),
-                new ImageItem(Properties.Resources.background_sunny_guys, new[] { "background_sunny_guys", "tab_unselected_sunny_guys" }, "Sunny Guys", this.Font, false),
-                new ImageItem(Properties.Resources.background_ta_da, new[] { "background_ta_da", "tab_unselected_ta_da" }, "Ta Da", this.Font, false),
-                new ImageItem(Properties.Resources.background_timeattack, new[] { "background_timeattack", "tab_unselected_timeattack" }, "Time Attack", this.Font, false),
-                new ImageItem(Properties.Resources.background_watermelon, new[] { "background_watermelon", "tab_unselected_watermelon" }, "Watermelon", this.Font, false),
-                new ImageItem(Properties.Resources.background_super_mario_bros, new[] { "background_super_mario_bros", "tab_unselected_super_mario_bros" }, "Super Mario Bros.", this.Font, false),
-                new ImageItem(Properties.Resources.background_super_mario_bros_3, new[] { "background_super_mario_bros_3", "tab_unselected_super_mario_bros_3" }, "Super Mario Bros. 3", this.Font, false),
-                new ImageItem(Properties.Resources.background_wallpaper_01, new[] { "background_wallpaper_01", "tab_unselected_wallpaper_01" }, "Wallpaper 01", this.Font, false),
-                new ImageItem(Properties.Resources.background_wallpaper_02, new[] { "background_wallpaper_02", "tab_unselected_wallpaper_02" }, "Wallpaper 02", this.Font, false),
-                new ImageItem(Properties.Resources.background_wallpaper_03, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" }, "Wallpaper 03", this.Font, false)
+            int customizedBacgroundCount = overlayItemArray.Count;
+            ImageItem[] overlayItems = {
+                new ImageItem(Properties.Resources.background, "Default", this.Font, new[] { "background", "tab_unselected" }),
+                new ImageItem(Properties.Resources.background_monarch, "Monarch", this.Font, new[] { "background_monarch", "tab_unselected_monarch" }),
+                new ImageItem(Properties.Resources.background_candycane, "Candy Cane", this.Font, new[] { "background_candycane", "tab_unselected_candycane" }),
+                new ImageItem(Properties.Resources.background_coffee, "Coffee", this.Font, new[] { "background_coffee", "tab_unselected_coffee" }),
+                new ImageItem(Properties.Resources.background_dove, "Dove", this.Font, new[] { "background_dove", "tab_unselected_dove" }),
+                new ImageItem(Properties.Resources.background_fall_guys_logo, "Fall Guys Logo", this.Font, new[] { "background_fall_guys_logo", "tab_unselected_fall_guys_logo" }),
+                new ImageItem(Properties.Resources.background_helter_skelter, "Helter Skelter", this.Font, new[] { "background_helter_skelter", "tab_unselected_helter_skelter" }),
+                new ImageItem(Properties.Resources.background_hex_a_thon, "Hex A Thon", this.Font, new[] { "background_hex_a_thon", "tab_unselected_hex_a_thon" }),
+                new ImageItem(Properties.Resources.background_ill_be_slime, "I'll Be Slime", this.Font, new[] { "background_ill_be_slime", "tab_unselected_ill_be_slime" }),
+                new ImageItem(Properties.Resources.background_mockingbird, "Mocking Bird", this.Font, new[] { "background_mockingbird", "tab_unselected_mockingbird" }),
+                new ImageItem(Properties.Resources.background_newlove, "New Love", this.Font, new[] { "background_newlove", "tab_unselected_newlove" }),
+                new ImageItem(Properties.Resources.background_parade_guy, "Parade Guy", this.Font, new[] { "background_parade_guy", "tab_unselected_parade_guy" }),
+                new ImageItem(Properties.Resources.background_party_pegwin, "Party Pegwin", this.Font, new[] { "background_party_pegwin", "tab_unselected_party_pegwin" }),
+                new ImageItem(Properties.Resources.background_penguin, "Penguin", this.Font, new[] { "background_penguin", "tab_unselected_penguin" }),
+                new ImageItem(Properties.Resources.background_suits_you, "Suits You", this.Font, new[] { "background_suits_you", "tab_unselected_suits_you" }),
+                new ImageItem(Properties.Resources.background_sunny_guys, "Sunny Guys", this.Font, new[] { "background_sunny_guys", "tab_unselected_sunny_guys" }),
+                new ImageItem(Properties.Resources.background_ta_da, "Ta Da", this.Font, new[] { "background_ta_da", "tab_unselected_ta_da" }),
+                new ImageItem(Properties.Resources.background_timeattack, "Time Attack", this.Font, new[] { "background_timeattack", "tab_unselected_timeattack" }),
+                new ImageItem(Properties.Resources.background_watermelon, "Watermelon", this.Font, new[] { "background_watermelon", "tab_unselected_watermelon" }),
+                new ImageItem(Properties.Resources.background_super_mario_bros, "Super Mario Bros.", this.Font, new[] { "background_super_mario_bros", "tab_unselected_super_mario_bros" }),
+                new ImageItem(Properties.Resources.background_super_mario_bros_3, "Super Mario Bros. 3", this.Font, new[] { "background_super_mario_bros_3", "tab_unselected_super_mario_bros_3" }),
+                new ImageItem(Properties.Resources.background_wallpaper_01, "Wallpaper 01", this.Font, new[] { "background_wallpaper_01", "tab_unselected_wallpaper_01" }),
+                new ImageItem(Properties.Resources.background_wallpaper_02, "Wallpaper 02", this.Font, new[] { "background_wallpaper_02", "tab_unselected_wallpaper_02" }),
+                new ImageItem(Properties.Resources.background_wallpaper_03, "Wallpaper 03", this.Font, new[] { "background_wallpaper_03", "tab_unselected_wallpaper_03" })
             };
-            imageItemArray.AddRange(imageItems);
-            this.cboOverlayBackground.SetImageItemData(imageItemArray);
+            overlayItemArray.AddRange(overlayItems);
+            this.cboOverlayBackground.SetImageItemData(overlayItemArray);
             bool isSelected = false;
             if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
-                for (int i = 0; i < imageItemArray.Count; i++) {
-                    if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                for (int i = 0; i < overlayItemArray.Count; i++) {
+                    if (!((ImageItem)overlayItemArray[i]).DataArray[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
                 }
             } else {
-                for (int i = imageItemArray.Count - 1; i >= 0; i--) {
-                    if (!((ImageItem)imageItemArray[i]).ResourceName[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                for (int i = overlayItemArray.Count - 1; i >= 0; i--) {
+                    if (!((ImageItem)overlayItemArray[i]).DataArray[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
@@ -268,7 +280,6 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
             this.BackImage = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
-            this.cboOverlayBackground_blur(theme);
             foreach (Control c1 in Controls) {
                 if (c1 is MetroLabel ml1) {
                     ml1.Theme = theme;
@@ -282,9 +293,9 @@ namespace FallGuysStats {
                     mrb1.Theme = theme;
                 } else if (c1 is MetroComboBox mcbo1) {
                     mcbo1.Theme = theme;
-                } else if (c1 is MetroPanel gb1) {
-                    gb1.Theme = theme;
-                    foreach (Control c2 in gb1.Controls) {
+                } else if (c1 is MetroPanel mp1) {
+                    mp1.Theme = theme;
+                    foreach (Control c2 in mp1.Controls) {
                         if (c2 is MetroLabel ml2) {
                             ml2.Theme = theme;
                         } else if (c2 is MetroTextBox mtb2) {
@@ -297,6 +308,8 @@ namespace FallGuysStats {
                             mrb2.Theme = theme;
                         } else if (c2 is MetroComboBox mcbo2) {
                             mcbo2.Theme = theme;
+                        } else if (c2 is ImageComboBox icbo2) {
+                            icbo2.Theme = theme;
                         } else if (c2 is MetroLink mlnk2) {
                             mlnk2.Theme = theme;
                         } else if (c2 is MetroTrackBar mtrb2) {
@@ -345,42 +358,6 @@ namespace FallGuysStats {
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
             this.Invalidate(true);
-        }
-        
-        private void cboOverlayBackground_blur(MetroThemeStyle theme) {
-            this.cboOverlayBackground.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(153, 153, 153) : Color.DarkGray;
-            this.cboOverlayBackground.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.cboOverlayBackground.BorderColor = Color.FromArgb(153, 153, 153);
-            this.cboOverlayBackground.ButtonColor = Color.FromArgb(153, 153, 153);
-        }
-        
-        private void cboOverlayBackground_focus(MetroThemeStyle theme) {
-            this.cboOverlayBackground.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.FromArgb(204, 204, 204);
-            this.cboOverlayBackground.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.cboOverlayBackground.BorderColor = theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(204, 204, 204);
-            this.cboOverlayBackground.ButtonColor = theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(170, 170, 170);
-        }
-        
-        private void cboOverlayBackground_MouseEnter(object sender, EventArgs e) {
-            if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_focus(this.Theme);
-            }
-        }
-        
-        private void cboOverlayBackground_GotFocus(object sender, EventArgs e) {
-            this.CboOverlayBackgroundIsFocus = true;
-            this.cboOverlayBackground_focus(this.Theme);
-        }
-        
-        private void cboOverlayBackground_MouseLeave(object sender, EventArgs e) {
-            if (!this.CboOverlayBackgroundIsFocus) {
-                this.cboOverlayBackground_blur(this.Theme);
-            }
-        }
-        
-        private void cboOverlayBackground_LostFocus(object sender, EventArgs e) {
-            this.CboOverlayBackgroundIsFocus = false;
-            this.cboOverlayBackground_blur(this.Theme);
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -506,8 +483,8 @@ namespace FallGuysStats {
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
 
-            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[0];
-            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).ResourceName[1];
+            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).DataArray[0];
+            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).DataArray[1];
             this.CurrentSettings.OverlayBackground = this.cboOverlayBackground.SelectedIndex;
             this.CurrentSettings.IsOverlayBackgroundCustomized = ((ImageItem)this.cboOverlayBackground.SelectedItem).IsCustomized;
 
@@ -765,8 +742,8 @@ namespace FallGuysStats {
         }
         
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
-            if (this.DisplayLang == (Language)((ComboBox)sender).SelectedIndex) return;
-            this.ChangeLanguage((Language)((ComboBox)sender).SelectedIndex);
+            if (this.DisplayLang == (Language)((ImageComboBox)sender).SelectedIndex) return;
+            this.ChangeLanguage((Language)((ImageComboBox)sender).SelectedIndex);
         }
         
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
@@ -982,7 +959,7 @@ namespace FallGuysStats {
                 Multilingual.GetWord("settings_notification_sounds_04"),
             });
             this.cboNotificationSounds.SelectedIndex = this.CurrentSettings.NotificationSounds;
-            this.cboNotificationSounds.Width = (lang == Language.English || lang == Language.French) ? 172 : lang == Language.Korean ? 115 : lang == Language.Japanese ? 95 : 110;
+            // this.cboNotificationSounds.Width = (lang == Language.English || lang == Language.French) ? 172 : lang == Language.Korean ? 115 : lang == Language.Japanese ? 95 : 110;
             this.cboNotificationWindowPosition.Items.Clear();
             this.cboNotificationWindowPosition.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_notification_window_bottom_right"),
@@ -1028,7 +1005,7 @@ namespace FallGuysStats {
             this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
             this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
-            this.linkFallalytics.Text = $@"    {Multilingual.GetWord("settings_visit_fallalytics")}";
+            this.linkFallalytics.Text = $@"     {Multilingual.GetWord("settings_visit_fallalytics")}";
             
             this.fglink1.Text = Multilingual.GetWord("settings_github");
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";

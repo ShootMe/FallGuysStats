@@ -81,7 +81,7 @@
             this.picPlatformCheck = new System.Windows.Forms.PictureBox();
             this.picEpicGames = new System.Windows.Forms.PictureBox();
             this.picSteam = new System.Windows.Forms.PictureBox();
-            this.cboMultilingual = new MetroFramework.Controls.MetroComboBox();
+            this.cboMultilingual = new FallGuysStats.ImageComboBox();
             this.lblTheme = new MetroFramework.Controls.MetroLabel();
             this.chkChangeHoopsieLegends = new MetroFramework.Controls.MetroCheckBox();
             this.cboTheme = new MetroFramework.Controls.MetroComboBox();
@@ -880,14 +880,18 @@
             // 
             // cboMultilingual
             // 
+            this.cboMultilingual.BorderColor = System.Drawing.Color.Gray;
+            this.cboMultilingual.ButtonColor = System.Drawing.Color.DarkGray;
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboMultilingual.DropDownHeight = 414;
+            this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMultilingual.FormattingEnabled = true;
+            this.cboMultilingual.ImageName = null;
             this.cboMultilingual.ItemHeight = 23;
-            this.cboMultilingual.Items.AddRange(new object[] { "🇺🇸 English", "🇫🇷 Français", "🇰🇷 한국어", "🇯🇵 日本語", "🇨🇳 简体中文", "🇨🇳 繁體中文" });
             this.cboMultilingual.Location = new System.Drawing.Point(53, 412);
             this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(107, 29);
-            this.cboMultilingual.TabIndex = 99;
-            this.cboMultilingual.UseSelectable = true;
+            this.cboMultilingual.Size = new System.Drawing.Size(115, 29);
+            this.cboMultilingual.TabIndex = 19;
             this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
             // 
             // lblTheme
@@ -1010,7 +1014,7 @@
             this.cboNotificationSounds.Items.AddRange(new object[] { "Notification Sounds 01", "Notification Sounds 02", "Notification Sounds 03", "Notification Sounds 04" });
             this.cboNotificationSounds.Location = new System.Drawing.Point(15, 300);
             this.cboNotificationSounds.Name = "cboNotificationSounds";
-            this.cboNotificationSounds.Size = new System.Drawing.Size(170, 29);
+            this.cboNotificationSounds.Size = new System.Drawing.Size(72, 29);
             this.cboNotificationSounds.TabIndex = 1;
             this.cboNotificationSounds.UseSelectable = true;
             // 
@@ -1403,10 +1407,6 @@
             this.cboOverlayBackground.Name = "cboOverlayBackground";
             this.cboOverlayBackground.Size = new System.Drawing.Size(310, 20);
             this.cboOverlayBackground.TabIndex = 19;
-            this.cboOverlayBackground.GotFocus += new System.EventHandler(this.cboOverlayBackground_GotFocus);
-            this.cboOverlayBackground.LostFocus += new System.EventHandler(this.cboOverlayBackground_LostFocus);
-            this.cboOverlayBackground.MouseEnter += new System.EventHandler(this.cboOverlayBackground_MouseEnter);
-            this.cboOverlayBackground.MouseLeave += new System.EventHandler(this.cboOverlayBackground_MouseLeave);
             // 
             // tileOverlay
             // 
@@ -1670,6 +1670,7 @@
             this.linkFallalytics.ForeColor = System.Drawing.Color.Black;
             this.linkFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.linkFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkFallalytics.ImageSize = 17;
             this.linkFallalytics.Location = new System.Drawing.Point(12, 177);
             this.linkFallalytics.Name = "linkFallalytics";
             this.linkFallalytics.Size = new System.Drawing.Size(124, 22);
@@ -1853,7 +1854,7 @@
         private MetroFramework.Controls.MetroComboBox cboQualifyFilter;
         private MetroFramework.Controls.MetroLabel lblQualifyFilter;
         private MetroFramework.Controls.MetroComboBox cboWinsFilter;
-        private MetroFramework.Controls.MetroComboBox cboMultilingual;
+        private FallGuysStats.ImageComboBox cboMultilingual;
         private MetroFramework.Controls.MetroLabel lblWinsFilter;
         private MetroFramework.Controls.MetroCheckBox chkHideTimeInfo;
         private MetroFramework.Controls.MetroCheckBox chkHideRoundInfo;

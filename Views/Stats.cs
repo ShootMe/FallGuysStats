@@ -821,6 +821,10 @@ namespace FallGuysStats {
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
+                                case "lblLeaderboard":
+                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
+                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                    break;
                                 case "lblGoldMedal":
                                 case "lblSilverMedal":
                                 case "lblBronzeMedal":
@@ -1036,6 +1040,8 @@ namespace FallGuysStats {
                     this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalTime")) {
                     this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltip"), this, position);
+                } else if (lblInfo.Name.Equals("lblLeaderboard")) {
+                    this.ShowCustomTooltip(Multilingual.GetWord("leaderboard_detail_tooltip"), this, position);
                 }
             }
         }
@@ -3256,7 +3262,6 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat, string apiKey) {
-            if (string.IsNullOrEmpty(apiKey)) { return; }
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
                 string[] userInfo = null;
                 if (OnlineServiceType == OnlineServiceTypes.Steam) {
@@ -3289,6 +3294,17 @@ namespace FallGuysStats {
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
             if (!this.FallalyticsPbLog.Exists(pbLogQuery)) {
+                
+                
+                BsonExpression pbLogQuery2 = Query.And(
+                    Query.EQ("RoundId", stat.Name)
+                    , Query.EQ("ShowNameId", stat.ShowNameId)
+                );
+                
+                
+                
+                
+                
                 // first transfer
                 BsonExpression recordQuery = Query.And(
                     Query.Not("Finish", null),
@@ -4084,7 +4100,7 @@ namespace FallGuysStats {
         }
         
         private void InitMainDataGridView() {
-            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
+            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             //this.dataGridViewCellStyle1.BackColor = Color.LightGray;
             //this.dataGridViewCellStyle1.ForeColor = Color.Black;
@@ -4095,7 +4111,7 @@ namespace FallGuysStats {
             this.gridDetails.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridDetails.ColumnHeadersHeight = 20;
                 
-            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
+            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             //this.dataGridViewCellStyle2.BackColor = Color.White;
             //this.dataGridViewCellStyle2.ForeColor = Color.Black;
@@ -4625,8 +4641,7 @@ namespace FallGuysStats {
                        BackImage = Properties.Resources.crown_icon,
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
-                   })
-            {
+                   }) {
                 ArrayList dates = new ArrayList();
                 ArrayList shows = new ArrayList();
                 ArrayList finals = new ArrayList();
@@ -5361,6 +5376,35 @@ namespace FallGuysStats {
             }
         }
         
+        private void lblLeaderboard_Click(object sender, EventArgs e) {
+            try {
+                this.EnableInfoStrip(false);
+                this.EnableMainMenu(false);
+                using (LeaderboardDisplay leaderboard = new LeaderboardDisplay {
+                           StatsForm = this,
+                           Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
+                           BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
+                           BackMaxSize = 32,
+                           BackImagePadding = new Padding(20, 20, 0, 0)
+                       }) {
+                    // Dictionary<string, string> roundList = new Dictionary<string, string>();
+                    // foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
+                    //     if (entry.Value.Type == LevelType.Race) {
+                    //         roundList.Add(entry.Key, entry.Value.Name);
+                    //     }
+                    // }
+                    // leaderboard.RoundList = from pair in roundList orderby pair.Value ascending select pair; // use LINQ
+                    leaderboard.ShowDialog(this);
+                }
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
+            } catch (Exception ex) {
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        
         public void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
@@ -6043,8 +6087,9 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
             this.infoStrip2.Font = Overlay.GetMainFont(13);
-            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(10);
-            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(12);
+            this.lblLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
+            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             

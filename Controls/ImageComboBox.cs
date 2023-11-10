@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using MetroFramework;
 
 namespace FallGuysStats {
     public class ImageComboBox : ComboBox {
@@ -15,13 +18,25 @@ namespace FallGuysStats {
                 return cp;
             }
         }
-        
-        private Color borderColor = Color.Gray;
-        public Color BorderColor {
-            get { return borderColor; }
+
+        private MetroThemeStyle _theme = MetroThemeStyle.Light;
+        public MetroThemeStyle Theme {
+            get { return _theme; }
             set {
-                if (borderColor != value) {
-                    borderColor = value;
+                if (_theme != value) {
+                    _theme = value;
+                    SetBlur();
+                    Invalidate();
+                }
+            }
+        }
+        
+        private Color _borderColor = Color.Gray;
+        public Color BorderColor {
+            get { return _borderColor; }
+            set {
+                if (_borderColor != value) {
+                    _borderColor = value;
                     Invalidate();
                 }
             }
@@ -186,13 +201,20 @@ namespace FallGuysStats {
         #endregion
         
         #region SetImageItemData(imageItemArray)
-        public void SetImageItemData(ArrayList imageItemArray) {
+        public void SetImageItemData(List<ImageItem> imageItemArray) {
             this.DrawMode = DrawMode.OwnerDrawVariable;
             this.Items.Clear();
             this.Items.AddRange(imageItemArray.ToArray());
 
             this.MeasureItem += this.ImageItemComboBox_MeasureItem;
             this.DrawItem += this.ImageItemComboBox_DrawItem;
+
+            this.MouseEnter += ImageItemComboBox_MouseEnter;
+            this.MouseLeave += ImageItemComboBox_MouseLeave;
+            this.GotFocus += ImageItemComboBox_GotFocus;
+            this.LostFocus += ImageItemComboBox_LostFocus;
+            
+            SetBlur();
         }
         #endregion
 
@@ -298,7 +320,37 @@ namespace FallGuysStats {
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
             this.ImageName = item.Text;
-            item.DrawItem(e, this.ForeColor);
+            item.DrawItem(e, this.ForeColor, this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17));
+        }
+        
+        private void ImageItemComboBox_MouseEnter(object sender, EventArgs e) {
+            if (!this.Focused) this.SetFocus();
+        }
+        
+        private void ImageItemComboBox_MouseLeave(object sender, EventArgs e) {
+            if (!this.Focused) this.SetBlur();
+        }
+        
+        private void ImageItemComboBox_GotFocus(object sender, EventArgs e) {
+            this.SetFocus();
+        }
+        
+        private void ImageItemComboBox_LostFocus(object sender, EventArgs e) {
+            this.SetBlur();
+        }
+
+        private void SetFocus() {
+            this.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.FromArgb(204, 204, 204);
+            this.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.BorderColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(204, 204, 204);
+            this.ButtonColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(17, 17, 17) : Color.FromArgb(170, 170, 170);
+        }
+        
+        private void SetBlur() {
+            this.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(153, 153, 153) : Color.DarkGray;
+            this.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.BorderColor = Color.FromArgb(153, 153, 153);
+            this.ButtonColor = Color.FromArgb(153, 153, 153);
         }
         #endregion
     }
