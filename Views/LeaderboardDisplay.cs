@@ -128,16 +128,20 @@ namespace FallGuysStats {
             Task.Run(() => this.DataLoad(this.key)).ContinueWith(prevTask => {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {((ImageItem)((ImageComboBox)sender).SelectedItem).Text}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.recordholders;
                         this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalRank}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
                         this.lblTotalPlayers.Visible = true;
                         this.mlVisitFallalytics.Visible = true;
+                        this.Refresh();
                     } else {
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.nodata;
                         this.lblTotalPlayers.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
+                        this.Refresh();
                     }
                 });
             });
@@ -181,7 +185,6 @@ namespace FallGuysStats {
                     options.Converters.Add(new RoundConverter());
                     var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
                     result = availableRound.found;
-                    Console.WriteLine(result);
                     this.roundlist = availableRound.leaderboards;
                 } else {
                     string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={round}");
