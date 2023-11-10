@@ -289,7 +289,7 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
-                e.Value = info.isAnonymous ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon");
+                e.Value = info.isAnonymous ? null : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_shiny_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "medal") {

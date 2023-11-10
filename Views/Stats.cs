@@ -3296,13 +3296,10 @@ namespace FallGuysStats {
             if (!this.FallalyticsPbLog.Exists(pbLogQuery)) {
                 
                 
-                BsonExpression pbLogQuery2 = Query.And(
-                    Query.EQ("RoundId", stat.Name)
-                    , Query.EQ("ShowNameId", stat.ShowNameId)
-                );
-                
-                
-                
+                // BsonExpression pbLogQuery2 = Query.And(
+                //     Query.EQ("RoundId", stat.Name)
+                //     , Query.EQ("ShowNameId", stat.ShowNameId)
+                // );
                 
                 
                 // first transfer
