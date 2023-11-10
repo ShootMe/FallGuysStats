@@ -609,7 +609,7 @@
             // 
             this.lblLeaderboard.ForeColor = System.Drawing.Color.Blue;
             this.lblLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
-            this.lblLeaderboard.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
+            this.lblLeaderboard.Margin = new System.Windows.Forms.Padding(15, 1, 0, 2);
             this.lblLeaderboard.Name = "lblLeaderboard";
             this.lblLeaderboard.Size = new System.Drawing.Size(69, 16);
             this.lblLeaderboard.Text = "Leaderboard";

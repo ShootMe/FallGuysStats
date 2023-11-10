@@ -14,7 +14,7 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private string key = String.Empty;
-        private int totalRank = 0;
+        private int totalPlayers;
         private List<RankRound> roundlist;
         private List<RankInfo> recordholders;
         private List<RankInfo> nodata = new List<RankInfo>();
@@ -41,12 +41,16 @@ namespace FallGuysStats {
         
         private void LeaderboardDisplay_Resize(object sender, EventArgs e) {
             this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2);
+            this.lblSearchDescription.Location = new Point((this.ClientSize.Width - this.lblSearchDescription.Width) / 2, (this.ClientSize.Height - this.lblSearchDescription.Height) / 2);
         }
         
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
             this.lblTotalPlayers.Theme = theme;
             this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            this.lblSearchDescription.Theme = theme;
+            this.lblSearchDescription.Text = $"{Multilingual.GetWord("leaderboard_choose_a_round")}";
+            this.lblSearchDescription.Location = new Point((this.ClientSize.Width - this.lblSearchDescription.Width) / 2, (this.ClientSize.Height - this.lblSearchDescription.Height) / 2);
             this.mpsSpinner.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             // this.mpsSpinner.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2);
@@ -123,6 +127,7 @@ namespace FallGuysStats {
             this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).DataArray[0];
             this.lblTotalPlayers.Visible = false;
             this.lblTotalPlayers.Text = "";
+            this.lblSearchDescription.Visible = false;
             this.mpsSpinner.Visible = true;
             this.gridDetails.DataSource = null;
             Task.Run(() => this.DataLoad(this.key)).ContinueWith(prevTask => {
@@ -131,7 +136,8 @@ namespace FallGuysStats {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {((ImageItem)((ImageComboBox)sender).SelectedItem).Text}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.recordholders;
-                        this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalRank}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
+                        // this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+                        this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
                         this.lblTotalPlayers.Visible = true;
                         this.mlVisitFallalytics.Visible = true;
                         this.Refresh();
@@ -141,6 +147,7 @@ namespace FallGuysStats {
                         this.gridDetails.DataSource = this.nodata;
                         this.lblTotalPlayers.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
+                        this.lblSearchDescription.Visible = true;
                         this.Refresh();
                     }
                 });
@@ -155,6 +162,7 @@ namespace FallGuysStats {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
                         this.mpsSpinner.Visible = false;
+                        this.lblSearchDescription.Visible = true;
                         List<ImageItem> roundItemList = new List<ImageItem>();
                         foreach (RankRound round in this.roundlist) {
                             foreach (var id in round.ids) {
@@ -193,13 +201,13 @@ namespace FallGuysStats {
                     Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
                     result = leaderboard.found;
                     if (result) {
-                        this.totalRank = leaderboard.total;
+                        this.totalPlayers = leaderboard.total;
                         for (var i = 0; i < leaderboard.recordholders.Count; i++) {
                             leaderboard.recordholders[i].rank = i + 1;
                         }
                         this.recordholders = leaderboard.recordholders;
                     } else {
-                        this.totalRank = 0;
+                        this.totalPlayers = 0;
                     }
                 }
             }
@@ -304,7 +312,7 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.totalRank - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
                     if (percentage <= 20) {
                         e.Value = Properties.Resources.medal_silver_grid_icon;
                     } else if (percentage <= 50) {

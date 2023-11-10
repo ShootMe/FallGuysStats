@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardDisplay));
             this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblTotalPlayers = new MetroFramework.Controls.MetroLabel();
+            this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.cboRoundList = new FallGuysStats.ImageComboBox();
             this.gridDetails = new FallGuysStats.Grid();
@@ -66,6 +67,18 @@
             this.lblTotalPlayers.TabIndex = 3;
             this.lblTotalPlayers.Text = "Total 500 players";
             this.lblTotalPlayers.Visible = false;
+            // 
+            // lblSearchDescription
+            // 
+            this.lblSearchDescription.AutoSize = true;
+            this.lblSearchDescription.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblSearchDescription.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblSearchDescription.Location = new System.Drawing.Point(423, 60);
+            this.lblSearchDescription.Name = "lblSearchDescription";
+            this.lblSearchDescription.Size = new System.Drawing.Size(145, 25);
+            this.lblSearchDescription.TabIndex = 3;
+            this.lblSearchDescription.Text = "Choose a round";
+            this.lblSearchDescription.Visible = false;
             // 
             // mlVisitFallalytics
             // 
@@ -142,6 +155,7 @@
             this.ClientSize = new System.Drawing.Size(1200, 805);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblTotalPlayers);
+            this.Controls.Add(this.lblSearchDescription);
             this.Controls.Add(this.mlVisitFallalytics);
             this.Controls.Add(this.cboRoundList);
             this.Controls.Add(this.gridDetails);
@@ -166,6 +180,7 @@
 
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
         private MetroFramework.Controls.MetroLabel lblTotalPlayers;
+        private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private FallGuysStats.ImageComboBox cboRoundList;
         private FallGuysStats.Grid gridDetails;

@@ -177,6 +177,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " No statistical data"},
                             
                             {"leaderboard_menu_title", "Leaderboard"},
+                            {"leaderboard_choose_a_round", "Choose a round"},
                             {"leaderboard_total_players_prefix", ""},
                             {"leaderboard_total_players_suffix", " total players"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "See full rankings in FALLALYTICS"},
@@ -666,6 +667,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " Aucune donnée statistique"},
                             
                             {"leaderboard_menu_title", "Classement"},
+                            {"leaderboard_choose_a_round", "Choisissez un manche"},
                             {"leaderboard_total_players_prefix", ""},
                             {"leaderboard_total_players_suffix", " joueurs au total"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "Voir le classement complet dans FALLALYTICS"},
@@ -774,7 +776,7 @@ namespace FallGuysStats {
                             {"message_check_internet_connection", "S'il vous plait, vérifiez votre connexion internet."},
                             {"message_changelog_caption", "journal des modifications"},
                             {"message_changelog_bugfix_and_program_optimization", "Correction de bugs et optimisation du programme"},
-                            {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de rondes mis à jour"},
+                            {"message_changelog_updated_new_show_and_round_names", "Nouveaux noms de spectacles et de manche mis à jour"},
                             {"message_changelog_overlay_display_improvements", "Améliorations de l'affichage en l'overlay"},
                             {"message_changelog_added_and_improved_win_per_day_graph_feature", "Fonctionnalité graphique des victoire par jour ajoutée et améliorée"},
                             {"message_changelog_released_the_fallalytics_speedrun_leaderboard", "Publication du classement du speedrun FALLALYTICS"},
@@ -1155,6 +1157,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " 통계 데이터 없음"},
                             
                             {"leaderboard_menu_title", "리더보드"},
+                            {"leaderboard_choose_a_round", "라운드를 선택하세요"},
                             {"leaderboard_total_players_prefix", "총 "},
                             {"leaderboard_total_players_suffix", " 명의 플레이어"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "폴라리틱스에서 전체 순위 보기"},
@@ -1644,6 +1647,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " 統計データなし"},
                             
                             {"leaderboard_menu_title", "リーダーボード"},
+                            {"leaderboard_choose_a_round", "ラウンドを選択してください。"},
                             {"leaderboard_total_players_prefix", "合計"},
                             {"leaderboard_total_players_suffix", "人のプレイヤー"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "FALLALYTICS で完全なランキングを見る"},
@@ -2133,6 +2137,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " 无统计数据"},
                             
                             {"leaderboard_menu_title", "排行榜"},
+                            {"leaderboard_choose_a_round", "选择一轮。"},
                             {"leaderboard_total_players_prefix", "总共 "},
                             {"leaderboard_total_players_suffix", " 名玩家"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "请参阅 FALLALYTICS 中的完整排名"},
@@ -2622,6 +2627,7 @@ namespace FallGuysStats {
                             {"level_no_statistical_data", " 無統計數據"},
                             
                             {"leaderboard_menu_title", "排行榜"},
+                            {"leaderboard_choose_a_round", "選擇一輪。"},
                             {"leaderboard_total_players_prefix", "總共 "},
                             {"leaderboard_total_players_suffix", " 名玩家"},
                             {"leaderboard_see_full_rankings_in_fallalytics", "請參閱 FALLALYTICS 中的完整排名"},
