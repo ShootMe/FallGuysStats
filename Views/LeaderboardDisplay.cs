@@ -39,12 +39,17 @@ namespace FallGuysStats {
             this.Opacity = 1;
         }
         
+        private void LeaderboardDisplay_Resize(object sender, EventArgs e) {
+            this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2);
+        }
+        
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
             this.lblTotalPlayers.Theme = theme;
             this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mpsSpinner.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mpsSpinner.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            // this.mpsSpinner.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2);
             this.cboRoundList.Theme = theme;
             
             this.gridDetails.Theme = theme;

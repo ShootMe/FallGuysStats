@@ -10,13 +10,13 @@ using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class Settings : MetroFramework.Forms.MetroForm {
-        // protected override CreateParams CreateParams {
-        //     get {
-        //         CreateParams cp = base.CreateParams;
-        //         cp.ExStyle |= 0x02000000;
-        //         return cp;
-        //     }
-        // }
+        protected override CreateParams CreateParams {
+            get {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
+        }
         
         private string overlayFontSerialized = string.Empty;
         private string overlayFontColorSerialized = string.Empty;

@@ -156,6 +156,7 @@
             this.Text = "Level Stats";
             this.Load += new System.EventHandler(this.LeaderboardDisplay_Load);
             this.Shown += new System.EventHandler(this.LeaderboardDisplay_Shown);
+            this.Resize += new System.EventHandler(this.LeaderboardDisplay_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
