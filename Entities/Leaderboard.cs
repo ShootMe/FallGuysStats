@@ -55,9 +55,9 @@ namespace FallGuysStats {
                             break;
                         case "user":
                             if (reader.TokenType == JsonTokenType.String) {
-                                recordHolder.onlineServiceType = Multilingual.GetWord("leaderboard_grid_anonymous");
+                                // recordHolder.onlineServiceType = Multilingual.GetWord("leaderboard_grid_anonymous");
                                 recordHolder.onlineServiceId = reader.GetString();
-                                recordHolder.onlineServiceNickname = Multilingual.GetWord("leaderboard_grid_anonymous");
+                                recordHolder.onlineServiceNickname = $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}";
                             } else if (reader.TokenType == JsonTokenType.StartObject) {
                                 while (reader.Read()) {
                                     if (reader.TokenType == JsonTokenType.EndObject) {
