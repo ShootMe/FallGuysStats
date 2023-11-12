@@ -77,7 +77,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
             this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             
-            this.gridDetails.SetComtextMenuTheme();
+            this.gridDetails.SetContextMenuTheme();
             
             this.mlVisitFallalytics.Theme = theme;
             this.mlVisitFallalytics.Text = $@"     {Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics")}";
@@ -259,7 +259,7 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
-                e.Value = info.isAnonymous ? null : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
+                e.Value = info.isAnonymous ? Properties.Resources.country_unknown_shiny_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_shiny_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "medal") {
@@ -275,7 +275,24 @@ namespace FallGuysStats {
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            // } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+                if (info.rank == 1) { e.CellStyle.ForeColor = Color.FromArgb(165, 124, 0); }
+                // else {
+                //     double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
+                //     if (percentage <= 20) {
+                //         // e.CellStyle.ForeColor = Color.FromArgb(199, 209, 218);
+                //         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                //     } else if (percentage <= 50) {
+                //         e.CellStyle.ForeColor = Color.FromArgb(136, 84, 11);
+                //     } else {
+                //         e.CellStyle.ForeColor = Color.FromArgb(217, 152, 160);
+                //     }
+                // }
+                
+                // if (info.isAnonymous) {
+                //     // e.CellStyle.ForeColor = Color.Yellow;
+                //     e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
+                // }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "finish") {

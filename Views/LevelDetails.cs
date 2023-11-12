@@ -131,7 +131,7 @@ namespace FallGuysStats {
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
             }
 
-            this.gridDetails.SetComtextMenuTheme();
+            this.gridDetails.SetContextMenuTheme();
         }
 
         private void LevelDetails_Shown(object sender, EventArgs e) {

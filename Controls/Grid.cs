@@ -96,7 +96,7 @@ namespace FallGuysStats {
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
         }
 
-        public void SetComtextMenuTheme() {
+        public void SetContextMenuTheme() {
             foreach (object item in this.CMenu.Items) {
                 if (item is ToolStripMenuItem tsi) {
                     tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);

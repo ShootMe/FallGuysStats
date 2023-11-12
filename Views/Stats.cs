@@ -849,7 +849,7 @@ namespace FallGuysStats {
             }
 
             this.gridDetails.Theme = theme;
-            this.gridDetails.SetComtextMenuTheme();
+            this.gridDetails.SetContextMenuTheme();
             this.gridDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
             this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
