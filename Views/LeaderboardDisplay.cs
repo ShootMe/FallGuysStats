@@ -276,23 +276,9 @@ namespace FallGuysStats {
                     }
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
-                if (info.rank == 1) { e.CellStyle.ForeColor = Color.FromArgb(165, 124, 0); }
-                // else {
-                //     double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
-                //     if (percentage <= 20) {
-                //         // e.CellStyle.ForeColor = Color.FromArgb(199, 209, 218);
-                //         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                //     } else if (percentage <= 50) {
-                //         e.CellStyle.ForeColor = Color.FromArgb(136, 84, 11);
-                //     } else {
-                //         e.CellStyle.ForeColor = Color.FromArgb(217, 152, 160);
-                //     }
-                // }
-                
-                // if (info.isAnonymous) {
-                //     // e.CellStyle.ForeColor = Color.Yellow;
-                //     e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
-                // }
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(165, 124, 0) : Color.Gold;
+                }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "finish") {
