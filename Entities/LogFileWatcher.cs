@@ -298,7 +298,7 @@ namespace FallGuysStats {
         };
 
         private string ReplaceLevelIdInDigisShuffleShow(string showId, string roundId) {
-            if (showId.Equals("wle_mrs_shuffle_show")) {
+            if ("wle_mrs_shuffle_show".Equals(showId)) {
                 if (this.StatsForm.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
@@ -681,7 +681,7 @@ namespace FallGuysStats {
                     logRound.Info.CreativeQualificationPercent = this.creativeQualificationPercent;
                     logRound.Info.CreativeTimeLimitSeconds = this.creativeTimeLimitSeconds;
                 } else {
-                    logRound.Info.Name = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId, line.Line.Substring(index + 62, index2 - index - 62));
+                    logRound.Info.Name = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId ?? this.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
                 if (this.IsRealFinalRound(logRound.Info.Name, this.selectedShowId) || logRound.Info.UseShareCode) {

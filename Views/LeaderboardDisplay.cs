@@ -77,23 +77,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
             this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
             
-            foreach (object item in this.gridDetails.CMenu.Items) {
-                if (item is ToolStripMenuItem tsi) {
-                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    tsi.MouseEnter += this.CMenu_MouseEnter;
-                    tsi.MouseLeave += this.CMenu_MouseLeave;
-                    if (tsi.Name.Equals("exportItemCSV")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemHTML")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemMD")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    }
-                }
-            }
+            this.gridDetails.SetComtextMenuTheme();
             
             this.mlVisitFallalytics.Theme = theme;
             this.mlVisitFallalytics.Text = $@"     {Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics")}";
@@ -237,36 +221,6 @@ namespace FallGuysStats {
             return sizeOfText + 24;
         }
         
-        private void CMenu_MouseEnter(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = Color.Black;
-                if (tsi.Name.Equals("exportItemCSV")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemHTML")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemMD")) {
-                    tsi.Image = Properties.Resources.export;
-                }
-            }
-        }
-        
-        private void CMenu_MouseLeave(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                if (tsi.Name.Equals("exportItemCSV")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemHTML")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemMD")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                }
-            }
-        }
-        
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             if (this.gridDetails.Columns.Count == 0) { return; }
             int pos = 0;
@@ -305,7 +259,7 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
-                e.Value = info.isAnonymous ? null : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_shiny_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
+                e.Value = info.isAnonymous ? null : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "medal") {
@@ -321,8 +275,7 @@ namespace FallGuysStats {
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
-                
+            // } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "finish") {

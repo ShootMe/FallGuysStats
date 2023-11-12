@@ -51,6 +51,81 @@ namespace FallGuysStats {
             //    get { return Color.DodgerBlue; }
             //}
         }
+        
+        private void CMenu_MouseEnter(object sender, EventArgs e) {
+            if (sender is ToolStripMenuItem tsi) {
+                tsi.ForeColor = Color.Black;
+                if (tsi.Name.Equals("exportItemCSV")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemHTML")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("exportItemMD")) {
+                    tsi.Image = Properties.Resources.export;
+                } else if (tsi.Name.Equals("moveShows")) {
+                    tsi.Image = Properties.Resources.move;
+                } else if (tsi.Name.Equals("deleteShows")) {
+                    tsi.Image = Properties.Resources.delete;
+                }
+            }
+        }
+        
+        private void CMenu_MouseLeave(object sender, EventArgs e) {
+            if (sender is ToolStripMenuItem tsi) {
+                tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                if (tsi.Name.Equals("exportItemCSV")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemHTML")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("exportItemMD")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                } else if (tsi.Name.Equals("moveShows")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
+                } else if (tsi.Name.Equals("deleteShows")) {
+                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
+                }
+            }
+        }
+        
+        private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
+            ToolStripSeparator separator = (ToolStripSeparator)sender;
+            e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
+            e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
+        }
+
+        public void SetComtextMenuTheme() {
+            foreach (object item in this.CMenu.Items) {
+                if (item is ToolStripMenuItem tsi) {
+                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    tsi.MouseEnter += this.CMenu_MouseEnter;
+                    tsi.MouseLeave += this.CMenu_MouseLeave;
+                    if (tsi.Name.Equals("exportItemCSV")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemHTML")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemBBCODE")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("exportItemMD")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
+                    } else if (tsi.Name.Equals("moveShows")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
+                    } else if (tsi.Name.Equals("deleteShows")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
+                    } else if (tsi.Name.Equals("updateCreativeShows")) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.update : Properties.Resources.update_gray;
+                    }
+                } else if (item is ToolStripSeparator tss) {
+                    tss.Paint += this.CustomToolStripSeparator_Paint;
+                    tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                }
+            }
+        }
+
         public Grid() {
             this.SetContextMenu();
             Utils.DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
@@ -73,6 +148,7 @@ namespace FallGuysStats {
             this.ColumnHeadersDefaultCellStyle.SelectionBackColor = Color.Cyan;
             this.ColumnHeadersDefaultCellStyle.SelectionForeColor = Color.Black;
         }
+        
         public SortOrder GetSortOrder(string columnName) {
             this.Orders.TryGetValue(columnName, out SortOrder sortOrder);
             if (sortOrder == SortOrder.None) {
@@ -89,6 +165,7 @@ namespace FallGuysStats {
                 return SortOrder.None;
             }
         }
+        
         public DataGridViewRow CloneWithValues(DataGridViewRow row) {
             DataGridViewRow clonedRow = (DataGridViewRow)row.Clone();
             for (int i = 0; i < row.Cells.Count; i++) {
@@ -97,11 +174,13 @@ namespace FallGuysStats {
             }
             return clonedRow;
         }
+        
         protected override void OnDataSourceChanged(EventArgs e) {
             this.Columns.Clear();
             this.IsEditOnEnter = this.EditMode == DataGridViewEditMode.EditOnEnter;
             base.OnDataSourceChanged(e);
         }
+        
         protected override void OnPaint(PaintEventArgs e) {
             if (this.DesignMode) {
                 Graphics g = e.Graphics;
@@ -129,6 +208,7 @@ namespace FallGuysStats {
                 base.OnPaint(e);
             }
         }
+        
         protected override void OnCellClick(DataGridViewCellEventArgs e) {
             base.OnCellClick(e);
             if (!this.IsEditOnEnter) { return; }
@@ -140,6 +220,7 @@ namespace FallGuysStats {
                 this.BeginEdit(false);
             }
         }
+        
         [Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), DefaultValue(false)]
         public bool Disabled {
             get { return this.readOnly; }
@@ -159,55 +240,66 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         protected override void OnLeave(EventArgs e) {
             if (this.IsEditOnEnter) {
                 this.EditMode = DataGridViewEditMode.EditOnEnter;
             }
             base.OnLeave(e);
         }
+        
         [DefaultValue(typeof(DataGridViewRowHeadersWidthSizeMode), "DisableResizing")]
         public new DataGridViewRowHeadersWidthSizeMode RowHeadersWidthSizeMode {
             get { return base.RowHeadersWidthSizeMode; }
             set { base.RowHeadersWidthSizeMode = value; }
         }
+        
         [DefaultValue(20)]
         public new int RowHeadersWidth {
             get { return base.RowHeadersWidth; }
             set { base.RowHeadersWidth = value; }
         }
+        
         [DefaultValue(DataGridViewAutoSizeColumnsMode.None)]
         public new DataGridViewAutoSizeColumnsMode AutoSizeColumnsMode {
             get { return base.AutoSizeColumnsMode; }
             set { base.AutoSizeColumnsMode = value; }
         }
+        
         [DefaultValue(false)]
         public new bool AllowUserToAddRows {
             get { return base.AllowUserToAddRows; }
             set { base.AllowUserToAddRows = value; }
         }
+        
         [DefaultValue(true)]
         public new bool AllowUserToOrderColumns {
             get { return base.AllowUserToOrderColumns; }
             set { base.AllowUserToOrderColumns = value; }
         }
+        
         [DefaultValue(false)]
         public new bool AllowUserToResizeRows {
             get { return base.AllowUserToResizeRows; }
             set { base.AllowUserToResizeRows = value; }
         }
+        
         [DefaultValue(DataGridViewEditMode.EditOnKeystrokeOrF2)]
         public new DataGridViewEditMode EditMode {
             get { return base.EditMode; }
             set { base.EditMode = value; }
         }
+        
         [DefaultValue(typeof(Color), "234, 242, 251")]
         public new Color BackgroundColor {
             get { return base.BackgroundColor; }
             set { base.BackgroundColor = value; }
         }
+        
         public override string ToString() {
             return "Grid(" + Name + ") " + Text;
         }
+        
         public bool HasFocus(Control activeControl) {
             while (activeControl != null) {
                 if (activeControl == this) {
@@ -217,6 +309,7 @@ namespace FallGuysStats {
             }
             return false;
         }
+        
         private string EscapeQuotes(string value, char escapeCharacter = ',') {
             if (!string.IsNullOrEmpty(value) && value.IndexOf(escapeCharacter) >= 0) {
                 return $"\"{value}\"";
@@ -424,9 +517,11 @@ namespace FallGuysStats {
             });
             return columns;
         }
+        
         private void Grid_DataError(object sender, DataGridViewDataErrorEventArgs e) {
             e.ThrowException = false;
         }
+        
         protected override bool ProcessDialogKey(Keys keyData) {
             /*if (ProcessKeyStroke(keyData)) {
                 return true;
@@ -434,6 +529,7 @@ namespace FallGuysStats {
 
             return base.ProcessDialogKey(keyData);
         }
+        
         protected override bool ProcessDataGridViewKey(KeyEventArgs e) {
             /*if (ProcessKeyStroke(e.KeyData)) {
                 return true;
@@ -441,6 +537,7 @@ namespace FallGuysStats {
 
             return base.ProcessDataGridViewKey(e);
         }
+        
         private bool ProcessKeyStroke(Keys keyData) {
             if (keyData == Keys.Tab) {
                 int iCol = this.CurrentCell.ColumnIndex + 1;
@@ -503,6 +600,7 @@ namespace FallGuysStats {
             }
             return false;
         }
+        
         public void Setup(string column, int index, int width = -1, string header = null, DataGridViewContentAlignment align = DataGridViewContentAlignment.MiddleCenter) {
             if (this.Columns == null || this.Columns[column] == null) { return; }
             this.Columns[column].Visible = true;
@@ -522,9 +620,11 @@ namespace FallGuysStats {
                 this.Columns[column].HeaderText = header;
             }
         }
+        
         public void DeallocContextMenu() {
             this.ContextMenuStrip = null;
         }
+        
         private void SetContextMenu() {
             this.components = new Container();
             //ComponentResourceManager resources = new ComponentResourceManager(typeof(Grid));
@@ -596,6 +696,7 @@ namespace FallGuysStats {
             ((ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
         }
+        
         public static DataTable Convert(IEnumerable array, params string[] columns) {
             object rec = null;
             foreach (object o in array) { rec = o; break; }
@@ -635,6 +736,7 @@ namespace FallGuysStats {
             }
             return dt;
         }
+        
         public void ChangeContextMenuLanguage() {
             this.ExportItemCsv.Text = Multilingual.GetWord("main_export_csv");
             this.ExportItemHtml.Text = Multilingual.GetWord("main_export_html");
@@ -642,6 +744,7 @@ namespace FallGuysStats {
             this.ExportItemMd.Text = Multilingual.GetWord("main_export_markdown");
         }
     }
+    
     public static class ControlErrors {
         public static event Action<object, Exception> Error;
         internal static Exception HandleException(object sender, Exception ex, bool rethrow = true) {

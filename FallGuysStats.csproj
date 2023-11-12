@@ -789,6 +789,7 @@
     <None Include="Resources\country_icon\PW.png" />
     <None Include="Resources\country_icon\PY.png" />
     <None Include="Resources\country_icon\QA.png" />
+    <None Include="Resources\country_icon\RE.png" />
     <None Include="Resources\country_icon\RO.png" />
     <None Include="Resources\country_icon\RS.png" />
     <None Include="Resources\country_icon\RU.png" />
@@ -1031,6 +1032,7 @@
     <None Include="Resources\country_icon\PW_SHINY.png" />
     <None Include="Resources\country_icon\PY_SHINY.png" />
     <None Include="Resources\country_icon\QA_SHINY.png" />
+    <None Include="Resources\country_icon\RE_SHINY.png" />
     <None Include="Resources\country_icon\RO_SHINY.png" />
     <None Include="Resources\country_icon\RS_SHINY.png" />
     <None Include="Resources\country_icon\RU_SHINY.png" />

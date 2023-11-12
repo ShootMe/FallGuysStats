@@ -131,33 +131,7 @@ namespace FallGuysStats {
                 this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
             }
 
-            foreach (object item in this.gridDetails.CMenu.Items) {
-                if (item is ToolStripMenuItem tsi) {
-                    tsi.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    tsi.MouseEnter += this.CMenu_MouseEnter;
-                    tsi.MouseLeave += this.CMenu_MouseLeave;
-                    if (tsi.Name.Equals("exportItemCSV")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemHTML")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("exportItemMD")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                    } else if (tsi.Name.Equals("moveShows")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
-                    } else if (tsi.Name.Equals("deleteShows")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
-                    } else if (tsi.Name.Equals("updateCreativeShows")) {
-                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.update : Properties.Resources.update_gray;
-                    }
-                } else if (item is ToolStripSeparator tss) {
-                    tss.Paint += this.CustomToolStripSeparator_Paint;
-                    tss.BackColor = this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tss.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                }
-            }
+            this.gridDetails.SetComtextMenuTheme();
         }
 
         private void LevelDetails_Shown(object sender, EventArgs e) {
@@ -265,50 +239,6 @@ namespace FallGuysStats {
 
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-        }
-        
-        private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
-            ToolStripSeparator separator = (ToolStripSeparator)sender;
-            e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
-            e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
-        }
-        
-        private void CMenu_MouseEnter(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = Color.Black;
-                if (tsi.Name.Equals("exportItemCSV")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemHTML")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("exportItemMD")) {
-                    tsi.Image = Properties.Resources.export;
-                } else if (tsi.Name.Equals("moveShows")) {
-                    tsi.Image = Properties.Resources.move;
-                } else if (tsi.Name.Equals("deleteShows")) {
-                    tsi.Image = Properties.Resources.delete;
-                }
-            }
-        }
-        
-        private void CMenu_MouseLeave(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                if (tsi.Name.Equals("exportItemCSV")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemHTML")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemBBCODE")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("exportItemMD")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.export : Properties.Resources.export_gray;
-                } else if (tsi.Name.Equals("moveShows")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.move : Properties.Resources.move_gray;
-                } else if (tsi.Name.Equals("deleteShows")) {
-                    tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.delete : Properties.Resources.delete_gray;
-                }
-            }
         }
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
