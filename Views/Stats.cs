@@ -3257,37 +3257,42 @@ namespace FallGuysStats {
                 HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), true).Split(';')[0];
             }
 
+            string currentSessionId = stat.SessionId;
+            string currentShowNameId = stat.ShowNameId;
+            string currentRoundId = stat.Name;
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
             if (!this.FallalyticsPbLog.Exists(Query.And(Query.EQ("RoundId", stat.Name)))) {
                 List<RoundInfo> existingRecords = this.RoundDetails.Find(Query.And(
-                    Query.Not("PrivateLobby", false)
-                    , Query.Not("Finish", null)
+                    Query.EQ("PrivateLobby", false)
                     , Query.EQ("Name", stat.Name)
+                    , Query.Not("Finish", null)
                 )).ToList();
-                TimeSpan record = existingRecords.Count > 0 ? existingRecords.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                DateTime finish = existingRecords.Count > 0 ? existingRecords.Min(r => r.Finish.Value) : stat.Finish.Value;
-                
-                if (currentRecord < record) {
-                    record = currentRecord;
-                    finish = currentFinish;
+                RoundInfo recordInfo = existingRecords.OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+            
+                if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
+                    currentSessionId = recordInfo.SessionId;
+                    currentShowNameId = recordInfo.ShowNameId;
+                    currentRoundId = recordInfo.Name;
+                    currentRecord = recordInfo.Finish.Value - recordInfo.Start;
+                    currentFinish = recordInfo.Finish.Value;
                 }
 
                 try {
                     if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = stat.SessionId, Name = stat.Name, ShowNameId = stat.ShowNameId }, record.TotalMilliseconds, finish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
+                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, Name = currentRoundId, ShowNameId = currentShowNameId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
                         isTransferSuccess = true;
                     }
                 } catch {
                     isTransferSuccess = false;
                 }
-
+                
                 lock (this.StatsDB) {
                     this.StatsDB.BeginTrans();
                     this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
-                        SessionId = stat.SessionId, RoundId = stat.Name, ShowId = stat.ShowNameId,
-                        Record = record.TotalMilliseconds, PbDate = finish,
+                        SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
+                        Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
                         CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                         OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                         IsTransferSuccess = isTransferSuccess
@@ -3357,7 +3362,7 @@ namespace FallGuysStats {
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
                         this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
-                            SessionId = stat.SessionId, RoundId = stat.Name, ShowId = stat.ShowNameId,
+                            SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
                             Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
                             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                             OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
