@@ -8,7 +8,7 @@ namespace FallGuysStats {
     public class ImageItem {
         #region Public Field
         public Image Image { get; set; }
-        public string[] DataArray { get; set; }
+        public string[] Data { get; set; }
         public string Text { get; set; }
         public Font Font { get; set; }
         public bool IsCustomized { get; set; }
@@ -20,13 +20,13 @@ namespace FallGuysStats {
         private const int MARGIN_HEIGHT = 2;
         private int width;
         private int height;
-        private bool sizeCalculated = false;
+        private bool sizeCalculated;
         #endregion
 
         #region Public Constructor - ImageItem(image, text, font)
         public ImageItem(Image image, string text, Font font, string[] dataArray = null, bool isCustomized = false) {
             this.Image = image;
-            this.DataArray = dataArray;
+            this.Data = dataArray;
             this.Text = text;
             this.Font = font;
             this.IsCustomized = isCustomized;

@@ -10,14 +10,6 @@ using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class Settings : MetroFramework.Forms.MetroForm {
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;
-                return cp;
-            }
-        }
-        
         private string overlayFontSerialized = string.Empty;
         private string overlayFontColorSerialized = string.Empty;
         public UserSettings CurrentSettings { get; set; }
@@ -185,14 +177,14 @@ namespace FallGuysStats {
             bool isSelected = false;
             if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
                 for (int i = 0; i < overlayItemArray.Count; i++) {
-                    if (!((ImageItem)overlayItemArray[i]).DataArray[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!overlayItemArray[i].Data[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
                 }
             } else {
                 for (int i = overlayItemArray.Count - 1; i >= 0; i--) {
-                    if (!((ImageItem)overlayItemArray[i]).DataArray[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!overlayItemArray[i].Data[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
@@ -334,7 +326,7 @@ namespace FallGuysStats {
             }
             this.Theme = theme;
             this.ResumeLayout();
-            this.Invalidate(true);
+            this.Refresh();
         }
 
         private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
@@ -357,7 +349,7 @@ namespace FallGuysStats {
         
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
-            this.Invalidate(true);
+            this.Refresh();
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -483,8 +475,8 @@ namespace FallGuysStats {
             this.CurrentSettings.HideOverlayPercentages = this.chkHidePercentages.Checked;
             this.CurrentSettings.HoopsieHeros = this.chkChangeHoopsieLegends.Checked;
 
-            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).DataArray[0];
-            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).DataArray[1];
+            this.CurrentSettings.OverlayBackgroundResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).Data[0];
+            this.CurrentSettings.OverlayTabResourceName = ((ImageItem)this.cboOverlayBackground.SelectedItem).Data[1];
             this.CurrentSettings.OverlayBackground = this.cboOverlayBackground.SelectedIndex;
             this.CurrentSettings.IsOverlayBackgroundCustomized = ((ImageItem)this.cboOverlayBackground.SelectedItem).IsCustomized;
 
@@ -743,7 +735,9 @@ namespace FallGuysStats {
         
         private void cboMultilingual_SelectedIndexChanged(object sender, EventArgs e) {
             if (this.DisplayLang == (Language)((ImageComboBox)sender).SelectedIndex) return;
-            this.ChangeLanguage((Language)((ImageComboBox)sender).SelectedIndex);
+            this.BeginInvoke((MethodInvoker)delegate {
+                this.ChangeLanguage((Language)((ImageComboBox)sender).SelectedIndex);
+            });
         }
         
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
@@ -1019,7 +1013,7 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Visible = false;
 #endif
             Stats.CurrentLanguage = tempLanguage;
-            this.Invalidate(true);
+            // this.Invalidate(true);
         }
 
         private void ChangeTab(object sender, EventArgs e) {
@@ -1045,30 +1039,18 @@ namespace FallGuysStats {
                 if (sender.Equals(this.tileProgram)) {
                     this.tileProgram.Style = MetroColorStyle.Teal;
                     this.panelProgram.Visible = true;
-                }
-                if (sender.Equals(this.tileDisplay)) {
+                } else if (sender.Equals(this.tileDisplay)) {
                     this.tileDisplay.Style = MetroColorStyle.Teal;
                     this.panelDisplay.Visible = true;
-                }
-                if (sender.Equals(this.tileOverlay)) {
+                } else if (sender.Equals(this.tileOverlay)) {
                     this.tileOverlay.Style = MetroColorStyle.Teal;
                     this.panelOverlay.Visible = true;
-                }
-                if (sender.Equals(this.tileFallGuys)) {
+                } else if (sender.Equals(this.tileFallGuys)) {
                     this.tileFallGuys.Style = MetroColorStyle.Teal;
                     this.panelFallGuys.Visible = true;
-                }
-                if (sender.Equals(this.tileAbout)) {
+                } else if (sender.Equals(this.tileAbout)) {
                     this.tileAbout.Style = MetroColorStyle.Teal;
-                    this.panelAbout.Visible = true;
-                }
-                if (sender.Equals(this.tileFallalytics)) {
-                    this.tileFallalytics.Style = MetroColorStyle.Teal;
-                    this.panelFallalytics.Visible = true;
-                }
-
-                if (sender.Equals(this.tileAbout)) {
-#if AllowUpdate
+                    #if AllowUpdate
                     this.lblupdateNote.Text = Multilingual.GetWord("settings_checking_for_updates");
                     using (ZipWebClient web = new ZipWebClient()) {
                         string assemblyInfo = web.DownloadString(@"https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/AssemblyInfo.cs");
@@ -1097,8 +1079,12 @@ namespace FallGuysStats {
                     this.lblupdateNote.Text = $"{Multilingual.GetWord("main_update_prefix_tooltip", this.DisplayLang).Trim()}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip", this.DisplayLang).Trim()}";
                     this.lblupdateNote.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
 #endif
+                    this.panelAbout.Visible = true;
+                } else if (sender.Equals(this.tileFallalytics)) {
+                    this.tileFallalytics.Style = MetroColorStyle.Teal;
+                    this.panelFallalytics.Visible = true;
                 }
-                this.Invalidate(true);
+                this.Refresh();
             });
         }
 

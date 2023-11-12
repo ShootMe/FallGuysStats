@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using MetroFramework;
 
 namespace FallGuysStats {
-    public class ImageComboBox : ComboBox {
+    public sealed class ImageComboBox : ComboBox {
         protected override CreateParams CreateParams {
             get {
                 CreateParams cp = base.CreateParams;
@@ -25,34 +25,59 @@ namespace FallGuysStats {
                     _theme = value;
                     SetBlur();
                     Invalidate();
+                    Update();
+                }
+            }
+        }
+        
+        private string _name = String.Empty;
+        public string SelectedName {
+            get { return _name; }
+            set {
+                if (_name != value) {
+                    _name = value;
+                }
+            }
+        }
+        
+        private Image _image;
+        public Image SelectedImage {
+            get { return _image; }
+            set {
+                if (_image != value) {
+                    _image = value;
                 }
             }
         }
         
         private Color _borderColor = Color.Gray;
-        public Color BorderColor {
+        private Color BorderColor {
             get { return _borderColor; }
             set {
                 if (_borderColor != value) {
                     _borderColor = value;
                     Invalidate();
+                    Update();
                 }
             }
         }
-        public string ImageName { get; set; }
-        private Color buttonColor = Color.DarkGray;
-        public Color ButtonColor
+        
+        private Color _buttonColor = Color.DarkGray;
+        private Color ButtonColor
         {
-            get { return buttonColor; }
+            get { return _buttonColor; }
             set {
-                if (buttonColor != value) {
-                    buttonColor = value;
+                if (_buttonColor != value) {
+                    _buttonColor = value;
                     Invalidate();
+                    Update();
                 }
             }
         }
+        
         protected override void WndProc(ref Message m) {
-            if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple) {
+            // if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple) {
+            if (m.Msg == WM_PAINT) {
                 Rectangle clientRect = ClientRectangle;
                 int dropDownButtonWidth = SystemInformation.HorizontalScrollBarArrowWidth;
                 Rectangle outerBorder = new Rectangle(clientRect.Location, new Size(clientRect.Width - 1, clientRect.Height - 1));
@@ -118,10 +143,12 @@ namespace FallGuysStats {
         }
 
         private const int WM_PAINT = 0xF;
+        
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT {
             public int L, T, R, B;
         }
+        
         [StructLayout(LayoutKind.Sequential)]
         public struct PAINTSTRUCT {
             public IntPtr hdc;
@@ -212,6 +239,8 @@ namespace FallGuysStats {
             this.GotFocus += ImageItemComboBox_GotFocus;
             this.LostFocus += ImageItemComboBox_LostFocus;
             
+            this.SelectedIndexChanged += ImageItemComboBox_SelectedIndexChanged;
+            
             SetBlur();
         }
         #endregion
@@ -233,7 +262,6 @@ namespace FallGuysStats {
             );
 
             ComboBox comboBox = sender as ComboBox;
-            this.ImageName = comboBox.SelectedText;
             Color color = (Color)comboBox.Items[e.Index];
 
             using(SolidBrush brush = new SolidBrush(color)) {
@@ -264,7 +292,6 @@ namespace FallGuysStats {
             if (e.Index < 0) { return; }
 
             ComboBox comboBox = sender as ComboBox;
-            this.ImageName = comboBox.SelectedText;
             Image image = (Image)comboBox.Items[e.Index];
             
             e.ItemHeight = image.Height + 2 * IMAGE_ITEM_MARGIN_HEIGHT;
@@ -278,7 +305,6 @@ namespace FallGuysStats {
 
             e.DrawBackground();
             ComboBox comboBox = sender as ComboBox;
-            this.ImageName = comboBox.SelectedText;
             Image image = (Image)comboBox.Items[e.Index];
 
             float height = e.Bounds.Height - 2 * IMAGE_ITEM_MARGIN_HEIGHT;
@@ -306,7 +332,6 @@ namespace FallGuysStats {
 
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
-            this.ImageName = item.Text;
             item.MeasureItem(e);
         }
         #endregion
@@ -317,7 +342,6 @@ namespace FallGuysStats {
             
             ComboBox comboBox = sender as ComboBox;
             ImageItem item = (ImageItem)comboBox.Items[e.Index];
-            this.ImageName = item.Text;
             item.DrawItem(e, this.ForeColor, this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17));
         }
         
@@ -335,6 +359,11 @@ namespace FallGuysStats {
         
         private void ImageItemComboBox_LostFocus(object sender, EventArgs e) {
             this.SetBlur();
+        }
+        
+        private void ImageItemComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            this.SelectedName = ((ImageItem)((ImageComboBox)sender).SelectedItem).Text;
+            this.SelectedImage = ((ImageItem)((ImageComboBox)sender).SelectedItem).Image;
         }
 
         private void SetFocus() {

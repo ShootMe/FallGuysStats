@@ -46,6 +46,7 @@ namespace FallGuysStats {
         
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
+            this.cboRoundList.Theme = theme;
             this.lblTotalPlayers.Theme = theme;
             this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.lblSearchDescription.Theme = theme;
@@ -54,12 +55,12 @@ namespace FallGuysStats {
             this.mpsSpinner.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             // this.mpsSpinner.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2 + 20);
-            this.cboRoundList.Theme = theme;
             
             this.gridDetails.Theme = theme;
             this.gridDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.gridDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
+            this.gridDetails.RowTemplate.Height = 32;
             
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -79,7 +80,8 @@ namespace FallGuysStats {
             
             this.gridDetails.SetContextMenuTheme();
             
-            this.mlVisitFallalytics.Theme = theme;
+            // this.mlVisitFallalytics.Theme = theme;
+            this.mlVisitFallalytics.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.mlVisitFallalytics.Text = $@"     {Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics")}";
             switch (Stats.CurrentLanguage) {
                 case Language.English:
@@ -104,26 +106,30 @@ namespace FallGuysStats {
             
             this.Theme = theme;
             this.ResumeLayout();
+            this.Refresh();
         }
         
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
-            if ((ImageItem)((ImageComboBox)sender).SelectedItem == null || ((ImageItem)((ImageComboBox)sender).SelectedItem).DataArray[0].Equals(this.key)) { return; }
-            this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).DataArray[0];
+            if ((ImageItem)((ImageComboBox)sender).SelectedItem == null || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
+            this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
+            this.cboRoundList.Enabled = false;
             this.lblTotalPlayers.Visible = false;
             this.lblTotalPlayers.Text = "";
             this.lblSearchDescription.Visible = false;
             this.mpsSpinner.Visible = true;
-            this.gridDetails.DataSource = null;
+            this.gridDetails.DataSource = this.nodata;
             Task.Run(() => this.DataLoad(this.key)).ContinueWith(prevTask => {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
-                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {((ImageItem)((ImageComboBox)sender).SelectedItem).Text}";
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {((ImageComboBox)sender).SelectedName}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.recordholders;
                         // this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
                         this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
                         this.lblTotalPlayers.Visible = true;
+                        // this.mlVisitFallalytics.Image = ((ImageComboBox)sender).SelectedImage;
                         this.mlVisitFallalytics.Visible = true;
+                        this.cboRoundList.Enabled = true;
                         this.Refresh();
                     } else {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
@@ -159,10 +165,10 @@ namespace FallGuysStats {
                         roundItemList.Sort((x, y) => String.CompareOrdinal(x.Text, y.Text));
                         this.cboRoundList.SetImageItemData(roundItemList);
                         this.cboRoundList.Enabled = true;
-                        this.cboRoundList.Invalidate();
+                        this.cboRoundList.Refresh();
                     } else {
                         this.mpsSpinner.Visible = false;
-                        this.cboRoundList.Invalidate();
+                        this.cboRoundList.Refresh();
                     }
                 });
             });

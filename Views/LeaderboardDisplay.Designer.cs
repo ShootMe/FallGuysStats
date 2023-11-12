@@ -73,11 +73,13 @@
             this.lblSearchDescription.AutoSize = true;
             this.lblSearchDescription.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblSearchDescription.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblSearchDescription.ForeColor = System.Drawing.Color.FromArgb(0, 174, 219);
             this.lblSearchDescription.Location = new System.Drawing.Point(423, 60);
             this.lblSearchDescription.Name = "lblSearchDescription";
-            this.lblSearchDescription.Size = new System.Drawing.Size(145, 25);
+            this.lblSearchDescription.Size = new System.Drawing.Size(139, 25);
             this.lblSearchDescription.TabIndex = 3;
             this.lblSearchDescription.Text = "Choose a round";
+            this.lblSearchDescription.UseCustomForeColor = true;
             this.lblSearchDescription.Visible = false;
             // 
             // mlVisitFallalytics
@@ -86,16 +88,18 @@
             this.mlVisitFallalytics.AutoSize = true;
             this.mlVisitFallalytics.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mlVisitFallalytics.FontSize = MetroFramework.MetroLinkSize.Tall;
-            this.mlVisitFallalytics.ForeColor = System.Drawing.Color.Black;
+            this.mlVisitFallalytics.ForeColor = System.Drawing.Color.FromArgb(0, 174, 219);
             this.mlVisitFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.mlVisitFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.mlVisitFallalytics.ImageSize = 20;
             this.mlVisitFallalytics.Location = new System.Drawing.Point(836, 60);
             this.mlVisitFallalytics.Name = "mlVisitFallalytics";
-            this.mlVisitFallalytics.Size = new System.Drawing.Size(312, 29);
+            this.mlVisitFallalytics.Size = new System.Drawing.Size(310, 29);
             this.mlVisitFallalytics.TabIndex = 7;
             this.mlVisitFallalytics.Text = "See full rankings in FALLALYTICS";
             this.mlVisitFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlVisitFallalytics.UseCustomBackColor = true;
+            this.mlVisitFallalytics.UseCustomForeColor = true;
             this.mlVisitFallalytics.UseSelectable = true;
             this.mlVisitFallalytics.UseStyleColors = true;
             this.mlVisitFallalytics.Visible = false;
@@ -103,18 +107,17 @@
             // 
             // cboRoundList
             // 
-            this.cboRoundList.BorderColor = System.Drawing.Color.Gray;
-            this.cboRoundList.ButtonColor = System.Drawing.Color.DarkGray;
             this.cboRoundList.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboRoundList.DropDownHeight = 414;
             this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoundList.FormattingEnabled = true;
-            this.cboRoundList.ImageName = null;
+            this.cboRoundList.IntegralHeight = false;
             this.cboRoundList.ItemHeight = 23;
             this.cboRoundList.Location = new System.Drawing.Point(11, 61);
             this.cboRoundList.Name = "cboRoundList";
             this.cboRoundList.Size = new System.Drawing.Size(400, 20);
             this.cboRoundList.TabIndex = 1;
+            this.cboRoundList.Theme = MetroFramework.MetroThemeStyle.Light;
             this.cboRoundList.SelectedIndexChanged += new System.EventHandler(this.cboRoundList_SelectedIndexChanged);
             // 
             // gridDetails
@@ -122,7 +125,7 @@
             this.gridDetails.AllowUserToDeleteRows = false;
             this.gridDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.gridDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridDetails.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -140,11 +143,10 @@
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDetails.Size = new System.Drawing.Size(1179, 692);
+            this.gridDetails.Size = new System.Drawing.Size(1179, 696);
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
-            // this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // LeaderboardDisplay
@@ -152,7 +154,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1200, 805);
+            this.ClientSize = new System.Drawing.Size(1200, 809);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblTotalPlayers);
             this.Controls.Add(this.lblSearchDescription);
@@ -162,6 +164,9 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1200, 1287);
+            this.MinimumSize = new System.Drawing.Size(1200, 413);
             this.Name = "LeaderboardDisplay";
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 18);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;

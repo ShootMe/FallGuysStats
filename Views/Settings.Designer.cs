@@ -880,13 +880,10 @@
             // 
             // cboMultilingual
             // 
-            this.cboMultilingual.BorderColor = System.Drawing.Color.Gray;
-            this.cboMultilingual.ButtonColor = System.Drawing.Color.DarkGray;
             this.cboMultilingual.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboMultilingual.DropDownHeight = 414;
             this.cboMultilingual.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboMultilingual.FormattingEnabled = true;
-            this.cboMultilingual.ImageName = null;
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Location = new System.Drawing.Point(53, 412);
             this.cboMultilingual.Name = "cboMultilingual";
@@ -1395,13 +1392,10 @@
             // 
             // cboOverlayBackground
             // 
-            this.cboOverlayBackground.BorderColor = System.Drawing.Color.Gray;
-            this.cboOverlayBackground.ButtonColor = System.Drawing.Color.DarkGray;
             this.cboOverlayBackground.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboOverlayBackground.DropDownHeight = 414;
             this.cboOverlayBackground.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboOverlayBackground.FormattingEnabled = true;
-            this.cboOverlayBackground.ImageName = null;
             this.cboOverlayBackground.ItemHeight = 23;
             this.cboOverlayBackground.Location = new System.Drawing.Point(203, 348);
             this.cboOverlayBackground.Name = "cboOverlayBackground";
