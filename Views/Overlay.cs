@@ -844,7 +844,7 @@ namespace FallGuysStats {
                 } else if (Stats.LastPlayedRoundEnd.HasValue && Stats.LastPlayedRoundEnd > Stats.LastPlayedRoundStart) {
                     this.lblDuration.TextRight = $"{Stats.LastPlayedRoundEnd - Stats.LastPlayedRoundStart:m\\:ss\\.ff}";
                 } else if (Stats.IsLastPlayedRoundStillPlaying) {
-                    bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsClientRunning;
+                    bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
                     if (this.lastRound.UseShareCode) {
                         runningTime = this.lastRound.CreativeTimeLimitSeconds > 0 ? TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC)) : currentUTC - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUTC);
                     } else {
@@ -933,7 +933,7 @@ namespace FallGuysStats {
                         this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && !((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.ff}" : $"{time:m\\:ss\\.ff}";
                         this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
-                        bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsClientRunning;
+                        bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
                         this.lblFinish.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
                         this.lblFinish.ForeColor = isOverRunningTime ? Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness) : (!Stats.EndedShow ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness));
                     } else {

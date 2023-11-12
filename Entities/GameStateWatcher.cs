@@ -26,9 +26,9 @@ namespace FallGuysStats {
                 }
 
                 if (Utils.IsProcessRunning("FallGuys_client_game")) {
-                    Stats.IsClientRunning = true;
+                    Stats.IsGameRunning = true;
                 } else {
-                    Stats.IsClientRunning = false;
+                    Stats.IsGameRunning = false;
                     Stats.IsClientHasBeenClosed = true;
                     this.stop = true;
                     this.running = false;

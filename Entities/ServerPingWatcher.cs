@@ -30,7 +30,7 @@ namespace FallGuysStats {
             this.running = true;
             while (!this.stop) {
                 TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
-                if (!Stats.IsDisplayOverlayPing || !Stats.ToggleServerInfo || !Stats.IsClientRunning || timeDiff.TotalMinutes >= 40) {
+                if (!Stats.IsDisplayOverlayPing || !Stats.ToggleServerInfo || Stats.IsClientHasBeenClosed || timeDiff.TotalMinutes >= 40) {
                     Stats.LastServerPing = 0;
                     Stats.IsBadServerPing = false;
                     this.stop = true;

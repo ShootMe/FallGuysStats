@@ -93,7 +93,7 @@ namespace FallGuysStats {
         public static bool IsDisplayOverlayTime = true;
         public static bool IsDisplayOverlayPing = false;
 
-        public static bool IsClientRunning = false;
+        public static bool IsGameRunning = false;
         public static bool IsClientHasBeenClosed = false;
         
         public static bool ToggleServerInfo = false;

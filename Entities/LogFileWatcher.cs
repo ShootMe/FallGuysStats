@@ -63,7 +63,7 @@ namespace FallGuysStats {
         private bool useShareCode;
         private string sessionId;
         
-        private readonly object lockObject = new object();
+        // private readonly object lockObject = new object();
         private bool toggleCountryInfoApi;
         private bool toggleFgdbCreativeApi;
         private string creativeShareCode;
@@ -215,11 +215,11 @@ namespace FallGuysStats {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             } else if (this.autoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (Stats.IsClientRunning && Stats.InShow && !Stats.EndedShow) {
+                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.StatsForm.IsCreativeShow(this.selectedShowId));
                                 }
                             } else if (this.preventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
-                                if (Stats.IsClientRunning && Stats.InShow && !Stats.EndedShow) {
+                                if (Stats.IsGameRunning && Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
                             }
@@ -400,7 +400,7 @@ namespace FallGuysStats {
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
         
-        private void ClearCreativeLevelVariable() {
+        private void ClearUserCreativeLevelInfo() {
             this.creativeOnlinePlatformId = null;
             this.creativeAuthor = null;
             this.creativeShareCode = null;
@@ -467,12 +467,12 @@ namespace FallGuysStats {
                     this.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                 } else {
                     this.toggleFgdbCreativeApi = false;
-                    this.ClearCreativeLevelVariable();
+                    this.ClearUserCreativeLevelInfo();
                 }
             }
         }
 
-        private void SetCountryCodeByIP(string ip) {
+        private void SetCountryCodeByIp(string ip) {
             if (this.toggleCountryInfoApi || !Utils.IsProcessRunning("FallGuys_client_game")) { return; }
             this.toggleCountryInfoApi = true;
             Stats.LastCountryAlpha2Code = string.Empty;
@@ -495,26 +495,24 @@ namespace FallGuysStats {
         }
 
         private void UpdateServerConnectionLog(string session, string show) {
-            lock (this.lockObject) {
-                if (!this.StatsForm.ExistsServerConnectionLog(session, show)) {
-                    this.StatsForm.UpsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
-                    this.serverPingWatcher.Start();
-                    this.SetCountryCodeByIP(Stats.LastServerIp);
-                    if (Stats.IsClientRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+            if (!this.StatsForm.ExistsServerConnectionLog(session, show)) {
+                this.StatsForm.UpsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                this.serverPingWatcher.Start();
+                this.SetCountryCodeByIp(Stats.LastServerIp);
+                if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
+                    this.OnServerConnectionNotification?.Invoke();
+                }
+            } else {
+                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
+                if (!serverConnectionLog.IsNotify) {
+                    if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                         this.OnServerConnectionNotification?.Invoke();
                     }
-                } else {
-                    ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
-                    if (!serverConnectionLog.IsNotify) {
-                        if (Stats.IsClientRunning && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
-                            this.OnServerConnectionNotification?.Invoke();
-                        }
-                    }
+                }
 
-                    if (serverConnectionLog.IsPlaying) {
-                        this.serverPingWatcher.Start();
-                        this.SetCountryCodeByIP(Stats.LastServerIp);
-                    }
+                if (serverConnectionLog.IsPlaying) {
+                    this.serverPingWatcher.Start();
+                    this.SetCountryCodeByIp(Stats.LastServerIp);
                 }
             }
         }
@@ -526,20 +524,18 @@ namespace FallGuysStats {
                 return;
             }
 
-            lock (this.lockObject) {
-                if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
-                    TimeSpan currentRecord = info.Finish.Value - info.Start;
-                    BsonExpression recordQuery = Query.And(
-                        Query.Not("Finish", null),
-                        Query.EQ("Name", info.Name),
-                        Query.EQ("ShowNameId", info.ShowNameId)
-                    );
-                    List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
-                    TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                    this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
-                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsClientRunning && currentRecord < record) {
-                        this.OnPersonalBestNotification?.Invoke(info, record, currentRecord);
-                    }
+            if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+                TimeSpan currentRecord = info.Finish.Value - info.Start;
+                BsonExpression recordQuery = Query.And(
+                    Query.Not("Finish", null),
+                    Query.EQ("Name", info.Name),
+                    Query.EQ("ShowNameId", info.ShowNameId)
+                );
+                List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
+                TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
+                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < record) {
+                    this.OnPersonalBestNotification?.Invoke(info, record, currentRecord);
                 }
             }
         }
@@ -588,7 +584,7 @@ namespace FallGuysStats {
                 Stats.LastCountryCity = string.Empty;
                 this.toggleCountryInfoApi = false;
                 this.toggleFgdbCreativeApi = false;
-                this.ClearCreativeLevelVariable();
+                this.ClearUserCreativeLevelInfo();
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
                 if (line.Date > Stats.LastGameStart) {
@@ -797,7 +793,7 @@ namespace FallGuysStats {
                 }
 
                 Stats.ToggleServerInfo = false;
-                this.ClearCreativeLevelVariable();
+                this.ClearUserCreativeLevelInfo();
                 Stats.LastServerPing = 0;
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
