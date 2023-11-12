@@ -2103,7 +2103,9 @@ namespace FallGuysStats {
             }
 
             if (this.CurrentSettings.Version == 60) {
-                this.StatsDB.DropCollection("FallalyticsPbInfo");
+                if (this.StatsDB.CollectionExists("FallalyticsPbInfo")) {
+                    this.StatsDB.DropCollection("FallalyticsPbInfo");
+                }
                 this.CurrentSettings.NotifyServerConnected = true;
                 this.CurrentSettings.MuteNotificationSounds = false;
                 this.CurrentSettings.Version = 61;
@@ -2144,6 +2146,17 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 64) {
                 this.CurrentSettings.NotifyPersonalBest = true;
                 this.CurrentSettings.Version = 65;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 65) {
+                if (this.StatsDB.CollectionExists("FallalyticsPbInfo")) {
+                    this.StatsDB.BeginTrans();
+                    this.FallalyticsPbLog.DeleteAll();
+                    this.StatsDB.Commit();
+                }
+                this.CurrentSettings.EnableFallalyticsReporting = true;
+                this.CurrentSettings.Version = 66;
                 this.SaveUserSettings();
             }
         }
@@ -3268,6 +3281,7 @@ namespace FallGuysStats {
                     Query.EQ("PrivateLobby", false)
                     , Query.EQ("Name", stat.Name)
                     , Query.Not("Finish", null)
+                    , Query.Not("ShowNameId", null)
                 )).ToList();
                 RoundInfo recordInfo = existingRecords.OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
             
