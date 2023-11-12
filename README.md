@@ -238,13 +238,15 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.298`
+    - Released the FALLALYTICS Speedrun Leaderboard
+    - Bugfix and program optimization
   - `1.297`
     - Bugfix and program optimization
   - `1.296`
     - Updated new show and round names
     - Bugfix and program optimization
   - `1.295`
-    - Released the FALLALYTICS Speedrun Leaderboard
     - Bugfix and program optimization
   - `1.294`
     - Bugfix and program optimization
