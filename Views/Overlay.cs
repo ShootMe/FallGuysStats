@@ -822,9 +822,9 @@ namespace FallGuysStats {
                 this.lblDuration.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
                 this.lblDuration.TickProgress = 0;
-                
-                int showType = (("main_show".Equals(this.lastRound.ShowNameId) || "turbo_show".Equals(this.lastRound.ShowNameId) || "invisibeans_template".Equals(this.lastRound.ShowNameId) || "invisibeans_pistachio_template".Equals(this.lastRound.ShowNameId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
-                               : (("squads_2player_template".Equals(this.lastRound.ShowNameId) || "squadcelebration".Equals(this.lastRound.ShowNameId) || "squads_4player".Equals(this.lastRound.ShowNameId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
+                string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
+                int showType = (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                               : (("squads_2player_template".Equals(showId) || "squads_4player".Equals(showId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
                 if (this.lastRound.UseShareCode) {

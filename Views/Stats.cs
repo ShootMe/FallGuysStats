@@ -2150,13 +2150,19 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 65) {
-                if (this.StatsDB.CollectionExists("FallalyticsPbInfo")) {
+                this.CurrentSettings.EnableFallalyticsReporting = true;
+                this.CurrentSettings.Version = 66;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 66) {
+                if (this.StatsDB.CollectionExists("FallalyticsPbLog")) {
                     this.StatsDB.BeginTrans();
                     this.FallalyticsPbLog.DeleteAll();
                     this.StatsDB.Commit();
                 }
                 this.CurrentSettings.EnableFallalyticsReporting = true;
-                this.CurrentSettings.Version = 66;
+                this.CurrentSettings.Version = 67;
                 this.SaveUserSettings();
             }
         }
@@ -3263,12 +3269,12 @@ namespace FallGuysStats {
                     OnlineServiceNickname = userInfo[1];
                 }
             }
-
-            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
             
             if (string.IsNullOrEmpty(HostCountryCode)) {
                 HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), true).Split(';')[0];
             }
+
+            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
 
             string currentSessionId = stat.SessionId;
             string currentShowNameId = stat.ShowNameId;
@@ -3276,13 +3282,18 @@ namespace FallGuysStats {
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
-            if (!this.FallalyticsPbLog.Exists(Query.And(Query.EQ("RoundId", stat.Name)))) {
-                List<RoundInfo> existingRecords = this.RoundDetails.Find(Query.And(
+
+            BsonExpression pbLogQuery = Query.EQ("RoundId", stat.Name);
+            bool existsPbLog = this.FallalyticsPbLog.Exists(pbLogQuery);
+            
+            if (!existsPbLog) {
+                BsonExpression recordQuery = Query.And(
                     Query.EQ("PrivateLobby", false)
                     , Query.EQ("Name", stat.Name)
                     , Query.Not("Finish", null)
                     , Query.Not("ShowNameId", null)
-                )).ToList();
+                );
+                List<RoundInfo> existingRecords = this.RoundDetails.Find(recordQuery).ToList();
                 RoundInfo recordInfo = existingRecords.OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
             
                 if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
@@ -3314,12 +3325,12 @@ namespace FallGuysStats {
                     this.StatsDB.Commit();
                 }
             } else {
-                FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(Query.And(
+                BsonExpression pbLogQuery2 = Query.And(
                     Query.EQ("RoundId", stat.Name)
                     , Query.EQ("OnlineServiceType", (int)OnlineServiceType)
                     , Query.EQ("OnlineServiceId", OnlineServiceId)
-                ));
-                
+                );
+                FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery2);
                 if (pbLog != null) {
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     if (pbLog.IsTransferSuccess) {
@@ -3447,7 +3458,7 @@ namespace FallGuysStats {
             return currentProfileLinkedShowId ?? string.Empty;
         }
         
-        private string GetAlternateShowId(string showId) {
+        public string GetAlternateShowId(string showId) {
             switch (showId) {
                 case "turbo_show": return "main_show";
                 case "squadcelebration":
