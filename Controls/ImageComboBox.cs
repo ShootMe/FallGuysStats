@@ -362,6 +362,7 @@ namespace FallGuysStats {
         }
         
         private void ImageItemComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (this.SelectedIndex == -1) { return; }
             this.SelectedName = ((ImageItem)((ImageComboBox)sender).SelectedItem).Text;
             this.SelectedImage = ((ImageItem)((ImageComboBox)sender).SelectedItem).Image;
         }

@@ -108,16 +108,15 @@
             // cboRoundList
             // 
             this.cboRoundList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cboRoundList.DropDownHeight = 414;
+            // this.cboRoundList.DropDownHeight = 414;
+            this.cboRoundList.MaxDropDownItems = 20;
             this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoundList.FormattingEnabled = true;
-            this.cboRoundList.IntegralHeight = false;
             this.cboRoundList.ItemHeight = 23;
             this.cboRoundList.Location = new System.Drawing.Point(11, 61);
             this.cboRoundList.Name = "cboRoundList";
             this.cboRoundList.Size = new System.Drawing.Size(400, 20);
             this.cboRoundList.TabIndex = 1;
-            this.cboRoundList.Theme = MetroFramework.MetroThemeStyle.Light;
             this.cboRoundList.SelectedIndexChanged += new System.EventHandler(this.cboRoundList_SelectedIndexChanged);
             // 
             // gridDetails

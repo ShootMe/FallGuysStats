@@ -559,8 +559,9 @@ namespace FallGuysStats {
                     this.lblRound.LevelTrueColor = level.Type == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
                     this.lblRound.RoundIcon = level.Type == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
                     if (this.lblRound.RoundIcon.Height != 23) {
+                        float ratio = 23f / this.lblRound.RoundIcon.Height;
                         this.lblRound.ImageHeight = 23;
-                        this.lblRound.ImageWidth = (int)Math.Ceiling(Convert.ToDouble(this.lblRound.ImageHeight) / this.lblRound.RoundIcon.Height * this.lblRound.RoundIcon.Width);
+                        this.lblRound.ImageWidth = (int)(this.lblRound.RoundIcon.Width * ratio);
                     } else {
                         this.lblRound.ImageHeight = this.lblRound.RoundIcon.Height;
                         this.lblRound.ImageWidth = this.lblRound.RoundIcon.Width;

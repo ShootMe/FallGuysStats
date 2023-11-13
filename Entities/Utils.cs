@@ -71,8 +71,21 @@ namespace FallGuysStats {
             return bmp;
         }
         
-        public static Bitmap ResizeImage(Bitmap source, int scale) {
-            return new Bitmap(source, new Size(source.Width / scale, source.Height / scale));
+        public static Bitmap ResizeImageWidth(Image source, int width) {
+            float ratio = (float)width / source.Width;
+            return new Bitmap(source, new Size((int)(source.Width * ratio), (int)(source.Height * ratio)));
+        }
+        
+        public static Bitmap ResizeImageHeight(Image source, int height) {
+            float ratio = (float)height / source.Height;
+            return new Bitmap(source, new Size((int)(source.Width * ratio), (int)(source.Height * ratio)));
+        }
+        
+        public static Bitmap ResizeImageScale(Image source, float scale) {
+            if (scale <= 0) {
+                scale = 1;
+            }
+            return new Bitmap(source, new Size((int)(source.Width * scale), (int)(source.Height * scale)));
         }
         
         public static Color GetComplementaryColor(Color source, int alpha = 255) {

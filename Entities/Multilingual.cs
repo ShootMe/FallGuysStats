@@ -1171,7 +1171,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_yesterday", "어제"},
                             {"leaderboard_grid_the_day_before_yesterday", "그저께"},
                             {"leaderboard_grid_n_days_ago_prefix", ""},
-                            {"leaderboard_grid_n_days_ago_suffix", "일전"},
+                            {"leaderboard_grid_n_days_ago_suffix", "일 전"},
                             {"leaderboard_grid_n_months_ago_prefix", ""},
                             {"leaderboard_grid_n_months_ago_suffix", "개월 전"},
                             {"leaderboard_grid_n_years_ago_prefix", ""},

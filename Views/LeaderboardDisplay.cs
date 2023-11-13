@@ -110,7 +110,7 @@ namespace FallGuysStats {
         }
         
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
-            if ((ImageItem)((ImageComboBox)sender).SelectedItem == null || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
+            if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
             this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             this.cboRoundList.Enabled = false;
             this.lblTotalPlayers.Visible = false;
@@ -137,6 +137,7 @@ namespace FallGuysStats {
                         this.gridDetails.DataSource = this.nodata;
                         this.lblTotalPlayers.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
+                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
                         this.lblSearchDescription.Visible = true;
                         this.Refresh();
                     }
@@ -157,17 +158,24 @@ namespace FallGuysStats {
                         foreach (RankRound round in this.roundlist) {
                             foreach (var id in round.ids) {
                                 if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                                    roundItemList.Add(new ImageItem(levelStats.RoundIcon, levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname }));
+                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname }));
                                     break;
                                 }
                             }
                         }
                         roundItemList.Sort((x, y) => String.CompareOrdinal(x.Text, y.Text));
                         this.cboRoundList.SetImageItemData(roundItemList);
+                        this.cboRoundList.DropDownHeight = (int)(roundItemList.Count <= 20 ? roundItemList.Count * 22.1f : 20 * 22.1f);
                         this.cboRoundList.Enabled = true;
                         this.cboRoundList.Refresh();
                     } else {
                         this.mpsSpinner.Visible = false;
+                        this.gridDetails.DataSource = this.nodata;
+                        this.lblTotalPlayers.Visible = false;
+                        this.mlVisitFallalytics.Visible = false;
+                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
+                        this.lblSearchDescription.Visible = true;
+                        this.cboRoundList.Enabled = false;
                         this.cboRoundList.Refresh();
                     }
                 });
@@ -178,25 +186,34 @@ namespace FallGuysStats {
             bool result;
             using (ApiWebClient web = new ApiWebClient()) {
                 if (string.IsNullOrEmpty(round)) {
-                    string json = web.DownloadString($"{this.LEADERBOARD_API_URL}s");
-                    var options = new JsonSerializerOptions();
-                    options.Converters.Add(new RoundConverter());
-                    var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
-                    result = availableRound.found;
-                    this.roundlist = availableRound.leaderboards;
+                    try {
+                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}s");
+                        var options = new JsonSerializerOptions();
+                        options.Converters.Add(new RoundConverter());
+                        var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
+                        result = availableRound.found;
+                        this.roundlist = availableRound.leaderboards;
+                    } catch {
+                        result = false;
+                    }
                 } else {
-                    string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={round}");
-                    var options = new JsonSerializerOptions();
-                    options.Converters.Add(new RecordHolderConverter());
-                    Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
-                    result = leaderboard.found;
-                    if (result) {
-                        this.totalPlayers = leaderboard.total;
-                        for (var i = 0; i < leaderboard.recordholders.Count; i++) {
-                            leaderboard.recordholders[i].rank = i + 1;
+                    try {
+                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={round}");
+                        var options = new JsonSerializerOptions();
+                        options.Converters.Add(new RecordHolderConverter());
+                        Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
+                        result = leaderboard.found;
+                        if (result) {
+                            this.totalPlayers = leaderboard.total;
+                            for (var i = 0; i < leaderboard.recordholders.Count; i++) {
+                                leaderboard.recordholders[i].rank = i + 1;
+                            }
+                            this.recordholders = leaderboard.recordholders;
+                        } else {
+                            this.totalPlayers = 0;
                         }
-                        this.recordholders = leaderboard.recordholders;
-                    } else {
+                    } catch {
+                        result = false;
                         this.totalPlayers = 0;
                     }
                 }
