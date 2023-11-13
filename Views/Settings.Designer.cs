@@ -1670,7 +1670,7 @@
             this.linkFallalytics.Size = new System.Drawing.Size(124, 22);
             this.linkFallalytics.TabIndex = 7;
             this.linkFallalytics.Text = "Visit Fallalytics";
-            this.linkFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.linkFallalytics.UseSelectable = true;
             this.linkFallalytics.UseStyleColors = true;
             this.linkFallalytics.Click += new System.EventHandler(this.link_Click);

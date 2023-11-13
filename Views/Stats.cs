@@ -821,10 +821,6 @@ namespace FallGuysStats {
                                     tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                                     tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                                     break;
-                                case "lblLeaderboard":
-                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    break;
                                 case "lblGoldMedal":
                                 case "lblSilverMedal":
                                 case "lblBronzeMedal":
@@ -840,6 +836,8 @@ namespace FallGuysStats {
                     }
                 } else if (c1 is MetroToggle mt1) {
                     mt1.Theme = theme;
+                } else if (c1 is MetroLink ml1) {
+                    ml1.Theme = theme;
                 } else if (c1 is Label lbl1) {
                     if (lbl1.Name.Equals("lblCreativeLevel") || lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
                         lbl1.Font = Overlay.GetMainFont(13f);
@@ -1015,8 +1013,6 @@ namespace FallGuysStats {
                     this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltip"), this, position);
                 } else if (lblInfo.Name.Equals("lblTotalTime")) {
                     this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblLeaderboard")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("leaderboard_detail_tooltip"), this, position);
                 }
             }
         }
@@ -6087,11 +6083,12 @@ namespace FallGuysStats {
             this.menuLaunchFallGuys.Font = Overlay.GetMainFont(12);
             this.infoStrip.Font = Overlay.GetMainFont(13);
             this.infoStrip2.Font = Overlay.GetMainFont(13);
-            this.lblLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
+            this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 7, this.mlLeaderboard.Location.Y);
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

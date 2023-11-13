@@ -82,9 +82,7 @@ namespace FallGuysStats {
         }
         
         public static Bitmap ResizeImageScale(Image source, float scale) {
-            if (scale <= 0) {
-                scale = 1;
-            }
+            if (scale <= 0) { scale = 1; }
             return new Bitmap(source, new Size((int)(source.Width * scale), (int)(source.Height * scale)));
         }
         
@@ -316,12 +314,14 @@ namespace FallGuysStats {
             //     return Stats.CurrentLanguage == Language.Korean ? $"{Math.Floor(diff.TotalMinutes)}분 전" : $"{Math.Floor(diff.TotalMinutes)} minutes ago";
             // else if (diff.TotalHours < 24)
             //     return Stats.CurrentLanguage == Language.Korean ? $"{Math.Floor(diff.TotalHours)}시간 전" : $"{Math.Floor(diff.TotalHours)} hour ago";
-            if (days < 1) {
+            if (diff.TotalMinutes <= 10) {
+                return Multilingual.GetWord("leaderboard_grid_just_before");
+            } else if (days < 1) {
                 return Multilingual.GetWord("leaderboard_grid_today");
             } else if (days < 2) {
                 return Multilingual.GetWord("leaderboard_grid_yesterday");
-            } else if (days < 3) {
-                return Multilingual.GetWord("leaderboard_grid_the_day_before_yesterday");
+            // } else if (days < 3) {
+            //     return Multilingual.GetWord("leaderboard_grid_the_day_before_yesterday");
             } else if (days <= 31) {
                 return $"{Multilingual.GetWord("leaderboard_grid_n_days_ago_prefix")}{Math.Floor(diff.TotalDays)}{Multilingual.GetWord("leaderboard_grid_n_days_ago_suffix")}";
             } else if (months < 12) {

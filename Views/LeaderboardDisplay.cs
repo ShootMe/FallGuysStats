@@ -15,6 +15,7 @@ namespace FallGuysStats {
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private string key = String.Empty;
         private int totalPlayers;
+        private DateTime refreshTime;
         private List<RankRound> roundlist;
         private List<RankInfo> recordholders;
         private List<RankInfo> nodata = new List<RankInfo>();
@@ -49,6 +50,8 @@ namespace FallGuysStats {
             this.cboRoundList.Theme = theme;
             this.lblTotalPlayers.Theme = theme;
             this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            this.mlRefreshList.Theme = theme;
+            
             this.lblSearchDescription.Theme = theme;
             this.lblSearchDescription.Text = $"{Multilingual.GetWord("leaderboard_choose_a_round")}";
             this.lblSearchDescription.Location = new Point((this.ClientSize.Width - this.lblSearchDescription.Width) / 2, (this.ClientSize.Height - this.lblSearchDescription.Height) / 2 + 20);
@@ -82,27 +85,8 @@ namespace FallGuysStats {
             
             // this.mlVisitFallalytics.Theme = theme;
             this.mlVisitFallalytics.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mlVisitFallalytics.Text = $@"     {Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics")}";
-            switch (Stats.CurrentLanguage) {
-                case Language.English:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 320, this.cboRoundList.Location.Y);
-                    break;
-                case Language.French:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 430, this.cboRoundList.Location.Y);
-                    break;
-                case Language.Korean:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 295, this.cboRoundList.Location.Y);
-                    break;
-                case Language.Japanese:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 385, this.cboRoundList.Location.Y);
-                    break;
-                case Language.SimplifiedChinese:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 335, this.cboRoundList.Location.Y);
-                    break;
-                case Language.TraditionalChinese:
-                    this.mlVisitFallalytics.Location = new Point(this.ClientSize.Width - 335, this.cboRoundList.Location.Y);
-                    break;
-            }
+            this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlVisitFallalytics.Location.Y);
             
             this.Theme = theme;
             this.ResumeLayout();
@@ -112,37 +96,7 @@ namespace FallGuysStats {
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
             if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
             this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
-            this.cboRoundList.Enabled = false;
-            this.lblTotalPlayers.Visible = false;
-            this.lblTotalPlayers.Text = "";
-            this.lblSearchDescription.Visible = false;
-            this.mpsSpinner.Visible = true;
-            this.gridDetails.DataSource = this.nodata;
-            Task.Run(() => this.DataLoad(this.key)).ContinueWith(prevTask => {
-                this.BeginInvoke((MethodInvoker)delegate {
-                    if (prevTask.Result) {
-                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {((ImageComboBox)sender).SelectedName}";
-                        this.mpsSpinner.Visible = false;
-                        this.gridDetails.DataSource = this.recordholders;
-                        // this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
-                        this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
-                        this.lblTotalPlayers.Visible = true;
-                        // this.mlVisitFallalytics.Image = ((ImageComboBox)sender).SelectedImage;
-                        this.mlVisitFallalytics.Visible = true;
-                        this.cboRoundList.Enabled = true;
-                        this.Refresh();
-                    } else {
-                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
-                        this.mpsSpinner.Visible = false;
-                        this.gridDetails.DataSource = this.nodata;
-                        this.lblTotalPlayers.Visible = false;
-                        this.mlVisitFallalytics.Visible = false;
-                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
-                        this.lblSearchDescription.Visible = true;
-                        this.Refresh();
-                    }
-                });
-            });
+            this.SetGridList(this.key);
         }
 
         private void SetRoundList() {
@@ -156,28 +110,65 @@ namespace FallGuysStats {
                         this.lblSearchDescription.Visible = true;
                         List<ImageItem> roundItemList = new List<ImageItem>();
                         foreach (RankRound round in this.roundlist) {
-                            foreach (var id in round.ids) {
+                            foreach (string id in round.ids) {
                                 if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname }));
+                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname }));
                                     break;
                                 }
                             }
                         }
                         roundItemList.Sort((x, y) => String.CompareOrdinal(x.Text, y.Text));
                         this.cboRoundList.SetImageItemData(roundItemList);
-                        this.cboRoundList.DropDownHeight = (int)(roundItemList.Count <= 20 ? roundItemList.Count * 22.1f : 20 * 22.1f);
                         this.cboRoundList.Enabled = true;
                         this.cboRoundList.Refresh();
                     } else {
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.nodata;
                         this.lblTotalPlayers.Visible = false;
+                        this.mlRefreshList.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
                         this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
                         this.lblSearchDescription.Visible = true;
                         this.cboRoundList.Enabled = false;
                         this.cboRoundList.Refresh();
                     }
+                });
+            });
+        }
+
+        private void SetGridList(string queryKey) {
+            this.cboRoundList.Enabled = false;
+            this.lblTotalPlayers.Visible = false;
+            this.lblTotalPlayers.Text = string.Empty;
+            this.mlRefreshList.Visible = false;
+            this.lblSearchDescription.Visible = false;
+            this.mpsSpinner.Visible = true;
+            this.gridDetails.DataSource = this.nodata;
+            Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
+                this.BeginInvoke((MethodInvoker)delegate {
+                    if (prevTask.Result) {
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {this.cboRoundList.SelectedName}";
+                        this.mpsSpinner.Visible = false;
+                        this.gridDetails.DataSource = this.recordholders;
+                        this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
+                        this.lblTotalPlayers.Visible = true;
+                        this.mlRefreshList.Location = new Point(this.lblTotalPlayers.Right + 8, this.lblTotalPlayers.Location.Y + 4);
+                        this.mlRefreshList.Visible = true;
+                        this.mlVisitFallalytics.Visible = true;
+                        this.cboRoundList.Enabled = true;
+                        this.Refresh();
+                    } else {
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
+                        this.mpsSpinner.Visible = false;
+                        this.gridDetails.DataSource = this.nodata;
+                        this.lblTotalPlayers.Visible = false;
+                        this.mlRefreshList.Visible = false;
+                        this.mlVisitFallalytics.Visible = false;
+                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
+                        this.lblSearchDescription.Visible = true;
+                        this.Refresh();
+                    }
+                    this.refreshTime = DateTime.Now;
                 });
             });
         }
@@ -325,6 +316,13 @@ namespace FallGuysStats {
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.mlVisitFallalytics)) {
                 Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}");
+            } else if (sender.Equals(this.mlRefreshList)) {
+                if (!string.IsNullOrEmpty(this.key)) {
+                    TimeSpan difference = DateTime.Now - this.refreshTime;
+                    if (difference.TotalSeconds >= 10) {
+                        this.SetGridList(this.key);
+                    }
+                }
             }
         }
     }

@@ -33,6 +33,7 @@
             this.lblTotalPlayers = new MetroFramework.Controls.MetroLabel();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
+            this.mlRefreshList = new MetroFramework.Controls.MetroLink();
             this.cboRoundList = new FallGuysStats.ImageComboBox();
             this.gridDetails = new FallGuysStats.Grid();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
@@ -97,7 +98,7 @@
             this.mlVisitFallalytics.Size = new System.Drawing.Size(310, 29);
             this.mlVisitFallalytics.TabIndex = 7;
             this.mlVisitFallalytics.Text = "See full rankings in FALLALYTICS";
-            this.mlVisitFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlVisitFallalytics.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.mlVisitFallalytics.UseCustomBackColor = true;
             this.mlVisitFallalytics.UseCustomForeColor = true;
             this.mlVisitFallalytics.UseSelectable = true;
@@ -105,10 +106,28 @@
             this.mlVisitFallalytics.Visible = false;
             this.mlVisitFallalytics.Click += new System.EventHandler(this.link_Click);
             // 
+            // mlRefreshList
+            // 
+            this.mlRefreshList.AutoSize = true;
+            this.mlRefreshList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlRefreshList.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlRefreshList.Image = global::FallGuysStats.Properties.Resources.refresh_icon;
+            this.mlRefreshList.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlRefreshList.ImageSize = 19;
+            this.mlRefreshList.Location = new System.Drawing.Point(145, 25);
+            this.mlRefreshList.Name = "mlRefreshList";
+            this.mlRefreshList.Size = new System.Drawing.Size(19, 20);
+            this.mlRefreshList.TabIndex = 7;
+            this.mlRefreshList.Text = "";
+            this.mlRefreshList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlRefreshList.UseSelectable = true;
+            this.mlRefreshList.UseStyleColors = true;
+            this.mlRefreshList.Visible = false;
+            this.mlRefreshList.Click += new System.EventHandler(this.link_Click);
+            // 
             // cboRoundList
             // 
             this.cboRoundList.Cursor = System.Windows.Forms.Cursors.Hand;
-            // this.cboRoundList.DropDownHeight = 414;
             this.cboRoundList.MaxDropDownItems = 20;
             this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoundList.FormattingEnabled = true;
@@ -158,12 +177,14 @@
             this.Controls.Add(this.lblTotalPlayers);
             this.Controls.Add(this.lblSearchDescription);
             this.Controls.Add(this.mlVisitFallalytics);
+            this.Controls.Add(this.mlRefreshList);
             this.Controls.Add(this.cboRoundList);
             this.Controls.Add(this.gridDetails);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1200, 1287);
             this.MinimumSize = new System.Drawing.Size(1200, 413);
             this.Name = "LeaderboardDisplay";
@@ -186,6 +207,7 @@
         private MetroFramework.Controls.MetroLabel lblTotalPlayers;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
+        private MetroFramework.Controls.MetroLink mlRefreshList;
         private FallGuysStats.ImageComboBox cboRoundList;
         private FallGuysStats.Grid gridDetails;
     }

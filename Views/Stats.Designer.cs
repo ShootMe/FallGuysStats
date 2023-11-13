@@ -31,6 +31,7 @@
             this.lblCreativeLevel = new System.Windows.Forms.Label();
             this.mtgIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroToggle();
             this.lblIgnoreLevelTypeWhenSorting = new System.Windows.Forms.Label();
+            this.mlLeaderboard = new MetroFramework.Controls.MetroLink();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,7 +75,6 @@
             this.lblTotalRounds = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalFinals = new System.Windows.Forms.ToolStripLabel();
             this.lblTotalWins = new System.Windows.Forms.ToolStripLabel();
-            this.lblLeaderboard = new System.Windows.Forms.ToolStripLabel();
             this.infoStrip2 = new System.Windows.Forms.ToolStrip();
             this.lblTotalTime = new System.Windows.Forms.ToolStripLabel();
             this.lblGoldMedal = new System.Windows.Forms.ToolStripLabel();
@@ -176,6 +176,25 @@
             this.lblIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(0, 12);
             this.lblIgnoreLevelTypeWhenSorting.TabIndex = 6;
             this.lblIgnoreLevelTypeWhenSorting.Click += new System.EventHandler(this.lblIgnoreLevelTypeWhenSorting_Click);
+            // 
+            // mlLeaderboard
+            // 
+            this.mlLeaderboard.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
+            this.mlLeaderboard.AutoSize = true;
+            this.mlLeaderboard.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlLeaderboard.FontSize = MetroFramework.MetroLinkSize.Tall;
+            this.mlLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
+            this.mlLeaderboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlLeaderboard.ImageSize = 20;
+            this.mlLeaderboard.Location = new System.Drawing.Point(38, 169);
+            this.mlLeaderboard.Name = "mlLeaderboard";
+            this.mlLeaderboard.Size = new System.Drawing.Size(310, 29);
+            this.mlLeaderboard.TabIndex = 7;
+            this.mlLeaderboard.Text = "Leaderboard";
+            this.mlLeaderboard.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.mlLeaderboard.UseSelectable = true;
+            this.mlLeaderboard.UseStyleColors = true;
+            this.mlLeaderboard.Click += new System.EventHandler(this.lblLeaderboard_Click);
             // 
             // menu
             // 
@@ -526,7 +545,7 @@
             this.infoStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.infoStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.infoStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfileIcon, this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins, this.lblLeaderboard });
+            this.infoStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.lblCurrentProfileIcon, this.lblCurrentProfile, this.lblTotalShows, this.lblTotalRounds, this.lblTotalFinals, this.lblTotalWins });
             this.infoStrip.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.infoStrip.Location = new System.Drawing.Point(0, 93);
             this.infoStrip.Name = "infoStrip";
@@ -604,18 +623,6 @@
             this.lblTotalWins.Click += new System.EventHandler(this.lblTotalWins_Click);
             this.lblTotalWins.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
             this.lblTotalWins.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
-            // 
-            // lblLeaderboard
-            // 
-            this.lblLeaderboard.ForeColor = System.Drawing.Color.Blue;
-            this.lblLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
-            this.lblLeaderboard.Margin = new System.Windows.Forms.Padding(15, 1, 0, 2);
-            this.lblLeaderboard.Name = "lblLeaderboard";
-            this.lblLeaderboard.Size = new System.Drawing.Size(69, 16);
-            this.lblLeaderboard.Text = "Leaderboard";
-            this.lblLeaderboard.Click += new System.EventHandler(this.lblLeaderboard_Click);
-            this.lblLeaderboard.MouseEnter += new System.EventHandler(this.infoStrip_MouseEnter);
-            this.lblLeaderboard.MouseLeave += new System.EventHandler(this.infoStrip_MouseLeave);
             // 
             // infoStrip2
             // 
@@ -1052,6 +1059,7 @@
             this.Controls.Add(this.lblCreativeLevel);
             this.Controls.Add(this.mtgIgnoreLevelTypeWhenSorting);
             this.Controls.Add(this.lblIgnoreLevelTypeWhenSorting);
+            this.Controls.Add(this.mlLeaderboard);
             this.Controls.Add(this.gridDetails);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1087,6 +1095,7 @@
         private System.Windows.Forms.Label lblCreativeLevel;
         private MetroFramework.Controls.MetroToggle mtgIgnoreLevelTypeWhenSorting;
         private System.Windows.Forms.Label lblIgnoreLevelTypeWhenSorting;
+        private MetroFramework.Controls.MetroLink mlLeaderboard;
         private FallGuysStats.Grid gridDetails;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;
@@ -1115,7 +1124,6 @@
         private System.Windows.Forms.ToolStripLabel lblTotalShows;
         private System.Windows.Forms.ToolStripLabel lblTotalRounds;
         private System.Windows.Forms.ToolStripLabel lblTotalWins;
-        private System.Windows.Forms.ToolStripLabel lblLeaderboard;
         private System.Windows.Forms.ToolStripLabel lblTotalFinals;
         private System.Windows.Forms.ToolStripLabel lblGoldMedal;
         private System.Windows.Forms.ToolStripLabel lblSilverMedal;

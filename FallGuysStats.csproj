@@ -374,6 +374,7 @@
     <None Include="Resources\link_gray_icon.png" />
     <None Include="Resources\transform_icon.png" />
     <None Include="Resources\transform_gray_icon.png" />
+    <None Include="Resources\refresh_icon.png" />
     <None Include="Resources\bar_plot_icon.png" />
     <None Include="Resources\bar_plot_gray_icon.png" />
     <None Include="Resources\bar_plot_teal_icon.png" />

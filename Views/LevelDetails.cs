@@ -41,7 +41,7 @@ namespace FallGuysStats {
             
             this.gridDetails.CurrentCell = null;
             this.gridDetails.ClearSelection();
-            this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 226);
+            this.ClientSize = new Size(this.GetClientWidth(this.LevelName), this.Height + 387);
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 20, 0, 0);
             if (this.LevelName == "Shows") {
@@ -159,13 +159,13 @@ namespace FallGuysStats {
             Language lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
-                    return this.Width - (lang == Language.English ? -100 : lang == Language.French ? -113 : lang == Language.Korean ? -90 : lang == Language.Japanese ? -90 : -95);
+                    return this.Width - (lang == Language.English ? -160 : lang == Language.French ? -180 : lang == Language.Korean ? -150 : lang == Language.Japanese ? -150 : -160);
                 case "Rounds":
-                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 1100 : lang == Language.French ? 1200 : lang == Language.Korean ? 1100 : lang == Language.Japanese ? 1100 : 1180);
                 case "Finals":
-                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 1100 : lang == Language.French ? 1200 : lang == Language.Korean ? 1100 : lang == Language.Japanese ? 1100 : 1180);
                 default:
-                    return this.Width + (lang == Language.English ? 955 : lang == Language.French ? 1088 : lang == Language.Korean ? 900 : lang == Language.Japanese ? 915 : 940);
+                    return this.Width + (lang == Language.English ? 1100 : lang == Language.French ? 1200 : lang == Language.Korean ? 1100 : lang == Language.Japanese ? 1100 : 1180);
             }
         }
         
@@ -220,7 +220,7 @@ namespace FallGuysStats {
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
                 case "Finish":
-                    return 70;
+                    return 0;
                 case "Position":
                     sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
                     break;
@@ -370,24 +370,24 @@ namespace FallGuysStats {
                     switch (info.Tier) {
                         case 0:
                             this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
-                            e.Value = Properties.Resources.medal_pink;
+                            e.Value = Properties.Resources.medal_pink_grid_icon;
                             break;
                         case 1:
                             this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
-                            e.Value = Properties.Resources.medal_gold;
+                            e.Value = Properties.Resources.medal_gold_grid_icon;
                             break;
                         case 2:
                             this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
-                            e.Value = Properties.Resources.medal_silver;
+                            e.Value = Properties.Resources.medal_silver_grid_icon;
                             break;
                         case 3:
                             this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
-                            e.Value = Properties.Resources.medal_bronze;
+                            e.Value = Properties.Resources.medal_bronze_grid_icon;
                             break;
                     }
                 } else {
                     this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_eliminated");
-                    e.Value = Properties.Resources.medal_eliminated;
+                    e.Value = Properties.Resources.medal_eliminated_grid_icon;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "IsFinalIcon") {
                 if (info.IsFinal) {
