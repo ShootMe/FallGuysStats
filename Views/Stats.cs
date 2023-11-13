@@ -3285,19 +3285,20 @@ namespace FallGuysStats {
 
             BsonExpression pbLogQuery = Query.EQ("RoundId", stat.Name);
             bool existsPbLog = this.FallalyticsPbLog.Exists(pbLogQuery);
-            
             if (!existsPbLog) {
                 BsonExpression recordQuery = Query.And(
                     Query.EQ("PrivateLobby", false)
                     , Query.EQ("Name", stat.Name)
                     , Query.Not("Finish", null)
+                    , Query.Not("ShowNameId", null)
+                    , Query.Not("SessionId", null)
                 );
                 List<RoundInfo> existingRecords = this.RoundDetails.Find(recordQuery).ToList();
                 RoundInfo recordInfo = existingRecords.OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
             
                 if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
-                    currentSessionId = recordInfo.SessionId ?? "SESSION-MISSING";
-                    currentShowNameId = recordInfo.ShowNameId ?? "SHOW-MISSING";
+                    currentSessionId = recordInfo.SessionId;
+                    currentShowNameId = recordInfo.ShowNameId;
                     currentRoundId = recordInfo.Name;
                     currentRecord = recordInfo.Finish.Value - recordInfo.Start;
                     currentFinish = recordInfo.Finish.Value;
