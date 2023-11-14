@@ -187,7 +187,7 @@
             this.mlLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
             this.mlLeaderboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.mlLeaderboard.ImageSize = 17;
-            this.mlLeaderboard.Location = new System.Drawing.Point(38, 175);
+            this.mlLeaderboard.Location = new System.Drawing.Point(38, 174);
             this.mlLeaderboard.Name = "mlLeaderboard";
             this.mlLeaderboard.Size = new System.Drawing.Size(100, 20);
             this.mlLeaderboard.TabIndex = 7;

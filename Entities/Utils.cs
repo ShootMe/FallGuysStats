@@ -323,6 +323,7 @@ namespace FallGuysStats {
         public static string GetRelativeTime(DateTime targetTime) {
             TimeSpan diff = DateTime.Now - targetTime;
             double days = diff.TotalDays;
+            int weeks = (int)Math.Floor(days / 7);
             int months = (int)Math.Floor(days / 30.436875);
             int years = (int)Math.Floor(days / 365.25);
             // if (diff.TotalMinutes < 1)
@@ -339,8 +340,10 @@ namespace FallGuysStats {
                 return Multilingual.GetWord("leaderboard_grid_yesterday");
             // } else if (days < 3) {
             //     return Multilingual.GetWord("leaderboard_grid_the_day_before_yesterday");
-            } else if (days <= 31) {
+            } else if (days < 7) {
                 return $"{Multilingual.GetWord("leaderboard_grid_n_days_ago_prefix")}{Math.Floor(diff.TotalDays)}{Multilingual.GetWord("leaderboard_grid_n_days_ago_suffix")}";
+            } else if (weeks < 5) {
+                return $"{Multilingual.GetWord("leaderboard_grid_n_weeks_ago_prefix")}{weeks}{Multilingual.GetWord("leaderboard_grid_n_weeks_ago_suffix")}";
             } else if (months < 12) {
                 return $"{Multilingual.GetWord("leaderboard_grid_n_months_ago_prefix")}{months}{Multilingual.GetWord("leaderboard_grid_n_months_ago_suffix")}";
             } else {

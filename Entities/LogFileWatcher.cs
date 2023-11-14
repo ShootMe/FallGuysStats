@@ -547,7 +547,7 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
                 TimeSpan existingRecords = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < existingRecords);
-                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < existingRecords) {
+                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && !Stats.IsClientHasBeenClosed && currentRecord < existingRecords) {
                     this.OnPersonalBestNotification?.Invoke(info, existingRecords, currentRecord);
                 }
             }
