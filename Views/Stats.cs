@@ -328,7 +328,7 @@ namespace FallGuysStats {
             this.DatabaseMigration();
             Task.Run(() => {
                 if (Utils.IsInternetConnected()) {
-                    HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), true).Split(';')[0];
+                    HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()).Split(';')[0];
                 }
             });
             this.SetSecretKey();
@@ -2781,10 +2781,10 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnPersonalBestNotification(RoundInfo info, TimeSpan record, TimeSpan currentRecord) {
+        private void LogFile_OnPersonalBestNotification(RoundInfo info, TimeSpan existingRecords, TimeSpan currentRecord) {
             string timeDiffContent = String.Empty;
-            if (record != TimeSpan.MaxValue) {
-                TimeSpan timeDiff = record - currentRecord;
+            if (existingRecords != TimeSpan.MaxValue) {
+                TimeSpan timeDiff = existingRecords - currentRecord;
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                     : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
@@ -3267,7 +3267,7 @@ namespace FallGuysStats {
             }
             
             if (string.IsNullOrEmpty(HostCountryCode)) {
-                HostCountryCode = Utils.GetCountryInfoByIp(Utils.GetUserPublicIp(), true).Split(';')[0];
+                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()).Split(';')[0];
             }
 
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
@@ -6088,7 +6088,7 @@ namespace FallGuysStats {
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
-            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 7, this.mlLeaderboard.Location.Y);
+            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

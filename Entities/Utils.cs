@@ -207,7 +207,7 @@ namespace FallGuysStats {
             }
         }
         
-        public static string[] GetCountryCodeUsingIp2c(string host) {
+        private static string[] GetCountryCodeUsingIp2c(string host) {
             string[] countryInfo = { string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = Regex.Unescape(web.DownloadString($"{IP2C_ORG_URL}{host}"));
@@ -220,7 +220,7 @@ namespace FallGuysStats {
             return countryInfo;
         }
         
-        public static string[] GetCountryCodeUsingIpinfo(string host) {
+        private static string[] GetCountryCodeUsingIpinfo(string host) {
             string[] countryInfo = { string.Empty, string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{IPINFO_IO_URL}{host}/json");
@@ -232,7 +232,7 @@ namespace FallGuysStats {
             return countryInfo;
         }
         
-        public static string[] GetCountryCodeUsingIpapi(string host) {
+        private static string[] GetCountryCodeUsingIpapi(string host) {
             string[] countryInfo = { string.Empty, string.Empty, string.Empty };
             using (ApiWebClient web = new ApiWebClient()) {
                 string resJsonStr = web.DownloadString($"{IPAPI_COM_URL}{host}");
@@ -279,17 +279,14 @@ namespace FallGuysStats {
                 return publicIp;
             }
         }
-        
-        public static string GetCountryInfoByIp(string ip, bool isNotify) {
+
+        public static string GetCountryCode(string ip) {
             if (string.IsNullOrEmpty(ip)) { return string.Empty; }
             string countryCode = string.Empty;
             try {
-                if (isNotify) {
-                    string[] rtnValue = GetCountryCodeUsingNordvpn(ip);
-                    countryCode = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
-                }
+                countryCode = GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
                 if (string.IsNullOrEmpty(countryCode)) {
-                    countryCode = GetCountryCodeUsingIp2c(ip)[0]; // alpha-2 code
+                    countryCode = GetCountryCodeUsingNordvpn(ip)[0]; // alpha-2 code
                 }
                 if (string.IsNullOrEmpty(countryCode)) {
                     countryCode = GetCountryCodeUsingIpinfo(ip)[0]; // alpha-2 code
@@ -301,6 +298,26 @@ namespace FallGuysStats {
                 return string.Empty;
             }
             return countryCode;
+        }
+
+        public static string GetCountryInfo(string ip) {
+            if (string.IsNullOrEmpty(ip)) { return string.Empty; }
+            string countryInfo = string.Empty;
+            try {
+                string[] rtnValue = GetCountryCodeUsingNordvpn(ip);
+                countryInfo = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
+                if (string.IsNullOrEmpty(rtnValue[0])) {
+                    rtnValue = GetCountryCodeUsingIpinfo(ip);
+                    countryInfo = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
+                }
+                if (string.IsNullOrEmpty(rtnValue[0])) {
+                    rtnValue = GetCountryCodeUsingIpapi(ip);
+                    countryInfo = $"{rtnValue[0]};{rtnValue[1]};{rtnValue[2]}"; // alpha-2 code ; region ; city
+                }
+            } catch {
+                return string.Empty;
+            }
+            return countryInfo;
         }
         
         public static string GetRelativeTime(DateTime targetTime) {

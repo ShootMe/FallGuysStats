@@ -953,8 +953,11 @@ namespace FallGuysStats {
                     this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
                 }
 
+                
                 this.lblFilter.Text = this.StatsForm.GetCurrentFilterName();
                 this.lblProfile.Text = this.StatsForm.GetCurrentProfileName();
+                
+                
                 this.Background = this.RecreateBackground();
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
 
@@ -962,17 +965,17 @@ namespace FallGuysStats {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
                     string roundName = this.lastRound.VerifiedName();
                     
-                    if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats level)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : level.Name.ToUpper();
+                    if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats levelStats)) {
+                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : levelStats.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
                     }
                     
-                    LevelType levelType = (level?.Type).GetValueOrDefault(LevelType.Unknown);
-                    BestRecordType recordType = (level?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
+                    LevelType levelType = (levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
+                    BestRecordType recordType = (levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
                     StatSummary levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, levelType, recordType, this.lastRound.UseShareCode);
                     
-                    this.SetRoundLabel(level, levelType, roundName, overlaySetting);
+                    this.SetRoundLabel(levelStats, levelType, roundName, overlaySetting);
                     this.SetWinsLabel(levelSummary, overlaySetting);
                     this.SetFinalsLabel(levelSummary, overlaySetting);
                     this.SetQualifyChanceLabel(levelSummary, overlaySetting);
@@ -993,7 +996,7 @@ namespace FallGuysStats {
                     }
                     
                     this.SetFinishLabel(levelSummary, levelType, recordType, currentUTC, overlaySetting);
-                    this.SetDurationLabel(level, currentUTC, overlaySetting);
+                    this.SetDurationLabel(levelStats, currentUTC, overlaySetting);
                 }
                 this.Invalidate();
             }

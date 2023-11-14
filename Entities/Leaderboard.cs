@@ -48,7 +48,7 @@ namespace FallGuysStats {
                             recordHolder.isAnonymous = reader.GetBoolean();
                             break;
                         case "finish":
-                            recordHolder.finish = reader.GetDateTime();
+                            recordHolder.finish = TimeZoneInfo.ConvertTimeFromUtc(reader.GetDateTime(), TimeZoneInfo.Local);
                             break;
                         case "country":
                             recordHolder.country = reader.GetString();

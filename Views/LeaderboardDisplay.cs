@@ -152,7 +152,7 @@ namespace FallGuysStats {
                         this.gridDetails.DataSource = this.recordholders;
                         this.lblTotalPlayers.Text = $"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
                         this.lblTotalPlayers.Visible = true;
-                        this.mlRefreshList.Location = new Point(this.lblTotalPlayers.Right + 8, this.lblTotalPlayers.Location.Y + 4);
+                        this.mlRefreshList.Location = new Point(this.lblTotalPlayers.Right + 8, this.lblTotalPlayers.Location.Y + 3);
                         this.mlRefreshList.Visible = true;
                         this.mlVisitFallalytics.Visible = true;
                         this.cboRoundList.Enabled = true;
@@ -273,19 +273,27 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_shiny_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_shiny_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
+                if (!info.isAnonymous) {
+                    this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
+                }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "medal") {
                 if (info.rank == 1) {
+                    this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
                     if (percentage <= 20) {
+                        this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         e.Value = Properties.Resources.medal_silver_grid_icon;
                     } else if (percentage <= 50) {
+                        this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         e.Value = Properties.Resources.medal_bronze_grid_icon;
                     } else {
+                        this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
@@ -296,6 +304,7 @@ namespace FallGuysStats {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "finish") {
+                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
             }
             

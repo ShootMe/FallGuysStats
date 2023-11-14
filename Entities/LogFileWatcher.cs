@@ -479,13 +479,18 @@ namespace FallGuysStats {
             Stats.LastCountryRegion = string.Empty;
             Stats.LastCountryCity = string.Empty;
             try {
-                string[] countryInfo = Utils.GetCountryInfoByIp(ip, this.StatsForm.CurrentSettings.NotifyServerConnected).Split(';');
-                string alpha2Code = countryInfo[0].ToLower();
-                string region = countryInfo.Length > 1 && !"unknown".Equals(countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
-                string city = countryInfo.Length > 2 && !"unknown".Equals(countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
-                Stats.LastCountryAlpha2Code = alpha2Code;
-                Stats.LastCountryRegion = region;
-                Stats.LastCountryCity = city;
+                string ci = Utils.GetCountryInfo(ip);
+                if (!string.IsNullOrEmpty(ci)) {
+                    string[] countryInfo = ci.Split(';');
+                    Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
+                    Stats.LastCountryRegion = !"unknown".Equals(countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
+                    Stats.LastCountryCity = !"unknown".Equals(countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
+                } else {
+                    string countryCode = Utils.GetCountryCode(ip);
+                    Stats.LastCountryAlpha2Code = !string.IsNullOrEmpty(countryCode) ? countryCode.ToLower() : string.Empty;
+                    Stats.LastCountryRegion = string.Empty;
+                    Stats.LastCountryCity = string.Empty;
+                }
             } catch {
                 this.toggleCountryInfoApi = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
@@ -518,24 +523,32 @@ namespace FallGuysStats {
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (info.PrivateLobby || !info.Finish.HasValue
-                || (!LevelStats.SceneToRound.TryGetValue(info.SceneName, out string roundName) || !LevelStats.ALL.TryGetValue(roundName, out LevelStats l1) || l1 == null || l1.Type != LevelType.Race)
-                || (!LevelStats.ALL.TryGetValue(info.Name, out LevelStats l2) || l2 == null || l2.Type != LevelType.Race)) {
-                return;
+            if (info.PrivateLobby || info.UseShareCode || !info.Finish.HasValue) { return; }
+            string roundId = string.Empty;
+            if (LevelStats.SceneToRound.TryGetValue(info.SceneName, out roundId)) {
+                if (LevelStats.ALL.TryGetValue(roundId, out LevelStats l1)) {
+                    if (l1.Type != LevelType.Race) return;
+                }
+            } else if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats l1)) {
+                if (l1.Type != LevelType.Race) return;
+                roundId = info.Name;
             }
+            if (string.IsNullOrEmpty(roundId)) return;
 
-            if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, info.Name)) {
+            if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, roundId)) {
                 TimeSpan currentRecord = info.Finish.Value - info.Start;
                 BsonExpression recordQuery = Query.And(
-                    Query.Not("Finish", null),
-                    Query.EQ("Name", info.Name),
-                    Query.EQ("ShowNameId", info.ShowNameId)
+                    Query.EQ("PrivateLobby", false)
+                    , Query.EQ("Name", roundId)
+                    , Query.Not("Finish", null)
+                    , Query.Not("ShowNameId", null)
+                    , Query.Not("SessionId", null)
                 );
                 List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
-                TimeSpan record = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, info.Name, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < record);
-                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < record) {
-                    this.OnPersonalBestNotification?.Invoke(info, record, currentRecord);
+                TimeSpan existingRecords = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < existingRecords);
+                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && Stats.IsGameRunning && currentRecord < existingRecords) {
+                    this.OnPersonalBestNotification?.Invoke(info, existingRecords, currentRecord);
                 }
             }
         }
