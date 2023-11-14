@@ -4216,7 +4216,6 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Name":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Regular, CurrentLanguage);
                         e.CellStyle.ForeColor = Color.Black;
                         if (levelStats.IsCreative) e.Value = $"🔧 {e.Value}";
                         if (levelStats.IsFinal) {
@@ -4259,14 +4258,12 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Played":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 126, 222);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "Qualified":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 20, 147);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
@@ -4280,7 +4277,6 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Gold":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 215, 0);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
@@ -4294,7 +4290,6 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Silver":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.3f;
                         cellColor = Color.FromArgb(192, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
@@ -4308,7 +4303,6 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Bronze":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(205, 127, 50);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
@@ -4322,28 +4316,24 @@ namespace FallGuysStats {
                         }
                         break;
                     case "Kudos":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(218, 112, 214);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = $"{e.Value:N0}";
                         break;
                     case "AveFinish":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
                         break;
                     case "Fastest":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
                         e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
                         break;
                     case "Longest":
-                        e.CellStyle.Font = Overlay.GetMainFont(14f);
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;

@@ -390,6 +390,8 @@
     <None Include="Resources\scatter_plot_teal_icon.png" />
     <None Include="Resources\shutdown_gray_icon.png" />
     <None Include="Resources\shutdown_icon.png" />
+    <None Include="Resources\left_button_icon.png" />
+    <None Include="Resources\right_button_icon.png" />
     <None Include="Resources\round_icon\icon_Unknown.png" />
     <None Include="Resources\round_icon\icon_Unknown_big.png" />
     <None Include="Resources\round_icon\creative\icon_Creative.png" />

@@ -20,6 +20,7 @@ namespace FallGuysStats {
         private bool CboMultilingualIsFocus;
         private bool CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
+        private string PrevTabName;
         
         public Settings() {
             this.InitializeComponent();
@@ -1017,6 +1018,10 @@ namespace FallGuysStats {
         }
 
         private void ChangeTab(object sender, EventArgs e) {
+            if (!(sender is MetroTile tile) || tile.Name.Equals(PrevTabName)) {
+                return;
+            }
+            this.PrevTabName = tile.Name;
             this.BeginInvoke((MethodInvoker)delegate {
                 this.panelProgram.Location = new Point(211, 75);
                 this.panelDisplay.Location = new Point(211, 75);

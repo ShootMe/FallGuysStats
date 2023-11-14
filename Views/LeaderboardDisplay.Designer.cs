@@ -32,6 +32,9 @@
             this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblTotalPlayers = new MetroFramework.Controls.MetroLabel();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
+            this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
+            this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
+            this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.mlRefreshList = new MetroFramework.Controls.MetroLink();
             this.cboRoundList = new FallGuysStats.ImageComboBox();
@@ -83,6 +86,58 @@
             this.lblSearchDescription.UseCustomForeColor = true;
             this.lblSearchDescription.Visible = false;
             // 
+            // lblPagingInfo
+            // 
+            this.lblPagingInfo.AutoSize = true;
+            this.lblPagingInfo.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPagingInfo.ForeColor = System.Drawing.Color.Teal;
+            this.lblPagingInfo.Location = new System.Drawing.Point(635, 61);
+            this.lblPagingInfo.Name = "lblPagingInfo";
+            this.lblPagingInfo.Size = new System.Drawing.Size(139, 25);
+            this.lblPagingInfo.TabIndex = 3;
+            this.lblPagingInfo.Text = "1 - 50";
+            this.lblPagingInfo.UseCustomForeColor = true;
+            this.lblPagingInfo.Visible = false;
+            // 
+            // mlLeftPagingButton
+            // 
+            this.mlLeftPagingButton.AutoSize = true;
+            this.mlLeftPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
+            this.mlLeftPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlLeftPagingButton.ImageSize = 19;
+            this.mlLeftPagingButton.Location = new System.Drawing.Point(600, 64);
+            this.mlLeftPagingButton.Name = "mlLeftPagingButton";
+            this.mlLeftPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlLeftPagingButton.TabIndex = 7;
+            this.mlLeftPagingButton.Text = "";
+            this.mlLeftPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlLeftPagingButton.UseSelectable = true;
+            this.mlLeftPagingButton.UseStyleColors = true;
+            this.mlLeftPagingButton.Visible = false;
+            this.mlLeftPagingButton.Click += new System.EventHandler(this.link_Click);
+            // 
+            // mlRightPagingButton
+            // 
+            this.mlRightPagingButton.AutoSize = true;
+            this.mlRightPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
+            this.mlRightPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlRightPagingButton.ImageSize = 19;
+            this.mlRightPagingButton.Location = new System.Drawing.Point(700, 64);
+            this.mlRightPagingButton.Name = "mlRightPagingButton";
+            this.mlRightPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlRightPagingButton.TabIndex = 7;
+            this.mlRightPagingButton.Text = "";
+            this.mlRightPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlRightPagingButton.UseSelectable = true;
+            this.mlRightPagingButton.UseStyleColors = true;
+            this.mlRightPagingButton.Visible = false;
+            this.mlRightPagingButton.Click += new System.EventHandler(this.link_Click);
+            // 
             // mlVisitFallalytics
             // 
             this.mlVisitFallalytics.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -113,10 +168,10 @@
             this.mlRefreshList.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlRefreshList.Image = global::FallGuysStats.Properties.Resources.refresh_icon;
             this.mlRefreshList.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlRefreshList.ImageSize = 19;
-            this.mlRefreshList.Location = new System.Drawing.Point(145, 25);
+            this.mlRefreshList.ImageSize = 18;
+            this.mlRefreshList.Location = new System.Drawing.Point(145, 65);
             this.mlRefreshList.Name = "mlRefreshList";
-            this.mlRefreshList.Size = new System.Drawing.Size(19, 20);
+            this.mlRefreshList.Size = new System.Drawing.Size(18, 19);
             this.mlRefreshList.TabIndex = 7;
             this.mlRefreshList.Text = "";
             this.mlRefreshList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -134,7 +189,7 @@
             this.cboRoundList.ItemHeight = 23;
             this.cboRoundList.Location = new System.Drawing.Point(11, 61);
             this.cboRoundList.Name = "cboRoundList";
-            this.cboRoundList.Size = new System.Drawing.Size(400, 20);
+            this.cboRoundList.Size = new System.Drawing.Size(345, 20);
             this.cboRoundList.TabIndex = 1;
             this.cboRoundList.SelectedIndexChanged += new System.EventHandler(this.cboRoundList_SelectedIndexChanged);
             // 
@@ -165,6 +220,7 @@
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
+            // this.gridDetails.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridDetails_Scroll);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
             // LeaderboardDisplay
@@ -176,6 +232,9 @@
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblTotalPlayers);
             this.Controls.Add(this.lblSearchDescription);
+            this.Controls.Add(this.lblPagingInfo);
+            this.Controls.Add(this.mlLeftPagingButton);
+            this.Controls.Add(this.mlRightPagingButton);
             this.Controls.Add(this.mlVisitFallalytics);
             this.Controls.Add(this.mlRefreshList);
             this.Controls.Add(this.cboRoundList);
@@ -206,6 +265,9 @@
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
         private MetroFramework.Controls.MetroLabel lblTotalPlayers;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
+        private MetroFramework.Controls.MetroLabel lblPagingInfo;
+        private MetroFramework.Controls.MetroLink mlLeftPagingButton;
+        private MetroFramework.Controls.MetroLink mlRightPagingButton;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private MetroFramework.Controls.MetroLink mlRefreshList;
         private FallGuysStats.ImageComboBox cboRoundList;
