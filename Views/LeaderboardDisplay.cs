@@ -332,7 +332,7 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
                 if (info.rank == 1) {
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Gold, 0.7f) : Color.Gold;
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
                 e.Value = Utils.FormatTime((double)e.Value);
