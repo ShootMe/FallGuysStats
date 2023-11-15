@@ -312,6 +312,7 @@ namespace FallGuysStats {
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
                  || showId.Equals("wle_mrs_shuffle_show")
+                 || showId.Equals("wle_shuffle_discover")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")) {
                 return true;

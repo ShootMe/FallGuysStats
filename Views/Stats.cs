@@ -2165,6 +2165,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 67;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 67) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_shuffle_discover")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = true;
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 68;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3405,6 +3423,7 @@ namespace FallGuysStats {
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
                    showId.Equals("wle_mrs_bagel") ||
                    showId.Equals("wle_mrs_shuffle_show") ||
+                   showId.Equals("wle_shuffle_discover") ||
                    showId.StartsWith("current_wle_fp") ||
                    showId.StartsWith("wle_s10_cf_round_");
         }
