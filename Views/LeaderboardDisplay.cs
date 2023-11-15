@@ -123,7 +123,8 @@ namespace FallGuysStats {
                                 }
                             }
                         }
-                        roundItemList.Sort((x, y) => String.CompareOrdinal(x.Text, y.Text));
+                        roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
+
                         this.cboRoundList.SetImageItemData(roundItemList);
                         this.cboRoundList.Enabled = true;
                         // this.cboRoundList.Refresh();
@@ -174,7 +175,7 @@ namespace FallGuysStats {
                         this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
                         this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
                         this.mlRightPagingButton.Visible = this.totalPages > 1;
-                        // this.Refresh();
+                        this.Invalidate();
                     } else {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
                         this.mpsSpinner.Visible = false;
@@ -187,7 +188,7 @@ namespace FallGuysStats {
                         this.lblPagingInfo.Visible = false;
                         this.mlLeftPagingButton.Visible = false;
                         this.mlRightPagingButton.Visible = false;
-                        // this.Refresh();
+                        this.Invalidate();
                     }
                     this.refreshTime = DateTime.Now;
                 });
