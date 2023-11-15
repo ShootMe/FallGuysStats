@@ -297,7 +297,7 @@ namespace FallGuysStats {
 
             RankInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RankInfo;
             if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
-                this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.Magenta;
+                this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
                 // this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
             }
 
