@@ -60,32 +60,32 @@ namespace FallGuysStats {
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
             if (this.CurrentSettings.SwitchBetweenLongest) {
-                this.chkCycleFastestLongest.Checked = true;
+                this.rdoCycleFastestLongest.Checked = true;
             } else if (this.CurrentSettings.OnlyShowLongest) {
-                this.chkOnlyShowLongest.Checked = true;
+                this.rdoOnlyShowLongest.Checked = true;
             } else {
-                this.chkOnlyShowFastest.Checked = true;
+                this.rdoOnlyShowFastest.Checked = true;
             }
             if (this.CurrentSettings.SwitchBetweenQualify) {
-                this.chkCycleQualifyGold.Checked = true;
+                this.rdoCycleQualifyGold.Checked = true;
             } else if (this.CurrentSettings.OnlyShowGold) {
-                this.chkOnlyShowGold.Checked = true;
+                this.rdoOnlyShowGold.Checked = true;
             } else {
-                this.chkOnlyShowQualify.Checked = true;
+                this.rdoOnlyShowQualify.Checked = true;
             }
             if (this.CurrentSettings.SwitchBetweenPlayers) {
-                this.chkCyclePlayersPing.Checked = true;
+                this.rdoCyclePlayersPing.Checked = true;
             } else if (this.CurrentSettings.OnlyShowPing) {
-                this.chkOnlyShowPing.Checked = true;
+                this.rdoOnlyShowPing.Checked = true;
             } else {
-                this.chkOnlyShowPlayers.Checked = true;
+                this.rdoOnlyShowPlayers.Checked = true;
             }
             if (this.CurrentSettings.SwitchBetweenStreaks) {
-                this.chkCycleWinFinalStreak.Checked = true;
+                this.rdoCycleWinFinalStreak.Checked = true;
             } else if (this.CurrentSettings.OnlyShowFinalStreak) {
-                this.chkOnlyShowFinalStreak.Checked = true;
+                this.rdoOnlyShowFinalStreak.Checked = true;
             } else {
-                this.chkOnlyShowWinStreak.Checked = true;
+                this.rdoOnlyShowWinStreak.Checked = true;
             }
 
             this.txtCycleTimeSeconds.Text = this.CurrentSettings.CycleTimeSeconds.ToString();
@@ -113,7 +113,7 @@ namespace FallGuysStats {
             this.cboNotificationWindowPosition.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
             this.cboNotificationWindowAnimation.SelectedIndex = this.CurrentSettings.NotificationWindowAnimation;
             this.cboNotificationWindowAnimation.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
-            this.btnPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
+            this.mlPlayNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
             this.chkMuteNotificationSounds.Enabled = this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked;
             if (this.chkNotifyServerConnected.Checked || this.chkNotifyPersonalBest.Checked) {
                 this.chkMuteNotificationSounds.Checked = this.CurrentSettings.MuteNotificationSounds;
@@ -282,6 +282,9 @@ namespace FallGuysStats {
                     mb1.Theme = theme;
                 } else if (c1 is MetroCheckBox mcb1) {
                     mcb1.Theme = theme;
+                    if (mcb1.UseCustomForeColor && !mcb1.Checked) {
+                        mcb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    }
                 } else if (c1 is MetroRadioButton mrb1) {
                     mrb1.Theme = theme;
                 } else if (c1 is MetroComboBox mcbo1) {
@@ -297,6 +300,9 @@ namespace FallGuysStats {
                             mb2.Theme = theme;
                         } else if (c2 is MetroCheckBox mcb2) {
                             mcb2.Theme = theme;
+                            if (mcb2.UseCustomForeColor && !mcb2.Checked) {
+                                mcb2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            }
                         } else if (c2 is MetroRadioButton mrb2) {
                             mrb2.Theme = theme;
                         } else if (c2 is MetroComboBox mcbo2) {
@@ -330,7 +336,7 @@ namespace FallGuysStats {
             this.Refresh();
         }
 
-        private void btnPlayNotificationSounds_Click(object sender, EventArgs e) {
+        private void mlPlayNotificationSounds_Click(object sender, EventArgs e) {
             this.BeginInvoke((MethodInvoker)delegate {
                 Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
                 ToastPosition toastPosition = this.cboNotificationWindowPosition.SelectedIndex == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
@@ -350,7 +356,52 @@ namespace FallGuysStats {
         
         private void cboTheme_SelectedIndexChanged(object sender, EventArgs e) {
             this.SetTheme(((ComboBox)sender).SelectedIndex == 0 ? MetroThemeStyle.Light : ((ComboBox)sender).SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default);
-            this.Refresh();
+        }
+        
+        // private void chkFallalyticsReporting_CheckedChanged(object sender, EventArgs e) {
+        //     this.chkFallalyticsAnonymous.Enabled = ((MetroCheckBox)sender).Checked;
+        //     if (!((MetroCheckBox)sender).Checked) {
+        //         this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
+        //     }
+        // }
+        
+        // private void chkNotify_CheckedChanged(object sender, EventArgs e) {
+        //     this.chkMuteNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+        //     this.cboNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+        //     this.cboNotificationWindowPosition.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+        //     this.cboNotificationWindowAnimation.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+        //     this.mlPlayNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+        //     if (!this.chkNotifyPersonalBest.Checked && !this.chkNotifyServerConnected.Checked) {
+        //         this.chkMuteNotificationSounds.Checked = false;
+        //     }
+        // }
+        
+        private void CheckBox_CheckedChanged(object sender, EventArgs e) {
+            ((MetroCheckBox)sender).ForeColor = ((MetroCheckBox)sender).Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
+
+            if (sender.Equals(this.chkNotifyPersonalBest) || sender.Equals(this.chkNotifyServerConnected)) {
+                this.chkMuteNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+                this.cboNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+                this.cboNotificationWindowPosition.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+                this.cboNotificationWindowAnimation.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+                this.mlPlayNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
+                if (!this.chkNotifyPersonalBest.Checked && !this.chkNotifyServerConnected.Checked) {
+                    this.chkMuteNotificationSounds.Checked = false;
+                }
+            } else if (sender.Equals(this.chkFallalyticsReporting)) {
+                this.chkFallalyticsAnonymous.Enabled = ((MetroCheckBox)sender).Checked;
+                if (!((MetroCheckBox)sender).Checked) {
+                    this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
+                }
+            }
+        }
+        
+        private void CheckBox_MouseEnter(object sender, EventArgs e) {
+            if (!((MetroCheckBox)sender).Checked) ((MetroCheckBox)sender).ForeColor = Color.DimGray;
+        }
+        
+        private void CheckBox_MouseLeave(object sender, EventArgs e) {
+            if (!((MetroCheckBox)sender).Checked) ((MetroCheckBox)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -379,40 +430,40 @@ namespace FallGuysStats {
                 }
             }
 
-            if (this.chkCycleFastestLongest.Checked) {
+            if (this.rdoCycleFastestLongest.Checked) {
                 this.CurrentSettings.SwitchBetweenLongest = true;
                 this.CurrentSettings.OnlyShowLongest = false;
-            } else if (this.chkOnlyShowLongest.Checked) {
+            } else if (this.rdoOnlyShowLongest.Checked) {
                 this.CurrentSettings.SwitchBetweenLongest = false;
                 this.CurrentSettings.OnlyShowLongest = true;
             } else {
                 this.CurrentSettings.SwitchBetweenLongest = false;
                 this.CurrentSettings.OnlyShowLongest = false;
             }
-            if (this.chkCycleQualifyGold.Checked) {
+            if (this.rdoCycleQualifyGold.Checked) {
                 this.CurrentSettings.SwitchBetweenQualify = true;
                 this.CurrentSettings.OnlyShowGold = false;
-            } else if (this.chkOnlyShowGold.Checked) {
+            } else if (this.rdoOnlyShowGold.Checked) {
                 this.CurrentSettings.SwitchBetweenQualify = false;
                 this.CurrentSettings.OnlyShowGold = true;
             } else {
                 this.CurrentSettings.SwitchBetweenQualify = false;
                 this.CurrentSettings.OnlyShowGold = false;
             }
-            if (this.chkCyclePlayersPing.Checked) {
+            if (this.rdoCyclePlayersPing.Checked) {
                 this.CurrentSettings.SwitchBetweenPlayers = true;
                 this.CurrentSettings.OnlyShowPing = false;
-            } else if (this.chkOnlyShowPing.Checked) {
+            } else if (this.rdoOnlyShowPing.Checked) {
                 this.CurrentSettings.SwitchBetweenPlayers = false;
                 this.CurrentSettings.OnlyShowPing = true;
             } else {
                 this.CurrentSettings.SwitchBetweenPlayers = false;
                 this.CurrentSettings.OnlyShowPing = false;
             }
-            if (this.chkCycleWinFinalStreak.Checked) {
+            if (this.rdoCycleWinFinalStreak.Checked) {
                 this.CurrentSettings.SwitchBetweenStreaks = true;
                 this.CurrentSettings.OnlyShowFinalStreak = false;
-            } else if (this.chkOnlyShowFinalStreak.Checked) {
+            } else if (this.rdoOnlyShowFinalStreak.Checked) {
                 this.CurrentSettings.SwitchBetweenStreaks = false;
                 this.CurrentSettings.OnlyShowFinalStreak = true;
             } else {
@@ -767,24 +818,6 @@ namespace FallGuysStats {
             if (keyData == Keys.Tab) { SendKeys.Send("%"); }
             return base.ProcessCmdKey(ref msg, keyData);
         }
-        
-        private void chkFallalyticsReporting_CheckedChanged(object sender, EventArgs e) {
-            this.chkFallalyticsAnonymous.Enabled = ((MetroCheckBox)sender).Checked;
-            if (!((MetroCheckBox)sender).Checked) {
-                this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
-            }
-        }
-        
-        private void chkNotify_CheckedChanged(object sender, EventArgs e) {
-            this.chkMuteNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
-            this.cboNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
-            this.cboNotificationWindowPosition.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
-            this.cboNotificationWindowAnimation.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
-            this.btnPlayNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
-            if (!this.chkNotifyPersonalBest.Checked && !this.chkNotifyServerConnected.Checked) {
-                this.chkMuteNotificationSounds.Checked = false;
-            }
-        }
 
         private void ChangeLanguage(Language lang) {
             this.DisplayLang = lang;
@@ -822,12 +855,12 @@ namespace FallGuysStats {
             this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
-            this.chkOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
-            this.chkOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
-            this.chkCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
-            this.chkOnlyShowLongest.Text = Multilingual.GetWord("settings_personal_lowest_only");
-            this.chkOnlyShowFastest.Text = Multilingual.GetWord("settings_personal_best_only");
-            this.chkCycleFastestLongest.Text = Multilingual.GetWord("settings_cycle_best__lowest");
+            this.rdoOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
+            this.rdoOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
+            this.rdoCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
+            this.rdoOnlyShowLongest.Text = Multilingual.GetWord("settings_personal_lowest_only");
+            this.rdoOnlyShowFastest.Text = Multilingual.GetWord("settings_personal_best_only");
+            this.rdoCycleFastestLongest.Text = Multilingual.GetWord("settings_cycle_best__lowest");
             this.chkHidePercentages.Text = Multilingual.GetWord("settings_hide_percentages");
             this.chkHideWinsInfo.Text = Multilingual.GetWord("settings_hide_wins_info");
 
@@ -927,12 +960,12 @@ namespace FallGuysStats {
             this.chkDisplayGamePlayedInfo.Text = Multilingual.GetWord("settings_diaplay_game_played_info");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
-            this.chkOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");
-            this.chkOnlyShowWinStreak.Text = Multilingual.GetWord("settings_win_streak_only");
-            this.chkCycleWinFinalStreak.Text = Multilingual.GetWord("settings_cycle_win__final_streak");
-            this.chkOnlyShowPing.Text = Multilingual.GetWord("settings_ping_only");
-            this.chkOnlyShowPlayers.Text = Multilingual.GetWord("settings_players_only");
-            this.chkCyclePlayersPing.Text = Multilingual.GetWord("settings_cycle_players__ping");
+            this.rdoOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");
+            this.rdoOnlyShowWinStreak.Text = Multilingual.GetWord("settings_win_streak_only");
+            this.rdoCycleWinFinalStreak.Text = Multilingual.GetWord("settings_cycle_win__final_streak");
+            this.rdoOnlyShowPing.Text = Multilingual.GetWord("settings_ping_only");
+            this.rdoOnlyShowPlayers.Text = Multilingual.GetWord("settings_players_only");
+            this.rdoCyclePlayersPing.Text = Multilingual.GetWord("settings_cycle_players__ping");
             this.lblOverlayFont.Text = Multilingual.GetWord("settings_custom_overlay_font");
             this.btnSelectFont.Text = Multilingual.GetWord("settings_select_font");
             this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
@@ -964,7 +997,7 @@ namespace FallGuysStats {
             this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 131 : lang == Language.Korean ? 94 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 62 : lang == Language.TraditionalChinese ? 62 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
-            this.btnPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.btnPlayNotificationSounds.Location.Y);
+            this.mlPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.mlPlayNotificationSounds.Location.Y);
             this.chkPreventOverlayMouseClicks.Text = Multilingual.GetWord("settings_prevent_overlay_mouse_clicks");
             this.lblPreviousWinsNote.Text = Multilingual.GetWord("settings_before_using_tracker");
             this.lblPreviousWins.Text = Multilingual.GetWord("settings_previous_win");
@@ -1014,7 +1047,6 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Visible = false;
 #endif
             Stats.CurrentLanguage = tempLanguage;
-            // this.Invalidate(true);
         }
 
         private void ChangeTab(object sender, EventArgs e) {

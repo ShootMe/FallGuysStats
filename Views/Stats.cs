@@ -4036,7 +4036,6 @@ namespace FallGuysStats {
         
         private void mtgIgnoreLevelTypeWhenSorting_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = mtgChecked;
             this.SortGridDetails(true);
             this.SaveUserSettings();
@@ -4412,9 +4411,9 @@ namespace FallGuysStats {
             // this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             // this.gridDetails.Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
-            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
+            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
         }
 
         private List<LevelStats> GetFilteredDataSource(bool isFilter) {

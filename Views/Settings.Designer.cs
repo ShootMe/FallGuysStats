@@ -35,13 +35,13 @@
             this.grpOverlayFontExample = new System.Windows.Forms.GroupBox();
             this.lblOverlayFontExample = new System.Windows.Forms.Label();
             this.grpCycleQualifyGold = new System.Windows.Forms.GroupBox();
-            this.chkOnlyShowGold = new MetroFramework.Controls.MetroRadioButton();
-            this.chkOnlyShowQualify = new MetroFramework.Controls.MetroRadioButton();
-            this.chkCycleQualifyGold = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowGold = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowQualify = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoCycleQualifyGold = new MetroFramework.Controls.MetroRadioButton();
             this.grpCycleFastestLongest = new System.Windows.Forms.GroupBox();
-            this.chkOnlyShowLongest = new MetroFramework.Controls.MetroRadioButton();
-            this.chkOnlyShowFastest = new MetroFramework.Controls.MetroRadioButton();
-            this.chkCycleFastestLongest = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowLongest = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowFastest = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoCycleFastestLongest = new MetroFramework.Controls.MetroRadioButton();
             this.chkHidePercentages = new MetroFramework.Controls.MetroCheckBox();
             this.chkHideWinsInfo = new MetroFramework.Controls.MetroCheckBox();
             this.lblOverlayBackground = new MetroFramework.Controls.MetroLabel();
@@ -70,13 +70,13 @@
             this.lblCycleTimeSeconds = new MetroFramework.Controls.MetroLabel();
             this.txtCycleTimeSeconds = new MetroFramework.Controls.MetroTextBox();
             this.grpCycleWinFinalStreak = new System.Windows.Forms.GroupBox();
-            this.chkOnlyShowFinalStreak = new MetroFramework.Controls.MetroRadioButton();
-            this.chkOnlyShowWinStreak = new MetroFramework.Controls.MetroRadioButton();
-            this.chkCycleWinFinalStreak = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowFinalStreak = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowWinStreak = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoCycleWinFinalStreak = new MetroFramework.Controls.MetroRadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkOnlyShowPing = new MetroFramework.Controls.MetroRadioButton();
-            this.chkOnlyShowPlayers = new MetroFramework.Controls.MetroRadioButton();
-            this.chkCyclePlayersPing = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowPing = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoOnlyShowPlayers = new MetroFramework.Controls.MetroRadioButton();
+            this.rdoCyclePlayersPing = new MetroFramework.Controls.MetroRadioButton();
             this.grpLaunchPlatform = new System.Windows.Forms.GroupBox();
             this.picPlatformCheck = new System.Windows.Forms.PictureBox();
             this.picEpicGames = new System.Windows.Forms.PictureBox();
@@ -93,7 +93,7 @@
             this.cboNotificationSounds = new MetroFramework.Controls.MetroComboBox();
             this.cboNotificationWindowPosition = new MetroFramework.Controls.MetroComboBox();
             this.cboNotificationWindowAnimation = new MetroFramework.Controls.MetroComboBox();
-            this.btnPlayNotificationSounds = new MetroFramework.Controls.MetroButton();
+            this.mlPlayNotificationSounds = new MetroFramework.Controls.MetroLink();
             this.chkPreventOverlayMouseClicks = new MetroFramework.Controls.MetroCheckBox();
             this.lblPreviousWinsNote = new MetroFramework.Controls.MetroLabel();
             this.lblPreviousWins = new MetroFramework.Controls.MetroLabel();
@@ -283,9 +283,9 @@
             // 
             // grpCycleQualifyGold
             // 
-            this.grpCycleQualifyGold.Controls.Add(this.chkOnlyShowGold);
-            this.grpCycleQualifyGold.Controls.Add(this.chkOnlyShowQualify);
-            this.grpCycleQualifyGold.Controls.Add(this.chkCycleQualifyGold);
+            this.grpCycleQualifyGold.Controls.Add(this.rdoOnlyShowGold);
+            this.grpCycleQualifyGold.Controls.Add(this.rdoOnlyShowQualify);
+            this.grpCycleQualifyGold.Controls.Add(this.rdoCycleQualifyGold);
             this.grpCycleQualifyGold.Location = new System.Drawing.Point(21, 195);
             this.grpCycleQualifyGold.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleQualifyGold.Name = "grpCycleQualifyGold";
@@ -294,49 +294,49 @@
             this.grpCycleQualifyGold.TabIndex = 8;
             this.grpCycleQualifyGold.TabStop = false;
             // 
-            // chkOnlyShowGold
+            // rdoOnlyShowGold
             // 
-            this.chkOnlyShowGold.AutoSize = true;
-            this.chkOnlyShowGold.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowGold.Location = new System.Drawing.Point(385, 14);
-            this.chkOnlyShowGold.Name = "chkOnlyShowGold";
-            this.chkOnlyShowGold.Size = new System.Drawing.Size(87, 19);
-            this.chkOnlyShowGold.TabIndex = 2;
-            this.chkOnlyShowGold.Text = "Gold Only";
-            this.chkOnlyShowGold.UseSelectable = true;
+            this.rdoOnlyShowGold.AutoSize = true;
+            this.rdoOnlyShowGold.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowGold.Location = new System.Drawing.Point(385, 14);
+            this.rdoOnlyShowGold.Name = "rdoOnlyShowGold";
+            this.rdoOnlyShowGold.Size = new System.Drawing.Size(87, 19);
+            this.rdoOnlyShowGold.TabIndex = 2;
+            this.rdoOnlyShowGold.Text = "Gold Only";
+            this.rdoOnlyShowGold.UseSelectable = true;
             // 
-            // chkOnlyShowQualify
+            // rdoOnlyShowQualify
             // 
-            this.chkOnlyShowQualify.AutoSize = true;
-            this.chkOnlyShowQualify.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowQualify.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowQualify.Location = new System.Drawing.Point(238, 14);
-            this.chkOnlyShowQualify.Name = "chkOnlyShowQualify";
-            this.chkOnlyShowQualify.Size = new System.Drawing.Size(101, 19);
-            this.chkOnlyShowQualify.TabIndex = 1;
-            this.chkOnlyShowQualify.Text = "Qualify Only";
-            this.chkOnlyShowQualify.UseSelectable = true;
+            this.rdoOnlyShowQualify.AutoSize = true;
+            this.rdoOnlyShowQualify.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowQualify.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowQualify.Location = new System.Drawing.Point(238, 14);
+            this.rdoOnlyShowQualify.Name = "rdoOnlyShowQualify";
+            this.rdoOnlyShowQualify.Size = new System.Drawing.Size(101, 19);
+            this.rdoOnlyShowQualify.TabIndex = 1;
+            this.rdoOnlyShowQualify.Text = "Qualify Only";
+            this.rdoOnlyShowQualify.UseSelectable = true;
             // 
-            // chkCycleQualifyGold
+            // rdoCycleQualifyGold
             // 
-            this.chkCycleQualifyGold.AutoSize = true;
-            this.chkCycleQualifyGold.Checked = true;
-            this.chkCycleQualifyGold.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkCycleQualifyGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkCycleQualifyGold.Location = new System.Drawing.Point(6, 14);
-            this.chkCycleQualifyGold.Name = "chkCycleQualifyGold";
-            this.chkCycleQualifyGold.Size = new System.Drawing.Size(146, 19);
-            this.chkCycleQualifyGold.TabIndex = 0;
-            this.chkCycleQualifyGold.TabStop = true;
-            this.chkCycleQualifyGold.Text = "Cycle Qualify / Gold";
-            this.chkCycleQualifyGold.UseSelectable = true;
+            this.rdoCycleQualifyGold.AutoSize = true;
+            this.rdoCycleQualifyGold.Checked = true;
+            this.rdoCycleQualifyGold.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoCycleQualifyGold.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoCycleQualifyGold.Location = new System.Drawing.Point(6, 14);
+            this.rdoCycleQualifyGold.Name = "rdoCycleQualifyGold";
+            this.rdoCycleQualifyGold.Size = new System.Drawing.Size(146, 19);
+            this.rdoCycleQualifyGold.TabIndex = 0;
+            this.rdoCycleQualifyGold.TabStop = true;
+            this.rdoCycleQualifyGold.Text = "Cycle Qualify / Gold";
+            this.rdoCycleQualifyGold.UseSelectable = true;
             // 
             // grpCycleFastestLongest
             // 
-            this.grpCycleFastestLongest.Controls.Add(this.chkOnlyShowLongest);
-            this.grpCycleFastestLongest.Controls.Add(this.chkOnlyShowFastest);
-            this.grpCycleFastestLongest.Controls.Add(this.chkCycleFastestLongest);
+            this.grpCycleFastestLongest.Controls.Add(this.rdoOnlyShowLongest);
+            this.grpCycleFastestLongest.Controls.Add(this.rdoOnlyShowFastest);
+            this.grpCycleFastestLongest.Controls.Add(this.rdoCycleFastestLongest);
             this.grpCycleFastestLongest.Location = new System.Drawing.Point(21, 225);
             this.grpCycleFastestLongest.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleFastestLongest.Name = "grpCycleFastestLongest";
@@ -345,43 +345,43 @@
             this.grpCycleFastestLongest.TabIndex = 9;
             this.grpCycleFastestLongest.TabStop = false;
             // 
-            // chkOnlyShowLongest
+            // rdoOnlyShowLongest
             // 
-            this.chkOnlyShowLongest.AutoSize = true;
-            this.chkOnlyShowLongest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowLongest.Location = new System.Drawing.Point(385, 14);
-            this.chkOnlyShowLongest.Name = "chkOnlyShowLongest";
-            this.chkOnlyShowLongest.Size = new System.Drawing.Size(107, 19);
-            this.chkOnlyShowLongest.TabIndex = 2;
-            this.chkOnlyShowLongest.Text = "Longest Only";
-            this.chkOnlyShowLongest.UseSelectable = true;
+            this.rdoOnlyShowLongest.AutoSize = true;
+            this.rdoOnlyShowLongest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowLongest.Location = new System.Drawing.Point(385, 14);
+            this.rdoOnlyShowLongest.Name = "rdoOnlyShowLongest";
+            this.rdoOnlyShowLongest.Size = new System.Drawing.Size(107, 19);
+            this.rdoOnlyShowLongest.TabIndex = 2;
+            this.rdoOnlyShowLongest.Text = "Longest Only";
+            this.rdoOnlyShowLongest.UseSelectable = true;
             // 
-            // chkOnlyShowFastest
+            // rdoOnlyShowFastest
             // 
-            this.chkOnlyShowFastest.AutoSize = true;
-            this.chkOnlyShowFastest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowFastest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowFastest.Location = new System.Drawing.Point(238, 14);
-            this.chkOnlyShowFastest.Name = "chkOnlyShowFastest";
-            this.chkOnlyShowFastest.Size = new System.Drawing.Size(101, 19);
-            this.chkOnlyShowFastest.TabIndex = 1;
-            this.chkOnlyShowFastest.Text = "Fastest Only";
-            this.chkOnlyShowFastest.UseSelectable = true;
+            this.rdoOnlyShowFastest.AutoSize = true;
+            this.rdoOnlyShowFastest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowFastest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowFastest.Location = new System.Drawing.Point(238, 14);
+            this.rdoOnlyShowFastest.Name = "rdoOnlyShowFastest";
+            this.rdoOnlyShowFastest.Size = new System.Drawing.Size(101, 19);
+            this.rdoOnlyShowFastest.TabIndex = 1;
+            this.rdoOnlyShowFastest.Text = "Fastest Only";
+            this.rdoOnlyShowFastest.UseSelectable = true;
             // 
-            // chkCycleFastestLongest
+            // rdoCycleFastestLongest
             // 
-            this.chkCycleFastestLongest.AutoSize = true;
-            this.chkCycleFastestLongest.Checked = true;
-            this.chkCycleFastestLongest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkCycleFastestLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkCycleFastestLongest.Location = new System.Drawing.Point(6, 14);
-            this.chkCycleFastestLongest.Name = "chkCycleFastestLongest";
-            this.chkCycleFastestLongest.Size = new System.Drawing.Size(166, 19);
-            this.chkCycleFastestLongest.TabIndex = 0;
-            this.chkCycleFastestLongest.TabStop = true;
-            this.chkCycleFastestLongest.Text = "Cycle Fastest / Longest";
-            this.chkCycleFastestLongest.UseSelectable = true;
+            this.rdoCycleFastestLongest.AutoSize = true;
+            this.rdoCycleFastestLongest.Checked = true;
+            this.rdoCycleFastestLongest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoCycleFastestLongest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoCycleFastestLongest.Location = new System.Drawing.Point(6, 14);
+            this.rdoCycleFastestLongest.Name = "rdoCycleFastestLongest";
+            this.rdoCycleFastestLongest.Size = new System.Drawing.Size(166, 19);
+            this.rdoCycleFastestLongest.TabIndex = 0;
+            this.rdoCycleFastestLongest.TabStop = true;
+            this.rdoCycleFastestLongest.Text = "Cycle Fastest / Longest";
+            this.rdoCycleFastestLongest.UseSelectable = true;
             // 
             // chkHidePercentages
             // 
@@ -394,6 +394,12 @@
             this.chkHidePercentages.TabIndex = 3;
             this.chkHidePercentages.Text = "Hide Percentages";
             this.chkHidePercentages.UseSelectable = true;
+            this.chkHidePercentages.UseCustomForeColor = true;
+            this.chkHidePercentages.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkHidePercentages.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHidePercentages.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkHidePercentages.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHidePercentages.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkHideWinsInfo
             // 
@@ -406,6 +412,12 @@
             this.chkHideWinsInfo.TabIndex = 0;
             this.chkHideWinsInfo.Text = "Hide Wins info";
             this.chkHideWinsInfo.UseSelectable = true;
+            this.chkHideWinsInfo.UseCustomForeColor = true;
+            this.chkHideWinsInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkHideWinsInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideWinsInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkHideWinsInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideWinsInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // lblOverlayBackground
             // 
@@ -474,6 +486,12 @@
             this.chkFlipped.TabIndex = 24;
             this.chkFlipped.Text = "Flip display horizontally";
             this.chkFlipped.UseSelectable = true;
+            this.chkFlipped.UseCustomForeColor = true;
+            this.chkFlipped.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkFlipped.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFlipped.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkFlipped.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFlipped.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkShowTabs
             // 
@@ -486,6 +504,12 @@
             this.chkShowTabs.TabIndex = 4;
             this.chkShowTabs.Text = "Show Tab for current filter / profile";
             this.chkShowTabs.UseSelectable = true;
+            this.chkShowTabs.UseCustomForeColor = true;
+            this.chkShowTabs.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkShowTabs.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkShowTabs.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkShowTabs.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkShowTabs.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkHideTimeInfo
             // 
@@ -498,6 +522,12 @@
             this.chkHideTimeInfo.TabIndex = 2;
             this.chkHideTimeInfo.Text = "Hide Time info";
             this.chkHideTimeInfo.UseSelectable = true;
+            this.chkHideTimeInfo.UseCustomForeColor = true;
+            this.chkHideTimeInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkHideTimeInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideTimeInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkHideTimeInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideTimeInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkHideRoundInfo
             // 
@@ -510,6 +540,12 @@
             this.chkHideRoundInfo.TabIndex = 1;
             this.chkHideRoundInfo.Text = "Hide Round info";
             this.chkHideRoundInfo.UseSelectable = true;
+            this.chkHideRoundInfo.UseCustomForeColor = true;
+            this.chkHideRoundInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkHideRoundInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideRoundInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkHideRoundInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkHideRoundInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // cboFastestFilter
             // 
@@ -588,6 +624,12 @@
             this.chkOverlayOnTop.TabIndex = 25;
             this.chkOverlayOnTop.Text = "Always show on top";
             this.chkOverlayOnTop.UseSelectable = true;
+            this.chkOverlayOnTop.UseCustomForeColor = true;
+            this.chkOverlayOnTop.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkOverlayOnTop.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkOverlayOnTop.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkOverlayOnTop.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkOverlayOnTop.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkPlayerByConsoleType
             // 
@@ -600,6 +642,12 @@
             this.chkPlayerByConsoleType.TabIndex = 26;
             this.chkPlayerByConsoleType.Text = "Display the Player by console type";
             this.chkPlayerByConsoleType.UseSelectable = true;
+            this.chkPlayerByConsoleType.UseCustomForeColor = true;
+            this.chkPlayerByConsoleType.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkPlayerByConsoleType.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkPlayerByConsoleType.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkPlayerByConsoleType.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkPlayerByConsoleType.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkColorByRoundType
             // 
@@ -612,6 +660,12 @@
             this.chkColorByRoundType.TabIndex = 25;
             this.chkColorByRoundType.Text = "Color round name based on round type";
             this.chkColorByRoundType.UseSelectable = true;
+            this.chkColorByRoundType.UseCustomForeColor = true;
+            this.chkColorByRoundType.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkColorByRoundType.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkColorByRoundType.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkColorByRoundType.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkColorByRoundType.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkAutoChangeProfile
             // 
@@ -624,6 +678,12 @@
             this.chkAutoChangeProfile.TabIndex = 26;
             this.chkAutoChangeProfile.Text = "Automatically change to linked profile";
             this.chkAutoChangeProfile.UseSelectable = true;
+            this.chkAutoChangeProfile.UseCustomForeColor = true;
+            this.chkAutoChangeProfile.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkAutoChangeProfile.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkAutoChangeProfile.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkAutoChangeProfile.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkAutoChangeProfile.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkShadeTheFlagImage
             // 
@@ -636,6 +696,12 @@
             this.chkShadeTheFlagImage.TabIndex = 27;
             this.chkShadeTheFlagImage.Text = "Shade the flag image";
             this.chkShadeTheFlagImage.UseSelectable = true;
+            this.chkShadeTheFlagImage.UseCustomForeColor = true;
+            this.chkShadeTheFlagImage.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkShadeTheFlagImage.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkShadeTheFlagImage.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkShadeTheFlagImage.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkShadeTheFlagImage.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkDisplayCurrentTime
             // 
@@ -648,6 +714,12 @@
             this.chkDisplayCurrentTime.TabIndex = 28;
             this.chkDisplayCurrentTime.Text = "Display the current time while waiting";
             this.chkDisplayCurrentTime.UseSelectable = true;
+            this.chkDisplayCurrentTime.UseCustomForeColor = true;
+            this.chkDisplayCurrentTime.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkDisplayCurrentTime.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkDisplayCurrentTime.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkDisplayCurrentTime.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkDisplayCurrentTime.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkDisplayGamePlayedInfo
             // 
@@ -660,6 +732,12 @@
             this.chkDisplayGamePlayedInfo.TabIndex = 29;
             this.chkDisplayGamePlayedInfo.Text = "Display game played information at the end of a round";
             this.chkDisplayGamePlayedInfo.UseSelectable = true;
+            this.chkDisplayGamePlayedInfo.UseCustomForeColor = true;
+            this.chkDisplayGamePlayedInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkDisplayGamePlayedInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkDisplayGamePlayedInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkDisplayGamePlayedInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkDisplayGamePlayedInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // lblCycleTimeSecondsTag
             // 
@@ -714,9 +792,9 @@
             // 
             // grpCycleWinFinalStreak
             // 
-            this.grpCycleWinFinalStreak.Controls.Add(this.chkOnlyShowFinalStreak);
-            this.grpCycleWinFinalStreak.Controls.Add(this.chkOnlyShowWinStreak);
-            this.grpCycleWinFinalStreak.Controls.Add(this.chkCycleWinFinalStreak);
+            this.grpCycleWinFinalStreak.Controls.Add(this.rdoOnlyShowFinalStreak);
+            this.grpCycleWinFinalStreak.Controls.Add(this.rdoOnlyShowWinStreak);
+            this.grpCycleWinFinalStreak.Controls.Add(this.rdoCycleWinFinalStreak);
             this.grpCycleWinFinalStreak.Location = new System.Drawing.Point(21, 255);
             this.grpCycleWinFinalStreak.Margin = new System.Windows.Forms.Padding(0);
             this.grpCycleWinFinalStreak.Name = "grpCycleWinFinalStreak";
@@ -725,49 +803,49 @@
             this.grpCycleWinFinalStreak.TabIndex = 10;
             this.grpCycleWinFinalStreak.TabStop = false;
             // 
-            // chkOnlyShowFinalStreak
+            // rdoOnlyShowFinalStreak
             // 
-            this.chkOnlyShowFinalStreak.AutoSize = true;
-            this.chkOnlyShowFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowFinalStreak.Location = new System.Drawing.Point(385, 14);
-            this.chkOnlyShowFinalStreak.Name = "chkOnlyShowFinalStreak";
-            this.chkOnlyShowFinalStreak.Size = new System.Drawing.Size(128, 19);
-            this.chkOnlyShowFinalStreak.TabIndex = 2;
-            this.chkOnlyShowFinalStreak.Text = "Final Streak Only";
-            this.chkOnlyShowFinalStreak.UseSelectable = true;
+            this.rdoOnlyShowFinalStreak.AutoSize = true;
+            this.rdoOnlyShowFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowFinalStreak.Location = new System.Drawing.Point(385, 14);
+            this.rdoOnlyShowFinalStreak.Name = "rdoOnlyShowFinalStreak";
+            this.rdoOnlyShowFinalStreak.Size = new System.Drawing.Size(128, 19);
+            this.rdoOnlyShowFinalStreak.TabIndex = 2;
+            this.rdoOnlyShowFinalStreak.Text = "Final Streak Only";
+            this.rdoOnlyShowFinalStreak.UseSelectable = true;
             // 
-            // chkOnlyShowWinStreak
+            // rdoOnlyShowWinStreak
             // 
-            this.chkOnlyShowWinStreak.AutoSize = true;
-            this.chkOnlyShowWinStreak.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowWinStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowWinStreak.Location = new System.Drawing.Point(238, 14);
-            this.chkOnlyShowWinStreak.Name = "chkOnlyShowWinStreak";
-            this.chkOnlyShowWinStreak.Size = new System.Drawing.Size(124, 19);
-            this.chkOnlyShowWinStreak.TabIndex = 1;
-            this.chkOnlyShowWinStreak.Text = "Win Streak Only";
-            this.chkOnlyShowWinStreak.UseSelectable = true;
+            this.rdoOnlyShowWinStreak.AutoSize = true;
+            this.rdoOnlyShowWinStreak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowWinStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowWinStreak.Location = new System.Drawing.Point(238, 14);
+            this.rdoOnlyShowWinStreak.Name = "rdoOnlyShowWinStreak";
+            this.rdoOnlyShowWinStreak.Size = new System.Drawing.Size(124, 19);
+            this.rdoOnlyShowWinStreak.TabIndex = 1;
+            this.rdoOnlyShowWinStreak.Text = "Win Streak Only";
+            this.rdoOnlyShowWinStreak.UseSelectable = true;
             // 
-            // chkCycleWinFinalStreak
+            // rdoCycleWinFinalStreak
             // 
-            this.chkCycleWinFinalStreak.AutoSize = true;
-            this.chkCycleWinFinalStreak.Checked = true;
-            this.chkCycleWinFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkCycleWinFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkCycleWinFinalStreak.Location = new System.Drawing.Point(6, 14);
-            this.chkCycleWinFinalStreak.Name = "chkCycleWinFinalStreak";
-            this.chkCycleWinFinalStreak.Size = new System.Drawing.Size(168, 19);
-            this.chkCycleWinFinalStreak.TabIndex = 0;
-            this.chkCycleWinFinalStreak.TabStop = true;
-            this.chkCycleWinFinalStreak.Text = "Cycle Win / Final Streak";
-            this.chkCycleWinFinalStreak.UseSelectable = true;
+            this.rdoCycleWinFinalStreak.AutoSize = true;
+            this.rdoCycleWinFinalStreak.Checked = true;
+            this.rdoCycleWinFinalStreak.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoCycleWinFinalStreak.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoCycleWinFinalStreak.Location = new System.Drawing.Point(6, 14);
+            this.rdoCycleWinFinalStreak.Name = "rdoCycleWinFinalStreak";
+            this.rdoCycleWinFinalStreak.Size = new System.Drawing.Size(168, 19);
+            this.rdoCycleWinFinalStreak.TabIndex = 0;
+            this.rdoCycleWinFinalStreak.TabStop = true;
+            this.rdoCycleWinFinalStreak.Text = "Cycle Win / Final Streak";
+            this.rdoCycleWinFinalStreak.UseSelectable = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.chkOnlyShowPing);
-            this.groupBox1.Controls.Add(this.chkOnlyShowPlayers);
-            this.groupBox1.Controls.Add(this.chkCyclePlayersPing);
+            this.groupBox1.Controls.Add(this.rdoOnlyShowPing);
+            this.groupBox1.Controls.Add(this.rdoOnlyShowPlayers);
+            this.groupBox1.Controls.Add(this.rdoCyclePlayersPing);
             this.groupBox1.Location = new System.Drawing.Point(21, 285);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox1.Name = "groupBox1";
@@ -776,43 +854,43 @@
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             // 
-            // chkOnlyShowPing
+            // rdoOnlyShowPing
             // 
-            this.chkOnlyShowPing.AutoSize = true;
-            this.chkOnlyShowPing.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowPing.Location = new System.Drawing.Point(385, 14);
-            this.chkOnlyShowPing.Name = "chkOnlyShowPing";
-            this.chkOnlyShowPing.Size = new System.Drawing.Size(85, 19);
-            this.chkOnlyShowPing.TabIndex = 2;
-            this.chkOnlyShowPing.Text = "Ping Only";
-            this.chkOnlyShowPing.UseSelectable = true;
+            this.rdoOnlyShowPing.AutoSize = true;
+            this.rdoOnlyShowPing.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowPing.Location = new System.Drawing.Point(385, 14);
+            this.rdoOnlyShowPing.Name = "rdoOnlyShowPing";
+            this.rdoOnlyShowPing.Size = new System.Drawing.Size(85, 19);
+            this.rdoOnlyShowPing.TabIndex = 2;
+            this.rdoOnlyShowPing.Text = "Ping Only";
+            this.rdoOnlyShowPing.UseSelectable = true;
             // 
-            // chkOnlyShowPlayers
+            // rdoOnlyShowPlayers
             // 
-            this.chkOnlyShowPlayers.AutoSize = true;
-            this.chkOnlyShowPlayers.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkOnlyShowPlayers.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkOnlyShowPlayers.Location = new System.Drawing.Point(238, 14);
-            this.chkOnlyShowPlayers.Name = "chkOnlyShowPlayers";
-            this.chkOnlyShowPlayers.Size = new System.Drawing.Size(101, 19);
-            this.chkOnlyShowPlayers.TabIndex = 1;
-            this.chkOnlyShowPlayers.Text = "Players Only";
-            this.chkOnlyShowPlayers.UseSelectable = true;
+            this.rdoOnlyShowPlayers.AutoSize = true;
+            this.rdoOnlyShowPlayers.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoOnlyShowPlayers.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoOnlyShowPlayers.Location = new System.Drawing.Point(238, 14);
+            this.rdoOnlyShowPlayers.Name = "rdoOnlyShowPlayers";
+            this.rdoOnlyShowPlayers.Size = new System.Drawing.Size(101, 19);
+            this.rdoOnlyShowPlayers.TabIndex = 1;
+            this.rdoOnlyShowPlayers.Text = "Players Only";
+            this.rdoOnlyShowPlayers.UseSelectable = true;
             // 
-            // chkCyclePlayersPing
+            // rdoCyclePlayersPing
             // 
-            this.chkCyclePlayersPing.AutoSize = true;
-            this.chkCyclePlayersPing.Checked = true;
-            this.chkCyclePlayersPing.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkCyclePlayersPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkCyclePlayersPing.Location = new System.Drawing.Point(6, 14);
-            this.chkCyclePlayersPing.Name = "chkCyclePlayersPing";
-            this.chkCyclePlayersPing.Size = new System.Drawing.Size(144, 19);
-            this.chkCyclePlayersPing.TabIndex = 0;
-            this.chkCyclePlayersPing.TabStop = true;
-            this.chkCyclePlayersPing.Text = "Cycle Players / Ping";
-            this.chkCyclePlayersPing.UseSelectable = true;
+            this.rdoCyclePlayersPing.AutoSize = true;
+            this.rdoCyclePlayersPing.Checked = true;
+            this.rdoCyclePlayersPing.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rdoCyclePlayersPing.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.rdoCyclePlayersPing.Location = new System.Drawing.Point(6, 14);
+            this.rdoCyclePlayersPing.Name = "rdoCyclePlayersPing";
+            this.rdoCyclePlayersPing.Size = new System.Drawing.Size(144, 19);
+            this.rdoCyclePlayersPing.TabIndex = 0;
+            this.rdoCyclePlayersPing.TabStop = true;
+            this.rdoCyclePlayersPing.Text = "Cycle Players / Ping";
+            this.rdoCyclePlayersPing.UseSelectable = true;
             // 
             // grpLaunchPlatform
             // 
@@ -912,6 +990,12 @@
             this.chkChangeHoopsieLegends.TabIndex = 4;
             this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heroes";
             this.chkChangeHoopsieLegends.UseSelectable = true;
+            this.chkChangeHoopsieLegends.UseCustomForeColor = true;
+            this.chkChangeHoopsieLegends.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkChangeHoopsieLegends.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkChangeHoopsieLegends.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkChangeHoopsieLegends.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkChangeHoopsieLegends.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // cboTheme
             // 
@@ -938,6 +1022,12 @@
             this.chkAutoUpdate.TabIndex = 4;
             this.chkAutoUpdate.Text = "Auto Update Program";
             this.chkAutoUpdate.UseSelectable = true;
+            this.chkAutoUpdate.UseCustomForeColor = true;
+            this.chkAutoUpdate.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkAutoUpdate.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkAutoUpdate.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkAutoUpdate.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkAutoUpdate.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkSystemTrayIcon
             // 
@@ -950,6 +1040,12 @@
             this.chkSystemTrayIcon.TabIndex = 5;
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
             this.chkSystemTrayIcon.UseSelectable = true;
+            this.chkSystemTrayIcon.UseCustomForeColor = true;
+            this.chkSystemTrayIcon.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkSystemTrayIcon.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkSystemTrayIcon.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkSystemTrayIcon.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkSystemTrayIcon.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkRecordEscapeDuringAGame
             // 
@@ -963,6 +1059,12 @@
             this.chkRecordEscapeDuringAGame.TabIndex = 5;
             this.chkRecordEscapeDuringAGame.Text = "If you escape during a game, record it as a loss";
             this.chkRecordEscapeDuringAGame.UseSelectable = true;
+            this.chkRecordEscapeDuringAGame.UseCustomForeColor = true;
+            this.chkRecordEscapeDuringAGame.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkRecordEscapeDuringAGame.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkRecordEscapeDuringAGame.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkRecordEscapeDuringAGame.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkRecordEscapeDuringAGame.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkNotifyPersonalBest
             // 
@@ -975,7 +1077,13 @@
             this.chkNotifyPersonalBest.TabIndex = 5;
             this.chkNotifyPersonalBest.Text = "Windows notification when you break your personal best during a race round";
             this.chkNotifyPersonalBest.UseSelectable = true;
-            this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            this.chkNotifyPersonalBest.UseCustomForeColor = true;
+            // this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkNotifyPersonalBest.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyPersonalBest.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkNotifyPersonalBest.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyPersonalBest.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkNotifyServerConnected
             // 
@@ -988,7 +1096,13 @@
             this.chkNotifyServerConnected.TabIndex = 5;
             this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
             this.chkNotifyServerConnected.UseSelectable = true;
-            this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            this.chkNotifyServerConnected.UseCustomForeColor = true;
+            // this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkNotifyServerConnected.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyServerConnected.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkNotifyServerConnected.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyServerConnected.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkMuteNotificationSounds
             // 
@@ -1001,6 +1115,12 @@
             this.chkMuteNotificationSounds.TabIndex = 5;
             this.chkMuteNotificationSounds.Text = "Mute notification sounds";
             this.chkMuteNotificationSounds.UseSelectable = true;
+            this.chkMuteNotificationSounds.UseCustomForeColor = true;
+            this.chkMuteNotificationSounds.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkMuteNotificationSounds.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkMuteNotificationSounds.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkMuteNotificationSounds.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkMuteNotificationSounds.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // cboNotificationSounds
             // 
@@ -1041,19 +1161,23 @@
             this.cboNotificationWindowAnimation.TabIndex = 1;
             this.cboNotificationWindowAnimation.UseSelectable = true;
             // 
-            // btnPlayNotificationSounds
+            // mlPlayNotificationSounds
             // 
-            this.btnPlayNotificationSounds.AutoSize = true;
-            this.btnPlayNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPlayNotificationSounds.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnPlayNotificationSounds.FontWeight = MetroFramework.MetroButtonWeight.Bold;
-            this.btnPlayNotificationSounds.Location = new System.Drawing.Point(300, 300);
-            this.btnPlayNotificationSounds.Name = "btnPlayNotificationSounds";
-            this.btnPlayNotificationSounds.Size = new System.Drawing.Size(29, 29);
-            this.btnPlayNotificationSounds.TabIndex = 3;
-            this.btnPlayNotificationSounds.Text = " ▶";
-            this.btnPlayNotificationSounds.UseSelectable = true;
-            this.btnPlayNotificationSounds.Click += new System.EventHandler(this.btnPlayNotificationSounds_Click);
+            this.mlPlayNotificationSounds.AutoSize = true;
+            this.mlPlayNotificationSounds.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlPlayNotificationSounds.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlPlayNotificationSounds.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
+            this.mlPlayNotificationSounds.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlPlayNotificationSounds.ImageSize = 29;
+            this.mlPlayNotificationSounds.Location = new System.Drawing.Point(300, 299);
+            this.mlPlayNotificationSounds.Name = "mlPlayNotificationSounds";
+            this.mlPlayNotificationSounds.Size = new System.Drawing.Size(29, 30);
+            this.mlPlayNotificationSounds.TabIndex = 3;
+            this.mlPlayNotificationSounds.Text = "";
+            this.mlPlayNotificationSounds.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlPlayNotificationSounds.UseSelectable = true;
+            this.mlPlayNotificationSounds.UseStyleColors = true;
+            this.mlPlayNotificationSounds.Click += new System.EventHandler(this.mlPlayNotificationSounds_Click);
             // 
             // chkPreventOverlayMouseClicks
             // 
@@ -1066,6 +1190,12 @@
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
             this.chkPreventOverlayMouseClicks.Text = "Prevent overlay mouse clicks";
             this.chkPreventOverlayMouseClicks.UseSelectable = true;
+            this.chkPreventOverlayMouseClicks.UseCustomForeColor = true;
+            this.chkPreventOverlayMouseClicks.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkPreventOverlayMouseClicks.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkPreventOverlayMouseClicks.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkPreventOverlayMouseClicks.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkPreventOverlayMouseClicks.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // lblPreviousWinsNote
             // 
@@ -1214,6 +1344,12 @@
             this.chkLaunchGameOnStart.TabIndex = 3;
             this.chkLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker";
             this.chkLaunchGameOnStart.UseSelectable = true;
+            this.chkLaunchGameOnStart.UseCustomForeColor = true;
+            this.chkLaunchGameOnStart.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkLaunchGameOnStart.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkLaunchGameOnStart.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkLaunchGameOnStart.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkLaunchGameOnStart.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkIgnoreLevelTypeWhenSorting
             // 
@@ -1227,6 +1363,12 @@
             this.chkIgnoreLevelTypeWhenSorting.TabIndex = 0;
             this.chkIgnoreLevelTypeWhenSorting.Text = "Ignore Level Type when sorting";
             this.chkIgnoreLevelTypeWhenSorting.UseSelectable = true;
+            this.chkIgnoreLevelTypeWhenSorting.UseCustomForeColor = true;
+            this.chkIgnoreLevelTypeWhenSorting.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkIgnoreLevelTypeWhenSorting.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkIgnoreLevelTypeWhenSorting.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkIgnoreLevelTypeWhenSorting.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkIgnoreLevelTypeWhenSorting.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkGroupingCreativeRoundLevels
             // 
@@ -1240,6 +1382,12 @@
             this.chkGroupingCreativeRoundLevels.TabIndex = 1;
             this.chkGroupingCreativeRoundLevels.Text = "Grouping creative round levels into one category";
             this.chkGroupingCreativeRoundLevels.UseSelectable = true;
+            this.chkGroupingCreativeRoundLevels.UseCustomForeColor = true;
+            this.chkGroupingCreativeRoundLevels.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkGroupingCreativeRoundLevels.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkGroupingCreativeRoundLevels.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkGroupingCreativeRoundLevels.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkGroupingCreativeRoundLevels.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // btnCancel
             // 
@@ -1289,7 +1437,7 @@
             this.panelProgram.Controls.Add(this.cboNotificationSounds);
             this.panelProgram.Controls.Add(this.cboNotificationWindowPosition);
             this.panelProgram.Controls.Add(this.cboNotificationWindowAnimation);
-            this.panelProgram.Controls.Add(this.btnPlayNotificationSounds);
+            this.panelProgram.Controls.Add(this.mlPlayNotificationSounds);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
             this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
@@ -1735,6 +1883,12 @@
             this.chkFallalyticsAnonymous.TabIndex = 3;
             this.chkFallalyticsAnonymous.Text = "Send anonymously";
             this.chkFallalyticsAnonymous.UseSelectable = true;
+            this.chkFallalyticsAnonymous.UseCustomForeColor = true;
+            this.chkFallalyticsAnonymous.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkFallalyticsAnonymous.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsAnonymous.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkFallalyticsAnonymous.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsAnonymous.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkFallalyticsReporting
             // 
@@ -1747,7 +1901,13 @@
             this.chkFallalyticsReporting.TabIndex = 2;
             this.chkFallalyticsReporting.Text = "Sends rounds played information to Fallalytics";
             this.chkFallalyticsReporting.UseSelectable = true;
-            this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.chkFallalyticsReporting_CheckedChanged);
+            this.chkFallalyticsReporting.UseCustomForeColor = true;
+            // this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.chkFallalyticsReporting_CheckedChanged);
+            this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkFallalyticsReporting.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsReporting.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkFallalyticsReporting.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsReporting.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // tileFallalytics
             // 
@@ -1863,7 +2023,7 @@
         private MetroFramework.Controls.MetroComboBox cboNotificationSounds;
         private MetroFramework.Controls.MetroComboBox cboNotificationWindowPosition;
         private MetroFramework.Controls.MetroComboBox cboNotificationWindowAnimation;
-        private MetroFramework.Controls.MetroButton btnPlayNotificationSounds;
+        private MetroFramework.Controls.MetroLink mlPlayNotificationSounds;
         private MetroFramework.Controls.MetroCheckBox chkPreventOverlayMouseClicks;
         private FallGuysStats.ImageComboBox cboOverlayBackground;
         private MetroFramework.Controls.MetroLabel lblOverlayBackground;
@@ -1886,21 +2046,21 @@
         private MetroFramework.Controls.MetroCheckBox chkRecordEscapeDuringAGame;
         private MetroFramework.Controls.MetroButton btnCancel;
         private System.Windows.Forms.GroupBox grpCycleQualifyGold;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowGold;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowQualify;
-        private MetroFramework.Controls.MetroRadioButton chkCycleQualifyGold;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowGold;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowQualify;
+        private MetroFramework.Controls.MetroRadioButton rdoCycleQualifyGold;
         private System.Windows.Forms.GroupBox grpCycleFastestLongest;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowLongest;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowFastest;
-        private MetroFramework.Controls.MetroRadioButton chkCycleFastestLongest;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowLongest;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowFastest;
+        private MetroFramework.Controls.MetroRadioButton rdoCycleFastestLongest;
         private System.Windows.Forms.GroupBox grpCycleWinFinalStreak;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowFinalStreak;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowWinStreak;
-        private MetroFramework.Controls.MetroRadioButton chkCycleWinFinalStreak;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowFinalStreak;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowWinStreak;
+        private MetroFramework.Controls.MetroRadioButton rdoCycleWinFinalStreak;
         private System.Windows.Forms.GroupBox groupBox1;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowPing;
-        private MetroFramework.Controls.MetroRadioButton chkOnlyShowPlayers;
-        private MetroFramework.Controls.MetroRadioButton chkCyclePlayersPing;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowPing;
+        private MetroFramework.Controls.MetroRadioButton rdoOnlyShowPlayers;
+        private MetroFramework.Controls.MetroRadioButton rdoCyclePlayersPing;
         private MetroFramework.Controls.MetroLabel lblOverlayFont;
         private MetroFramework.Controls.MetroButton btnSelectFont;
         private System.Windows.Forms.FontDialog dlgOverlayFont;

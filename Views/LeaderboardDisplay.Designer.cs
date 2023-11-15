@@ -91,13 +91,11 @@
             this.lblPagingInfo.AutoSize = true;
             this.lblPagingInfo.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblPagingInfo.ForeColor = System.Drawing.Color.Teal;
             this.lblPagingInfo.Location = new System.Drawing.Point(635, 61);
             this.lblPagingInfo.Name = "lblPagingInfo";
             this.lblPagingInfo.Size = new System.Drawing.Size(139, 25);
             this.lblPagingInfo.TabIndex = 3;
             this.lblPagingInfo.Text = "1 - 50";
-            this.lblPagingInfo.UseCustomForeColor = true;
             this.lblPagingInfo.Visible = false;
             // 
             // mlLeftPagingButton
