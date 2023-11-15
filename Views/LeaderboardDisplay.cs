@@ -56,6 +56,7 @@ namespace FallGuysStats {
             this.mlRightPagingButton.Theme = theme;
             
             this.lblSearchDescription.Theme = theme;
+            this.lblSearchDescription.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
             this.lblSearchDescription.Text = $"{Multilingual.GetWord("leaderboard_choose_a_round")}";
             this.lblSearchDescription.Location = new Point((this.ClientSize.Width - this.lblSearchDescription.Width) / 2, (this.ClientSize.Height - this.lblSearchDescription.Height) / 2 + 20);
             this.mpsSpinner.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);

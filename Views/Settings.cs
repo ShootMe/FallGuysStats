@@ -300,7 +300,9 @@ namespace FallGuysStats {
                             mb2.Theme = theme;
                         } else if (c2 is MetroCheckBox mcb2) {
                             mcb2.Theme = theme;
-                            if (mcb2.UseCustomForeColor && !mcb2.Checked) {
+                            if (mcb2.UseCustomForeColor && mcb2.Checked) {
+                                mcb2.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
+                            } else {
                                 mcb2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             }
                         } else if (c2 is MetroRadioButton mrb2) {
@@ -377,7 +379,7 @@ namespace FallGuysStats {
         // }
         
         private void CheckBox_CheckedChanged(object sender, EventArgs e) {
-            ((MetroCheckBox)sender).ForeColor = ((MetroCheckBox)sender).Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
+            ((MetroCheckBox)sender).ForeColor = ((MetroCheckBox)sender).Checked ? (this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : Color.DimGray;
 
             if (sender.Equals(this.chkNotifyPersonalBest) || sender.Equals(this.chkNotifyServerConnected)) {
                 this.chkMuteNotificationSounds.Enabled = this.chkNotifyPersonalBest.Checked || this.chkNotifyServerConnected.Checked;
@@ -389,9 +391,10 @@ namespace FallGuysStats {
                     this.chkMuteNotificationSounds.Checked = false;
                 }
             } else if (sender.Equals(this.chkFallalyticsReporting)) {
-                this.chkFallalyticsAnonymous.Enabled = ((MetroCheckBox)sender).Checked;
-                if (!((MetroCheckBox)sender).Checked) {
-                    this.chkFallalyticsAnonymous.Checked = ((MetroCheckBox)sender).Checked;
+                this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked;
+                this.txtFallalyticsAPIKey.Enabled = this.chkFallalyticsReporting.Checked;
+                if (!this.chkFallalyticsReporting.Checked) {
+                    this.chkFallalyticsAnonymous.Checked = this.chkFallalyticsReporting.Checked;
                 }
             }
         }

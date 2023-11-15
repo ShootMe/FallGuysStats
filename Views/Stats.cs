@@ -841,8 +841,12 @@ namespace FallGuysStats {
                 } else if (c1 is Label lbl1) {
                     if (lbl1.Name.Equals("lblCreativeLevel") || lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
                         lbl1.Font = Overlay.GetMainFont(13f);
-                        lbl1.ForeColor = Color.DimGray;
-                    }
+                        if (lbl1.Name.Equals("lblCreativeLevel")) {
+                            lbl1.ForeColor = this.mtgCreativeLevel.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
+                        } else if (lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
+                            lbl1.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
+                        }
+                    } 
                 }
             }
 
@@ -4016,6 +4020,22 @@ namespace FallGuysStats {
             this.mtt.Hide(window);
         }
         
+        private void Toggle_MouseEnter(object sender, EventArgs e) {
+            if (sender.Equals(this.mtgCreativeLevel) || sender.Equals(this.lblCreativeLevel)) {
+                if (!this.mtgCreativeLevel.Checked) this.lblCreativeLevel.ForeColor = Color.DimGray;
+            } else if (sender.Equals(this.mtgIgnoreLevelTypeWhenSorting) || sender.Equals(this.lblIgnoreLevelTypeWhenSorting)) {
+                if (!this.mtgIgnoreLevelTypeWhenSorting.Checked) this.lblIgnoreLevelTypeWhenSorting.ForeColor = Color.DimGray;
+            }
+        }
+        
+        private void Toggle_MouseLeave(object sender, EventArgs e) {
+            if (sender.Equals(this.mtgCreativeLevel) || sender.Equals(this.lblCreativeLevel)) {
+                if (!this.mtgCreativeLevel.Checked) this.lblCreativeLevel.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            } else if (sender.Equals(this.mtgIgnoreLevelTypeWhenSorting) || sender.Equals(this.lblIgnoreLevelTypeWhenSorting)) {
+                if (!this.mtgIgnoreLevelTypeWhenSorting.Checked) this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            }
+        }
+        
         private void lblCreativeLevel_Click(object sender, EventArgs e) {
             this.mtgCreativeLevel.Checked = !this.mtgCreativeLevel.Checked;
         }
@@ -4023,7 +4043,7 @@ namespace FallGuysStats {
         private void mtgCreativeLevel_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
             // this.VisibleGridRowOfCreativeLevel(mtgChecked);
-            this.lblCreativeLevel.ForeColor = mtgChecked ? Color.FromArgb(0, 174, 219) : Color.DimGray;
+            this.lblCreativeLevel.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : Color.DimGray;
             this.CurrentSettings.GroupingCreativeRoundLevels = mtgChecked;
             this.SaveUserSettings();
             this.gridDetails.DataSource = null;
@@ -4036,6 +4056,7 @@ namespace FallGuysStats {
         
         private void mtgIgnoreLevelTypeWhenSorting_CheckedChanged(object sender, EventArgs e) {
             bool mtgChecked = ((MetroToggle)sender).Checked; 
+            this.lblIgnoreLevelTypeWhenSorting.ForeColor = mtgChecked ? (this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : Color.DimGray;
             this.CurrentSettings.IgnoreLevelTypeWhenSorting = mtgChecked;
             this.SortGridDetails(true);
             this.SaveUserSettings();
@@ -4411,9 +4432,9 @@ namespace FallGuysStats {
             // this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
             // this.gridDetails.Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
-            this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
+            // this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : Color.DimGray;
+            // this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
 
         private List<LevelStats> GetFilteredDataSource(bool isFilter) {

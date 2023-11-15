@@ -144,6 +144,8 @@
             this.mtgCreativeLevel.Text = "Off";
             this.mtgCreativeLevel.UseSelectable = true;
             this.mtgCreativeLevel.CheckedChanged += new System.EventHandler(this.mtgCreativeLevel_CheckedChanged);
+            this.mtgCreativeLevel.MouseEnter += new System.EventHandler(this.Toggle_MouseEnter);
+            this.mtgCreativeLevel.MouseLeave += new System.EventHandler(this.Toggle_MouseLeave);
             // 
             // lblCreativeLevel
             // 
@@ -154,6 +156,8 @@
             this.lblCreativeLevel.Size = new System.Drawing.Size(0, 12);
             this.lblCreativeLevel.TabIndex = 6;
             this.lblCreativeLevel.Click += new System.EventHandler(this.lblCreativeLevel_Click);
+            this.lblCreativeLevel.MouseEnter += new System.EventHandler(this.Toggle_MouseEnter);
+            this.lblCreativeLevel.MouseLeave += new System.EventHandler(this.Toggle_MouseLeave);
             // 
             // mtgIgnoreLevelTypeWhenSorting
             // 
@@ -166,6 +170,8 @@
             this.mtgIgnoreLevelTypeWhenSorting.Text = "Off";
             this.mtgIgnoreLevelTypeWhenSorting.UseSelectable = true;
             this.mtgIgnoreLevelTypeWhenSorting.CheckedChanged += new System.EventHandler(this.mtgIgnoreLevelTypeWhenSorting_CheckedChanged);
+            this.mtgIgnoreLevelTypeWhenSorting.MouseEnter += new System.EventHandler(this.Toggle_MouseEnter);
+            this.mtgIgnoreLevelTypeWhenSorting.MouseLeave += new System.EventHandler(this.Toggle_MouseLeave);
             // 
             // lblIgnoreLevelTypeWhenSorting
             // 
@@ -176,6 +182,8 @@
             this.lblIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(0, 12);
             this.lblIgnoreLevelTypeWhenSorting.TabIndex = 6;
             this.lblIgnoreLevelTypeWhenSorting.Click += new System.EventHandler(this.lblIgnoreLevelTypeWhenSorting_Click);
+            this.lblIgnoreLevelTypeWhenSorting.MouseEnter += new System.EventHandler(this.Toggle_MouseEnter);
+            this.lblIgnoreLevelTypeWhenSorting.MouseLeave += new System.EventHandler(this.Toggle_MouseLeave);
             // 
             // mlLeaderboard
             // 
