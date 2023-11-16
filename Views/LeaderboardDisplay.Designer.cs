@@ -33,6 +33,8 @@
             this.lblTotalPlayers = new MetroFramework.Controls.MetroLabel();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
+            this.mlFirstPagingButton = new MetroFramework.Controls.MetroLink();
+            this.mlLastPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
@@ -97,6 +99,44 @@
             this.lblPagingInfo.TabIndex = 3;
             this.lblPagingInfo.Text = "1 - 50";
             this.lblPagingInfo.Visible = false;
+            // 
+            // mlFirstPagingButton
+            // 
+            this.mlFirstPagingButton.AutoSize = true;
+            this.mlFirstPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlFirstPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlFirstPagingButton.Image = global::FallGuysStats.Properties.Resources.first_button_icon;
+            this.mlFirstPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlFirstPagingButton.ImageSize = 19;
+            this.mlFirstPagingButton.Location = new System.Drawing.Point(579, 64);
+            this.mlFirstPagingButton.Name = "mlFirstPagingButton";
+            this.mlFirstPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlFirstPagingButton.TabIndex = 7;
+            this.mlFirstPagingButton.Text = "";
+            this.mlFirstPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlFirstPagingButton.UseSelectable = true;
+            this.mlFirstPagingButton.UseStyleColors = true;
+            this.mlFirstPagingButton.Visible = false;
+            this.mlFirstPagingButton.Click += new System.EventHandler(this.link_Click);
+            // 
+            // mlLastPagingButton
+            // 
+            this.mlLastPagingButton.AutoSize = true;
+            this.mlLastPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlLastPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlLastPagingButton.Image = global::FallGuysStats.Properties.Resources.last_button_icon;
+            this.mlLastPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlLastPagingButton.ImageSize = 19;
+            this.mlLastPagingButton.Location = new System.Drawing.Point(721, 64);
+            this.mlLastPagingButton.Name = "mlLastPagingButton";
+            this.mlLastPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlLastPagingButton.TabIndex = 7;
+            this.mlLastPagingButton.Text = "";
+            this.mlLastPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.mlLastPagingButton.UseSelectable = true;
+            this.mlLastPagingButton.UseStyleColors = true;
+            this.mlLastPagingButton.Visible = false;
+            this.mlLastPagingButton.Click += new System.EventHandler(this.link_Click);
             // 
             // mlLeftPagingButton
             // 
@@ -214,7 +254,7 @@
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDetails.Size = new System.Drawing.Size(1179, 696);
+            this.gridDetails.Size = new System.Drawing.Size(1189, 696);
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
@@ -226,11 +266,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1200, 809);
+            this.ClientSize = new System.Drawing.Size(1210, 809);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblTotalPlayers);
             this.Controls.Add(this.lblSearchDescription);
             this.Controls.Add(this.lblPagingInfo);
+            this.Controls.Add(this.mlFirstPagingButton);
+            this.Controls.Add(this.mlLastPagingButton);
             this.Controls.Add(this.mlLeftPagingButton);
             this.Controls.Add(this.mlRightPagingButton);
             this.Controls.Add(this.mlVisitFallalytics);
@@ -242,8 +284,8 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1200, 1287);
-            this.MinimumSize = new System.Drawing.Size(1200, 413);
+            this.MaximumSize = new System.Drawing.Size(1210, 1287);
+            this.MinimumSize = new System.Drawing.Size(1210, 413);
             this.Name = "LeaderboardDisplay";
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 18);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
@@ -264,6 +306,8 @@
         private MetroFramework.Controls.MetroLabel lblTotalPlayers;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLabel lblPagingInfo;
+        private MetroFramework.Controls.MetroLink mlFirstPagingButton;
+        private MetroFramework.Controls.MetroLink mlLastPagingButton;
         private MetroFramework.Controls.MetroLink mlLeftPagingButton;
         private MetroFramework.Controls.MetroLink mlRightPagingButton;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;

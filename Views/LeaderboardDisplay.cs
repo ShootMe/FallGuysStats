@@ -52,6 +52,8 @@ namespace FallGuysStats {
             this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mlRefreshList.Theme = theme;
             this.lblPagingInfo.Theme = theme;
+            this.mlFirstPagingButton.Theme = theme;
+            this.mlLastPagingButton.Theme = theme;
             this.mlLeftPagingButton.Theme = theme;
             this.mlRightPagingButton.Theme = theme;
             
@@ -150,6 +152,8 @@ namespace FallGuysStats {
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
             this.lblPagingInfo.Visible = false;
+            this.mlFirstPagingButton.Visible = false;
+            this.mlLastPagingButton.Visible = false;
             this.mlLeftPagingButton.Visible = false;
             this.mlRightPagingButton.Visible = false;
             this.mpsSpinner.Visible = true;
@@ -167,8 +171,11 @@ namespace FallGuysStats {
                         this.mlRefreshList.Visible = true;
                         this.mlVisitFallalytics.Visible = true;
                         this.cboRoundList.Enabled = true;
+                        this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
+                        this.mlFirstPagingButton.Location = new Point(this.mlRefreshList.Right + 45, this.mlFirstPagingButton.Location.Y);
+                        this.mlFirstPagingButton.Visible = this.totalPages > 1;
                         this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
-                        this.mlLeftPagingButton.Location = new Point(this.mlRefreshList.Right + 45, this.mlLeftPagingButton.Location.Y);
+                        this.mlLeftPagingButton.Location = new Point(this.mlFirstPagingButton.Right + 3, this.mlLeftPagingButton.Location.Y);
                         this.mlLeftPagingButton.Visible = this.totalPages > 1;
                         this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
                         this.lblPagingInfo.Location = new Point(this.mlLeftPagingButton.Right + 5, this.lblPagingInfo.Location.Y);
@@ -176,6 +183,9 @@ namespace FallGuysStats {
                         this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
                         this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
                         this.mlRightPagingButton.Visible = this.totalPages > 1;
+                        this.mlLastPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
+                        this.mlLastPagingButton.Location = new Point(this.mlRightPagingButton.Right + 3, this.mlLastPagingButton.Location.Y);
+                        this.mlLastPagingButton.Visible = this.totalPages > 1;
                         this.Invalidate();
                     } else {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
@@ -377,6 +387,14 @@ namespace FallGuysStats {
                         this.SetGridList(this.key);
                     }
                 }
+            } else if (sender.Equals(this.mlFirstPagingButton)) {
+                if (!string.IsNullOrEmpty(this.key)) {
+                    TimeSpan difference = DateTime.Now - this.refreshTime;
+                    if (difference.TotalSeconds >= 1.5) {
+                        this.currentPage = 0;
+                        this.SetGridList(this.key);
+                    }
+                }
             } else if (sender.Equals(this.mlLeftPagingButton)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
@@ -390,6 +408,14 @@ namespace FallGuysStats {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
                     if (difference.TotalSeconds >= 1.5) {
                         this.currentPage += 1;
+                        this.SetGridList(this.key);
+                    }
+                }
+            } else if (sender.Equals(this.mlLastPagingButton)) {
+                if (!string.IsNullOrEmpty(this.key)) {
+                    TimeSpan difference = DateTime.Now - this.refreshTime;
+                    if (difference.TotalSeconds >= 1.5) {
+                        this.currentPage = this.totalPages - 1;
                         this.SetGridList(this.key);
                     }
                 }

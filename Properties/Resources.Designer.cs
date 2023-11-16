@@ -5432,6 +5432,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap first_button_icon {
+            get {
+                object obj = ResourceManager.GetObject("first_button_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap github_gray_icon {
             get {
                 object obj = ResourceManager.GetObject("github_gray_icon", resourceCulture);
@@ -5485,6 +5495,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap language_icon {
             get {
                 object obj = ResourceManager.GetObject("language_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap last_button_icon {
+            get {
+                object obj = ResourceManager.GetObject("last_button_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
