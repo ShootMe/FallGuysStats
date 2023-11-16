@@ -237,31 +237,27 @@ namespace FallGuysStats {
             return result;
         }
         
-        private int GetDataGridViewColumnWidth(string columnName, string columnText) {
-            int sizeOfText;
+        private int GetDataGridViewColumnWidth(string columnName) {
             switch (columnName) {
                 case "rank":
                     return 50;
-                    // sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    // break;
                 case "show":
                     return 0;
                 case "flag":
                     return 35;
                 case "platform":
+                    return 45;
                 case "medal":
                     return 30;
                 case "onlineServiceNickname":
                     return 0;
                 case "record":
-                    return 200;
-                case "finish":
                     return 150;
+                case "finish":
+                    return 200;
                 default:
                     return 0;
             }
-            
-            return sizeOfText + 24;
         }
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
@@ -273,25 +269,25 @@ namespace FallGuysStats {
             this.gridDetails.Columns["onlineServiceType"].Visible = false;
             this.gridDetails.Columns["onlineServiceId"].Visible = false;
             this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
-            this.gridDetails.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal", ""), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridDetails.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridDetails.Columns["medal"].DefaultCellStyle.NullValue = null;
-            this.gridDetails.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank", $"{Multilingual.GetWord("leaderboard_grid_header_rank")}"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
-            this.gridDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show", $"{Multilingual.GetWord("leaderboard_grid_header_show")}"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
             this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
-            this.gridDetails.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform", ""), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridDetails.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridDetails.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = Multilingual.GetWord("") });
-            this.gridDetails.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag", ""), "", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridDetails.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname", ""), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridDetails.Setup("record", pos++, this.GetDataGridViewColumnWidth("record", $"{Multilingual.GetWord("leaderboard_grid_header_record")}"), $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("record", pos++, this.GetDataGridViewColumnWidth("record"), $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridDetails.Setup("finish", pos++, this.GetDataGridViewColumnWidth("finish", $"{Multilingual.GetWord("leaderboard_grid_header_finish")}"), $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Setup("finish", pos++, this.GetDataGridViewColumnWidth("finish"), $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
             // foreach (DataGridViewRow row in this.gridDetails.Rows) {
