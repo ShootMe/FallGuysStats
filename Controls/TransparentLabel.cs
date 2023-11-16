@@ -167,9 +167,9 @@ namespace FallGuysStats {
                              (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFastest":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 7 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 8 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblPlayers":
                     factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
