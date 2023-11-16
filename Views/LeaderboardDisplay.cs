@@ -118,7 +118,7 @@ namespace FallGuysStats {
                         foreach (RankRound round in this.roundlist) {
                             foreach (string id in round.ids) {
                                 if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname }));
+                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname, levelStats.Id }));
                                     break;
                                 }
                             }
@@ -160,6 +160,7 @@ namespace FallGuysStats {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {this.cboRoundList.SelectedName}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.recordholders;
+                        this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
                         this.lblTotalPlayers.Text = $@"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
                         this.lblTotalPlayers.Visible = true;
                         this.mlRefreshList.Location = new Point(this.lblTotalPlayers.Right + 5, this.mlRefreshList.Location.Y);
@@ -183,6 +184,7 @@ namespace FallGuysStats {
                         this.lblTotalPlayers.Visible = false;
                         this.mlRefreshList.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
+                        this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
                         this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
                         this.lblSearchDescription.Visible = true;
                         this.lblPagingInfo.Visible = false;
@@ -304,19 +306,14 @@ namespace FallGuysStats {
                 // this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
             }
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "rank") {
-                e.CellStyle.Font = Overlay.GetMainFont(18f);
+                e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
-                if ("1".Equals(info.onlineServiceType) && "oank20".Equals(info.onlineServiceId)) {
-                    this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName("SA");
-                    e.Value = Properties.Resources.country_sa_icon;
-                } else {
-                    if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
-                    e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
-                }
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+                e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
                 if (!info.isAnonymous) {
                     this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
