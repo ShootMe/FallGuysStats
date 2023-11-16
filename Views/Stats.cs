@@ -4364,19 +4364,19 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.AveFinish.ToString("m\\:ss\\.ff");
+                        e.Value = levelStats.AveFinish.ToString("m\\:ss\\.fff");
                         break;
                     case "Fastest":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.Fastest.ToString("m\\:ss\\.ff");
+                        e.Value = levelStats.Fastest.ToString("m\\:ss\\.fff");
                         break;
                     case "Longest":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.Longest.ToString("m\\:ss\\.ff");
+                        e.Value = levelStats.Longest.ToString("m\\:ss\\.fff");
                         break;
                 }
             } catch (Exception ex) {

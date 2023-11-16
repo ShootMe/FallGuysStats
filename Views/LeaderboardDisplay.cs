@@ -69,7 +69,7 @@ namespace FallGuysStats {
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.gridDetails.RowTemplate.Height = 32;
             
-            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(12);
+            this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(14);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
@@ -77,7 +77,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkMagenta;
             this.dataGridViewCellStyle1.SelectionForeColor = Color.Black;
             
-            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
+            this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(16);
             this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             this.dataGridViewCellStyle2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(49, 51, 56);
@@ -241,18 +241,22 @@ namespace FallGuysStats {
             int sizeOfText;
             switch (columnName) {
                 case "rank":
-                    sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
-                    break;
+                    return 50;
+                    // sizeOfText = TextRenderer.MeasureText(columnText, this.dataGridViewCellStyle1.Font).Width;
+                    // break;
                 case "show":
                     return 0;
                 case "flag":
+                    return 35;
                 case "platform":
                 case "medal":
-                    return 25;
+                    return 30;
                 case "onlineServiceNickname":
-                case "record":
-                case "finish":
                     return 0;
+                case "record":
+                    return 200;
+                case "finish":
+                    return 150;
                 default:
                     return 0;
             }
@@ -268,19 +272,21 @@ namespace FallGuysStats {
             this.gridDetails.Columns["country"].Visible = false;
             this.gridDetails.Columns["onlineServiceType"].Visible = false;
             this.gridDetails.Columns["onlineServiceId"].Visible = false;
-            this.gridDetails.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank", $"{Multilingual.GetWord("leaderboard_grid_header_rank")}"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridDetails.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show", $"{Multilingual.GetWord("leaderboard_grid_header_show")}"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
-            this.gridDetails.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag", ""), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridDetails.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
-            this.gridDetails.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform", ""), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridDetails.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
             this.gridDetails.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal", ""), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridDetails.Columns["medal"].DefaultCellStyle.NullValue = null;
+            this.gridDetails.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank", $"{Multilingual.GetWord("leaderboard_grid_header_rank")}"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            
+            this.gridDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show", $"{Multilingual.GetWord("leaderboard_grid_header_show")}"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            
+            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridDetails.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform", ""), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridDetails.Columns["platform"].DefaultCellStyle.NullValue = null;
+            this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = Multilingual.GetWord("") });
+            this.gridDetails.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag", ""), "", DataGridViewContentAlignment.MiddleLeft);
+            this.gridDetails.Columns["flag"].DefaultCellStyle.NullValue = null;
             this.gridDetails.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname", ""), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridDetails.Setup("record", pos++, this.GetDataGridViewColumnWidth("record", $"{Multilingual.GetWord("leaderboard_grid_header_record")}"), $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
@@ -301,14 +307,20 @@ namespace FallGuysStats {
                 this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
                 // this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
             }
-
-            if (this.gridDetails.Columns[e.ColumnIndex].Name == "show") {
+            if (this.gridDetails.Columns[e.ColumnIndex].Name == "rank") {
+                e.CellStyle.Font = Overlay.GetMainFont(18f);
+            } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "flag") {
-                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
-                e.Value = info.isAnonymous ? Properties.Resources.country_unknown_shiny_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_shiny_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_shiny_icon"));
+                if ("1".Equals(info.onlineServiceType) && "oank20".Equals(info.onlineServiceId)) {
+                    this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName("SA");
+                    e.Value = Properties.Resources.country_sa_icon;
+                } else {
+                    if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+                    e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
+                }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "platform") {
                 if (!info.isAnonymous) {
                     this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));

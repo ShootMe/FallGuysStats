@@ -358,7 +358,7 @@ namespace FallGuysStats {
                 e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"));
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 if (info.Finish.HasValue) {
-                    e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.ff");
+                    e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.fff");
                 }
             } else if (this._showStats == 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Qualified") { // Shows
                 e.Value = !string.IsNullOrEmpty(info.Name);
