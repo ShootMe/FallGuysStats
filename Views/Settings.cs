@@ -823,6 +823,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage(Language lang) {
+            this.SuspendLayout();
             this.DisplayLang = lang;
             this.Font = Overlay.GetMainFont(12, FontStyle.Regular, this.DisplayLang);
             Language tempLanguage = Stats.CurrentLanguage;
@@ -1050,6 +1051,7 @@ namespace FallGuysStats {
             this.chkAutoUpdate.Visible = false;
 #endif
             Stats.CurrentLanguage = tempLanguage;
+            this.ResumeLayout();
         }
 
         private void ChangeTab(object sender, EventArgs e) {

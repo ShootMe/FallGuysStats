@@ -437,7 +437,7 @@ namespace FallGuysStats {
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(18, 18, 0, 0);
             this.SetMinimumSize();
-            this.ChangeMainLanguage();
+            this.ChangeLanguage();
             this.InitMainDataGridView();
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
@@ -5949,7 +5949,7 @@ namespace FallGuysStats {
                         this.SaveUserSettings();
                         if (this.currentLanguage != (int)CurrentLanguage) {
                             this.SetMinimumSize();
-                            this.ChangeMainLanguage();
+                            this.ChangeLanguage();
                             this.UpdateTotals();
                             this.gridDetails.ChangeContextMenuLanguage();
                             this.UpdateGridRoundName();
@@ -6103,7 +6103,8 @@ namespace FallGuysStats {
                 : Properties.Resources.steam_main_icon;
         }
         
-        private void ChangeMainLanguage() {
+        private void ChangeLanguage() {
+            this.SuspendLayout();
             this.currentLanguage = (int)CurrentLanguage;
             this.mainWndTitle = $@"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.trayIcon.Text = this.mainWndTitle.Trim();
@@ -6183,6 +6184,7 @@ namespace FallGuysStats {
             this.menuLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.menuFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
+            this.ResumeLayout();
         }
     }
 }

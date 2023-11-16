@@ -351,6 +351,9 @@ namespace FallGuysStats {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "record") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "finish") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
@@ -383,14 +386,14 @@ namespace FallGuysStats {
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds >= 8) {
+                    if (difference.TotalSeconds > 8) {
                         this.SetGridList(this.key);
                     }
                 }
             } else if (sender.Equals(this.mlFirstPagingButton)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds >= 1.5) {
+                    if (difference.TotalSeconds > 1.6) {
                         this.currentPage = 0;
                         this.SetGridList(this.key);
                     }
@@ -398,7 +401,7 @@ namespace FallGuysStats {
             } else if (sender.Equals(this.mlLeftPagingButton)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds >= 1.5) {
+                    if (difference.TotalSeconds > 1.6) {
                         this.currentPage -= 1;
                         this.SetGridList(this.key);
                     }
@@ -406,7 +409,7 @@ namespace FallGuysStats {
             } else if (sender.Equals(this.mlRightPagingButton)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds >= 1.5) {
+                    if (difference.TotalSeconds > 1.6) {
                         this.currentPage += 1;
                         this.SetGridList(this.key);
                     }
@@ -414,7 +417,7 @@ namespace FallGuysStats {
             } else if (sender.Equals(this.mlLastPagingButton)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds >= 1.5) {
+                    if (difference.TotalSeconds > 1.6) {
                         this.currentPage = this.totalPages - 1;
                         this.SetGridList(this.key);
                     }

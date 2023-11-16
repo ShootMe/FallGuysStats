@@ -1799,6 +1799,7 @@ namespace FallGuysStats {
             }
         }
         public void ChangeLanguage() {
+            this.SuspendLayout();
             this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
             this.lblStreak.TextRight = $"0{Multilingual.GetWord("overlay_streak_suffix")} ({Multilingual.GetWord("overlay_best")} 0{Multilingual.GetWord("overlay_streak_suffix")})";
             this.lblFinals.Text = $"{Multilingual.GetWord("overlay_finals")} :";
@@ -1811,6 +1812,7 @@ namespace FallGuysStats {
             this.lblWins.TextRight = $"0{Multilingual.GetWord("overlay_inning")} - 0.0%";
             this.lblFinish.Text = $"{Multilingual.GetWord("overlay_finish")} :";
             this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_players")} :";
+            this.ResumeLayout();
         }
     }
 }
