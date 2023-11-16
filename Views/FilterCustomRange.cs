@@ -214,7 +214,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeLanguage() {
-            this.Text = $"     {Multilingual.GetWord("main_custom_range")}";
+            this.Text = $"     {Multilingual.GetWord("custom_range_range")}";
             this.mdtpStart.CalendarFont = Overlay.GetMainFont(14);
             this.mdtpEnd.CalendarFont = Overlay.GetMainFont(14);
             this.lbTemplatesList.Font = Overlay.GetMainFont(14);
