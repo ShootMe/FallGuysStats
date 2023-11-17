@@ -3262,18 +3262,18 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsRegisterPb(RoundInfo stat, string apiKey) {
-            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) {
-                string[] userInfo = null;
-                if (OnlineServiceType == OnlineServiceTypes.Steam) {
-                    userInfo = this.FindSteamUserInfo();
-                } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
-                    userInfo = this.FindEpicGamesUserInfo();
-                }
+            string[] userInfo = null;
+            if (OnlineServiceType == OnlineServiceTypes.Steam) {
+                userInfo = this.FindSteamUserInfo();
+            } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
+                userInfo = this.FindEpicGamesUserInfo();
+            }
 
-                if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                    OnlineServiceId = userInfo[0];
-                    OnlineServiceNickname = userInfo[1];
-                }
+            if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                OnlineServiceId = userInfo[0];
+                OnlineServiceNickname = userInfo[1];
+            } else {
+                return;
             }
             
             if (string.IsNullOrEmpty(HostCountryCode)) {
@@ -5064,10 +5064,9 @@ namespace FallGuysStats {
 
                 string steamConfigPath = Path.Combine(steamPath, "config", "loginusers.vdf");
                 if (File.Exists(steamConfigPath)) {
-                    FileInfo steamConfigFileInfo = new FileInfo(steamConfigPath);
-                    JsonClass json = Json.Read(File.ReadAllText(steamConfigFileInfo.FullName)) as JsonClass;
-                    foreach (JsonObject obj in json) {
-                        if (obj is JsonClass node) {
+                    JsonClass users = Json.Read(File.ReadAllText(steamConfigPath)) as JsonClass;
+                    foreach (JsonObject user in users) {
+                        if (user is JsonClass node && "1".Equals(node["MostRecent"].AsString())) {
                             if (!string.IsNullOrEmpty(node["AccountName"].AsString())) userInfo[0] = node["AccountName"].AsString();
                             if (!string.IsNullOrEmpty(node["PersonaName"].AsString())) userInfo[1] = node["PersonaName"].AsString();
                         }
