@@ -84,7 +84,7 @@ namespace FallGuysStats {
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
         public event Action OnServerConnectionNotification;
-        public event Action<RoundInfo, TimeSpan, TimeSpan> OnPersonalBestNotification;
+        public event Action<string, string, TimeSpan, TimeSpan> OnPersonalBestNotification;
         public event Action<string> OnError;
 
         private readonly ServerPingWatcher serverPingWatcher = new ServerPingWatcher();
@@ -549,7 +549,7 @@ namespace FallGuysStats {
                 TimeSpan existingRecords = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < existingRecords);
                 if (this.StatsForm.CurrentSettings.NotifyPersonalBest && !Stats.IsClientHasBeenClosed && currentRecord < existingRecords) {
-                    this.OnPersonalBestNotification?.Invoke(info, existingRecords, currentRecord);
+                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, roundId, existingRecords, currentRecord);
                 }
             }
         }
