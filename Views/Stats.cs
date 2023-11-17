@@ -2803,14 +2803,14 @@ namespace FallGuysStats {
             }
         }
 
-        private void LogFile_OnPersonalBestNotification(RoundInfo info, TimeSpan existingRecords, TimeSpan currentRecord) {
+        private void LogFile_OnPersonalBestNotification(string showNameId, string roundId, TimeSpan existingRecords, TimeSpan currentRecord) {
             string timeDiffContent = String.Empty;
             if (existingRecords != TimeSpan.MaxValue) {
                 TimeSpan timeDiff = existingRecords - currentRecord;
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                     : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
-            string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId)).Equals(Multilingual.GetRoundName(info.Name)) ? $"({Multilingual.GetRoundName(info.Name)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(info.ShowNameId))} • {Multilingual.GetRoundName(info.Name)})")}";
+            string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)).Equals(Multilingual.GetRoundName(roundId)) ? $"({Multilingual.GetRoundName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetRoundName(roundId)})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
             ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
