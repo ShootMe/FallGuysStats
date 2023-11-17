@@ -30,7 +30,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardDisplay));
             this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
-            this.lblTotalPlayers = new MetroFramework.Controls.MetroLabel();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
             this.mlFirstPagingButton = new MetroFramework.Controls.MetroLink();
@@ -62,18 +61,6 @@
             this.mpsSpinner.Value = 80;
             this.mpsSpinner.Visible = false;
             // 
-            // lblTotalPlayers
-            // 
-            this.lblTotalPlayers.AutoSize = true;
-            this.lblTotalPlayers.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblTotalPlayers.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblTotalPlayers.Location = new System.Drawing.Point(423, 60);
-            this.lblTotalPlayers.Name = "lblTotalPlayers";
-            this.lblTotalPlayers.Size = new System.Drawing.Size(145, 25);
-            this.lblTotalPlayers.TabIndex = 3;
-            this.lblTotalPlayers.Text = "Total 500 players";
-            this.lblTotalPlayers.Visible = false;
-            // 
             // lblSearchDescription
             // 
             this.lblSearchDescription.AutoSize = true;
@@ -92,7 +79,7 @@
             // 
             this.lblPagingInfo.AutoSize = true;
             this.lblPagingInfo.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Bold;
             this.lblPagingInfo.Location = new System.Drawing.Point(635, 61);
             this.lblPagingInfo.Name = "lblPagingInfo";
             this.lblPagingInfo.Size = new System.Drawing.Size(139, 25);
@@ -107,10 +94,10 @@
             this.mlFirstPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlFirstPagingButton.Image = global::FallGuysStats.Properties.Resources.first_button_icon;
             this.mlFirstPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlFirstPagingButton.ImageSize = 19;
-            this.mlFirstPagingButton.Location = new System.Drawing.Point(579, 64);
+            this.mlFirstPagingButton.ImageSize = 27;
+            this.mlFirstPagingButton.Location = new System.Drawing.Point(579, 60);
             this.mlFirstPagingButton.Name = "mlFirstPagingButton";
-            this.mlFirstPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlFirstPagingButton.Size = new System.Drawing.Size(27, 28);
             this.mlFirstPagingButton.TabIndex = 7;
             this.mlFirstPagingButton.Text = "";
             this.mlFirstPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -126,10 +113,10 @@
             this.mlLastPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlLastPagingButton.Image = global::FallGuysStats.Properties.Resources.last_button_icon;
             this.mlLastPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLastPagingButton.ImageSize = 19;
-            this.mlLastPagingButton.Location = new System.Drawing.Point(721, 64);
+            this.mlLastPagingButton.ImageSize = 27;
+            this.mlLastPagingButton.Location = new System.Drawing.Point(721, 60);
             this.mlLastPagingButton.Name = "mlLastPagingButton";
-            this.mlLastPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlLastPagingButton.Size = new System.Drawing.Size(27, 28);
             this.mlLastPagingButton.TabIndex = 7;
             this.mlLastPagingButton.Text = "";
             this.mlLastPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -145,10 +132,10 @@
             this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
             this.mlLeftPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLeftPagingButton.ImageSize = 19;
-            this.mlLeftPagingButton.Location = new System.Drawing.Point(600, 64);
+            this.mlLeftPagingButton.ImageSize = 27;
+            this.mlLeftPagingButton.Location = new System.Drawing.Point(600, 60);
             this.mlLeftPagingButton.Name = "mlLeftPagingButton";
-            this.mlLeftPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlLeftPagingButton.Size = new System.Drawing.Size(27, 28);
             this.mlLeftPagingButton.TabIndex = 7;
             this.mlLeftPagingButton.Text = "";
             this.mlLeftPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -164,10 +151,10 @@
             this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
             this.mlRightPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlRightPagingButton.ImageSize = 19;
-            this.mlRightPagingButton.Location = new System.Drawing.Point(700, 64);
+            this.mlRightPagingButton.ImageSize = 27;
+            this.mlRightPagingButton.Location = new System.Drawing.Point(700, 60);
             this.mlRightPagingButton.Name = "mlRightPagingButton";
-            this.mlRightPagingButton.Size = new System.Drawing.Size(19, 20);
+            this.mlRightPagingButton.Size = new System.Drawing.Size(27, 28);
             this.mlRightPagingButton.TabIndex = 7;
             this.mlRightPagingButton.Text = "";
             this.mlRightPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -206,10 +193,10 @@
             this.mlRefreshList.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlRefreshList.Image = global::FallGuysStats.Properties.Resources.refresh_icon;
             this.mlRefreshList.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlRefreshList.ImageSize = 18;
-            this.mlRefreshList.Location = new System.Drawing.Point(145, 65);
+            this.mlRefreshList.ImageSize = 26;
+            this.mlRefreshList.Location = new System.Drawing.Point(145, 61);
             this.mlRefreshList.Name = "mlRefreshList";
-            this.mlRefreshList.Size = new System.Drawing.Size(18, 19);
+            this.mlRefreshList.Size = new System.Drawing.Size(26, 27);
             this.mlRefreshList.TabIndex = 7;
             this.mlRefreshList.Text = "";
             this.mlRefreshList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -221,13 +208,14 @@
             // cboRoundList
             // 
             this.cboRoundList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cboRoundList.MaxDropDownItems = 20;
+            this.cboRoundList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoundList.FormattingEnabled = true;
             this.cboRoundList.ItemHeight = 23;
             this.cboRoundList.Location = new System.Drawing.Point(11, 61);
+            this.cboRoundList.MaxDropDownItems = 20;
             this.cboRoundList.Name = "cboRoundList";
-            this.cboRoundList.Size = new System.Drawing.Size(345, 20);
+            this.cboRoundList.Size = new System.Drawing.Size(370, 20);
             this.cboRoundList.TabIndex = 1;
             this.cboRoundList.SelectedIndexChanged += new System.EventHandler(this.cboRoundList_SelectedIndexChanged);
             // 
@@ -268,7 +256,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.ClientSize = new System.Drawing.Size(1210, 809);
             this.Controls.Add(this.mpsSpinner);
-            this.Controls.Add(this.lblTotalPlayers);
             this.Controls.Add(this.lblSearchDescription);
             this.Controls.Add(this.lblPagingInfo);
             this.Controls.Add(this.mlFirstPagingButton);
@@ -303,7 +290,6 @@
         #endregion
 
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
-        private MetroFramework.Controls.MetroLabel lblTotalPlayers;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLabel lblPagingInfo;
         private MetroFramework.Controls.MetroLink mlFirstPagingButton;

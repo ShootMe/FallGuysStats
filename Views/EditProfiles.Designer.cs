@@ -76,7 +76,7 @@
             this.dgvProfiles.Name = "dgvProfiles";
             this.dgvProfiles.RowHeadersVisible = false;
             this.dgvProfiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProfiles.Size = new System.Drawing.Size(498, 357);
+            this.dgvProfiles.Size = new System.Drawing.Size(498, 364);
             this.dgvProfiles.TabIndex = 0;
             this.dgvProfiles.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ProfileList_CellClick);
             this.dgvProfiles.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.ProfileList_CellFormatting);
@@ -88,7 +88,7 @@
             this.btnProfileUp.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnProfileUp.Location = new System.Drawing.Point(506, 19);
             this.btnProfileUp.Name = "btnProfileUp";
-            this.btnProfileUp.Size = new System.Drawing.Size(20, 176);
+            this.btnProfileUp.Size = new System.Drawing.Size(20, 180);
             this.btnProfileUp.TabIndex = 3;
             this.btnProfileUp.Text = "∧";
             this.btnProfileUp.UseSelectable = true;
@@ -97,9 +97,9 @@
             // btnProfileDown
             // 
             this.btnProfileDown.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnProfileDown.Location = new System.Drawing.Point(506, 200);
+            this.btnProfileDown.Location = new System.Drawing.Point(506, 203);
             this.btnProfileDown.Name = "btnProfileDown";
-            this.btnProfileDown.Size = new System.Drawing.Size(20, 176);
+            this.btnProfileDown.Size = new System.Drawing.Size(20, 180);
             this.btnProfileDown.TabIndex = 4;
             this.btnProfileDown.Text = "∨";
             this.btnProfileDown.UseSelectable = true;
@@ -112,7 +112,7 @@
             this.grpProfiles.Controls.Add(this.btnProfileDown);
             this.grpProfiles.Location = new System.Drawing.Point(9, 238);
             this.grpProfiles.Name = "grpProfiles";
-            this.grpProfiles.Size = new System.Drawing.Size(531, 383);
+            this.grpProfiles.Size = new System.Drawing.Size(531, 390);
             this.grpProfiles.TabIndex = 5;
             this.grpProfiles.TabStop = false;
             this.grpProfiles.Text = "Profile List";
@@ -416,7 +416,7 @@
             // EditProfiles
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(548, 628);
+            this.ClientSize = new System.Drawing.Size(548, 635);
             this.Controls.Add(this.mtcTabControl);
             this.Controls.Add(this.grpProfiles);
             this.ForeColor = System.Drawing.Color.Black;

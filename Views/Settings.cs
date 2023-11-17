@@ -47,12 +47,12 @@ namespace FallGuysStats {
             this.ChangeLanguage(Stats.CurrentLanguage);
             
             List<ImageItem> flagItemArray = new List<ImageItem> {
-                new ImageItem(Properties.Resources.country_us_shiny_icon, "English", Overlay.GetMainFont(13.5f)),
-                new ImageItem(Properties.Resources.country_fr_shiny_icon, "Français", Overlay.GetMainFont(13.5f)),
-                new ImageItem(Properties.Resources.country_kr_shiny_icon, "한국어", Overlay.GetMainFont(13.5f)),
-                new ImageItem(Properties.Resources.country_jp_shiny_icon, "日本語", Overlay.GetMainFont(13.5f)),
-                new ImageItem(Properties.Resources.country_cn_shiny_icon, "简体中文", Overlay.GetMainFont(13.5f)),
-                new ImageItem(Properties.Resources.country_cn_shiny_icon, "繁體中文", Overlay.GetMainFont(13.5f)),
+                new ImageItem(Properties.Resources.country_us_shiny_icon, "English", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_fr_shiny_icon, "Français", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_kr_shiny_icon, "한국어", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_jp_shiny_icon, "日本語", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_cn_shiny_icon, "简体中文", Overlay.GetMainFont(14f)),
+                new ImageItem(Properties.Resources.country_cn_shiny_icon, "繁體中文", Overlay.GetMainFont(14f)),
             };
             this.cboMultilingual.SetImageItemData(flagItemArray);
             this.cboMultilingual.SelectedIndex = (int)Stats.CurrentLanguage;

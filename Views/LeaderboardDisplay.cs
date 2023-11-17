@@ -48,8 +48,8 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
             this.cboRoundList.Theme = theme;
-            this.lblTotalPlayers.Theme = theme;
-            this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            // this.lblTotalPlayers.Theme = theme;
+            // this.lblTotalPlayers.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mlRefreshList.Theme = theme;
             this.lblPagingInfo.Theme = theme;
             this.mlFirstPagingButton.Theme = theme;
@@ -120,26 +120,23 @@ namespace FallGuysStats {
                         foreach (RankRound round in this.roundlist) {
                             foreach (string id in round.ids) {
                                 if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(14), new[] { round.queryname, levelStats.Id }));
+                                    roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id }));
                                     break;
                                 }
                             }
                         }
                         roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
-
                         this.cboRoundList.SetImageItemData(roundItemList);
                         this.cboRoundList.Enabled = true;
-                        // this.cboRoundList.Refresh();
                     } else {
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.nodata;
-                        this.lblTotalPlayers.Visible = false;
+                        // this.lblTotalPlayers.Visible = false;
                         this.mlRefreshList.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
                         this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
                         this.lblSearchDescription.Visible = true;
                         this.cboRoundList.Enabled = false;
-                        // this.cboRoundList.Refresh();
                     }
                 });
             });
@@ -147,8 +144,8 @@ namespace FallGuysStats {
 
         private void SetGridList(string queryKey) {
             this.cboRoundList.Enabled = false;
-            this.lblTotalPlayers.Visible = false;
-            this.lblTotalPlayers.Text = string.Empty;
+            // this.lblTotalPlayers.Visible = false;
+            // this.lblTotalPlayers.Text = string.Empty;
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
             this.lblPagingInfo.Visible = false;
@@ -161,28 +158,36 @@ namespace FallGuysStats {
             Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
-                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {this.cboRoundList.SelectedName}";
+                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")} - {this.cboRoundList.SelectedName} ({Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")})";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.recordholders;
                         this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
-                        this.lblTotalPlayers.Text = $@"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
-                        this.lblTotalPlayers.Visible = true;
-                        this.mlRefreshList.Location = new Point(this.lblTotalPlayers.Right + 5, this.mlRefreshList.Location.Y);
+                        // this.lblTotalPlayers.Text = $@"{Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")}";
+                        // this.lblTotalPlayers.Visible = true;
+                        this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 20, this.mlRefreshList.Location.Y);
                         this.mlRefreshList.Visible = true;
                         this.mlVisitFallalytics.Visible = true;
                         this.cboRoundList.Enabled = true;
-                        this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
-                        this.mlFirstPagingButton.Location = new Point(this.mlRefreshList.Right + 45, this.mlFirstPagingButton.Location.Y);
-                        this.mlFirstPagingButton.Visible = this.totalPages > 1;
-                        this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
-                        this.mlLeftPagingButton.Location = new Point(this.mlFirstPagingButton.Right + 3, this.mlLeftPagingButton.Location.Y);
-                        this.mlLeftPagingButton.Visible = this.totalPages > 1;
+                        
                         this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
-                        this.lblPagingInfo.Location = new Point(this.mlLeftPagingButton.Right + 5, this.lblPagingInfo.Location.Y);
+                        // this.lblPagingInfo.Location = new Point(this.mlLeftPagingButton.Right + 5, this.lblPagingInfo.Location.Y);
+                        this.lblPagingInfo.Location = new Point((this.ClientSize.Width - this.lblPagingInfo.Width) / 2, this.lblPagingInfo.Location.Y);
                         this.lblPagingInfo.Visible = this.totalPages > 1;
+                        
+                        this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
+                        this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Location.X - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Location.Y);
+                        this.mlLeftPagingButton.Visible = this.totalPages > 1;
+                        
+                        this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
+                        this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Location.X - this.mlFirstPagingButton.Width - 3, this.mlFirstPagingButton.Location.Y);
+                        this.mlFirstPagingButton.Visible = this.totalPages > 1;
+                        
+                        
                         this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
                         this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
                         this.mlRightPagingButton.Visible = this.totalPages > 1;
+                        
+                        
                         this.mlLastPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
                         this.mlLastPagingButton.Location = new Point(this.mlRightPagingButton.Right + 3, this.mlLastPagingButton.Location.Y);
                         this.mlLastPagingButton.Visible = this.totalPages > 1;
@@ -191,7 +196,7 @@ namespace FallGuysStats {
                         this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
                         this.mpsSpinner.Visible = false;
                         this.gridDetails.DataSource = this.nodata;
-                        this.lblTotalPlayers.Visible = false;
+                        // this.lblTotalPlayers.Visible = false;
                         this.mlRefreshList.Visible = false;
                         this.mlVisitFallalytics.Visible = false;
                         this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
@@ -285,10 +290,8 @@ namespace FallGuysStats {
             this.gridDetails.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridDetails.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            
             this.gridDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            
             this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
             this.gridDetails.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridDetails.Columns["platform"].DefaultCellStyle.NullValue = null;

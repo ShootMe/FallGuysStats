@@ -171,7 +171,7 @@ namespace FallGuysStats {
             //this.radialGauges.BackgroundTransparencyFraction = .3;
             //this.radialGauges.StartingAngle = 270;
             this.radialGauges.EndCap = System.Drawing.Drawing2D.LineCap.Round;
-            this.radialGauges.LabelPositionFraction = 1;
+            this.radialGauges.LabelPositionFraction = 0;
             this.radialGauges.FontSizeFraction = .7;
             //this.radialGauges.Font.Color = Color.Black;
             this.radialGauges.Labels = this.labelList;
