@@ -215,7 +215,7 @@ namespace FallGuysStats {
                                             }
                                         }
                                     } catch (OperationCanceledException) {
-                                        Console.WriteLine("Task was cancelled.");
+                                        // Console.WriteLine("Task was cancelled.");
                                     }
                                 }));
                             }
@@ -226,11 +226,11 @@ namespace FallGuysStats {
                                     this.SetLeaderboardUI(index);
                                 });
                             } catch (AggregateException e) {
-                                foreach (var innerException in e.InnerExceptions) {
-                                    if (innerException is OperationCanceledException) {
-                                        Console.WriteLine("Task was cancelled.");
-                                    }
-                                }
+                                // foreach (var innerException in e.InnerExceptions) {
+                                //     if (innerException is OperationCanceledException) {
+                                //         Console.WriteLine("Task was cancelled.");
+                                //     }
+                                // }
                             }
                         } else {
                             this.BeginInvoke((MethodInvoker)delegate {
