@@ -271,8 +271,8 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1210, 1287);
-            this.MinimumSize = new System.Drawing.Size(1210, 413);
+            this.MaximumSize = new System.Drawing.Size(1210, 1289);
+            this.MinimumSize = new System.Drawing.Size(1210, 425);
             this.Name = "LeaderboardDisplay";
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 18);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;

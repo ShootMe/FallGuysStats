@@ -326,7 +326,9 @@ namespace FallGuysStats {
             this.ReloadProfileList();
             this.Invoke((MethodInvoker)delegate { 
                 this.dgvProfiles[0, profileListIndex - 1].Selected = true;
-                this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 7 < 0 ? 0 : profileListIndex - 7;
+                int displayedRowCount = this.dgvProfiles.DisplayedRowCount(false);
+                int firstDisplayedScrollingRowIndex = (profileListIndex - 1) - (displayedRowCount / 2);
+                this.dgvProfiles.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             });
         }
         
@@ -340,7 +342,9 @@ namespace FallGuysStats {
             this.ReloadProfileList();
             this.Invoke((MethodInvoker)delegate { 
                 this.dgvProfiles[0, profileListIndex + 1].Selected = true;
-                this.dgvProfiles.FirstDisplayedScrollingRowIndex = profileListIndex - 5 < 0 ? 0 : profileListIndex - 5;
+                int displayedRowCount = this.dgvProfiles.DisplayedRowCount(false);
+                int firstDisplayedScrollingRowIndex = (profileListIndex + 1) - (displayedRowCount / 2);
+                this.dgvProfiles.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             });
         }
 
