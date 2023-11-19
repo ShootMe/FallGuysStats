@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
+using MetroFramework.Controls;
 
 namespace FallGuysStats {
     public partial class LeaderboardDisplay : MetroFramework.Forms.MetroForm {
@@ -15,7 +16,7 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private string key = String.Empty;
-        private int totalPlayers, totalPages, currentPage, totalHeight;
+        private int totalPlayers, totalPages, currentPage, totalHeight, myRank;
         private DateTime refreshTime;
         private List<RankRound> roundlist;
         private List<RankInfo> recordholders;
@@ -50,6 +51,10 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.cboRoundList.Theme = theme;
             this.mlRefreshList.Theme = theme;
+            // this.mlMyRank.Theme = theme;
+            this.mlMyRank.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.mlMyRank.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+            
             // this.lblPagingInfo.Theme = theme;
             // this.mlFirstPagingButton.Theme = theme;
             // this.mlLastPagingButton.Theme = theme;
@@ -106,6 +111,14 @@ namespace FallGuysStats {
             this.SetGridList(this.key);
         }
 
+        private void mlMyRank_MouseEnter(object sender, EventArgs e) {
+            ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+        }
+        
+        private void mlMyRank_MouseLeave(object sender, EventArgs e) {
+            ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+        }
+
         private void SetRoundList() {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
@@ -149,10 +162,28 @@ namespace FallGuysStats {
                 int displayedRowCount = this.gridDetails.DisplayedRowCount(false);
                 int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                 this.gridDetails.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                
+                this.myRank = index + 1;
+                this.mlMyRank.Visible = true;
+                this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myRank)} {Stats.OnlineServiceNickname}";
+                if (this.myRank == 1) {
+                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                } else {
+                    double percentage = ((double)(this.myRank - 1) / (this.totalPlayers - 1)) * 100;
+                    if (percentage <= 20) {
+                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                    } else if (percentage <= 50) {
+                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                    } else {
+                        this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
+                    }
+                }
+                this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
             }
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);
             this.mlRefreshList.Visible = true;
+            
             this.mlVisitFallalytics.Visible = true;
             this.cboRoundList.Enabled = true;
             // this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
@@ -182,6 +213,7 @@ namespace FallGuysStats {
             this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
             this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
             this.lblSearchDescription.Visible = true;
+            this.mlMyRank.Visible = false;
             // this.lblPagingInfo.Visible = false;
             // this.mlLeftPagingButton.Visible = false;
             // this.mlRightPagingButton.Visible = false;
@@ -192,6 +224,7 @@ namespace FallGuysStats {
             this.cboRoundList.Enabled = false;
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
+            this.mlMyRank.Visible = false;
             // this.lblPagingInfo.Visible = false;
             // this.mlFirstPagingButton.Visible = false;
             // this.mlLastPagingButton.Visible = false;
@@ -521,6 +554,10 @@ namespace FallGuysStats {
                         this.SetGridList(this.key);
                     }
                 }
+            } else if (sender.Equals(this.mlMyRank)) {
+                int displayedRowCount = this.gridDetails.DisplayedRowCount(false);
+                int firstDisplayedScrollingRowIndex = (this.myRank - 1) - (displayedRowCount / 2);
+                this.gridDetails.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             }
             // else if (sender.Equals(this.mlFirstPagingButton)) {
             //     if (!string.IsNullOrEmpty(this.key)) {

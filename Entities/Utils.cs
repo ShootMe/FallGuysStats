@@ -362,5 +362,28 @@ namespace FallGuysStats {
                 return $"{time.Minutes}{Multilingual.GetWord("leaderboard_grid_time_prefix")} {time.Seconds:D2}.{time.Milliseconds:D3}{Multilingual.GetWord("leaderboard_grid_time_suffix")}";
             }
         }
+        
+        public static string AppendOrdinal(int rank) {
+            if (rank <= 0) return rank.ToString();
+            
+            if (Stats.CurrentLanguage == Language.French) {
+                if (rank == 1) return "premier";
+                else return rank + "ième";
+            } else if (Stats.CurrentLanguage == Language.Korean) {
+                return rank + "위";
+            } else if (Stats.CurrentLanguage == Language.Japanese) {
+                return rank + "位";
+            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
+                return "第" + rank + "名";
+            } else {
+                if (rank >= 10 && rank <= 20) return rank + "th";
+                switch(rank % 10) {
+                    case 1: return rank + "st";
+                    case 2: return rank + "nd";
+                    case 3: return rank + "rd";
+                    default: return rank + "th";
+                }
+            }
+        }
     }
 }

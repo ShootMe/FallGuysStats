@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardDisplay));
             this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
+            this.mlMyRank = new MetroFramework.Controls.MetroLink();
             // this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
             // this.mlFirstPagingButton = new MetroFramework.Controls.MetroLink();
             // this.mlLastPagingButton = new MetroFramework.Controls.MetroLink();
@@ -74,6 +75,30 @@
             this.lblSearchDescription.Text = "Choose a round";
             this.lblSearchDescription.UseCustomForeColor = true;
             this.lblSearchDescription.Visible = false;
+            // 
+            // mlMyRank
+            // 
+            this.mlMyRank.AutoSize = true;
+            this.mlMyRank.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlMyRank.FontSize = MetroFramework.MetroLinkSize.Tall;
+            this.mlMyRank.FontWeight = MetroFramework.MetroLinkWeight.Bold;
+            this.mlMyRank.Image = global::FallGuysStats.Properties.Resources.medal_gold_grid_icon;
+            this.mlMyRank.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlMyRank.ImageSize = 30;
+            this.mlMyRank.Location = new System.Drawing.Point(635, 58);
+            this.mlMyRank.Name = "mlMyRank";
+            this.mlMyRank.Size = new System.Drawing.Size(50, 30);
+            this.mlMyRank.TabIndex = 7;
+            this.mlMyRank.Text = "";
+            this.mlMyRank.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.mlMyRank.UseCustomBackColor = true;
+            this.mlMyRank.UseCustomForeColor = true;
+            this.mlMyRank.UseSelectable = true;
+            this.mlMyRank.UseStyleColors = true;
+            this.mlMyRank.Visible = false;
+            this.mlMyRank.Click += new System.EventHandler(this.link_Click);
+            this.mlMyRank.MouseEnter += new System.EventHandler(this.mlMyRank_MouseEnter);
+            this.mlMyRank.MouseLeave += new System.EventHandler(this.mlMyRank_MouseLeave);
             // 
             // lblPagingInfo
             // 
@@ -257,6 +282,7 @@
             this.ClientSize = new System.Drawing.Size(1210, 937);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblSearchDescription);
+            this.Controls.Add(this.mlMyRank);
             // this.Controls.Add(this.lblPagingInfo);
             // this.Controls.Add(this.mlFirstPagingButton);
             // this.Controls.Add(this.mlLastPagingButton);
@@ -291,6 +317,7 @@
 
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
+        private MetroFramework.Controls.MetroLink mlMyRank;
         // private MetroFramework.Controls.MetroLabel lblPagingInfo;
         // private MetroFramework.Controls.MetroLink mlFirstPagingButton;
         // private MetroFramework.Controls.MetroLink mlLastPagingButton;
