@@ -20,6 +20,9 @@ namespace FallGuysStats {
         private static readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
         private static readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip={ip}
         
+        [DllImport("User32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
         

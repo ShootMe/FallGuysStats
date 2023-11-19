@@ -42,23 +42,32 @@ namespace FallGuysStats {
             }
         }
         
+        private void SetEventWaitHandle() {
+            EventWaitHandle eventWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "FallGuysStatsEventWaitHandle", out bool createdNew);
+            if (!createdNew) {
+                Application.Exit();
+            } else {
+                Task.Run(() => {
+                    while (eventWaitHandle.WaitOne()) {
+                        this.Invoke((Action)(() => {
+                            this.Visible = true;
+                            this.TopMost = true;
+                            this.TopMost = false;
+                        }));
+                    }
+                });
+            }
+        }
+        
         private static bool IsAlreadyRunning() {
             try {
-                int processCount = 0;
-                Process[] processes = Process.GetProcesses();
-                for (int i = 0; i < processes.Length; i++) {
-                    if (AppDomain.CurrentDomain.FriendlyName.Equals(processes[i].ProcessName + ".exe")) processCount++;
-                    if (processCount > 1) {
-                        string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
-                                         CultureInfo.CurrentUICulture.Name :
-                                         CultureInfo.CurrentUICulture.Name.Substring(0, 2);
-                        CurrentLanguage = "fr".Equals(sysLang, StringComparison.Ordinal) ? Language.French :
-                                          "ko".Equals(sysLang, StringComparison.Ordinal) ? Language.Korean :
-                                          "ja".Equals(sysLang, StringComparison.Ordinal) ? Language.Japanese :
-                                          "zh-chs".Equals(sysLang, StringComparison.Ordinal) ? Language.SimplifiedChinese :
-                                          "zh-cht".Equals(sysLang, StringComparison.Ordinal) ? Language.TraditionalChinese : Language.English;
-                        MessageBox.Show(Multilingual.GetWord("message_tracker_already_running"), Multilingual.GetWord("main_fall_guys_stats"),
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string currentProcessName = Process.GetCurrentProcess().ProcessName;
+                foreach (var process in Process.GetProcessesByName(currentProcessName)) {
+                    if (process.Id != Process.GetCurrentProcess().Id) {
+                        EventWaitHandle eventWaitHandle = EventWaitHandle.OpenExisting("FallGuysStatsEventWaitHandle");
+                        eventWaitHandle.Set();
+                        // Utils.ShowWindow(process.MainWindowHandle, 9);
+                        // Utils.SetForegroundWindow(process.MainWindowHandle);
                         return true;
                     }
                 }
@@ -358,10 +367,13 @@ namespace FallGuysStats {
             this.RemoveUpdateFiles();
             
             this.InitializeComponent();
-            this.SetStyle(ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            this.UpdateStyles();
+
+            this.SetEventWaitHandle();
+            
+            // this.SetStyle(ControlStyles.UserPaint, true);
+            // this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            // this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            // this.UpdateStyles();
             
 #if !AllowUpdate
             this.menu.Items.Remove(this.menuUpdate);
@@ -2542,14 +2554,17 @@ namespace FallGuysStats {
                 if (this.Visible && this.WindowState == FormWindowState.Minimized) {
                     this.isFocused = true;
                     this.WindowState = this.maximizedForm ? FormWindowState.Maximized : FormWindowState.Normal;
+                    this.TopMost = true;
+                    this.TopMost = false;
                     Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                 } else if (this.Visible && this.WindowState != FormWindowState.Minimized) {
                     if (this.isFocused) {
                         this.isFocused = false;
                         this.Hide();
-                        //Utils.SetForegroundWindow(Utils.FindWindow(null, "Fall Guys Stats Overlay"));
                     } else {
                         this.isFocused = true;
+                        this.TopMost = true;
+                        this.TopMost = false;
                         Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                     }
                 } else {
@@ -2565,6 +2580,8 @@ namespace FallGuysStats {
         
         private void Stats_VisibleChanged(object sender, EventArgs e) {
             if (this.Visible) {
+                this.TopMost = true;
+                this.TopMost = false;
                 Utils.SetForegroundWindow(Utils.FindWindow(null, this.mainWndTitle));
                 this.SetMainDataGridViewOrder();
             }
