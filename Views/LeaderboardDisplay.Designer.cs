@@ -31,11 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardDisplay));
             this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
-            this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
-            this.mlFirstPagingButton = new MetroFramework.Controls.MetroLink();
-            this.mlLastPagingButton = new MetroFramework.Controls.MetroLink();
-            this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
-            this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
+            // this.lblPagingInfo = new MetroFramework.Controls.MetroLabel();
+            // this.mlFirstPagingButton = new MetroFramework.Controls.MetroLink();
+            // this.mlLastPagingButton = new MetroFramework.Controls.MetroLink();
+            // this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
+            // this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.mlRefreshList = new MetroFramework.Controls.MetroLink();
             this.cboRoundList = new FallGuysStats.ImageComboBox();
@@ -77,91 +77,91 @@
             // 
             // lblPagingInfo
             // 
-            this.lblPagingInfo.AutoSize = true;
-            this.lblPagingInfo.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Bold;
-            this.lblPagingInfo.Location = new System.Drawing.Point(635, 61);
-            this.lblPagingInfo.Name = "lblPagingInfo";
-            this.lblPagingInfo.Size = new System.Drawing.Size(139, 25);
-            this.lblPagingInfo.TabIndex = 3;
-            this.lblPagingInfo.Text = "1 - 50";
-            this.lblPagingInfo.Visible = false;
+            // this.lblPagingInfo.AutoSize = true;
+            // this.lblPagingInfo.FontSize = MetroFramework.MetroLabelSize.Tall;
+            // this.lblPagingInfo.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            // this.lblPagingInfo.Location = new System.Drawing.Point(635, 61);
+            // this.lblPagingInfo.Name = "lblPagingInfo";
+            // this.lblPagingInfo.Size = new System.Drawing.Size(139, 25);
+            // this.lblPagingInfo.TabIndex = 3;
+            // this.lblPagingInfo.Text = "1 - 50";
+            // this.lblPagingInfo.Visible = false;
             // 
             // mlFirstPagingButton
             // 
-            this.mlFirstPagingButton.AutoSize = true;
-            this.mlFirstPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mlFirstPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.mlFirstPagingButton.Image = global::FallGuysStats.Properties.Resources.first_button_icon;
-            this.mlFirstPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlFirstPagingButton.ImageSize = 27;
-            this.mlFirstPagingButton.Location = new System.Drawing.Point(579, 60);
-            this.mlFirstPagingButton.Name = "mlFirstPagingButton";
-            this.mlFirstPagingButton.Size = new System.Drawing.Size(27, 28);
-            this.mlFirstPagingButton.TabIndex = 7;
-            this.mlFirstPagingButton.Text = "";
-            this.mlFirstPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlFirstPagingButton.UseSelectable = true;
-            this.mlFirstPagingButton.UseStyleColors = true;
-            this.mlFirstPagingButton.Visible = false;
-            this.mlFirstPagingButton.Click += new System.EventHandler(this.link_Click);
+            // this.mlFirstPagingButton.AutoSize = true;
+            // this.mlFirstPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            // this.mlFirstPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            // this.mlFirstPagingButton.Image = global::FallGuysStats.Properties.Resources.first_button_icon;
+            // this.mlFirstPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlFirstPagingButton.ImageSize = 27;
+            // this.mlFirstPagingButton.Location = new System.Drawing.Point(579, 60);
+            // this.mlFirstPagingButton.Name = "mlFirstPagingButton";
+            // this.mlFirstPagingButton.Size = new System.Drawing.Size(27, 28);
+            // this.mlFirstPagingButton.TabIndex = 7;
+            // this.mlFirstPagingButton.Text = "";
+            // this.mlFirstPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlFirstPagingButton.UseSelectable = true;
+            // this.mlFirstPagingButton.UseStyleColors = true;
+            // this.mlFirstPagingButton.Visible = false;
+            // this.mlFirstPagingButton.Click += new System.EventHandler(this.link_Click);
             // 
             // mlLastPagingButton
             // 
-            this.mlLastPagingButton.AutoSize = true;
-            this.mlLastPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mlLastPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.mlLastPagingButton.Image = global::FallGuysStats.Properties.Resources.last_button_icon;
-            this.mlLastPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLastPagingButton.ImageSize = 27;
-            this.mlLastPagingButton.Location = new System.Drawing.Point(721, 60);
-            this.mlLastPagingButton.Name = "mlLastPagingButton";
-            this.mlLastPagingButton.Size = new System.Drawing.Size(27, 28);
-            this.mlLastPagingButton.TabIndex = 7;
-            this.mlLastPagingButton.Text = "";
-            this.mlLastPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLastPagingButton.UseSelectable = true;
-            this.mlLastPagingButton.UseStyleColors = true;
-            this.mlLastPagingButton.Visible = false;
-            this.mlLastPagingButton.Click += new System.EventHandler(this.link_Click);
+            // this.mlLastPagingButton.AutoSize = true;
+            // this.mlLastPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            // this.mlLastPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            // this.mlLastPagingButton.Image = global::FallGuysStats.Properties.Resources.last_button_icon;
+            // this.mlLastPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlLastPagingButton.ImageSize = 27;
+            // this.mlLastPagingButton.Location = new System.Drawing.Point(721, 60);
+            // this.mlLastPagingButton.Name = "mlLastPagingButton";
+            // this.mlLastPagingButton.Size = new System.Drawing.Size(27, 28);
+            // this.mlLastPagingButton.TabIndex = 7;
+            // this.mlLastPagingButton.Text = "";
+            // this.mlLastPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlLastPagingButton.UseSelectable = true;
+            // this.mlLastPagingButton.UseStyleColors = true;
+            // this.mlLastPagingButton.Visible = false;
+            // this.mlLastPagingButton.Click += new System.EventHandler(this.link_Click);
             // 
             // mlLeftPagingButton
             // 
-            this.mlLeftPagingButton.AutoSize = true;
-            this.mlLeftPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
-            this.mlLeftPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLeftPagingButton.ImageSize = 27;
-            this.mlLeftPagingButton.Location = new System.Drawing.Point(600, 60);
-            this.mlLeftPagingButton.Name = "mlLeftPagingButton";
-            this.mlLeftPagingButton.Size = new System.Drawing.Size(27, 28);
-            this.mlLeftPagingButton.TabIndex = 7;
-            this.mlLeftPagingButton.Text = "";
-            this.mlLeftPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlLeftPagingButton.UseSelectable = true;
-            this.mlLeftPagingButton.UseStyleColors = true;
-            this.mlLeftPagingButton.Visible = false;
-            this.mlLeftPagingButton.Click += new System.EventHandler(this.link_Click);
+            // this.mlLeftPagingButton.AutoSize = true;
+            // this.mlLeftPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            // this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            // this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
+            // this.mlLeftPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlLeftPagingButton.ImageSize = 27;
+            // this.mlLeftPagingButton.Location = new System.Drawing.Point(600, 60);
+            // this.mlLeftPagingButton.Name = "mlLeftPagingButton";
+            // this.mlLeftPagingButton.Size = new System.Drawing.Size(27, 28);
+            // this.mlLeftPagingButton.TabIndex = 7;
+            // this.mlLeftPagingButton.Text = "";
+            // this.mlLeftPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlLeftPagingButton.UseSelectable = true;
+            // this.mlLeftPagingButton.UseStyleColors = true;
+            // this.mlLeftPagingButton.Visible = false;
+            // this.mlLeftPagingButton.Click += new System.EventHandler(this.link_Click);
             // 
             // mlRightPagingButton
             // 
-            this.mlRightPagingButton.AutoSize = true;
-            this.mlRightPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
-            this.mlRightPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlRightPagingButton.ImageSize = 27;
-            this.mlRightPagingButton.Location = new System.Drawing.Point(700, 60);
-            this.mlRightPagingButton.Name = "mlRightPagingButton";
-            this.mlRightPagingButton.Size = new System.Drawing.Size(27, 28);
-            this.mlRightPagingButton.TabIndex = 7;
-            this.mlRightPagingButton.Text = "";
-            this.mlRightPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.mlRightPagingButton.UseSelectable = true;
-            this.mlRightPagingButton.UseStyleColors = true;
-            this.mlRightPagingButton.Visible = false;
-            this.mlRightPagingButton.Click += new System.EventHandler(this.link_Click);
+            // this.mlRightPagingButton.AutoSize = true;
+            // this.mlRightPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            // this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            // this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
+            // this.mlRightPagingButton.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlRightPagingButton.ImageSize = 27;
+            // this.mlRightPagingButton.Location = new System.Drawing.Point(700, 60);
+            // this.mlRightPagingButton.Name = "mlRightPagingButton";
+            // this.mlRightPagingButton.Size = new System.Drawing.Size(27, 28);
+            // this.mlRightPagingButton.TabIndex = 7;
+            // this.mlRightPagingButton.Text = "";
+            // this.mlRightPagingButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // this.mlRightPagingButton.UseSelectable = true;
+            // this.mlRightPagingButton.UseStyleColors = true;
+            // this.mlRightPagingButton.Visible = false;
+            // this.mlRightPagingButton.Click += new System.EventHandler(this.link_Click);
             // 
             // mlVisitFallalytics
             // 
@@ -242,7 +242,7 @@
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDetails.Size = new System.Drawing.Size(1189, 696);
+            this.gridDetails.Size = new System.Drawing.Size(1189, 824);
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
@@ -254,14 +254,14 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1210, 809);
+            this.ClientSize = new System.Drawing.Size(1210, 937);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblSearchDescription);
-            this.Controls.Add(this.lblPagingInfo);
-            this.Controls.Add(this.mlFirstPagingButton);
-            this.Controls.Add(this.mlLastPagingButton);
-            this.Controls.Add(this.mlLeftPagingButton);
-            this.Controls.Add(this.mlRightPagingButton);
+            // this.Controls.Add(this.lblPagingInfo);
+            // this.Controls.Add(this.mlFirstPagingButton);
+            // this.Controls.Add(this.mlLastPagingButton);
+            // this.Controls.Add(this.mlLeftPagingButton);
+            // this.Controls.Add(this.mlRightPagingButton);
             this.Controls.Add(this.mlVisitFallalytics);
             this.Controls.Add(this.mlRefreshList);
             this.Controls.Add(this.cboRoundList);
@@ -291,11 +291,11 @@
 
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
-        private MetroFramework.Controls.MetroLabel lblPagingInfo;
-        private MetroFramework.Controls.MetroLink mlFirstPagingButton;
-        private MetroFramework.Controls.MetroLink mlLastPagingButton;
-        private MetroFramework.Controls.MetroLink mlLeftPagingButton;
-        private MetroFramework.Controls.MetroLink mlRightPagingButton;
+        // private MetroFramework.Controls.MetroLabel lblPagingInfo;
+        // private MetroFramework.Controls.MetroLink mlFirstPagingButton;
+        // private MetroFramework.Controls.MetroLink mlLastPagingButton;
+        // private MetroFramework.Controls.MetroLink mlLeftPagingButton;
+        // private MetroFramework.Controls.MetroLink mlRightPagingButton;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private MetroFramework.Controls.MetroLink mlRefreshList;
         private FallGuysStats.ImageComboBox cboRoundList;

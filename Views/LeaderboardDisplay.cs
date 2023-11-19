@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Net.Http;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
@@ -51,11 +50,11 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.cboRoundList.Theme = theme;
             this.mlRefreshList.Theme = theme;
-            this.lblPagingInfo.Theme = theme;
-            this.mlFirstPagingButton.Theme = theme;
-            this.mlLastPagingButton.Theme = theme;
-            this.mlLeftPagingButton.Theme = theme;
-            this.mlRightPagingButton.Theme = theme;
+            // this.lblPagingInfo.Theme = theme;
+            // this.mlFirstPagingButton.Theme = theme;
+            // this.mlLastPagingButton.Theme = theme;
+            // this.mlLeftPagingButton.Theme = theme;
+            // this.mlRightPagingButton.Theme = theme;
             
             this.lblSearchDescription.Theme = theme;
             this.lblSearchDescription.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
@@ -104,7 +103,7 @@ namespace FallGuysStats {
             this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             this.totalHeight = 0;
             this.currentPage = 0;
-            this.SetGridList(this.key, true);
+            this.SetGridList(this.key);
         }
 
         private void SetRoundList() {
@@ -152,137 +151,198 @@ namespace FallGuysStats {
                 this.gridDetails.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             }
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
-            this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 20, this.mlRefreshList.Location.Y);
+            this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);
             this.mlRefreshList.Visible = true;
             this.mlVisitFallalytics.Visible = true;
             this.cboRoundList.Enabled = true;
-            this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
-            this.lblPagingInfo.Location = new Point((this.ClientSize.Width - this.lblPagingInfo.Width) / 2, this.lblPagingInfo.Location.Y);
-            this.lblPagingInfo.Visible = this.totalPages > 1;
-            this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
-            this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Location.X - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Location.Y);
-            this.mlLeftPagingButton.Visible = this.totalPages > 1;
-            this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
-            this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Location.X - this.mlFirstPagingButton.Width - 3, this.mlFirstPagingButton.Location.Y);
-            this.mlFirstPagingButton.Visible = this.totalPages > 1;
-            this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
-            this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
-            this.mlRightPagingButton.Visible = this.totalPages > 1;
-            this.mlLastPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
-            this.mlLastPagingButton.Location = new Point(this.mlRightPagingButton.Right + 3, this.mlLastPagingButton.Location.Y);
-            this.mlLastPagingButton.Visible = this.totalPages > 1;
+            // this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
+            // this.lblPagingInfo.Location = new Point((this.ClientSize.Width - this.lblPagingInfo.Width) / 2, this.lblPagingInfo.Location.Y);
+            // this.lblPagingInfo.Visible = this.totalPages > 1;
+            // this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
+            // this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Location.X - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Location.Y);
+            // this.mlLeftPagingButton.Visible = this.totalPages > 1;
+            // this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
+            // this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Location.X - this.mlFirstPagingButton.Width - 3, this.mlFirstPagingButton.Location.Y);
+            // this.mlFirstPagingButton.Visible = this.totalPages > 1;
+            // this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
+            // this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
+            // this.mlRightPagingButton.Visible = this.totalPages > 1;
+            // this.mlLastPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
+            // this.mlLastPagingButton.Location = new Point(this.mlRightPagingButton.Right + 3, this.mlLastPagingButton.Location.Y);
+            // this.mlLastPagingButton.Visible = this.totalPages > 1;
+            this.Invalidate();
+        }
+
+        private void SetGridNoData() {
+            this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
+            this.mpsSpinner.Visible = false;
+            this.gridDetails.DataSource = this.nodata;
+            this.mlRefreshList.Visible = false;
+            this.mlVisitFallalytics.Visible = false;
+            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
+            this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
+            this.lblSearchDescription.Visible = true;
+            // this.lblPagingInfo.Visible = false;
+            // this.mlLeftPagingButton.Visible = false;
+            // this.mlRightPagingButton.Visible = false;
             this.Invalidate();
         }
         
-        private void SetGridList(string queryKey, bool isFirst) {
+        private void SetGridList(string queryKey) {
             this.cboRoundList.Enabled = false;
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
-            this.lblPagingInfo.Visible = false;
-            this.mlFirstPagingButton.Visible = false;
-            this.mlLastPagingButton.Visible = false;
-            this.mlLeftPagingButton.Visible = false;
-            this.mlRightPagingButton.Visible = false;
+            // this.lblPagingInfo.Visible = false;
+            // this.mlFirstPagingButton.Visible = false;
+            // this.mlLastPagingButton.Visible = false;
+            // this.mlLeftPagingButton.Visible = false;
+            // this.mlRightPagingButton.Visible = false;
             this.mpsSpinner.Visible = true;
             this.gridDetails.DataSource = this.nodata;
-            if (isFirst) {
-                Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
+            
+            Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
+                int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
-                        int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-                        if (index == -1) {
-                            var cancellationTokenSource = new CancellationTokenSource();
+                        this.SetLeaderboardUI(index);
+                    } else {
+                        this.SetGridNoData();
+                    }
+                    this.refreshTime = DateTime.Now;
+                });
+            });
+            
+            // if (isFirst) {
+            //     Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
+            //         if (prevTask.Result) {
+            //             int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+            //             if (index == -1) {
+            //                 var cancellationTokenSource = new CancellationTokenSource();
+            //                 var tasks = new List<Task>();
+            //                 HttpClient client = new HttpClient();
+            //                 for (int i = 1; i < this.totalPages; i++) {
+            //                     int page = i;
+            //                     tasks.Add(Task.Run(async () => {
+            //                         try {
+            //                             HttpResponseMessage response = await client.GetAsync($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={page + 1}", cancellationTokenSource.Token);
+            //                             if (response.IsSuccessStatusCode) {
+            //                                 string json = await response.Content.ReadAsStringAsync();
+            //                                 var options = new JsonSerializerOptions();
+            //                                 options.Converters.Add(new RecordHolderConverter());
+            //                                 Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
+            //                                 int findIndex = leaderboard.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+            //                                 if (findIndex != -1) {
+            //                                     this.currentPage = page;
+            //                                     index = findIndex;
+            //                                     for (int j = 0; j < leaderboard.recordholders.Count; j++) {
+            //                                         leaderboard.recordholders[j].rank = j + 1 + (this.currentPage * 50);
+            //                                     }
+            //                                     this.recordholders = leaderboard.recordholders;
+            //                                     cancellationTokenSource.Cancel();
+            //                                 }
+            //                             }
+            //                         } catch (OperationCanceledException) {
+            //                             // Console.WriteLine("Task was cancelled.");
+            //                         }
+            //                     }));
+            //                 }
+            //                 
+            //                 try {
+            //                     Task.WhenAll(tasks).Wait();
+            //                     this.BeginInvoke((MethodInvoker)delegate {
+            //                         this.SetLeaderboardUI(index);
+            //                     });
+            //                 } catch (AggregateException e) {
+            //                     // foreach (var innerException in e.InnerExceptions) {
+            //                     //     if (innerException is OperationCanceledException) {
+            //                     //         Console.WriteLine("Task was cancelled.");
+            //                     //     }
+            //                     // }
+            //                 }
+            //             } else {
+            //                 this.BeginInvoke((MethodInvoker)delegate {
+            //                     this.SetLeaderboardUI(index);
+            //                 });
+            //             }
+            //         } else {
+            //             this.SetGridNoData();
+            //         }
+            //         this.refreshTime = DateTime.Now;
+            //     });    
+            // } else {
+            //     Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
+            //         this.BeginInvoke((MethodInvoker)delegate {
+            //             int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+            //             if (prevTask.Result) {
+            //                 this.SetLeaderboardUI(index);
+            //             } else {
+            //                 this.SetGridNoData();
+            //             }
+            //             this.refreshTime = DateTime.Now;
+            //         });
+            //     });
+            // }
+        }
+
+        private bool DataLoadBulk(string queryKey) {
+            bool result;
+            string json;
+            JsonSerializerOptions options;
+            Leaderboard leaderboard;
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    this.recordholders = null;
+                    json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p=1");
+                    options = new JsonSerializerOptions();
+                    options.Converters.Add(new RecordHolderConverter());
+                    leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
+                    result = leaderboard.found;
+                    if (result) {
+                        this.totalPlayers = leaderboard.total;
+                        this.totalPages = (int)Math.Ceiling(this.totalPlayers / 50f);
+                        for (int i = 0; i < leaderboard.recordholders.Count; i++) {
+                            leaderboard.recordholders[i].rank = i + 1;
+                        }
+                        this.recordholders = leaderboard.recordholders;
+                        if (this.totalPages > 1) {
                             var tasks = new List<Task>();
                             HttpClient client = new HttpClient();
-                            for (int i = 1; i < this.totalPages; i++) {
+                            for (int i = 2; i <= this.totalPages; i++) {
                                 int page = i;
                                 tasks.Add(Task.Run(async () => {
-                                    try {
-                                        HttpResponseMessage response = await client.GetAsync($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={page + 1}", cancellationTokenSource.Token);
-                                        if (response.IsSuccessStatusCode) {
-                                            string json = await response.Content.ReadAsStringAsync();
-                                            var options = new JsonSerializerOptions();
-                                            options.Converters.Add(new RecordHolderConverter());
-                                            Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
-                                            int findIndex = leaderboard.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-                                            if (findIndex != -1) {
-                                                this.currentPage = page;
-                                                index = findIndex;
-                                                for (int j = 0; j < leaderboard.recordholders.Count; j++) {
-                                                    leaderboard.recordholders[j].rank = j + 1 + (this.currentPage * 50);
-                                                }
-                                                this.recordholders = leaderboard.recordholders;
-                                                cancellationTokenSource.Cancel();
-                                            }
+                                    HttpResponseMessage response = await client.GetAsync($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={page}");
+                                    if (response.IsSuccessStatusCode) {
+                                        json = await response.Content.ReadAsStringAsync();
+                                        options = new JsonSerializerOptions();
+                                        options.Converters.Add(new RecordHolderConverter());
+                                        leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
+                                        for (int j = 0; j < leaderboard.recordholders.Count; j++) {
+                                            leaderboard.recordholders[j].rank = j + 1 + ((page - 1) * 50);
                                         }
-                                    } catch (OperationCanceledException) {
-                                        // Console.WriteLine("Task was cancelled.");
+                                        this.recordholders.AddRange(leaderboard.recordholders);
                                     }
                                 }));
                             }
-                            
-                            try {
-                                Task.WhenAll(tasks).Wait();
-                                this.BeginInvoke((MethodInvoker)delegate {
-                                    this.SetLeaderboardUI(index);
-                                });
-                            } catch (AggregateException e) {
-                                // foreach (var innerException in e.InnerExceptions) {
-                                //     if (innerException is OperationCanceledException) {
-                                //         Console.WriteLine("Task was cancelled.");
-                                //     }
-                                // }
-                            }
-                        } else {
-                            this.BeginInvoke((MethodInvoker)delegate {
-                                this.SetLeaderboardUI(index);
-                            });
+                            Task.WhenAll(tasks).Wait();
+                            this.recordholders.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                         }
                     } else {
-                        this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
-                        this.mpsSpinner.Visible = false;
-                        this.gridDetails.DataSource = this.nodata;
-                        this.mlRefreshList.Visible = false;
-                        this.mlVisitFallalytics.Visible = false;
-                        this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
-                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
-                        this.lblSearchDescription.Visible = true;
-                        this.lblPagingInfo.Visible = false;
-                        this.mlLeftPagingButton.Visible = false;
-                        this.mlRightPagingButton.Visible = false;
-                        this.Invalidate();
+                        this.totalPages = 0;
+                        this.totalPlayers = 0;
                     }
-                    this.refreshTime = DateTime.Now;
-                });    
-            } else {
-                Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
-                    this.BeginInvoke((MethodInvoker)delegate {
-                        int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-                        if (prevTask.Result) {
-                            this.SetLeaderboardUI(index);
-                        } else {
-                            this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
-                            this.mpsSpinner.Visible = false;
-                            this.gridDetails.DataSource = this.nodata;
-                            this.mlRefreshList.Visible = false;
-                            this.mlVisitFallalytics.Visible = false;
-                            this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
-                            this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
-                            this.lblSearchDescription.Visible = true;
-                            this.lblPagingInfo.Visible = false;
-                            this.mlLeftPagingButton.Visible = false;
-                            this.mlRightPagingButton.Visible = false;
-                            this.Invalidate();
-                        }
-                        this.refreshTime = DateTime.Now;
-                    });
-                });
+                } catch {
+                    result = false;
+                    this.totalPages = 0;
+                    this.totalPlayers = 0;
+                }
             }
+            return result;
         }
 
-        private bool DataLoad(string round = null) {
+        private bool DataLoad(string queryKey = null) {
             bool result;
             using (ApiWebClient web = new ApiWebClient()) {
-                if (string.IsNullOrEmpty(round)) { // round list
+                if (string.IsNullOrEmpty(queryKey)) { // round list
                     try {
                         string json = web.DownloadString($"{this.LEADERBOARD_API_URL}s");
                         var options = new JsonSerializerOptions();
@@ -295,7 +355,7 @@ namespace FallGuysStats {
                     }
                 } else {
                     try {
-                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={round}&p={this.currentPage + 1}");
+                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={this.currentPage + 1}");
                         var options = new JsonSerializerOptions();
                         options.Converters.Add(new RecordHolderConverter());
                         Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
@@ -452,47 +512,49 @@ namespace FallGuysStats {
 
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.mlVisitFallalytics)) {
-                Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}/{this.currentPage + 1}");
+                // Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}/{this.currentPage + 1}");
+                Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}/1");
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
                     if (difference.TotalSeconds > 8) {
-                        this.SetGridList(this.key, false);
-                    }
-                }
-            } else if (sender.Equals(this.mlFirstPagingButton)) {
-                if (!string.IsNullOrEmpty(this.key)) {
-                    TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds > 1.6) {
-                        this.currentPage = 0;
-                        this.SetGridList(this.key, false);
-                    }
-                }
-            } else if (sender.Equals(this.mlLeftPagingButton)) {
-                if (!string.IsNullOrEmpty(this.key)) {
-                    TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds > 1.6) {
-                        this.currentPage -= 1;
-                        this.SetGridList(this.key, false);
-                    }
-                }
-            } else if (sender.Equals(this.mlRightPagingButton)) {
-                if (!string.IsNullOrEmpty(this.key)) {
-                    TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds > 1.6) {
-                        this.currentPage += 1;
-                        this.SetGridList(this.key, false);
-                    }
-                }
-            } else if (sender.Equals(this.mlLastPagingButton)) {
-                if (!string.IsNullOrEmpty(this.key)) {
-                    TimeSpan difference = DateTime.Now - this.refreshTime;
-                    if (difference.TotalSeconds > 1.6) {
-                        this.currentPage = this.totalPages - 1;
-                        this.SetGridList(this.key, false);
+                        this.SetGridList(this.key);
                     }
                 }
             }
+            // else if (sender.Equals(this.mlFirstPagingButton)) {
+            //     if (!string.IsNullOrEmpty(this.key)) {
+            //         TimeSpan difference = DateTime.Now - this.refreshTime;
+            //         if (difference.TotalSeconds > 1.6) {
+            //             this.currentPage = 0;
+            //             this.SetGridList(this.key);
+            //         }
+            //     }
+            // } else if (sender.Equals(this.mlLeftPagingButton)) {
+            //     if (!string.IsNullOrEmpty(this.key)) {
+            //         TimeSpan difference = DateTime.Now - this.refreshTime;
+            //         if (difference.TotalSeconds > 1.6) {
+            //             this.currentPage -= 1;
+            //             this.SetGridList(this.key);
+            //         }
+            //     }
+            // } else if (sender.Equals(this.mlRightPagingButton)) {
+            //     if (!string.IsNullOrEmpty(this.key)) {
+            //         TimeSpan difference = DateTime.Now - this.refreshTime;
+            //         if (difference.TotalSeconds > 1.6) {
+            //             this.currentPage += 1;
+            //             this.SetGridList(this.key);
+            //         }
+            //     }
+            // } else if (sender.Equals(this.mlLastPagingButton)) {
+            //     if (!string.IsNullOrEmpty(this.key)) {
+            //         TimeSpan difference = DateTime.Now - this.refreshTime;
+            //         if (difference.TotalSeconds > 1.6) {
+            //             this.currentPage = this.totalPages - 1;
+            //             this.SetGridList(this.key);
+            //         }
+            //     }
+            // }
         }
     }
 }
