@@ -367,8 +367,10 @@ namespace FallGuysStats {
             if (rank <= 0) return rank.ToString();
             
             if (Stats.CurrentLanguage == Language.French) {
-                if (rank == 1) return "premier";
-                else return rank + "ième";
+                switch(rank % 100) {
+                    case 1: return rank + "er";
+                    default: return rank + "ième";
+                }
             } else if (Stats.CurrentLanguage == Language.Korean) {
                 return rank + "위";
             } else if (Stats.CurrentLanguage == Language.Japanese) {
