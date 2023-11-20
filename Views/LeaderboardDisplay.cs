@@ -232,19 +232,23 @@ namespace FallGuysStats {
             // this.mlRightPagingButton.Visible = false;
             this.mpsSpinner.Visible = true;
             this.gridDetails.DataSource = this.nodata;
-            
-            Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
-                int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-                this.BeginInvoke((MethodInvoker)delegate {
-                    if (prevTask.Result) {
-                        this.SetLeaderboardUI(index);
-                    } else {
-                        this.SetGridNoData();
-                    }
-                    this.refreshTime = DateTime.Now;
+
+            try {
+                Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
+                    int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                    this.BeginInvoke((MethodInvoker)delegate {
+                        if (prevTask.Result) {
+                            this.SetLeaderboardUI(index);
+                        } else {
+                            this.SetGridNoData();
+                        }
+                        this.refreshTime = DateTime.Now;
+                    });
                 });
-            });
-            
+            } catch {
+                // ignored
+            }
+
             // if (isFirst) {
             //     Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
             //         if (prevTask.Result) {
