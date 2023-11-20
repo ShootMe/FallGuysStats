@@ -364,26 +364,25 @@ namespace FallGuysStats {
         }
         
         public static string AppendOrdinal(int rank) {
-            if (rank <= 0) return rank.ToString();
+            string number = rank.ToString();
+            if (rank <= 0) return number;
             
             if (Stats.CurrentLanguage == Language.French) {
-                switch(rank % 100) {
-                    case 1: return rank + "er";
-                    default: return rank + "ième";
-                }
+                if (rank == 1) return number + "re";
+                else return number + "e";
             } else if (Stats.CurrentLanguage == Language.Korean) {
-                return rank + "위";
+                return number + "위";
             } else if (Stats.CurrentLanguage == Language.Japanese) {
-                return rank + "位";
+                return number + "位";
             } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
-                return "第" + rank + "名";
+                return "第" + number + "名";
             } else {
-                if (rank >= 10 && rank <= 20) return rank + "th";
-                switch(rank % 10) {
-                    case 1: return rank + "st";
-                    case 2: return rank + "nd";
-                    case 3: return rank + "rd";
-                    default: return rank + "th";
+                if (rank >= 10 && rank <= 20) return number + "th";
+                switch (rank % 10) {
+                    case 1: return number + "st";
+                    case 2: return number + "nd";
+                    case 3: return number + "rd";
+                    default: return number + "th";
                 }
             }
         }
