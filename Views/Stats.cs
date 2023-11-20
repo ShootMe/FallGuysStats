@@ -541,8 +541,10 @@ namespace FallGuysStats {
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
-            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            if (c.Parent != null) {
+                Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+                Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            }
         }
         
         private void cmtt_overlay_Draw(object sender, DrawToolTipEventArgs e) {
@@ -564,8 +566,10 @@ namespace FallGuysStats {
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
-            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            if (c.Parent != null) {
+                Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+                Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            }
         }
         
         public void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
@@ -594,8 +598,10 @@ namespace FallGuysStats {
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
             IntPtr handle = (IntPtr)h.GetValue(t);
             Control c = e.AssociatedControl;
-            Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
-            Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            if (c.Parent != null) {
+                Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+                Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            }
         }
         
         public class CustomToolStripSystemRenderer : ToolStripSystemRenderer {
@@ -5037,24 +5043,25 @@ namespace FallGuysStats {
         public string[] FindEpicGamesUserInfo() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
-                string launcherLogFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs", "EpicGamesLauncher.log");
-                if (File.Exists(launcherLogFilePath)) {
-                    using (FileStream fs = File.Open(launcherLogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                        using (StreamReader sr = new StreamReader(fs)) {
-                            string line;
-                            List<string> lines = new List<string>();
-                            while ((line = sr.ReadLine()) != null) {
-                                if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
-                                    lines.Add(line);
+                string logsDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EpicGamesLauncher", "Saved", "Logs");
+                if (Directory.Exists(logsDir)) {
+                    FileInfo[] logFiles = new DirectoryInfo(logsDir).GetFiles("EpicGamesLauncher*").OrderByDescending(p => p.LastWriteTime).ToArray();
+                    if (logFiles.Length > 0) {
+                        foreach (FileInfo logFile in logFiles) {
+                            using (FileStream fs = File.Open(logFile.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+                                using (StreamReader sr = new StreamReader(fs)) {
+                                    string line;
+                                    List<string> lines = new List<string>();
+                                    while ((line = sr.ReadLine()) != null) {
+                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
+                                            int index = line.IndexOf("-epicuserid=") + 12;
+                                            int index2 = line.IndexOf("-epicusername=") + 15;
+                                            userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
+                                            userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
+                                            return userInfo;
+                                        }
+                                    }
                                 }
-                            }
-
-                            if (lines.Count > 0) {
-                                line = lines.Last();
-                                int index = line.IndexOf("-epicuserid=") + 12;
-                                int index2 = line.IndexOf("-epicusername=") + 15;
-                                userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
-                                userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
                             }
                         }
                     }
