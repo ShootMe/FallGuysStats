@@ -5047,19 +5047,24 @@ namespace FallGuysStats {
                 if (Directory.Exists(logsDir)) {
                     FileInfo[] logFiles = new DirectoryInfo(logsDir).GetFiles("EpicGamesLauncher*").OrderByDescending(p => p.LastWriteTime).ToArray();
                     if (logFiles.Length > 0) {
-                        foreach (FileInfo logFile in logFiles) {
-                            using (FileStream fs = File.Open(logFile.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
+                        foreach (FileInfo file in logFiles) {
+                            using (FileStream fs = File.Open(file.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
                                 using (StreamReader sr = new StreamReader(fs)) {
                                     string line;
                                     List<string> lines = new List<string>();
                                     while ((line = sr.ReadLine()) != null) {
-                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ") >= 0) {
-                                            int index = line.IndexOf("-epicuserid=") + 12;
-                                            int index2 = line.IndexOf("-epicusername=") + 15;
-                                            userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=") - index);
-                                            userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=") - index2);
-                                            return userInfo;
+                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ", StringComparison.Ordinal) != -1) {
+                                            lines.Add(line);
                                         }
+                                    }
+
+                                    if (lines.Count > 0) {
+                                        line = lines.Last();
+                                        int index = line.IndexOf("-epicuserid=", StringComparison.Ordinal) + 12;
+                                        int index2 = line.IndexOf("-epicusername=", StringComparison.Ordinal) + 15;
+                                        userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=", StringComparison.Ordinal) - index);
+                                        userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=", StringComparison.Ordinal) - index2);
+                                        break;
                                     }
                                 }
                             }
