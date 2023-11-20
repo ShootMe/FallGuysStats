@@ -368,8 +368,10 @@ namespace FallGuysStats {
             if (rank <= 0) return number;
             
             if (Stats.CurrentLanguage == Language.French) {
-                if (rank == 1) return number + "re";
-                else return number + "e";
+                switch (rank) {
+                    case 1: return number + "er";
+                    default: return number + "e";
+                }
             } else if (Stats.CurrentLanguage == Language.Korean) {
                 return number + "위";
             } else if (Stats.CurrentLanguage == Language.Japanese) {
@@ -377,7 +379,7 @@ namespace FallGuysStats {
             } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 return "第" + number + "名";
             } else {
-                if (rank >= 10 && rank <= 20) return number + "th";
+                if (rank >= 11 && rank <= 13) return number + "th";
                 switch (rank % 10) {
                     case 1: return number + "st";
                     case 2: return number + "nd";
