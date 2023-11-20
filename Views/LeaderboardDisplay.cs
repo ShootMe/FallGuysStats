@@ -95,8 +95,9 @@ namespace FallGuysStats {
             
             // this.mlVisitFallalytics.Theme = theme;
             this.mlVisitFallalytics.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.mlVisitFallalytics.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
             this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlVisitFallalytics.Location.Y);
+            // this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlVisitFallalytics.Location.Y);
             
             this.Theme = theme;
             this.ResumeLayout();
@@ -111,12 +112,20 @@ namespace FallGuysStats {
             this.SetGridList(this.key);
         }
 
-        private void mlMyRank_MouseEnter(object sender, EventArgs e) {
-            ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+        private void metroLink_MouseEnter(object sender, EventArgs e) {
+            if (sender.Equals(this.mlMyRank)) {
+                ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+            } else if (sender.Equals(this.mlVisitFallalytics)) {
+                ((MetroLink)sender).ForeColor = Color.FromArgb(0, 174, 219);
+            }
         }
         
-        private void mlMyRank_MouseLeave(object sender, EventArgs e) {
-            ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+        private void metroLink_MouseLeave(object sender, EventArgs e) {
+            if (sender.Equals(this.mlMyRank)) {
+                ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+            } else if (sender.Equals(this.mlVisitFallalytics)) {
+                ((MetroLink)sender).ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
+            }
         }
 
         private void SetRoundList() {
@@ -178,8 +187,11 @@ namespace FallGuysStats {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-                this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
+                // this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
+                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mlMyRank.Location.Y);
             }
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 32 : 64);
+            
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);
             this.mlRefreshList.Visible = true;
@@ -225,6 +237,7 @@ namespace FallGuysStats {
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
             this.mlMyRank.Visible = false;
+            this.mlVisitFallalytics.Visible = false;
             // this.lblPagingInfo.Visible = false;
             // this.mlFirstPagingButton.Visible = false;
             // this.mlLastPagingButton.Visible = false;
