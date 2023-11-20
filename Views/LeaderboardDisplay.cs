@@ -178,7 +178,7 @@ namespace FallGuysStats {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-                this.mlMyRank.Location = new Point(this.cboRoundList.Right + 60, this.mlMyRank.Location.Y);
+                this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
             }
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);
