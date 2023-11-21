@@ -884,6 +884,7 @@ namespace FallGuysStats {
             { "FallGuy_Starlink",                  "round_starlink_almond" },
             { "FallGuy_HexSnake",                  "round_hexsnake_almond" },
             { "FallGuy_Tip_Toe_Finale",            "round_tiptoefinale_almond" },
+            { "FallGuy_PumpkinPie",                "round_pumpkin_pie" },
 
             { "FallGuy_BlastBallRuins",            "round_blastballruins" },
             { "FallGuy_FollowTheLine",             "round_follow_the_line" },

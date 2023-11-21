@@ -379,7 +379,12 @@ namespace FallGuysStats {
             } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 return "第" + number + "名";
             } else {
-                if (rank >= 11 && rank <= 13) return number + "th";
+                switch (rank % 100) {
+                    case 11:
+                    case 12:
+                    case 13:
+                        return number + "th";
+                }
                 switch (rank % 10) {
                     case 1: return number + "st";
                     case 2: return number + "nd";
