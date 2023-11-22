@@ -297,13 +297,21 @@ namespace FallGuysStats {
             { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
 
-        private string ReplaceLevelIdInDigisShuffleShow(string showId, string roundId) {
-            if ("wle_mrs_shuffle_show".Equals(showId)) {
+        private string ReplaceLevelIdInFuckingShow(string showId, string roundId) {
+            if ("wle_mrs_shuffle_show".Equals(showId)) { // Digi's Shuffle Selection
                 if (this.StatsForm.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
-
                 return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
+            } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
+                if (roundId.EndsWith("_squads")) roundId = roundId.Substring(0, roundId.LastIndexOf("_squads", StringComparison.Ordinal));
+                if (this.StatsForm.LevelIdReplacerInFuckingShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+            } else if ("wle_shuffle_discover".Equals(showId)) { // Unexplored Adventures
+                if (this.StatsForm.LevelIdReplacerInFuckingShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
             }
             return roundId;
         }
@@ -312,6 +320,7 @@ namespace FallGuysStats {
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
                  || showId.Equals("wle_mrs_shuffle_show")
+                 || showId.Equals("wle_mrs_shuffle_show_squads")
                  || showId.Equals("wle_shuffle_discover")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")) {
@@ -691,7 +700,7 @@ namespace FallGuysStats {
                     logRound.Info.CreativeQualificationPercent = this.creativeQualificationPercent;
                     logRound.Info.CreativeTimeLimitSeconds = this.creativeTimeLimitSeconds;
                 } else {
-                    logRound.Info.Name = this.ReplaceLevelIdInDigisShuffleShow(logRound.Info.ShowNameId ?? this.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
+                    logRound.Info.Name = this.ReplaceLevelIdInFuckingShow(logRound.Info.ShowNameId ?? this.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
                 if (this.IsRealFinalRound(logRound.Info.Name, this.selectedShowId) || logRound.Info.UseShareCode) {
@@ -869,6 +878,9 @@ namespace FallGuysStats {
                                 round[i].IsAbandon = true;
                             }
                             round[i].ShowEnd = showEnd;
+                            if (round.Count > 1 && (i + 1) != round.Count) {
+                                round[i].IsFinal = false;
+                            }
                         }
                         this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, false);
                         logRound.Info = null;
@@ -917,8 +929,11 @@ namespace FallGuysStats {
                                 return false;
                             }
 
-                            if (roundInfo.ShowNameId.Equals("wle_mrs_shuffle_show")) {
-                                roundName = this.ReplaceLevelIdInDigisShuffleShow(roundInfo.ShowNameId, roundName);
+                            if (roundInfo.ShowNameId.Equals("wle_mrs_shuffle_show") || roundInfo.ShowNameId.Equals("wle_shuffle_discover") || roundInfo.ShowNameId.Equals("wle_mrs_shuffle_show_squads")) {
+                                if (round.Count > 1 && roundNum != round.Count) {
+                                    roundInfo.IsFinal = false;
+                                }
+                                roundName = this.ReplaceLevelIdInFuckingShow(roundInfo.ShowNameId, roundName);
                             }
 
                             if (!roundInfo.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {

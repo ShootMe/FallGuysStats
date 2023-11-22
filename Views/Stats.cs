@@ -313,6 +313,22 @@ namespace FallGuysStats {
             { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
         
+        public readonly Dictionary<string, string> LevelIdReplacerInFuckingShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "wle_round_mrs_shuffle_discover_001", "wle_discover_level_wk2_027" },
+            { "wle_round_mrs_shuffle_discover_002", "wle_discover_level_wk2_015" },
+            { "wle_round_mrs_shuffle_discover_003", "wle_discover_level_wk2_007" },
+            { "wle_round_mrs_shuffle_discover_004", "wle_discover_level_wk2_013" },
+            { "wle_round_mrs_shuffle_discover_031", "current_wle_fp3_08_16" },
+            { "wle_round_mrs_shuffle_discover_035", "wle_discover_level_wk2_038" },
+            { "wle_round_mrs_shuffle_discover_042", "current_wle_fp6_wk2_1_03" },
+            { "wle_round_mrs_shuffle_discover_043", "current_wle_fp6_wk3_06" }
+        };
+        
+        // public readonly Dictionary<string, string> LevelIdReplacerInDuplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        //     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
+        //     { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
+        // };
+        
         private void DatabaseMigration() {
             if (File.Exists("data.db")) {
                 using (var sourceDb = new LiteDatabase(@"data.db")) {
@@ -2201,6 +2217,44 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 68;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 68) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          (ri.ShowNameId.Equals("wle_shuffle_discover") ||
+                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads"))
+                    select ri).ToList();
+                
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
+                        ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.Ordinal));
+                    }
+                    if (this.LevelIdReplacerInFuckingShow.TryGetValue(ri.Name, out string newName)) {
+                        ri.Name = newName;
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = true;
+
+                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                        List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                        foreach (RoundInfo r in ril) {
+                            if (r.Round != ri.Round) {
+                                r.IsFinal = false;
+                            }
+                        }
+                        this.RoundDetails.Update(ril);
+                    }
+                }
+                
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 69;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3436,6 +3490,7 @@ namespace FallGuysStats {
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
                    showId.Equals("wle_mrs_bagel") ||
                    showId.Equals("wle_mrs_shuffle_show") ||
+                   showId.Equals("wle_mrs_shuffle_show_squads") ||
                    showId.Equals("wle_shuffle_discover") ||
                    showId.StartsWith("current_wle_fp") ||
                    showId.StartsWith("wle_s10_cf_round_");
