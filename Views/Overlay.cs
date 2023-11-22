@@ -555,9 +555,9 @@ namespace FallGuysStats {
             } else {
                 if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                     this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
-                    this.lblRound.LevelColor = level.Type == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
-                    this.lblRound.LevelTrueColor = level.Type == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
-                    this.lblRound.RoundIcon = level.Type == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
+                    this.lblRound.LevelColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
+                    this.lblRound.LevelTrueColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
+                    this.lblRound.RoundIcon = levelType == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
                     if (this.lblRound.RoundIcon.Height != 23) {
                         float ratio = 23f / this.lblRound.RoundIcon.Height;
                         this.lblRound.ImageHeight = 23;
@@ -824,7 +824,8 @@ namespace FallGuysStats {
             } else {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
-                int showType = (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                int showType = level == null ? 0
+                               : (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
                                : (("squads_2player_template".Equals(showId) || "squads_4player".Equals(showId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
@@ -952,11 +953,9 @@ namespace FallGuysStats {
                 if (hasCurrentRound) {
                     this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
                 }
-
                 
                 this.lblFilter.Text = this.StatsForm.GetCurrentFilterName();
                 this.lblProfile.Text = this.StatsForm.GetCurrentProfileName();
-                
                 
                 this.Background = this.RecreateBackground();
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
@@ -969,6 +968,8 @@ namespace FallGuysStats {
                         roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : levelStats.Name.ToUpper();
                     } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                         roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
+                    } else {
+                        roundName = roundName.Replace('_', ' ').ToUpper();
                     }
                     
                     LevelType levelType = (levelStats?.Type).GetValueOrDefault(LevelType.Unknown);

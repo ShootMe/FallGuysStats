@@ -3116,6 +3116,8 @@ namespace FallGuysStats {
                             string roundName = stat.Name;
                             if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                                 roundName = roundName.Substring(6).Replace('_', ' ');
+                            } else {
+                                roundName = roundName.Replace('_', ' ');
                             }
 
                             LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
