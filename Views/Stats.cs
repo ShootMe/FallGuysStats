@@ -3547,7 +3547,8 @@ namespace FallGuysStats {
         
         public string GetAlternateShowId(string showId) {
             switch (showId) {
-                case "turbo_show": return "main_show";
+                case "turbo_show":
+                    return "main_show";
                 case "squadcelebration":
                 case "event_day_at_races_squads_template":
                     return "squads_4player";

@@ -825,8 +825,8 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
                 int showType = level == null ? 0
-                               : (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
-                               : (("squads_2player_template".Equals(showId) || "squads_4player".Equals(showId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
+                               : (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || "wle_shuffle_discover".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                               : (("squads_2player_template".Equals(showId) || "squads_4player".Equals(showId) || "wle_mrs_shuffle_show_squads".Equals(showId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
                 if (this.lastRound.UseShareCode) {
