@@ -190,7 +190,7 @@ namespace FallGuysStats {
                 // this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mlMyRank.Location.Y);
             }
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 54 : 91);
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 50 : 78);
             
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);

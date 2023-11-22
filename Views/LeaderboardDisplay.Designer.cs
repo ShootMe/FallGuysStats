@@ -173,7 +173,7 @@
             this.mlMyRank.Image = global::FallGuysStats.Properties.Resources.medal_gold_grid_icon;
             this.mlMyRank.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.mlMyRank.ImageSize = 27;
-            this.mlMyRank.Location = new System.Drawing.Point(739, 91);
+            this.mlMyRank.Location = new System.Drawing.Point(739, 86);
             this.mlMyRank.Name = "mlMyRank";
             this.mlMyRank.Size = new System.Drawing.Size(281, 28);
             this.mlMyRank.TabIndex = 7;
@@ -219,7 +219,7 @@
             this.mlRefreshList.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlRefreshList.Image = global::FallGuysStats.Properties.Resources.refresh_icon;
             this.mlRefreshList.ImageSize = 26;
-            this.mlRefreshList.Location = new System.Drawing.Point(343, 88);
+            this.mlRefreshList.Location = new System.Drawing.Point(343, 80);
             this.mlRefreshList.Name = "mlRefreshList";
             this.mlRefreshList.Size = new System.Drawing.Size(24, 29);
             this.mlRefreshList.TabIndex = 7;
@@ -235,7 +235,7 @@
             this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboRoundList.FormattingEnabled = true;
             this.cboRoundList.ItemHeight = 23;
-            this.cboRoundList.Location = new System.Drawing.Point(9, 88);
+            this.cboRoundList.Location = new System.Drawing.Point(9, 80);
             this.cboRoundList.MaxDropDownItems = 20;
             this.cboRoundList.Name = "cboRoundList";
             this.cboRoundList.Size = new System.Drawing.Size(318, 29);
@@ -265,7 +265,7 @@
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridDetails.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridDetails.Size = new System.Drawing.Size(1011, 664);
+            this.gridDetails.Size = new System.Drawing.Size(1011, 858);
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
@@ -276,7 +276,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1029, 806);
+            this.ClientSize = new System.Drawing.Size(1029, 1000);
             this.Controls.Add(this.mpsSpinner);
             this.Controls.Add(this.lblSearchDescription);
             this.Controls.Add(this.mlMyRank);
@@ -293,9 +293,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(1029, 1286);
+            this.MaximumSize = new System.Drawing.Size(1029, 1277);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(1029, 486);
+            this.MinimumSize = new System.Drawing.Size(1029, 480);
             this.Name = "LeaderboardDisplay";
             this.Padding = new System.Windows.Forms.Padding(20, 65, 20, 20);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
