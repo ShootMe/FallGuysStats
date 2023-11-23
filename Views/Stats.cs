@@ -350,9 +350,6 @@ namespace FallGuysStats {
         }
 
         private Stats() {
-
-            Console.WriteLine($"{this.FindSteamUserInfo()[0]} / {this.FindSteamUserInfo()[1]}");
-            
             this.DatabaseMigration();
             Task.Run(() => {
                 if (Utils.IsInternetConnected()) {
