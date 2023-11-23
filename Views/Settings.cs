@@ -675,7 +675,7 @@ namespace FallGuysStats {
                                     }
                                 }
 
-                                if (url.ToLower().StartsWith("com.epicgames.launcher://apps/") && url.IndexOf(epicGamesFallGuysApp, StringComparison.Ordinal) != -1) {
+                                if (url.ToLower().StartsWith("com.epicgames.launcher://apps/") && url.IndexOf(epicGamesFallGuysApp, StringComparison.OrdinalIgnoreCase) != -1) {
                                     this.txtGameShortcutLocation.Text = url;
                                 } else {
                                     MetroMessageBox.Show(this, Multilingual.GetWord("message_wrong_selected_file_epicgames", this.DisplayLang), Multilingual.GetWord("message_wrong_selected_file_caption", this.DisplayLang), MessageBoxButtons.OK, MessageBoxIcon.Error);

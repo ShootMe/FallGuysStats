@@ -350,6 +350,9 @@ namespace FallGuysStats {
         }
 
         private Stats() {
+
+            Console.WriteLine($"{this.FindSteamUserInfo()[0]} / {this.FindSteamUserInfo()[1]}");
+            
             this.DatabaseMigration();
             Task.Run(() => {
                 if (Utils.IsInternetConnected()) {
@@ -2231,7 +2234,7 @@ namespace FallGuysStats {
                 
                 foreach (RoundInfo ri in roundInfoList) {
                     if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
-                        ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.Ordinal));
+                        ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
                     }
                     if (this.LevelIdReplacerInFuckingShow.TryGetValue(ri.Name, out string newName)) {
                         ri.Name = newName;
@@ -5111,17 +5114,17 @@ namespace FallGuysStats {
                                     string line;
                                     List<string> lines = new List<string>();
                                     while ((line = sr.ReadLine()) != null) {
-                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ", StringComparison.Ordinal) != -1) {
+                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ", StringComparison.OrdinalIgnoreCase) != -1) {
                                             lines.Add(line);
                                         }
                                     }
 
                                     if (lines.Count > 0) {
                                         line = lines.Last();
-                                        int index = line.IndexOf("-epicuserid=", StringComparison.Ordinal) + 12;
-                                        int index2 = line.IndexOf("-epicusername=", StringComparison.Ordinal) + 15;
-                                        userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=", StringComparison.Ordinal) - index);
-                                        userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=", StringComparison.Ordinal) - index2);
+                                        int index = line.IndexOf("-epicuserid=", StringComparison.OrdinalIgnoreCase) + 12;
+                                        int index2 = line.IndexOf("-epicusername=", StringComparison.OrdinalIgnoreCase) + 15;
+                                        userInfo[0] = line.Substring(index, line.IndexOf(" -epiclocale=", StringComparison.OrdinalIgnoreCase) - index);
+                                        userInfo[1] = line.Substring(index2, line.IndexOf("\" -epicuserid=", StringComparison.OrdinalIgnoreCase) - index2);
                                         break;
                                     }
                                 }
@@ -5151,11 +5154,25 @@ namespace FallGuysStats {
 
                 string steamConfigPath = Path.Combine(steamPath, "config", "loginusers.vdf");
                 if (File.Exists(steamConfigPath)) {
-                    JsonClass users = Json.Read(File.ReadAllText(steamConfigPath)) as JsonClass;
-                    foreach (JsonObject user in users) {
-                        if (user is JsonClass node && "1".Equals(node["MostRecent"].AsString())) {
-                            if (!string.IsNullOrEmpty(node["AccountName"].AsString())) userInfo[0] = node["AccountName"].AsString();
-                            if (!string.IsNullOrEmpty(node["PersonaName"].AsString())) userInfo[1] = node["PersonaName"].AsString();
+                    var kv = SteamKit2.KeyValue.LoadAsText(steamConfigPath);
+                    if (kv != null && kv.Name.Equals("users", StringComparison.OrdinalIgnoreCase)) {
+                        bool isFind = false;
+                        foreach (var kvc in kv.Children) {
+                            foreach (var kvcc in kvc.Children) {
+                                if (kvcc.Name.Equals("mostrecent", StringComparison.OrdinalIgnoreCase) && "1".Equals(kvcc.Value)) {
+                                    isFind = true;
+                                } else if (kvcc.Name.Equals("accountname", StringComparison.OrdinalIgnoreCase)) {
+                                    userInfo[0] = kvcc.Value;
+                                } else if (kvcc.Name.Equals("personaname", StringComparison.OrdinalIgnoreCase)) {
+                                    userInfo[1] = kvcc.Value;
+                                }
+                            }
+                            if (isFind) break;
+                        }
+
+                        if (!isFind) {
+                            userInfo[0] = string.Empty;
+                            userInfo[1] = string.Empty;
                         }
                     }
                 }

@@ -122,7 +122,7 @@ namespace FallGuysStats {
                                 }
                                 //g.DrawString(this.TextRight, this.GetFontForRoundName(this.TextRight), brFore, this.ClientRectangle, stringFormat);
                             } else if (this.Name.Equals("lblPlayers")) {
-                                if (this.TextRight.EndsWith(" ms", StringComparison.Ordinal)) {
+                                if (this.TextRight.EndsWith(" ms", StringComparison.OrdinalIgnoreCase)) {
                                     this.DrawOutlineText(g, this.ClientRectangle, new Pen(this.PingColor), new SolidBrush(this.PingColor), this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, FontStyle.Regular, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                 } else {

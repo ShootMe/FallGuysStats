@@ -8,11 +8,11 @@ namespace FallGuysStats {
         public bool autoGenerateProfiles;
 
         public SelectLanguage(string sysLang) {
-            this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.Ordinal) ? Language.French :
-                                   string.Equals(sysLang, "ko", StringComparison.Ordinal) ? Language.Korean :
-                                   string.Equals(sysLang, "ja", StringComparison.Ordinal) ? Language.Japanese :
-                                   string.Equals(sysLang, "zh-chs", StringComparison.Ordinal) ? Language.SimplifiedChinese :
-                                   string.Equals(sysLang, "zh-cht", StringComparison.Ordinal) ? Language.TraditionalChinese : Language.English;
+            this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.OrdinalIgnoreCase) ? Language.French :
+                                   string.Equals(sysLang, "ko", StringComparison.OrdinalIgnoreCase) ? Language.Korean :
+                                   string.Equals(sysLang, "ja", StringComparison.OrdinalIgnoreCase) ? Language.Japanese :
+                                   string.Equals(sysLang, "zh-chs", StringComparison.OrdinalIgnoreCase) ? Language.SimplifiedChinese :
+                                   string.Equals(sysLang, "zh-cht", StringComparison.OrdinalIgnoreCase) ? Language.TraditionalChinese : Language.English;
             this.InitializeComponent();
         }
 

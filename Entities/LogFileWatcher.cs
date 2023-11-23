@@ -304,7 +304,7 @@ namespace FallGuysStats {
                 }
                 return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
             } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
-                if (roundId.EndsWith("_squads")) roundId = roundId.Substring(0, roundId.LastIndexOf("_squads", StringComparison.Ordinal));
+                if (roundId.EndsWith("_squads")) roundId = roundId.Substring(0, roundId.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
                 if (this.StatsForm.LevelIdReplacerInFuckingShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
@@ -633,7 +633,7 @@ namespace FallGuysStats {
                 if (!Stats.ToggleServerInfo) {
                     Stats.ToggleServerInfo = true;
                     Stats.ConnectedToServerDate = line.Date;
-                    int ipIndex = line.Line.IndexOf("IP:", StringComparison.Ordinal);
+                    int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) >= 0) {
