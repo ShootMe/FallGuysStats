@@ -5138,15 +5138,15 @@ namespace FallGuysStats {
         public string[] FindSteamUserInfo() {
             string[] userInfo = { string.Empty, string.Empty };
             try {
-                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
-                if (regValue == null) {
-                    return userInfo;
-                }
-                string steamPath = (string)regValue;
-
+                string steamPath;
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
                     string userName = Environment.UserName;
                     steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
+                } else {
+                    object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
+                    if (regValue == null) { return userInfo; }
+
+                    steamPath = (string)regValue;
                 }
 
                 string steamConfigPath = Path.Combine(steamPath, "config", "loginusers.vdf");
@@ -5182,9 +5182,8 @@ namespace FallGuysStats {
         public string FindEpicGamesShortcutLocation() {
             try {
                 object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Epic Games\\EpicGamesLauncher", "AppDataPath", null);
-                if (regValue == null) {
-                    return string.Empty;
-                }
+                if (regValue == null) { return string.Empty; }
+                
                 string epicGamesPath = Path.Combine((string)regValue, "Manifests");
                 
                 if (Directory.Exists(epicGamesPath)) {
@@ -5207,16 +5206,16 @@ namespace FallGuysStats {
         
         public string FindSteamExeLocation() {
             try {
-                // get steam install folder
-                object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
-                if (regValue == null) {
-                    return string.Empty;
-                }
-                string steamPath = (string)regValue;
-
+                string steamPath;
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
                     string userName = Environment.UserName;
                     steamPath = Path.Combine("/", "home", userName, ".local", "share", "Steam");
+                } else {
+                    // get steam install folder
+                    object regValue = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\Valve\\Steam", "InstallPath", null);
+                    if (regValue == null) { return string.Empty; }
+
+                    steamPath = (string)regValue;
                 }
 
                 string fallGuysSteamPath = Path.Combine(steamPath, "steamapps", "common", "Fall Guys", "FallGuys_client_game.exe");
