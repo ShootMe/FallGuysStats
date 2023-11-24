@@ -871,7 +871,7 @@ namespace FallGuysStats {
                 }
             }
         }
-        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, BestRecordType recordType, DateTime currentUTC, int overlaySetting) {
+        private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, string roundId, BestRecordType recordType, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
@@ -898,14 +898,13 @@ namespace FallGuysStats {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
                         if (this.lastRound.Crown) {
                             this.lblFinish.TextRight = this.StatsForm.CurrentSettings.DisplayGamePlayedInfo ? $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                        } else if (roundId.Equals("round_skeefall")) { // "Ski Fall" Hunt-like Level Type
+                            this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                         } else {
                             switch (levelType) {
                                 case LevelType.Survival:
-                                    if (recordType == BestRecordType.Fastest) {
-                                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                                    } else {
-                                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                                    }
+                                    this.lblFinish.TextRight = recordType == BestRecordType.Fastest ? (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}"
+                                                               : (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                                     break;
                                 case LevelType.Logic:
                                 case LevelType.Hunt:
@@ -966,7 +965,7 @@ namespace FallGuysStats {
 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
-                    string roundName = this.lastRound.VerifiedName();
+                    string roundId, roundName = roundId = this.lastRound.VerifiedName();
                     
                     if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats levelStats)) {
                         roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : levelStats.Name.ToUpper();
@@ -1000,7 +999,7 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetFinishLabel(levelSummary, levelType, recordType, currentUTC, overlaySetting);
+                    this.SetFinishLabel(levelSummary, levelType, roundId, recordType, currentUTC, overlaySetting);
                     this.SetDurationLabel(levelStats, currentUTC, overlaySetting);
                 }
                 this.Invalidate();
