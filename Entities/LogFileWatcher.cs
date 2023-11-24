@@ -545,7 +545,7 @@ namespace FallGuysStats {
             }
             if (string.IsNullOrEmpty(roundId)) return;
 
-            if (!this.StatsForm.ExistsPersonalBestLog(info.SessionId, info.ShowNameId, roundId)) {
+            if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                 TimeSpan currentRecord = info.Finish.Value - info.Start;
                 BsonExpression recordQuery = Query.And(
                     Query.EQ("PrivateLobby", false)
@@ -555,10 +555,14 @@ namespace FallGuysStats {
                     , Query.Not("SessionId", null)
                 );
                 List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
-                TimeSpan existingRecords = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                this.StatsForm.UpsertPersonalBestLog(info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, info.Finish.Value, currentRecord < existingRecords);
-                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && !Stats.IsClientHasBeenClosed && currentRecord < existingRecords) {
-                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, roundId, existingRecords, currentRecord);
+                TimeSpan existingRecord = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
+                if (this.StatsForm.CurrentSettings.EnableFallalyticsReporting && info.Finish.Value > this.StatsForm.startupTime && Stats.OnlineServiceType != OnlineServiceTypes.None) {
+                    string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+                    if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.StatsForm.FallalyticsRegisterPb(info, roundId, apiKey)); }
+                }
+                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
+                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, roundId, existingRecord, currentRecord);
                 }
             }
         }
