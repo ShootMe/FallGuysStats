@@ -460,9 +460,53 @@ namespace FallGuysStats {
             }
         }
         
-        // private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-        //     
-        // }
+        private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
+            string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
+            Console.WriteLine(columnName);
+            SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
+            if (sortOrder == SortOrder.None) { columnName = "rank"; }
+            
+            this.recordholders.Sort(delegate (RankInfo one, RankInfo two) {
+                int rankCompare = one.rank.CompareTo(two.rank);
+                int recordCompare = one.record.CompareTo(two.record);
+                if (sortOrder == SortOrder.Descending) {
+                    (one, two) = (two, one);
+                }
+
+                switch (columnName) {
+                    case "medal":
+                        rankCompare = one.rank.CompareTo(two.rank);
+                        return rankCompare != 0 ? rankCompare : recordCompare;
+                    case "rank":
+                        rankCompare = one.rank.CompareTo(two.rank);
+                        return rankCompare != 0 ? rankCompare : recordCompare;
+                    case "show":
+                        int showCompare = String.Compare(one.show, two.show, StringComparison.OrdinalIgnoreCase);
+                        return showCompare != 0 ? showCompare : rankCompare;
+                    case "platform":
+                        int platformCompare = String.Compare(one.onlineServiceType, two.onlineServiceType, StringComparison.OrdinalIgnoreCase);
+                        return platformCompare != 0 ? platformCompare : rankCompare;
+                    case "flag":
+                        int countryCompare = String.Compare(one.country, two.country, StringComparison.OrdinalIgnoreCase);
+                        return countryCompare != 0 ? countryCompare : rankCompare;
+                    case "onlineServiceNickname":
+                        int nicknameCompare = String.Compare(one.onlineServiceNickname, two.onlineServiceNickname, StringComparison.OrdinalIgnoreCase);
+                        return nicknameCompare != 0 ? nicknameCompare : rankCompare;
+                    case "record":
+                        recordCompare = one.record.CompareTo(two.record);
+                        return recordCompare != 0 ? recordCompare : rankCompare;
+                    case "finish":
+                        int finishCompare = one.finish.CompareTo(two.finish);
+                        return finishCompare != 0 ? finishCompare : rankCompare;
+                    default:
+                        return 0;
+                }
+            });
+            
+            this.gridDetails.DataSource = null;
+            this.gridDetails.DataSource = this.recordholders;
+            this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+        }
         
         // private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
         //     if (this.totalHeight - this.gridDetails.Height < this.gridDetails.VerticalScrollingOffset) {
@@ -472,6 +516,12 @@ namespace FallGuysStats {
 
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
             this.gridDetails.ClearSelection();
+        }
+        
+        private void LeaderboardDisplay_KeyDown(object sender, KeyEventArgs e) {
+            if (e.KeyCode == Keys.Escape) {
+                this.Close();
+            }
         }
 
         private void link_Click(object sender, EventArgs e) {
@@ -486,7 +536,8 @@ namespace FallGuysStats {
                 }
             } else if (sender.Equals(this.mlMyRank)) {
                 int displayedRowCount = this.gridDetails.DisplayedRowCount(false);
-                int firstDisplayedScrollingRowIndex = (this.myRank - 1) - (displayedRowCount / 2);
+                int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                 this.gridDetails.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             }
         }

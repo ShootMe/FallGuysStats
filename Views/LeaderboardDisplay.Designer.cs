@@ -176,6 +176,7 @@
             this.gridDetails.TabIndex = 2;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
+            this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);
             // this.gridDetails.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridDetails_Scroll);
             this.gridDetails.SelectionChanged += new System.EventHandler(this.gridDetails_SelectionChanged);
             // 
@@ -204,6 +205,7 @@
             this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Level Stats";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LeaderboardDisplay_KeyDown);
             this.Load += new System.EventHandler(this.LeaderboardDisplay_Load);
             this.Shown += new System.EventHandler(this.LeaderboardDisplay_Shown);
             this.Resize += new System.EventHandler(this.LeaderboardDisplay_Resize);
