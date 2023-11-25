@@ -5503,7 +5503,7 @@ namespace FallGuysStats {
                 } catch {
                     this.leaderboardRoundlist = null;
                 }
-                this.Invoke((MethodInvoker)delegate { this.mlLeaderboard.Enabled = true; });
+                this.mlLeaderboard.Enabled = true;
             }
         }
         
@@ -5518,13 +5518,6 @@ namespace FallGuysStats {
                            BackMaxSize = 32,
                            BackImagePadding = new Padding(20, 20, 0, 0)
                        }) {
-                    // Dictionary<string, string> roundList = new Dictionary<string, string>();
-                    // foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-                    //     if (entry.Value.Type == LevelType.Race) {
-                    //         roundList.Add(entry.Key, entry.Value.Name);
-                    //     }
-                    // }
-                    // leaderboard.RoundList = from pair in roundList orderby pair.Value ascending select pair; // use LINQ
                     leaderboard.roundlist = this.leaderboardRoundlist;
                     leaderboard.ShowDialog(this);
                 }
@@ -5545,7 +5538,6 @@ namespace FallGuysStats {
                         this.updateFilterRange = true;
                     } else {
                         using (FilterCustomRange filterCustomRange = new FilterCustomRange()) {
-                        //filterCustomRange.Icon = this.Icon;
                         filterCustomRange.StatsForm = this;
                         filterCustomRange.startDate = this.customfilterRangeStart;
                         filterCustomRange.endDate = this.customfilterRangeEnd;

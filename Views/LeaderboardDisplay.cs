@@ -51,22 +51,14 @@ namespace FallGuysStats {
             this.SuspendLayout();
             this.cboRoundList.Theme = theme;
             this.mlRefreshList.Theme = theme;
-            // this.mlMyRank.Theme = theme;
             this.mlMyRank.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.mlMyRank.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
-            
-            // this.lblPagingInfo.Theme = theme;
-            // this.mlFirstPagingButton.Theme = theme;
-            // this.mlLastPagingButton.Theme = theme;
-            // this.mlLeftPagingButton.Theme = theme;
-            // this.mlRightPagingButton.Theme = theme;
             
             this.lblSearchDescription.Theme = theme;
             this.lblSearchDescription.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
             this.lblSearchDescription.Text = $"{Multilingual.GetWord("leaderboard_choose_a_round")}";
             this.lblSearchDescription.Location = new Point((this.ClientSize.Width - this.lblSearchDescription.Width) / 2, (this.ClientSize.Height - this.lblSearchDescription.Height) / 2 + 20);
             this.mpsSpinner.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            // this.mpsSpinner.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mpsSpinner.Location = new Point((this.ClientSize.Width - this.mpsSpinner.Width) / 2, (this.ClientSize.Height - this.mpsSpinner.Height) / 2 + 20);
             
             this.gridDetails.Theme = theme;
@@ -93,11 +85,9 @@ namespace FallGuysStats {
             
             this.gridDetails.SetContextMenuTheme();
             
-            // this.mlVisitFallalytics.Theme = theme;
             this.mlVisitFallalytics.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.mlVisitFallalytics.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
             this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
-            // this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlVisitFallalytics.Location.Y);
             
             this.Theme = theme;
             this.ResumeLayout();
@@ -206,7 +196,6 @@ namespace FallGuysStats {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-                // this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mlMyRank.Location.Y);
             }
             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 48 : 78);
@@ -217,21 +206,6 @@ namespace FallGuysStats {
             
             this.mlVisitFallalytics.Visible = true;
             this.cboRoundList.Enabled = true;
-            // this.lblPagingInfo.Text = $@"{(this.currentPage * 50) + 1} - {(this.totalPages == this.currentPage + 1 ? this.totalPlayers : (this.currentPage + 1) * 50)}";
-            // this.lblPagingInfo.Location = new Point((this.ClientSize.Width - this.lblPagingInfo.Width) / 2, this.lblPagingInfo.Location.Y);
-            // this.lblPagingInfo.Visible = this.totalPages > 1;
-            // this.mlLeftPagingButton.Enabled = this.currentPage + 1 != 1;
-            // this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Location.X - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Location.Y);
-            // this.mlLeftPagingButton.Visible = this.totalPages > 1;
-            // this.mlFirstPagingButton.Enabled = this.currentPage + 1 != 1;
-            // this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Location.X - this.mlFirstPagingButton.Width - 3, this.mlFirstPagingButton.Location.Y);
-            // this.mlFirstPagingButton.Visible = this.totalPages > 1;
-            // this.mlRightPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
-            // this.mlRightPagingButton.Location = new Point(this.lblPagingInfo.Right + 5, this.mlRightPagingButton.Location.Y);
-            // this.mlRightPagingButton.Visible = this.totalPages > 1;
-            // this.mlLastPagingButton.Enabled = this.currentPage + 1 != this.totalPages;
-            // this.mlLastPagingButton.Location = new Point(this.mlRightPagingButton.Right + 3, this.mlLastPagingButton.Location.Y);
-            // this.mlLastPagingButton.Visible = this.totalPages > 1;
             this.Invalidate();
         }
 
@@ -245,9 +219,6 @@ namespace FallGuysStats {
             this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
             this.lblSearchDescription.Visible = true;
             this.mlMyRank.Visible = false;
-            // this.lblPagingInfo.Visible = false;
-            // this.mlLeftPagingButton.Visible = false;
-            // this.mlRightPagingButton.Visible = false;
             this.Invalidate();
         }
         
@@ -257,11 +228,6 @@ namespace FallGuysStats {
             this.lblSearchDescription.Visible = false;
             this.mlMyRank.Visible = false;
             this.mlVisitFallalytics.Visible = false;
-            // this.lblPagingInfo.Visible = false;
-            // this.mlFirstPagingButton.Visible = false;
-            // this.mlLastPagingButton.Visible = false;
-            // this.mlLeftPagingButton.Visible = false;
-            // this.mlRightPagingButton.Visible = false;
             this.mpsSpinner.Visible = true;
             this.gridDetails.DataSource = this.nodata;
 
@@ -280,77 +246,6 @@ namespace FallGuysStats {
             } catch {
                 // ignored
             }
-
-            // if (isFirst) {
-            //     Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
-            //         if (prevTask.Result) {
-            //             int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-            //             if (index == -1) {
-            //                 var cancellationTokenSource = new CancellationTokenSource();
-            //                 var tasks = new List<Task>();
-            //                 HttpClient client = new HttpClient();
-            //                 for (int i = 1; i < this.totalPages; i++) {
-            //                     int page = i;
-            //                     tasks.Add(Task.Run(async () => {
-            //                         try {
-            //                             HttpResponseMessage response = await client.GetAsync($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={page + 1}", cancellationTokenSource.Token);
-            //                             if (response.IsSuccessStatusCode) {
-            //                                 string json = await response.Content.ReadAsStringAsync();
-            //                                 var options = new JsonSerializerOptions();
-            //                                 options.Converters.Add(new RecordHolderConverter());
-            //                                 Leaderboard leaderboard = JsonSerializer.Deserialize<Leaderboard>(json, options);
-            //                                 int findIndex = leaderboard.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-            //                                 if (findIndex != -1) {
-            //                                     this.currentPage = page;
-            //                                     index = findIndex;
-            //                                     for (int j = 0; j < leaderboard.recordholders.Count; j++) {
-            //                                         leaderboard.recordholders[j].rank = j + 1 + (this.currentPage * 50);
-            //                                     }
-            //                                     this.recordholders = leaderboard.recordholders;
-            //                                     cancellationTokenSource.Cancel();
-            //                                 }
-            //                             }
-            //                         } catch (OperationCanceledException) {
-            //                             // Console.WriteLine("Task was cancelled.");
-            //                         }
-            //                     }));
-            //                 }
-            //                 
-            //                 try {
-            //                     Task.WhenAll(tasks).Wait();
-            //                     this.BeginInvoke((MethodInvoker)delegate {
-            //                         this.SetLeaderboardUI(index);
-            //                     });
-            //                 } catch (AggregateException e) {
-            //                     // foreach (var innerException in e.InnerExceptions) {
-            //                     //     if (innerException is OperationCanceledException) {
-            //                     //         Console.WriteLine("Task was cancelled.");
-            //                     //     }
-            //                     // }
-            //                 }
-            //             } else {
-            //                 this.BeginInvoke((MethodInvoker)delegate {
-            //                     this.SetLeaderboardUI(index);
-            //                 });
-            //             }
-            //         } else {
-            //             this.SetGridNoData();
-            //         }
-            //         this.refreshTime = DateTime.Now;
-            //     });    
-            // } else {
-            //     Task.Run(() => this.DataLoad(queryKey)).ContinueWith(prevTask => {
-            //         this.BeginInvoke((MethodInvoker)delegate {
-            //             int index = this.recordholders.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
-            //             if (prevTask.Result) {
-            //                 this.SetLeaderboardUI(index);
-            //             } else {
-            //                 this.SetGridNoData();
-            //             }
-            //             this.refreshTime = DateTime.Now;
-            //         });
-            //     });
-            // }
         }
 
         private bool DataLoadBulk(string queryKey) {
@@ -513,7 +408,6 @@ namespace FallGuysStats {
             RankInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RankInfo;
             if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
                 this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
-                // this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(14f, FontStyle.Bold);
             }
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "rank") {
                 e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
@@ -582,7 +476,6 @@ namespace FallGuysStats {
 
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.mlVisitFallalytics)) {
-                // Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}/{this.currentPage + 1}");
                 Process.Start($"https://fallalytics.com/leaderboards/speedrun/{this.key}/1");
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {
@@ -596,39 +489,6 @@ namespace FallGuysStats {
                 int firstDisplayedScrollingRowIndex = (this.myRank - 1) - (displayedRowCount / 2);
                 this.gridDetails.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
             }
-            // else if (sender.Equals(this.mlFirstPagingButton)) {
-            //     if (!string.IsNullOrEmpty(this.key)) {
-            //         TimeSpan difference = DateTime.Now - this.refreshTime;
-            //         if (difference.TotalSeconds > 1.6) {
-            //             this.currentPage = 0;
-            //             this.SetGridList(this.key);
-            //         }
-            //     }
-            // } else if (sender.Equals(this.mlLeftPagingButton)) {
-            //     if (!string.IsNullOrEmpty(this.key)) {
-            //         TimeSpan difference = DateTime.Now - this.refreshTime;
-            //         if (difference.TotalSeconds > 1.6) {
-            //             this.currentPage -= 1;
-            //             this.SetGridList(this.key);
-            //         }
-            //     }
-            // } else if (sender.Equals(this.mlRightPagingButton)) {
-            //     if (!string.IsNullOrEmpty(this.key)) {
-            //         TimeSpan difference = DateTime.Now - this.refreshTime;
-            //         if (difference.TotalSeconds > 1.6) {
-            //             this.currentPage += 1;
-            //             this.SetGridList(this.key);
-            //         }
-            //     }
-            // } else if (sender.Equals(this.mlLastPagingButton)) {
-            //     if (!string.IsNullOrEmpty(this.key)) {
-            //         TimeSpan difference = DateTime.Now - this.refreshTime;
-            //         if (difference.TotalSeconds > 1.6) {
-            //             this.currentPage = this.totalPages - 1;
-            //             this.SetGridList(this.key);
-            //         }
-            //     }
-            // }
         }
     }
 }
