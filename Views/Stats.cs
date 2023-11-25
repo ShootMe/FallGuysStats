@@ -199,7 +199,7 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
-        private List<RankRound> leaderboardRoundlist;
+        public List<RankRound> leaderboardRoundlist;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {

@@ -419,6 +419,7 @@ namespace FallGuysStats {
                         var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
                         result = availableRound.found;
                         this.roundlist = availableRound.leaderboards;
+                        this.StatsForm.leaderboardRoundlist = availableRound.leaderboards;
                     } catch {
                         result = false;
                     }
