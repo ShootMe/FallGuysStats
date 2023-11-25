@@ -965,7 +965,7 @@
             this.cboMultilingual.ItemHeight = 23;
             this.cboMultilingual.Location = new System.Drawing.Point(53, 412);
             this.cboMultilingual.Name = "cboMultilingual";
-            this.cboMultilingual.Size = new System.Drawing.Size(115, 29);
+            this.cboMultilingual.Size = new System.Drawing.Size(120, 29);
             this.cboMultilingual.TabIndex = 19;
             this.cboMultilingual.SelectedIndexChanged += new System.EventHandler(this.cboMultilingual_SelectedIndexChanged);
             // 
