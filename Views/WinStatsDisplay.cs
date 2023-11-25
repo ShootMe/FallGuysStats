@@ -267,10 +267,10 @@ namespace FallGuysStats {
                         ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
                         : ""));
                     builder.Append((this.MyScatterPlot2.IsVisible
-                        ? $" - {Multilingual.GetWord("level_detail_finals")} :  ⟪ {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
+                        ? $" - {Multilingual.GetWord("level_detail_finals")} :  {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
                         : ""));
                     builder.Append((this.MyScatterPlot3.IsVisible
-                        ? $" - {Multilingual.GetWord("level_detail_wins")} :  ⟪ {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} {(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $"/ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫ - {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
+                        ? $" - {Multilingual.GetWord("level_detail_wins")} :  {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord(this.MyScatterPlot3.Ys[currentIndex] > 1 ? "level_wins_suffix" : "level_win_suffix")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
                         : ""));
                     if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
                         SortedList<string, int> infos = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
@@ -282,6 +282,10 @@ namespace FallGuysStats {
                         // KeyValuePair<string, int> longest = infos.OrderByDescending(kv => kv.Key.Length + kv.Value.ToString().Length).First();
                         // int longestLength = longest.Key.Length + longest.Value.ToString().Length;
 
+                        builder.Append((this.MyScatterPlot3.IsVisible
+                            ? $"{Environment.NewLine} - {Multilingual.GetWord("level_detail_losses")} :  {lossesCount:N0}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(lossesCount * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
+                            : ""));
+                        
                         int longestLength = 0;
                         if (levelCount > 5) {
                             int i = 0;

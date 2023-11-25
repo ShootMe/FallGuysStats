@@ -147,6 +147,7 @@ namespace FallGuysStats {
                                         
                                         Stats.OnlineServiceId = userInfo[0];
                                         Stats.OnlineServiceNickname = userInfo[1];
+                                        this.StatsForm.SetSecretKey();
                                     }
 
                                     if (logLine.IsValid) {
@@ -557,10 +558,10 @@ namespace FallGuysStats {
                 List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
                 TimeSpan existingRecord = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
-                if (this.StatsForm.CurrentSettings.EnableFallalyticsReporting && info.Finish.Value > this.StatsForm.startupTime && Stats.OnlineServiceType != OnlineServiceTypes.None) {
-                    string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
-                    if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.StatsForm.FallalyticsRegisterPb(info, roundId, apiKey)); }
-                }
+                // if (this.StatsForm.CurrentSettings.EnableFallalyticsReporting && info.Finish.Value > this.StatsForm.startupTime && Stats.OnlineServiceType != OnlineServiceTypes.None) {
+                //     string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+                //     if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.StatsForm.FallalyticsRegisterPb(info, roundId, apiKey)); }
+                // }
                 if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
                     this.OnPersonalBestNotification?.Invoke(info.ShowNameId, roundId, existingRecord, currentRecord);
                 }

@@ -898,23 +898,25 @@ namespace FallGuysStats {
                         TimeSpan time = finish.GetValueOrDefault(start) - start;
                         if (this.lastRound.Crown) {
                             this.lblFinish.TextRight = this.StatsForm.CurrentSettings.DisplayGamePlayedInfo ? $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                        } else if (roundId.Equals("round_skeefall")) { // "Ski Fall" Hunt-like Level Type
-                            this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                         } else {
-                            switch (levelType) {
-                                case LevelType.Survival:
-                                    this.lblFinish.TextRight = recordType == BestRecordType.Fastest ? (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}"
-                                                               : (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                                    break;
-                                case LevelType.Logic:
-                                case LevelType.Hunt:
-                                case LevelType.Team:
-                                case LevelType.Invisibeans:
-                                    this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                                    break;
-                                default:
-                                    this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                                    break;
+                            if (roundId.Equals("round_skeefall")) { // "Ski Fall" Hunt-like Level Type
+                                this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                            } else {
+                                switch (levelType) {
+                                    case LevelType.Survival:
+                                        this.lblFinish.TextRight = recordType == BestRecordType.Fastest ? (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}"
+                                            : (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                                        break;
+                                    case LevelType.Logic:
+                                    case LevelType.Hunt:
+                                    case LevelType.Team:
+                                    case LevelType.Invisibeans:
+                                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                                        break;
+                                    default:
+                                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                                        break;
+                                }
                             }
                         }
 
@@ -965,14 +967,16 @@ namespace FallGuysStats {
 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
-                    string roundId, roundName = roundId = this.lastRound.VerifiedName();
+                    // string roundId, roundName = roundId = this.lastRound.VerifiedName();
+                    string roundId = this.lastRound.VerifiedName();
+                    string roundName;
                     
-                    if (this.StatsForm.StatLookup.TryGetValue(roundName, out LevelStats levelStats)) {
+                    if (this.StatsForm.StatLookup.TryGetValue(roundId, out LevelStats levelStats)) {
                         roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : levelStats.Name.ToUpper();
-                    } else if (roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
-                        roundName = roundName.Substring(6).Replace('_', ' ').ToUpper();
+                    } else if (roundId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
+                        roundName = roundId.Substring(6).Replace('_', ' ').ToUpper();
                     } else {
-                        roundName = roundName.Replace('_', ' ').ToUpper();
+                        roundName = roundId.Replace('_', ' ').ToUpper();
                     }
                     
                     LevelType levelType = (levelStats?.Type).GetValueOrDefault(LevelType.Unknown);

@@ -18,7 +18,7 @@ namespace FallGuysStats {
         private string key = String.Empty;
         private int totalPlayers, totalPages, currentPage, totalHeight, myRank;
         private DateTime refreshTime;
-        private List<RankRound> roundlist;
+        public List<RankRound> roundlist;
         private List<RankInfo> recordholders;
         private List<RankInfo> nodata = new List<RankInfo>();
         
@@ -132,7 +132,36 @@ namespace FallGuysStats {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner.Visible = true;
-            Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
+            if ((DateTime.UtcNow - this.StatsForm.startupTime).TotalHours >= 1 || this.roundlist == null) {
+                Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
+                    List<ImageItem> roundItemList = new List<ImageItem>();
+                    foreach (RankRound round in this.roundlist) {
+                        foreach (string id in round.ids) {
+                            if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
+                                roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id }));
+                                break;
+                            }
+                        }
+                    }
+                    roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
+                    this.BeginInvoke((MethodInvoker)delegate {
+                        if (prevTask.Result) {
+                            this.mpsSpinner.Visible = false;
+                            this.lblSearchDescription.Visible = true;
+                            this.cboRoundList.SetImageItemData(roundItemList);
+                            this.cboRoundList.Enabled = true;
+                        } else {
+                            this.mpsSpinner.Visible = false;
+                            this.gridDetails.DataSource = this.nodata;
+                            this.mlRefreshList.Visible = false;
+                            this.mlVisitFallalytics.Visible = false;
+                            this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
+                            this.lblSearchDescription.Visible = true;
+                            this.cboRoundList.Enabled = false;
+                        }
+                    });
+                });
+            } else {
                 List<ImageItem> roundItemList = new List<ImageItem>();
                 foreach (RankRound round in this.roundlist) {
                     foreach (string id in round.ids) {
@@ -144,22 +173,12 @@ namespace FallGuysStats {
                 }
                 roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
                 this.BeginInvoke((MethodInvoker)delegate {
-                    if (prevTask.Result) {
-                        this.mpsSpinner.Visible = false;
-                        this.lblSearchDescription.Visible = true;
-                        this.cboRoundList.SetImageItemData(roundItemList);
-                        this.cboRoundList.Enabled = true;
-                    } else {
-                        this.mpsSpinner.Visible = false;
-                        this.gridDetails.DataSource = this.nodata;
-                        this.mlRefreshList.Visible = false;
-                        this.mlVisitFallalytics.Visible = false;
-                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
-                        this.lblSearchDescription.Visible = true;
-                        this.cboRoundList.Enabled = false;
-                    }
+                    this.mpsSpinner.Visible = false;
+                    this.lblSearchDescription.Visible = true;
+                    this.cboRoundList.SetImageItemData(roundItemList);
+                    this.cboRoundList.Enabled = true;
                 });
-            });
+            }
         }
 
         private void SetLeaderboardUI(int index) {
@@ -190,7 +209,7 @@ namespace FallGuysStats {
                 // this.mlMyRank.Location = new Point((this.ClientSize.Width - this.mlMyRank.Width) / 2, this.mlMyRank.Location.Y);
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mlMyRank.Location.Y);
             }
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 50 : 78);
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? 48 : 78);
             
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.mlRefreshList.Location.Y);
@@ -349,7 +368,7 @@ namespace FallGuysStats {
                     result = leaderboard.found;
                     if (result) {
                         this.totalPlayers = leaderboard.total;
-                        this.totalPages = (int)Math.Ceiling(this.totalPlayers / 50f);
+                        this.totalPages = (int)Math.Ceiling((this.totalPlayers > 500 ? 500 : this.totalPlayers) / 50f);
                         for (int i = 0; i < leaderboard.recordholders.Count; i++) {
                             leaderboard.recordholders[i].rank = i + 1;
                         }
@@ -412,7 +431,7 @@ namespace FallGuysStats {
                         result = leaderboard.found;
                         if (result) {
                             this.totalPlayers = leaderboard.total;
-                            this.totalPages = (int)Math.Ceiling(this.totalPlayers / 50f);
+                            this.totalPages = (int)Math.Ceiling((this.totalPlayers > 500 ? 500 : this.totalPlayers) / 50f);
                             for (int i = 0; i < leaderboard.recordholders.Count; i++) {
                                 leaderboard.recordholders[i].rank = i + 1 + (this.currentPage * 50);
                             }

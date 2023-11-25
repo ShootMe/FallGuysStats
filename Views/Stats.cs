@@ -199,6 +199,7 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
+        private List<RankRound> leaderboardRoundlist;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {
@@ -356,7 +357,7 @@ namespace FallGuysStats {
                     HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()).Split(';')[0];
                 }
             });
-            this.SetSecretKey();
+            Task.Run(this.InitializeLeaderboardRoundList);
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -758,9 +759,13 @@ namespace FallGuysStats {
             }
         }
 
-        private void SetSecretKey() {
-            Type type = Type.GetType("SecretKey");
+        public void SetSecretKey() {
+            Type type = Type.GetType("FallGuysStats.SecretKey");
             if (type != null) {
+                MethodInfo methodInfo = type.GetMethod("VERIFY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                if (methodInfo != null) {
+                    methodInfo.Invoke(null, null);
+                }
                 FieldInfo fieldInfo = type.GetField("FALLALYTICS_KEY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 if (fieldInfo != null) {
                     object value = fieldInfo.GetValue(null);
@@ -3099,11 +3104,11 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
 
-                                    // if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
-                                    //     (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                    //     string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
-                                    //     if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.FallalyticsRegisterPb(stat, apiKey)); }
-                                    // }
+                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
+                                        (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                        string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
+                                        if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.FallalyticsRegisterPb(stat, apiKey)); }
+                                    }
                                 }
                             } else {
                                 continue;
@@ -3334,7 +3339,7 @@ namespace FallGuysStats {
             }
         }
 
-        public async Task FallalyticsRegisterPb(RoundInfo stat, string currentRoundId, string apiKey) {
+        private async Task FallalyticsRegisterPb(RoundInfo stat, string apiKey) {
             string[] userInfo = null;
             if (OnlineServiceType == OnlineServiceTypes.Steam) {
                 userInfo = this.FindSteamUserInfo();
@@ -3357,6 +3362,7 @@ namespace FallGuysStats {
 
             string currentSessionId = stat.SessionId;
             string currentShowNameId = stat.ShowNameId;
+            string currentRoundId = stat.Name;
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
@@ -3377,6 +3383,7 @@ namespace FallGuysStats {
                 if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
                     currentSessionId = recordInfo.SessionId;
                     currentShowNameId = recordInfo.ShowNameId;
+                    currentRoundId = recordInfo.Name;
                     currentRecord = recordInfo.Finish.Value - recordInfo.Start;
                     currentFinish = recordInfo.Finish.Value;
                 }
@@ -5486,6 +5493,21 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void InitializeLeaderboardRoundList() {
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string json = web.DownloadString("https://data.fallalytics.com/api/leaderboards");
+                    JsonSerializerOptions options = new JsonSerializerOptions();
+                    options.Converters.Add(new RoundConverter());
+                    AvailableRound availableRound = System.Text.Json.JsonSerializer.Deserialize<AvailableRound>(json, options);
+                    this.leaderboardRoundlist = availableRound.found ? availableRound.leaderboards : null;
+                } catch {
+                    this.leaderboardRoundlist = null;
+                }
+                this.mlLeaderboard.Enabled = true;
+            }
+        }
         
         private void lblLeaderboard_Click(object sender, EventArgs e) {
             try {
@@ -5505,6 +5527,7 @@ namespace FallGuysStats {
                     //     }
                     // }
                     // leaderboard.RoundList = from pair in roundList orderby pair.Value ascending select pair; // use LINQ
+                    leaderboard.roundlist = this.leaderboardRoundlist;
                     leaderboard.ShowDialog(this);
                 }
                 this.EnableInfoStrip(true);

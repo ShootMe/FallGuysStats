@@ -345,6 +345,7 @@ FallGuysStatsManualUpdate.zip
 FallGuyStats.zip
 FallGuyStatsManualUpdate.zip
 
-SecretKey.txt
+verify_list.txt
+secret_key.txt
 Entities/SecretKey.tt
 Entities/SecretKey.cs
