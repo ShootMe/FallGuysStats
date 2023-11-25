@@ -352,12 +352,10 @@ namespace FallGuysStats {
 
         private Stats() {
             this.DatabaseMigration();
-            Task.Run(() => {
-                if (Utils.IsInternetConnected()) {
-                    HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()).Split(';')[0];
-                }
-            });
-            Task.Run(this.InitializeLeaderboardRoundList);
+            if (Utils.IsInternetConnected()) {
+                Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
+                Task.Run(this.InitializeLeaderboardRoundList);
+            }
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
@@ -3355,7 +3353,7 @@ namespace FallGuysStats {
             }
             
             if (string.IsNullOrEmpty(HostCountryCode)) {
-                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()).Split(';')[0];
+                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
             }
 
             if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
@@ -5505,7 +5503,7 @@ namespace FallGuysStats {
                 } catch {
                     this.leaderboardRoundlist = null;
                 }
-                this.mlLeaderboard.Enabled = true;
+                this.Invoke((MethodInvoker)delegate { this.mlLeaderboard.Enabled = true; });
             }
         }
         
