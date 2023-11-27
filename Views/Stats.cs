@@ -6094,7 +6094,7 @@ namespace FallGuysStats {
                 using (EditProfiles editProfiles = new EditProfiles()) {
                     editProfiles.StatsForm = this;
                     editProfiles.Profiles = this.AllProfiles;
-                    editProfiles.AllStats = this.RoundDetails.FindAll().ToList();
+                    editProfiles.AllStats = this.AllStats;
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     editProfiles.ShowDialog(this);
