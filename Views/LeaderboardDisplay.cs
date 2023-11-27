@@ -97,7 +97,7 @@ namespace FallGuysStats {
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
             if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
             this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
-            this.totalHeight = 0;
+            // this.totalHeight = 0;
             this.currentPage = 0;
             this.SetGridList(this.key);
         }
@@ -457,10 +457,13 @@ namespace FallGuysStats {
             if (e.RowIndex % 2 == 0) {
                 this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
                 // this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+            } else {
+                this.gridDetails.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
+            if (this.recordholders == null) return;
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
             Console.WriteLine(columnName);
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Windows.Forms;
@@ -14,6 +15,9 @@ namespace FallGuysStats {
         public List<RoundInfo> RoundDetails { get; set; }
         public Stats StatsForm { get; set; }
         private int _showStats;
+        private int currentPage, totalPages;
+        private int pageSize = 5000;
+        // private int totalHeight;
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         
@@ -69,8 +73,17 @@ namespace FallGuysStats {
                 this._showStats = 0;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
             }
-
-            this.gridDetails.DataSource = this.RoundDetails;
+            
+            this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+            this.currentPage = this.totalPages;
+            if (this.totalPages > 1) {
+                this.SetPagingUI(true);
+                this.EnablePagingUI(false);
+                // this.lblPagingInfo.Enabled = true;
+            }
+            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+            
             if (this.gridDetails.RowCount == 0) {
                 this.gridDetails.DeallocContextMenu();
             }
@@ -134,12 +147,79 @@ namespace FallGuysStats {
             this.gridDetails.SetContextMenuTheme();
         }
 
+        private void SetPagingUI(bool visible) {
+            if (visible) {
+                this.mlLastPagingButton.Location = new Point(this.gridDetails.Right - this.mlLastPagingButton.Width, this.mlLastPagingButton.Top);
+                this.mlRightPagingButton.Location = new Point(this.mlLastPagingButton.Left - this.mlRightPagingButton.Width - 5, this.mlRightPagingButton.Top);
+                this.lblPagingInfo.Text = $"{this.currentPage} / {this.totalPages}";
+                this.lblPagingInfo.Location = new Point(this.mlRightPagingButton.Left - this.lblPagingInfo.Width - 5, this.lblPagingInfo.Top);
+                this.mlLeftPagingButton.Location = new Point(this.lblPagingInfo.Left - this.mlLeftPagingButton.Width - 5, this.mlLeftPagingButton.Top);
+                this.mlFirstPagingButton.Location = new Point(this.mlLeftPagingButton.Left - this.mlFirstPagingButton.Width - 5, this.mlFirstPagingButton.Top);
+            }
+            
+            this.mlFirstPagingButton.Visible = visible;
+            this.mlLeftPagingButton.Visible = visible;
+            this.lblPagingInfo.Visible = visible;
+            this.mlRightPagingButton.Visible = visible;
+            this.mlLastPagingButton.Visible = visible;
+        }
+
+        private void EnablePagingUI(bool enable) {
+            this.mlFirstPagingButton.Enabled = enable;
+            this.mlLeftPagingButton.Enabled = enable;
+            // this.lblPagingInfo.Enabled = enable;
+            this.mlRightPagingButton.Enabled = enable;
+            this.mlLastPagingButton.Enabled = enable;
+        }
+
+        private void pagingButton_Click(object sender, EventArgs e) {
+            this.EnablePagingUI(false);
+            if (sender.Equals(this.mlFirstPagingButton)) {
+                this.currentPage = 1;
+                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                if (this.gridDetails.Rows.Count > 0) {
+                    this.SetPagingUI(true);
+                    this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
+                }
+            } else if (sender.Equals(this.mlLeftPagingButton)) {
+                this.currentPage -= 1;
+                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                if (this.gridDetails.Rows.Count > 0) {
+                    this.SetPagingUI(true);
+                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+                }
+            } else if (sender.Equals(this.mlRightPagingButton)) {
+                this.currentPage += 1;
+                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                if (this.gridDetails.Rows.Count > 0) {
+                    this.SetPagingUI(true);
+                    this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
+                }
+            } else if (sender.Equals(this.mlLastPagingButton)) {
+                this.currentPage = this.totalPages;
+                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                if (this.gridDetails.Rows.Count > 0) {
+                    this.SetPagingUI(true);
+                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+                }
+            }
+            // this.lblPagingInfo.Enabled = true;
+        }
+
         private void LevelDetails_Shown(object sender, EventArgs e) {
             this.Opacity = 1;
         }
         
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
+
+            this.mlFirstPagingButton.Theme = theme;
+            this.mlLeftPagingButton.Theme = theme;
+            this.lblPagingInfo.Font = Overlay.GetDefaultFont(23, 0);
+            this.lblPagingInfo.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            this.mlRightPagingButton.Theme = theme;
+            this.mlLastPagingButton.Theme = theme;
+            
             this.gridDetails.Theme = theme;
             this.gridDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
@@ -236,14 +316,40 @@ namespace FallGuysStats {
             
             return sizeOfText + 24;
         }
+        
+        // private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
+        //     if (this.gridDetails.VerticalScrollingOffset == 0) {
+        //         if (this.currentPage <= 1) { return; }
+        //         this.currentPage -= 1;
+        //         Console.WriteLine(this.currentPage);
+        //         this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+        //     } else if (this.totalHeight - this.gridDetails.Height < this.gridDetails.VerticalScrollingOffset) {
+        //         if (this.currentPage >= this.totalPages) { return; }
+        //         this.currentPage += 1;
+        //         this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+        //     }
+        // }
 
-        private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-        }
+        // private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            // if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+        // }
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             if (this.gridDetails.Columns.Count == 0) { return; }
-
+            
+            if (this.currentPage == 1) {
+                this.mlRightPagingButton.Enabled = true;
+                this.mlLastPagingButton.Enabled = true;
+            } else if (this.currentPage == this.totalPages) {
+                this.mlFirstPagingButton.Enabled = true;
+                this.mlLeftPagingButton.Enabled = true;
+            } else {
+                this.mlFirstPagingButton.Enabled = true;
+                this.mlLeftPagingButton.Enabled = true;
+                this.mlRightPagingButton.Enabled = true;
+                this.mlLastPagingButton.Enabled = true;
+            }
+            
             int pos = 0;
             this.gridDetails.Columns["Tier"].Visible = false;
             this.gridDetails.Columns["ID"].Visible = false;
@@ -332,6 +438,7 @@ namespace FallGuysStats {
 
             bool colorSwitch = true;
             int lastShow = -1;
+            // this.totalHeight = 0;
             for (int i = 0; i < this.gridDetails.RowCount; i++) {
                 int showID = (int)this.gridDetails.Rows[i].Cells["ShowID"].Value;
                 if (showID != lastShow) {
@@ -343,6 +450,7 @@ namespace FallGuysStats {
                     this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
                     this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
                 }
+                // this.totalHeight += this.gridDetails.Rows[i].Height;
             }
         }
         
@@ -470,6 +578,7 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
+            if (this.RoundDetails == null) return;
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "ShowID"; }

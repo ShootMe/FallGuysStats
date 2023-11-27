@@ -4554,6 +4554,7 @@ namespace FallGuysStats {
         // }
         
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
+            if (this.StatDetails == null) return;
             string columnName = this.gridDetails.Columns[columnIndex].Name;
             SortOrder sortOrder = isInitialize ? SortOrder.None : this.gridDetails.GetSortOrder(columnName);
 
@@ -4617,82 +4618,56 @@ namespace FallGuysStats {
         private void ShowShows() {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
-                List<RoundInfo> rounds = new List<RoundInfo>();
-                foreach (LevelStats ls in this.StatDetails) {
-                    if (ls.Id.Equals("creative_race_round") || ls.Id.Equals("creative_race_final_round")) continue;
-                    rounds.AddRange(ls.Stats);
-                }
-
-                rounds.Sort();
-
-                List<RoundInfo> shows = new List<RoundInfo>();
-                int roundCount = 0;
-                int kudosTotal = 0;
-                bool won = false;
-                bool isFinal = false;
-                DateTime endDate = DateTime.MinValue;
-
-                for (int i = rounds.Count - 1; i >= 0; i--) {
-                    RoundInfo info = rounds[i];
-                    if (roundCount == 0) {
-                        endDate = info.End;
-                        won = info.Qualified;
-                        isFinal = info.IsFinal || info.Crown;
-                    }
-
-                    roundCount++;
-                    kudosTotal += info.Kudos;
-                    if (info.Round == 1) {
-                        shows.Insert(0,
-                            new RoundInfo {
-                                Name = isFinal ? "Final" : string.Empty,
-                                ShowNameId = info.ShowNameId,
-                                IsFinal = isFinal,
-                                End = endDate,
-                                Start = info.Start,
-                                StartLocal = info.StartLocal,
-                                Kudos = kudosTotal,
-                                Qualified = won,
-                                Round = roundCount,
-                                ShowID = info.ShowID,
-                                Tier = won ? 1 : 0,
-                                PrivateLobby = info.PrivateLobby,
-                                UseShareCode = info.UseShareCode,
-                                CreativeAuthor = info.CreativeAuthor,
-                                CreativeOnlinePlatformId = info.CreativeOnlinePlatformId,
-                                CreativeShareCode = info.CreativeShareCode,
-                                CreativeTitle = info.CreativeTitle,
-                                CreativeDescription = info.CreativeDescription,
-                                CreativeVersion = info.CreativeVersion,
-                                CreativeMaxPlayer = info.CreativeMaxPlayer,
-                                CreativePlatformId = info.CreativePlatformId,
-                                CreativePlayCount = info.CreativePlayCount,
-                                CreativeLastModifiedDate = info.CreativeLastModifiedDate,
-                            });
-                        roundCount = 0;
-                        kudosTotal = 0;
-                    }
-                }
-
+                List<RoundInfo> shows = this.AllStats
+                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .GroupBy(r => r.ShowID)
+                    .Select(g => new {
+                        ShowID = g.Key,
+                        SortedRounds = g.OrderBy(r => r.Round).ToList()
+                    })
+                    .Select(g => new RoundInfo {
+                        ShowID = g.ShowID,
+                        Name = g.SortedRounds.LastOrDefault().IsFinal || g.SortedRounds.LastOrDefault().Crown ? "Final" : string.Empty,
+                        ShowNameId = g.SortedRounds.LastOrDefault().ShowNameId,
+                        IsFinal = g.SortedRounds.LastOrDefault().IsFinal,
+                        End = g.SortedRounds.Max(r => r.End),
+                        Start = g.SortedRounds.Min(r => r.Start),
+                        StartLocal = g.SortedRounds.Min(r => r.StartLocal),
+                        Kudos = g.SortedRounds.Sum(r => r.Kudos),
+                        Qualified = g.SortedRounds.LastOrDefault().Qualified,
+                        Round = g.SortedRounds.Max(r => r.Round),
+                        Tier = g.SortedRounds.LastOrDefault().Qualified ? 1 : 0,
+                        PrivateLobby = g.SortedRounds.LastOrDefault().PrivateLobby,
+                        UseShareCode = g.SortedRounds.LastOrDefault().UseShareCode,
+                        CreativeAuthor = g.SortedRounds.LastOrDefault().CreativeAuthor,
+                        CreativeOnlinePlatformId = g.SortedRounds.LastOrDefault().CreativeOnlinePlatformId,
+                        CreativeShareCode = g.SortedRounds.LastOrDefault().CreativeShareCode,
+                        CreativeTitle = g.SortedRounds.LastOrDefault().CreativeTitle,
+                        CreativeDescription = g.SortedRounds.LastOrDefault().CreativeDescription,
+                        CreativeVersion = g.SortedRounds.LastOrDefault().CreativeVersion,
+                        CreativeMaxPlayer = g.SortedRounds.LastOrDefault().CreativeMaxPlayer,
+                        CreativePlatformId = g.SortedRounds.LastOrDefault().CreativePlatformId,
+                        CreativePlayCount = g.SortedRounds.LastOrDefault().CreativePlayCount,
+                        CreativeLastModifiedDate = g.SortedRounds.LastOrDefault().CreativeLastModifiedDate,
+                    }).ToList();
                 levelDetails.RoundDetails = shows;
                 levelDetails.StatsForm = this;
-                
                 levelDetails.ShowDialog(this);
             }
         }
         
         private void ShowRounds() {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
-                List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < this.StatDetails.Count; i++) {
-                    if (this.StatDetails[i].Id.Equals("creative_race_round") || this.StatDetails[i].Id.Equals("creative_race_final_round")) continue;
-                    rounds.AddRange(this.StatDetails[i].Stats);
-                }
-                rounds.Sort();
+                List<RoundInfo> rounds = this.AllStats
+                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .OrderBy(r => r.ShowID)
+                    .ThenBy(r => r.Round)
+                    .ToList();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
-                
                 levelDetails.ShowDialog(this);
             }
         }
@@ -4700,38 +4675,23 @@ namespace FallGuysStats {
         private void ShowFinals() {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
-                List<RoundInfo> rounds = new List<RoundInfo>();
-                for (int i = 0; i < this.StatDetails.Count; i++) {
-                    if (this.StatDetails[i].Id.Equals("creative_race_round") || this.StatDetails[i].Id.Equals("creative_race_final_round")) continue;
-                    rounds.AddRange(this.StatDetails[i].Stats);
-                }
-
-                rounds.Sort();
-
-                int keepShow = -1;
-                for (int i = rounds.Count - 1; i >= 0; i--) {
-                    RoundInfo info = rounds[i];
-                    if (info.ShowID != keepShow && (info.Crown || info.IsFinal)) {
-                        keepShow = info.ShowID;
-                    } else if (info.ShowID != keepShow) {
-                        rounds.RemoveAt(i);
-                    }
-                }
-
+                List<RoundInfo> rounds = this.AllStats
+                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .GroupBy(r => r.ShowID)
+                    .Where(g => g.Any(r => (r.Round == g.Max(x => x.Round)) && (r.IsFinal || r.Crown)))
+                    .SelectMany(g => g)
+                    .ToList();
                 levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
-                
                 levelDetails.ShowDialog(this);
             }
         }
         
         private void ShowWinGraph() {
-            List<RoundInfo> rounds = new List<RoundInfo>();
-            for (int i = 0; i < this.StatDetails.Count; i++) {
-                if (this.StatDetails[i].Id.Equals("creative_race_round") || this.StatDetails[i].Id.Equals("creative_race_final_round")) continue;
-                rounds.AddRange(this.StatDetails[i].Stats);
-            }
-            rounds.Sort();
+            List<RoundInfo> rounds = this.AllStats
+                .Where(r => r.Profile == this.GetCurrentProfileId())
+                .OrderBy(r => r.End)
+                .ToList();
             
             using (WinStatsDisplay display = new WinStatsDisplay {
                        StatsForm = this,
