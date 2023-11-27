@@ -239,7 +239,7 @@ namespace FallGuysStats {
             Language lang = Stats.CurrentLanguage;
             switch (level) {
                 case "Shows":
-                    return this.Width - (lang == Language.English ? -160 : lang == Language.French ? -180 : lang == Language.Korean ? -150 : lang == Language.Japanese ? -150 : -160);
+                    return this.Width - (lang == Language.English ? -380 : lang == Language.French ? -400 : lang == Language.Korean ? -370 : lang == Language.Japanese ? -370 : -380);
                 case "Rounds":
                     return this.Width + (lang == Language.English ? 1100 : lang == Language.French ? 1200 : lang == Language.Korean ? 1100 : lang == Language.Japanese ? 1100 : 1180);
                 case "Finals":
@@ -452,6 +452,7 @@ namespace FallGuysStats {
                 }
                 // this.totalHeight += this.gridDetails.Rows[i].Height;
             }
+            this.gridDetails.ClearSelection();
         }
         
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {

@@ -1148,7 +1148,7 @@ namespace FallGuysStats {
             if (this.AllProfiles.FindIndex(profile => profile.ProfileId.ToString().Equals(((ToolStripMenuItem)sender).Name.Substring(11)) && !string.IsNullOrEmpty(profile.LinkedShowId)) != -1) {
                 e.Graphics.DrawImage(this.CurrentSettings.AutoChangeProfile ? Properties.Resources.link_on_icon :
                                      this.Theme == MetroThemeStyle.Light ? Properties.Resources.link_icon :
-                                     Properties.Resources.link_gray_icon, 24, 5, 11, 11);
+                                     Properties.Resources.link_gray_icon, 21, 5, 11, 11);
             }
         }
         
