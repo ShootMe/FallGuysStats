@@ -122,7 +122,7 @@ namespace FallGuysStats {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner.Visible = true;
-            if ((DateTime.UtcNow - this.StatsForm.startupTime).TotalHours >= 1 || this.roundlist == null) {
+            if ((DateTime.UtcNow - this.StatsForm.leaderboardRoundListLoadTime).TotalHours >= 1 || this.roundlist == null) {
                 Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
                     List<ImageItem> roundItemList = new List<ImageItem>();
                     foreach (RankRound round in this.roundlist) {
@@ -134,6 +134,7 @@ namespace FallGuysStats {
                         }
                     }
                     roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
+                    this.StatsForm.leaderboardRoundListLoadTime = DateTime.UtcNow;
                     this.BeginInvoke((MethodInvoker)delegate {
                         if (prevTask.Result) {
                             this.mpsSpinner.Visible = false;

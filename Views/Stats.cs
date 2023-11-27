@@ -168,6 +168,7 @@ namespace FallGuysStats {
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         public DateTime startupTime = DateTime.UtcNow;
+        public DateTime leaderboardRoundListLoadTime;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile, currentLanguage;
@@ -4619,7 +4620,9 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Shows";
                 List<RoundInfo> shows = this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                this.IsInStatsFilter(r) &&
+                                this.IsInPartyFilter(r))
                     .GroupBy(r => r.ShowID)
                     .Select(g => new {
                         ShowID = g.Key,
@@ -4662,7 +4665,9 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Rounds";
                 List<RoundInfo> rounds = this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                this.IsInStatsFilter(r) &&
+                                this.IsInPartyFilter(r))
                     .OrderBy(r => r.ShowID)
                     .ThenBy(r => r.Round)
                     .ToList();
@@ -4676,7 +4681,9 @@ namespace FallGuysStats {
             using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.LevelName = "Finals";
                 List<RoundInfo> rounds = this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId())
+                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                this.IsInStatsFilter(r) &&
+                                this.IsInPartyFilter(r))
                     .GroupBy(r => r.ShowID)
                     .Where(g => g.Any(r => (r.Round == g.Max(x => x.Round)) && (r.IsFinal || r.Crown)))
                     .SelectMany(g => g)
@@ -4688,11 +4695,6 @@ namespace FallGuysStats {
         }
         
         private void ShowWinGraph() {
-            List<RoundInfo> rounds = this.AllStats
-                .Where(r => r.Profile == this.GetCurrentProfileId())
-                .OrderBy(r => r.End)
-                .ToList();
-            
             using (WinStatsDisplay display = new WinStatsDisplay {
                        StatsForm = this,
                        Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
@@ -4700,6 +4702,13 @@ namespace FallGuysStats {
                        BackMaxSize = 32,
                        BackImagePadding = new Padding(20, 20, 0, 0)
                    }) {
+                List<RoundInfo> rounds = this.AllStats
+                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                this.IsInStatsFilter(r) &&
+                                this.IsInPartyFilter(r))
+                    .OrderBy(r => r.End)
+                    .ToList();
+                
                 ArrayList dates = new ArrayList();
                 ArrayList shows = new ArrayList();
                 ArrayList finals = new ArrayList();
@@ -4823,45 +4832,15 @@ namespace FallGuysStats {
                        BackImagePadding = new Padding(20, 20, 0, 0)
                    })
             {
-                List<RoundInfo> rounds;
-                List<RoundInfo> userCreativeRounds;
-                if (this.menuCustomRangeStats.Checked) {
-                    rounds = this.AllStats.Where(ri => {
-                        return ri.Start >= this.customfilterRangeStart &&
-                               ri.Start <= this.customfilterRangeEnd &&
-                               ri.Profile == this.GetCurrentProfileId() &&
-                               //!"user_creative_race_round".Equals(ri.Name) &&
-                               !ri.UseShareCode &&
-                               this.IsInPartyFilter(ri);
-                    }).OrderBy(ri => ri.Name).ToList();
-                    userCreativeRounds = this.AllStats.Where(ri => {
-                        return ri.Start >= this.customfilterRangeStart &&
-                               ri.Start <= this.customfilterRangeEnd &&
-                               ri.Profile == this.GetCurrentProfileId() &&
-                               //"user_creative_race_round".Equals(ri.Name) &&
-                               ri.UseShareCode &&
-                               this.IsInPartyFilter(ri);
-                    }).OrderBy(ri => ri.ShowNameId).ToList();
-                } else {
-                    DateTime compareDate = this.menuAllStats.Checked ? DateTime.MinValue :
-                        this.menuSeasonStats.Checked ? SeasonStart :
-                        this.menuWeekStats.Checked ? WeekStart :
-                        this.menuDayStats.Checked ? DayStart : SessionStart;
-                    rounds = this.AllStats.Where(ri => {
-                        return ri.Start > compareDate &&
-                               ri.Profile == this.GetCurrentProfileId() &&
-                               //!"user_creative_race_round".Equals(ri.Name) &&
-                               !ri.UseShareCode &&
-                               this.IsInPartyFilter(ri);
-                    }).OrderBy(ri => ri.Name).ToList();
-                    userCreativeRounds = this.AllStats.Where(ri => {
-                        return ri.Start > compareDate &&
-                               ri.Profile == this.GetCurrentProfileId() &&
-                               //"user_creative_race_round".Equals(ri.Name) &&
-                               ri.UseShareCode &&
-                               this.IsInPartyFilter(ri);
-                    }).OrderBy(ri => ri.ShowNameId).ToList();
-                }
+                List<RoundInfo> rounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                                                   this.IsInStatsFilter(r) &&
+                                                                   this.IsInPartyFilter(r) &&
+                                                                   !r.UseShareCode).OrderBy(r => r.Name).ToList();
+                List<RoundInfo> userCreativeRounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId() &&
+                                                                               this.IsInStatsFilter(r) &&
+                                                                               this.IsInPartyFilter(r) &&
+                                                                               r.UseShareCode).OrderBy(r => r.ShowNameId).ToList();
+                
                 if (rounds.Count == 0 && userCreativeRounds.Count == 0) { return; }
                 
                 Dictionary<string, double[]> roundGraphData = new Dictionary<string, double[]>();
@@ -5464,6 +5443,7 @@ namespace FallGuysStats {
                     this.leaderboardRoundlist = null;
                 }
                 this.mlLeaderboard.Enabled = true;
+                this.leaderboardRoundListLoadTime = DateTime.UtcNow;
             }
         }
         
