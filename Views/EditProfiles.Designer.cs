@@ -64,6 +64,7 @@
             // 
             this.dgvProfiles.AllowUserToAddRows = false;
             this.dgvProfiles.AllowUserToDeleteRows = false;
+            this.dgvProfiles.AllowUserToResizeRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(235)))), ((int)(((byte)(255)))));
             this.dgvProfiles.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvProfiles.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -75,6 +76,7 @@
             this.dgvProfiles.MultiSelect = false;
             this.dgvProfiles.Name = "dgvProfiles";
             this.dgvProfiles.RowHeadersVisible = false;
+            this.dgvProfiles.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgvProfiles.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvProfiles.Size = new System.Drawing.Size(498, 364);
             this.dgvProfiles.TabIndex = 0;
@@ -152,7 +154,7 @@
             // btnAddProfile
             // 
             this.btnAddProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnAddProfile.Location = new System.Drawing.Point(7, 43);
             this.btnAddProfile.Name = "btnAddProfile";
             this.btnAddProfile.Size = new System.Drawing.Size(76, 26);
             this.btnAddProfile.TabIndex = 2;
@@ -163,7 +165,7 @@
             // txtAddProfile
             // 
             this.txtAddProfile.CustomButton.Image = null;
-            this.txtAddProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
+            this.txtAddProfile.CustomButton.Location = new System.Drawing.Point(202, 1);
             this.txtAddProfile.CustomButton.Name = "";
             this.txtAddProfile.CustomButton.Size = new System.Drawing.Size(27, 27);
             this.txtAddProfile.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -173,7 +175,7 @@
             this.txtAddProfile.CustomButton.Visible = false;
             this.txtAddProfile.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtAddProfile.Lines = new string[0];
-            this.txtAddProfile.Location = new System.Drawing.Point(96, 10);
+            this.txtAddProfile.Location = new System.Drawing.Point(107, 7);
             this.txtAddProfile.MaxLength = 20;
             this.txtAddProfile.Name = "txtAddProfile";
             this.txtAddProfile.PasswordChar = '\0';
@@ -222,7 +224,7 @@
             // btnRenameProfile
             // 
             this.btnRenameProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRenameProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnRenameProfile.Location = new System.Drawing.Point(7, 81);
             this.btnRenameProfile.Name = "btnRenameProfile";
             this.btnRenameProfile.Size = new System.Drawing.Size(76, 26);
             this.btnRenameProfile.TabIndex = 4;
@@ -233,7 +235,7 @@
             // txtRenameProfile
             // 
             this.txtRenameProfile.CustomButton.Image = null;
-            this.txtRenameProfile.CustomButton.Location = new System.Drawing.Point(150, 1);
+            this.txtRenameProfile.CustomButton.Location = new System.Drawing.Point(202, 1);
             this.txtRenameProfile.CustomButton.Name = "";
             this.txtRenameProfile.CustomButton.Size = new System.Drawing.Size(27, 27);
             this.txtRenameProfile.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -243,7 +245,7 @@
             this.txtRenameProfile.CustomButton.Visible = false;
             this.txtRenameProfile.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtRenameProfile.Lines = new string[0];
-            this.txtRenameProfile.Location = new System.Drawing.Point(96, 45);
+            this.txtRenameProfile.Location = new System.Drawing.Point(107, 45);
             this.txtRenameProfile.MaxLength = 20;
             this.txtRenameProfile.Name = "txtRenameProfile";
             this.txtRenameProfile.PasswordChar = '\0';
@@ -265,16 +267,16 @@
             this.lblRenameProfile2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
             this.lblRenameProfile2.Location = new System.Drawing.Point(7, 47);
             this.lblRenameProfile2.Name = "lblRenameProfile2";
-            this.lblRenameProfile2.Size = new System.Drawing.Size(87, 19);
+            this.lblRenameProfile2.Size = new System.Drawing.Size(76, 19);
             this.lblRenameProfile2.TabIndex = 2;
-            this.lblRenameProfile2.Text = "Profile Name";
+            this.lblRenameProfile2.Text = "New Name";
             // 
             // cboProfileRename
             // 
             this.cboProfileRename.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboProfileRename.FormattingEnabled = true;
             this.cboProfileRename.ItemHeight = 23;
-            this.cboProfileRename.Location = new System.Drawing.Point(96, 7);
+            this.cboProfileRename.Location = new System.Drawing.Point(107, 7);
             this.cboProfileRename.Name = "cboProfileRename";
             this.cboProfileRename.Size = new System.Drawing.Size(230, 29);
             this.cboProfileRename.TabIndex = 1;
@@ -314,7 +316,7 @@
             // btnMoveProfile
             // 
             this.btnMoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMoveProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnMoveProfile.Location = new System.Drawing.Point(7, 81);
             this.btnMoveProfile.Name = "btnMoveProfile";
             this.btnMoveProfile.Size = new System.Drawing.Size(76, 26);
             this.btnMoveProfile.TabIndex = 4;
@@ -384,7 +386,7 @@
             // btnRemoveProfile
             // 
             this.btnRemoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveProfile.Location = new System.Drawing.Point(8, 88);
+            this.btnRemoveProfile.Location = new System.Drawing.Point(7, 43);
             this.btnRemoveProfile.Name = "btnRemoveProfile";
             this.btnRemoveProfile.Size = new System.Drawing.Size(76, 26);
             this.btnRemoveProfile.TabIndex = 2;
@@ -431,8 +433,8 @@
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Profile Settings";
             this.Load += new System.EventHandler(this.EditProfiles_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditProfile_KeyDown);
             this.Shown += new System.EventHandler(this.EditProfiles_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditProfile_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.dgvProfiles)).EndInit();
             this.grpProfiles.ResumeLayout(false);
             this.mtcTabControl.ResumeLayout(false);

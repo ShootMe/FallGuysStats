@@ -1148,7 +1148,7 @@ namespace FallGuysStats {
             if (this.AllProfiles.FindIndex(profile => profile.ProfileId.ToString().Equals(((ToolStripMenuItem)sender).Name.Substring(11)) && !string.IsNullOrEmpty(profile.LinkedShowId)) != -1) {
                 e.Graphics.DrawImage(this.CurrentSettings.AutoChangeProfile ? Properties.Resources.link_on_icon :
                                      this.Theme == MetroThemeStyle.Light ? Properties.Resources.link_icon :
-                                     Properties.Resources.link_gray_icon, 20, 5, 11, 11);
+                                     Properties.Resources.link_gray_icon, 24, 5, 11, 11);
             }
         }
         
@@ -5982,10 +5982,10 @@ namespace FallGuysStats {
         }
         
         private void SetMinimumSize() {
-            this.MinimumSize = new Size(CurrentLanguage == Language.English ? 720 :
-                                        CurrentLanguage == Language.French ? 845 :
-                                        CurrentLanguage == Language.Korean ? 650 :
-                                        CurrentLanguage == Language.Japanese ? 795 : 600
+            this.MinimumSize = new Size(CurrentLanguage == Language.English ? 730 :
+                                        CurrentLanguage == Language.French ? 860 :
+                                        CurrentLanguage == Language.Korean ? 710 :
+                                        CurrentLanguage == Language.Japanese ? 805 : 685
                                         , 350);
         }
         

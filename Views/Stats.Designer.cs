@@ -196,7 +196,7 @@
             this.mlLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
             this.mlLeaderboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.mlLeaderboard.ImageSize = 17;
-            this.mlLeaderboard.Location = new System.Drawing.Point(38, 174);
+            this.mlLeaderboard.Location = new System.Drawing.Point(826, 174);
             this.mlLeaderboard.Name = "mlLeaderboard";
             this.mlLeaderboard.Size = new System.Drawing.Size(100, 20);
             this.mlLeaderboard.TabIndex = 7;
@@ -215,7 +215,7 @@
             this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys, this.menuLookHere });
             this.menu.Location = new System.Drawing.Point(0, 65);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(860, 27);
+            this.menu.Size = new System.Drawing.Size(940, 27);
             this.menu.TabIndex = 12;
             this.menu.Text = "menuStrip1";
             // 
@@ -561,7 +561,7 @@
             this.infoStrip.Name = "infoStrip";
             this.infoStrip.Padding = new System.Windows.Forms.Padding(20, 6, 20, 1);
             this.infoStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.infoStrip.Size = new System.Drawing.Size(828, 27);
+            this.infoStrip.Size = new System.Drawing.Size(1050, 27);
             this.infoStrip.TabIndex = 13;
             // 
             // lblCurrentProfileIcon
@@ -648,7 +648,7 @@
             this.infoStrip2.Name = "infoStrip2";
             this.infoStrip2.Padding = new System.Windows.Forms.Padding(14, 6, 14, 1);
             this.infoStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.infoStrip2.Size = new System.Drawing.Size(828, 27);
+            this.infoStrip2.Size = new System.Drawing.Size(1050, 27);
             this.infoStrip2.TabIndex = 14;
             // 
             // lblTotalTime
@@ -740,7 +740,7 @@
             this.gridDetails.ReadOnly = true;
             this.gridDetails.RowHeadersVisible = false;
             this.gridDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.gridDetails.Size = new System.Drawing.Size(690, 630);
+            this.gridDetails.Size = new System.Drawing.Size(912, 448);
             this.gridDetails.TabIndex = 11;
             this.gridDetails.TabStop = false;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
@@ -1061,7 +1061,7 @@
             // Stats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(720, 830);
+            this.ClientSize = new System.Drawing.Size(942, 650);
             this.Controls.Add(this.menu);
             this.Controls.Add(this.infoStrip);
             this.Controls.Add(this.infoStrip2);
