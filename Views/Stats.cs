@@ -3103,7 +3103,7 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
 
-                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Qualified && stat.Finish.HasValue &&
+                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
                                         (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
                                         string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
                                         if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.FallalyticsRegisterPb(stat, apiKey)); }

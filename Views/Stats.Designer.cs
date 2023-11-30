@@ -488,7 +488,7 @@
             this.menuSeparator5.Name = "menuSeparator5";
             this.menuSeparator5.Size = new System.Drawing.Size(159, 6);
             // 
-            // menuRollOffClub
+            // menuLostTempleAnalyzer
             // 
             this.menuLostTempleAnalyzer.Image = global::FallGuysStats.Properties.Resources.lost_temple_analyzer_icon;
             this.menuLostTempleAnalyzer.Name = "menuLostTempleAnalyzer";
