@@ -305,7 +305,8 @@ namespace FallGuysStats {
                 }
                 return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
             } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
-                if (roundId.EndsWith("_squads")) roundId = roundId.Substring(0, roundId.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
+                // if (roundId.EndsWith("_squads")) roundId = roundId.Substring(0, roundId.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
+                roundId = roundId.Replace("_squads", "");
                 if (this.StatsForm.LevelIdReplacerInFuckingShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }

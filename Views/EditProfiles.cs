@@ -25,8 +25,6 @@ namespace FallGuysStats {
         }
 
         private void EditProfiles_Load(object sender, EventArgs e) {
-            this.dgvProfiles.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.dgvProfiles.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.SetTheme(Stats.CurrentTheme);
             this.ChangeLanguage();
             this.InitProfileList();
@@ -46,6 +44,8 @@ namespace FallGuysStats {
 
             this.dgvProfiles.Theme = theme;
             this.dgvProfiles.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+            this.dgvProfiles.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
+            this.dgvProfiles.DefaultCellStyle = this.dataGridViewCellStyle2;
             this.dataGridViewCellStyle1.BackColor = theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(2, 2, 2);
             this.dataGridViewCellStyle1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.dataGridViewCellStyle1.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.Cyan : Color.DarkSlateBlue;
@@ -166,19 +166,17 @@ namespace FallGuysStats {
                     this.cboProfileRemove.Items.Insert(0, profileName);
                 }
             }
-            this.RefreshComponent();
+            // this.RefreshComponent();
         }
 
         private void RefreshComponent() {
-            this.BeginInvoke((MethodInvoker)delegate {
-                this.txtAddProfile.Invalidate();
-                this.txtRenameProfile.Invalidate();
-                this.cboProfileRename.Invalidate();
-                this.cboProfileMoveFrom.Invalidate();
-                this.cboProfileMoveTo.Invalidate();
-                this.cboProfileRemove.Invalidate();
-                this.dgvProfiles.Invalidate();
-            });
+            this.txtAddProfile.Invalidate();
+            this.txtRenameProfile.Invalidate();
+            this.cboProfileRename.Invalidate();
+            this.cboProfileMoveFrom.Invalidate();
+            this.cboProfileMoveTo.Invalidate();
+            this.cboProfileRemove.Invalidate();
+            this.dgvProfiles.Invalidate();
         }
 
         private void ProfileList_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e) {

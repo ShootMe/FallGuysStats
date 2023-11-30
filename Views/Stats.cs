@@ -323,7 +323,30 @@ namespace FallGuysStats {
             { "wle_round_mrs_shuffle_discover_031", "current_wle_fp3_08_16" },
             { "wle_round_mrs_shuffle_discover_035", "wle_discover_level_wk2_038" },
             { "wle_round_mrs_shuffle_discover_042", "current_wle_fp6_wk2_1_03" },
-            { "wle_round_mrs_shuffle_discover_043", "current_wle_fp6_wk3_06" }
+            { "wle_round_mrs_shuffle_discover_043", "current_wle_fp6_wk3_06" },
+            
+            { "wle_discovery_shuffle_up2_02", "wle_discover_level_wk2_030" },
+            { "wle_discovery_shuffle_up2_03", "wle_discover_level_wk2_026" },
+            { "wle_discovery_shuffle_up2_04", "current_wle_fp6_wk4_02_04" },
+            { "wle_discovery_shuffle_up2_10", "wle_discover_level_wk2_010" },
+            { "wle_discovery_shuffle_up2_11", "wle_discover_level_wk2_041" },
+            { "wle_discovery_shuffle_up2_12", "wle_discover_level_wk2_032" },
+            { "wle_discovery_shuffle_up2_16", "wle_discover_level_wk2_008" },
+            { "wle_discovery_shuffle_up2_20", "current_wle_fp6_wk4_05_01" },
+            { "wle_discovery_shuffle_up2_21", "wle_discover_level_wk2_040" },
+            { "wle_discovery_shuffle_up2_22", "current_wle_fp4_05_01_05" },
+            { "wle_discovery_shuffle_up2_23", "wle_discover_level_wk2_019" },
+            { "wle_discovery_shuffle_up2_25", "current_wle_fp6_wk4_05_02" },
+            { "wle_discovery_shuffle_up2_27", "wle_discover_level_wk2_003" },
+            { "wle_discovery_shuffle_up2_35", "wle_discover_level_wk2_038" },
+            { "wle_discovery_shuffle_up2_36", "wle_discover_level_wk2_024" },
+            { "wle_discovery_shuffle_up2_39", "wle_round_mrs_shuffle_discover_021" },
+            { "wle_discovery_shuffle_up2_40", "wle_discover_level_wk2_023" },
+            { "wle_discovery_shuffle_up2_41", "wle_discover_level_wk2_028" },
+            { "wle_discovery_shuffle_up2_42", "wle_discover_level_wk2_029" },
+            { "wle_discovery_shuffle_up2_43", "wle_discover_level_wk2_001" },
+            { "wle_discovery_shuffle_up2_44", "wle_discover_level_wk2_014" },
+            { "wle_discovery_shuffle_up2_45", "wle_round_mrs_shuffle_discover_028" }
         };
         
         // public readonly Dictionary<string, string> LevelIdReplacerInDuplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -2257,6 +2280,62 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 69;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 69) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          (ri.ShowNameId.Equals("wle_shuffle_discover") ||
+                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads"))
+                    select ri).ToList();
+                
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
+                        ri.Name = ri.Name.Replace("_squads", "");
+                    }
+                    if (this.LevelIdReplacerInFuckingShow.TryGetValue(ri.Name, out string newName)) {
+                        ri.Name = newName;
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = true;
+
+                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                        List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                        foreach (RoundInfo r in ril) {
+                            if (r.Round != ri.Round) {
+                                r.IsFinal = false;
+                            }
+                        }
+                        this.RoundDetails.Update(ril);
+                    }
+                }
+                this.RoundDetails.Update(roundInfoList);
+                
+                Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
+                    { "wle_discover_level_wk2_011", "current_wle_fp6_wk4_05_01" },
+                    { "wle_discover_level_wk2_042", "current_wle_fp6_wk4_02_04" },
+                    { "wle_discover_level_wk2_044", "current_wle_fp6_wk4_05_02" },
+                    { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
+                };
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll() 
+                    where duplicatedKey.ContainsKey(ri.Name) select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList2) {
+                    if (duplicatedKey.TryGetValue(ri.Name, out string newName)) {
+                        ri.Name = newName;
+                    }
+                }
+                this.RoundDetails.Update(roundInfoList2);
+
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 70;
                 this.SaveUserSettings();
             }
         }
