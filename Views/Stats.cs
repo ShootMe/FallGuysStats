@@ -209,6 +209,7 @@ namespace FallGuysStats {
             "squads_4player",
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
+            "event_anniversary_season_1_alternate_name",
             "event_only_finals_v2_template",
             "event_only_races_any_final_template",
             "event_only_fall_ball_template",
@@ -3184,8 +3185,7 @@ namespace FallGuysStats {
 
                                     if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
                                         (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                        string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");
-                                        if (!string.IsNullOrEmpty(apiKey)) { Task.Run(() => this.FallalyticsRegisterPb(stat, apiKey)); }
+                                        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) { Task.Run(() => this.FallalyticsRegisterPb(stat)); }
                                     }
                                 }
                             } else {
@@ -3417,7 +3417,7 @@ namespace FallGuysStats {
             }
         }
 
-        private async Task FallalyticsRegisterPb(RoundInfo stat, string apiKey) {
+        private async Task FallalyticsRegisterPb(RoundInfo stat) {
             string[] userInfo = null;
             if (OnlineServiceType == OnlineServiceTypes.Steam) {
                 userInfo = this.FindSteamUserInfo();
@@ -3468,7 +3468,7 @@ namespace FallGuysStats {
 
                 try {
                     if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
+                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                         isTransferSuccess = true;
                     }
                 } catch {
@@ -3499,7 +3499,7 @@ namespace FallGuysStats {
                         if (currentRecord < existingRecord) {
                             try {
                                 if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
+                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                     isTransferSuccess = true;
                                 }
                             } catch {
@@ -3524,7 +3524,7 @@ namespace FallGuysStats {
                         currentFinish = currentRecord < existingRecord ? currentFinish : pbLog.PbDate;
                         try {
                             if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
+                                await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                                 isTransferSuccess = true;
                             }
                         } catch {
@@ -3545,7 +3545,7 @@ namespace FallGuysStats {
                 } else {
                     try {
                         if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                            await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous, apiKey);
+                            await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                             isTransferSuccess = true;
                         }
                     } catch {
@@ -5513,6 +5513,7 @@ namespace FallGuysStats {
         private void InitializeLeaderboardRoundList() {
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
+                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                     string json = web.DownloadString("https://data.fallalytics.com/api/leaderboards");
                     JsonSerializerOptions options = new JsonSerializerOptions();
                     options.Converters.Add(new RoundConverter());

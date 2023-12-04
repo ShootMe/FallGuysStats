@@ -257,6 +257,7 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
                     this.recordholders = null;
+                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                     json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p=1");
                     options = new JsonSerializerOptions();
                     options.Converters.Add(new RecordHolderConverter());
@@ -272,6 +273,7 @@ namespace FallGuysStats {
                         if (this.totalPages > 1) {
                             var tasks = new List<Task>();
                             HttpClient client = new HttpClient();
+                            client.DefaultRequestHeaders.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                             for (int i = 2; i <= this.totalPages; i++) {
                                 int page = i;
                                 tasks.Add(Task.Run(async () => {
@@ -307,6 +309,7 @@ namespace FallGuysStats {
         private bool DataLoad(string queryKey = null) {
             bool result;
             using (ApiWebClient web = new ApiWebClient()) {
+                web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                 if (string.IsNullOrEmpty(queryKey)) { // round list
                     try {
                         string json = web.DownloadString($"{this.LEADERBOARD_API_URL}s");

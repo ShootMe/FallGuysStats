@@ -11,10 +11,10 @@ namespace FallGuysStats {
         public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous, string apiKey) {
+        public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
             request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous), Encoding.UTF8, "application/json");
             try {
                 await HttpClient.SendAsync(request);
