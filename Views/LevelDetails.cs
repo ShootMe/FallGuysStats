@@ -321,7 +321,6 @@ namespace FallGuysStats {
         //     if (this.gridDetails.VerticalScrollingOffset == 0) {
         //         if (this.currentPage <= 1) { return; }
         //         this.currentPage -= 1;
-        //         Console.WriteLine(this.currentPage);
         //         this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
         //     } else if (this.totalHeight - this.gridDetails.Height < this.gridDetails.VerticalScrollingOffset) {
         //         if (this.currentPage >= this.totalPages) { return; }

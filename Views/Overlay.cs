@@ -597,7 +597,7 @@ namespace FallGuysStats {
             }
         }
         private void SetFinalsLabel(StatSummary levelSummary, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 3) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 3) {
                 this.lblFinals.OverlaySetting = overlaySetting;
                 this.lblFinals.TickProgress = DateTime.Now.Second;
                 this.lblFinals.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
@@ -612,7 +612,7 @@ namespace FallGuysStats {
             }
         }
         private void SetStreakLabel(StatSummary levelSummary, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 3)) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 3)) {
                 this.lblStreak.OverlaySetting = overlaySetting;
                 this.lblStreak.Text = "";
                 this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
@@ -636,7 +636,7 @@ namespace FallGuysStats {
             }
         }
         private void SetQualifyChanceLabel(StatSummary levelSummary, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 1 || overlaySetting == 5)) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 1 || overlaySetting == 5)) {
                 this.lblQualifyChance.OverlaySetting = overlaySetting;
                 this.lblQualifyChance.Text = "";
                 this.lblQualifyChance.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
@@ -667,7 +667,7 @@ namespace FallGuysStats {
             }
         }
         private void SetFastestLabel(StatSummary levelSummary, BestRecordType recordType, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 2)) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 2)) {
                 this.lblFastest.OverlaySetting = overlaySetting;
                 this.lblFastest.TickProgress = DateTime.Now.Second;
                 this.lblFastest.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
@@ -711,7 +711,7 @@ namespace FallGuysStats {
             }
         }
         private void SetPlayersLabel(int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 0 || overlaySetting == 1 || overlaySetting == 4 || overlaySetting == 5)) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 0 || overlaySetting == 1 || overlaySetting == 4 || overlaySetting == 5)) {
                 this.lblPlayers.Image = null;
                 this.lblPlayersPs.DrawVisible = false;
                 this.lblPlayersXbox.DrawVisible = false;
@@ -785,18 +785,18 @@ namespace FallGuysStats {
                             } else {
                                 this.lblPlayers.PingColor = Color.Green;
                             }
-                            this.lblCountryIcon.Image = (Image)(!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) && Stats.ToggleServerInfo && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
-                            this.lblCountryIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing < 1000)
+                            this.lblCountryIcon.Image = (Image)(!string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) && Stats.IsConnectedToServer && Stats.LastServerPing > 0 ? Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon") : null);
+                            this.lblCountryIcon.ImageX = (Stats.IsConnectedToServer && Stats.LastServerPing < 1000)
                                                          ? (Stats.LastServerPing > 0 && 9 >= Stats.LastServerPing ? 39
                                                            : Stats.LastServerPing >= 10 && 99 >= Stats.LastServerPing ? 30
                                                            : Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing ? -3
                                                            : Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -6 : 0) : -12;
                             
-                            this.lblPingIcon.Image = (Stats.ToggleServerInfo && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon
-                                                     : (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
-                            this.lblPingIcon.ImageX = (Stats.ToggleServerInfo && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15
-                                                      : (Stats.ToggleServerInfo && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17
-                                                      : (Stats.ToggleServerInfo && Stats.LastServerPing > 999) ? -24 : 0;
+                            this.lblPingIcon.Image = (Stats.IsConnectedToServer && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon
+                                                     : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                            this.lblPingIcon.ImageX = (Stats.IsConnectedToServer && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15
+                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17
+                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing > 999) ? -24 : 0;
                             
                             if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
                                 this.lblCountryIcon.ImageX += 7;
@@ -805,18 +805,18 @@ namespace FallGuysStats {
                         }
                         
                         this.lblPlayers.Text = $"{Multilingual.GetWord("overlay_ping")} :";
-                        this.lblPlayers.TextRight = (Stats.ToggleServerInfo && Stats.LastServerPing > 0) ? $"{Stats.LastServerPing} ms" : "-";
+                        this.lblPlayers.TextRight = (Stats.IsConnectedToServer && Stats.LastServerPing > 0) ? $"{Stats.LastServerPing} ms" : "-";
                         break;
                 }
             }
         }
         private void SetDurationLabel(LevelStats level, DateTime currentUTC, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
                 this.lblDuration.OverlaySetting = overlaySetting;
                 this.lblDuration.TickProgress = 0;
                 this.lblDuration.Text = "";
                 this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
-            } else if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 6) {
+            } else if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 6) {
                 this.lblDuration.OverlaySetting = overlaySetting;
                 this.lblDuration.TickProgress = DateTime.Now.Second;
                 this.lblDuration.Text = $"{Multilingual.GetWord("overlay_current_time")} :";
@@ -872,7 +872,7 @@ namespace FallGuysStats {
             }
         }
         private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, string roundId, BestRecordType recordType, DateTime currentUTC, int overlaySetting) {
-            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.ToggleServerInfo && overlaySetting == 6) {
+            if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
                 this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
@@ -992,7 +992,8 @@ namespace FallGuysStats {
                     this.SetStreakLabel(levelSummary, overlaySetting);
                     
                     if (this.isTimeToSwitch) {
-                        this.switchCount++;
+                        this.frameCount = 0;
+                        this.switchCount = this.switchCount == 0 ? 1 : 0;
                     }
                     
                     DateTime currentUTC = DateTime.UtcNow;

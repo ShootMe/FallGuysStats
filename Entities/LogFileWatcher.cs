@@ -571,7 +571,7 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (!Stats.ToggleServerInfo && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
+            if (!Stats.IsConnectedToServer && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) >= 0) {
                 string detail;
                 StringReader sr = new StringReader(line.Line);
                 while ((detail = sr.ReadLine()) != null) {
@@ -605,7 +605,7 @@ namespace FallGuysStats {
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
-                Stats.ToggleServerInfo = false;
+                Stats.IsConnectedToServer = false;
                 Stats.LastServerPing = 0;
                 Stats.IsBadServerPing = false;
                 Stats.LastCountryAlpha2Code = string.Empty;
@@ -635,9 +635,9 @@ namespace FallGuysStats {
                 logRound.FindingPosition = false;
 
                 round.Clear();
-            } else if (Stats.IsDisplayOverlayPing && !Stats.EndedShow && line.Line.IndexOf("[FG_UnityInternetNetworkManager] Client connected to Server", StringComparison.OrdinalIgnoreCase) >= 0) {
-                if (!Stats.ToggleServerInfo) {
-                    Stats.ToggleServerInfo = true;
+            } else if (!Stats.EndedShow && line.Line.IndexOf("[FG_UnityInternetNetworkManager] Client connected to Server", StringComparison.OrdinalIgnoreCase) >= 0) {
+                if (!Stats.IsConnectedToServer) {
+                    Stats.IsConnectedToServer = true;
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
@@ -809,7 +809,7 @@ namespace FallGuysStats {
                 if (Stats.IsClientHasBeenClosed) {
                     Stats.QueuedPlayers = 0;
                     Stats.IsQueued = false;
-                    Stats.ToggleServerInfo = false;
+                    Stats.IsConnectedToServer = false;
                     Stats.LastServerPing = 0;
                     Stats.IsBadServerPing = false;
                     Stats.LastCountryAlpha2Code = string.Empty;
@@ -821,7 +821,7 @@ namespace FallGuysStats {
                     return false;
                 }
 
-                Stats.ToggleServerInfo = false;
+                Stats.IsConnectedToServer = false;
                 this.ClearUserCreativeLevelInfo();
                 Stats.LastServerPing = 0;
                 Stats.IsBadServerPing = false;
