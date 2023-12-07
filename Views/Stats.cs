@@ -105,7 +105,7 @@ namespace FallGuysStats {
         public static bool IsGameRunning = false;
         public static bool IsClientHasBeenClosed = false;
         
-        public static bool ToggleServerInfo = false;
+        public static bool IsConnectedToServer = false;
         public static DateTime ConnectedToServerDate = DateTime.MinValue;
         public static string LastServerIp = string.Empty;
         public static string LastCountryAlpha2Code = string.Empty;
@@ -5522,8 +5522,10 @@ namespace FallGuysStats {
                 } catch {
                     this.leaderboardRoundlist = null;
                 }
-                this.mlLeaderboard.Enabled = true;
                 this.leaderboardRoundListLoadTime = DateTime.UtcNow;
+                this.Invoke((MethodInvoker)delegate {
+                    this.mlLeaderboard.Enabled = true;
+                });
             }
         }
         
@@ -5892,7 +5894,12 @@ namespace FallGuysStats {
         }
         
         public string FindCreativeLevelInfo(string code) {
-            string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round")).CreativeTitle;
+            string levelName = string.Empty;
+            try {
+                levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round")).CreativeTitle;
+            } catch {
+                return code;
+            }
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
         

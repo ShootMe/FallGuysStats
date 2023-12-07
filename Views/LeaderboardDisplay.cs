@@ -469,7 +469,6 @@ namespace FallGuysStats {
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.recordholders == null) return;
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
-            Console.WriteLine(columnName);
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
