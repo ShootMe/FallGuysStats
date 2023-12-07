@@ -3594,6 +3594,7 @@ namespace FallGuysStats {
                    showId.Equals("wle_mrs_shuffle_show") ||
                    showId.Equals("wle_mrs_shuffle_show_squads") ||
                    showId.Equals("wle_shuffle_discover") ||
+                   showId.Equals("wle_mrs_bouncy_bean_time") ||
                    showId.StartsWith("current_wle_fp") ||
                    showId.StartsWith("wle_s10_cf_round_");
         }
