@@ -3117,7 +3117,7 @@ namespace FallGuysStats {
                                 }
                                 
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
-                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby, this.IsCreativeShow(stat.ShowNameId));
+                                    profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby);
                                     this.CurrentSettings.SelectedProfile = profile;
                                     //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
@@ -3586,19 +3586,6 @@ namespace FallGuysStats {
             }
         }
         
-        public bool IsCreativeShow(string showId) {
-            return showId.StartsWith("show_wle_s10_") ||
-                   showId.StartsWith("event_wle_s10_") ||
-                   showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
-                   showId.Equals("wle_mrs_bagel") ||
-                   showId.Equals("wle_mrs_shuffle_show") ||
-                   showId.Equals("wle_mrs_shuffle_show_squads") ||
-                   showId.Equals("wle_shuffle_discover") ||
-                   showId.Equals("wle_mrs_bouncy_bean_time") ||
-                   showId.StartsWith("current_wle_fp") ||
-                   showId.StartsWith("wle_s10_cf_round_");
-        }
-        
         private bool IsInStatsFilter(RoundInfo info) {
             return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
                     this.menuAllStats.Checked ||
@@ -3662,7 +3649,17 @@ namespace FallGuysStats {
             return showId;
         }
         
-        private int GetLinkedProfileId(string showId, bool isPrivateLobbies, bool isCreativeShow) {
+        public bool IsCreativeShow(string showId) {
+            return showId.StartsWith("show_wle_s10_") ||
+                   showId.StartsWith("event_wle_s10_") ||
+                   showId.StartsWith("wle_mrs_") ||
+                   showId.StartsWith("current_wle_fp") ||
+                   showId.StartsWith("wle_s10_cf_round_") ||
+                   showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
+                   showId.Equals("wle_shuffle_discover");
+        }
+        
+        private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
             showId = this.GetAlternateShowId(showId);
             foreach (Profiles profiles in this.AllProfiles) {
@@ -3671,7 +3668,7 @@ namespace FallGuysStats {
                         return profiles.ProfileId;
                     }
                 } else {
-                    if (isCreativeShow) {
+                    if (this.IsCreativeShow(showId)) {
                         if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("fall_guys_creative_mode")) {
                             return profiles.ProfileId;
                         }
@@ -3690,7 +3687,7 @@ namespace FallGuysStats {
             return 0;
         }
         
-        public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies, bool isCreativeShow) {
+        public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies) {
             if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
             showId = this.GetAlternateShowId(showId);
             if (this.GetCurrentProfileLinkedShowId().Equals(showId)) return;
@@ -3703,7 +3700,7 @@ namespace FallGuysStats {
                             return;
                         }
                     } else {
-                        if (isCreativeShow) {
+                        if (this.IsCreativeShow(showId)) {
                             if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
                                 ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
                                 if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }

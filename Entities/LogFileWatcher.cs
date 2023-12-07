@@ -217,7 +217,7 @@ namespace FallGuysStats {
                                 lastDate = line.Date;
                             } else if (this.autoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (Stats.InShow && !Stats.EndedShow) {
-                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby, this.StatsForm.IsCreativeShow(this.selectedShowId));
+                                    this.StatsForm.SetLinkedProfileMenu(this.selectedShowId, logRound.PrivateLobby);
                                 }
                             } else if (this.preventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (Stats.InShow && !Stats.EndedShow) {
