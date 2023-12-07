@@ -125,7 +125,8 @@
             this.mtcTabControl.Controls.Add(this.mtpRenameTabPage);
             this.mtcTabControl.Controls.Add(this.mtpMoveTabPage);
             this.mtcTabControl.Controls.Add(this.mtpRemoveTabPage);
-            this.mtcTabControl.FontWeight = MetroFramework.MetroTabControlWeight.Regular;
+            this.mtcTabControl.FontSize = MetroFramework.MetroTabControlSize.Tall;
+            this.mtcTabControl.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
             this.mtcTabControl.Location = new System.Drawing.Point(9, 65);
             this.mtcTabControl.Name = "mtcTabControl";
             this.mtcTabControl.SelectedIndex = 0;

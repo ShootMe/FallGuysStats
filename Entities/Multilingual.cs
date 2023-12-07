@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 namespace FallGuysStats {
     public static class Multilingual {
-        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualDictionary = new Dictionary<Language, Dictionary<string, string>> {
+        private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"author", "Eunma"},
                             {"main_by", "by"},
@@ -2969,7 +2969,7 @@ namespace FallGuysStats {
             },
         };
 
-        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<Language, Dictionary<string, string>> {
+        private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualRoundsDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                             {"round_airtime", "Airtime"},
                             {"round_bluejay", "Bean Hill Zone"},
@@ -3599,6 +3599,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -3729,6 +3745,10 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -4360,6 +4380,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -4490,6 +4526,10 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -5121,6 +5161,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -5251,6 +5307,10 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -5882,6 +5942,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -6012,6 +6088,10 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -6643,6 +6723,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -6773,6 +6869,10 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -7404,6 +7504,22 @@ namespace FallGuysStats {
                             {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                             {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                            {"current_wle_community_10_5_01", "Snowy Starfall"},
+                            {"current_wle_community_10_5_02", "The Earthquake"},
+                            {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                            {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                            {"current_wle_community_10_5_1_05", "Out in the open"},
+                            {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                            {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                            {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                            {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                            {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                            {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                            {"current_wle_community_10_5_1_15", "Three Rooms"},
+                            {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                            {"current_wle_community_10_5_1_17", "Winter Slide"},
+                            {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                             {"wle_discover_level_wk2_001", "Castle in the Clouds"},
                             {"wle_discover_level_wk2_002", "Christmas corner!"},
                             {"wle_discover_level_wk2_003", "Hot Wheels 2069"},
@@ -7534,11 +7650,15 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_filler_4", "Heartfall Heat"},
                             {"wle_mrs_bagel_final_1", "Rainbow Rise"},
                             {"wle_mrs_bagel_final_2", "Out and About"},
+                            
+                            {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
                         }
             },
         };
 
-        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
+        private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"collectables_ss2_batch_01", "Collectables Batch 01"},
                     {"collectables_ss2_batch_01_model1", "Collectables Batch 01"},
@@ -8392,6 +8512,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
                     {"wle_s10_cf_round_003", "Drop n' Drag"},
@@ -8401,6 +8537,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "Digi's Shuffle Selection"},
                     {"wle_mrs_shuffle_show_squads", "Squads Scramble"},
                     {"wle_shuffle_discover", "Unexplored Adventures"},
+                    {"wle_mrs_bouncy_bean_time", "Bouncy Bean Time"},
                     
                     {"private_lobbies", "Custom Show"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
@@ -9260,6 +9397,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
                     {"wle_s10_cf_round_003", "Drop n' Drag"},
@@ -9269,6 +9422,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "Sélection Dérangée De Digi"},
                     {"wle_mrs_shuffle_show_squads", "Ruée De Groupes"},
                     {"wle_shuffle_discover", "Aventures Inexplorées"},
+                    {"wle_mrs_bouncy_bean_time", "C'est L'heure Du Rebondidou"},
                     
                     {"private_lobbies", "Partie Personnalisée"},
                     {"fall_guys_creative_mode", "Créatif de Fall Guys"},
@@ -10128,6 +10282,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
                     {"wle_s10_cf_round_003", "Drop n' Drag"},
@@ -10137,6 +10307,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "디지의 셔플 셀렉션"},
                     {"wle_mrs_shuffle_show_squads", "스쿼드 대소동"},
                     {"wle_shuffle_discover", "미지의 모험"},
+                    {"wle_mrs_bouncy_bean_time", "탱탱이 젤리빈 시간"},
                     
                     {"private_lobbies", "커스텀 쇼"},
                     {"fall_guys_creative_mode", "폴크리"},
@@ -10996,6 +11167,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
                             
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
+                            
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
                     {"wle_s10_cf_round_003", "Drop n' Drag"},
@@ -11005,6 +11192,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "デジのシャッフルセレクション"},
                     {"wle_mrs_shuffle_show_squads", "スクワッドスクランブル"},
                     {"wle_shuffle_discover", "未踏の冒険"},
+                    {"wle_mrs_bouncy_bean_time", "バウンドガイの時間"},
                     
                     {"private_lobbies", "カスタムショー"},
                     {"fall_guys_creative_mode", "フォールガイズ クリエイティブ"},
@@ -11863,6 +12051,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_01", "Rebound"},
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
+                            
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
                     
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
@@ -11873,6 +12077,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "迪奇混搭秀精选"},
                     {"wle_mrs_shuffle_show_squads", "小队乱战"},
                     {"wle_shuffle_discover", "待历冒险"},
+                    {"wle_mrs_bouncy_bean_time", "弹弹糖豆时间"},
                     
                     {"private_lobbies", "自定义节目"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
@@ -12731,6 +12936,22 @@ namespace FallGuysStats {
                     {"current_wle_fp6_wk4_05_01", "Rebound"},
                     {"current_wle_fp6_wk4_05_02", "Rebound Rampway"},
                     {"current_wle_fp6_wk4_05_03", "The Winter Islands"},
+                            
+                    {"current_wle_community_10_5_01", "Snowy Starfall"},
+                    {"current_wle_community_10_5_02", "The Earthquake"},
+                    {"current_wle_community_10_5_1_01", "Tree Sky Hights!"},
+                    {"current_wle_community_10_5_1_04", "Garden of Woo"},
+                    {"current_wle_community_10_5_1_05", "Out in the open"},
+                    {"current_wle_community_10_5_1_07", "CANDY INDUSTRY"},
+                    {"current_wle_community_10_5_1_08", "Jungle Journey"},
+                    {"current_wle_community_10_5_1_09", "Mount Fallmore"},
+                    {"current_wle_community_10_5_1_10", "The Slanted Rooms"},
+                    {"current_wle_community_10_5_1_12", "Futuristic Facility"},
+                    {"current_wle_community_10_5_1_14", "Dangerou's Trap"},
+                    {"current_wle_community_10_5_1_15", "Three Rooms"},
+                    {"current_wle_community_10_5_1_16", "Jungle Mira tumble"},
+                    {"current_wle_community_10_5_1_17", "Winter Slide"},
+                    {"current_wle_community_10_5_1_18", "Digi-Crown Summit"},
                     
                     {"wle_s10_cf_round_001", "Blocky Bridges"},
                     {"wle_s10_cf_round_002", "Gappy-go-Lucky"},
@@ -12741,6 +12962,7 @@ namespace FallGuysStats {
                     {"wle_mrs_shuffle_show", "迪奇的隨機選擇"},
                     {"wle_mrs_shuffle_show_squads", "小隊大亂鬥"},
                     {"wle_shuffle_discover", "前無古人的旅途"},
+                    {"wle_mrs_bouncy_bean_time", "彈彈豆時間"},
                     
                     {"private_lobbies", "自定義節目"},
                     {"fall_guys_creative_mode", "Fall Guys Creative"},
@@ -12748,8 +12970,8 @@ namespace FallGuysStats {
                 }
             },
         };
-        
-        public static readonly Dictionary<Language, Dictionary<string, string>> MultilingualCountryDictionary = new Dictionary<Language, Dictionary<string, string>> {
+
+        private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualCountryDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     {"AF", "Afghanistan"},
                     {"AX", "Åland Islands"},

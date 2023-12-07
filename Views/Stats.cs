@@ -316,7 +316,7 @@ namespace FallGuysStats {
             { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
         
-        public readonly Dictionary<string, string> LevelIdReplacerInFuckingShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        public readonly Dictionary<string, string> LevelIdReplacerInShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "wle_round_mrs_shuffle_discover_001", "wle_discover_level_wk2_027" },
             { "wle_round_mrs_shuffle_discover_002", "wle_discover_level_wk2_015" },
             { "wle_round_mrs_shuffle_discover_003", "wle_discover_level_wk2_007" },
@@ -347,13 +347,14 @@ namespace FallGuysStats {
             { "wle_discovery_shuffle_up2_42", "wle_discover_level_wk2_029" },
             { "wle_discovery_shuffle_up2_43", "wle_discover_level_wk2_001" },
             { "wle_discovery_shuffle_up2_44", "wle_discover_level_wk2_014" },
-            { "wle_discovery_shuffle_up2_45", "wle_round_mrs_shuffle_discover_028" }
+            { "wle_discovery_shuffle_up2_45", "wle_round_mrs_shuffle_discover_028" },
+            
+            { "current_wle_community_10_5_1_02", "wle_discover_level_wk2_001" },
+            { "current_wle_community_10_5_1_03", "current_wle_fp6_wk4_03_01" },
+            { "current_wle_community_10_5_1_06", "wle_round_mrs_shuffle_discover_021" },
+            { "current_wle_community_10_5_1_11", "wle_discover_level_wk2_017" },
+            { "current_wle_community_10_5_1_13", "wle_discover_level_wk2_009" }
         };
-        
-        // public readonly Dictionary<string, string> LevelIdReplacerInDuplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-        //     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
-        //     { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
-        // };
         
         private void DatabaseMigration() {
             if (File.Exists("data.db")) {
@@ -2261,7 +2262,7 @@ namespace FallGuysStats {
                     if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
                         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
                     }
-                    if (this.LevelIdReplacerInFuckingShow.TryGetValue(ri.Name, out string newName)) {
+                    if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
                         ri.Name = newName;
                     }
                     if (profileId != -1) ri.Profile = profileId;
@@ -2299,7 +2300,7 @@ namespace FallGuysStats {
                     if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
                         ri.Name = ri.Name.Replace("_squads", "");
                     }
-                    if (this.LevelIdReplacerInFuckingShow.TryGetValue(ri.Name, out string newName)) {
+                    if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
                         ri.Name = newName;
                     }
                     if (profileId != -1) ri.Profile = profileId;
@@ -2337,6 +2338,24 @@ namespace FallGuysStats {
 
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 70;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 70) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_bouncy_bean_time")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = ri.Name.EndsWith("_final");
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 71;
                 this.SaveUserSettings();
             }
         }
@@ -5894,12 +5913,7 @@ namespace FallGuysStats {
         }
         
         public string FindCreativeLevelInfo(string code) {
-            string levelName = string.Empty;
-            try {
-                levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round")).CreativeTitle;
-            } catch {
-                return code;
-            }
+            string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round"))?.CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
         
