@@ -100,7 +100,7 @@ namespace FallGuysStats {
         public static bool EndedShow = false;
         
         public static bool IsDisplayOverlayTime = true;
-        public static bool IsDisplayOverlayPing = false;
+        public static bool IsDisplayOverlayPing = true;
 
         public static bool IsGameRunning = false;
         public static bool IsClientHasBeenClosed = false;
@@ -140,7 +140,7 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<LevelStats> StatDetails = new List<LevelStats>();
-        public List<RoundInfo> CurrentRound = null;
+        public List<RoundInfo> CurrentRound = new List<RoundInfo>();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
         private LogFileWatcher logFile = new LogFileWatcher();
@@ -165,6 +165,9 @@ namespace FallGuysStats {
         public ILiteCollection<PersonalBestLog> PersonalBestLog;
         public List<Profiles> AllProfiles = new List<Profiles>();
         public UserSettings CurrentSettings;
+        public List<FallalyticsPbLog> FallalyticsPbLogCache = new List<FallalyticsPbLog>();
+        public List<ServerConnectionLog> ServerConnectionLogCache = new List<ServerConnectionLog>();
+        public List<PersonalBestLog> PersonalBestLogCache = new List<PersonalBestLog>();
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         public DateTime startupTime = DateTime.UtcNow;
@@ -497,8 +500,9 @@ namespace FallGuysStats {
             
             this.ClearServerConnectionLog();
             this.ClearPersonalBestLog();
-
-            this.CurrentRound = new List<RoundInfo>();
+            this.FallalyticsPbLogCache.AddRange(this.FallalyticsPbLog.FindAll());
+            this.ServerConnectionLogCache.AddRange(this.ServerConnectionLog.FindAll());
+            this.PersonalBestLogCache.AddRange(this.PersonalBestLog.FindAll());
             
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
@@ -2358,6 +2362,24 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 71;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 71) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("event_anniversary_season_1_alternate_name")
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Name.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
+                        || ri.Name.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1) {
+                        ri.IsFinal = false;
+                    }
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 72;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3332,25 +3354,41 @@ namespace FallGuysStats {
             }
         }
         
-        public bool ExistsPersonalBestLog(DateTime PbDate) {
-            return this.PersonalBestLog.Exists(Query.EQ("_id", PbDate));
+        // public bool ExistsPersonalBestLog(DateTime pbDate) {
+        //     return this.PersonalBestLog.Exists(Query.EQ("_id", pbDate));
+        // }
+        
+        public bool ExistsPersonalBestLog(DateTime pbDate) {
+            return this.PersonalBestLogCache.Exists(l => l.PbDate == pbDate);
         }
         
-        public PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
-            BsonExpression condition = Query.And(
-                Query.EQ("SessionId", sessionId),
-                Query.EQ("ShowId", showId),
-                Query.EQ("RoundId", roundId)
-            );
-            return this.PersonalBestLog.FindOne(condition);
-        }
+        // public PersonalBestLog SelectPersonalBestLog(string sessionId, string showId, string roundId) {
+        //     BsonExpression condition = Query.And(
+        //         Query.EQ("SessionId", sessionId),
+        //         Query.EQ("ShowId", showId),
+        //         Query.EQ("RoundId", roundId)
+        //     );
+        //     return this.PersonalBestLog.FindOne(condition);
+        // }
+        
+        // public void InsertPersonalBestLog(DateTime finish, string sessionId, string showId, string roundId, double record, bool isPb) {
+        //     lock (this.StatsDB) {
+        //         this.StatsDB.BeginTrans();
+        //         this.PersonalBestLog.Insert(new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
+        //             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
+        //         });
+        //         this.StatsDB.Commit();
+        //     }
+        // }
         
         public void InsertPersonalBestLog(DateTime finish, string sessionId, string showId, string roundId, double record, bool isPb) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.PersonalBestLog.Insert(new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
+                PersonalBestLog log = new PersonalBestLog { PbDate = finish, SessionId = sessionId, ShowId = showId, RoundId = roundId, Record = record, IsPb = isPb,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname
-                });
+                };
+                this.PersonalBestLogCache.Add(log);
+                this.PersonalBestLog.Insert(log);
                 this.StatsDB.Commit();
             }
         }
@@ -3377,39 +3415,43 @@ namespace FallGuysStats {
 
         public bool ExistsServerConnectionLog(string sessionId, string showId) {
             if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
-            BsonExpression condition = Query.And(
-                Query.EQ("_id", sessionId),
-                Query.EQ("ShowId", showId)
-            );
-            return this.ServerConnectionLog.Exists(condition);
+            // BsonExpression condition = Query.And(
+            //     Query.EQ("_id", sessionId),
+            //     Query.EQ("ShowId", showId)
+            // );
+            // return this.ServerConnectionLog.Exists(condition);
+            return this.ServerConnectionLogCache.Exists(l => string.Equals(l.SessionId, sessionId) && string.Equals(l.ShowId, showId));
         }
         
         public ServerConnectionLog SelectServerConnectionLog(string sessionId, string showId) {
-            BsonExpression condition = Query.And(
-                Query.EQ("_id", sessionId),
-                Query.EQ("ShowId", showId)
-            );
-            return this.ServerConnectionLog.FindOne(condition);
+            // BsonExpression condition = Query.And(
+            //     Query.EQ("_id", sessionId),
+            //     Query.EQ("ShowId", showId)
+            // );
+            // return this.ServerConnectionLog.FindOne(condition);
+            return this.ServerConnectionLogCache.Find(l => string.Equals(l.SessionId, sessionId) && string.Equals(l.ShowId, showId));
         }
         
-        public void UpsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
+        public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                this.ServerConnectionLog.Upsert(new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
+                ServerConnectionLog log = new ServerConnectionLog { SessionId = sessionId, ShowId = showId, ServerIp = serverIp, ConnectionDate = connectionDate,
                     CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                     IsNotify = isNotify, IsPlaying = isPlaying
-                });
+                };
+                this.ServerConnectionLogCache.Add(log);
+                this.ServerConnectionLog.Insert(log);
                 this.StatsDB.Commit();
             }
         }
         
         public void UpdateServerConnectionLog(string sessionId, string showId, bool isPlaying) {
             lock (this.StatsDB) {
-                ServerConnectionLog serverConnectionLog = this.SelectServerConnectionLog(sessionId, showId);
-                if (serverConnectionLog != null) {
+                ServerConnectionLog log = this.SelectServerConnectionLog(sessionId, showId);
+                if (log != null) {
                     this.StatsDB.BeginTrans();
-                    serverConnectionLog.IsPlaying = isPlaying;
-                    this.ServerConnectionLog.Update(serverConnectionLog);
+                    log.IsPlaying = isPlaying;
+                    this.ServerConnectionLog.Update(log);
                     this.StatsDB.Commit();
                 }
             }
@@ -3464,18 +3506,20 @@ namespace FallGuysStats {
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
 
-            BsonExpression pbLogQuery = Query.EQ("RoundId", currentRoundId);
-            bool existsPbLog = this.FallalyticsPbLog.Exists(pbLogQuery);
+            // BsonExpression pbLogQuery = Query.EQ("RoundId", currentRoundId);
+            // bool existsPbLog = this.FallalyticsPbLog.Exists(pbLogQuery);
+            bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId));
+            
             if (!existsPbLog) {
-                BsonExpression recordQuery = Query.And(
-                    Query.EQ("PrivateLobby", false)
-                    , Query.EQ("Name", currentRoundId)
-                    , Query.Not("Finish", null)
-                    , Query.Not("ShowNameId", null)
-                    , Query.Not("SessionId", null)
-                );
-                List<RoundInfo> existingRecords = this.RoundDetails.Find(recordQuery).ToList();
-                RoundInfo recordInfo = existingRecords.OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                // BsonExpression recordQuery = Query.And(
+                //     Query.EQ("PrivateLobby", false)
+                //     , Query.EQ("Name", currentRoundId)
+                //     , Query.Not("Finish", null)
+                //     , Query.Not("ShowNameId", null)
+                //     , Query.Not("SessionId", null)
+                // );
+                // List<RoundInfo> existingRecords = this.RoundDetails.Find(recordQuery).ToList();
+                RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
             
                 if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
                     currentSessionId = recordInfo.SessionId;
@@ -3496,23 +3540,30 @@ namespace FallGuysStats {
                 
                 lock (this.StatsDB) {
                     this.StatsDB.BeginTrans();
-                    this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
+                    FallalyticsPbLog log = new FallalyticsPbLog {
                         SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
                         Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
                         CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                         OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                         IsTransferSuccess = isTransferSuccess
-                    });
+                    };
+                    this.FallalyticsPbLogCache.Add(log);
+                    this.FallalyticsPbLog.Insert(log);
                     this.StatsDB.Commit();
                 }
             } else {
-                BsonExpression pbLogQuery2 = Query.And(
-                    Query.EQ("RoundId", currentRoundId)
-                    , Query.EQ("OnlineServiceType", (int)OnlineServiceType)
-                    , Query.EQ("OnlineServiceId", OnlineServiceId)
-                );
-                FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery2);
-                if (pbLog != null) {
+                // BsonExpression pbLogQuery2 = Query.And(
+                //     Query.EQ("RoundId", currentRoundId)
+                //     , Query.EQ("OnlineServiceType", (int)OnlineServiceType)
+                //     , Query.EQ("OnlineServiceId", OnlineServiceId)
+                // );
+                // FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery2);
+                // FallalyticsPbLog pbLog = this.FallalyticsPbLogCache.Find(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                // if (pbLog != null) {
+                if (logIndex != -1) {
+                    FallalyticsPbLog pbLog = this.FallalyticsPbLogCache[logIndex];
+                    // TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     if (pbLog.IsTransferSuccess) {
                         if (currentRecord < existingRecord) {
@@ -3573,13 +3624,15 @@ namespace FallGuysStats {
                     
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();
-                        this.FallalyticsPbLog.Insert(new FallalyticsPbLog {
+                        FallalyticsPbLog log = new FallalyticsPbLog {
                             SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
                             Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
                             CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
                             OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
                             IsTransferSuccess = isTransferSuccess
-                        });
+                        };
+                        this.FallalyticsPbLogCache.Add(log);
+                        this.FallalyticsPbLog.Insert(log);
                         this.StatsDB.Commit();
                     }
                 }   

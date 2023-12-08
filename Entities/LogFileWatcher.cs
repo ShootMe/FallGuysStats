@@ -318,20 +318,22 @@ namespace FallGuysStats {
         private bool IsRealFinalRound(string roundId, string showId) {
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
-                 || showId.Equals("wle_mrs_shuffle_show")
-                 || showId.Equals("wle_mrs_shuffle_show_squads")
-                 || showId.Equals("wle_shuffle_discover")
+                 || string.Equals(showId, "wle_mrs_shuffle_show")
+                 || string.Equals(showId, "wle_mrs_shuffle_show_squads")
+                 || string.Equals(showId, "wle_shuffle_discover")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")) {
                 return true;
             }
 
             return (roundId.IndexOf("round_jinxed", StringComparison.OrdinalIgnoreCase) != -1
-                    && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
+                    && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
+                    && !string.Equals(showId, "event_anniversary_season_1_alternate_name"))
 
                     || (roundId.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
-                        && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1)
+                        && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1
+                        && !string.Equals(showId, "event_anniversary_season_1_alternate_name"))
 
                     || ((roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
                          || roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1)
@@ -348,7 +350,7 @@ namespace FallGuysStats {
                     || (roundId.IndexOf("_squads_squadcelebration", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
             
-                    || (showId.Equals("event_only_hoverboard_template")
+                    || (string.Equals(showId, "event_only_hoverboard_template")
                         && roundId.Equals("round_hoverboardsurvival_final"));
         }
 
@@ -510,7 +512,7 @@ namespace FallGuysStats {
 
         private void UpdateServerConnectionLog(string session, string show) {
             if (!this.StatsForm.ExistsServerConnectionLog(session, show)) {
-                this.StatsForm.UpsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
+                this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
                 this.serverPingWatcher.Start();
                 this.SetCountryCodeByIp(Stats.LastServerIp);
                 if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
