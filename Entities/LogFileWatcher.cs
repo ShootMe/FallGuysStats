@@ -548,15 +548,16 @@ namespace FallGuysStats {
 
             if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                 TimeSpan currentRecord = info.Finish.Value - info.Start;
-                BsonExpression recordQuery = Query.And(
-                    Query.EQ("PrivateLobby", false)
-                    , Query.EQ("Name", roundId)
-                    , Query.Not("Finish", null)
-                    , Query.Not("ShowNameId", null)
-                    , Query.Not("SessionId", null)
-                );
-                List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
-                TimeSpan existingRecord = queryResult.Count > 0 ? queryResult.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+                // BsonExpression recordQuery = Query.And(
+                //     Query.EQ("PrivateLobby", false)
+                //     , Query.EQ("Name", roundId)
+                //     , Query.Not("Finish", null)
+                //     , Query.Not("ShowNameId", null)
+                //     , Query.Not("SessionId", null)
+                // );
+                // List<RoundInfo> queryResult = this.StatsForm.RoundDetails.Find(recordQuery).ToList();
+                List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && string.Equals(r.Name, roundId) && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId));
+                TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
                 this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
                 // if (this.StatsForm.CurrentSettings.EnableFallalyticsReporting && info.Finish.Value > this.StatsForm.startupTime && Stats.OnlineServiceType != OnlineServiceTypes.None) {
                 //     string apiKey = Environment.GetEnvironmentVariable("FALLALYTICS_KEY");

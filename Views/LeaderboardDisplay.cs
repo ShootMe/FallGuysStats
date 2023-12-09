@@ -211,22 +211,25 @@ namespace FallGuysStats {
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
             }
             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
-            
+            // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
+            this.BackMaxSize = 36;
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
+            this.BackImagePadding = new Padding(17, (int)(15 + (Math.Ceiling(Math.Max(0, 60 - this.BackImage.Height) / 5f) * 1.5f)), 0, 0);
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mlRefreshList.Visible = true;
-            
             this.mlVisitFallalytics.Visible = true;
             this.cboRoundList.Enabled = true;
         }
 
         private void SetGridNoData() {
-            this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
+            // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
             this.mpsSpinner.Visible = false;
             this.gridLevelRank.DataSource = this.nodata;
             this.mlRefreshList.Visible = false;
             this.mlVisitFallalytics.Visible = false;
+            this.BackMaxSize = 32;
             this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
+            this.BackImagePadding = new Padding(20, 21, 0, 0);
             this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
             this.lblSearchDescription.Visible = true;
             this.mlMyRank.Visible = false;

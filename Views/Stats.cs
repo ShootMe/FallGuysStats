@@ -3221,12 +3221,12 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
-                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
 
-                                    if (OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
+                                    if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY")) && OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
                                         (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                        if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) { Task.Run(() => this.FallalyticsRegisterPb(stat)); }
+                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
                                     }
                                 }
                             } else {
@@ -5608,7 +5608,7 @@ namespace FallGuysStats {
                            Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
                            BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
                            BackMaxSize = 32,
-                           BackImagePadding = new Padding(20, 20, 0, 0)
+                           BackImagePadding = new Padding(20, 21, 0, 0)
                        }) {
                     leaderboard.roundlist = this.leaderboardRoundlist;
                     leaderboard.ShowDialog(this);
