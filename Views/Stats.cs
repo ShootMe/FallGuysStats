@@ -101,6 +101,7 @@ namespace FallGuysStats {
         
         public static bool IsDisplayOverlayTime = true;
         public static bool IsDisplayOverlayPing = true;
+        public static bool IsOverlayRoundInfoNeedRefresh = false;
 
         public static bool IsGameRunning = false;
         public static bool IsClientHasBeenClosed = false;
@@ -3349,6 +3350,9 @@ namespace FallGuysStats {
                         // ignored
                     }
                 }
+
+                IsOverlayRoundInfoNeedRefresh = true;
+
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -6268,6 +6272,7 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                         }
                         this.ReloadProfileMenuItems();
+                        IsOverlayRoundInfoNeedRefresh = true;
                     }
                 }
             } catch (Exception ex) {

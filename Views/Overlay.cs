@@ -29,6 +29,15 @@ namespace FallGuysStats {
         private Bitmap Background, DrawImage;
         private Graphics DrawGraphics;
         private RoundInfo lastRound;
+        private string savedSessionId;
+        private int lastRoundId = -1;
+        private int savedRoundId = -1;
+        private string roundId;
+        private string roundName;
+        private LevelStats levelStats;
+        private LevelType levelType;
+        private BestRecordType recordType;
+        private StatSummary levelSummary;
         private int drawWidth, drawHeight;
         private bool startedPlaying;
         private DateTime startTime;
@@ -952,11 +961,12 @@ namespace FallGuysStats {
         }
         private void UpdateInfo() {
             if (this.StatsForm == null) { return; }
-
+            
             lock (this.StatsForm.CurrentRound) {
                 bool hasCurrentRound = this.StatsForm.CurrentRound != null && this.StatsForm.CurrentRound.Count > 0;
                 if (hasCurrentRound) {
-                    this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
+                    this.lastRoundId = this.StatsForm.CurrentRound.Count - 1;
+                    this.lastRound = this.StatsForm.CurrentRound[this.lastRoundId];
                 }
                 
                 this.lblFilter.Text = this.StatsForm.GetCurrentFilterName();
@@ -964,32 +974,42 @@ namespace FallGuysStats {
                 
                 this.Background = this.RecreateBackground();
                 this.lblProfile.Location = new Point(this.flippedImage ? 125 : this.drawWidth - (145 + this.GetOverlayProfileOffset(this.lblProfile.Text)), 9);
-
+                
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
-                    // string roundId, roundName = roundId = this.lastRound.VerifiedName();
-                    string roundId = this.lastRound.VerifiedName();
-                    string roundName;
-                    
-                    if (this.StatsForm.StatLookup.TryGetValue(roundId, out LevelStats levelStats)) {
-                        roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : levelStats.Name.ToUpper();
-                    } else if (roundId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
-                        roundName = roundId.Substring(6).Replace('_', ' ').ToUpper();
-                    } else {
-                        roundName = roundId.Replace('_', ' ').ToUpper();
+                    bool isRoundInfoNeedRefresh = this.savedRoundId != this.lastRoundId ||
+                                                  !string.Equals(this.savedSessionId, this.lastRound.SessionId) ||
+                                                  Stats.IsOverlayRoundInfoNeedRefresh;
+                    if (isRoundInfoNeedRefresh) {
+                        if (Stats.IsOverlayRoundInfoNeedRefresh) {
+                            Stats.IsOverlayRoundInfoNeedRefresh = false;
+                        }
+                        this.savedSessionId = this.lastRound.SessionId;
+                        this.savedRoundId = this.lastRoundId;
+                        
+                        // this.roundName = this.roundId = this.lastRound.VerifiedName();
+                        this.roundId = this.lastRound.VerifiedName();
+                        
+                        if (this.StatsForm.StatLookup.TryGetValue(this.roundId, out this.levelStats)) {
+                            this.roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : this.levelStats.Name.ToUpper();
+                        } else if (this.roundId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
+                            this.roundName = this.roundId.Substring(6).Replace('_', ' ').ToUpper();
+                        } else {
+                            this.roundName = this.roundId.Replace('_', ' ').ToUpper();
+                        }
+                        
+                        this.levelType = (this.levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
+                        this.recordType = (this.levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
+                        this.levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : this.roundName, this.levelType, this.recordType, this.lastRound.UseShareCode);
                     }
                     
-                    LevelType levelType = (levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
-                    BestRecordType recordType = (levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
-                    StatSummary levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : roundName, levelType, recordType, this.lastRound.UseShareCode);
-                    
-                    this.SetRoundLabel(levelStats, levelType, roundName, overlaySetting);
-                    this.SetWinsLabel(levelSummary, overlaySetting);
-                    this.SetFinalsLabel(levelSummary, overlaySetting);
-                    this.SetQualifyChanceLabel(levelSummary, overlaySetting);
+                    this.SetRoundLabel(this.levelStats, this.levelType, this.roundName, overlaySetting);
+                    this.SetWinsLabel(this.levelSummary, overlaySetting);
+                    this.SetFinalsLabel(this.levelSummary, overlaySetting);
+                    this.SetQualifyChanceLabel(this.levelSummary, overlaySetting);
                     this.SetPlayersLabel(overlaySetting);
-                    this.SetFastestLabel(levelSummary, recordType, overlaySetting);
-                    this.SetStreakLabel(levelSummary, overlaySetting);
+                    this.SetFastestLabel(this.levelSummary, this.recordType, overlaySetting);
+                    this.SetStreakLabel(this.levelSummary, overlaySetting);
                     
                     if (this.isTimeToSwitch) {
                         this.frameCount = 0;
@@ -1004,8 +1024,8 @@ namespace FallGuysStats {
                         this.startedPlaying = this.lastRound.Playing;
                     }
                     
-                    this.SetFinishLabel(levelSummary, levelType, roundId, recordType, currentUTC, overlaySetting);
-                    this.SetDurationLabel(levelStats, currentUTC, overlaySetting);
+                    this.SetFinishLabel(this.levelSummary, this.levelType, this.roundId, this.recordType, currentUTC, overlaySetting);
+                    this.SetDurationLabel(this.levelStats, currentUTC, overlaySetting);
                 }
                 this.Invalidate();
             }

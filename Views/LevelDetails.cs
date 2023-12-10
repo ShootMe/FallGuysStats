@@ -745,6 +745,7 @@ namespace FallGuysStats {
                     }
 
                     this.StatsForm.ResetStats();
+                    Stats.IsOverlayRoundInfoNeedRefresh = true;
                 }
             }
         }
@@ -789,6 +790,7 @@ namespace FallGuysStats {
                         }
 
                         this.StatsForm.ResetStats();
+                        Stats.IsOverlayRoundInfoNeedRefresh = true;
                     }
                 }
             }
