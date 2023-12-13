@@ -498,7 +498,7 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.medal_eliminated_grid_icon;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "IsFinalIcon") {
-                if (info.IsFinal) {
+                if (info.IsFinal || info.Qualified) {
                     this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_success_reaching_finals");
                     e.Value = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                 } else {
@@ -655,8 +655,8 @@ namespace FallGuysStats {
                         int tierCompare = tierOne.CompareTo(tierTwo);
                         return tierCompare != 0 ? tierCompare : showCompare == 0 ? roundCompare : showCompare;
                     case "IsFinalIcon":
-                        int finalsOne = one.IsFinal ? 1 : 0;
-                        int finalsTwo = two.IsFinal ? 1 : 0;
+                        int finalsOne = one.IsFinal || one.Qualified ? 1 : 0;
+                        int finalsTwo = two.IsFinal || two.Qualified ? 1 : 0;
                         return finalsOne.CompareTo(finalsTwo);
                     default:
                         int kudosCompare = one.Kudos.CompareTo(two.Kudos);
