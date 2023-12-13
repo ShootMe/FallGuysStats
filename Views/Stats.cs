@@ -1348,8 +1348,8 @@ namespace FallGuysStats {
                     if (lastShow != info.ShowID) {
                         lastShow = info.ShowID;
                         info.IsFinal = this.StatLookup.TryGetValue(info.Name, out LevelStats stats)
-                            ? stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"))
-                            : false;
+                                       ? stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"))
+                                       : false;
                     } else {
                         info.IsFinal = false;
                     }
@@ -2865,8 +2865,8 @@ namespace FallGuysStats {
             for (int i = 0; i < lines.Length; i++) {
                 if (i > 0) rtnStr += Environment.NewLine;
                 rtnStr += CurrentLanguage == Language.English || string.IsNullOrEmpty(Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_")))
-                            ? lines[i]
-                            : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
+                          ? lines[i]
+                          : $"  - {Multilingual.GetWord(lines[i].Replace("  - ", "message_changelog_").Replace(" ", "_"))}";
             }
             for (int i = 0; i < 5 - lines.Length; i++) {
                 rtnStr += Environment.NewLine;
@@ -3010,7 +3010,7 @@ namespace FallGuysStats {
             if (existingRecord != TimeSpan.MaxValue) {
                 TimeSpan timeDiff = existingRecord - currentRecord;
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
-                    : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
+                                  : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
             string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)).Equals(Multilingual.GetRoundName(roundId)) ? $"({Multilingual.GetRoundName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetRoundName(roundId)})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
@@ -3657,14 +3657,14 @@ namespace FallGuysStats {
         public string GetCurrentFilterName() {
             if (this.menuCustomRangeStats.Checked && this.selectedCustomTemplateSeason > -1) {
                 return (this.selectedCustomTemplateSeason >= 0 && this.selectedCustomTemplateSeason <= 5) ? $"S{this.selectedCustomTemplateSeason + 1}" :
-                        (this.selectedCustomTemplateSeason > 5) ? $"SS{this.selectedCustomTemplateSeason - 5}" :
-                        Multilingual.GetWord("main_custom_range");
+                       (this.selectedCustomTemplateSeason > 5) ? $"SS{this.selectedCustomTemplateSeason - 5}" :
+                       Multilingual.GetWord("main_custom_range");
             } else {
                 return this.menuCustomRangeStats.Checked ? Multilingual.GetWord("main_custom_range") :
-                        this.menuAllStats.Checked ? Multilingual.GetWord("main_all") :
-                        this.menuSeasonStats.Checked ? Multilingual.GetWord("main_season") :
-                        this.menuWeekStats.Checked ? Multilingual.GetWord("main_week") :
-                        this.menuDayStats.Checked ? Multilingual.GetWord("main_day") : Multilingual.GetWord("main_session");
+                       this.menuAllStats.Checked ? Multilingual.GetWord("main_all") :
+                       this.menuSeasonStats.Checked ? Multilingual.GetWord("main_season") :
+                       this.menuWeekStats.Checked ? Multilingual.GetWord("main_week") :
+                       this.menuDayStats.Checked ? Multilingual.GetWord("main_day") : Multilingual.GetWord("main_session");
             }
         }
         
@@ -3805,12 +3805,12 @@ namespace FallGuysStats {
                 if (this.CurrentSettings.AutoChangeProfile) {
                     this.lblCurrentProfileIcon.Image = linked ? Properties.Resources.profile2_linked_icon : Properties.Resources.profile2_unlinked_icon;
                     this.overlay.SetCurrentProfileForeColor(linked ? Color.GreenYellow
-                        : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
-                        : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
+                                                            : string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
+                                                              : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
                 } else {
                     this.lblCurrentProfileIcon.Image = Properties.Resources.profile2_icon;
                     this.overlay.SetCurrentProfileForeColor(string.IsNullOrEmpty(this.CurrentSettings.OverlayFontColorSerialized) ? Color.White
-                        : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
+                                                            : (Color)new ColorConverter().ConvertFromString(this.CurrentSettings.OverlayFontColorSerialized));
                 }
             });
         }
@@ -3866,253 +3866,134 @@ namespace FallGuysStats {
                 TotalWins = 0,
                 TotalFinals = 0
             };
-            
-            if (useShareCode) { // user creative round
-                List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelType.CreativeLevelTypeId().Equals(r.Name) && name.Equals(r.ShowNameId));
-                int lastShow = -1;
-                if (!this.StatLookup.TryGetValue(levelType.CreativeLevelTypeId(), out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+
+            int lastShow = -1;
+            string levelName = useShareCode ? levelType.CreativeLevelTypeId() : name;
+            if (!this.StatLookup.TryGetValue(levelName, out LevelStats currentLevel)) {
+                currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+            }
+
+            List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelName.Equals(r.Name) && name.Equals(r.ShowNameId)) :
+                                        this.AllStats.FindAll(r => r.Profile == this.currentProfile);
+
+            for (int i = 0; i < roundInfo.Count; i++) {
+                RoundInfo info = roundInfo[i];
+                TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
+                bool hasFinishTime = finishTime.TotalSeconds > 1.1;
+                bool hasLevelDetails = this.StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
+                bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
+
+                int startRoundShowId = info.ShowID;
+                RoundInfo endRound = info;
+                for (int j = i + 1; j < roundInfo.Count; j++) {
+                    if (roundInfo[j].ShowID != startRoundShowId) {
+                        break;
+                    }
+                    endRound = roundInfo[j];
                 }
-                
-                for (int i = 0; i < filteredInfo.Count; i++) {
-                    RoundInfo info = filteredInfo[i];
-                    
-                    TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
-                    bool hasLevelDetails = this.StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
-                    bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
-                    
-                    int startRoundShowId = info.ShowID;
-                    RoundInfo endRound = info;
-                    for (int j = i + 1; j < filteredInfo.Count; j++) {
-                        if (filteredInfo[j].ShowID != startRoundShowId) {
-                            break;
-                        }
-                        endRound = filteredInfo[j];
+
+                bool isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !endRound.PrivateLobby;
+
+                bool isInWinsFilter = isShareCodeUsedOrIsNotPrivateLobby && (this.CurrentSettings.WinsFilter == 0 ||
+                                      (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
+                                      (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
+                                      (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
+                                      (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
+                                      (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
+                bool isInQualifyFilter = isShareCodeUsedOrIsNotPrivateLobby && (this.CurrentSettings.QualifyFilter == 0 ||
+                                         (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
+                                         (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
+                                         (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
+                                         (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
+                                         (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
+                bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
+                                         (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
+                                         (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
+                                         (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
+                                         (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
+                                         (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
+
+                if (info.ShowID != lastShow) {
+                    lastShow = info.ShowID;
+                    if (isInWinsFilter) {
+                        summary.TotalShows++;
                     }
-                    
-                    bool isInWinsFilter = (this.CurrentSettings.WinsFilter == 0 ||
-                                            (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                            (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
-                                            (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
-                                            (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
-                                            (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
-                    bool isInQualifyFilter = (this.CurrentSettings.QualifyFilter == 0 ||
-                                               (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                               (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
-                                               (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
-                    bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                             (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
-                                             (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
-                                             (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
-                                             (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
-                    
-                    if (info.ShowID != lastShow) {
-                        lastShow = info.ShowID;
-                        if (isInWinsFilter) {
-                            summary.TotalShows++;
-                        }
+                }
+
+                if (isCurrentLevel) {
+                    if (isInQualifyFilter) {
+                        summary.TotalPlays++;
                     }
 
-                    if (isCurrentLevel) {
-                        if (isInQualifyFilter) {
-                            summary.TotalPlays++;
-                        }
-
-                        if (isInFastestFilter) {
-                            if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
-                                && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
-                                summary.BestScore = info.Score;
-                            }
-                        }
+                    if (hasFinishTime && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
+                        summary.BestFinishOverall = finishTime;
                     }
 
-                    if (ReferenceEquals(info, endRound) && (info.IsFinal || info.Crown)) {
-                        if (info.IsFinal) {
-                            summary.CurrentFinalStreak++;
-                            if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
-                                summary.BestFinalStreak = summary.CurrentFinalStreak;
-                            }
+                    if (hasFinishTime && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
+                        summary.LongestFinishOverall = finishTime;
+                    }
+
+                    if (isInFastestFilter) {
+                        if (hasFinishTime && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
+                            summary.BestFinish = finishTime;
+                        }
+
+                        if (hasFinishTime && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
+                            summary.LongestFinish = finishTime;
+                        }
+
+                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
+                            && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
+                            summary.BestScore = info.Score;
                         }
                     }
-                    
-                    if (info.Qualified) {
-                        if (hasLevelDetails && (info.IsFinal || info.Crown)) {
+                }
+
+                bool isFinalRound = useShareCode ? (info.IsFinal || info.Crown) : ((levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby);
+
+                if (ReferenceEquals(info, endRound) && isFinalRound) {
+                    summary.CurrentFinalStreak++;
+                    if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
+                        summary.BestFinalStreak = summary.CurrentFinalStreak;
+                    }
+                }
+
+                isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !info.PrivateLobby;
+
+                if (info.Qualified) {
+                    if (hasLevelDetails && (info.IsFinal || info.Crown)) {
+                        if (isShareCodeUsedOrIsNotPrivateLobby) {
                             summary.AllWins++;
+                        }
 
-                            if (isInWinsFilter) {
-                                summary.TotalWins++;
-                                summary.TotalFinals++;
-                            }
+                        if (isInWinsFilter) {
+                            summary.TotalWins++;
+                            summary.TotalFinals++;
+                        }
 
+                        if (isShareCodeUsedOrIsNotPrivateLobby) {
                             summary.CurrentStreak++;
                             if (summary.CurrentStreak > summary.BestStreak) {
                                 summary.BestStreak = summary.CurrentStreak;
                             }
                         }
-
-                        if (isCurrentLevel) {
-                            if (isInQualifyFilter) {
-                                if (info.Tier == (int)QualifyTier.Gold) {
-                                    summary.TotalGolds++;
-                                }
-                                summary.TotalQualify++;
-                            }
-
-                            if (isInFastestFilter) {
-                                if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
-                                    summary.BestFinish = finishTime;
-                                }
-
-                                if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
-                                    summary.LongestFinish = finishTime;
-                                }
-                            }
-
-                            if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
-                                summary.BestFinishOverall = finishTime;
-                            }
-
-                            if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
-                                summary.LongestFinishOverall = finishTime;
-                            }
-                        }
-                    } else {
-                        if (!info.IsFinal && !info.Crown) {
-                            summary.CurrentFinalStreak = 0;
-                        }
-                        summary.CurrentStreak = 0;
-                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
-                            summary.TotalFinals++;
-                        }
-                    }
-                }
-            } else {
-                int lastShow = -1;
-                if (!this.StatLookup.TryGetValue(name, out LevelStats currentLevel)) {
-                    currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
-                }
-
-                for (int i = 0; i < this.AllStats.Count; i++) {
-                    RoundInfo info = this.AllStats[i];
-                    if (info.Profile != this.currentProfile) { continue; }
-
-                    TimeSpan finishTime = info.Finish.GetValueOrDefault(info.End) - info.Start;
-                    bool hasLevelDetails = this.StatLookup.TryGetValue(info.Name, out LevelStats levelDetails);
-                    bool isCurrentLevel = currentLevel.Name.Equals(hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
-
-                    int startRoundShowId = info.ShowID;
-                    RoundInfo endRound = info;
-                    for (int j = i + 1; j < this.AllStats.Count; j++) {
-                        if (this.AllStats[j].ShowID != startRoundShowId) {
-                            break;
-                        }
-                        endRound = this.AllStats[j];
-                    }
-
-                    bool isInWinsFilter = !endRound.PrivateLobby &&
-                                          (this.CurrentSettings.WinsFilter == 0 ||
-                                          (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                          (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
-                                          (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
-                                          (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
-                                          (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
-                    bool isInQualifyFilter = !endRound.PrivateLobby &&
-                                             (this.CurrentSettings.QualifyFilter == 0 ||
-                                             (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                             (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
-                                             (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
-                                             (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
-                                             (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
-                    bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                                             (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                             (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
-                                             (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
-                                             (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
-                                             (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
-
-                    if (info.ShowID != lastShow) {
-                        lastShow = info.ShowID;
-                        if (isInWinsFilter) {
-                            summary.TotalShows++;
-                        }
                     }
 
                     if (isCurrentLevel) {
                         if (isInQualifyFilter) {
-                            summary.TotalPlays++;
-                        }
-
-                        if (isInFastestFilter) {
-                            if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
-                                && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
-                                summary.BestScore = info.Score;
+                            if (info.Tier == (int)QualifyTier.Gold) {
+                                summary.TotalGolds++;
                             }
+                            summary.TotalQualify++;
                         }
                     }
-
-                    if (ReferenceEquals(info, endRound) && (levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby) {
-                        if (info.IsFinal) {
-                            summary.CurrentFinalStreak++;
-                            if (summary.BestFinalStreak < summary.CurrentFinalStreak) {
-                                summary.BestFinalStreak = summary.CurrentFinalStreak;
-                            }
-                        }
+                } else if (isShareCodeUsedOrIsNotPrivateLobby) {
+                    if (!info.IsFinal && !info.Crown) {
+                        summary.CurrentFinalStreak = 0;
                     }
-
-                    if (info.Qualified) {
-                        if (hasLevelDetails && (info.IsFinal || info.Crown)) {
-                            if (!info.PrivateLobby) {
-                                summary.AllWins++;
-                            }
-
-                            if (isInWinsFilter) {
-                                summary.TotalWins++;
-                                summary.TotalFinals++;
-                            }
-
-                            if (!info.PrivateLobby) {
-                                summary.CurrentStreak++;
-                                if (summary.CurrentStreak > summary.BestStreak) {
-                                    summary.BestStreak = summary.CurrentStreak;
-                                }
-                            }
-                        }
-
-                        if (isCurrentLevel) {
-                            if (isInQualifyFilter) {
-                                if (info.Tier == (int)QualifyTier.Gold) {
-                                    summary.TotalGolds++;
-                                }
-                                summary.TotalQualify++;
-                            }
-
-                            if (isInFastestFilter) {
-                                if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
-                                    summary.BestFinish = finishTime;
-                                }
-                                if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
-                                    summary.LongestFinish = finishTime;
-                                }
-                            }
-
-                            if (finishTime.TotalSeconds > 1.1 && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
-                                summary.BestFinishOverall = finishTime;
-                            }
-                            if (finishTime.TotalSeconds > 1.1 && info.Finish.HasValue && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
-                                summary.LongestFinishOverall = finishTime;
-                            }
-                        }
-                    } else if (!info.PrivateLobby) {
-                        if (!info.IsFinal && !info.Crown) {
-                            summary.CurrentFinalStreak = 0;
-                        }
-                        summary.CurrentStreak = 0;
-                        if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
-                            summary.TotalFinals++;
-                        }
+                    summary.CurrentStreak = 0;
+                    if (isInWinsFilter && hasLevelDetails && (info.IsFinal || info.Crown)) {
+                        summary.TotalFinals++;
                     }
                 }
             }
@@ -4203,9 +4084,9 @@ namespace FallGuysStats {
             }
             // else {
             //     MetroMessageBox.Show(this, text, title, MessageBoxButtons.OK, toolTipIcon == ToolTipIcon.None ? MessageBoxIcon.None :
-            //                                                                                 toolTipIcon == ToolTipIcon.Error ? MessageBoxIcon.Error :
-            //                                                                                 toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
-            //                                                                                 toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
+            //                                                                                  toolTipIcon == ToolTipIcon.Error ? MessageBoxIcon.Error :
+            //                                                                                  toolTipIcon == ToolTipIcon.Info ? MessageBoxIcon.Information :
+            //                                                                                  toolTipIcon == ToolTipIcon.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.None);
             // }
         }
         
@@ -4436,9 +4317,7 @@ namespace FallGuysStats {
                     case "RoundIcon":
                         if (levelStats.IsFinal) {
                             cellColor = Color.FromArgb(255, 240, 200);
-                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                ? cellColor
-                                : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                            e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                             break;
                         }
                         switch (levelStats.Type) {
@@ -4471,9 +4350,7 @@ namespace FallGuysStats {
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
                             case LevelType.Unknown:
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light
-                                    ? Color.LightGray
-                                    : Color.DarkGray;
+                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.DarkGray;
                                 break;
                         }
                         break;
@@ -4629,10 +4506,10 @@ namespace FallGuysStats {
                 } else if (e.RowIndex >= 0) {
                     this.gridDetails.ShowCellToolTips = true;
                     this.gridDetails.Cursor = e.RowIndex >= 0 && !(this.gridDetails.Columns[e.ColumnIndex].Name == "Name" || this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon")
-                        ? this.Theme == MetroThemeStyle.Light
-                            ? new Cursor(Properties.Resources.transform_icon.GetHicon())
-                            : new Cursor(Properties.Resources.transform_gray_icon.GetHicon())
-                        : Cursors.Default;
+                                              ? this.Theme == MetroThemeStyle.Light
+                                                ? new Cursor(Properties.Resources.transform_icon.GetHicon())
+                                                : new Cursor(Properties.Resources.transform_gray_icon.GetHicon())
+                                              : Cursors.Default;
                 }
                 this.gridDetails.ResumeLayout();
             } catch (Exception ex) {
@@ -5367,8 +5244,8 @@ namespace FallGuysStats {
                     if (enable) {
                         this.Cursor = Cursors.Default;
                         tsl.ForeColor = tsl.Name.Equals("lblCurrentProfile")
-                            ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
-                            : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                                        ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
+                                        : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                     }
                 }
             }
@@ -5906,9 +5783,9 @@ namespace FallGuysStats {
                     }).ToList();
                 } else {
                     DateTime compareDate = this.menuAllStats.Checked ? DateTime.MinValue :
-                                            this.menuSeasonStats.Checked ? SeasonStart :
-                                            this.menuWeekStats.Checked ? WeekStart :
-                                            this.menuDayStats.Checked ? DayStart : SessionStart;
+                                           this.menuSeasonStats.Checked ? SeasonStart :
+                                           this.menuWeekStats.Checked ? WeekStart :
+                                           this.menuDayStats.Checked ? DayStart : SessionStart;
                     rounds = this.AllStats.Where(roundInfo => {
                         return roundInfo.Start > compareDate && roundInfo.Profile == profile && this.IsInPartyFilter(roundInfo);
                     }).ToList();
@@ -5919,9 +5796,9 @@ namespace FallGuysStats {
                 if (!this.isStartingUp && this.updateFilterType) {
                     this.updateFilterType = false;
                     this.CurrentSettings.FilterType = this.menuSeasonStats.Checked ? 2 :
-                                                        this.menuWeekStats.Checked ? 3 :
-                                                        this.menuDayStats.Checked ? 4 :
-                                                        this.menuSessionStats.Checked ? 5 : 1;
+                                                      this.menuWeekStats.Checked ? 3 :
+                                                      this.menuDayStats.Checked ? 4 :
+                                                      this.menuSessionStats.Checked ? 5 : 1;
                     this.CurrentSettings.SelectedCustomTemplateSeason = -1;
                     this.CurrentSettings.CustomFilterRangeStart = DateTime.MinValue;
                     this.CurrentSettings.CustomFilterRangeEnd = DateTime.MaxValue;
@@ -6231,8 +6108,8 @@ namespace FallGuysStats {
                     }
                 } else {
                     overlay.Location = this.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value, overlay.Width, overlay.Height)
-                                        ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
-                                        : this.Location;
+                                       ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
+                                       : this.Location;
                 }
             }
         }
@@ -6287,11 +6164,11 @@ namespace FallGuysStats {
         
         private void ChangeLaunchPlatformLogo(int launchPlatform) {
             this.trayLaunchFallGuys.Image = launchPlatform == 0
-                ? Properties.Resources.epic_main_icon
-                : Properties.Resources.steam_main_icon;
+                                            ? Properties.Resources.epic_main_icon
+                                            : Properties.Resources.steam_main_icon;
             this.menuLaunchFallGuys.Image = launchPlatform == 0
-                ? Properties.Resources.epic_main_icon
-                : Properties.Resources.steam_main_icon;
+                                            ? Properties.Resources.epic_main_icon
+                                            : Properties.Resources.steam_main_icon;
         }
         
         private void ChangeLanguage() {
