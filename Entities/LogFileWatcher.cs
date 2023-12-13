@@ -728,13 +728,13 @@ namespace FallGuysStats {
 
                 logRound.CountingPlayers = true;
                 logRound.GetCurrentPlayerID = true;
-            } else if (logRound.Info != null && (index = line.Line.IndexOf("NetworkGameOptions: durationInSeconds=", StringComparison.OrdinalIgnoreCase)) >= 0) { // legacy code // It seems to have been deleted from the log file now.
-                int nextIndex = line.Line.IndexOf(" ", index + 38);
-                logRound.Duration = int.Parse(line.Line.Substring(index + 38, nextIndex - index - 38));
-                index = line.Line.IndexOf("isFinalRound=", StringComparison.OrdinalIgnoreCase);
-                logRound.HasIsFinal = index > 0;
-                index = line.Line.IndexOf("isFinalRound=True", StringComparison.OrdinalIgnoreCase);
-                logRound.IsFinal = index > 0;
+            // } else if (logRound.Info != null && (index = line.Line.IndexOf("NetworkGameOptions: durationInSeconds=", StringComparison.OrdinalIgnoreCase)) >= 0) { // legacy code // It seems to have been deleted from the log file now.
+            //     int nextIndex = line.Line.IndexOf(" ", index + 38);
+            //     logRound.Duration = int.Parse(line.Line.Substring(index + 38, nextIndex - index - 38));
+            //     index = line.Line.IndexOf("isFinalRound=", StringComparison.OrdinalIgnoreCase);
+            //     logRound.HasIsFinal = index > 0;
+            //     index = line.Line.IndexOf("isFinalRound=True", StringComparison.OrdinalIgnoreCase);
+            //     logRound.IsFinal = index > 0;
             } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) >= 0 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) >= 0) {
                 logRound.Info.Players++;
             } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[CameraDirector] Adding Spectator target", StringComparison.OrdinalIgnoreCase) >= 0) {

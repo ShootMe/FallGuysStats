@@ -114,17 +114,17 @@ namespace FallGuysStats {
 
         private void metroLink_MouseEnter(object sender, EventArgs e) {
             if (sender.Equals(this.mlMyRank)) {
-                ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                this.mlMyRank.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             } else if (sender.Equals(this.mlVisitFallalytics)) {
-                ((MetroLink)sender).ForeColor = Color.FromArgb(0, 174, 219);
+                this.mlVisitFallalytics.ForeColor = Color.FromArgb(0, 174, 219);
             }
         }
         
         private void metroLink_MouseLeave(object sender, EventArgs e) {
             if (sender.Equals(this.mlMyRank)) {
-                ((MetroLink)sender).ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+                this.mlMyRank.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
             } else if (sender.Equals(this.mlVisitFallalytics)) {
-                ((MetroLink)sender).ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
+                this.mlVisitFallalytics.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
             }
         }
 
@@ -132,37 +132,7 @@ namespace FallGuysStats {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner.Visible = true;
-            if ((DateTime.UtcNow - this.StatsForm.leaderboardRoundListLoadTime).TotalHours >= 1 || this.roundlist == null) {
-                Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
-                    List<ImageItem> roundItemList = new List<ImageItem>();
-                    foreach (RankRound round in this.roundlist) {
-                        foreach (string id in round.ids) {
-                            if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                                roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id }));
-                                break;
-                            }
-                        }
-                    }
-                    roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
-                    this.StatsForm.leaderboardRoundListLoadTime = DateTime.UtcNow;
-                    this.BeginInvoke((MethodInvoker)delegate {
-                        if (prevTask.Result) {
-                            this.mpsSpinner.Visible = false;
-                            this.lblSearchDescription.Visible = true;
-                            this.cboRoundList.SetImageItemData(roundItemList);
-                            this.cboRoundList.Enabled = true;
-                        } else {
-                            this.mpsSpinner.Visible = false;
-                            this.gridLevelRank.DataSource = this.nodata;
-                            this.mlRefreshList.Visible = false;
-                            this.mlVisitFallalytics.Visible = false;
-                            this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
-                            this.lblSearchDescription.Visible = true;
-                            this.cboRoundList.Enabled = false;
-                        }
-                    });
-                });
-            } else {
+            Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
                 foreach (RankRound round in this.roundlist) {
                     foreach (string id in round.ids) {
@@ -174,12 +144,22 @@ namespace FallGuysStats {
                 }
                 roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
                 this.BeginInvoke((MethodInvoker)delegate {
-                    this.mpsSpinner.Visible = false;
-                    this.lblSearchDescription.Visible = true;
-                    this.cboRoundList.SetImageItemData(roundItemList);
-                    this.cboRoundList.Enabled = true;
+                    if (prevTask.Result) {
+                        this.mpsSpinner.Visible = false;
+                        this.lblSearchDescription.Visible = true;
+                        this.cboRoundList.SetImageItemData(roundItemList);
+                        this.cboRoundList.Enabled = true;
+                    } else {
+                        this.mpsSpinner.Visible = false;
+                        this.gridLevelRank.DataSource = this.nodata;
+                        this.mlRefreshList.Visible = false;
+                        this.mlVisitFallalytics.Visible = false;
+                        this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
+                        this.lblSearchDescription.Visible = true;
+                        this.cboRoundList.Enabled = false;
+                    }
                 });
-            }
+            });
         }
 
         private void SetLeaderboardUI(int index) {
@@ -212,9 +192,9 @@ namespace FallGuysStats {
             }
             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
-            this.BackMaxSize = 36;
+            this.BackMaxSize = 38;
             this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
-            this.BackImagePadding = new Padding(17, (int)(15 + (Math.Ceiling(Math.Max(0, 60 - this.BackImage.Height) / 5f) * 1.5f)), 0, 0);
+            this.BackImagePadding = new Padding(17, (int)(15 + (Math.Ceiling(Math.Max(0, 60 - this.BackImage.Height) / 5f) * 2f)), 0, 0);
             this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
             this.mlRefreshList.Visible = true;
             this.mlVisitFallalytics.Visible = true;
@@ -331,7 +311,6 @@ namespace FallGuysStats {
                         var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
                         result = availableRound.found;
                         this.roundlist = availableRound.leaderboards;
-                        this.StatsForm.leaderboardRoundlist = availableRound.leaderboards;
                     } catch {
                         result = false;
                     }

@@ -172,7 +172,7 @@ namespace FallGuysStats {
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         public DateTime startupTime = DateTime.UtcNow;
-        public DateTime leaderboardRoundListLoadTime;
+        // public DateTime leaderboardRoundListLoadTime;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile, currentLanguage;
@@ -204,7 +204,7 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
-        public List<RankRound> leaderboardRoundlist;
+        // public List<RankRound> leaderboardRoundlist;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {
@@ -384,7 +384,7 @@ namespace FallGuysStats {
             this.DatabaseMigration();
             if (Utils.IsInternetConnected()) {
                 Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
-                Task.Run(this.InitializeLeaderboardRoundList);
+                // Task.Run(this.InitializeLeaderboardRoundList);
             }
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
@@ -3222,7 +3222,7 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
-                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby) {
+                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
 
                                     if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY")) && OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
@@ -3510,19 +3510,8 @@ namespace FallGuysStats {
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
 
-            // BsonExpression pbLogQuery = Query.EQ("RoundId", currentRoundId);
-            // bool existsPbLog = this.FallalyticsPbLog.Exists(pbLogQuery);
             bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId));
-            
             if (!existsPbLog) {
-                // BsonExpression recordQuery = Query.And(
-                //     Query.EQ("PrivateLobby", false)
-                //     , Query.EQ("Name", currentRoundId)
-                //     , Query.Not("Finish", null)
-                //     , Query.Not("ShowNameId", null)
-                //     , Query.Not("SessionId", null)
-                // );
-                // List<RoundInfo> existingRecords = this.RoundDetails.Find(recordQuery).ToList();
                 RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
             
                 if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
@@ -3556,19 +3545,20 @@ namespace FallGuysStats {
                     this.StatsDB.Commit();
                 }
             } else {
-                // BsonExpression pbLogQuery2 = Query.And(
-                //     Query.EQ("RoundId", currentRoundId)
-                //     , Query.EQ("OnlineServiceType", (int)OnlineServiceType)
-                //     , Query.EQ("OnlineServiceId", OnlineServiceId)
-                // );
-                // FallalyticsPbLog pbLog = this.FallalyticsPbLog.FindOne(pbLogQuery2);
-                // FallalyticsPbLog pbLog = this.FallalyticsPbLogCache.Find(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
                 int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
-                // if (pbLog != null) {
                 if (logIndex != -1) {
                     FallalyticsPbLog pbLog = this.FallalyticsPbLogCache[logIndex];
-                    // TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
+                    
+                    RoundInfo missingInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                    if (missingInfo != null && !string.Equals(missingInfo.SessionId, pbLog.SessionId) && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
+                        currentSessionId = missingInfo.SessionId;
+                        currentShowNameId = missingInfo.ShowNameId;
+                        currentRoundId = missingInfo.Name;
+                        currentRecord = missingInfo.Finish.Value - missingInfo.Start;
+                        currentFinish = missingInfo.Finish.Value;
+                    }
+                    
                     if (pbLog.IsTransferSuccess) {
                         if (currentRecord < existingRecord) {
                             try {
@@ -5083,7 +5073,8 @@ namespace FallGuysStats {
                                     string line;
                                     List<string> lines = new List<string>();
                                     while ((line = sr.ReadLine()) != null) {
-                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app ", StringComparison.OrdinalIgnoreCase) != -1) {
+                                        if (line.IndexOf("FCommunityPortalLaunchAppTask: Launching app", StringComparison.OrdinalIgnoreCase) != -1
+                                            && line.IndexOf("RunFallGuys.exe", StringComparison.OrdinalIgnoreCase) != -1) {
                                             lines.Add(line);
                                         }
                                     }
@@ -5461,24 +5452,24 @@ namespace FallGuysStats {
             }
         }
 
-        private void InitializeLeaderboardRoundList() {
-            using (ApiWebClient web = new ApiWebClient()) {
-                try {
-                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
-                    string json = web.DownloadString("https://data.fallalytics.com/api/leaderboards");
-                    JsonSerializerOptions options = new JsonSerializerOptions();
-                    options.Converters.Add(new RoundConverter());
-                    AvailableRound availableRound = System.Text.Json.JsonSerializer.Deserialize<AvailableRound>(json, options);
-                    this.leaderboardRoundlist = availableRound.found ? availableRound.leaderboards : null;
-                } catch {
-                    this.leaderboardRoundlist = null;
-                }
-                this.leaderboardRoundListLoadTime = DateTime.UtcNow;
-                this.Invoke((MethodInvoker)delegate {
-                    this.mlLeaderboard.Enabled = true;
-                });
-            }
-        }
+        // private void InitializeLeaderboardRoundList() {
+        //     using (ApiWebClient web = new ApiWebClient()) {
+        //         try {
+        //             web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+        //             string json = web.DownloadString("https://data.fallalytics.com/api/leaderboards");
+        //             JsonSerializerOptions options = new JsonSerializerOptions();
+        //             options.Converters.Add(new RoundConverter());
+        //             AvailableRound availableRound = System.Text.Json.JsonSerializer.Deserialize<AvailableRound>(json, options);
+        //             this.leaderboardRoundlist = availableRound.found ? availableRound.leaderboards : null;
+        //         } catch {
+        //             this.leaderboardRoundlist = null;
+        //         }
+        //         this.leaderboardRoundListLoadTime = DateTime.UtcNow;
+        //         this.Invoke((MethodInvoker)delegate {
+        //             this.mlLeaderboard.Enabled = true;
+        //         });
+        //     }
+        // }
         
         private void lblLeaderboard_Click(object sender, EventArgs e) {
             try {
@@ -5491,7 +5482,7 @@ namespace FallGuysStats {
                            BackMaxSize = 32,
                            BackImagePadding = new Padding(20, 21, 0, 0)
                        }) {
-                    leaderboard.roundlist = this.leaderboardRoundlist;
+                    // leaderboard.roundlist = this.leaderboardRoundlist;
                     leaderboard.ShowDialog(this);
                 }
                 this.EnableInfoStrip(true);
