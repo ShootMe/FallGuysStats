@@ -209,6 +209,7 @@ namespace FallGuysStats {
                                 }
                             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0
+                                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) >= 0
                                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) >= 0
@@ -615,7 +616,9 @@ namespace FallGuysStats {
                 this.toggleFgdbCreativeApi = false;
                 this.ClearUserCreativeLevelInfo();
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) >= 0
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0) {
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) >= 0
+                       ) {
                 if (line.Date > Stats.LastGameStart) {
                     Stats.LastGameStart = line.Date;
                     if (logRound.Info != null) {
@@ -628,7 +631,7 @@ namespace FallGuysStats {
                 }
                 Stats.EndedShow = false;
 
-                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) >= 0;
+                logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) != -1;
                 logRound.CurrentlyInParty = !logRound.PrivateLobby && (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) == -1);
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;

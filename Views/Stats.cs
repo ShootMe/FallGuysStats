@@ -2391,6 +2391,18 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 72;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 72) {
+                this.StatsDB.BeginTrans();
+                DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
+                this.RoundDetails.DeleteMany(ri =>
+                    ri.Start >= dateCond
+                    && ri.Name.Equals("user_creative_race_round")
+                    && (ri.PrivateLobby == false || ri.Round > 1));
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 73;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
