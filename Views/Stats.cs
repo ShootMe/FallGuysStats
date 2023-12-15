@@ -359,15 +359,15 @@ namespace FallGuysStats {
             { "current_wle_community_10_5_1_11", "wle_discover_level_wk2_017" },
             { "current_wle_community_10_5_1_13", "wle_discover_level_wk2_009" },
             
-            { "wle_mrs_shuffle_show_roundpool_winter_18", "wle_round_mrs_shuffle_discover_015" },
-            { "wle_mrs_shuffle_show_roundpool_winter_20", "wle_discovery_shuffle_up2_15" },
-            { "wle_mrs_shuffle_show_roundpool_winter_23", "current_wle_fp6_wk4_05_01" },
-            { "wle_mrs_shuffle_show_roundpool_winter_31", "wle_round_mrs_shuffle_discover_011" },
-            { "wle_mrs_shuffle_show_roundpool_winter_32", "wle_discover_level_wk2_003" },
-            { "wle_mrs_shuffle_show_roundpool_winter_35", "wle_round_mrs_shuffle_discover_047" },
-            { "wle_mrs_shuffle_show_roundpool_winter_37", "current_wle_fp4_10_07" },
-            { "wle_mrs_shuffle_show_roundpool_winter_42", "wle_discovery_shuffle_up2_37" },
-            { "wle_mrs_shuffle_show_roundpool_winter_48", "wle_discover_level_wk2_029" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_18", "wle_round_mrs_shuffle_discover_015" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_20", "wle_discovery_shuffle_up2_15" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_23", "current_wle_fp6_wk4_05_01" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_31", "wle_round_mrs_shuffle_discover_011" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_32", "wle_discover_level_wk2_003" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_35", "wle_round_mrs_shuffle_discover_047" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_37", "current_wle_fp4_10_07" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_42", "wle_discovery_shuffle_up2_37" },
+            // { "wle_mrs_shuffle_show_roundpool_winter_48", "wle_discover_level_wk2_029" },
         };
         
         private void DatabaseMigration() {
