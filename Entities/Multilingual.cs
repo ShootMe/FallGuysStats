@@ -639,7 +639,7 @@ namespace FallGuysStats {
                             {"level_detail_no_data", "Pas de données disponibles."},
                             {"level_detail_no_data_caption", "Aucune donnée"},
                             {"level_detail_share_code_copied", "Le code de partage a été copié !"},
-                            {"level_detail_share_code_copied_tooltip", "Double-cliquer sur le code de partage pour le copier"},
+                            {"level_detail_share_code_copied_tooltip", "Faites un double-clic pour copier le code de partage."},
                             {"level_detail_creative_author", "Créée par"},
                             {"level_detail_creative_share_code", "Code de partage"},
                             {"level_detail_creative_version", "Version"},
