@@ -509,12 +509,6 @@ namespace FallGuysStats {
             this.UpdateGridRoundName();
             this.UpdateHoopsieLegends();
             
-            this.ClearServerConnectionLog();
-            this.ClearPersonalBestLog();
-            this.FallalyticsPbLogCache.AddRange(this.FallalyticsPbLog.FindAll());
-            this.ServerConnectionLogCache.AddRange(this.ServerConnectionLog.FindAll());
-            this.PersonalBestLogCache.AddRange(this.PersonalBestLog.FindAll());
-            
             this.overlay = new Overlay { Text = @"Fall Guys Stats Overlay", StatsForm = this, Icon = this.Icon, ShowIcon = true, BackgroundResourceName = this.CurrentSettings.OverlayBackgroundResourceName, TabResourceName = this.CurrentSettings.OverlayTabResourceName };
             
             Screen screen = Utils.GetCurrentScreen(this.overlay.Location);
@@ -1125,8 +1119,7 @@ namespace FallGuysStats {
             this.traySubSeparator2.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             
             this.AllProfiles.Clear();
-            //this.AllProfiles = this.Profiles.FindAll().ToList();
-            this.AllProfiles.AddRange(this.Profiles.FindAll());
+            this.AllProfiles = this.Profiles.FindAll().ToList();
             this.profileIdWithLinkedCustomShow = this.AllProfiles.Find(p => "private_lobbies".Equals(p.LinkedShowId))?.ProfileId ?? -1;
             int profileNumber = 0; 
             for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
@@ -2929,6 +2922,12 @@ namespace FallGuysStats {
                 }
 #endif
                 this.RemoveUpdateFiles();
+                
+                this.ClearServerConnectionLog();
+                this.ClearPersonalBestLog();
+                this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
+                this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
+                this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
                 
                 if (this.CurrentSettings.Visible) {
                     this.Show();
