@@ -2396,6 +2396,26 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 73;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 73) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_winter")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Name.IndexOf("_final_", StringComparison.OrdinalIgnoreCase) != -1) {
+                        ri.IsFinal = true;
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 74;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3320,7 +3340,7 @@ namespace FallGuysStats {
                                 roundName = roundName.Replace('_', ' ');
                             }
 
-                            LevelStats newLevel = new LevelStats(stat.Name, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                            LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -3885,7 +3905,7 @@ namespace FallGuysStats {
             int lastShow = -1;
             string levelName = useShareCode ? levelType.CreativeLevelTypeId() : name;
             if (!this.StatLookup.TryGetValue(levelName, out LevelStats currentLevel)) {
-                currentLevel = new LevelStats(name, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                currentLevel = new LevelStats(name, string.Empty, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
             List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.currentProfile && levelName.Equals(r.Name) && name.Equals(r.ShowNameId)) :
