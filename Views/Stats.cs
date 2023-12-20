@@ -4307,6 +4307,7 @@ namespace FallGuysStats {
                 this.gridDetails.Columns["AveKudos"].Visible = false;
                 this.gridDetails.Columns["AveDuration"].Visible = false;
                 this.gridDetails.Columns["Id"].Visible = false;
+                this.gridDetails.Columns["ShareCode"].Visible = false;
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
                 this.gridDetails.Columns["RoundIcon"].Resizable = DataGridViewTriState.False;
                 this.gridDetails.Setup("Name",      pos++, this.GetDataGridViewColumnWidth("Name", Multilingual.GetWord("main_round_name")), Multilingual.GetWord("main_round_name"), DataGridViewContentAlignment.MiddleLeft);
