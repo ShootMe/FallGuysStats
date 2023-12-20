@@ -914,7 +914,7 @@ namespace FallGuysStats {
                                 switch (levelType) {
                                     case LevelType.Survival:
                                         this.lblFinish.TextRight = recordType == BestRecordType.Fastest ? (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"# {Multilingual.GetWord("overlay_position_prefix")}{this.lastRound.Position}{Multilingual.GetWord("overlay_position_suffix")} - {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}"
-                                            : (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                                                                                                        : (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{this.lastRound.Position} {Multilingual.GetWord("overlay_position_survived")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                                         break;
                                     case LevelType.Logic:
                                     case LevelType.Hunt:
@@ -934,19 +934,25 @@ namespace FallGuysStats {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time < levelSummary.BestFinishOverall.GetValueOrDefault(TimeSpan.MaxValue)) {
                                 this.lblFinish.ForeColor = Color.Gold;
+                            } else {
+                                this.lblFinish.ForeColor = this.ForeColor;
                             }
                         } else if (recordType == BestRecordType.Longest) {
                             if (time > levelSummary.LongestFinish && time < levelSummary.LongestFinishOverall) {
                                 this.lblFinish.ForeColor = Color.LightGreen;
                             } else if (time > levelSummary.LongestFinishOverall) {
                                 this.lblFinish.ForeColor = Color.Gold;
+                            } else {
+                                this.lblFinish.ForeColor = this.ForeColor;
                             }
                         } else {
                             this.lblFinish.ForeColor = this.ForeColor;
                         }
                     } else if (end != DateTime.MinValue) {
                         TimeSpan time = end - start;
-                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && !((Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown)) ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                        this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Crown) ? $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.fff}" : 
+                                                   (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && !(Stats.InShow && !Stats.EndedShow)) ? $"{Multilingual.GetWord("overlay_position_eliminated")}! {time:m\\:ss\\.fff}" :
+                                                   $"{time:m\\:ss\\.fff}";
                         this.lblFinish.ForeColor = (Stats.InShow && !Stats.EndedShow) || this.lastRound.Crown ? this.ForeColor : Utils.GetColorBrightnessAdjustment(this.ForeColor, fBrightness);
                     } else if (this.lastRound.Playing) {
                         bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
