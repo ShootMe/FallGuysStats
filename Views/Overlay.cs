@@ -30,8 +30,7 @@ namespace FallGuysStats {
         private Graphics DrawGraphics;
         private RoundInfo lastRound;
         private string savedSessionId;
-        private int lastRoundId = -1;
-        private int savedRoundId = -1;
+        private int savedRoundNum;
         private string roundId;
         private string roundName;
         private LevelStats levelStats;
@@ -971,8 +970,7 @@ namespace FallGuysStats {
             lock (this.StatsForm.CurrentRound) {
                 bool hasCurrentRound = this.StatsForm.CurrentRound != null && this.StatsForm.CurrentRound.Count > 0;
                 if (hasCurrentRound) {
-                    this.lastRoundId = this.StatsForm.CurrentRound.Count - 1;
-                    this.lastRound = this.StatsForm.CurrentRound[this.lastRoundId];
+                    this.lastRound = this.StatsForm.CurrentRound[this.StatsForm.CurrentRound.Count - 1];
                 }
                 
                 this.lblFilter.Text = this.StatsForm.GetCurrentFilterName();
@@ -983,7 +981,7 @@ namespace FallGuysStats {
                 
                 if (this.lastRound != null && !string.IsNullOrEmpty(this.lastRound.Name)) {
                     int overlaySetting = (this.StatsForm.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.StatsForm.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.StatsForm.CurrentSettings.HideTimeInfo ? 1 : 0);
-                    bool isRoundInfoNeedRefresh = this.savedRoundId != this.lastRoundId ||
+                    bool isRoundInfoNeedRefresh = this.savedRoundNum != this.lastRound.Round ||
                                                   !string.Equals(this.savedSessionId, this.lastRound.SessionId) ||
                                                   Stats.IsOverlayRoundInfoNeedRefresh;
                     if (isRoundInfoNeedRefresh) {
@@ -991,7 +989,7 @@ namespace FallGuysStats {
                             Stats.IsOverlayRoundInfoNeedRefresh = false;
                         }
                         this.savedSessionId = this.lastRound.SessionId;
-                        this.savedRoundId = this.lastRoundId;
+                        this.savedRoundNum = this.lastRound.Round;
                         
                         // this.roundName = this.roundId = this.lastRound.VerifiedName();
                         this.roundId = this.lastRound.VerifiedName();
