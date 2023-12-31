@@ -9,6 +9,7 @@ using System.Drawing.Text;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
@@ -135,8 +136,8 @@ namespace FallGuysStats {
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountryCode = string.Empty;
-        public static string HostCountryRegion = string.Empty;
-        public static string HostCountryCity = string.Empty;
+        // public static string HostCountryRegion = string.Empty;
+        // public static string HostCountryCity = string.Empty;
         
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -172,7 +173,7 @@ namespace FallGuysStats {
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
         public DateTime startupTime = DateTime.UtcNow;
-        // public DateTime leaderboardRoundListLoadTime;
+        public DateTime overallRankLoadTime;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile, currentLanguage;
@@ -204,7 +205,7 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
-        // public List<RankRound> leaderboardRoundlist;
+        public List<OverallRankInfo> leaderboardOverallRankList;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {
@@ -214,6 +215,7 @@ namespace FallGuysStats {
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
             "event_anniversary_season_1_alternate_name",
+            "event_blast_ball_banger_template",
             "event_only_finals_v2_template",
             "event_only_races_any_final_template",
             "event_only_fall_ball_template",
@@ -394,7 +396,7 @@ namespace FallGuysStats {
             this.DatabaseMigration();
             if (Utils.IsInternetConnected()) {
                 Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
-                // Task.Run(this.InitializeLeaderboardRoundList);
+                Task.Run(this.InitializeOverallRankList);
             }
             
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
@@ -2414,6 +2416,24 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 74;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 74) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("event_blast_ball_banger_template")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_blast_ball_banger_template"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 75;
                 this.SaveUserSettings();
             }
         }
@@ -5494,24 +5514,57 @@ namespace FallGuysStats {
             }
         }
 
-        // private void InitializeLeaderboardRoundList() {
-        //     using (ApiWebClient web = new ApiWebClient()) {
-        //         try {
-        //             web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
-        //             string json = web.DownloadString("https://data.fallalytics.com/api/leaderboards");
-        //             JsonSerializerOptions options = new JsonSerializerOptions();
-        //             options.Converters.Add(new RoundConverter());
-        //             AvailableRound availableRound = System.Text.Json.JsonSerializer.Deserialize<AvailableRound>(json, options);
-        //             this.leaderboardRoundlist = availableRound.found ? availableRound.leaderboards : null;
-        //         } catch {
-        //             this.leaderboardRoundlist = null;
-        //         }
-        //         this.leaderboardRoundListLoadTime = DateTime.UtcNow;
-        //         this.Invoke((MethodInvoker)delegate {
-        //             this.mlLeaderboard.Enabled = true;
-        //         });
-        //     }
-        // }
+        public void InitializeOverallRankList() {
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string overallRankApiUrl = "https://data.fallalytics.com/api/speedrun-total";
+                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                    string json = web.DownloadString($"{overallRankApiUrl}?page=1");
+                    JsonSerializerOptions options = new JsonSerializerOptions();
+                    options.Converters.Add(new OverallRankInfoConverter());
+                    OverallRank overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json, options);
+                    bool isFound = overallRank.found;
+                    if (isFound) {
+                        int totalPlayers = overallRank.total;
+                        int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
+                        for (int i = 0; i < overallRank.users.Count; i++) {
+                            overallRank.users[i].rank = i + 1;
+                        }
+                        this.leaderboardOverallRankList = overallRank.users;
+                        if (totalPages > 1) {
+                            var tasks = new List<Task>();
+                            HttpClient client = new HttpClient();
+                            client.DefaultRequestHeaders.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                            for (int i = 2; i <= totalPages; i++) {
+                                int page = i;
+                                tasks.Add(Task.Run(async () => {
+                                    HttpResponseMessage response = await client.GetAsync($"{overallRankApiUrl}?page={page}");
+                                    if (response.IsSuccessStatusCode) {
+                                        json = await response.Content.ReadAsStringAsync();
+                                        options = new JsonSerializerOptions();
+                                        options.Converters.Add(new LevelRankInfoConverter());
+                                        overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json, options);
+                                        for (int j = 0; j < overallRank.users.Count; j++) {
+                                            overallRank.users[j].rank = j + 1 + ((page - 1) * 100);
+                                        }
+                                        this.leaderboardOverallRankList.AddRange(overallRank.users);
+                                    }
+                                }));
+                            }
+                            Task.WhenAll(tasks).Wait();
+                            this.leaderboardOverallRankList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
+                        }
+                    }
+                } catch {
+                    this.leaderboardOverallRankList = null;
+                }
+                
+                this.overallRankLoadTime = DateTime.UtcNow;
+                this.Invoke((MethodInvoker)delegate {
+                    this.mlLeaderboard.Enabled = true;
+                });
+            }
+        }
         
         private void lblLeaderboard_Click(object sender, EventArgs e) {
             try {
@@ -5524,7 +5577,7 @@ namespace FallGuysStats {
                            BackMaxSize = 32,
                            BackImagePadding = new Padding(20, 21, 0, 0)
                        }) {
-                    // leaderboard.roundlist = this.leaderboardRoundlist;
+                    // leaderboard.overallRankList = this.leaderboardOverallRankList;
                     leaderboard.ShowDialog(this);
                 }
                 this.EnableInfoStrip(true);

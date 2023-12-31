@@ -31,8 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LeaderboardDisplay));
             this.mtcTabControl = new MetroFramework.Controls.MetroTabControl();
             this.mtpLevelRankPage = new MetroFramework.Controls.MetroTabPage();
-            this.mpsSpinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.mtpOverallRankPage = new MetroFramework.Controls.MetroTabPage();
+            this.mpsSpinner01 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.mpsSpinner02 = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
+            this.gridOverallRank = new FallGuysStats.Grid();
             this.gridLevelRank = new FallGuysStats.Grid();
             this.mlMyRank = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
@@ -40,12 +43,15 @@
             this.cboRoundList = new FallGuysStats.ImageComboBox();
             this.mtcTabControl.SuspendLayout();
             this.mtpLevelRankPage.SuspendLayout();
+            this.mtpOverallRankPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).BeginInit();
             this.SuspendLayout();
             // 
             // mtcTabControl
             // 
             this.mtcTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.mtcTabControl.Controls.Add(this.mtpOverallRankPage);
             this.mtcTabControl.Controls.Add(this.mtpLevelRankPage);
             this.mtcTabControl.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.mtcTabControl.FontWeight = MetroFramework.MetroTabControlWeight.Bold;
@@ -55,10 +61,60 @@
             this.mtcTabControl.Size = new System.Drawing.Size(1186, 809);
             this.mtcTabControl.TabIndex = 6;
             this.mtcTabControl.UseSelectable = true;
+            this.mtcTabControl.SelectedIndexChanged += new System.EventHandler(this.mtcTabControl_SelectedIndexChanged);
+            // 
+            // mtpOverallRankPage
+            // 
+            // this.mtpOverallRankPage.Controls.Add(this.mpsSpinner);
+            // this.mtpOverallRankPage.Controls.Add(this.lblSearchDescription);
+            this.mtpOverallRankPage.Controls.Add(this.gridOverallRank);
+            this.mtpOverallRankPage.Controls.Add(this.mpsSpinner01);
+            this.mtpOverallRankPage.HorizontalScrollbarBarColor = true;
+            this.mtpOverallRankPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpOverallRankPage.HorizontalScrollbarSize = 9;
+            this.mtpOverallRankPage.Location = new System.Drawing.Point(4, 44);
+            this.mtpOverallRankPage.Name = "mtpOverallRankPage";
+            this.mtpOverallRankPage.Size = new System.Drawing.Size(1178, 761);
+            this.mtpOverallRankPage.TabIndex = 0;
+            this.mtpOverallRankPage.Text = "Overall Rank";
+            this.mtpOverallRankPage.VerticalScrollbarBarColor = true;
+            this.mtpOverallRankPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpOverallRankPage.VerticalScrollbarSize = 12;
+            // 
+            // gridOverallRank
+            // 
+            this.gridOverallRank.AllowUserToDeleteRows = false;
+            this.gridOverallRank.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridOverallRank.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridOverallRank.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridOverallRank.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridOverallRank.ColumnHeadersHeight = 24;
+            this.gridOverallRank.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridOverallRank.EnableHeadersVisualStyles = false;
+            this.gridOverallRank.Location = new System.Drawing.Point(0, 0);
+            this.gridOverallRank.MultiSelect = false;
+            this.gridOverallRank.Name = "gridOverallRank";
+            this.gridOverallRank.ReadOnly = true;
+            this.gridOverallRank.RowHeadersVisible = false;
+            this.gridOverallRank.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridOverallRank.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridOverallRank.Size = new System.Drawing.Size(1179, 768);
+            this.gridOverallRank.TabIndex = 2;
+            this.gridOverallRank.DataSourceChanged += new System.EventHandler(this.gridOverallRank_DataSourceChanged);
+            this.gridOverallRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridOverallRank_CellFormatting);
+            this.gridOverallRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridOverallRank_ColumnHeaderMouseClick);
+            this.gridOverallRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mtpLevelRankPage
             // 
-            this.mtpLevelRankPage.Controls.Add(this.mpsSpinner);
+            this.mtpLevelRankPage.Controls.Add(this.mpsSpinner02);
             this.mtpLevelRankPage.Controls.Add(this.lblSearchDescription);
             this.mtpLevelRankPage.Controls.Add(this.gridLevelRank);
             this.mtpLevelRankPage.HorizontalScrollbarBarColor = true;
@@ -73,23 +129,41 @@
             this.mtpLevelRankPage.VerticalScrollbarHighlightOnWheel = false;
             this.mtpLevelRankPage.VerticalScrollbarSize = 12;
             // 
-            // mpsSpinner
+            // mpsSpinner01
             // 
-            this.mpsSpinner.BackColor = System.Drawing.Color.White;
-            this.mpsSpinner.Location = new System.Drawing.Point(509, 344);
-            this.mpsSpinner.Margin = new System.Windows.Forms.Padding(0);
-            this.mpsSpinner.Maximum = 100;
-            this.mpsSpinner.MaximumSize = new System.Drawing.Size(28, 28);
-            this.mpsSpinner.MinimumSize = new System.Drawing.Size(28, 28);
-            this.mpsSpinner.Name = "mpsSpinner";
-            this.mpsSpinner.Size = new System.Drawing.Size(28, 28);
-            this.mpsSpinner.Speed = 1.5F;
-            this.mpsSpinner.Style = MetroFramework.MetroColorStyle.Teal;
-            this.mpsSpinner.TabIndex = 4;
-            this.mpsSpinner.UseCustomBackColor = true;
-            this.mpsSpinner.UseSelectable = true;
-            this.mpsSpinner.Value = 80;
-            this.mpsSpinner.Visible = false;
+            this.mpsSpinner01.BackColor = System.Drawing.Color.White;
+            this.mpsSpinner01.Location = new System.Drawing.Point(509, 344);
+            this.mpsSpinner01.Margin = new System.Windows.Forms.Padding(0);
+            this.mpsSpinner01.Maximum = 100;
+            this.mpsSpinner01.MaximumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner01.MinimumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner01.Name = "mpsSpinner01";
+            this.mpsSpinner01.Size = new System.Drawing.Size(28, 28);
+            this.mpsSpinner01.Speed = 1.5F;
+            this.mpsSpinner01.Style = MetroFramework.MetroColorStyle.Teal;
+            this.mpsSpinner01.TabIndex = 4;
+            this.mpsSpinner01.UseCustomBackColor = true;
+            this.mpsSpinner01.UseSelectable = true;
+            this.mpsSpinner01.Value = 80;
+            this.mpsSpinner01.Visible = false;
+            // 
+            // mpsSpinner02
+            // 
+            this.mpsSpinner02.BackColor = System.Drawing.Color.White;
+            this.mpsSpinner02.Location = new System.Drawing.Point(509, 344);
+            this.mpsSpinner02.Margin = new System.Windows.Forms.Padding(0);
+            this.mpsSpinner02.Maximum = 100;
+            this.mpsSpinner02.MaximumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner02.MinimumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner02.Name = "mpsSpinner02";
+            this.mpsSpinner02.Size = new System.Drawing.Size(28, 28);
+            this.mpsSpinner02.Speed = 1.5F;
+            this.mpsSpinner02.Style = MetroFramework.MetroColorStyle.Teal;
+            this.mpsSpinner02.TabIndex = 4;
+            this.mpsSpinner02.UseCustomBackColor = true;
+            this.mpsSpinner02.UseSelectable = true;
+            this.mpsSpinner02.Value = 80;
+            this.mpsSpinner02.Visible = false;
             // 
             // lblSearchDescription
             // 
@@ -123,6 +197,7 @@
             this.gridLevelRank.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridLevelRank.EnableHeadersVisualStyles = false;
             this.gridLevelRank.Location = new System.Drawing.Point(0, 0);
+            this.gridLevelRank.MultiSelect = false;
             this.gridLevelRank.Name = "gridLevelRank";
             this.gridLevelRank.ReadOnly = true;
             this.gridLevelRank.RowHeadersVisible = false;
@@ -134,7 +209,7 @@
             this.gridLevelRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridLevelRank_CellFormatting);
             this.gridLevelRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridLevelRank_ColumnHeaderMouseClick);
             // this.gridLevelRank.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridLevelRank_Scroll);
-            this.gridLevelRank.SelectionChanged += new System.EventHandler(this.gridLevelRank_SelectionChanged);
+            this.gridLevelRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mlMyRank
             // 
@@ -247,6 +322,9 @@
             this.mtcTabControl.ResumeLayout(false);
             this.mtpLevelRankPage.ResumeLayout(false);
             this.mtpLevelRankPage.PerformLayout();
+            this.mtpOverallRankPage.ResumeLayout(false);
+            this.mtpOverallRankPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -256,12 +334,15 @@
 
         private MetroFramework.Controls.MetroTabControl mtcTabControl;
         private MetroFramework.Controls.MetroTabPage mtpLevelRankPage;
-        private MetroFramework.Controls.MetroProgressSpinner mpsSpinner;
+        private MetroFramework.Controls.MetroTabPage mtpOverallRankPage;
+        private MetroFramework.Controls.MetroProgressSpinner mpsSpinner01;
+        private MetroFramework.Controls.MetroProgressSpinner mpsSpinner02;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLink mlMyRank;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private MetroFramework.Controls.MetroLink mlRefreshList;
         private FallGuysStats.ImageComboBox cboRoundList;
+        private FallGuysStats.Grid gridOverallRank;
         private FallGuysStats.Grid gridLevelRank;
     }
 }

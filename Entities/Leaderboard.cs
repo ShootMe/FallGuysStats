@@ -4,13 +4,75 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace FallGuysStats {
-    public class Leaderboard {
+    public class OverallRank {
         public bool found { get; set; }
         public int total { get; set; }
-        public List<RankInfo> recordholders { get; set; }
+        public List<OverallRankInfo> users { get; set; }
     }
     
-    public class RankInfo {
+    public class OverallRankInfo {
+        public int rank { get; set; }
+        public string onlineServiceType { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+        public string id { get; set; }
+        public double score { get; set; }
+        public double firstPlaces { get; set; }
+    }
+    
+    public class OverallRankInfoConverter : JsonConverter<OverallRankInfo> {
+        public override OverallRankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            var overallInfo = new OverallRankInfo();
+            while (reader.Read()) {
+                if (reader.TokenType == JsonTokenType.EndObject) {
+                    return overallInfo;
+                }
+
+                if (reader.TokenType == JsonTokenType.PropertyName) {
+                    string propertyName = reader.GetString();
+                    reader.Read();
+                    switch (propertyName) {
+                        case "onlineServiceType":
+                            overallInfo.onlineServiceType = reader.GetString();
+                            break;
+                        case "onlineServiceNickname":
+                            overallInfo.onlineServiceNickname = reader.GetString();
+                            break;
+                        case "isAnonymous":
+                            overallInfo.isAnonymous = reader.GetBoolean();
+                            break;
+                        case "country":
+                            overallInfo.country = reader.GetString();
+                            break;
+                        case "id":
+                            overallInfo.id = reader.GetString();
+                            break;
+                        case "score":
+                            overallInfo.score = reader.GetDouble();
+                            break;
+                        case "firstPlaces":
+                            overallInfo.firstPlaces = reader.GetDouble();
+                            break;
+                    }
+                }
+            }
+
+            throw new JsonException();
+        }
+
+        public override void Write(Utf8JsonWriter writer, OverallRankInfo value, JsonSerializerOptions options) {
+            throw new NotImplementedException();
+        }
+    }
+    
+    public class LevelRank {
+        public bool found { get; set; }
+        public int total { get; set; }
+        public List<LevelRankInfo> recordholders { get; set; }
+    }
+    
+    public class LevelRankInfo {
         public int rank { get; set; }
         // public string round { get; set; }
         public double record { get; set; }
@@ -23,9 +85,9 @@ namespace FallGuysStats {
         public string onlineServiceNickname { get; set; }
     }
 
-    public class RecordHolderConverter : JsonConverter<RankInfo> {
-        public override RankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            var recordHolder = new RankInfo();
+    public class LevelRankInfoConverter : JsonConverter<LevelRankInfo> {
+        public override LevelRankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            var recordHolder = new LevelRankInfo();
             while (reader.Read()) {
                 if (reader.TokenType == JsonTokenType.EndObject) {
                     return recordHolder;
@@ -55,9 +117,8 @@ namespace FallGuysStats {
                             break;
                         case "user":
                             if (reader.TokenType == JsonTokenType.String) {
-                                // recordHolder.onlineServiceType = Multilingual.GetWord("leaderboard_grid_anonymous");
                                 recordHolder.onlineServiceId = reader.GetString();
-                                recordHolder.onlineServiceNickname = $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}";
+                                // recordHolder.onlineServiceNickname = $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}";
                             } else if (reader.TokenType == JsonTokenType.StartObject) {
                                 while (reader.Read()) {
                                     if (reader.TokenType == JsonTokenType.EndObject) {
@@ -89,7 +150,7 @@ namespace FallGuysStats {
             throw new JsonException();
         }
 
-        public override void Write(Utf8JsonWriter writer, RankInfo value, JsonSerializerOptions options) {
+        public override void Write(Utf8JsonWriter writer, LevelRankInfo value, JsonSerializerOptions options) {
             throw new NotImplementedException();
         }
     }
