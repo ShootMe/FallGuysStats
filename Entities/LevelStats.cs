@@ -5,7 +5,7 @@ using LiteDB;
 namespace FallGuysStats {
     public class RoundInfo : IComparable<RoundInfo> {
         public ObjectId ID { get; set; }
-        public int OnlineServiceType { get; set; }
+        public int? OnlineServiceType { get; set; }
         public string OnlineServiceId { get; set; }
         public string OnlineServiceNickname { get; set; }
         public int Profile { get; set; }

@@ -3571,7 +3571,7 @@ namespace FallGuysStats {
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
-            int currentOnlineServiceType = stat.OnlineServiceType;
+            int currentOnlineServiceType = stat.OnlineServiceType.Value;
             string currentOnlineServiceId = stat.OnlineServiceId;
             string currentOnlineServiceNickname = stat.OnlineServiceNickname;
 

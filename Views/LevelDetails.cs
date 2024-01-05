@@ -375,6 +375,9 @@ namespace FallGuysStats {
             this.gridDetails.Columns["CreativePlayCount"].Visible = false;
             this.gridDetails.Columns["CreativeQualificationPercent"].Visible = false;
             this.gridDetails.Columns["CreativeTimeLimitSeconds"].Visible = false;
+            this.gridDetails.Columns["OnlineServiceType"].Visible = false;
+            this.gridDetails.Columns["OnlineServiceId"].Visible = false;
+            this.gridDetails.Columns["OnlineServiceNickname"].Visible = false;
             if (this._showStats == 0) {
                 this.gridDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom });
                 this.gridDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon", ""), "", DataGridViewContentAlignment.MiddleCenter);
