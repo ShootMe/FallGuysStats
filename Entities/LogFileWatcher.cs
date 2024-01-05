@@ -148,6 +148,7 @@ namespace FallGuysStats {
                                         Stats.OnlineServiceId = userInfo[0];
                                         Stats.OnlineServiceNickname = userInfo[1];
                                         this.StatsForm.SetSecretKey();
+                                        this.StatsForm.SetLeaderboardTitle();
                                     }
 
                                     if (logLine.IsValid) {
@@ -676,7 +677,11 @@ namespace FallGuysStats {
                         this.gameStateWatcher.Start();
                     }
                 }
-                logRound.Info = new RoundInfo { ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode };
+                
+                logRound.Info = new RoundInfo {
+                    ShowNameId = this.selectedShowId, SessionId = this.sessionId, UseShareCode = this.useShareCode,
+                    OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
+                };
                 
                 if (logRound.Info.UseShareCode) {
                     logRound.Info.SceneName = "FallGuy_UseShareCode";

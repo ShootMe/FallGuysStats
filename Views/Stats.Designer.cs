@@ -192,13 +192,13 @@
             this.mlLeaderboard.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mlLeaderboard.Enabled = false;
             this.mlLeaderboard.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.mlLeaderboard.FontWeight = MetroFramework.MetroLinkWeight.Regular;
+            this.mlLeaderboard.FontWeight = MetroFramework.MetroLinkWeight.Bold;
             this.mlLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;
             this.mlLeaderboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.mlLeaderboard.ImageSize = 17;
+            this.mlLeaderboard.ImageSize = 16;
             this.mlLeaderboard.Location = new System.Drawing.Point(826, 174);
             this.mlLeaderboard.Name = "mlLeaderboard";
-            this.mlLeaderboard.Size = new System.Drawing.Size(100, 20);
+            this.mlLeaderboard.Size = new System.Drawing.Size(100, 16);
             this.mlLeaderboard.TabIndex = 7;
             this.mlLeaderboard.Text = "Leaderboard";
             this.mlLeaderboard.TextAlign = System.Drawing.ContentAlignment.BottomRight;

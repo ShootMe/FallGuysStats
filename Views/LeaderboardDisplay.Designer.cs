@@ -65,8 +65,6 @@
             // 
             // mtpOverallRankPage
             // 
-            // this.mtpOverallRankPage.Controls.Add(this.mpsSpinner);
-            // this.mtpOverallRankPage.Controls.Add(this.lblSearchDescription);
             this.mtpOverallRankPage.Controls.Add(this.gridOverallRank);
             this.mtpOverallRankPage.Controls.Add(this.mpsSpinner01);
             this.mtpOverallRankPage.HorizontalScrollbarBarColor = true;
@@ -139,12 +137,12 @@
             this.mpsSpinner01.MinimumSize = new System.Drawing.Size(28, 28);
             this.mpsSpinner01.Name = "mpsSpinner01";
             this.mpsSpinner01.Size = new System.Drawing.Size(28, 28);
-            this.mpsSpinner01.Speed = 1.5F;
+            this.mpsSpinner01.Speed = 2F;
             this.mpsSpinner01.Style = MetroFramework.MetroColorStyle.Teal;
             this.mpsSpinner01.TabIndex = 4;
             this.mpsSpinner01.UseCustomBackColor = true;
             this.mpsSpinner01.UseSelectable = true;
-            this.mpsSpinner01.Value = 80;
+            this.mpsSpinner01.Value = 30;
             this.mpsSpinner01.Visible = false;
             // 
             // mpsSpinner02
@@ -157,12 +155,12 @@
             this.mpsSpinner02.MinimumSize = new System.Drawing.Size(28, 28);
             this.mpsSpinner02.Name = "mpsSpinner02";
             this.mpsSpinner02.Size = new System.Drawing.Size(28, 28);
-            this.mpsSpinner02.Speed = 1.5F;
+            this.mpsSpinner02.Speed = 2F;
             this.mpsSpinner02.Style = MetroFramework.MetroColorStyle.Teal;
             this.mpsSpinner02.TabIndex = 4;
             this.mpsSpinner02.UseCustomBackColor = true;
             this.mpsSpinner02.UseSelectable = true;
-            this.mpsSpinner02.Value = 80;
+            this.mpsSpinner02.Value = 30;
             this.mpsSpinner02.Visible = false;
             // 
             // lblSearchDescription

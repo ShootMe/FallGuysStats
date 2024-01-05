@@ -30,6 +30,7 @@
             this.lblEditShowslabel = new MetroFramework.Controls.MetroLabel();
             this.cboEditShows = new MetroFramework.Controls.MetroComboBox();
             this.lblEditShowsBackColor = new System.Windows.Forms.Label();
+            this.mlOnlineServiceInfo = new MetroFramework.Controls.MetroLink();
             this.chkUseLinkedProfiles = new MetroFramework.Controls.MetroCheckBox();
             this.btnEditShowsSave = new MetroFramework.Controls.MetroButton();
             this.btnEditShowsCancel = new MetroFramework.Controls.MetroButton();
@@ -77,6 +78,26 @@
             this.cboEditShows.TabIndex = 0;
             this.cboEditShows.UseSelectable = true;
             this.cboEditShows.SelectedIndexChanged += new System.EventHandler(this.cboEditShows_Changed);
+            // 
+            // mlOnlineServiceInfo
+            // 
+            this.mlOnlineServiceInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
+            this.mlOnlineServiceInfo.AutoSize = true;
+            this.mlOnlineServiceInfo.Enabled = false;
+            this.mlOnlineServiceInfo.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlOnlineServiceInfo.FontWeight = MetroFramework.MetroLinkWeight.Bold;
+            this.mlOnlineServiceInfo.Image = global::FallGuysStats.Properties.Resources.epic_main_icon;
+            this.mlOnlineServiceInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlOnlineServiceInfo.ImageSize = 16;
+            this.mlOnlineServiceInfo.Location = new System.Drawing.Point(340, 27);
+            this.mlOnlineServiceInfo.Name = "mlOnlineServiceInfo";
+            this.mlOnlineServiceInfo.Size = new System.Drawing.Size(100, 21);
+            this.mlOnlineServiceInfo.TabIndex = 7;
+            this.mlOnlineServiceInfo.Text = "";
+            this.mlOnlineServiceInfo.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.mlOnlineServiceInfo.UseSelectable = true;
+            this.mlOnlineServiceInfo.UseStyleColors = true;
+            this.mlOnlineServiceInfo.Visible = false;
             // 
             // lblEditShowsBackColor
             // 
@@ -135,6 +156,7 @@
             this.Controls.Add(this.btnEditShowsSave);
             this.Controls.Add(this.btnEditShowsCancel);
             this.Controls.Add(this.chkUseLinkedProfiles);
+            this.Controls.Add(this.mlOnlineServiceInfo);
             this.Controls.Add(this.lblEditShowsBackColor);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -161,6 +183,7 @@
         private MetroFramework.Controls.MetroLabel lblEditShowslabel;
         private MetroFramework.Controls.MetroComboBox cboEditShows;
         private System.Windows.Forms.Label lblEditShowsBackColor;
+        private MetroFramework.Controls.MetroLink mlOnlineServiceInfo;
         private MetroFramework.Controls.MetroCheckBox chkUseLinkedProfiles;
         private MetroFramework.Controls.MetroButton btnEditShowsSave;
         private MetroFramework.Controls.MetroButton btnEditShowsCancel;

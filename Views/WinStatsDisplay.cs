@@ -202,12 +202,9 @@ namespace FallGuysStats {
                 (double mouseCoordX, double mouseCoordY) = this.formsPlot.GetMouseCoordinates();
                 double xyRatio = this.formsPlot.Plot.XAxis.Dims.PxPerUnit / this.formsPlot.Plot.YAxis.Dims.PxPerUnit;
 
-                (double pointX1, double pointY1, int pointIndex1) =
-                    MyScatterPlot1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-                (double pointX2, double pointY2, int pointIndex2) =
-                    MyScatterPlot2.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
-                (double pointX3, double pointY3, int pointIndex3) =
-                    MyScatterPlot3.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX1, double pointY1, int pointIndex1) = MyScatterPlot1.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX2, double pointY2, int pointIndex2) = MyScatterPlot2.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
+                (double pointX3, double pointY3, int pointIndex3) = MyScatterPlot3.GetPointNearest(mouseCoordX, mouseCoordY, xyRatio);
 
                 int currentIndex = -1;
                 double ans = -1;
@@ -261,17 +258,16 @@ namespace FallGuysStats {
                 if (this.MyScatterPlot1.Ys[currentIndex] > 0 || this.MyScatterPlot2.Ys[currentIndex] > 0 ||
                     this.MyScatterPlot3.Ys[currentIndex] > 0) {
                     StringBuilder builder = new StringBuilder();
-                    builder.Append(
-                        $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
-                    builder.Append((this.MyScatterPlot1.IsVisible
+                    builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
+                    builder.Append(this.MyScatterPlot1.IsVisible
                         ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
-                        : ""));
-                    builder.Append((this.MyScatterPlot2.IsVisible
+                        : "");
+                    builder.Append(this.MyScatterPlot2.IsVisible
                         ? $" - {Multilingual.GetWord("level_detail_finals")} :  {this.MyScatterPlot2.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(this.MyScatterPlot2.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}{(this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
-                        : ""));
-                    builder.Append((this.MyScatterPlot3.IsVisible
+                        : "");
+                    builder.Append(this.MyScatterPlot3.IsVisible
                         ? $" - {Multilingual.GetWord("level_detail_wins")} :  {this.MyScatterPlot3.Ys[currentIndex]:N0}{Multilingual.GetWord(this.MyScatterPlot3.Ys[currentIndex] > 1 ? "level_wins_suffix" : "level_win_suffix")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(this.MyScatterPlot3.Ys[currentIndex] * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
-                        : ""));
+                        : "");
                     if (this.winsInfo.ContainsKey(this.MyScatterPlot1.Xs[currentIndex])) {
                         SortedList<string, int> infos = this.winsInfo[this.MyScatterPlot1.Xs[currentIndex]];
                         int winsCount = infos.Where(kv => kv.Key.EndsWith(";crown")).Sum(kv => kv.Value);
@@ -282,9 +278,9 @@ namespace FallGuysStats {
                         // KeyValuePair<string, int> longest = infos.OrderByDescending(kv => kv.Key.Length + kv.Value.ToString().Length).First();
                         // int longestLength = longest.Key.Length + longest.Value.ToString().Length;
 
-                        builder.Append((this.MyScatterPlot3.IsVisible
+                        builder.Append(this.MyScatterPlot3.IsVisible
                             ? $"{Environment.NewLine} - {Multilingual.GetWord("level_detail_losses")} :  {lossesCount:N0}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")}{(this.MyScatterPlot1.Ys[currentIndex] > 0 ? $" - {Math.Truncate(lossesCount * 100d / this.MyScatterPlot1.Ys[currentIndex] * 10) / 10}% " : "")}"
-                            : ""));
+                            : "");
                         
                         int longestLength = 0;
                         if (levelCount > 5) {
@@ -293,8 +289,7 @@ namespace FallGuysStats {
                             StringBuilder c = new StringBuilder();
                             foreach (KeyValuePair<string, int> kv in infos) {
                                 if (!string.IsNullOrEmpty(pl) && kv.Key.Split(';')[0].Equals(pl)) {
-                                    c.Append(
-                                        $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                    c.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
                                     continue;
                                 }
 
@@ -309,23 +304,20 @@ namespace FallGuysStats {
                                     c.Clear();
                                 }
 
-                                c.Append(
-                                    $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                c.Append($"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
                                 pl = kv.Key.Split(';')[0];
                                 i++;
                             }
                         }
 
-                        builder.Append(
-                            $"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫ - {Math.Truncate(winsCount * 100d / (winsCount + lossesCount) * 10) / 10}%{Environment.NewLine}");
+                        builder.Append($"{Environment.NewLine}{Environment.NewLine}⁘ {Multilingual.GetWord("level_detail_finals_stats")} ⟪ {winsCount}{Multilingual.GetWord(winsCount > 1 ? "level_wins_suffix" : "level_win_suffix")} / {lossesCount}{Multilingual.GetWord(lossesCount > 1 ? "level_losses_suffix" : "level_loss_suffix")} ⟫ - {Math.Truncate(winsCount * 100d / (winsCount + lossesCount) * 10) / 10}%{Environment.NewLine}");
                         string prevLevel = string.Empty;
                         int prevLength = 0;
                         string temp = string.Empty;
                         int index = 0;
                         foreach (KeyValuePair<string, int> kv in infos) {
                             if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
-                                temp =
-                                    $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                                temp = $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
                                 builder.Append(temp);
                                 prevLength += temp.Length;
                                 continue;
@@ -340,24 +332,19 @@ namespace FallGuysStats {
                             if (index > 0) {
                                 if (levelCount > 5) {
                                     if (index % 2 == 0) {
-                                        builder.Append(Environment.NewLine);
-                                        builder.Append("   •  ");
+                                        builder.Append($"{Environment.NewLine}    •  ");
                                     } else {
-                                        temp = "       •  ";
-                                        int d = longestLength - prevLength;
-                                        if (d > 0) temp = temp.PadLeft((int)(temp.Length + d * (1f + d * (1f / d))));
+                                        temp = $"{new string('\t', (int)Math.Ceiling(-1f * (prevLength / (float)longestLength) + 1.75f))}\t    •  ";
                                         builder.Append(temp);
                                     }
                                 } else {
-                                    builder.Append($"{Environment.NewLine}");
-                                    builder.Append("   •  ");
+                                    builder.Append($"{Environment.NewLine}    •  ");
                                 }
                             } else {
-                                builder.Append("   •  ");
+                                builder.Append("    •  ");
                             }
 
-                            temp =
-                                $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                            temp = $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
                             prevLength = temp.Length;
                             builder.Append(temp);
                             prevLevel = kv.Key.Split(';')[0];
@@ -367,8 +354,7 @@ namespace FallGuysStats {
                         // builder.Append(" ⟩");
                     }
 
-                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X,
-                        y: this.HighlightedPoint.Y);
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: builder.ToString(), x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
 
                     if (this.switchGraphStyle == 1) {
                         // LollipopPlot
@@ -381,9 +367,7 @@ namespace FallGuysStats {
                         this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                     }
                 } else {
-                    this.tooltip = this.formsPlot.Plot.AddTooltip(
-                        label:
-                        $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}",
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}",
                         x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
 
                     if (this.switchGraphStyle == 1) {
@@ -400,8 +384,7 @@ namespace FallGuysStats {
 
                 this.tooltip.BorderWidth = 1.7f;
                 // this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Snow);
-                this.tooltip.BorderColor =
-                    Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
+                this.tooltip.BorderColor = Color.FromArgb(239, this.Theme == MetroThemeStyle.Light ? Color.Black : Color.Crimson);
                 this.tooltip.FillColor = Color.FromArgb(239, 49, 51, 56);
                 this.tooltip.Font.Color = Color.White;
                 this.tooltip.Font.Family = Overlay.GetMainFontFamilies(Stats.CurrentLanguage);

@@ -46,13 +46,21 @@ namespace FallGuysStats {
 
         private void EditShows_Shown(object sender, EventArgs e) {
             this.Opacity = 1;
+            if (this.FunctionFlag == "add") {
+                if (Stats.OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(Stats.OnlineServiceId) && !string.IsNullOrEmpty(Stats.OnlineServiceNickname)) {
+                    this.mlOnlineServiceInfo.Visible = true;
+                    this.mlOnlineServiceInfo.Image = Stats.OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+                    this.mlOnlineServiceInfo.Text = Stats.OnlineServiceNickname;
+                    this.mlOnlineServiceInfo.Location = new Point(this.Width - this.mlOnlineServiceInfo.Width - 6, this.mlOnlineServiceInfo.Location.Y);
+                }
+            }
         }
 
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
             foreach (Control c1 in Controls) {
-                if (c1 is MetroLabel ml1) {
-                    ml1.Theme = theme;
+                if (c1 is MetroLabel mlb1) {
+                    mlb1.Theme = theme;
                 } else if (c1 is MetroTextBox mtb1) {
                     mtb1.Theme = theme;
                 } else if (c1 is MetroButton mb1) {
@@ -63,14 +71,16 @@ namespace FallGuysStats {
                     mrb1.Theme = theme;
                 } else if (c1 is MetroComboBox mcbo1) {
                     mcbo1.Theme = theme;
+                } else if (c1 is MetroLink ml1) {
+                    ml1.Theme = theme;
                 } else if (c1 is MetroTabControl mtc1) {
                     mtc1.Theme = theme;
                     foreach (Control c2 in mtc1.Controls) {
                         if (c2 is MetroTabPage mtp2) {
                             mtp2.Theme = theme;
                             foreach (Control c3 in mtp2.Controls) {
-                                if (c3 is MetroLabel ml3) {
-                                    ml3.Theme = theme;
+                                if (c3 is MetroLabel mlb3) {
+                                    mlb3.Theme = theme;
                                 } else if (c3 is MetroTextBox mtb3) {
                                     mtb3.Theme = theme;
                                 } else if (c3 is MetroButton mb3) {
@@ -88,8 +98,8 @@ namespace FallGuysStats {
                 } else if (c1 is GroupBox gb1) {
                     gb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     foreach (Control c2 in gb1.Controls) {
-                        if (c2 is MetroLabel ml2) {
-                            ml2.Theme = theme;
+                        if (c2 is MetroLabel mlb2) {
+                            mlb2.Theme = theme;
                         } else if (c2 is MetroTextBox mtb2) {
                             mtb2.Theme = theme;
                         } else if (c2 is MetroButton mb2) {

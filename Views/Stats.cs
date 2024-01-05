@@ -227,6 +227,7 @@ namespace FallGuysStats {
             "event_only_slime_climb",
             "event_only_jump_club_template",
             "event_only_hoverboard_template",
+            "event_only_drumtop_template",
             "event_walnut_template",
             "survival_of_the_fittest",
             "show_robotrampage_ss2_show1_template",
@@ -3570,6 +3571,9 @@ namespace FallGuysStats {
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess = false;
+            int currentOnlineServiceType = stat.OnlineServiceType;
+            string currentOnlineServiceId = stat.OnlineServiceId;
+            string currentOnlineServiceNickname = stat.OnlineServiceNickname;
 
             bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId));
             if (!existsPbLog) {
@@ -3611,8 +3615,11 @@ namespace FallGuysStats {
                     FallalyticsPbLog pbLog = this.FallalyticsPbLogCache[logIndex];
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     
-                    RoundInfo missingInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
-                    if (missingInfo != null && !string.Equals(missingInfo.SessionId, pbLog.SessionId) && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
+                    RoundInfo missingInfo = this.AllStats.FindAll(r =>
+                            r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) &&
+                            r.OnlineServiceType == currentOnlineServiceType && string.Equals(r.OnlineServiceId, currentOnlineServiceId) && string.Equals(r.OnlineServiceNickname, currentOnlineServiceNickname))
+                        .OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                    if (missingInfo != null && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
                         currentSessionId = missingInfo.SessionId;
                         currentShowNameId = missingInfo.ShowNameId;
                         currentRoundId = missingInfo.Name;
@@ -6261,6 +6268,16 @@ namespace FallGuysStats {
                                             ? Properties.Resources.epic_main_icon
                                             : Properties.Resources.steam_main_icon;
         }
+
+        public void SetLeaderboardTitle() {
+            if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+                this.mlLeaderboard.Text = OnlineServiceNickname;
+            } else {
+                this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+            }
+            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+        }
         
         private void ChangeLanguage() {
             this.SuspendLayout();
@@ -6276,8 +6293,7 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
-            this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
-            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+            this.SetLeaderboardTitle();
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

@@ -912,16 +912,15 @@ namespace FallGuysStats {
                 strBuilder.Append(info.CreativeDescription);
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                string[] createAuthorArr = info.CreativeAuthor.Split(';');
-                string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
-                string indent = Stats.CurrentLanguage == Language.English ? "            " :
-                                Stats.CurrentLanguage == Language.French ? "                " :
-                                Stats.CurrentLanguage == Language.Korean ? "            " :
-                                Stats.CurrentLanguage == Language.Japanese ? "            " :
-                                Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese ? "         " : "            ";
-                for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
-                    strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
-                                             : $"{Environment.NewLine}{indent}{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
+                if (string.IsNullOrEmpty(info.CreativeAuthor) || string.IsNullOrEmpty(info.CreativeOnlinePlatformId)) {
+                    strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_author")} : N/A");
+                } else {
+                    string[] createAuthorArr = info.CreativeAuthor.Split(';');
+                    string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
+                    for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
+                        strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
+                            : $"{Environment.NewLine}\t{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
+                    }
                 }
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
