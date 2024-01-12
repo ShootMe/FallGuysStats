@@ -25,7 +25,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
-            this.lblLogPath = new MetroFramework.Controls.MetroLabel();
+            // this.lblLogPath = new MetroFramework.Controls.MetroLabel();
             this.lblLogPathNote = new MetroFramework.Controls.MetroLabel();
             this.txtLogPath = new MetroFramework.Controls.MetroTextBox();
             this.btnSave = new MetroFramework.Controls.MetroButton();
@@ -136,7 +136,7 @@
             this.panelFallalytics = new MetroFramework.Controls.MetroPanel();
             this.linkFallalytics = new MetroFramework.Controls.MetroLink();
             this.lblFallalyticsDesc = new MetroFramework.Controls.MetroLabel();
-            this.lblFallalyticsAPIKey = new MetroFramework.Controls.MetroLabel();
+            // this.lblFallalyticsAPIKey = new MetroFramework.Controls.MetroLabel();
             this.txtFallalyticsAPIKey = new MetroFramework.Controls.MetroTextBox();
             this.chkFallalyticsAnonymous = new MetroFramework.Controls.MetroCheckBox();
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
@@ -161,14 +161,14 @@
             // 
             // lblLogPath
             // 
-            this.lblLogPath.AutoSize = true;
-            this.lblLogPath.FontSize = MetroFramework.MetroLabelSize.Medium;
-            this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblLogPath.Location = new System.Drawing.Point(15, 12);
-            this.lblLogPath.Name = "lblLogPath";
-            this.lblLogPath.Size = new System.Drawing.Size(88, 19);
-            this.lblLogPath.TabIndex = 0;
-            this.lblLogPath.Text = "Log File Path";
+            // this.lblLogPath.AutoSize = true;
+            // this.lblLogPath.FontSize = MetroFramework.MetroLabelSize.Medium;
+            // this.lblLogPath.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            // this.lblLogPath.Location = new System.Drawing.Point(15, 12);
+            // this.lblLogPath.Name = "lblLogPath";
+            // this.lblLogPath.Size = new System.Drawing.Size(88, 19);
+            // this.lblLogPath.TabIndex = 0;
+            // this.lblLogPath.Text = "Log File Path";
             // 
             // lblLogPathNote
             // 
@@ -186,7 +186,7 @@
             // 
             this.txtLogPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLogPath.CustomButton.Image = null;
-            this.txtLogPath.CustomButton.Location = new System.Drawing.Point(520, 2);
+            this.txtLogPath.CustomButton.Location = new System.Drawing.Point(15, 2);
             this.txtLogPath.CustomButton.Name = "";
             this.txtLogPath.CustomButton.Size = new System.Drawing.Size(17, 17);
             this.txtLogPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -196,7 +196,7 @@
             this.txtLogPath.CustomButton.Visible = false;
             this.txtLogPath.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtLogPath.Lines = new string[0];
-            this.txtLogPath.Location = new System.Drawing.Point(98, 12);
+            this.txtLogPath.Location = new System.Drawing.Point(15, 12);
             this.txtLogPath.MaxLength = 32767;
             this.txtLogPath.Name = "txtLogPath";
             this.txtLogPath.PasswordChar = '\0';
@@ -205,11 +205,12 @@
             this.txtLogPath.SelectionLength = 0;
             this.txtLogPath.SelectionStart = 0;
             this.txtLogPath.ShortcutsEnabled = true;
-            this.txtLogPath.Size = new System.Drawing.Size(540, 25);
+            this.txtLogPath.Size = new System.Drawing.Size(623, 25);
             this.txtLogPath.TabIndex = 1;
             this.txtLogPath.UseSelectable = true;
+            this.txtLogPath.WaterMark = "📁 Log File Path";
             this.txtLogPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtLogPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtLogPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txtLogPath.Validating += new System.ComponentModel.CancelEventHandler(this.txtLogPath_Validating);
             // 
             // btnSave
@@ -1439,7 +1440,7 @@
             this.panelProgram.Controls.Add(this.cboNotificationWindowAnimation);
             this.panelProgram.Controls.Add(this.mlPlayNotificationSounds);
             this.panelProgram.Controls.Add(this.chkPreventOverlayMouseClicks);
-            this.panelProgram.Controls.Add(this.lblLogPath);
+            // this.panelProgram.Controls.Add(this.lblLogPath);
             this.panelProgram.Controls.Add(this.txtLogPath);
             this.panelProgram.Controls.Add(this.lblLogPathNote);
             this.panelProgram.HorizontalScrollbarBarColor = true;
@@ -1789,7 +1790,7 @@
             // 
             this.panelFallalytics.Controls.Add(this.linkFallalytics);
             this.panelFallalytics.Controls.Add(this.lblFallalyticsDesc);
-            this.panelFallalytics.Controls.Add(this.lblFallalyticsAPIKey);
+            // this.panelFallalytics.Controls.Add(this.lblFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.txtFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsAnonymous);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsReporting);
@@ -1835,20 +1836,20 @@
             // 
             // lblFallalyticsAPIKey
             // 
-            this.lblFallalyticsAPIKey.AutoSize = true;
-            this.lblFallalyticsAPIKey.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 80);
-            this.lblFallalyticsAPIKey.Name = "lblFallalyticsAPIKey";
-            this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(217, 19);
-            this.lblFallalyticsAPIKey.TabIndex = 5;
-            this.lblFallalyticsAPIKey.Text = "(Optional) Enter Fallalytics API key";
+            // this.lblFallalyticsAPIKey.AutoSize = true;
+            // this.lblFallalyticsAPIKey.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            // this.lblFallalyticsAPIKey.Location = new System.Drawing.Point(11, 80);
+            // this.lblFallalyticsAPIKey.Name = "lblFallalyticsAPIKey";
+            // this.lblFallalyticsAPIKey.Size = new System.Drawing.Size(217, 19);
+            // this.lblFallalyticsAPIKey.TabIndex = 5;
+            // this.lblFallalyticsAPIKey.Text = "(Optional) Enter Fallalytics API key";
             // 
             // txtFallalyticsAPIKey
             // 
             this.txtFallalyticsAPIKey.CustomButton.Image = null;
             this.txtFallalyticsAPIKey.CustomButton.Location = new System.Drawing.Point(281, 1);
             this.txtFallalyticsAPIKey.CustomButton.Name = "";
-            this.txtFallalyticsAPIKey.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtFallalyticsAPIKey.CustomButton.Size = new System.Drawing.Size(21, 20);
             this.txtFallalyticsAPIKey.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtFallalyticsAPIKey.CustomButton.TabIndex = 1;
             this.txtFallalyticsAPIKey.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1869,8 +1870,9 @@
             this.txtFallalyticsAPIKey.TabIndex = 4;
             this.txtFallalyticsAPIKey.Text = "4d328236-b3c2-4449-a158-d07128671920";
             this.txtFallalyticsAPIKey.UseSelectable = true;
+            this.txtFallalyticsAPIKey.WaterMark = "(Optional) Enter Fallalytics API key";
             this.txtFallalyticsAPIKey.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtFallalyticsAPIKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtFallalyticsAPIKey.WaterMarkFont = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             // 
             // chkFallalyticsAnonymous
             // 
@@ -1986,7 +1988,7 @@
 
         #endregion
         
-        private MetroFramework.Controls.MetroLabel lblLogPath;
+        // private MetroFramework.Controls.MetroLabel lblLogPath;
         private MetroFramework.Controls.MetroLabel lblLogPathNote;
         private MetroFramework.Controls.MetroTextBox txtLogPath;
         private MetroFramework.Controls.MetroButton btnSave;
@@ -2096,7 +2098,7 @@
         private MetroFramework.Controls.MetroLabel lblupdateNote;
         private MetroFramework.Controls.MetroPanel panelFallalytics;
         private MetroFramework.Controls.MetroLabel lblFallalyticsDesc;
-        private MetroFramework.Controls.MetroLabel lblFallalyticsAPIKey;
+        // private MetroFramework.Controls.MetroLabel lblFallalyticsAPIKey;
         private MetroFramework.Controls.MetroLink linkFallalytics;
         private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsAnonymous;

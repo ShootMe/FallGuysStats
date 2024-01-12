@@ -72,7 +72,7 @@
             this.cboEditShows.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cboEditShows.FormattingEnabled = true;
             this.cboEditShows.ItemHeight = 23;
-            this.cboEditShows.Location = new System.Drawing.Point(185, 135);
+            this.cboEditShows.Location = new System.Drawing.Point(185, 132);
             this.cboEditShows.Name = "cboEditShows";
             this.cboEditShows.Size = new System.Drawing.Size(198, 29);
             this.cboEditShows.TabIndex = 0;
@@ -89,7 +89,7 @@
             this.mlOnlineServiceInfo.Image = global::FallGuysStats.Properties.Resources.epic_main_icon;
             this.mlOnlineServiceInfo.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.mlOnlineServiceInfo.ImageSize = 16;
-            this.mlOnlineServiceInfo.Location = new System.Drawing.Point(340, 27);
+            this.mlOnlineServiceInfo.Location = new System.Drawing.Point(340, 174);
             this.mlOnlineServiceInfo.Name = "mlOnlineServiceInfo";
             this.mlOnlineServiceInfo.Size = new System.Drawing.Size(100, 21);
             this.mlOnlineServiceInfo.TabIndex = 7;
@@ -102,9 +102,9 @@
             // lblEditShowsBackColor
             // 
             this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
-            this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 191);
+            this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 200);
             this.lblEditShowsBackColor.Name = "lblEditShowsBackColor";
-            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 63);
+            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 54);
             this.lblEditShowsBackColor.TabIndex = 3;
             // 
             // chkUseLinkedProfiles
@@ -126,7 +126,7 @@
             // btnEditShowsSave
             // 
             this.btnEditShowsSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 210);
+            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 215);
             this.btnEditShowsSave.Name = "btnEditShowsSave";
             this.btnEditShowsSave.Size = new System.Drawing.Size(87, 25);
             this.btnEditShowsSave.TabIndex = 1;
@@ -137,7 +137,7 @@
             // btnEditShowsCancel
             // 
             this.btnEditShowsCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 210);
+            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 215);
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
             this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 25);
             this.btnEditShowsCancel.TabIndex = 2;

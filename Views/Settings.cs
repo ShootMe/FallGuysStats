@@ -852,7 +852,7 @@ namespace FallGuysStats {
                 ? Multilingual.GetWord("settings_theme_light")
                 : Multilingual.GetWord("settings_theme_dark");
 
-            this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
+            // this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
             this.btnSave.Text = Multilingual.GetWord("settings_save");
             this.rdoOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
@@ -1010,8 +1010,9 @@ namespace FallGuysStats {
             this.chkRecordEscapeDuringAGame.Text = Multilingual.GetWord("settings_record_escape_during_a_game");
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
 
-            this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
-            this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 25);
+            this.txtLogPath.WaterMark = Multilingual.GetWord("settings_log_path");
+            // this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
+            // this.txtLogPath.Size = new Size(630 - this.lblLogPath.Width - 4, 25);
             this.txtPreviousWins.Location = new Point(this.lblPreviousWins.Location.X + this.lblPreviousWins.Width + 4, 10);
             this.lblPreviousWinsNote.Location = new Point(this.txtPreviousWins.Location.X + this.txtPreviousWins.Width + 4, 12);
             this.cboTheme.Location = new Point(this.lblTheme.Location.X + this.lblTheme.Width + 4, this.cboTheme.Location.Y);
@@ -1031,7 +1032,8 @@ namespace FallGuysStats {
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
             this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
-            this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
+            // this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
+            this.txtFallalyticsAPIKey.WaterMark = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
             this.linkFallalytics.Text = Multilingual.GetWord("settings_visit_fallalytics");
             

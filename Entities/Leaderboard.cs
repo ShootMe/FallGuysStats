@@ -216,4 +216,48 @@ namespace FallGuysStats {
             throw new NotImplementedException();
         }
     }
+    
+    public class SearchResult {
+        public bool found { get; set; }
+        public List<SearchPlayer> users { get; set; }
+    }
+    
+    public class SearchPlayer {
+        public string onlineServiceType { get; set; }
+        public string onlineServiceId { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+        public string id { get; set; }
+    }
+    
+    public class PlayerDetails {
+        public bool found { get; set; }
+        public List<Grades> pbs { get; set; }
+        public OverallInfo speedrunrank { get; set; }
+    }
+    
+    public class Grades {
+        public string round { get; set; }
+        public double record { get; set; }
+        public string show { get; set; }
+        public string session { get; set; }
+        public string ip { get; set; }
+        public DateTime finish { get; set; }
+        public string user { get; set; }
+        public int index { get; set; }
+        public int roundTotal { get; set; }
+    }
+    
+    public class OverallInfo {
+        public string onlineServiceType { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+        public string id { get; set; }
+        public double score { get; set; }
+        public int firstPlaces { get; set; }
+        public int index { get; set; }
+        public int total { get; set; }
+    }
 }
