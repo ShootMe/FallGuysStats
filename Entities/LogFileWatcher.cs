@@ -306,8 +306,16 @@ namespace FallGuysStats {
                     return newName;
                 }
                 return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
-            } else if ("wle_shuffle_discover".Equals(showId) || "wle_mrs_shuffle_show_squads".Equals(showId)) { // Unexplored Adventures & Squads Scramble
-                roundId = roundId.Replace("_squads", "");
+            } else if ("wle_shuffle_discover".Equals(showId)) { // Unexplored Adventures
+                if (this.StatsForm.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+            } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
+                if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
+                    roundId = roundId.Replace("_squads_", "_discover_");
+                } else {
+                    roundId = roundId.Replace("_squads", "");
+                }
                 if (this.StatsForm.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }

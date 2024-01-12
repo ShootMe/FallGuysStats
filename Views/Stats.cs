@@ -2437,6 +2437,28 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 75;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 75) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Name.StartsWith("wle_shuffle_squads_fp")) {
+                        ri.Name = ri.Name.Replace("_squads_", "_discover_");
+                    } else if (ri.Name.StartsWith("wle_shuffle_fp")) {
+                        ri.Name = ri.Name.Replace("wle_shuffle_fp", "wle_shuffle_discover_fp");
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 76;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
