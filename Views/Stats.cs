@@ -3592,10 +3592,7 @@ namespace FallGuysStats {
             string currentRoundId = stat.Name;
             TimeSpan currentRecord = stat.Finish.Value - stat.Start;
             DateTime currentFinish = stat.Finish.Value;
-            bool isTransferSuccess = false;
-            int currentOnlineServiceType = stat.OnlineServiceType.Value;
-            string currentOnlineServiceId = stat.OnlineServiceId;
-            string currentOnlineServiceNickname = stat.OnlineServiceNickname;
+            bool isTransferSuccess;
 
             bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId));
             if (!existsPbLog) {
@@ -3609,14 +3606,7 @@ namespace FallGuysStats {
                     currentFinish = recordInfo.Finish.Value;
                 }
 
-                try {
-                    if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                        await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                        isTransferSuccess = true;
-                    }
-                } catch {
-                    isTransferSuccess = false;
-                }
+                isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                 
                 lock (this.StatsDB) {
                     this.StatsDB.BeginTrans();
@@ -3639,7 +3629,7 @@ namespace FallGuysStats {
                     
                     RoundInfo missingInfo = this.AllStats.FindAll(r =>
                             r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) &&
-                            r.OnlineServiceType == currentOnlineServiceType && string.Equals(r.OnlineServiceId, currentOnlineServiceId) && string.Equals(r.OnlineServiceNickname, currentOnlineServiceNickname))
+                            string.Equals(r.OnlineServiceId, OnlineServiceId) && string.Equals(r.OnlineServiceNickname, OnlineServiceNickname))
                         .OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
                     if (missingInfo != null && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
                         currentSessionId = missingInfo.SessionId;
@@ -3651,14 +3641,7 @@ namespace FallGuysStats {
                     
                     if (pbLog.IsTransferSuccess) {
                         if (currentRecord < existingRecord) {
-                            try {
-                                if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                    await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                    isTransferSuccess = true;
-                                }
-                            } catch {
-                                isTransferSuccess = false;
-                            }
+                            isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                             
                             lock (this.StatsDB) {
                                 this.StatsDB.BeginTrans();
@@ -3676,14 +3659,7 @@ namespace FallGuysStats {
                         currentShowNameId = currentRecord < existingRecord ? currentShowNameId : pbLog.ShowId;
                         currentRecord = currentRecord < existingRecord ? currentRecord : existingRecord;
                         currentFinish = currentRecord < existingRecord ? currentFinish : pbLog.PbDate;
-                        try {
-                            if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                                await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                                isTransferSuccess = true;
-                            }
-                        } catch {
-                            isTransferSuccess = false;
-                        }
+                        isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                         
                         lock (this.StatsDB) {
                             this.StatsDB.BeginTrans();
@@ -3697,14 +3673,7 @@ namespace FallGuysStats {
                         }
                     }
                 } else {
-                    try {
-                        if (Utils.IsEndpointValid(FallalyticsReporter.RegisterPbAPIEndpoint)) {
-                            await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
-                            isTransferSuccess = true;
-                        }
-                    } catch {
-                        isTransferSuccess = false;
-                    }
+                    isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                     
                     lock (this.StatsDB) {
                         this.StatsDB.BeginTrans();

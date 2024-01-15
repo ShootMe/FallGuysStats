@@ -11,15 +11,30 @@ namespace FallGuysStats {
         public static readonly string RegisterPbAPIEndpoint = "https://fallalytics.com/api/best-time";
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public async Task RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
+        public async Task<bool> RegisterPb(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, RegisterPbAPIEndpoint);
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
             request.Content = new StringContent(this.RoundInfoToRegisterPbJsonString(stat, record, finish, isAnonymous), Encoding.UTF8, "application/json");
+
             try {
-                await HttpClient.SendAsync(request);
+                HttpResponseMessage response = await HttpClient.SendAsync(request);
+                if (response.IsSuccessStatusCode) {
+                    // string responseContent = await response.Content.ReadAsStringAsync();
+                    // if ("ok".Equals(responseContent, StringComparison.OrdinalIgnoreCase)) {
+                    //     Console.WriteLine("Response is exactly 'OK'");
+                    // } else {
+                    //     Console.WriteLine("Response is not 'OK': " + responseContent);
+                    // }
+                    // Console.WriteLine("Success! Response data: " + responseContent);
+                    return true;
+                } else {
+                    // Console.WriteLine($"Received HTTP {(int)response.StatusCode}: {response.ReasonPhrase}");
+                    return false;
+                }
             } catch (HttpRequestException e) {
-                Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e.Message}");
+                // Console.WriteLine($@"Error in FallalyticsReporter. Should not be a problem as it only affects the reporting. Error: {e.Message}");
+                return false;
             }
         }
         
