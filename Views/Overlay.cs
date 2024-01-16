@@ -138,6 +138,10 @@ namespace FallGuysStats {
         }
 
         private void Overlay_Load(object sender, EventArgs e) {
+            this.lblPlayersPs.PlatformIcon = Utils.ImageOpacity(Properties.Resources.ps_icon, 0.6F);
+            this.lblPlayersXbox.PlatformIcon = Utils.ImageOpacity(Properties.Resources.xbox_icon, 0.6F);
+            this.lblPlayersSwitch.PlatformIcon = Utils.ImageOpacity(Properties.Resources.switch_icon, 0.6F);
+            this.lblPlayersPc.PlatformIcon = Utils.ImageOpacity(Properties.Resources.pc_icon, 0.6F);
             this.ChangeLanguage();
             this.SetBackground();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
@@ -833,7 +837,7 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
                 int showType = level == null ? 0
-                               : (("main_show".Equals(showId) || "invisibeans_mode".Equals(showId) || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
+                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || string.Equals(showId, "no_elimination_show") || level.IsCreative) || (!level.IsCreative && level.IsFinal)) && level.TimeLimitSeconds > 0 ? 1
                                : (("squads_2player_template".Equals(showId) || "squads_4player".Equals(showId)) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
                 int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
                 
@@ -1286,32 +1290,29 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayersPs.Location = new Point(thirdColumnX + 48, 13 + heightOffset);
+                        this.lblPlayersPs.Location = new Point(thirdColumnX + 48, 11 + heightOffset);
                         this.lblPlayersPs.Size = new Size(26, 16);
-                        this.lblPlayersPs.ImageX = -1;
-                        this.lblPlayersPs.ImageWidth = 15;
-                        this.lblPlayersPs.ImageHeight = 13;
+                        this.lblPlayersPs.ImageWidth = 20;
+                        this.lblPlayersPs.ImageHeight = 18;
                         this.lblPlayersPs.DrawVisible = true;
                     
-                        this.lblPlayersXbox.Location = new Point(thirdColumnX + 86, 13 + heightOffset);
+                        this.lblPlayersXbox.Location = new Point(thirdColumnX + 86, 11 + heightOffset);
                         this.lblPlayersXbox.Size = new Size(26, 16);
-                        this.lblPlayersXbox.ImageX = -1;
-                        this.lblPlayersXbox.ImageWidth = 14;
-                        this.lblPlayersXbox.ImageHeight = 14;
+                        this.lblPlayersXbox.ImageWidth = 18;
+                        this.lblPlayersXbox.ImageHeight = 18;
                         this.lblPlayersXbox.DrawVisible = true;
                     
-                        this.lblPlayersSwitch.Location = new Point(thirdColumnX + 124, 13 + heightOffset);
+                        this.lblPlayersSwitch.Location = new Point(thirdColumnX + 124, 11 + heightOffset);
                         this.lblPlayersSwitch.Size = new Size(26, 16);
-                        this.lblPlayersSwitch.ImageWidth = 13;
-                        this.lblPlayersSwitch.ImageHeight = 13;
+                        this.lblPlayersSwitch.ImageWidth = 17;
+                        this.lblPlayersSwitch.ImageHeight = 17;
                         this.lblPlayersSwitch.DrawVisible = true;
                     
-                        this.lblPlayersPc.Location = new Point(thirdColumnX + 162, 13 + heightOffset);
+                        this.lblPlayersPc.Location = new Point(thirdColumnX + 162, 11 + heightOffset);
                         this.lblPlayersPc.Size = new Size(26, 16);
-                        this.lblPlayersPc.ImageX = -1;
                         this.lblPlayersPc.ImageY = -1;
-                        this.lblPlayersPc.ImageWidth = 14;
-                        this.lblPlayersPc.ImageHeight = 15;
+                        this.lblPlayersPc.ImageWidth = 18;
+                        this.lblPlayersPc.ImageHeight = 19;
                         this.lblPlayersPc.DrawVisible = true;
                     }
                     
@@ -1348,32 +1349,29 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayersPs.Location = new Point(secondColumnX + 60, 37 + heightOffset);
+                        this.lblPlayersPs.Location = new Point(secondColumnX + 60, 34 + heightOffset);
                         this.lblPlayersPs.Size = new Size(26, 16);
-                        this.lblPlayersPs.ImageX = -1;
-                        this.lblPlayersPs.ImageWidth = 15;
-                        this.lblPlayersPs.ImageHeight = 13;
+                        this.lblPlayersPs.ImageWidth = 20;
+                        this.lblPlayersPs.ImageHeight = 18;
                         this.lblPlayersPs.DrawVisible = true;
                     
-                        this.lblPlayersXbox.Location = new Point(secondColumnX + 107, 37 + heightOffset);
+                        this.lblPlayersXbox.Location = new Point(secondColumnX + 107, 34 + heightOffset);
                         this.lblPlayersXbox.Size = new Size(26, 16);
-                        this.lblPlayersXbox.ImageX = -1;
-                        this.lblPlayersXbox.ImageWidth = 14;
-                        this.lblPlayersXbox.ImageHeight = 14;
+                        this.lblPlayersXbox.ImageWidth = 18;
+                        this.lblPlayersXbox.ImageHeight = 18;
                         this.lblPlayersXbox.DrawVisible = true;
                     
-                        this.lblPlayersSwitch.Location = new Point(secondColumnX + 157, 37 + heightOffset);
+                        this.lblPlayersSwitch.Location = new Point(secondColumnX + 157, 34 + heightOffset);
                         this.lblPlayersSwitch.Size = new Size(26, 16);
-                        this.lblPlayersSwitch.ImageWidth = 13;
-                        this.lblPlayersSwitch.ImageHeight = 13;
+                        this.lblPlayersSwitch.ImageWidth = 17;
+                        this.lblPlayersSwitch.ImageHeight = 17;
                         this.lblPlayersSwitch.DrawVisible = true;
                     
-                        this.lblPlayersPc.Location = new Point(secondColumnX + 205, 37 + heightOffset);
+                        this.lblPlayersPc.Location = new Point(secondColumnX + 205, 34 + heightOffset);
                         this.lblPlayersPc.Size = new Size(26, 16);
-                        this.lblPlayersPc.ImageX = -1;
                         this.lblPlayersPc.ImageY = -1;
-                        this.lblPlayersPc.ImageWidth = 14;
-                        this.lblPlayersPc.ImageHeight = 15;
+                        this.lblPlayersPc.ImageWidth = 18;
+                        this.lblPlayersPc.ImageHeight = 19;
                         this.lblPlayersPc.DrawVisible = true;
                     }
 
@@ -1474,32 +1472,29 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayersPs.Location = new Point(firstColumnX + secondColumnWidth + 54, 12 + heightOffset);
+                        this.lblPlayersPs.Location = new Point(firstColumnX + secondColumnWidth + 54, 10 + heightOffset);
                         this.lblPlayersPs.Size = new Size(26, 16);
-                        this.lblPlayersPs.ImageX = -1;
-                        this.lblPlayersPs.ImageWidth = 15;
-                        this.lblPlayersPs.ImageHeight = 13;
+                        this.lblPlayersPs.ImageWidth = 20;
+                        this.lblPlayersPs.ImageHeight = 18;
                         this.lblPlayersPs.DrawVisible = true;
                     
-                        this.lblPlayersXbox.Location = new Point(firstColumnX + secondColumnWidth + 91, 12 + heightOffset);
+                        this.lblPlayersXbox.Location = new Point(firstColumnX + secondColumnWidth + 91, 10 + heightOffset);
                         this.lblPlayersXbox.Size = new Size(26, 16);
-                        this.lblPlayersXbox.ImageX = -1;
-                        this.lblPlayersXbox.ImageWidth = 14;
-                        this.lblPlayersXbox.ImageHeight = 14;
+                        this.lblPlayersXbox.ImageWidth = 18;
+                        this.lblPlayersXbox.ImageHeight = 18;
                         this.lblPlayersXbox.DrawVisible = true;
                     
-                        this.lblPlayersSwitch.Location = new Point(firstColumnX + secondColumnWidth + 128, 12 + heightOffset);
+                        this.lblPlayersSwitch.Location = new Point(firstColumnX + secondColumnWidth + 128, 10 + heightOffset);
                         this.lblPlayersSwitch.Size = new Size(26, 16);
-                        this.lblPlayersSwitch.ImageWidth = 13;
-                        this.lblPlayersSwitch.ImageHeight = 13;
+                        this.lblPlayersSwitch.ImageWidth = 17;
+                        this.lblPlayersSwitch.ImageHeight = 17;
                         this.lblPlayersSwitch.DrawVisible = true;
                     
-                        this.lblPlayersPc.Location = new Point(firstColumnX + secondColumnWidth + 165, 12 + heightOffset);
+                        this.lblPlayersPc.Location = new Point(firstColumnX + secondColumnWidth + 165, 10 + heightOffset);
                         this.lblPlayersPc.Size = new Size(26, 16);
-                        this.lblPlayersPc.ImageX = -1;
                         this.lblPlayersPc.ImageY = -1;
-                        this.lblPlayersPc.ImageWidth = 14;
-                        this.lblPlayersPc.ImageHeight = 15;
+                        this.lblPlayersPc.ImageWidth = 18;
+                        this.lblPlayersPc.ImageHeight = 19;
                         this.lblPlayersPc.DrawVisible = true;
                     }
 
@@ -1529,31 +1524,29 @@ namespace FallGuysStats {
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
-                        this.lblPlayersPs.Location = new Point(firstColumnX + 60, 37 + heightOffset);
+                        this.lblPlayersPs.Location = new Point(firstColumnX + 60, 34 + heightOffset);
                         this.lblPlayersPs.Size = new Size(26, 16);
-                        this.lblPlayersPs.ImageWidth = 13;
-                        this.lblPlayersPs.ImageHeight = 13;
+                        this.lblPlayersPs.ImageWidth = 20;
+                        this.lblPlayersPs.ImageHeight = 18;
                         this.lblPlayersPs.DrawVisible = true;
                     
-                        this.lblPlayersXbox.Location = new Point(firstColumnX + 107, 37 + heightOffset);
+                        this.lblPlayersXbox.Location = new Point(firstColumnX + 107, 34 + heightOffset);
                         this.lblPlayersXbox.Size = new Size(26, 16);
-                        this.lblPlayersXbox.ImageX = -1;
-                        this.lblPlayersXbox.ImageWidth = 14;
-                        this.lblPlayersXbox.ImageHeight = 14;
+                        this.lblPlayersXbox.ImageWidth = 18;
+                        this.lblPlayersXbox.ImageHeight = 18;
                         this.lblPlayersXbox.DrawVisible = true;
                     
-                        this.lblPlayersSwitch.Location = new Point(firstColumnX + 157, 37 + heightOffset);
+                        this.lblPlayersSwitch.Location = new Point(firstColumnX + 157, 34 + heightOffset);
                         this.lblPlayersSwitch.Size = new Size(26, 16);
-                        this.lblPlayersSwitch.ImageWidth = 13;
-                        this.lblPlayersSwitch.ImageHeight = 13;
+                        this.lblPlayersSwitch.ImageWidth = 17;
+                        this.lblPlayersSwitch.ImageHeight = 17;
                         this.lblPlayersSwitch.DrawVisible = true;
                     
-                        this.lblPlayersPc.Location = new Point(firstColumnX + 205, 37 + heightOffset);
+                        this.lblPlayersPc.Location = new Point(firstColumnX + 205, 34 + heightOffset);
                         this.lblPlayersPc.Size = new Size(26, 16);
-                        this.lblPlayersPc.ImageX = -1;
                         this.lblPlayersPc.ImageY = -1;
-                        this.lblPlayersPc.ImageWidth = 14;
-                        this.lblPlayersPc.ImageHeight = 15;
+                        this.lblPlayersPc.ImageWidth = 18;
+                        this.lblPlayersPc.ImageHeight = 19;
                         this.lblPlayersPc.DrawVisible = true;
                     }
 

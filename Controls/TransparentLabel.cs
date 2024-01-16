@@ -40,14 +40,14 @@ namespace FallGuysStats {
                 using (SolidBrush brFore = new SolidBrush(this.ForeColor)) {
                     StringFormat stringFormat = new StringFormat {
                         Alignment = StringAlignment.Far,
-                        LineAlignment = StringAlignment.Far
+                        LineAlignment = StringAlignment.Center
                     };
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                     g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.PlatformIcon.Width : this.ImageWidth, this.ImageHeight == 0 ? this.PlatformIcon.Height : this.ImageHeight);
                     if (this.TextRight != null) {
-                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, 12f, this.Font.Style, GraphicsUnit.Pixel), brFore, this.ClientRectangle, stringFormat);
+                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, this.Font.Size * 0.7f, this.Font.Style, GraphicsUnit.Pixel), brFore, new RectangleF(this.ClientRectangle.X + 2, this.ClientRectangle.Y, this.ClientRectangle.Width, this.ClientRectangle.Height), stringFormat);
                     }
                 }
             } else {
