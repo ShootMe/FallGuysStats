@@ -1163,6 +1163,7 @@ namespace FallGuysStats {
                     this.spinnerTransition.Stop();
                     this.targetSpinner = null;
                     this.BeginInvoke((MethodInvoker)delegate {
+                        this.mtbSearchPlayersText.Width = 1332;
                         this.mpsSpinner03.Visible = false;
                         this.gridPlayerList.DataSource = this.searchResult ?? this.searchResultNodata;
                         this.mtpSearchPlayersPage.Text = this.searchResult == null ? Multilingual.GetWord("leaderboard_search_players") : $"{Multilingual.GetWord("leaderboard_search_players")} ({this.searchResult.Count}{Multilingual.GetWord("level_detail_creative_player_suffix")})";

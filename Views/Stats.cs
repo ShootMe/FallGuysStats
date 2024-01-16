@@ -214,6 +214,7 @@ namespace FallGuysStats {
             "squads_4player",
             "event_xtreme_fall_guys_template",
             "event_xtreme_fall_guys_squads_template",
+            "no_elimination_show",
             "event_anniversary_season_1_alternate_name",
             "event_blast_ball_banger_template",
             "event_only_finals_v2_template",

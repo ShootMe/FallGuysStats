@@ -165,6 +165,7 @@ namespace FallGuysStats {
         }
 
         private void EnablePagingUI(bool enable) {
+            this.gridDetails.Enabled = enable;
             this.mlFirstPagingButton.Enabled = enable;
             this.mlLeftPagingButton.Enabled = enable;
             // this.lblPagingInfo.Enabled = enable;
@@ -203,7 +204,7 @@ namespace FallGuysStats {
                     this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
                 }
             }
-            // this.lblPagingInfo.Enabled = true;
+            this.gridDetails.Enabled = true;
         }
 
         private void LevelDetails_Shown(object sender, EventArgs e) {
