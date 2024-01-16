@@ -727,21 +727,17 @@ namespace FallGuysStats {
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                    
-                    List<RoundInfo> rows = new List<RoundInfo>();
-                    for (int i = 0; i < selectedCount; i++) {
-                        rows.Add((RoundInfo)this.gridDetails.SelectedRows[i].DataBoundItem);
-                    }
-                    
                     lock (this.StatsForm.StatsDB) {
                         this.StatsForm.StatsDB.BeginTrans();
-                        foreach (RoundInfo info in rows) {
-                            this.RoundDetails.Remove(info);
-                            this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID);
+                        foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                            RoundInfo d = row.DataBoundItem as RoundInfo;
+                            this.RoundDetails.Remove(d);
+                            this.StatsForm.AllStats.RemoveAll(r => r.ShowID == d.ShowID);
+                            this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == d.ShowID);
                         }
                         this.StatsForm.StatsDB.Commit();
                     }
-
+                    
                     this.gridDetails.DataSource = null;
                     this.gridDetails.DataSource = this.RoundDetails;
                     if (minIndex < this.RoundDetails.Count) {
@@ -767,22 +763,19 @@ namespace FallGuysStats {
                     moveShows.Icon = Icon;
                     if (moveShows.ShowDialog(this) == DialogResult.OK) {
                         int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                        
-                        List<RoundInfo> rows = new List<RoundInfo>();
-                        for (int i = 0; i < selectedCount; i++) {
-                            rows.Add((RoundInfo)this.gridDetails.SelectedRows[i].DataBoundItem);
-                        }
-                        
                         int fromProfileId = this.StatsForm.GetCurrentProfileId();
                         int toProfileId = moveShows.SelectedProfileId;
+                        
                         lock (this.StatsForm.StatsDB) {
                             this.StatsForm.StatsDB.BeginTrans();
-                            foreach (RoundInfo info in rows) {
-                                this.RoundDetails.Remove(info);
-                                foreach (RoundInfo r in this.StatsForm.RoundDetails.Find(r => r.ShowID == info.ShowID && r.Profile == fromProfileId)) {
+                            foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                                RoundInfo d = row.DataBoundItem as RoundInfo;
+                                this.RoundDetails.Remove(d);
+                                List<RoundInfo> rl = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
+                                foreach (RoundInfo r in rl) {
                                     r.Profile = toProfileId;
-                                    this.StatsForm.RoundDetails.Update(r);
                                 }
+                                this.StatsForm.RoundDetails.Update(rl);
                             }
                             this.StatsForm.StatsDB.Commit();
                         }
