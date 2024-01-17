@@ -16,8 +16,8 @@ namespace FallGuysStats {
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
-        private readonly string PLAYER_LIST_API_URL = "https://fallalytics.com/api/usersearch?q=";
-        private readonly string PLAYER_DETAILS_API_URL = "https://fallalytics.com/player/";
+        private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
+        private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
         private string key = String.Empty;
         private int totalPlayers, totalPages, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1;
@@ -29,8 +29,8 @@ namespace FallGuysStats {
         private List<OverallRankInfo> overallRankNodata = new List<OverallRankInfo>();
         private List<SearchPlayer> searchResult;
         private List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
-        private List<Grades> playerDetails;
-        private List<Grades> playerDetailsNodata = new List<Grades>();
+        private List<PbInfo> playerDetails;
+        private List<PbInfo> playerDetailsNodata = new List<PbInfo>();
         private OverallInfo overallInfo;
         private bool isSearchCompleted;
         private Timer spinnerTransition;
@@ -902,37 +902,18 @@ namespace FallGuysStats {
 
         private void SetPlayerInfo(string userId) {
             Task.Run(() => {
-                var web = new HtmlWeb();
-                var htmlDoc = web.Load($"{this.PLAYER_DETAILS_API_URL}{userId}");
-                var scriptTag = htmlDoc.DocumentNode.SelectNodes("//script[@id='__NEXT_DATA__']");
-                if (scriptTag != null) {
-                    foreach(var node in scriptTag) {
-                        JsonDocument doc = JsonDocument.Parse(node.InnerText);
-                        JsonElement root = doc.RootElement;
-                        JsonElement propsElement = root.GetProperty("props");
-                        JsonElement pagePropsElement = propsElement.GetProperty("pageProps");
-                        JsonElement pageElement1 = pagePropsElement.GetProperty("page");
-                        JsonElement pageElement2 = pageElement1.GetProperty("page");
-                        JsonElement regionsElement = pageElement2.GetProperty("regions");
-                        JsonElement mainElement1 = regionsElement.GetProperty("main");
-                        JsonElement componentsElement1 = mainElement1.GetProperty("components");
-                        JsonElement mainElement2 = componentsElement1[0].GetProperty("regions").GetProperty("main");
-                        JsonElement componentsElement2 = mainElement2.GetProperty("components");
-                        JsonElement dataElement = componentsElement2[0].GetProperty("data");
-                        JsonElement userElement = dataElement.GetProperty("user");
-                        PlayerDetails pd = JsonSerializer.Deserialize<PlayerDetails>(userElement.ToString());
-                        if (pd.found) {
-                            pd.pbs.Sort((g1, g2) => String.Compare(Multilingual.GetRoundName(g1.round), Multilingual.GetRoundName(g2.round), StringComparison.Ordinal));
-                            this.playerDetails = pd.pbs;
-                            this.overallInfo = pd.speedrunrank;
-                        } else {
-                            this.playerDetails = null;
-                            this.overallInfo = null;
-                        }
+                using (ApiWebClient web = new ApiWebClient()) {
+                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                    string json = web.DownloadString($"{this.PLAYER_DETAILS_API_URL}{userId}");
+                    PlayerStats ps = JsonSerializer.Deserialize<PlayerStats>(json);
+                    if (ps.found) {
+                        ps.pbs.Sort((g1, g2) => String.Compare(Multilingual.GetRoundName(g1.round), Multilingual.GetRoundName(g2.round), StringComparison.Ordinal));
+                        this.playerDetails = ps.pbs;
+                        this.overallInfo = ps.speedrunrank;
+                    } else {
+                        this.playerDetails = null;
+                        this.overallInfo = null;
                     }
-                } else {
-                    this.playerDetails = null;
-                    this.overallInfo = null;
                 }
             }).ContinueWith(prevTask => {
                 this.spinnerTransition.Stop();
@@ -978,8 +959,12 @@ namespace FallGuysStats {
             if (this.gridPlayerDetails.Columns.Count == 0) { return; }
             int pos = 0;
             this.gridPlayerDetails.Columns["session"].Visible = false;
+            this.gridPlayerDetails.Columns["isAnonymous"].Visible = false;
             this.gridPlayerDetails.Columns["ip"].Visible = false;
+            this.gridPlayerDetails.Columns["country"].Visible = false;
             this.gridPlayerDetails.Columns["user"].Visible = false;
+            this.gridPlayerDetails.Columns["roundDisplayName"].Visible = false;
+            this.gridPlayerDetails.Columns["roundName"].Visible = false;
             this.gridPlayerDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridPlayerDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
@@ -1003,7 +988,7 @@ namespace FallGuysStats {
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridPlayerDetails.Rows.Count) { return; }
 
-            Grades info = this.gridPlayerDetails.Rows[e.RowIndex].DataBoundItem as Grades;
+            PbInfo info = this.gridPlayerDetails.Rows[e.RowIndex].DataBoundItem as PbInfo;
             
             if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
@@ -1074,7 +1059,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = this.gridPlayerDetails.GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "round"; }
             
-            this.playerDetails.Sort(delegate (Grades one, Grades two) {
+            this.playerDetails.Sort(delegate (PbInfo one, PbInfo two) {
                 int showCompare = String.Compare(Multilingual.GetShowName(one.show), Multilingual.GetShowName(two.show), StringComparison.Ordinal);
                 int roundCompare = String.Compare(Multilingual.GetRoundName(one.round), Multilingual.GetRoundName(two.round), StringComparison.Ordinal);
                 int rankCompare = one.index.CompareTo(two.index);
@@ -1151,7 +1136,7 @@ namespace FallGuysStats {
                 this.isSearchCompleted = false;
                 Task.Run(() => {
                     using (ApiWebClient web = new ApiWebClient()) {
-                        // web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                        web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                         string json = web.DownloadString($"{this.PLAYER_LIST_API_URL}{this.mtbSearchPlayersText.Text}");
                         SearchResult result = JsonSerializer.Deserialize<SearchResult>(json);
                         this.searchResult = result.found ? result.users : null;
@@ -1221,7 +1206,7 @@ namespace FallGuysStats {
                 Process.Start(this.mtcTabControl.SelectedIndex == 0
                     ? "https://fallalytics.com/leaderboards/speedrun-total"
                     : this.mtcTabControl.SelectedIndex == 1 ? (string.IsNullOrEmpty(this.key) ? "https://fallalytics.com/leaderboards/speedrun" : $"https://fallalytics.com/leaderboards/speedrun/{this.key}/1")
-                        : (this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"{PLAYER_DETAILS_API_URL}{this.currentUserId}"));
+                        : (this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"https://fallalytics.com/player/{this.currentUserId}"));
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;

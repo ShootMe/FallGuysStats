@@ -163,11 +163,13 @@ namespace FallGuysStats {
         public ILiteCollection<UserSettings> UserSettings;
         public ILiteCollection<Profiles> Profiles;
         public ILiteCollection<FallalyticsPbLog> FallalyticsPbLog;
+        public ILiteCollection<FallalyticsCrownLog> FallalyticsCrownLog;
         public ILiteCollection<ServerConnectionLog> ServerConnectionLog;
         public ILiteCollection<PersonalBestLog> PersonalBestLog;
         public List<Profiles> AllProfiles = new List<Profiles>();
         public UserSettings CurrentSettings;
         public List<FallalyticsPbLog> FallalyticsPbLogCache = new List<FallalyticsPbLog>();
+        public List<FallalyticsCrownLog> FallalyticsCrownLogCache = new List<FallalyticsCrownLog>();
         public List<ServerConnectionLog> ServerConnectionLogCache = new List<ServerConnectionLog>();
         public List<PersonalBestLog> PersonalBestLogCache = new List<PersonalBestLog>();
         public Overlay overlay;
@@ -379,7 +381,7 @@ namespace FallGuysStats {
                 using (var sourceDb = new LiteDatabase(@"data.db")) {
                     if (sourceDb.UserVersion != 0) { return; }
                     using (var targetDb = new LiteDatabase(@"Filename=data_new.db;Upgrade=true")) {
-                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog" };
+                        string[] tableNames = { "Profiles", "RoundDetails", "UserSettings", "ServerConnectionLog", "PersonalBestLog", "FallalyticsPbLog", "FallalyticsCrownLog" };
                         foreach (var tableName in tableNames) {
                             if (!sourceDb.CollectionExists(tableName)) continue;
                             var sourceData = sourceDb.GetCollection(tableName).FindAll();
@@ -450,6 +452,7 @@ namespace FallGuysStats {
             this.ServerConnectionLog = this.StatsDB.GetCollection<ServerConnectionLog>("ServerConnectionLog");
             this.PersonalBestLog = this.StatsDB.GetCollection<PersonalBestLog>("PersonalBestLog");
             this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
+            this.FallalyticsCrownLog = this.StatsDB.GetCollection<FallalyticsCrownLog>("FallalyticsCrownLog");
             
             this.StatsDB.BeginTrans();
             this.RoundDetails.EnsureIndex(r => r.Name);
@@ -466,6 +469,9 @@ namespace FallGuysStats {
             this.FallalyticsPbLog.EnsureIndex(f => f.PbId);
             this.FallalyticsPbLog.EnsureIndex(f => f.RoundId);
             this.FallalyticsPbLog.EnsureIndex(f => f.ShowId);
+            
+            this.FallalyticsCrownLog.EnsureIndex(f => f.Id);
+            this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
             
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
@@ -2987,9 +2993,11 @@ namespace FallGuysStats {
 #endif
                 this.RemoveUpdateFiles();
                 
-                this.ClearServerConnectionLog();
-                this.ClearPersonalBestLog();
+                this.ClearServerConnectionLog(5);
+                this.ClearPersonalBestLog(15);
+                this.ClearWeeklyCrownLog(15);
                 this.FallalyticsPbLogCache = this.FallalyticsPbLog.FindAll().ToList();
+                this.FallalyticsCrownLogCache = this.FallalyticsCrownLog.FindAll().ToList();
                 this.ServerConnectionLogCache = this.ServerConnectionLog.FindAll().ToList();
                 this.PersonalBestLogCache = this.PersonalBestLog.FindAll().ToList();
                 
@@ -3310,9 +3318,36 @@ namespace FallGuysStats {
                                 if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
                                     Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
 
-                                    if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY")) && OnlineServiceType != OnlineServiceTypes.None && stat.Finish.HasValue &&
-                                        (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                    if (OnlineServiceType != OnlineServiceTypes.None) {
+                                        string[] userInfo = null;
+                                        if (OnlineServiceType == OnlineServiceTypes.Steam) {
+                                            userInfo = this.FindSteamUserInfo();
+                                        } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
+                                            userInfo = this.FindEpicGamesUserInfo();
+                                        }
+
+                                        if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
+                                            OnlineServiceId = userInfo[0];
+                                            OnlineServiceNickname = userInfo[1];
+                                        }
+                                        
+                                        if (!string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                                            if (string.IsNullOrEmpty(HostCountryCode)) {
+                                                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+                                            }
+                                            
+                                            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) {
+                                                if (stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                                }
+
+                                                if (stat.Crown) {
+                                                    Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
+                                                } else {
+                                                    Task.Run(this.FallalyticsResendWeeklyCrown);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             } else {
@@ -3492,12 +3527,22 @@ namespace FallGuysStats {
         //     }
         // }
 
-        private void ClearPersonalBestLog() {
+        private void ClearPersonalBestLog(int days) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5);
-                BsonExpression condition = Query.LT("_id", fiveDaysAgo);
+                DateTime daysCond = DateTime.Now.AddDays(days * -1);
+                BsonExpression condition = Query.LT("_id", daysCond);
                 this.PersonalBestLog.DeleteMany(condition);
+                this.StatsDB.Commit();
+            }
+        }
+        
+        private void ClearWeeklyCrownLog(int days) {
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                DateTime daysCond = DateTime.Now.AddDays(days * -1);
+                BsonExpression condition = Query.LT("End", daysCond);
+                this.FallalyticsCrownLog.DeleteMany(condition);
                 this.StatsDB.Commit();
             }
         }
@@ -3557,37 +3602,52 @@ namespace FallGuysStats {
         //     }
         // }
 
-        private void ClearServerConnectionLog() {
+        private void ClearServerConnectionLog(int days) {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
-                DateTime fiveDaysAgo = DateTime.Now.AddDays(-5);
-                BsonExpression condition = Query.LT("ConnectionDate", fiveDaysAgo);
+                DateTime daysCond = DateTime.Now.AddDays(days * -1);
+                BsonExpression condition = Query.LT("ConnectionDate", daysCond);
                 this.ServerConnectionLog.DeleteMany(condition);
                 this.StatsDB.Commit();
             }
         }
 
-        private async Task FallalyticsRegisterPb(RoundInfo stat) {
-            string[] userInfo = null;
-            if (OnlineServiceType == OnlineServiceTypes.Steam) {
-                userInfo = this.FindSteamUserInfo();
-            } else if (OnlineServiceType == OnlineServiceTypes.EpicGames) {
-                userInfo = this.FindEpicGamesUserInfo();
+        private async Task FallalyticsResendWeeklyCrown() {
+            bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+            if (existsTransferFailedLogs) {
+                foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId))) {
+                    RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End };
+                    log.IsTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
+                    lock (this.StatsDB) {
+                        this.StatsDB.BeginTrans();
+                        this.FallalyticsCrownLog.Update(log);
+                        this.StatsDB.Commit();
+                    }
+                }
             }
+        }
 
-            if (userInfo != null && !string.IsNullOrEmpty(userInfo[0]) && !string.IsNullOrEmpty(userInfo[1])) {
-                OnlineServiceId = userInfo[0];
-                OnlineServiceNickname = userInfo[1];
-            } else {
-                return;
-            }
+        private async Task FallalyticsWeeklyCrown(RoundInfo stat) {
+            string currentSessionId = stat.SessionId;
+            string currentShowNameId = stat.ShowNameId;
+            string currentRoundId = stat.Name;
+            DateTime currentEnd = stat.End;
+            bool isTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
             
-            if (string.IsNullOrEmpty(HostCountryCode)) {
-                HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp());
+            lock (this.StatsDB) {
+                this.StatsDB.BeginTrans();
+                FallalyticsCrownLog log = new FallalyticsCrownLog {
+                    SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId, End = currentEnd, CountryCode = HostCountryCode,
+                    OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                    IsTransferSuccess = isTransferSuccess
+                };
+                this.FallalyticsCrownLogCache.Add(log);
+                this.FallalyticsCrownLog.Insert(log);
+                this.StatsDB.Commit();
             }
+        }
 
-            if (string.IsNullOrEmpty(OnlineServiceId) || string.IsNullOrEmpty(OnlineServiceNickname)) return;
-
+        private async Task FallalyticsRegisterPb(RoundInfo stat) {
             string currentSessionId = stat.SessionId;
             string currentShowNameId = stat.ShowNameId;
             string currentRoundId = stat.Name;

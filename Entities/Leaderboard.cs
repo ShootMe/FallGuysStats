@@ -231,22 +231,35 @@ namespace FallGuysStats {
         public string id { get; set; }
     }
     
-    public class PlayerDetails {
+    public class PlayerStats {
         public bool found { get; set; }
-        public List<Grades> pbs { get; set; }
+        public User user { get; set; }
+        public List<PbInfo> pbs { get; set; }
         public OverallInfo speedrunrank { get; set; }
     }
+
+    public class User {
+        public string onlineServiceType { get; set; }
+        public string onlineServiceId { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+    }
     
-    public class Grades {
+    public class PbInfo {
         public string round { get; set; }
         public double record { get; set; }
         public string show { get; set; }
         public string session { get; set; }
+        public bool isAnonymous { get; set; }
         public string ip { get; set; }
         public DateTime finish { get; set; }
+        public string country { get; set; }
         public string user { get; set; }
         public int index { get; set; }
         public int roundTotal { get; set; }
+        public string roundDisplayName { get; set; }
+        public string roundName { get; set; }
     }
     
     public class OverallInfo {
