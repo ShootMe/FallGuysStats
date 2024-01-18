@@ -155,9 +155,10 @@
             // btnAddProfile
             // 
             this.btnAddProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddProfile.Location = new System.Drawing.Point(7, 43);
+            this.btnAddProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnAddProfile.Location = new System.Drawing.Point(6, 45);
             this.btnAddProfile.Name = "btnAddProfile";
-            this.btnAddProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnAddProfile.Size = new System.Drawing.Size(76, 30);
             this.btnAddProfile.TabIndex = 2;
             this.btnAddProfile.Text = "Add";
             this.btnAddProfile.UseSelectable = true;
@@ -195,8 +196,9 @@
             // lblAddProfile1
             // 
             this.lblAddProfile1.AutoSize = true;
+            this.lblAddProfile1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblAddProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblAddProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblAddProfile1.Location = new System.Drawing.Point(1, 7);
             this.lblAddProfile1.Name = "lblAddProfile1";
             this.lblAddProfile1.Size = new System.Drawing.Size(87, 19);
             this.lblAddProfile1.TabIndex = 0;
@@ -225,9 +227,10 @@
             // btnRenameProfile
             // 
             this.btnRenameProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRenameProfile.Location = new System.Drawing.Point(7, 81);
+            this.btnRenameProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnRenameProfile.Location = new System.Drawing.Point(6, 83);
             this.btnRenameProfile.Name = "btnRenameProfile";
-            this.btnRenameProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnRenameProfile.Size = new System.Drawing.Size(76, 30);
             this.btnRenameProfile.TabIndex = 4;
             this.btnRenameProfile.Text = "Rename";
             this.btnRenameProfile.UseSelectable = true;
@@ -265,8 +268,9 @@
             // lblRenameProfile2
             // 
             this.lblRenameProfile2.AutoSize = true;
+            this.lblRenameProfile2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblRenameProfile2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblRenameProfile2.Location = new System.Drawing.Point(7, 47);
+            this.lblRenameProfile2.Location = new System.Drawing.Point(1, 45);
             this.lblRenameProfile2.Name = "lblRenameProfile2";
             this.lblRenameProfile2.Size = new System.Drawing.Size(76, 19);
             this.lblRenameProfile2.TabIndex = 2;
@@ -287,8 +291,9 @@
             // lblRenameProfile1
             // 
             this.lblRenameProfile1.AutoSize = true;
+            this.lblRenameProfile1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblRenameProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblRenameProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblRenameProfile1.Location = new System.Drawing.Point(1, 7);
             this.lblRenameProfile1.Name = "lblRenameProfile1";
             this.lblRenameProfile1.Size = new System.Drawing.Size(47, 19);
             this.lblRenameProfile1.TabIndex = 0;
@@ -316,10 +321,12 @@
             // 
             // btnMoveProfile
             // 
+            this.btnMoveProfile.AutoSize = true;
             this.btnMoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMoveProfile.Location = new System.Drawing.Point(7, 81);
+            this.btnMoveProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnMoveProfile.Location = new System.Drawing.Point(6, 83);
             this.btnMoveProfile.Name = "btnMoveProfile";
-            this.btnMoveProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnMoveProfile.Size = new System.Drawing.Size(76, 30);
             this.btnMoveProfile.TabIndex = 4;
             this.btnMoveProfile.Text = "Move";
             this.btnMoveProfile.UseSelectable = true;
@@ -328,8 +335,9 @@
             // lblMoveProfile2
             // 
             this.lblMoveProfile2.AutoSize = true;
+            this.lblMoveProfile2.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblMoveProfile2.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblMoveProfile2.Location = new System.Drawing.Point(7, 47);
+            this.lblMoveProfile2.Location = new System.Drawing.Point(1, 45);
             this.lblMoveProfile2.Name = "lblMoveProfile2";
             this.lblMoveProfile2.Size = new System.Drawing.Size(23, 19);
             this.lblMoveProfile2.TabIndex = 3;
@@ -349,8 +357,9 @@
             // lblMoveProfile1
             // 
             this.lblMoveProfile1.AutoSize = true;
+            this.lblMoveProfile1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblMoveProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblMoveProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblMoveProfile1.Location = new System.Drawing.Point(1, 7);
             this.lblMoveProfile1.Name = "lblMoveProfile1";
             this.lblMoveProfile1.Size = new System.Drawing.Size(41, 19);
             this.lblMoveProfile1.TabIndex = 1;
@@ -387,9 +396,10 @@
             // btnRemoveProfile
             // 
             this.btnRemoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveProfile.Location = new System.Drawing.Point(7, 43);
+            this.btnRemoveProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnRemoveProfile.Location = new System.Drawing.Point(6, 45);
             this.btnRemoveProfile.Name = "btnRemoveProfile";
-            this.btnRemoveProfile.Size = new System.Drawing.Size(76, 26);
+            this.btnRemoveProfile.Size = new System.Drawing.Size(76, 30);
             this.btnRemoveProfile.TabIndex = 2;
             this.btnRemoveProfile.Text = "Remove";
             this.btnRemoveProfile.UseSelectable = true;
@@ -409,8 +419,9 @@
             // lblRemoveProfile1
             // 
             this.lblRemoveProfile1.AutoSize = true;
+            this.lblRemoveProfile1.FontSize = MetroFramework.MetroLabelSize.Tall;
             this.lblRemoveProfile1.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblRemoveProfile1.Location = new System.Drawing.Point(7, 9);
+            this.lblRemoveProfile1.Location = new System.Drawing.Point(1, 7);
             this.lblRemoveProfile1.Name = "lblRemoveProfile1";
             this.lblRemoveProfile1.Size = new System.Drawing.Size(47, 19);
             this.lblRemoveProfile1.TabIndex = 0;

@@ -5649,16 +5649,26 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                using (LeaderboardDisplay leaderboard = new LeaderboardDisplay {
-                           StatsForm = this,
-                           Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
-                           BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
-                           BackMaxSize = 32,
-                           BackImagePadding = new Padding(20, 21, 0, 0)
-                       }) {
-                    // leaderboard.overallRankList = this.leaderboardOverallRankList;
-                    leaderboard.ShowDialog(this);
-                }
+                // using (LeaderboardDisplay leaderboard = new LeaderboardDisplay {
+                //            StatsForm = this,
+                //            Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
+                //            BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
+                //            BackMaxSize = 32,
+                //            BackImagePadding = new Padding(20, 21, 0, 0)
+                //        }) {
+                //     // leaderboard.overallRankList = this.leaderboardOverallRankList;
+                //     leaderboard.ShowDialog(this);
+                // }
+                
+                LeaderboardDisplay leaderboard = new LeaderboardDisplay {
+                    StatsForm = this,
+                    Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
+                    BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
+                    BackMaxSize = 32,
+                    BackImagePadding = new Padding(20, 21, 0, 0)
+                };
+                leaderboard.Show(this);
+                
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {

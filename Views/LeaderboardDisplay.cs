@@ -932,7 +932,7 @@ namespace FallGuysStats {
                 this.spinnerTransition.Stop();
                 this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
-                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 350;
+                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
                     this.gridPlayerDetails.DataSource = this.playerDetails ?? this.playerDetailsNodata;
