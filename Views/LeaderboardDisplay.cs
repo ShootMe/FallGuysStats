@@ -85,11 +85,24 @@ namespace FallGuysStats {
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.BeginInvoke((MethodInvoker)delegate {
+                        int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                        if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
+                            this.myOverallRank = index + 1;
+                            this.mlMyRank.Visible = true;
+                            this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
+                            this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
+                        }
                         this.mpsSpinner01.Visible = false;
                         this.spinnerTransition.Stop();
                         this.targetSpinner = null;
                         this.gridOverallRank.DataSource = this.overallRankList ?? this.overallRankNodata;
                         this.gridOverallRank.ClearSelection();
+                        if (index != -1) {
+                            int displayedRowCount = this.gridOverallRank.DisplayedRowCount(false);
+                            int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
+                            this.gridOverallRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                        }
                     });
                 });
             } else {
@@ -992,20 +1005,23 @@ namespace FallGuysStats {
             
             if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = (string)(Multilingual.GetShowName((string)e.Value) ?? e.Value);
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
-                if (this.StatsForm.StatLookup.TryGetValue(info.round, out LevelStats level)) {
-                    e.Value = level.RoundBigIcon;
+                if (this.StatsForm.StatLookup.TryGetValue(info.round, out LevelStats l1)) {
+                    e.Value = l1.RoundBigIcon;
+                } else if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l2)) {
+                    e.Value = l2.RoundBigIcon;
                 }
             } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "round") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     if (info.index == 1) {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                     }
-                    this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = (string)(Multilingual.GetRoundName((string)e.Value) ?? e.Value);
-                    e.Value = Multilingual.GetRoundName((string)e.Value) ?? e.Value;
+
+                    e.Value = string.Equals(Multilingual.GetRoundName((string)e.Value), (string)e.Value)
+                        ? Multilingual.GetRoundName(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, (string)e.Value))
+                        : Multilingual.GetRoundName((string)e.Value);
                 }
             } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "medal") {
                 if (info.index == 0) {

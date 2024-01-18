@@ -3815,6 +3815,31 @@ namespace FallGuysStats {
             return showId;
         }
         
+        public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
+            if ("wle_mrs_shuffle_show".Equals(showId)) { // Digi's Shuffle Selection
+                if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+                return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
+            } else if ("wle_shuffle_discover".Equals(showId)) { // Unexplored Adventures
+                if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+            } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
+                if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
+                    roundId = roundId.Replace("_squads_", "_discover_");
+                } else {
+                    roundId = roundId.Replace("_squads", "");
+                }
+                if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
+                    return newName;
+                }
+            } else if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
+                return newName;
+            }
+            return roundId;
+        }
+        
         public bool IsCreativeShow(string showId) {
             return showId.StartsWith("show_wle_s10_") ||
                    showId.StartsWith("event_wle_s10_") ||
@@ -6317,13 +6342,16 @@ namespace FallGuysStats {
         }
 
         public void SetLeaderboardTitle() {
-            if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
-                this.mlLeaderboard.Text = OnlineServiceNickname;
-            } else {
-                this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
-            }
-            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                    this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+                    this.mlLeaderboard.Text = OnlineServiceNickname;
+                } else {
+                    this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+                }
+                this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+                this.mlLeaderboard.Enabled = true;
+            });
         }
         
         private void ChangeLanguage() {
