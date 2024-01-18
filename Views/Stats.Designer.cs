@@ -190,7 +190,6 @@
             this.mlLeaderboard.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
             this.mlLeaderboard.AutoSize = true;
             this.mlLeaderboard.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.mlLeaderboard.Enabled = false;
             this.mlLeaderboard.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlLeaderboard.FontWeight = MetroFramework.MetroLinkWeight.Bold;
             this.mlLeaderboard.Image = global::FallGuysStats.Properties.Resources.leaderboard_icon;

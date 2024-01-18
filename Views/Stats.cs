@@ -398,11 +398,6 @@ namespace FallGuysStats {
 
         private Stats() {
             this.DatabaseMigration();
-            if (Utils.IsInternetConnected()) {
-                Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
-                Task.Run(this.InitializeOverallRankList);
-            }
-            
             this.mainWndTitle = $"     {Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
             this.StatsDB = new LiteDatabase(@"data.db");
             this.StatsDB.Pragma("UTC_DATE", true);
@@ -2922,8 +2917,12 @@ namespace FallGuysStats {
         
         private void Stats_Load(object sender, EventArgs e) {
             try {
-                this.SetTheme(CurrentTheme);
+                if (Utils.IsInternetConnected()) {
+                    Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
+                    // Task.Run(this.InitializeOverallRankList);
+                }
                 
+                this.SetTheme(CurrentTheme);
                 this.infoStrip.Renderer = new CustomToolStripSystemRenderer();
                 this.infoStrip2.Renderer = new CustomToolStripSystemRenderer();
                 Utils.DwmSetWindowAttribute(this.menu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
@@ -3341,11 +3340,11 @@ namespace FallGuysStats {
                                                     Task.Run(() => this.FallalyticsRegisterPb(stat));
                                                 }
 
-                                                if (stat.Crown) {
-                                                    Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
-                                                } else {
-                                                    Task.Run(this.FallalyticsResendWeeklyCrown);
-                                                }
+                                                // if (stat.Crown) {
+                                                //     Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
+                                                // } else {
+                                                //     Task.Run(this.FallalyticsResendWeeklyCrown);
+                                                // }
                                             }
                                         }
                                     }
@@ -5611,17 +5610,13 @@ namespace FallGuysStats {
                                 }));
                             }
                             Task.WhenAll(tasks).Wait();
-                            this.leaderboardOverallRankList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                         }
+                        this.leaderboardOverallRankList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
+                        this.overallRankLoadTime = DateTime.UtcNow;
                     }
                 } catch {
                     this.leaderboardOverallRankList = null;
                 }
-                
-                this.overallRankLoadTime = DateTime.UtcNow;
-                this.Invoke((MethodInvoker)delegate {
-                    this.mlLeaderboard.Enabled = true;
-                });
             }
         }
         
@@ -6345,7 +6340,6 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
-            this.SetLeaderboardTitle();
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");
@@ -6411,6 +6405,7 @@ namespace FallGuysStats {
             this.menuLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
             this.menuFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
+            // this.SetLeaderboardTitle();
             this.ResumeLayout();
         }
     }

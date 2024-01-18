@@ -79,6 +79,7 @@ namespace FallGuysStats {
             if (this.totalPages > 1) {
                 this.SetPagingUI(true);
                 this.EnablePagingUI(false);
+                this.gridDetails.Enabled = true;
                 // this.lblPagingInfo.Enabled = true;
             }
             this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
