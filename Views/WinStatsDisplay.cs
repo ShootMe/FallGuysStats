@@ -516,7 +516,7 @@ namespace FallGuysStats {
                 this.chkFinals.Location = new Point(1053, 35);
                 this.chkWins.Location = new Point(961, 35);
             }
-            this.picSwitchGraphStyle.Location = new Point(this.chkWins.Location.X - this.picSwitchGraphStyle.Size.Width - 50 , 34);
+            this.picSwitchGraphStyle.Location = new Point(this.chkWins.Location.X - this.picSwitchGraphStyle.Size.Width - 50 , 33);
         }
     }
 }

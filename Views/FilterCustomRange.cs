@@ -219,6 +219,8 @@ namespace FallGuysStats {
             this.mdtpEnd.CalendarFont = Overlay.GetMainFont(14);
             this.lbTemplatesList.Font = Overlay.GetMainFont(14);
             this.btnFilter.Text = Multilingual.GetWord("custom_range_filter");
+            this.btnFilter.Width = TextRenderer.MeasureText(this.btnFilter.Text, this.btnFilter.Font).Width + 45;
+            this.btnFilter.Left = this.grpTemplates.Right - this.btnFilter.Width;
             this.grpTemplates.Text = Multilingual.GetWord("custom_range_templates");
         }
     }

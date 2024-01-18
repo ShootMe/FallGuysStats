@@ -3342,7 +3342,10 @@ namespace FallGuysStats {
 
                                                 // if (stat.Crown) {
                                                 //     Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
-                                                // } else {
+                                                // }
+                                                //
+                                                // bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                                                // if (existsTransferFailedLogs) {
                                                 //     Task.Run(this.FallalyticsResendWeeklyCrown);
                                                 // }
                                             }
@@ -3612,16 +3615,13 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsResendWeeklyCrown() {
-            bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
-            if (existsTransferFailedLogs) {
-                foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId))) {
-                    RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End };
-                    log.IsTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
-                    lock (this.StatsDB) {
-                        this.StatsDB.BeginTrans();
-                        this.FallalyticsCrownLog.Update(log);
-                        this.StatsDB.Commit();
-                    }
+            foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId))) {
+                RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End };
+                log.IsTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
+                lock (this.StatsDB) {
+                    this.StatsDB.BeginTrans();
+                    this.FallalyticsCrownLog.Update(log);
+                    this.StatsDB.Commit();
                 }
             }
         }

@@ -97,9 +97,10 @@
             // btnFilter
             // 
             this.btnFilter.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFilter.Location = new System.Drawing.Point(464, 361);
+            this.btnFilter.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.btnFilter.Location = new System.Drawing.Point(464, 360);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(75, 24);
+            this.btnFilter.Size = new System.Drawing.Size(75, 28);
             this.btnFilter.TabIndex = 6;
             this.btnFilter.Text = "Filter";
             this.btnFilter.UseSelectable = true;
@@ -180,7 +181,7 @@
             // FilterCustomRange
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(565, 396);
+            this.ClientSize = new System.Drawing.Size(565, 397);
             this.Controls.Add(this.picStartDate);
             this.Controls.Add(this.picEndDate);
             this.Controls.Add(this.lblTemplateName);

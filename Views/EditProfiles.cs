@@ -373,22 +373,22 @@ namespace FallGuysStats {
             this.grpProfiles.Text = Multilingual.GetWord("profile_list");
             this.mtpAddTabPage.Text = Multilingual.GetWord("profile_add_tab");
             this.btnAddProfile.Text = Multilingual.GetWord("profile_add_tab_button");
-            this.btnAddProfile.Width = TextRenderer.MeasureText(this.btnAddProfile.Text, this.btnAddProfile.Font).Width + 50;
+            this.btnAddProfile.Width = TextRenderer.MeasureText(this.btnAddProfile.Text, this.btnAddProfile.Font).Width + 45;
             this.lblAddProfile1.Text = Multilingual.GetWord("profile_add_tab_label1");
             this.mtpMoveTabPage.Text = Multilingual.GetWord("profile_move_tab");
             this.btnMoveProfile.Text = Multilingual.GetWord("profile_move_tab_button");
-            this.btnMoveProfile.Width = TextRenderer.MeasureText(this.btnMoveProfile.Text, this.btnMoveProfile.Font).Width + 50;
+            this.btnMoveProfile.Width = TextRenderer.MeasureText(this.btnMoveProfile.Text, this.btnMoveProfile.Font).Width + 45;
             this.lblMoveProfile2.Text = Multilingual.GetWord("profile_move_tab_label2");
             this.lblMoveProfile1.Text = Multilingual.GetWord("profile_move_tab_label1");
             this.mtpRemoveTabPage.Text = Multilingual.GetWord("profile_remove_tab");
             this.btnRemoveProfile.Text = Multilingual.GetWord("profile_remove_tab_button");
-            this.btnRemoveProfile.Width = TextRenderer.MeasureText(this.btnRemoveProfile.Text, this.btnRemoveProfile.Font).Width + 50;
+            this.btnRemoveProfile.Width = TextRenderer.MeasureText(this.btnRemoveProfile.Text, this.btnRemoveProfile.Font).Width + 45;
             this.lblRemoveProfile1.Text = Multilingual.GetWord("profile_remove_tab_label1");
             this.mtpRenameTabPage.Text = Multilingual.GetWord("profile_rename_tab");
             this.lblRenameProfile1.Text = Multilingual.GetWord("profile_rename_tab_label1");
             this.lblRenameProfile2.Text = Multilingual.GetWord("profile_rename_tab_label2");
             this.btnRenameProfile.Text = Multilingual.GetWord("profile_rename_tab_button");
-            this.btnRenameProfile.Width = TextRenderer.MeasureText(this.btnRenameProfile.Text, this.btnRenameProfile.Font).Width + 50;
+            this.btnRenameProfile.Width = TextRenderer.MeasureText(this.btnRenameProfile.Text, this.btnRenameProfile.Font).Width + 45;
             
             this.txtAddProfile.Location = new Point(this.lblAddProfile1.Right + 25, this.txtAddProfile.Top);
             this.cboProfileRename.Location = new Point((this.lblRenameProfile1.Width > this.lblRenameProfile2.Width ? this.lblRenameProfile1.Right : this.lblRenameProfile2.Right) + 25, this.cboProfileRename.Top);
