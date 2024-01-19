@@ -138,10 +138,6 @@ namespace FallGuysStats {
         }
 
         private void Overlay_Load(object sender, EventArgs e) {
-            this.lblPlayersPs.PlatformIcon = Utils.ImageOpacity(Properties.Resources.ps_icon, 0.7F);
-            this.lblPlayersXbox.PlatformIcon = Utils.ImageOpacity(Properties.Resources.xbox_icon, 0.7F);
-            this.lblPlayersSwitch.PlatformIcon = Utils.ImageOpacity(Properties.Resources.switch_icon, 0.7F);
-            this.lblPlayersPc.PlatformIcon = Utils.ImageOpacity(Properties.Resources.pc_icon, 0.7F);
             this.ChangeLanguage();
             this.SetBackground();
             this.SetStyle(ControlStyles.ResizeRedraw, true);

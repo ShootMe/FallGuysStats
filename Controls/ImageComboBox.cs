@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using MetroFramework;
@@ -241,7 +242,19 @@ namespace FallGuysStats {
             
             this.SelectedIndexChanged += ImageItemComboBox_SelectedIndexChanged;
             
-            SetBlur();
+            this.SetBlur();
+        }
+        #endregion
+        
+        #region SelectedImageItem(data, dataIndex)
+        public void SelectedImageItem(string data, int dataIndex = 0) {
+            int index = this.Items.Cast<ImageItem>()
+                .Select((item, idx) => new { Item = item, Index = idx })
+                .FirstOrDefault(x => string.Equals(data, x.Item.Data[dataIndex]))?.Index ?? -1;
+
+            if (index != -1) {
+                this.SelectedIndex = index;
+            }
         }
         #endregion
 

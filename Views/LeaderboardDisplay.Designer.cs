@@ -305,9 +305,12 @@
             this.gridPlayerDetails.Size = new System.Drawing.Size(980, 746);
             this.gridPlayerDetails.TabIndex = 2;
             this.gridPlayerDetails.DataSourceChanged += new System.EventHandler(this.gridPlayerDetails_DataSourceChanged);
+            this.gridPlayerDetails.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPlayerDetails_CellDoubleClick);
             this.gridPlayerDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridPlayerDetails_CellFormatting);
+            this.gridPlayerDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
+            this.gridPlayerDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridPlayerDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPlayerDetails_ColumnHeaderMouseClick);
-            this.gridPlayerDetails.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
+            
             // 
             // gridOverallRank
             // 

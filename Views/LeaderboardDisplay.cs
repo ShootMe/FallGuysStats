@@ -15,6 +15,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        private readonly string AVAILABLE_ROUND_API_URL = "https://data.fallalytics.com/api/leaderboards";
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
@@ -22,7 +23,7 @@ namespace FallGuysStats {
         private int totalPlayers, totalPages, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1;
         private DateTime refreshTime;
-        private List<RankRound> roundlist;
+        private List<RankRound> availableRoundlist;
         private List<LevelRankInfo> levelRankList;
         private List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
         private List<OverallRankInfo> overallRankList;
@@ -45,22 +46,24 @@ namespace FallGuysStats {
         }
         
         private void spinnerTransition_Tick(object sender, EventArgs e) {
-            if (this.targetSpinner == null) return;
-            if (this.isIncreasing) {
-                this.targetSpinner.Speed = 3.4F;
-                if (this.targetSpinner.Value < 90) {
-                    this.targetSpinner.Value++;
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (this.targetSpinner == null) return;
+                if (this.isIncreasing) {
+                    this.targetSpinner.Speed = 3.4F;
+                    if (this.targetSpinner.Value < 90) {
+                        this.targetSpinner.Value++;
+                    } else {
+                        this.isIncreasing = false;
+                    }
                 } else {
-                    this.isIncreasing = false;
+                    this.targetSpinner.Speed = 2.7F;
+                    if (this.targetSpinner.Value > 10) {
+                        this.targetSpinner.Value--;
+                    } else {
+                        this.isIncreasing = true;
+                    }
                 }
-            } else {
-                this.targetSpinner.Speed = 2.7F;
-                if (this.targetSpinner.Value > 10) {
-                    this.targetSpinner.Value--;
-                } else {
-                    this.isIncreasing = true;
-                }
-            }
+            });
         }
         
         private void LeaderboardDisplay_Load(object sender, EventArgs e) {
@@ -276,7 +279,7 @@ namespace FallGuysStats {
             this.mpsSpinner02.Visible = true;
             Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
-                foreach (RankRound round in this.roundlist) {
+                foreach (RankRound round in this.availableRoundlist) {
                     foreach (string id in round.ids) {
                         if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
                             roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id }));
@@ -459,12 +462,12 @@ namespace FallGuysStats {
                 web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                 if (string.IsNullOrEmpty(queryKey)) {
                     try {
-                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}s");
+                        string json = web.DownloadString($"{this.AVAILABLE_ROUND_API_URL}");
                         var options = new JsonSerializerOptions();
                         options.Converters.Add(new RoundConverter());
                         var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
                         result = availableRound.found;
-                        this.roundlist = availableRound.leaderboards;
+                        this.availableRoundlist = availableRound.leaderboards;
                     } catch {
                         result = false;
                     }
@@ -932,7 +935,7 @@ namespace FallGuysStats {
                 this.spinnerTransition.Stop();
                 this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
-                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
+                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 3518;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
                     this.gridPlayerDetails.DataSource = this.playerDetails ?? this.playerDetailsNodata;
@@ -966,6 +969,16 @@ namespace FallGuysStats {
                     }
                 });
             });
+        }
+        
+        private void gridPlayerDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (this.gridPlayerDetails.SelectedRows.Count > 0) {
+                PbInfo data = this.gridPlayerDetails.SelectedRows[0].DataBoundItem as PbInfo;
+                if (string.IsNullOrEmpty(data.round)) return;
+                this.gridLevelRank.Enabled = false;
+                string roundId = string.Equals(Multilingual.GetRoundName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
+                this.cboRoundList.SelectedImageItem(roundId, 1);
+            }
         }
         
         private void gridPlayerDetails_DataSourceChanged(object sender, EventArgs e) {
