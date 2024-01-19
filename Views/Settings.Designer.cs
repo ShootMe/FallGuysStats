@@ -217,9 +217,10 @@
             // 
             this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSave.Location = new System.Drawing.Point(683, 600);
+            this.btnSave.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnSave.Location = new System.Drawing.Point(685, 605);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(87, 25);
+            this.btnSave.Size = new System.Drawing.Size(87, 26);
             this.btnSave.TabIndex = 7;
             this.btnSave.Text = "Save";
             this.btnSave.UseSelectable = true;
@@ -238,10 +239,10 @@
             // btnSelectFont
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSelectFont.Location = new System.Drawing.Point(200, 720);
-            this.btnSelectFont.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSelectFont.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnSelectFont.Location = new System.Drawing.Point(200, 716);
             this.btnSelectFont.Name = "btnSelectFont";
-            this.btnSelectFont.Size = new System.Drawing.Size(96, 25);
+            this.btnSelectFont.Size = new System.Drawing.Size(96, 26);
             this.btnSelectFont.TabIndex = 28;
             this.btnSelectFont.Text = "Select Font";
             this.btnSelectFont.UseSelectable = true;
@@ -250,10 +251,10 @@
             // btnResetOverlayFont
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(303, 720);
-            this.btnResetOverlayFont.Margin = new System.Windows.Forms.Padding(2);
+            this.btnResetOverlayFont.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(303, 716);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
-            this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 25);
+            this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 26);
             this.btnResetOverlayFont.TabIndex = 29;
             this.btnResetOverlayFont.Text = "Reset Font";
             this.btnResetOverlayFont.UseSelectable = true;
@@ -1395,9 +1396,10 @@
             this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(783, 600);
+            this.btnCancel.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnCancel.Location = new System.Drawing.Point(788, 605);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(87, 25);
+            this.btnCancel.Size = new System.Drawing.Size(87, 26);
             this.btnCancel.TabIndex = 8;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseSelectable = true;
@@ -1755,9 +1757,10 @@
             // 
             this.btnCheckUpdates.AutoSize = true;
             this.btnCheckUpdates.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCheckUpdates.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnCheckUpdates.Location = new System.Drawing.Point(13, 90);
             this.btnCheckUpdates.Name = "btnCheckUpdates";
-            this.btnCheckUpdates.Size = new System.Drawing.Size(54, 23);
+            this.btnCheckUpdates.Size = new System.Drawing.Size(54, 26);
             this.btnCheckUpdates.TabIndex = 3;
             this.btnCheckUpdates.Text = "Update";
             this.btnCheckUpdates.UseSelectable = true;

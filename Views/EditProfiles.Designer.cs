@@ -155,10 +155,10 @@
             // btnAddProfile
             // 
             this.btnAddProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnAddProfile.Location = new System.Drawing.Point(6, 45);
+            this.btnAddProfile.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnAddProfile.Location = new System.Drawing.Point(6, 48);
             this.btnAddProfile.Name = "btnAddProfile";
-            this.btnAddProfile.Size = new System.Drawing.Size(76, 30);
+            this.btnAddProfile.Size = new System.Drawing.Size(76, 26);
             this.btnAddProfile.TabIndex = 2;
             this.btnAddProfile.Text = "Add";
             this.btnAddProfile.UseSelectable = true;
@@ -227,10 +227,10 @@
             // btnRenameProfile
             // 
             this.btnRenameProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRenameProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnRenameProfile.Location = new System.Drawing.Point(6, 83);
+            this.btnRenameProfile.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnRenameProfile.Location = new System.Drawing.Point(6, 86);
             this.btnRenameProfile.Name = "btnRenameProfile";
-            this.btnRenameProfile.Size = new System.Drawing.Size(76, 30);
+            this.btnRenameProfile.Size = new System.Drawing.Size(76, 26);
             this.btnRenameProfile.TabIndex = 4;
             this.btnRenameProfile.Text = "Rename";
             this.btnRenameProfile.UseSelectable = true;
@@ -323,10 +323,10 @@
             // 
             this.btnMoveProfile.AutoSize = true;
             this.btnMoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMoveProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnMoveProfile.Location = new System.Drawing.Point(6, 83);
+            this.btnMoveProfile.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnMoveProfile.Location = new System.Drawing.Point(6, 86);
             this.btnMoveProfile.Name = "btnMoveProfile";
-            this.btnMoveProfile.Size = new System.Drawing.Size(76, 30);
+            this.btnMoveProfile.Size = new System.Drawing.Size(76, 26);
             this.btnMoveProfile.TabIndex = 4;
             this.btnMoveProfile.Text = "Move";
             this.btnMoveProfile.UseSelectable = true;
@@ -396,10 +396,10 @@
             // btnRemoveProfile
             // 
             this.btnRemoveProfile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRemoveProfile.FontSize = MetroFramework.MetroButtonSize.Tall;
-            this.btnRemoveProfile.Location = new System.Drawing.Point(6, 45);
+            this.btnRemoveProfile.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnRemoveProfile.Location = new System.Drawing.Point(6, 48);
             this.btnRemoveProfile.Name = "btnRemoveProfile";
-            this.btnRemoveProfile.Size = new System.Drawing.Size(76, 30);
+            this.btnRemoveProfile.Size = new System.Drawing.Size(76, 26);
             this.btnRemoveProfile.TabIndex = 2;
             this.btnRemoveProfile.Text = "Remove";
             this.btnRemoveProfile.UseSelectable = true;

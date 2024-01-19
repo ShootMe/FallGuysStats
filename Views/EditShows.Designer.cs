@@ -126,9 +126,10 @@
             // btnEditShowsSave
             // 
             this.btnEditShowsSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 215);
+            this.btnEditShowsSave.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 214);
             this.btnEditShowsSave.Name = "btnEditShowsSave";
-            this.btnEditShowsSave.Size = new System.Drawing.Size(87, 25);
+            this.btnEditShowsSave.Size = new System.Drawing.Size(87, 26);
             this.btnEditShowsSave.TabIndex = 1;
             this.btnEditShowsSave.Text = "Save";
             this.btnEditShowsSave.UseSelectable = true;
@@ -137,9 +138,10 @@
             // btnEditShowsCancel
             // 
             this.btnEditShowsCancel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 215);
+            this.btnEditShowsCancel.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 214);
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
-            this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 25);
+            this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 26);
             this.btnEditShowsCancel.TabIndex = 2;
             this.btnEditShowsCancel.Text = "Cancel";
             this.btnEditShowsCancel.UseSelectable = true;

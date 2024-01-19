@@ -185,44 +185,38 @@ namespace FallGuysStats {
                 this.lblEditShowsQuestion.Text = $"{Multilingual.GetWord("profile_move_select_description_prefix")}{Environment.NewLine}{Multilingual.GetWord("profile_move_select_description_suffix")} : {this.SelectedCount:N0}{Multilingual.GetWord("numeric_suffix")}";
             }
             this.lblEditShowslabel.Text = Multilingual.GetWord("profile_list");
-            this.btnEditShowsSave.Text = Multilingual.GetWord("profile_apply_change_button");
-            this.btnEditShowsCancel.Text = Multilingual.GetWord("profile_undo_change_button");
             if (Stats.CurrentLanguage == Language.English) {
                 this.ClientSize = new Size(455, 255);
-                this.cboEditShows.Location = new Point(185, this.cboEditShows.Top);
+                this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(455, 65);
-                this.btnEditShowsSave.Location = new Point(248, this.btnEditShowsSave.Top);
-                this.btnEditShowsCancel.Location = new Point(347, this.btnEditShowsCancel.Top);
             } else if (Stats.CurrentLanguage == Language.French) {
                 this.ClientSize = new Size(525, 255);
-                this.cboEditShows.Location = new Point(185, this.cboEditShows.Top);
+                this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(525, 65);
-                this.btnEditShowsSave.Location = new Point(318, this.btnEditShowsSave.Top);
-                this.btnEditShowsCancel.Location = new Point(417, this.btnEditShowsCancel.Top);
             } else if (Stats.CurrentLanguage == Language.Korean) {
                 this.ClientSize = new Size(455, 255);
-                this.cboEditShows.Location = new Point(185, this.cboEditShows.Top);
+                this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(455, 65);
-                this.btnEditShowsSave.Location = new Point(248, this.btnEditShowsSave.Top);
-                this.btnEditShowsCancel.Location = new Point(347, this.btnEditShowsCancel.Top);
             } else if (Stats.CurrentLanguage == Language.Japanese) {
                 this.ClientSize = new Size(540, 255);
-                this.cboEditShows.Location = new Point(230, this.cboEditShows.Top);
+                this.cboEditShows.Left = 230;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(540, 65);
-                this.btnEditShowsSave.Location = new Point(333, this.btnEditShowsSave.Top);
-                this.btnEditShowsCancel.Location = new Point(432, this.btnEditShowsCancel.Top);
             } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
                 this.ClientSize = new Size(445, 255);
-                this.cboEditShows.Location = new Point(185, this.cboEditShows.Top);
+                this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
                 this.lblEditShowsBackColor.Size = new Size(445, 65);
-                this.btnEditShowsSave.Location = new Point(238, this.btnEditShowsSave.Top);
-                this.btnEditShowsCancel.Location = new Point(337, this.btnEditShowsCancel.Top);
             }
+            this.btnEditShowsCancel.Text = Multilingual.GetWord("profile_undo_change_button");
+            this.btnEditShowsCancel.Width = TextRenderer.MeasureText(this.btnEditShowsCancel.Text, this.btnEditShowsCancel.Font).Width + 45;
+            this.btnEditShowsCancel.Left = this.Width - this.btnEditShowsCancel.Width - 20;
+            this.btnEditShowsSave.Text = Multilingual.GetWord("profile_apply_change_button");
+            this.btnEditShowsSave.Width = TextRenderer.MeasureText(this.btnEditShowsSave.Text, this.btnEditShowsSave.Font).Width + 45;
+            this.btnEditShowsSave.Left = this.btnEditShowsCancel.Left - this.btnEditShowsSave.Width - 15;
         }
     }
 }

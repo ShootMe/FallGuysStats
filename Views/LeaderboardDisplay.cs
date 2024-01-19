@@ -939,6 +939,7 @@ namespace FallGuysStats {
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
                     this.gridPlayerDetails.DataSource = this.playerDetails ?? this.playerDetailsNodata;
+                    this.gridPlayerDetails.ClearSelection();
                     this.gridPlayerList.Enabled = true;
                     this.gridOverallRank.Enabled = true;
                     if (this.overallInfo != null) {

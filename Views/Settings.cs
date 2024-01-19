@@ -839,6 +839,13 @@ namespace FallGuysStats {
             this.tileFallGuys.Text = Multilingual.GetWord("settings_launch_fallguys");
             this.tileFallalytics.Text = Multilingual.GetWord("settings_fallalytics");
             this.tileAbout.Text = Multilingual.GetWord("settings_about");
+            
+            this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
+            this.btnCancel.Width = TextRenderer.MeasureText(this.btnCancel.Text, this.btnCancel.Font).Width + 45;
+            this.btnCancel.Left = this.Width - this.btnCancel.Width - 25;
+            this.btnSave.Text = Multilingual.GetWord("settings_save");
+            this.btnSave.Width = TextRenderer.MeasureText(this.btnSave.Text, this.btnSave.Font).Width + 45;
+            this.btnSave.Left = this.btnCancel.Left - this.btnSave.Width - 15;
 
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(20, 16) : new Point(19, 14);
 
@@ -854,7 +861,7 @@ namespace FallGuysStats {
 
             // this.lblLogPath.Text = Multilingual.GetWord("settings_log_path");
             this.lblLogPathNote.Text = Multilingual.GetWord("settings_log_path_description");
-            this.btnSave.Text = Multilingual.GetWord("settings_save");
+            
             this.rdoOnlyShowGold.Text = Multilingual.GetWord("settings_gold_only");
             this.rdoOnlyShowQualify.Text = Multilingual.GetWord("settings_qualify_only");
             this.rdoCycleQualifyGold.Text = Multilingual.GetWord("settings_cycle_qualify__gold");
@@ -968,9 +975,11 @@ namespace FallGuysStats {
             this.rdoCyclePlayersPing.Text = Multilingual.GetWord("settings_cycle_players__ping");
             this.lblOverlayFont.Text = Multilingual.GetWord("settings_custom_overlay_font");
             this.btnSelectFont.Text = Multilingual.GetWord("settings_select_font");
-            this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
+            this.btnSelectFont.Width = TextRenderer.MeasureText(this.btnSelectFont.Text, this.btnSelectFont.Font).Width + 40;
             this.btnSelectFont.Left = this.lblOverlayFont.Right + 15;
-            this.btnResetOverlayFont.Left = this.btnSelectFont.Right + 6;
+            this.btnResetOverlayFont.Text = Multilingual.GetWord("settings_reset_font");
+            this.btnResetOverlayFont.Width = TextRenderer.MeasureText(this.btnResetOverlayFont.Text, this.btnResetOverlayFont.Font).Width + 40;
+            this.btnResetOverlayFont.Left = this.btnSelectFont.Right + 10;
             this.grpOverlayFontExample.Text = Multilingual.GetWord("settings_font_example");
             this.lblOverlayFontExample.Text = Multilingual.GetWord("settings_round_example");
             this.chkChangeHoopsieLegends.Text = Multilingual.GetWord("settings_rename_hoopsie_legends_to_hoopsie_heroes");
@@ -1008,7 +1017,6 @@ namespace FallGuysStats {
             this.chkIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
             this.chkGroupingCreativeRoundLevels.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.chkRecordEscapeDuringAGame.Text = Multilingual.GetWord("settings_record_escape_during_a_game");
-            this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
 
             this.txtLogPath.WaterMark = Multilingual.GetWord("settings_log_path");
             // this.txtLogPath.Location = new Point(this.lblLogPath.Location.X + this.lblLogPath.Width + 4, 12);
@@ -1040,7 +1048,7 @@ namespace FallGuysStats {
             this.fglink1.Text = Multilingual.GetWord("settings_github");
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
-            this.btnCheckUpdates.Width = 54;
+            this.btnCheckUpdates.Width = TextRenderer.MeasureText(this.btnCheckUpdates.Text, this.btnCheckUpdates.Font).Width + 30;
             this.lblthirdpartyLicences.Font = Overlay.GetMainFont(18);
 #if AllowUpdate
             this.lblVersion.Text = $"{Multilingual.GetWord("main_fall_guys_stats")} v{Assembly.GetExecutingAssembly().GetName().Version.ToString(2)}";
