@@ -272,11 +272,11 @@
             this.gridPlayerList.Size = new System.Drawing.Size(350, 746);
             this.gridPlayerList.TabIndex = 2;
             this.gridPlayerList.DataSourceChanged += new System.EventHandler(this.gridPlayerList_DataSourceChanged);
+            this.gridPlayerList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPlayerList_CellDoubleClick);
             this.gridPlayerList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridPlayerList_CellFormatting);
             this.gridPlayerList.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridPlayerList.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridPlayerList.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPlayerList_ColumnHeaderMouseClick);
-            this.gridPlayerList.SelectionChanged += new System.EventHandler(this.gridPlayerList_SelectionChanged);
             // 
             // gridPlayerDetails
             // 

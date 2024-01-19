@@ -49,7 +49,7 @@ namespace FallGuysStats {
             this.BeginInvoke((MethodInvoker)delegate {
                 if (this.targetSpinner == null) return;
                 if (this.isIncreasing) {
-                    this.targetSpinner.Speed = 3.4F;
+                    this.targetSpinner.Speed = 3.2F;
                     if (this.targetSpinner.Value < 90) {
                         this.targetSpinner.Value++;
                     } else {
@@ -900,7 +900,7 @@ namespace FallGuysStats {
             this.gridPlayerList.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
-        private void gridPlayerList_SelectionChanged(object sender, EventArgs e) {
+        private void gridPlayerList_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (this.gridPlayerList.SelectedRows.Count > 0) {
                 if (this.isSearchCompleted) {
                     this.gridPlayerList.Enabled = false;
@@ -935,7 +935,7 @@ namespace FallGuysStats {
                 this.spinnerTransition.Stop();
                 this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
-                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 3518;
+                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
                     this.gridPlayerDetails.DataSource = this.playerDetails ?? this.playerDetailsNodata;
@@ -975,7 +975,6 @@ namespace FallGuysStats {
             if (this.gridPlayerDetails.SelectedRows.Count > 0) {
                 PbInfo data = this.gridPlayerDetails.SelectedRows[0].DataBoundItem as PbInfo;
                 if (string.IsNullOrEmpty(data.round)) return;
-                this.gridLevelRank.Enabled = false;
                 string roundId = string.Equals(Multilingual.GetRoundName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
                 this.cboRoundList.SelectedImageItem(roundId, 1);
             }
