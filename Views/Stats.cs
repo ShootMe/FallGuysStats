@@ -2472,6 +2472,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 77;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 77) {
+                this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = true;
+                this.CurrentSettings.Version = 78;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {

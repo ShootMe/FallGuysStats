@@ -124,6 +124,7 @@ namespace FallGuysStats {
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
             this.chkFallalyticsReporting.Checked = this.CurrentSettings.EnableFallalyticsReporting;
+            this.chkFallalyticsWeeklyCrownLeague.Checked = this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague;
             this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked;
             if (this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked) {
                 this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
