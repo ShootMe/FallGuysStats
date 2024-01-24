@@ -160,7 +160,7 @@ namespace FallGuysStats {
                     this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                 }
             }
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mtcTabControl.Top + 5);
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Visible ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
             this.mlVisitFallalytics.Visible = true;
         }
         
