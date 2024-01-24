@@ -177,6 +177,7 @@ namespace FallGuysStats {
         public DateTime startupTime = DateTime.UtcNow;
         public DateTime overallRankLoadTime;
         public DateTime weeklyCrownLoadTime;
+        public int totalOverallRankPlayers, totalWeeklyCrownPlayers;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile, currentLanguage;
@@ -5637,6 +5638,7 @@ namespace FallGuysStats {
                         for (int i = 0; i < weeklyCrown.users.Count; i++) {
                             weeklyCrown.users[i].rank = i + 1;
                         }
+                        this.totalWeeklyCrownPlayers = totalPlayers;
                         this.leaderboardWeeklyCrownList = weeklyCrown.users;
                         if (totalPages > 1) {
                             var tasks = new List<Task>();
@@ -5684,6 +5686,7 @@ namespace FallGuysStats {
                         for (int i = 0; i < overallRank.users.Count; i++) {
                             overallRank.users[i].rank = i + 1;
                         }
+                        this.totalOverallRankPlayers = totalPlayers;
                         this.leaderboardOverallRankList = overallRank.users;
                         if (totalPages > 1) {
                             var tasks = new List<Task>();

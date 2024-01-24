@@ -513,10 +513,11 @@ namespace FallGuysStats {
                     return 40;
                 case "onlineServiceNickname":
                     return 0;
-                case "record":
                 case "score":
                 case "firstPlaces":
-                    return 120;
+                    return 150;
+                case "record":
+                    return 180;
                 case "finish":
                     return 200;
                 default:
@@ -560,7 +561,7 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 44;
+                this.gridOverallRank.Rows[e.RowIndex].Height = 42;
                 this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
             } else if (info.rank == 2) {
                 this.gridOverallRank.Rows[e.RowIndex].Height = 40;
@@ -587,7 +588,7 @@ namespace FallGuysStats {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (1000 - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
                     if (percentage <= 20) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         e.Value = Properties.Resources.medal_silver_grid_icon;
@@ -727,7 +728,7 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 44;
+                this.gridLevelRank.Rows[e.RowIndex].Height = 42;
                 this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
             } else if (info.rank == 2) {
                 this.gridLevelRank.Rows[e.RowIndex].Height = 40;
@@ -1268,7 +1269,7 @@ namespace FallGuysStats {
             }
 
             if (info.rank == 1) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 44;
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 42;
                 this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
             } else if (info.rank == 2) {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Height = 40;
@@ -1295,7 +1296,7 @@ namespace FallGuysStats {
                     this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalWeeklyCrownPlayers - 1)) * 100;
                     if (percentage <= 20) {
                         this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         e.Value = Properties.Resources.medal_silver_grid_icon;
