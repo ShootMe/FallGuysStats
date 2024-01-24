@@ -102,8 +102,8 @@ namespace FallGuysStats {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.BeginInvoke((MethodInvoker)delegate {
                         int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                        this.myOverallRank = index + 1;
                         if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
-                            this.myOverallRank = index + 1;
                             this.mlMyRank.Visible = true;
                             this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
                             this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
@@ -1407,11 +1407,10 @@ namespace FallGuysStats {
                             if (prevTask.Result) {
                                 this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
                                 int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
-                                if (index != -1) {
-                                    this.myWeeklyCrownRank = index + 1;
+                                this.myWeeklyCrownRank = index + 1;
+                                if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
                                     this.mlMyRank.Visible = true;
                                     this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
-                                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
                                     int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
                                     int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                                     this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
@@ -1428,6 +1427,7 @@ namespace FallGuysStats {
                                         }
                                     }
                                     this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
                                 }
                             } else {
                                 this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
