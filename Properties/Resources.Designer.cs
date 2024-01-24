@@ -5262,6 +5262,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap crown_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("crown_grid_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap crown_icon {
             get {
                 object obj = ResourceManager.GetObject("crown_icon", resourceCulture);
@@ -7931,6 +7941,16 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap setting_icon {
             get {
                 object obj = ResourceManager.GetObject("setting_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shards_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("shards_grid_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

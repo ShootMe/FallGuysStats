@@ -1273,16 +1273,16 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"  {Math.Truncate(info.score / 60):N0}";
+                e.Value = $"   {Math.Truncate(info.score / 60):N0}";
             } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shards") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = $"  {info.score % 60:N0}";
             } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "crownIcon") {
-                e.Value = Properties.Resources.crown_icon;
+                e.Value = Properties.Resources.crown_grid_icon;
             } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shardIcon") {
-                e.Value = Properties.Resources.shards_icon;
+                e.Value = Properties.Resources.shards_grid_icon;
             } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "score") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
@@ -1401,29 +1401,38 @@ namespace FallGuysStats {
                     Task.Run(() => this.StatsForm.InitializeWeeklyCrownList()).ContinueWith(prevTask => {
                         this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
                         this.BeginInvoke((MethodInvoker)delegate {
-                            int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
-                            if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
-                                this.myWeeklyCrownRank = index + 1;
-                                this.mlMyRank.Visible = true;
-                                this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
-                                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
-                                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
-                            }
                             this.mpsSpinner05.Visible = false;
                             this.spinnerTransition.Stop();
                             this.targetSpinner = null;
                             this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
-                            this.gridWeeklyCrown.ClearSelection();
                             if (prevTask.Result) {
                                 this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
+                                int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                                if (index != -1) {
+                                    this.myWeeklyCrownRank = index + 1;
+                                    this.mlMyRank.Visible = true;
+                                    this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
+                                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
+                                    int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
+                                    int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
+                                    this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                                    if (this.myWeeklyCrownRank == 1) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                                    } else {
+                                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
+                                        if (percentage <= 20) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                        } else if (percentage <= 50) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                        } else {
+                                            this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
+                                        }
+                                    }
+                                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                                }
                             } else {
                                 this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
                                 this.weeklyCrownList = null;
-                            }
-                            if (index != -1) {
-                                int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
-                                int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
-                                this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                             }
                         });
                     });
