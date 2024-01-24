@@ -686,7 +686,7 @@ namespace FallGuysStats {
                             {"leaderboard_choose_a_round", "Sélectionnez une manche"},
                             {"leaderboard_overall_rank", "🏆 Classement général"},
                             {"leaderboard_search_players", "🔎 Recherche de joueurs"},
-                            {"leaderboard_search_players_WaterMark", "🔎 Mon surnom génial"},
+                            {"leaderboard_search_players_WaterMark", "🔎 Mon pseudo génial"},
                             {"leaderboard_weekly_crown_league", "👑 Ligue de la Couronne hebdomadaire"},
                             {"leaderboard_total_players_prefix", ""},
                             {"leaderboard_total_players_suffix", " joueur(s) au total"},
