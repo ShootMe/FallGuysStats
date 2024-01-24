@@ -424,10 +424,12 @@ namespace FallGuysStats {
             this.ResumeLayout();
         }
         
-        private void WinStatsDisplay_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Escape) {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if(keyData == Keys.Escape) {
                 this.Close();
+                return true;
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
         
         private void picSwitchGraphStyle_MouseClick(object sender, MouseEventArgs e) {

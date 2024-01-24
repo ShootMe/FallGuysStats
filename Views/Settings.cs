@@ -124,8 +124,8 @@ namespace FallGuysStats {
             this.chkHidePercentages.Checked = this.CurrentSettings.HideOverlayPercentages;
             this.chkChangeHoopsieLegends.Checked = this.CurrentSettings.HoopsieHeros;
             this.chkFallalyticsReporting.Checked = this.CurrentSettings.EnableFallalyticsReporting;
-            this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked;
-            if (this.chkFallalyticsReporting.Checked) {
+            this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked;
+            if (this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked) {
                 this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
             }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
@@ -386,11 +386,11 @@ namespace FallGuysStats {
                 if (!this.chkNotifyPersonalBest.Checked && !this.chkNotifyServerConnected.Checked) {
                     this.chkMuteNotificationSounds.Checked = false;
                 }
-            } else if (sender.Equals(this.chkFallalyticsReporting)) {
-                this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked;
-                this.txtFallalyticsAPIKey.Enabled = this.chkFallalyticsReporting.Checked;
-                if (!this.chkFallalyticsReporting.Checked) {
-                    this.chkFallalyticsAnonymous.Checked = this.chkFallalyticsReporting.Checked;
+            } else if (sender.Equals(this.chkFallalyticsReporting) || sender.Equals(this.chkFallalyticsWeeklyCrownLeague)) {
+                this.chkFallalyticsAnonymous.Enabled = this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked;
+                this.txtFallalyticsAPIKey.Enabled = this.chkFallalyticsReporting.Checked || this.chkFallalyticsWeeklyCrownLeague.Checked;
+                if (!this.chkFallalyticsReporting.Checked && !this.chkFallalyticsWeeklyCrownLeague.Checked) {
+                    this.chkFallalyticsAnonymous.Checked = false;
                 }
             }
         }
@@ -615,6 +615,7 @@ namespace FallGuysStats {
             this.CurrentSettings.OverlayBackgroundOpacity = this.trkOverlayOpacity.Value;
 
             this.CurrentSettings.EnableFallalyticsReporting = this.chkFallalyticsReporting.Checked;
+            this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = this.chkFallalyticsWeeklyCrownLeague.Checked;
             this.CurrentSettings.EnableFallalyticsAnonymous = this.chkFallalyticsAnonymous.Checked;
             this.CurrentSettings.FallalyticsAPIKey = this.txtFallalyticsAPIKey.Text;
             
@@ -1039,6 +1040,7 @@ namespace FallGuysStats {
                 this.txtGameExeLocation.Size = new Size(567 - this.txtGameExeLocation.Location.X, 25);
             }
             this.chkFallalyticsReporting.Text = Multilingual.GetWord("settings_sends_info_about_rounds_played_to_fallalytics");
+            this.chkFallalyticsWeeklyCrownLeague.Text = Multilingual.GetWord("settings_join_a_weekly_crown_league");
             this.chkFallalyticsAnonymous.Text = Multilingual.GetWord("settings_sends_anonymously_to_fallalytics");
             // this.lblFallalyticsAPIKey.Text = Multilingual.GetWord("settings_enter_fallalytics_api_key");
             this.txtFallalyticsAPIKey.WaterMark = Multilingual.GetWord("settings_enter_fallalytics_api_key");

@@ -47,7 +47,7 @@ namespace FallGuysStats {
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
                     g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.PlatformIcon.Width : this.ImageWidth, this.ImageHeight == 0 ? this.PlatformIcon.Height : this.ImageHeight);
                     if (this.TextRight != null) {
-                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, this.Font.Size * 0.7f, this.Font.Style, GraphicsUnit.Pixel), brFore, new RectangleF(this.ClientRectangle.X + 2, this.ClientRectangle.Y - 2, this.ClientRectangle.Width, this.ClientRectangle.Height), stringFormat);
+                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, this.Font.Size * 0.77f, this.Font.Style, GraphicsUnit.Pixel), brFore, new RectangleF(this.ClientRectangle.X + 5, this.ClientRectangle.Y - 3, this.ClientRectangle.Width, this.ClientRectangle.Height), stringFormat);
                     }
                 }
             } else {

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HtmlAgilityPack;
 using MetroFramework;
 using MetroFramework.Controls;
 
@@ -21,7 +20,7 @@ namespace FallGuysStats {
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
         private string key = String.Empty;
         private int totalPlayers, totalPages, currentPage, totalHeight;
-        private int myLevelRank = -1, myOverallRank = -1;
+        private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
         private List<RankRound> availableRoundlist;
         private List<LevelRankInfo> levelRankList;
@@ -33,6 +32,8 @@ namespace FallGuysStats {
         private List<PbInfo> playerDetails;
         private List<PbInfo> playerDetailsNodata = new List<PbInfo>();
         private OverallInfo overallInfo;
+        private List<WeeklyCrownUser> weeklyCrownList;
+        private List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
         private bool isSearchCompleted;
         private Timer spinnerTransition;
         private bool isIncreasing;
@@ -46,24 +47,22 @@ namespace FallGuysStats {
         }
         
         private void spinnerTransition_Tick(object sender, EventArgs e) {
-            this.BeginInvoke((MethodInvoker)delegate {
-                if (this.targetSpinner == null) return;
-                if (this.isIncreasing) {
-                    this.targetSpinner.Speed = 3.2F;
-                    if (this.targetSpinner.Value < 90) {
-                        this.targetSpinner.Value++;
-                    } else {
-                        this.isIncreasing = false;
-                    }
+            if (this.targetSpinner == null) return;
+            if (this.isIncreasing) {
+                this.targetSpinner.Speed = 3.2F;
+                if (this.targetSpinner.Value < 90) {
+                    this.targetSpinner.Value++;
                 } else {
-                    this.targetSpinner.Speed = 2.7F;
-                    if (this.targetSpinner.Value > 10) {
-                        this.targetSpinner.Value--;
-                    } else {
-                        this.isIncreasing = true;
-                    }
+                    this.isIncreasing = false;
                 }
-            });
+            } else {
+                this.targetSpinner.Speed = 2.7F;
+                if (this.targetSpinner.Value > 10) {
+                    this.targetSpinner.Value--;
+                } else {
+                    this.isIncreasing = true;
+                }
+            }
         }
         
         private void LeaderboardDisplay_Load(object sender, EventArgs e) {
@@ -74,11 +73,25 @@ namespace FallGuysStats {
             this.SetTheme(Stats.CurrentTheme);
             this.SetRoundList();
             
+            this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
+            this.mtpOverallRankPage.Text = Multilingual.GetWord("leaderboard_overall_rank");
+            this.mtpLevelRankPage.Text = $"🕹️ {Multilingual.GetWord("leaderboard_choose_a_round")}";
+            this.mtpSearchPlayersPage.Text = Multilingual.GetWord("leaderboard_search_players");
+            this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
+            this.mtbSearchPlayersText.WaterMark = Multilingual.GetWord("leaderboard_search_players_WaterMark");
+            this.lblSearchDescription.Text = Multilingual.GetWord("leaderboard_choose_a_round");
+            this.lblSearchDescription.Location = new Point((this.gridLevelRank.Width - this.lblSearchDescription.Width) / 2, (this.gridLevelRank.Height - this.lblSearchDescription.Height) / 2);
+            this.mpsSpinner01.Location = new Point((this.gridOverallRank.Width - this.mpsSpinner01.Width) / 2, (this.gridOverallRank.Height - this.mpsSpinner01.Height) / 2);
+            this.mpsSpinner02.Location = new Point((this.gridLevelRank.Width - this.mpsSpinner02.Width) / 2, (this.gridLevelRank.Height - this.mpsSpinner02.Height) / 2);
+            this.mpsSpinner03.Location = new Point((this.gridPlayerList.Width - this.mpsSpinner03.Width) / 2, (this.gridPlayerList.Height - this.mpsSpinner03.Height) / 2);
+            this.mpsSpinner04.Location = new Point(this.gridPlayerDetails.Left + ((this.gridPlayerDetails.Width - this.mpsSpinner04.Width) / 2), (this.gridPlayerDetails.Height - this.mpsSpinner04.Height) / 2);
+            this.mpsSpinner05.Location = new Point((this.gridWeeklyCrown.Width - this.mpsSpinner05.Width) / 2, (this.gridWeeklyCrown.Height - this.mpsSpinner05.Height) / 2);
+            
             this.gridLevelRank.DataSource = this.levelRankNodata;
             this.gridOverallRank.DataSource = this.overallRankNodata;
             this.gridPlayerList.DataSource = this.searchResultNodata;
             this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
-
+            this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
             this.overallRankList = this.StatsForm.leaderboardOverallRankList;
             if (this.overallRankList == null && (DateTime.UtcNow - this.StatsForm.overallRankLoadTime).TotalHours >= 12) {
                 this.mpsSpinner01.Visible = true;
@@ -99,8 +112,9 @@ namespace FallGuysStats {
                         this.mpsSpinner01.Visible = false;
                         this.spinnerTransition.Stop();
                         this.targetSpinner = null;
-                        this.gridOverallRank.DataSource = this.overallRankList ?? this.overallRankNodata;
+                        this.gridOverallRank.DataSource = prevTask.Result ? this.overallRankList : this.overallRankNodata;
                         this.gridOverallRank.ClearSelection();
+                        if (!prevTask.Result) this.overallRankList = null;
                         if (index != -1) {
                             int displayedRowCount = this.gridOverallRank.DisplayedRowCount(false);
                             int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
@@ -114,6 +128,10 @@ namespace FallGuysStats {
                 this.targetSpinner = null;
                 this.gridOverallRank.DataSource = this.overallRankList;
                 this.gridOverallRank.ClearSelection();
+            }
+
+            if (this.StatsForm.leaderboardWeeklyCrownList != null) {
+                this.mtpWeeklyCrownPage.Text = $@"👑 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
             }
         }
 
@@ -144,7 +162,7 @@ namespace FallGuysStats {
                 }
             }
             
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
         }
         
         private void LeaderboardDisplay_Resize(object sender, EventArgs e) {
@@ -152,78 +170,52 @@ namespace FallGuysStats {
             this.mpsSpinner02.Location = new Point((this.gridLevelRank.Width - this.mpsSpinner02.Width) / 2, (this.gridLevelRank.Height - this.mpsSpinner02.Height) / 2);
             this.mpsSpinner03.Location = new Point((this.gridPlayerList.Width - this.mpsSpinner03.Width) / 2, (this.gridPlayerList.Height - this.mpsSpinner03.Height) / 2);
             this.mpsSpinner04.Location = new Point(this.gridPlayerDetails.Left + ((this.gridPlayerDetails.Width - this.mpsSpinner04.Width) / 2), (this.gridPlayerDetails.Height - this.mpsSpinner04.Height) / 2);
+            this.mpsSpinner05.Location = new Point((this.gridWeeklyCrown.Width - this.mpsSpinner05.Width) / 2, (this.gridWeeklyCrown.Height - this.mpsSpinner05.Height) / 2);
             this.lblSearchDescription.Location = new Point((this.gridLevelRank.Width - this.lblSearchDescription.Width) / 2, (this.gridLevelRank.Height - this.lblSearchDescription.Height) / 2);
         }
         
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
-            this.cboRoundList.Theme = theme;
-            this.cboRoundList.BringToFront();
-            this.mlRefreshList.Theme = theme;
-            this.mlRefreshList.BringToFront();
-
-            this.mtpOverallRankPage.Text = Multilingual.GetWord("leaderboard_overall_rank");
-            this.mtpLevelRankPage.Text = $"🕹️ {Multilingual.GetWord("leaderboard_choose_a_round")}";
-            this.mtpSearchPlayersPage.Text = Multilingual.GetWord("leaderboard_search_players");
-            
-            this.mlMyRank.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mlMyRank.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
-            this.mlMyRank.BringToFront();
-            
-            this.mlVisitFallalytics.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mlVisitFallalytics.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
-            this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
-            this.mlVisitFallalytics.BringToFront();
-            
-            this.mtcTabControl.Theme = theme;
-            this.mtpLevelRankPage.Theme = theme;
-            this.mtpSearchPlayersPage.Theme = theme;
-
-            this.mtbSearchPlayersText.Theme = theme;
-            this.mtbSearchPlayersText.WaterMark = Multilingual.GetWord("leaderboard_search_players_WaterMark");
-            
-            this.lblSearchDescription.Theme = theme;
-            this.lblSearchDescription.ForeColor = theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
-            this.lblSearchDescription.Text = Multilingual.GetWord("leaderboard_choose_a_round");
-            this.lblSearchDescription.Location = new Point((this.gridLevelRank.Width - this.lblSearchDescription.Width) / 2, (this.gridLevelRank.Height - this.lblSearchDescription.Height) / 2);
-            this.mpsSpinner01.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mpsSpinner01.Location = new Point((this.gridOverallRank.Width - this.mpsSpinner01.Width) / 2, (this.gridOverallRank.Height - this.mpsSpinner01.Height) / 2);
-            this.mpsSpinner02.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mpsSpinner02.Location = new Point((this.gridLevelRank.Width - this.mpsSpinner02.Width) / 2, (this.gridLevelRank.Height - this.mpsSpinner02.Height) / 2);
-            this.mpsSpinner03.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mpsSpinner03.Location = new Point((this.gridPlayerList.Width - this.mpsSpinner03.Width) / 2, (this.gridPlayerList.Height - this.mpsSpinner03.Height) / 2);
-            this.mpsSpinner04.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.mpsSpinner04.Location = new Point(this.gridPlayerDetails.Left + ((this.gridPlayerDetails.Width - this.mpsSpinner04.Width) / 2), (this.gridPlayerDetails.Height - this.mpsSpinner04.Height) / 2);
-
-            this.lblPlayerInfo01.Theme = theme;
-            this.lblPlayerInfo02.Theme = theme;
-            this.lblPlayerInfo03.Theme = theme;
-            this.lblPlayerInfo04.Theme = theme;
-            this.lblPlayerInfo05.Theme = theme;
-            
-            this.gridLevelRank.Theme = theme;
-            this.gridLevelRank.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.gridLevelRank.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.gridLevelRank.DefaultCellStyle = this.dataGridViewCellStyle2;
-            this.gridLevelRank.RowTemplate.Height = 32;
-            
-            this.gridOverallRank.Theme = theme;
-            this.gridOverallRank.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.gridOverallRank.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.gridOverallRank.DefaultCellStyle = this.dataGridViewCellStyle2;
-            this.gridOverallRank.RowTemplate.Height = 32;
-            
-            this.gridPlayerList.Theme = theme;
-            this.gridPlayerList.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.gridPlayerList.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.gridPlayerList.DefaultCellStyle = this.dataGridViewCellStyle2;
-            this.gridPlayerList.RowTemplate.Height = 32;
-            
-            this.gridPlayerDetails.Theme = theme;
-            this.gridPlayerDetails.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-            this.gridPlayerDetails.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
-            this.gridPlayerDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
-            this.gridPlayerDetails.RowTemplate.Height = 32;
+            foreach (Control c1 in Controls) {
+                if (c1 is MetroLink ml1) {
+                    if (ml1.Equals(this.mlMyRank)) {
+                        ml1.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
+                    } else if (ml1.Equals(this.mlVisitFallalytics)) {
+                        ml1.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
+                    } else if (ml1.Equals(this.mlRefreshList)) {
+                        ml1.Theme = theme;
+                    }
+                    ml1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                    ml1.BringToFront();
+                } else if (c1 is ImageComboBox icb1) {
+                    icb1.Theme = theme;
+                    icb1.BringToFront();
+                } else if (c1 is MetroTabControl mtc1) {
+                    mtc1.Theme = theme;
+                    foreach (Control c2 in mtc1.Controls) {
+                        if (c2 is MetroTabPage mtp2) {
+                            mtp2.Theme = theme;
+                            foreach (Control c3 in mtp2.Controls) {
+                                if (c3 is Grid g3) {
+                                    g3.Theme = theme;
+                                    g3.BackgroundColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                    g3.ColumnHeadersDefaultCellStyle = this.dataGridViewCellStyle1;
+                                    g3.DefaultCellStyle = this.dataGridViewCellStyle2;
+                                    g3.RowTemplate.Height = 32;
+                                    g3.SetContextMenuTheme();
+                                } else if (c3 is MetroTextBox mtb3) {
+                                    mtb3.Theme = theme;
+                                } else if (c3 is MetroLabel mlb3) {
+                                    mlb3.Theme = theme;
+                                    mlb3.ForeColor = theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                                } else if (c3 is MetroProgressSpinner mps3) {
+                                    mps3.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             
             this.dataGridViewCellStyle1.Font = Overlay.GetMainFont(14);
             this.dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -240,8 +232,6 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
             this.dataGridViewCellStyle2.SelectionBackColor = theme == MetroThemeStyle.Light ? Color.DeepSkyBlue : Color.SpringGreen;
             this.dataGridViewCellStyle2.SelectionForeColor = Color.Black;
-            
-            this.gridLevelRank.SetContextMenuTheme();
             
             this.Theme = theme;
             this.ResumeLayout();
@@ -342,7 +332,7 @@ namespace FallGuysStats {
                 }
             }
             if (this.mtcTabControl.SelectedIndex == 1) {
-                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                 this.mlVisitFallalytics.Visible = true;
             }
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
@@ -502,7 +492,7 @@ namespace FallGuysStats {
         private int GetDataGridViewColumnWidth(string columnName) {
             switch (columnName) {
                 case "rank":
-                    return 50;
+                    return 80;
                 case "level":
                 case "show":
                     return 0;
@@ -512,6 +502,14 @@ namespace FallGuysStats {
                     return 45;
                 case "RoundIcon":
                     return 45;
+                case "crowns":
+                    return 120;
+                case "shards":
+                    return 120;
+                case "crownIcon":
+                    return 40;
+                case "shardIcon":
+                    return 40;
                 case "medal":
                     return 30;
                 case "onlineServiceNickname":
@@ -519,7 +517,7 @@ namespace FallGuysStats {
                 case "record":
                 case "score":
                 case "firstPlaces":
-                    return 150;
+                    return 170;
                 case "finish":
                     return 200;
                 default:
@@ -534,15 +532,15 @@ namespace FallGuysStats {
             this.gridOverallRank.Columns["country"].Visible = false;
             this.gridOverallRank.Columns["onlineServiceType"].Visible = false;
             this.gridOverallRank.Columns["id"].Visible = false;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridOverallRank.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridOverallRank.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridOverallRank.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridOverallRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridOverallRank.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = Multilingual.GetWord("") });
+            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridOverallRank.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallRank.Columns["flag"].DefaultCellStyle.NullValue = null;
             this.gridOverallRank.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
@@ -681,17 +679,17 @@ namespace FallGuysStats {
             this.gridLevelRank.Columns["country"].Visible = false;
             this.gridLevelRank.Columns["onlineServiceType"].Visible = false;
             this.gridLevelRank.Columns["onlineServiceId"].Visible = false;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridLevelRank.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridLevelRank.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridLevelRank.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridLevelRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridLevelRank.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridLevelRank.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridLevelRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridLevelRank.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = Multilingual.GetWord("") });
+            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridLevelRank.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
             this.gridLevelRank.Columns["flag"].DefaultCellStyle.NullValue = null;
             this.gridLevelRank.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
@@ -830,10 +828,10 @@ namespace FallGuysStats {
             this.gridPlayerList.Columns["onlineServiceType"].Visible = false;
             this.gridPlayerList.Columns["onlineServiceId"].Visible = false;
             this.gridPlayerList.Columns["id"].Visible = false;
-            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridPlayerList.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridPlayerList.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = Multilingual.GetWord("") });
+            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridPlayerList.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
             this.gridPlayerList.Columns["flag"].DefaultCellStyle.NullValue = null;
             this.gridPlayerList.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
@@ -993,12 +991,12 @@ namespace FallGuysStats {
             this.gridPlayerDetails.Columns["roundName"].Visible = false;
             this.gridPlayerDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridPlayerDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridPlayerDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridPlayerDetails.Columns["RoundIcon"].DefaultCellStyle.NullValue = null;
             this.gridPlayerDetails.Setup("round", pos++, this.GetDataGridViewColumnWidth("level"), $"{Multilingual.GetWord("level_detail_name")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridPlayerDetails.Columns["round"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = Multilingual.GetWord("") });
+            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridPlayerDetails.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridPlayerDetails.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridPlayerDetails.Setup("index", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleRight);
@@ -1145,10 +1143,12 @@ namespace FallGuysStats {
             ((Grid)sender).ClearSelection();
         }
         
-        private void LeaderboardDisplay_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Escape) {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if(keyData == Keys.Escape) {
                 this.Close();
+                return true;
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
         
         private void mtbSearchPlayersText_KeyDown(object sender, KeyEventArgs e) {
@@ -1188,12 +1188,173 @@ namespace FallGuysStats {
                 });
             }
         }
+        
+        private void gridWeeklyCrown_DataSourceChanged(object sender, EventArgs e) {
+            if (this.gridWeeklyCrown.Columns.Count == 0) { return; }
+            int pos = 0;
+            this.gridWeeklyCrown.Columns["isAnonymous"].Visible = false;
+            this.gridWeeklyCrown.Columns["country"].Visible = false;
+            this.gridWeeklyCrown.Columns["onlineServiceType"].Visible = false;
+            this.gridWeeklyCrown.Columns["id"].Visible = false;
+            this.gridWeeklyCrown.Columns["crowns"].Visible = false;
+            this.gridWeeklyCrown.Columns["shards"].Visible = false;
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridWeeklyCrown.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridWeeklyCrown.Columns["medal"].DefaultCellStyle.NullValue = null;
+            this.gridWeeklyCrown.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), Multilingual.GetWord("leaderboard_grid_header_rank"), DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridWeeklyCrown.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridWeeklyCrown.Columns["platform"].DefaultCellStyle.NullValue = null;
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            this.gridWeeklyCrown.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["flag"].DefaultCellStyle.NullValue = null;
+            this.gridWeeklyCrown.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "crownIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridWeeklyCrown.Setup("crownIcon", pos++, this.GetDataGridViewColumnWidth("crownIcon"), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridWeeklyCrown.Columns["crownIcon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            this.gridWeeklyCrown.Columns["crownIcon"].DefaultCellStyle.NullValue = null;
+            this.gridWeeklyCrown.Setup("crowns", pos++, this.GetDataGridViewColumnWidth("crowns"), Multilingual.GetWord("leaderboard_grid_header_crowns"), DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["crowns"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "shardIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridWeeklyCrown.Setup("shardIcon", pos++, this.GetDataGridViewColumnWidth("shardIcon"), "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridWeeklyCrown.Columns["shardIcon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
+            this.gridWeeklyCrown.Columns["shardIcon"].DefaultCellStyle.NullValue = null;
+            this.gridWeeklyCrown.Setup("shards", pos++, this.GetDataGridViewColumnWidth("shards"), Multilingual.GetWord("leaderboard_grid_header_shards"), DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["shards"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridWeeklyCrown.Setup("score", pos++, this.GetDataGridViewColumnWidth("score"), $"{Multilingual.GetWord("leaderboard_grid_header_score")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridWeeklyCrown.Setup("period", pos++, this.GetDataGridViewColumnWidth("period"), $"{Multilingual.GetWord("leaderboard_grid_header_period")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Columns["period"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        }
+        
+        private void gridWeeklyCrown_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            if (e.RowIndex < 0 || e.RowIndex >= this.gridWeeklyCrown.Rows.Count) { return; }
+
+            WeeklyCrownUser info = this.gridWeeklyCrown.Rows[e.RowIndex].DataBoundItem as WeeklyCrownUser;
+            if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+            }
+            
+            if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "rank") {
+                e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "flag") {
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+                e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "platform") {
+                if (!info.isAnonymous) {
+                    this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
+                }
+                e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "medal") {
+                if (info.rank == 1) {
+                    this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    e.Value = Properties.Resources.medal_gold_grid_icon;
+                } else {
+                    double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
+                    if (percentage <= 20) {
+                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        e.Value = Properties.Resources.medal_silver_grid_icon;
+                    } else if (percentage <= 50) {
+                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        e.Value = Properties.Resources.medal_bronze_grid_icon;
+                    } else {
+                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        e.Value = Properties.Resources.medal_pink_grid_icon;
+                    }
+                }
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+                e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "crowns") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+                e.Value = $"  {Math.Truncate(info.score / 60):N0}";
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shards") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+                e.Value = $"  {info.score % 60:N0}";
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "crownIcon") {
+                e.Value = Properties.Resources.crown_icon;
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shardIcon") {
+                e.Value = Properties.Resources.shards_icon;
+            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "score") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+                e.Value = $"  {e.Value:N0}";
+            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "period") {
+                e.Value = $@"📆 {this.StatsForm.leaderboardWeeklyCrownPeriod}";
+            }
+
+            if (e.RowIndex % 2 == 0) {
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+        }
+        
+        private void gridWeeklyCrown_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
+            if (this.weeklyCrownList == null) return;
+            string columnName = this.gridWeeklyCrown.Columns[e.ColumnIndex].Name;
+            if (string.Equals(columnName, "period")) return;
+            SortOrder sortOrder = this.gridWeeklyCrown.GetSortOrder(columnName);
+            if (sortOrder == SortOrder.None) { columnName = "rank"; }
+            
+            this.weeklyCrownList.Sort(delegate (WeeklyCrownUser one, WeeklyCrownUser two) {
+                int rankCompare = one.rank.CompareTo(two.rank);
+                int scoreCompare = one.score.CompareTo(two.score);
+                if (sortOrder == SortOrder.Descending) {
+                    (one, two) = (two, one);
+                }
+
+                switch (columnName) {
+                    case "medal":
+                        rankCompare = one.rank.CompareTo(two.rank);
+                        return rankCompare != 0 ? rankCompare : scoreCompare;
+                    case "rank":
+                        rankCompare = one.rank.CompareTo(two.rank);
+                        return rankCompare != 0 ? rankCompare : scoreCompare;
+                    case "platform":
+                        int platformCompare = String.Compare(one.onlineServiceType, two.onlineServiceType, StringComparison.OrdinalIgnoreCase);
+                        return platformCompare != 0 ? platformCompare : rankCompare;
+                    case "flag":
+                        int countryCompare = String.Compare(one.country, two.country, StringComparison.OrdinalIgnoreCase);
+                        return countryCompare != 0 ? countryCompare : rankCompare;
+                    case "onlineServiceNickname":
+                        int nicknameCompare = String.Compare(one.onlineServiceNickname, two.onlineServiceNickname, StringComparison.OrdinalIgnoreCase);
+                        return nicknameCompare != 0 ? nicknameCompare : rankCompare;
+                    case "crowns":
+                    case "crownIcon":
+                        int crownsCompare = (Math.Truncate(one.score / 60)).CompareTo(Math.Truncate(two.score / 60));
+                        return crownsCompare != 0 ? crownsCompare : scoreCompare;
+                    case "shards":
+                    case "shardIcon":
+                        int shardsCompare = (one.score % 60).CompareTo(two.score % 60);
+                        return shardsCompare != 0 ? shardsCompare : scoreCompare;
+                    case "score":
+                        scoreCompare = one.score.CompareTo(two.score);
+                        return scoreCompare != 0 ? scoreCompare : rankCompare;
+                    default:
+                        return 0;
+                }
+            });
+            
+            this.gridWeeklyCrown.DataSource = null;
+            this.gridWeeklyCrown.DataSource = this.weeklyCrownList;
+            this.gridWeeklyCrown.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+        }
 
         private void mtcTabControl_SelectedIndexChanged(object sender, EventArgs e) {
             if (this.mtcTabControl.SelectedIndex == 0) {
                 this.mlMyRank.Visible = this.myOverallRank != -1;
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
-                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myOverallRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myOverallRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                 if (this.myOverallRank == 1) {
                     this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
                 } else {
@@ -1210,7 +1371,7 @@ namespace FallGuysStats {
             } else if (this.mtcTabControl.SelectedIndex == 1) {
                 this.mlMyRank.Visible = this.myLevelRank != -1;
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myLevelRank)} {Stats.OnlineServiceNickname}";
-                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myLevelRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myLevelRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                 if (this.myLevelRank == 1) {
                     this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
                 } else {
@@ -1224,18 +1385,84 @@ namespace FallGuysStats {
                     }
                 }
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
-            } else {
+            } else if (this.mtcTabControl.SelectedIndex == 2) {
                 this.mlMyRank.Visible = false;
-                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mtcTabControl.Top + 5);
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+            } else if (this.mtcTabControl.SelectedIndex == 3) {
+                if (this.StatsForm.leaderboardWeeklyCrownList == null || (DateTime.UtcNow > this.StatsForm.weeklyCrownLoadTime &&
+                                                                          (DateTime.UtcNow.Year != this.StatsForm.weeklyCrownLoadTime.Year
+                                                                           || DateTime.UtcNow.Month != this.StatsForm.weeklyCrownLoadTime.Month
+                                                                           || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
+                                                                           || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour))) {
+                    this.mpsSpinner05.Visible = true;
+                    this.mpsSpinner05.BringToFront();
+                    this.spinnerTransition.Start();
+                    this.targetSpinner = this.mpsSpinner05;
+                    Task.Run(() => this.StatsForm.InitializeWeeklyCrownList()).ContinueWith(prevTask => {
+                        this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
+                        this.BeginInvoke((MethodInvoker)delegate {
+                            int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                            if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
+                                this.myWeeklyCrownRank = index + 1;
+                                this.mlMyRank.Visible = true;
+                                this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
+                                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+                            }
+                            this.mpsSpinner05.Visible = false;
+                            this.spinnerTransition.Stop();
+                            this.targetSpinner = null;
+                            this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
+                            this.gridWeeklyCrown.ClearSelection();
+                            if (prevTask.Result) {
+                                this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
+                            } else {
+                                this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
+                                this.weeklyCrownList = null;
+                            }
+                            if (index != -1) {
+                                int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
+                                int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
+                                this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                            }
+                        });
+                    });
+                } else {
+                    this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
+                    this.gridWeeklyCrown.DataSource = this.weeklyCrownList;
+                    int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                    this.myWeeklyCrownRank = index + 1;
+                    this.mlMyRank.Visible = index != -1;
+                    this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
+                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+                    if (this.myWeeklyCrownRank == 1) {
+                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                    } else {
+                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
+                        if (percentage <= 20) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        } else if (percentage <= 50) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
+                        }
+                    }
+                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                }
             }
         }
 
         private void link_Click(object sender, EventArgs e) {
             if (sender.Equals(this.mlVisitFallalytics)) {
-                Process.Start(this.mtcTabControl.SelectedIndex == 0
-                    ? "https://fallalytics.com/leaderboards/speedrun-total"
-                    : this.mtcTabControl.SelectedIndex == 1 ? (string.IsNullOrEmpty(this.key) ? "https://fallalytics.com/leaderboards/speedrun" : $"https://fallalytics.com/leaderboards/speedrun/{this.key}/1")
-                        : (this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"https://fallalytics.com/player/{this.currentUserId}"));
+                if (this.mtcTabControl.SelectedIndex == 0) {
+                    Process.Start("https://fallalytics.com/leaderboards/speedrun-total");
+                } else if (this.mtcTabControl.SelectedIndex == 1) {
+                    Process.Start(string.IsNullOrEmpty(this.key) ? "https://fallalytics.com/leaderboards/speedrun" : $"https://fallalytics.com/leaderboards/speedrun/{this.key}/1");
+                } else if (this.mtcTabControl.SelectedIndex == 2) {
+                    Process.Start(this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"https://fallalytics.com/player/{this.currentUserId}");
+                } else if (this.mtcTabControl.SelectedIndex == 3) {
+                    Process.Start("https://fallalytics.com/leaderboards");
+                }
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
@@ -1255,6 +1482,11 @@ namespace FallGuysStats {
                     int index = this.levelRankList.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
                     int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                     this.gridLevelRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                } else if (this.mtcTabControl.SelectedIndex == 3) {
+                    int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
+                    int index = this.weeklyCrownList.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                    int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
+                    this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                 }
             }
         }

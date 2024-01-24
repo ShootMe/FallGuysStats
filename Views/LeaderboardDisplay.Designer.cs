@@ -33,16 +33,19 @@
             this.mtpLevelRankPage = new MetroFramework.Controls.MetroTabPage();
             this.mtpOverallRankPage = new MetroFramework.Controls.MetroTabPage();
             this.mtpSearchPlayersPage = new MetroFramework.Controls.MetroTabPage();
+            this.mtpWeeklyCrownPage = new MetroFramework.Controls.MetroTabPage();
             this.mtbSearchPlayersText = new MetroFramework.Controls.MetroTextBox();
             this.mpsSpinner01 = new MetroFramework.Controls.MetroProgressSpinner();
             this.mpsSpinner02 = new MetroFramework.Controls.MetroProgressSpinner();
             this.mpsSpinner03 = new MetroFramework.Controls.MetroProgressSpinner();
             this.mpsSpinner04 = new MetroFramework.Controls.MetroProgressSpinner();
+            this.mpsSpinner05 = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.gridOverallRank = new FallGuysStats.Grid();
             this.gridLevelRank = new FallGuysStats.Grid();
             this.gridPlayerList = new FallGuysStats.Grid();
             this.gridPlayerDetails = new FallGuysStats.Grid();
+            this.gridWeeklyCrown = new FallGuysStats.Grid();
             this.mlMyRank = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.mlRefreshList = new MetroFramework.Controls.MetroLink();
@@ -60,6 +63,7 @@
             this.mtpLevelRankPage.SuspendLayout();
             this.mtpOverallRankPage.SuspendLayout();
             this.mtpSearchPlayersPage.SuspendLayout();
+            this.mtpWeeklyCrownPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo01)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo02)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).BeginInit();
@@ -68,6 +72,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerDetails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridWeeklyCrown)).BeginInit();
             this.SuspendLayout();
             // 
             // mtcTabControl
@@ -76,6 +81,7 @@
             this.mtcTabControl.Controls.Add(this.mtpOverallRankPage);
             this.mtcTabControl.Controls.Add(this.mtpLevelRankPage);
             this.mtcTabControl.Controls.Add(this.mtpSearchPlayersPage);
+            this.mtcTabControl.Controls.Add(this.mtpWeeklyCrownPage);
             this.mtcTabControl.FontSize = MetroFramework.MetroTabControlSize.Tall;
             this.mtcTabControl.FontWeight = MetroFramework.MetroTabControlWeight.Regular;
             this.mtcTabControl.Location = new System.Drawing.Point(6, 96);
@@ -102,7 +108,7 @@
             this.mtpOverallRankPage.VerticalScrollbarHighlightOnWheel = false;
             this.mtpOverallRankPage.VerticalScrollbarSize = 12;
             // 
-            // mtpSearchPlayers
+            // mtpSearchPlayersPage
             // 
             this.mtpSearchPlayersPage.Controls.Add(this.mtbSearchPlayersText);
             this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo01);
@@ -477,8 +483,72 @@
             this.gridLevelRank.DataSourceChanged += new System.EventHandler(this.gridLevelRank_DataSourceChanged);
             this.gridLevelRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridLevelRank_CellFormatting);
             this.gridLevelRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridLevelRank_ColumnHeaderMouseClick);
-            // this.gridLevelRank.Scroll += new System.Windows.Forms.ScrollEventHandler(this.gridLevelRank_Scroll);
             this.gridLevelRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
+            // 
+            // mtpWeeklyCrownPage
+            // 
+            this.mtpWeeklyCrownPage.Controls.Add(this.mpsSpinner05);
+            this.mtpWeeklyCrownPage.Controls.Add(this.gridWeeklyCrown);
+            this.mtpWeeklyCrownPage.HorizontalScrollbarBarColor = true;
+            this.mtpWeeklyCrownPage.HorizontalScrollbarHighlightOnWheel = false;
+            this.mtpWeeklyCrownPage.HorizontalScrollbarSize = 9;
+            this.mtpWeeklyCrownPage.Location = new System.Drawing.Point(4, 44);
+            this.mtpWeeklyCrownPage.Name = "mtpWeeklyCrownPage";
+            this.mtpWeeklyCrownPage.Size = new System.Drawing.Size(1331, 761);
+            this.mtpWeeklyCrownPage.TabIndex = 0;
+            this.mtpWeeklyCrownPage.Text = "Weekly Crown League";
+            this.mtpWeeklyCrownPage.VerticalScrollbarBarColor = true;
+            this.mtpWeeklyCrownPage.VerticalScrollbarHighlightOnWheel = false;
+            this.mtpWeeklyCrownPage.VerticalScrollbarSize = 12;
+            // 
+            // mpsSpinner05
+            // 
+            this.mpsSpinner05.BackColor = System.Drawing.Color.White;
+            this.mpsSpinner05.Location = new System.Drawing.Point(509, 344);
+            this.mpsSpinner05.Margin = new System.Windows.Forms.Padding(0);
+            this.mpsSpinner05.Maximum = 100;
+            this.mpsSpinner05.MaximumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner05.MinimumSize = new System.Drawing.Size(28, 28);
+            this.mpsSpinner05.Name = "mpsSpinner05";
+            this.mpsSpinner05.Size = new System.Drawing.Size(28, 28);
+            this.mpsSpinner05.Speed = 3F;
+            this.mpsSpinner05.Style = MetroFramework.MetroColorStyle.Teal;
+            this.mpsSpinner05.TabIndex = 4;
+            this.mpsSpinner05.UseCustomBackColor = true;
+            this.mpsSpinner05.UseSelectable = true;
+            this.mpsSpinner05.Value = 10;
+            this.mpsSpinner05.Visible = false;
+            // 
+            // gridWeeklyCrown
+            // 
+            this.gridWeeklyCrown.AllowUserToDeleteRows = false;
+            this.gridWeeklyCrown.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridWeeklyCrown.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridWeeklyCrown.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridWeeklyCrown.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridWeeklyCrown.ColumnHeadersHeight = 24;
+            this.gridWeeklyCrown.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridWeeklyCrown.EnableHeadersVisualStyles = false;
+            this.gridWeeklyCrown.Location = new System.Drawing.Point(0, 0);
+            this.gridWeeklyCrown.MultiSelect = false;
+            this.gridWeeklyCrown.Name = "gridWeeklyCrown";
+            this.gridWeeklyCrown.ReadOnly = true;
+            this.gridWeeklyCrown.RowHeadersVisible = false;
+            this.gridWeeklyCrown.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridWeeklyCrown.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridWeeklyCrown.Size = new System.Drawing.Size(1332, 768);
+            this.gridWeeklyCrown.TabIndex = 2;
+            this.gridWeeklyCrown.DataSourceChanged += new System.EventHandler(this.gridWeeklyCrown_DataSourceChanged);
+            this.gridWeeklyCrown.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridWeeklyCrown_CellFormatting);
+            this.gridWeeklyCrown.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridWeeklyCrown_ColumnHeaderMouseClick);
+            this.gridWeeklyCrown.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mlMyRank
             // 
@@ -585,7 +655,6 @@
             this.Text = "Level Stats";
             this.Load += new System.EventHandler(this.LeaderboardDisplay_Load);
             this.Shown += new System.EventHandler(this.LeaderboardDisplay_Shown);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LeaderboardDisplay_KeyDown);
             this.Resize += new System.EventHandler(this.LeaderboardDisplay_Resize);
             this.mtcTabControl.ResumeLayout(false);
             this.mtpLevelRankPage.ResumeLayout(false);
@@ -594,6 +663,8 @@
             this.mtpOverallRankPage.PerformLayout();
             this.mtpSearchPlayersPage.ResumeLayout(false);
             this.mtpSearchPlayersPage.PerformLayout();
+            this.mtpWeeklyCrownPage.ResumeLayout(false);
+            this.mtpWeeklyCrownPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo01)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo02)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).EndInit();
@@ -602,6 +673,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerDetails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridWeeklyCrown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
         }
@@ -612,11 +684,13 @@
         private MetroFramework.Controls.MetroTabPage mtpLevelRankPage;
         private MetroFramework.Controls.MetroTabPage mtpOverallRankPage;
         private MetroFramework.Controls.MetroTabPage mtpSearchPlayersPage;
+        private MetroFramework.Controls.MetroTabPage mtpWeeklyCrownPage;
         private MetroFramework.Controls.MetroTextBox mtbSearchPlayersText;
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner01;
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner02;
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner03;
         private MetroFramework.Controls.MetroProgressSpinner mpsSpinner04;
+        private MetroFramework.Controls.MetroProgressSpinner mpsSpinner05;
         private MetroFramework.Controls.MetroLabel lblSearchDescription;
         private MetroFramework.Controls.MetroLink mlMyRank;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
@@ -635,5 +709,6 @@
         private FallGuysStats.Grid gridLevelRank;
         private FallGuysStats.Grid gridPlayerList;
         private FallGuysStats.Grid gridPlayerDetails;
+        private FallGuysStats.Grid gridWeeklyCrown;
     }
 }

@@ -176,6 +176,7 @@ namespace FallGuysStats {
         private DateTime lastAddedShow = DateTime.MinValue;
         public DateTime startupTime = DateTime.UtcNow;
         public DateTime overallRankLoadTime;
+        public DateTime weeklyCrownLoadTime;
         private int askedPreviousShows = 0;
         private TextInfo textInfo;
         private int currentProfile, currentLanguage;
@@ -208,6 +209,10 @@ namespace FallGuysStats {
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
         public List<OverallRankInfo> leaderboardOverallRankList;
+        public List<WeeklyCrownUser> leaderboardWeeklyCrownList;
+        public int leaderboardWeeklyCrownYear;
+        public int leaderboardWeeklyCrownWeek;
+        public string leaderboardWeeklyCrownPeriod;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {
@@ -2461,6 +2466,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 76;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 76) {
+                this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague = true;
+                this.CurrentSettings.Version = 77;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -2543,6 +2554,7 @@ namespace FallGuysStats {
                 UpdatedDateFormat = true,
                 WinPerDayGraphStyle = 0,
                 EnableFallalyticsReporting = false,
+                EnableFallalyticsWeeklyCrownLeague = false,
                 EnableFallalyticsAnonymous = false,
                 ShowChangelog = true,
                 Visible = true,
@@ -3314,8 +3326,10 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
-                                if (this.CurrentSettings.EnableFallalyticsReporting && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
-                                    Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
+                                if ((this.CurrentSettings.EnableFallalyticsReporting || this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                    if (this.CurrentSettings.EnableFallalyticsReporting) {
+                                        Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
+                                    }
 
                                     if (OnlineServiceType != OnlineServiceTypes.None) {
                                         string[] userInfo = null;
@@ -3336,18 +3350,22 @@ namespace FallGuysStats {
                                             }
                                             
                                             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) {
-                                                if (stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
-                                                    Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                                if (this.CurrentSettings.EnableFallalyticsReporting) {
+                                                    if (stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                                        Task.Run(() => this.FallalyticsRegisterPb(stat));
+                                                    }
                                                 }
-
-                                                // if (stat.Crown) {
-                                                //     Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
-                                                // }
-                                                //
-                                                // bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
-                                                // if (existsTransferFailedLogs) {
-                                                //     Task.Run(this.FallalyticsResendWeeklyCrown);
-                                                // }
+                                                
+                                                if (this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) {
+                                                    if (stat.Crown) {
+                                                        Task.Run(() => this.FallalyticsWeeklyCrown(stat)).ContinueWith(prevTask => this.FallalyticsResendWeeklyCrown());
+                                                    }
+                                                    
+                                                    bool existsTransferFailedLogs = this.FallalyticsCrownLogCache.Exists(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                                                    if (existsTransferFailedLogs) {
+                                                        Task.Run(this.FallalyticsResendWeeklyCrown);
+                                                    }
+                                                }
                                             }
                                         }
                                     }
@@ -5597,17 +5615,64 @@ namespace FallGuysStats {
             }
         }
 
-        public void InitializeOverallRankList() {
+        public bool InitializeWeeklyCrownList() {
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string weeklyCrownApiUrl = "https://data.fallalytics.com/api/crown-leaderboard";
+                    web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                    string json = web.DownloadString($"{weeklyCrownApiUrl}?page=1");
+                    WeeklyCrown weeklyCrown = System.Text.Json.JsonSerializer.Deserialize<WeeklyCrown>(json);
+                    if (weeklyCrown.found) {
+                        this.leaderboardWeeklyCrownYear = (int)weeklyCrown.year;
+                        this.leaderboardWeeklyCrownWeek = (int)weeklyCrown.week;
+                        this.leaderboardWeeklyCrownPeriod = Utils.GetStartAndEndDates(this.leaderboardWeeklyCrownYear, this.leaderboardWeeklyCrownWeek);
+                        int totalPlayers = weeklyCrown.total;
+                        int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
+                        for (int i = 0; i < weeklyCrown.users.Count; i++) {
+                            weeklyCrown.users[i].rank = i + 1;
+                        }
+                        this.leaderboardWeeklyCrownList = weeklyCrown.users;
+                        if (totalPages > 1) {
+                            var tasks = new List<Task>();
+                            HttpClient client = new HttpClient();
+                            client.DefaultRequestHeaders.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
+                            for (int i = 2; i <= totalPages; i++) {
+                                int page = i;
+                                tasks.Add(Task.Run(async () => {
+                                    HttpResponseMessage response = await client.GetAsync($"{weeklyCrownApiUrl}?page={page}");
+                                    if (response.IsSuccessStatusCode) {
+                                        json = await response.Content.ReadAsStringAsync();
+                                        weeklyCrown = System.Text.Json.JsonSerializer.Deserialize<WeeklyCrown>(json);
+                                        for (int j = 0; j < weeklyCrown.users.Count; j++) {
+                                            weeklyCrown.users[j].rank = j + 1 + ((page - 1) * 100);
+                                        }
+                                        this.leaderboardWeeklyCrownList.AddRange(weeklyCrown.users);
+                                    }
+                                }));
+                            }
+                            Task.WhenAll(tasks).Wait();
+                        }
+                        this.leaderboardWeeklyCrownList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
+                        this.weeklyCrownLoadTime = DateTime.UtcNow;
+                        return true;
+                    }
+                    return false;
+                } catch {
+                    this.leaderboardWeeklyCrownList = null;
+                    return false;
+                }
+            }
+        }
+
+        public bool InitializeOverallRankList() {
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
                     string overallRankApiUrl = "https://data.fallalytics.com/api/speedrun-total";
                     web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                     string json = web.DownloadString($"{overallRankApiUrl}?page=1");
                     JsonSerializerOptions options = new JsonSerializerOptions();
-                    options.Converters.Add(new OverallRankInfoConverter());
-                    OverallRank overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json, options);
-                    bool isFound = overallRank.found;
-                    if (isFound) {
+                    OverallRank overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json);
+                    if (overallRank.found) {
                         int totalPlayers = overallRank.total;
                         int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
                         for (int i = 0; i < overallRank.users.Count; i++) {
@@ -5638,9 +5703,12 @@ namespace FallGuysStats {
                         }
                         this.leaderboardOverallRankList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                         this.overallRankLoadTime = DateTime.UtcNow;
+                        return true;
                     }
+                    return false;
                 } catch {
                     this.leaderboardOverallRankList = null;
+                    return false;
                 }
             }
         }

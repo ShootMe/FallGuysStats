@@ -132,7 +132,6 @@
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Stats Display";
             this.Load += new System.EventHandler(this.WinStatsDisplay_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WinStatsDisplay_KeyDown);
             this.Shown += new System.EventHandler(this.WinStatsDisplay_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.picSwitchGraphStyle)).EndInit();
             this.ResumeLayout(false);

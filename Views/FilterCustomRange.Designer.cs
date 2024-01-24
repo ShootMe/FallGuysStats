@@ -203,7 +203,6 @@
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Custom Range";
             this.Load += new System.EventHandler(this.FilterCustomRange_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FilterCustomRange_KeyDown);
             this.Shown += new System.EventHandler(this.FilterCustomRange_Shown);
             this.grpTemplates.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picStartDate)).EndInit();

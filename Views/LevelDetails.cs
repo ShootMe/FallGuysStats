@@ -706,13 +706,19 @@ namespace FallGuysStats {
             try {
                 if (e.KeyCode == Keys.Delete) {
                     this.DeleteShow();
-                } else if (e.KeyCode == Keys.Escape) {
-                    this.Close();
                 }
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.Message, $"{Multilingual.GetWord("message_program_error_caption")}",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if(keyData == Keys.Escape) {
+                this.Close();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
         
         private void deleteShows_Click(object sender, EventArgs e) {

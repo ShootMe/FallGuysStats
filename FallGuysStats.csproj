@@ -364,6 +364,7 @@
     <None Include="Resources\setting_icon.png" />
     <None Include="Resources\setting_gray_icon.png" />
     <None Include="Resources\crown_icon.png" />
+    <None Include="Resources\shards_icon.png" />
     <None Include="Resources\kudos_icon.png" />
     <None Include="Resources\clock_icon.png" />
     <None Include="Resources\clock_gray_icon.png" />

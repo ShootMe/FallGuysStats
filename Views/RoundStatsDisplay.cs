@@ -202,11 +202,12 @@ namespace FallGuysStats {
             }
         }
         
-        private void RoundStatsDisplay_KeyDown(object sender, KeyEventArgs e) {
-            if (e.KeyCode == Keys.Escape) {
-                this.DialogResult = DialogResult.Cancel;
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if(keyData == Keys.Escape) {
                 this.Close();
+                return true;
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void ChangeLanguage() {

@@ -21,51 +21,6 @@ namespace FallGuysStats {
         public double firstPlaces { get; set; }
     }
     
-    public class OverallRankInfoConverter : JsonConverter<OverallRankInfo> {
-        public override OverallRankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            var overallInfo = new OverallRankInfo();
-            while (reader.Read()) {
-                if (reader.TokenType == JsonTokenType.EndObject) {
-                    return overallInfo;
-                }
-
-                if (reader.TokenType == JsonTokenType.PropertyName) {
-                    string propertyName = reader.GetString();
-                    reader.Read();
-                    switch (propertyName) {
-                        case "onlineServiceType":
-                            overallInfo.onlineServiceType = reader.GetString();
-                            break;
-                        case "onlineServiceNickname":
-                            overallInfo.onlineServiceNickname = reader.GetString();
-                            break;
-                        case "isAnonymous":
-                            overallInfo.isAnonymous = reader.GetBoolean();
-                            break;
-                        case "country":
-                            overallInfo.country = reader.GetString();
-                            break;
-                        case "id":
-                            overallInfo.id = reader.GetString();
-                            break;
-                        case "score":
-                            overallInfo.score = reader.GetDouble();
-                            break;
-                        case "firstPlaces":
-                            overallInfo.firstPlaces = reader.GetDouble();
-                            break;
-                    }
-                }
-            }
-
-            throw new JsonException();
-        }
-
-        public override void Write(Utf8JsonWriter writer, OverallRankInfo value, JsonSerializerOptions options) {
-            throw new NotImplementedException();
-        }
-    }
-    
     public class LevelRank {
         public bool found { get; set; }
         public int total { get; set; }
@@ -233,12 +188,12 @@ namespace FallGuysStats {
     
     public class PlayerStats {
         public bool found { get; set; }
-        public User user { get; set; }
+        public PbUser user { get; set; }
         public List<PbInfo> pbs { get; set; }
         public OverallInfo speedrunrank { get; set; }
     }
 
-    public class User {
+    public class PbUser {
         public string onlineServiceType { get; set; }
         public string onlineServiceId { get; set; }
         public string onlineServiceNickname { get; set; }
@@ -272,5 +227,26 @@ namespace FallGuysStats {
         public int firstPlaces { get; set; }
         public int index { get; set; }
         public int total { get; set; }
+    }
+    
+    public class WeeklyCrown {
+        public bool found { get; set; }
+        public int total { get; set; }
+        public List<WeeklyCrownUser> users { get; set; }
+        public double year { get; set; }
+        public double week { get; set; }
+    }
+    
+    public class WeeklyCrownUser {
+        public int rank { get; set; }
+        public string onlineServiceType { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+        public string id { get; set; }
+        public double score { get; set; }
+        public double crowns { get; set; }
+        public double shards { get; set; }
+        public string period { get; set; }
     }
 }

@@ -139,6 +139,7 @@
             // this.lblFallalyticsAPIKey = new MetroFramework.Controls.MetroLabel();
             this.txtFallalyticsAPIKey = new MetroFramework.Controls.MetroTextBox();
             this.chkFallalyticsAnonymous = new MetroFramework.Controls.MetroCheckBox();
+            this.chkFallalyticsWeeklyCrownLeague = new MetroFramework.Controls.MetroCheckBox();
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
             this.tileFallalytics = new MetroFramework.Controls.MetroTile();
             this.grpOverlayFontExample.SuspendLayout();
@@ -953,7 +954,7 @@
             this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
             this.picLanguageSelection.Location = new System.Drawing.Point(15, 412);
             this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Size = new System.Drawing.Size(29, 29);
+            this.picLanguageSelection.Size = new System.Drawing.Size(30, 30);
             this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picLanguageSelection.TabIndex = 39;
             this.picLanguageSelection.TabStop = false;
@@ -1796,6 +1797,7 @@
             // this.panelFallalytics.Controls.Add(this.lblFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.txtFallalyticsAPIKey);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsAnonymous);
+            this.panelFallalytics.Controls.Add(this.chkFallalyticsWeeklyCrownLeague);
             this.panelFallalytics.Controls.Add(this.chkFallalyticsReporting);
             this.panelFallalytics.HorizontalScrollbarBarColor = true;
             this.panelFallalytics.HorizontalScrollbarHighlightOnWheel = false;
@@ -1817,7 +1819,7 @@
             this.linkFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.linkFallalytics.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkFallalytics.ImageSize = 17;
-            this.linkFallalytics.Location = new System.Drawing.Point(12, 177);
+            this.linkFallalytics.Location = new System.Drawing.Point(12, 200);
             this.linkFallalytics.Name = "linkFallalytics";
             this.linkFallalytics.Size = new System.Drawing.Size(124, 22);
             this.linkFallalytics.TabIndex = 7;
@@ -1831,7 +1833,7 @@
             // 
             this.lblFallalyticsDesc.AutoSize = true;
             this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 157);
+            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 180);
             this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
             this.lblFallalyticsDesc.Size = new System.Drawing.Size(503, 19);
             this.lblFallalyticsDesc.TabIndex = 5;
@@ -1860,7 +1862,7 @@
             this.txtFallalyticsAPIKey.CustomButton.Visible = false;
             this.txtFallalyticsAPIKey.FontSize = MetroFramework.MetroTextBoxSize.Medium;
             this.txtFallalyticsAPIKey.Lines = new string[] { "4d328236-b3c2-4449-a158-d07128671920" };
-            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 105);
+            this.txtFallalyticsAPIKey.Location = new System.Drawing.Point(15, 110);
             this.txtFallalyticsAPIKey.MaxLength = 32767;
             this.txtFallalyticsAPIKey.Name = "txtFallalyticsAPIKey";
             this.txtFallalyticsAPIKey.PasswordChar = '\0';
@@ -1882,7 +1884,7 @@
             this.chkFallalyticsAnonymous.AutoSize = true;
             this.chkFallalyticsAnonymous.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkFallalyticsAnonymous.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkFallalyticsAnonymous.Location = new System.Drawing.Point(15, 46);
+            this.chkFallalyticsAnonymous.Location = new System.Drawing.Point(15, 75);
             this.chkFallalyticsAnonymous.Name = "chkFallalyticsAnonymous";
             this.chkFallalyticsAnonymous.Size = new System.Drawing.Size(266, 15);
             this.chkFallalyticsAnonymous.TabIndex = 3;
@@ -1894,6 +1896,24 @@
             this.chkFallalyticsAnonymous.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkFallalyticsAnonymous.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkFallalyticsAnonymous.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // chkFallalyticsWeeklyCrownLeague
+            // 
+            this.chkFallalyticsWeeklyCrownLeague.AutoSize = true;
+            this.chkFallalyticsWeeklyCrownLeague.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkFallalyticsWeeklyCrownLeague.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkFallalyticsWeeklyCrownLeague.Location = new System.Drawing.Point(15, 46);
+            this.chkFallalyticsWeeklyCrownLeague.Name = "chkFallalyticsWeeklyCrownLeague";
+            this.chkFallalyticsWeeklyCrownLeague.Size = new System.Drawing.Size(266, 15);
+            this.chkFallalyticsWeeklyCrownLeague.TabIndex = 3;
+            this.chkFallalyticsWeeklyCrownLeague.Text = "Join a weekly crown league";
+            this.chkFallalyticsWeeklyCrownLeague.UseSelectable = true;
+            this.chkFallalyticsWeeklyCrownLeague.UseCustomForeColor = true;
+            this.chkFallalyticsWeeklyCrownLeague.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkFallalyticsWeeklyCrownLeague.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsWeeklyCrownLeague.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkFallalyticsWeeklyCrownLeague.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkFallalyticsWeeklyCrownLeague.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkFallalyticsReporting
             // 
@@ -2105,6 +2125,7 @@
         private MetroFramework.Controls.MetroLink linkFallalytics;
         private MetroFramework.Controls.MetroTextBox txtFallalyticsAPIKey;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsAnonymous;
+        private MetroFramework.Controls.MetroCheckBox chkFallalyticsWeeklyCrownLeague;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
         private MetroFramework.Controls.MetroTile tileFallalytics;
     }
