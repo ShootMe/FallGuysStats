@@ -506,17 +506,17 @@ namespace FallGuysStats {
                 case "shards":
                     return 120;
                 case "crownIcon":
-                    return 40;
+                    return 50;
                 case "shardIcon":
-                    return 40;
+                    return 50;
                 case "medal":
-                    return 30;
+                    return 40;
                 case "onlineServiceNickname":
                     return 0;
                 case "record":
                 case "score":
                 case "firstPlaces":
-                    return 170;
+                    return 120;
                 case "finish":
                     return 200;
                 default:
@@ -553,22 +553,36 @@ namespace FallGuysStats {
         private void gridOverallRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridOverallRank.Rows.Count) { return; }
 
+            string columnName = this.gridOverallRank.Columns[e.ColumnIndex].Name;
             OverallRankInfo info = this.gridOverallRank.Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
             if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
                 this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
-            if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "rank") {
-                e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "flag") {
+            if (info.rank == 1) {
+                this.gridOverallRank.Rows[e.RowIndex].Height = 44;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+            } else if (info.rank == 2) {
+                this.gridOverallRank.Rows[e.RowIndex].Height = 40;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+            } else if (info.rank == 3) {
+                this.gridOverallRank.Rows[e.RowIndex].Height = 36;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
+            }
+            
+            if (columnName == "rank") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+            } else if (columnName == "flag") {
                 if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "platform") {
+            } else if (columnName == "platform") {
                 if (!info.isAnonymous) {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "medal") {
+            } else if (columnName == "medal") {
                 if (info.rank == 1) {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
@@ -585,17 +599,17 @@ namespace FallGuysStats {
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+            } else if (columnName == "onlineServiceNickname") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "score") {
+            } else if (columnName == "score") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = $"{e.Value:N0}";
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "firstPlaces") {
+            } else if (columnName == "firstPlaces") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
@@ -706,26 +720,41 @@ namespace FallGuysStats {
         private void gridLevelRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridLevelRank.Rows.Count) { return; }
 
+            string columnName = this.gridLevelRank.Columns[e.ColumnIndex].Name;
             LevelRankInfo info = this.gridLevelRank.Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
             if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
                 this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
-            if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "rank") {
-                e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "show") {
+            if (info.rank == 1) {
+                this.gridLevelRank.Rows[e.RowIndex].Height = 44;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+            } else if (info.rank == 2) {
+                this.gridLevelRank.Rows[e.RowIndex].Height = 40;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+            } else if (info.rank == 3) {
+                this.gridLevelRank.Rows[e.RowIndex].Height = 36;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
+            }
+            
+            if (columnName == "rank") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+            } else if (columnName == "show") {
+                this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "flag") {
+            } else if (columnName == "flag") {
                 if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "platform") {
+            } else if (columnName == "platform") {
                 if (!info.isAnonymous) {
                     this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "medal") {
+            } else if (columnName == "medal") {
                 if (info.rank == 1) {
                     this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
@@ -742,17 +771,18 @@ namespace FallGuysStats {
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+            } else if (columnName == "onlineServiceNickname") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "record") {
+            } else if (columnName == "record") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = Utils.FormatTime((double)e.Value);
-            } else if (this.gridLevelRank.Columns[e.ColumnIndex].Name == "finish") {
+            } else if (columnName == "finish") {
+                this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
             }
@@ -1231,22 +1261,36 @@ namespace FallGuysStats {
         private void gridWeeklyCrown_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridWeeklyCrown.Rows.Count) { return; }
 
+            string columnName = this.gridWeeklyCrown.Columns[e.ColumnIndex].Name;
             WeeklyCrownUser info = this.gridWeeklyCrown.Rows[e.RowIndex].DataBoundItem as WeeklyCrownUser;
             if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
                 this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
+
+            if (info.rank == 1) {
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 44;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+            } else if (info.rank == 2) {
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 40;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+            } else if (info.rank == 3) {
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 36;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
+            }
             
-            if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "rank") {
-                e.CellStyle.Font = Overlay.GetMainFont(16f, FontStyle.Bold);
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "flag") {
+            if (columnName == "rank") {
+                if (info.rank == 1) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
+                }
+            } else if (columnName == "flag") {
                 if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "platform") {
+            } else if (columnName == "platform") {
                 if (!info.isAnonymous) {
                     this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "medal") {
+            } else if (columnName == "medal") {
                 if (info.rank == 1) {
                     this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
@@ -1263,31 +1307,32 @@ namespace FallGuysStats {
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+            } else if (columnName == "onlineServiceNickname") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "crowns") {
+            } else if (columnName == "crowns") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"   {Math.Truncate(info.score / 60):N0}";
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shards") {
+                e.Value = $"{Math.Truncate(info.score / 60):N0}";
+            } else if (columnName == "shards") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"  {info.score % 60:N0}";
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "crownIcon") {
+                e.Value = $"{info.score % 60:N0}";
+            } else if (columnName == "crownIcon") {
                 e.Value = Properties.Resources.crown_grid_icon;
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "shardIcon") {
+            } else if (columnName == "shardIcon") {
                 e.Value = Properties.Resources.shards_grid_icon;
             } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "score") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"  {e.Value:N0}";
-            } else if (this.gridWeeklyCrown.Columns[e.ColumnIndex].Name == "period") {
+                e.Value = $"{e.Value:N0}";
+            } else if (columnName == "period") {
+                this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 e.Value = $@"📆 {this.StatsForm.leaderboardWeeklyCrownPeriod}";
             }
 
