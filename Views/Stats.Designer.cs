@@ -204,7 +204,7 @@
             this.mlLeaderboard.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.mlLeaderboard.UseSelectable = true;
             this.mlLeaderboard.UseStyleColors = true;
-            this.mlLeaderboard.Click += new System.EventHandler(this.lblLeaderboard_Click);
+            this.mlLeaderboard.Click += new System.EventHandler(this.mlLeaderboard_Click);
             // 
             // menu
             // 

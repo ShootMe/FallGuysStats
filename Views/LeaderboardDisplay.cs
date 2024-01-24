@@ -137,7 +137,6 @@ namespace FallGuysStats {
 
         private void LeaderboardDisplay_Shown(object sender, EventArgs e) {
             this.Opacity = 1;
-            this.mlVisitFallalytics.Visible = true;
             int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
             if (index != -1) {
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(index + 1)} {Stats.OnlineServiceNickname}";
@@ -161,8 +160,8 @@ namespace FallGuysStats {
                     this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                 }
             }
-            
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mtcTabControl.Top + 5);
+            this.mlVisitFallalytics.Visible = true;
         }
         
         private void LeaderboardDisplay_Resize(object sender, EventArgs e) {
