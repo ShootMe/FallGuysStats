@@ -238,6 +238,8 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.324`
+    - Bugfix and program optimization
   - `1.323`
     - Weekly Crown League is now open on FALLALYTICS
     - Bugfix and program optimization
