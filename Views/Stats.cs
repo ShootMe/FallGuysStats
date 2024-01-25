@@ -2479,6 +2479,28 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 78;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 78) {
+                this.StatsDB.BeginTrans();
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Name.StartsWith("wle_shuffle_squads_2_24_01_")) {
+                        ri.Name = ri.Name.Replace("_squads_", "_").Replace("_24_01_", "_24_");
+                    } else if (ri.Name.StartsWith("wle_shuffle_2_24_01_")) {
+                        ri.Name = ri.Name.Replace("_24_01_", "_24_");
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 79;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3853,8 +3875,10 @@ namespace FallGuysStats {
             } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
                 if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
                     roundId = roundId.Replace("_squads_", "_discover_");
+                } else if (roundId.StartsWith("wle_shuffle_squads_2_24_01_")) {
+                    roundId = roundId.Replace("_squads_", "_").Replace("_24_01_", "_24_");
                 } else {
-                    roundId = roundId.Replace("_squads", "");
+                    roundId = roundId.Replace("_squads_", "_");
                 }
                 if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
