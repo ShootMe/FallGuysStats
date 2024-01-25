@@ -537,7 +537,7 @@ namespace FallGuysStats {
             this.gridOverallRank.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridOverallRank.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridOverallRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridOverallRank.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
@@ -564,8 +564,8 @@ namespace FallGuysStats {
                 this.gridOverallRank.Rows[e.RowIndex].Height = 42;
                 this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
             } else if (info.rank == 2) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 40;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+                this.gridOverallRank.Rows[e.RowIndex].Height = 38;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
             } else if (info.rank == 3) {
                 this.gridOverallRank.Rows[e.RowIndex].Height = 36;
                 this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -586,15 +586,27 @@ namespace FallGuysStats {
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
-                    e.Value = Properties.Resources.medal_gold_grid_icon;
+                    e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
                     if (percentage <= 20) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
-                        e.Value = Properties.Resources.medal_silver_grid_icon;
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
-                        e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
@@ -700,7 +712,7 @@ namespace FallGuysStats {
             this.gridLevelRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridLevelRank.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridLevelRank.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridLevelRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridLevelRank.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
@@ -729,10 +741,10 @@ namespace FallGuysStats {
             
             if (info.rank == 1) {
                 this.gridLevelRank.Rows[e.RowIndex].Height = 42;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(21f);
             } else if (info.rank == 2) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 40;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+                this.gridLevelRank.Rows[e.RowIndex].Height = 38;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
             } else if (info.rank == 3) {
                 this.gridLevelRank.Rows[e.RowIndex].Height = 36;
                 this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -757,18 +769,30 @@ namespace FallGuysStats {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
-                    this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
-                    e.Value = Properties.Resources.medal_gold_grid_icon;
+                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
                     if (percentage <= 20) {
-                        this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
-                        e.Value = Properties.Resources.medal_silver_grid_icon;
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
-                        this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
-                        e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else {
-                        this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
@@ -858,7 +882,7 @@ namespace FallGuysStats {
             this.gridPlayerList.Columns["onlineServiceType"].Visible = false;
             this.gridPlayerList.Columns["onlineServiceId"].Visible = false;
             this.gridPlayerList.Columns["id"].Visible = false;
-            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridPlayerList.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridPlayerList.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
@@ -1233,7 +1257,7 @@ namespace FallGuysStats {
             this.gridWeeklyCrown.Columns["medal"].DefaultCellStyle.NullValue = null;
             this.gridWeeklyCrown.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), Multilingual.GetWord("leaderboard_grid_header_rank"), DataGridViewContentAlignment.MiddleLeft);
             this.gridWeeklyCrown.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridWeeklyCrown.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridWeeklyCrown.Columns["platform"].DefaultCellStyle.NullValue = null;
             this.gridWeeklyCrown.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
@@ -1272,8 +1296,8 @@ namespace FallGuysStats {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Height = 42;
                 this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
             } else if (info.rank == 2) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 40;
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 38;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
             } else if (info.rank == 3) {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Height = 36;
                 this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -1293,18 +1317,30 @@ namespace FallGuysStats {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
-                    this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
-                    e.Value = Properties.Resources.medal_gold_grid_icon;
+                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalWeeklyCrownPlayers - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
                     if (percentage <= 20) {
-                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
-                        e.Value = Properties.Resources.medal_silver_grid_icon;
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
-                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
-                        e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        if (info.rank == 2) {
+                            e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (info.rank == 3) {
+                            e.Value = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            e.Value = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else {
-                        this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }

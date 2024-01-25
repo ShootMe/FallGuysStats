@@ -5652,6 +5652,26 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap medal_bronze_2nd_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("medal_bronze_2nd_grid_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap medal_bronze_3rd_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("medal_bronze_3rd_grid_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap medal_bronze_grid_icon {
             get {
                 object obj = ResourceManager.GetObject("medal_bronze_grid_icon", resourceCulture);
@@ -5712,6 +5732,16 @@ namespace FallGuysStats.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap medal_gold_1st_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("medal_gold_1st_grid_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap medal_gold_grid_icon {
             get {
                 object obj = ResourceManager.GetObject("medal_gold_grid_icon", resourceCulture);
@@ -5765,6 +5795,26 @@ namespace FallGuysStats.Properties {
         internal static System.Drawing.Bitmap medal_silver {
             get {
                 object obj = ResourceManager.GetObject("medal_silver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap medal_silver_2nd_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("medal_silver_2nd_grid_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap medal_silver_3rd_grid_icon {
+            get {
+                object obj = ResourceManager.GetObject("medal_silver_3rd_grid_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
