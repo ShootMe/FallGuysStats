@@ -1353,12 +1353,12 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"{Math.Truncate(info.score / 60):N0}";
+                // e.Value = $"{Math.Truncate(info.score / 60):N0}";
             } else if (columnName == "shards") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"{info.score % 60:N0}";
+                // e.Value = $"{info.score % 60:N0}";
             } else if (columnName == "crownIcon") {
                 e.Value = Properties.Resources.crown_grid_icon;
             } else if (columnName == "shardIcon") {
