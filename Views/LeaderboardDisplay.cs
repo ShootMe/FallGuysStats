@@ -502,9 +502,9 @@ namespace FallGuysStats {
                 case "RoundIcon":
                     return 45;
                 case "crowns":
-                    return 120;
+                    return 90;
                 case "shards":
-                    return 120;
+                    return 220;
                 case "crownIcon":
                     return 50;
                 case "shardIcon":
@@ -994,6 +994,7 @@ namespace FallGuysStats {
                     this.gridPlayerDetails.ClearSelection();
                     this.gridPlayerList.Enabled = true;
                     this.gridOverallRank.Enabled = true;
+                    this.gridWeeklyCrown.Enabled = true;
                     if (this.overallInfo != null) {
                         this.picPlayerInfo01.Image = (string.Equals(this.overallInfo.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
                         this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.overallInfo.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.overallInfo.country.ToLower()}_icon");
@@ -1353,11 +1354,13 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
+                e.Value = $"{e.Value:N0}";
                 // e.Value = $"{Math.Truncate(info.score / 60):N0}";
             } else if (columnName == "shards") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
+                e.Value = info.shards >= 60 ? $"{e.Value:N0} (👑 {info.shards / 60:N0})" : $"{e.Value:N0}";
                 // e.Value = $"{info.score % 60:N0}";
             } else if (columnName == "crownIcon") {
                 e.Value = Properties.Resources.crown_grid_icon;
@@ -1429,6 +1432,23 @@ namespace FallGuysStats {
             this.gridWeeklyCrown.DataSource = null;
             this.gridWeeklyCrown.DataSource = this.weeklyCrownList;
             this.gridWeeklyCrown.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+        }
+        
+        private void gridWeeklyCrown_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (this.gridWeeklyCrown.SelectedRows.Count > 0) {
+                WeeklyCrownUser data = this.gridWeeklyCrown.SelectedRows[0].DataBoundItem as WeeklyCrownUser;
+                if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
+                this.gridWeeklyCrown.Enabled = false;
+                this.gridPlayerList.Enabled = false;
+                this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
+                this.spinnerTransition.Start();
+                this.targetSpinner = this.mpsSpinner04;
+                this.mpsSpinner04.BringToFront();
+                this.mpsSpinner04.Visible = true;
+                this.currentUserId = data.id;
+                this.SetPlayerInfo(data.id);
+                this.mtcTabControl.SelectedIndex = 2;
+            }
         }
 
         private void mtcTabControl_SelectedIndexChanged(object sender, EventArgs e) {

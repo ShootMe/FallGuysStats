@@ -546,9 +546,11 @@
             this.gridWeeklyCrown.Size = new System.Drawing.Size(1332, 768);
             this.gridWeeklyCrown.TabIndex = 2;
             this.gridWeeklyCrown.DataSourceChanged += new System.EventHandler(this.gridWeeklyCrown_DataSourceChanged);
+            this.gridWeeklyCrown.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridWeeklyCrown_CellDoubleClick);
             this.gridWeeklyCrown.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridWeeklyCrown_CellFormatting);
             this.gridWeeklyCrown.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridWeeklyCrown_ColumnHeaderMouseClick);
-            this.gridWeeklyCrown.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
+            this.gridWeeklyCrown.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
+            this.gridWeeklyCrown.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             // 
             // mlMyRank
             // 
