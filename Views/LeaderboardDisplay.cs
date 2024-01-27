@@ -98,6 +98,7 @@ namespace FallGuysStats {
                 this.mpsSpinner01.BringToFront();
                 this.spinnerTransition.Start();
                 this.targetSpinner = this.mpsSpinner01;
+                this.mtcTabControl.Enabled = false;
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.BeginInvoke((MethodInvoker)delegate {
@@ -120,6 +121,7 @@ namespace FallGuysStats {
                             int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                             this.gridOverallRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                         }
+                        this.mtcTabControl.Enabled = true;
                     });
                 });
             } else {
