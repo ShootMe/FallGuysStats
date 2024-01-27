@@ -104,7 +104,7 @@
             this.lblEditShowsBackColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
             this.lblEditShowsBackColor.Location = new System.Drawing.Point(0, 200);
             this.lblEditShowsBackColor.Name = "lblEditShowsBackColor";
-            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 54);
+            this.lblEditShowsBackColor.Size = new System.Drawing.Size(445, 64);
             this.lblEditShowsBackColor.TabIndex = 3;
             // 
             // chkUseLinkedProfiles
@@ -113,7 +113,7 @@
             this.chkUseLinkedProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(0)))), ((int)(((byte)(182)))), ((int)(((byte)(254)))));
             this.chkUseLinkedProfiles.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkUseLinkedProfiles.ForeColor = System.Drawing.Color.Teal;
-            this.chkUseLinkedProfiles.Location = new System.Drawing.Point(18, 218);
+            this.chkUseLinkedProfiles.Location = new System.Drawing.Point(18, 224);
             this.chkUseLinkedProfiles.Name = "chkUseLinkedProfiles";
             this.chkUseLinkedProfiles.Size = new System.Drawing.Size(119, 15);
             this.chkUseLinkedProfiles.TabIndex = 1;
@@ -127,7 +127,7 @@
             // 
             this.btnEditShowsSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditShowsSave.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 214);
+            this.btnEditShowsSave.Location = new System.Drawing.Point(238, 219);
             this.btnEditShowsSave.Name = "btnEditShowsSave";
             this.btnEditShowsSave.Size = new System.Drawing.Size(87, 26);
             this.btnEditShowsSave.TabIndex = 1;
@@ -139,7 +139,7 @@
             // 
             this.btnEditShowsCancel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnEditShowsCancel.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 214);
+            this.btnEditShowsCancel.Location = new System.Drawing.Point(337, 219);
             this.btnEditShowsCancel.Name = "btnEditShowsCancel";
             this.btnEditShowsCancel.Size = new System.Drawing.Size(87, 26);
             this.btnEditShowsCancel.TabIndex = 2;
@@ -150,7 +150,7 @@
             // EditShows
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(445, 253);
+            this.ClientSize = new System.Drawing.Size(445, 263);
             this.Controls.Add(this.picEditShowsIcon);
             this.Controls.Add(this.lblEditShowsQuestion);
             this.Controls.Add(this.lblEditShowslabel);

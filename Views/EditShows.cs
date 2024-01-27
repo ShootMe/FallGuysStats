@@ -187,30 +187,30 @@ namespace FallGuysStats {
             }
             this.lblEditShowslabel.Text = Multilingual.GetWord("profile_list");
             if (Stats.CurrentLanguage == Language.English) {
-                this.ClientSize = new Size(455, 255);
+                this.Width = 445;
                 this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
-                this.lblEditShowsBackColor.Size = new Size(455, 65);
+                this.lblEditShowsBackColor.Width = 445;
             } else if (Stats.CurrentLanguage == Language.French) {
-                this.ClientSize = new Size(525, 255);
+                this.Width = 525;
                 this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
-                this.lblEditShowsBackColor.Size = new Size(525, 65);
+                this.lblEditShowsBackColor.Width = 525;
             } else if (Stats.CurrentLanguage == Language.Korean) {
-                this.ClientSize = new Size(455, 255);
+                this.Width = 445;
                 this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
-                this.lblEditShowsBackColor.Size = new Size(455, 65);
+                this.lblEditShowsBackColor.Width = 445;
             } else if (Stats.CurrentLanguage == Language.Japanese) {
-                this.ClientSize = new Size(540, 255);
+                this.Width = 540;
                 this.cboEditShows.Left = 230;
                 //this.cboEditShows.Size = new Size(198, 29);
-                this.lblEditShowsBackColor.Size = new Size(540, 65);
+                this.lblEditShowsBackColor.Width = 540;
             } else if (Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese) {
-                this.ClientSize = new Size(445, 255);
+                this.Width = 445;
                 this.cboEditShows.Left = 185;
                 //this.cboEditShows.Size = new Size(198, 29);
-                this.lblEditShowsBackColor.Size = new Size(445, 65);
+                this.lblEditShowsBackColor.Width = 445;
             }
             this.btnEditShowsCancel.Text = Multilingual.GetWord("profile_undo_change_button");
             this.btnEditShowsCancel.Width = TextRenderer.MeasureText(this.btnEditShowsCancel.Text, this.btnEditShowsCancel.Font).Width + 45;

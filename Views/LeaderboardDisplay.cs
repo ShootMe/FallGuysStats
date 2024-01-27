@@ -504,7 +504,7 @@ namespace FallGuysStats {
                 case "crowns":
                     return 90;
                 case "shards":
-                    return 220;
+                    return 200;
                 case "crownIcon":
                     return 50;
                 case "shardIcon":
@@ -561,11 +561,11 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 42;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+                this.gridOverallRank.Rows[e.RowIndex].Height = 41;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
             } else if (info.rank == 2) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 38;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
+                this.gridOverallRank.Rows[e.RowIndex].Height = 39;
+                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
             } else if (info.rank == 3) {
                 this.gridOverallRank.Rows[e.RowIndex].Height = 36;
                 this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -740,11 +740,11 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 42;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(21f);
+                this.gridLevelRank.Rows[e.RowIndex].Height = 41;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
             } else if (info.rank == 2) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 38;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
+                this.gridLevelRank.Rows[e.RowIndex].Height = 39;
+                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
             } else if (info.rank == 3) {
                 this.gridLevelRank.Rows[e.RowIndex].Height = 36;
                 this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -1276,9 +1276,9 @@ namespace FallGuysStats {
             this.gridWeeklyCrown.Setup("shardIcon", pos++, this.GetDataGridViewColumnWidth("shardIcon"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridWeeklyCrown.Columns["shardIcon"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight;
             this.gridWeeklyCrown.Columns["shardIcon"].DefaultCellStyle.NullValue = null;
-            this.gridWeeklyCrown.Setup("shards", pos++, this.GetDataGridViewColumnWidth("shards"), Multilingual.GetWord("leaderboard_grid_header_shards"), DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Setup("shards", pos++, 225, Multilingual.GetWord("leaderboard_grid_header_shards"), DataGridViewContentAlignment.MiddleLeft);
             this.gridWeeklyCrown.Columns["shards"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridWeeklyCrown.Setup("score", pos++, this.GetDataGridViewColumnWidth("score"), $"{Multilingual.GetWord("leaderboard_grid_header_score")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridWeeklyCrown.Setup("score", pos++, 125, $"{Multilingual.GetWord("leaderboard_grid_header_score")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridWeeklyCrown.Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridWeeklyCrown.Setup("period", pos++, this.GetDataGridViewColumnWidth("period"), $"{Multilingual.GetWord("leaderboard_grid_header_period")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridWeeklyCrown.Columns["period"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -1294,11 +1294,11 @@ namespace FallGuysStats {
             }
 
             if (info.rank == 1) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 42;
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(20.5f);
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 41;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
             } else if (info.rank == 2) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 38;
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19f);
+                this.gridWeeklyCrown.Rows[e.RowIndex].Height = 39;
+                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
             } else if (info.rank == 3) {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Height = 36;
                 this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
@@ -1501,7 +1501,7 @@ namespace FallGuysStats {
                     this.targetSpinner = this.mpsSpinner05;
                     Task.Run(() => this.StatsForm.InitializeWeeklyCrownList()).ContinueWith(prevTask => {
                         this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
-                        this.BeginInvoke((MethodInvoker)delegate {
+                        this.Invoke((MethodInvoker)delegate {
                             this.mpsSpinner05.Visible = false;
                             this.spinnerTransition.Stop();
                             this.targetSpinner = null;
@@ -1530,6 +1530,7 @@ namespace FallGuysStats {
                                     }
                                     this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
                                     this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
+                                    this.mtpWeeklyCrownPage.Invalidate();
                                 }
                             } else {
                                 this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
