@@ -3960,8 +3960,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -4888,8 +4894,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -5816,8 +5828,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -6744,8 +6762,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -7672,8 +7696,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
@@ -8600,8 +8630,14 @@ namespace FallGuysStats {
                             {"wle_mrs_bagel_final_2", "Out and About"},
                             
                             {"wle_mrs_bouncy_bean_time_opener", "Frosty Frolics"},
+                            {"wle_mrs_bouncy_bean_time_opener_02", "roll roll bean"},
+                            {"wle_mrs_bouncy_bean_time_opener_03", "SPEEDROLLING"},
                             {"wle_mrs_bouncy_bean_time_filler", "Ball Park"},
+                            {"wle_mrs_bouncy_bean_time_filler_02", "Ball Carnival"},
+                            {"wle_mrs_bouncy_bean_time_filler_03", "Spiral Trial"},
                             {"wle_mrs_bouncy_bean_time_final", "Downtown Rush"},
+                            {"wle_mrs_bouncy_bean_time_final_02", "Skyview Derby"},
+                            {"wle_mrs_bouncy_bean_time_final_03", "Rolling Speedway"},
                         }
             },
         };
