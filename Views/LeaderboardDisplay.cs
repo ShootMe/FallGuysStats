@@ -591,7 +591,7 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
-                    if (percentage <= 20) {
+                    if (percentage < 20) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
@@ -600,7 +600,7 @@ namespace FallGuysStats {
                         } else {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
-                    } else if (percentage <= 50) {
+                    } else if (percentage < 50) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
@@ -774,8 +774,8 @@ namespace FallGuysStats {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
-                    if (percentage <= 20) {
+                    double percentage = ((double)(info.rank - 1) / (this.totalPlayers - 1)) * 100;
+                    if (percentage < 20) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
@@ -784,7 +784,7 @@ namespace FallGuysStats {
                         } else {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
-                    } else if (percentage <= 50) {
+                    } else if (percentage < 50) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
@@ -1323,8 +1323,8 @@ namespace FallGuysStats {
                     this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100;
-                    if (percentage <= 20) {
+                    double percentage = ((double)(info.rank - 1) / (this.StatsForm.totalWeeklyCrownPlayers - 1)) * 100;
+                    if (percentage < 20) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
@@ -1333,7 +1333,7 @@ namespace FallGuysStats {
                         } else {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
-                    } else if (percentage <= 50) {
+                    } else if (percentage < 50) {
                         this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
@@ -1362,7 +1362,7 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = info.shards >= 60 ? $"{e.Value:N0} (👑 {info.shards / 60:N0})" : $"{e.Value:N0}";
+                e.Value = info.shards >= 60 ? $"{e.Value:N0} (👑 {Math.Truncate(info.shards / 60):N0})" : $"{e.Value:N0}";
                 // e.Value = $"{info.score % 60:N0}";
             } else if (columnName == "crownIcon") {
                 e.Value = Properties.Resources.crown_grid_icon;
