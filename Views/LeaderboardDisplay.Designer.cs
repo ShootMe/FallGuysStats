@@ -508,7 +508,7 @@
             // 
             this.lblPagingInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPagingInfo.AutoSize = true;
-            this.lblPagingInfo.Location = new System.Drawing.Point(675, 62);
+            this.lblPagingInfo.Location = new System.Drawing.Point(675, 63);
             this.lblPagingInfo.Name = "lblPagingInfo";
             this.lblPagingInfo.Size = new System.Drawing.Size(31, 22);
             this.lblPagingInfo.TabIndex = 3;
@@ -522,10 +522,10 @@
             this.mlLeftPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
-            this.mlLeftPagingButton.ImageSize = 29;
+            this.mlLeftPagingButton.ImageSize = 27;
             this.mlLeftPagingButton.Location = new System.Drawing.Point(675, 67);
             this.mlLeftPagingButton.Name = "mlLeftPagingButton";
-            this.mlLeftPagingButton.Size = new System.Drawing.Size(31, 30);
+            this.mlLeftPagingButton.Size = new System.Drawing.Size(29, 28);
             this.mlLeftPagingButton.TabIndex = 7;
             this.mlLeftPagingButton.UseSelectable = true;
             this.mlLeftPagingButton.UseStyleColors = true;
@@ -539,10 +539,10 @@
             this.mlRightPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
-            this.mlRightPagingButton.ImageSize = 29;
+            this.mlRightPagingButton.ImageSize = 27;
             this.mlRightPagingButton.Location = new System.Drawing.Point(675, 67);
             this.mlRightPagingButton.Name = "mlRightPagingButton";
-            this.mlRightPagingButton.Size = new System.Drawing.Size(31, 30);
+            this.mlRightPagingButton.Size = new System.Drawing.Size(29, 28);
             this.mlRightPagingButton.TabIndex = 7;
             this.mlRightPagingButton.UseSelectable = true;
             this.mlRightPagingButton.UseStyleColors = true;

@@ -18,7 +18,7 @@ namespace FallGuysStats {
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
-        private string key = String.Empty;
+        private string levelKey = String.Empty;
         private int totalPlayers, totalPages, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
@@ -242,12 +242,12 @@ namespace FallGuysStats {
         }
         
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
-            if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.key)) { return; }
-            this.key = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
+            if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.levelKey)) { return; }
+            this.levelKey = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             // this.totalHeight = 0;
             this.currentPage = 0;
             this.mtcTabControl.SelectedIndex = 1;
-            this.SetGridList(this.key);
+            this.SetGridList(this.levelKey);
         }
 
         private void metroLink_MouseEnter(object sender, EventArgs e) {
@@ -1447,6 +1447,7 @@ namespace FallGuysStats {
                                                                                            || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
                                                                                            || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour)))
             {
+                this.mlVisitFallalytics.Enabled = false;
                 this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
                 this.mpsSpinner05.Visible = true;
                 this.mpsSpinner05.BringToFront();
@@ -1459,9 +1460,10 @@ namespace FallGuysStats {
                         this.spinnerTransition.Stop();
                         this.targetSpinner = null;
                         this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
+                        this.mlVisitFallalytics.Enabled = true;
                         if (prevTask.Result) {
                             // this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
-                            this.lblPagingInfo.Font = Overlay.GetMainFont(25f);
+                            this.lblPagingInfo.Font = Overlay.GetMainFont(23f);
                             this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
                             int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
                             this.myWeeklyCrownRank = index + 1;
@@ -1525,7 +1527,7 @@ namespace FallGuysStats {
                     }
                 }
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
-                this.lblPagingInfo.Font = Overlay.GetMainFont(25f);
+                this.lblPagingInfo.Font = Overlay.GetMainFont(23f);
                 this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
                 this.lblPagingInfo.Left = (this.ClientSize.Width / 2) - (this.lblPagingInfo.Width / 2);
                 this.mlLeftPagingButton.Left = this.lblPagingInfo.Left - this.mlRightPagingButton.Width - 5;
@@ -1595,18 +1597,22 @@ namespace FallGuysStats {
                 if (this.mtcTabControl.SelectedIndex == 0) {
                     Process.Start("https://fallalytics.com/leaderboards/speedrun-total");
                 } else if (this.mtcTabControl.SelectedIndex == 1) {
-                    Process.Start(string.IsNullOrEmpty(this.key) ? "https://fallalytics.com/leaderboards/speedrun" : $"https://fallalytics.com/leaderboards/speedrun/{this.key}/1");
+                    Process.Start(string.IsNullOrEmpty(this.levelKey) ? "https://fallalytics.com/leaderboards/speedrun" : $"https://fallalytics.com/leaderboards/speedrun/{this.levelKey}/1");
                 } else if (this.mtcTabControl.SelectedIndex == 2) {
                     Process.Start(this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"https://fallalytics.com/player/{this.currentUserId}");
                 } else if (this.mtcTabControl.SelectedIndex == 3) {
-                    Process.Start("https://fallalytics.com/leaderboards/crowns");
+                    if (this.StatsForm.weeklyCrownCurrentWeek != 0 && this.StatsForm.weeklyCrownCurrentYear != 0) {
+                        Process.Start($"https://fallalytics.com/leaderboards/crowns/{this.StatsForm.weeklyCrownCurrentWeek}-{this.StatsForm.weeklyCrownCurrentYear}");
+                    } else {
+                        Process.Start("https://fallalytics.com/leaderboards/crowns");
+                    }
                 }
             } else if (sender.Equals(this.mlRefreshList)) {
-                if (!string.IsNullOrEmpty(this.key)) {
+                if (!string.IsNullOrEmpty(this.levelKey)) {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
                     if (difference.TotalSeconds > 8) {
                         this.mtcTabControl.SelectedIndex = 1;
-                        this.SetGridList(this.key);
+                        this.SetGridList(this.levelKey);
                     }
                 }
             } else if (sender.Equals(this.mlMyRank)) {
