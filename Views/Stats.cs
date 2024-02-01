@@ -210,10 +210,12 @@ namespace FallGuysStats {
         private int profileIdWithLinkedCustomShow = -1;
         private Toast toast;
         public List<OverallRankInfo> leaderboardOverallRankList;
-        public List<WeeklyCrownUser> leaderboardWeeklyCrownList;
-        public int leaderboardWeeklyCrownYear;
-        public int leaderboardWeeklyCrownWeek;
-        public string leaderboardWeeklyCrownPeriod;
+        public List<WeeklyCrownUser> weeklyCrownList;
+        public string weeklyCrownNext;
+        public string weeklyCrownPrevious;
+        public int weeklyCrownCurrentYear;
+        public int weeklyCrownCurrentWeek;
+        public string weeklyCrownPeriod;
         public Point screenCenter;
         
         public readonly string[] PublicShowIdList = {
@@ -2743,6 +2745,8 @@ namespace FallGuysStats {
                 } else if (sender.Equals(this.menuRollOffClub) || sender.Equals(this.trayRollOffClub)) {
                     if (CurrentLanguage == Language.Korean) {
                         Process.Start(@"https://rolloff.club/ko/");
+                    } else if (CurrentLanguage == Language.Japanese) {
+                        Process.Start(@"https://rolloff.club/ja/");
                     } else if (CurrentLanguage == Language.SimplifiedChinese) {
                         Process.Start(@"https://rolloff.club/zh/");
                     } else {
@@ -5664,24 +5668,26 @@ namespace FallGuysStats {
             }
         }
 
-        public bool InitializeWeeklyCrownList() {
+        public bool InitializeWeeklyCrownList(string date) {
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
                     string weeklyCrownApiUrl = "https://data.fallalytics.com/api/crown-leaderboard";
                     web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
-                    string json = web.DownloadString($"{weeklyCrownApiUrl}?page=1");
+                    string json = web.DownloadString($"{weeklyCrownApiUrl}?page=1{(!string.IsNullOrEmpty(date) ? $"&date={date}" : "")}");
                     WeeklyCrown weeklyCrown = System.Text.Json.JsonSerializer.Deserialize<WeeklyCrown>(json);
                     if (weeklyCrown.found) {
-                        this.leaderboardWeeklyCrownYear = (int)weeklyCrown.year;
-                        this.leaderboardWeeklyCrownWeek = (int)weeklyCrown.week;
-                        this.leaderboardWeeklyCrownPeriod = Utils.GetStartAndEndDates(this.leaderboardWeeklyCrownYear, this.leaderboardWeeklyCrownWeek);
+                        this.weeklyCrownPrevious = weeklyCrown.previous;
+                        this.weeklyCrownNext = weeklyCrown.next;
+                        this.weeklyCrownCurrentYear = (int)weeklyCrown.year;
+                        this.weeklyCrownCurrentWeek = (int)weeklyCrown.week;
+                        this.weeklyCrownPeriod = Utils.GetStartAndEndDates(this.weeklyCrownCurrentYear, this.weeklyCrownCurrentWeek);
                         int totalPlayers = weeklyCrown.total;
                         int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
                         for (int i = 0; i < weeklyCrown.users.Count; i++) {
                             weeklyCrown.users[i].rank = i + 1;
                         }
                         this.totalWeeklyCrownPlayers = totalPlayers;
-                        this.leaderboardWeeklyCrownList = weeklyCrown.users;
+                        this.weeklyCrownList = weeklyCrown.users;
                         if (totalPages > 1) {
                             var tasks = new List<Task>();
                             HttpClient client = new HttpClient();
@@ -5689,26 +5695,26 @@ namespace FallGuysStats {
                             for (int i = 2; i <= totalPages; i++) {
                                 int page = i;
                                 tasks.Add(Task.Run(async () => {
-                                    HttpResponseMessage response = await client.GetAsync($"{weeklyCrownApiUrl}?page={page}");
+                                    HttpResponseMessage response = await client.GetAsync($"{weeklyCrownApiUrl}?page={page}{(!string.IsNullOrEmpty(date) ? $"&date={date}" : "")}");
                                     if (response.IsSuccessStatusCode) {
                                         json = await response.Content.ReadAsStringAsync();
                                         weeklyCrown = System.Text.Json.JsonSerializer.Deserialize<WeeklyCrown>(json);
                                         for (int j = 0; j < weeklyCrown.users.Count; j++) {
                                             weeklyCrown.users[j].rank = j + 1 + ((page - 1) * 100);
                                         }
-                                        this.leaderboardWeeklyCrownList.AddRange(weeklyCrown.users);
+                                        this.weeklyCrownList.AddRange(weeklyCrown.users);
                                     }
                                 }));
                             }
                             Task.WhenAll(tasks).Wait();
                         }
-                        this.leaderboardWeeklyCrownList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
+                        this.weeklyCrownList.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                         this.weeklyCrownLoadTime = DateTime.UtcNow;
                         return true;
                     }
                     return false;
                 } catch {
-                    this.leaderboardWeeklyCrownList = null;
+                    this.weeklyCrownList = null;
                     return false;
                 }
             }

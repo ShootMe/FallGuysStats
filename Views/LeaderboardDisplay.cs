@@ -75,7 +75,7 @@ namespace FallGuysStats {
             
             this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
             this.mtpOverallRankPage.Text = Multilingual.GetWord("leaderboard_overall_rank");
-            this.mtpLevelRankPage.Text = $"🕹️ {Multilingual.GetWord("leaderboard_choose_a_round")}";
+            this.mtpLevelRankPage.Text = $@"🕹️ {Multilingual.GetWord("leaderboard_choose_a_round")}";
             this.mtpSearchPlayersPage.Text = Multilingual.GetWord("leaderboard_search_players");
             this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
             this.mtbSearchPlayersText.WaterMark = Multilingual.GetWord("leaderboard_search_players_WaterMark");
@@ -107,7 +107,7 @@ namespace FallGuysStats {
                         if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
                             this.mlMyRank.Visible = true;
                             this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
-                            this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                            this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
                             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
                         }
                         this.mpsSpinner01.Visible = false;
@@ -132,9 +132,9 @@ namespace FallGuysStats {
                 this.gridOverallRank.ClearSelection();
             }
 
-            if (this.StatsForm.leaderboardWeeklyCrownList != null) {
-                this.mtpWeeklyCrownPage.Text = $@"👑 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
-            }
+            // if (this.StatsForm.leaderboardWeeklyCrownList != null) {
+            //     this.mtpWeeklyCrownPage.Text = $@"👑 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
+            // }
         }
 
         private void LeaderboardDisplay_Shown(object sender, EventArgs e) {
@@ -142,7 +142,7 @@ namespace FallGuysStats {
             int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
             if (index != -1) {
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(index + 1)} {Stats.OnlineServiceNickname}";
-                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
                 this.mlMyRank.Visible = true;
                 int displayedRowCount = this.gridOverallRank.DisplayedRowCount(false);
                 int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
@@ -162,7 +162,7 @@ namespace FallGuysStats {
                     this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                 }
             }
-            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Visible ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
+            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
             this.mlVisitFallalytics.Visible = true;
         }
         
@@ -183,11 +183,13 @@ namespace FallGuysStats {
                         ml1.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.6f) : Utils.GetColorBrightnessAdjustment(Color.GreenYellow, 0.5f);
                     } else if (ml1.Equals(this.mlVisitFallalytics)) {
                         ml1.ForeColor = Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.6f);
-                    } else if (ml1.Equals(this.mlRefreshList)) {
+                    } else {
                         ml1.Theme = theme;
                     }
                     ml1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                     ml1.BringToFront();
+                } else if (c1 is Label lb1) {
+                    lb1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 } else if (c1 is ImageComboBox icb1) {
                     icb1.Theme = theme;
                     icb1.BringToFront();
@@ -268,7 +270,7 @@ namespace FallGuysStats {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner02.Visible = true;
-            Task.Run(() => this.DataLoad()).ContinueWith(prevTask => {
+            Task.Run(this.GetAvailableRound).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
                 foreach (RankRound round in this.availableRoundlist) {
                     foreach (string id in round.ids) {
@@ -329,7 +331,7 @@ namespace FallGuysStats {
                             this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                         }
                     }
-                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
                 }
             }
             if (this.mtcTabControl.SelectedIndex == 1) {
@@ -447,44 +449,19 @@ namespace FallGuysStats {
             return isFound;
         }
 
-        private bool DataLoad(string queryKey = null) {
+        private bool GetAvailableRound() {
             bool result;
             using (ApiWebClient web = new ApiWebClient()) {
                 web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
-                if (string.IsNullOrEmpty(queryKey)) {
-                    try {
-                        string json = web.DownloadString($"{this.AVAILABLE_ROUND_API_URL}");
-                        var options = new JsonSerializerOptions();
-                        options.Converters.Add(new RoundConverter());
-                        var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
-                        result = availableRound.found;
-                        this.availableRoundlist = availableRound.leaderboards;
-                    } catch {
-                        result = false;
-                    }
-                } else {
-                    try {
-                        string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={this.currentPage + 1}");
-                        var options = new JsonSerializerOptions();
-                        options.Converters.Add(new LevelRankInfoConverter());
-                        LevelRank levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
-                        result = levelRank.found;
-                        if (result) {
-                            this.totalPlayers = levelRank.total;
-                            this.totalPages = (int)Math.Ceiling((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) / 100f);
-                            for (int i = 0; i < levelRank.recordholders.Count; i++) {
-                                levelRank.recordholders[i].rank = i + 1 + (this.currentPage * 100);
-                            }
-                            this.levelRankList = levelRank.recordholders;
-                        } else {
-                            this.totalPages = 0;
-                            this.totalPlayers = 0;
-                        }
-                    } catch {
-                        result = false;
-                        this.totalPages = 0;
-                        this.totalPlayers = 0;
-                    }
+                try {
+                    string json = web.DownloadString($"{this.AVAILABLE_ROUND_API_URL}");
+                    var options = new JsonSerializerOptions();
+                    options.Converters.Add(new RoundConverter());
+                    var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
+                    result = availableRound.found;
+                    this.availableRoundlist = availableRound.leaderboards;
+                } catch {
+                    result = false;
                 }
             }
             return result;
@@ -683,7 +660,7 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this.gridOverallRank.SelectedRows.Count > 0) {
+            if (e.RowIndex != -1 && this.gridOverallRank.SelectedRows.Count > 0) {
                 OverallRankInfo data = this.gridOverallRank.SelectedRows[0].DataBoundItem as OverallRankInfo;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 this.gridOverallRank.Enabled = false;
@@ -955,7 +932,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerList_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this.gridPlayerList.SelectedRows.Count > 0) {
+            if (e.RowIndex != -1 && this.gridPlayerList.SelectedRows.Count > 0) {
                 if (this.isSearchCompleted) {
                     this.gridPlayerList.Enabled = false;
                     this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
@@ -1028,7 +1005,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this.gridPlayerDetails.SelectedRows.Count > 0) {
+            if (e.RowIndex != -1 && this.gridPlayerDetails.SelectedRows.Count > 0) {
                 PbInfo data = this.gridPlayerDetails.SelectedRows[0].DataBoundItem as PbInfo;
                 if (string.IsNullOrEmpty(data.round)) return;
                 string roundId = string.Equals(Multilingual.GetRoundName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
@@ -1375,7 +1352,7 @@ namespace FallGuysStats {
                 e.Value = $"{e.Value:N0}";
             } else if (columnName == "period") {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
-                e.Value = $@"📆 {this.StatsForm.leaderboardWeeklyCrownPeriod}";
+                e.Value = $@"📆 {this.StatsForm.weeklyCrownPeriod}";
             }
 
             if (e.RowIndex % 2 == 0) {
@@ -1417,11 +1394,11 @@ namespace FallGuysStats {
                         return nicknameCompare != 0 ? nicknameCompare : rankCompare;
                     case "crowns":
                     case "crownIcon":
-                        int crownsCompare = (Math.Truncate(one.score / 60)).CompareTo(Math.Truncate(two.score / 60));
+                        int crownsCompare = (one.crowns).CompareTo(two.crowns);
                         return crownsCompare != 0 ? crownsCompare : scoreCompare;
                     case "shards":
                     case "shardIcon":
-                        int shardsCompare = (one.score % 60).CompareTo(two.score % 60);
+                        int shardsCompare = (one.shards).CompareTo(two.shards);
                         return shardsCompare != 0 ? shardsCompare : scoreCompare;
                     case "score":
                         scoreCompare = one.score.CompareTo(two.score);
@@ -1437,7 +1414,7 @@ namespace FallGuysStats {
         }
         
         private void gridWeeklyCrown_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this.gridWeeklyCrown.SelectedRows.Count > 0) {
+            if (e.RowIndex != -1 && this.gridWeeklyCrown.SelectedRows.Count > 0) {
                 WeeklyCrownUser data = this.gridWeeklyCrown.SelectedRows[0].DataBoundItem as WeeklyCrownUser;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 this.gridWeeklyCrown.Enabled = false;
@@ -1450,6 +1427,114 @@ namespace FallGuysStats {
                 this.currentUserId = data.id;
                 this.SetPlayerInfo(data.id);
                 this.mtcTabControl.SelectedIndex = 2;
+            }
+        }
+
+        private void pagingButton_Click(object sender, EventArgs e) {
+            this.mlLeftPagingButton.Enabled = false;
+            this.mlRightPagingButton.Enabled = false;
+            if (sender.Equals(this.mlLeftPagingButton)) {
+                this.SetWeeklyCrownList(this.StatsForm.weeklyCrownPrevious);
+            } else if (sender.Equals(this.mlRightPagingButton)) {
+                this.SetWeeklyCrownList(this.StatsForm.weeklyCrownNext);
+            }
+        }
+
+        private void SetWeeklyCrownList(string date = "") {
+            if (!string.IsNullOrEmpty(date) || this.StatsForm.weeklyCrownList == null || (DateTime.UtcNow > this.StatsForm.weeklyCrownLoadTime &&
+                                                                                          (DateTime.UtcNow.Year != this.StatsForm.weeklyCrownLoadTime.Year
+                                                                                           || DateTime.UtcNow.Month != this.StatsForm.weeklyCrownLoadTime.Month
+                                                                                           || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
+                                                                                           || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour)))
+            {
+                this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
+                this.mpsSpinner05.Visible = true;
+                this.mpsSpinner05.BringToFront();
+                this.spinnerTransition.Start();
+                this.targetSpinner = this.mpsSpinner05;
+                Task.Run(() => this.StatsForm.InitializeWeeklyCrownList(date)).ContinueWith(prevTask => {
+                    this.weeklyCrownList = this.StatsForm.weeklyCrownList;
+                    this.Invoke((MethodInvoker)delegate {
+                        this.mpsSpinner05.Visible = false;
+                        this.spinnerTransition.Stop();
+                        this.targetSpinner = null;
+                        this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
+                        if (prevTask.Result) {
+                            // this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
+                            this.lblPagingInfo.Font = Overlay.GetMainFont(25f);
+                            this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
+                            int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                            this.myWeeklyCrownRank = index + 1;
+                            if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
+                                this.mlMyRank.Visible = true;
+                                this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
+                                int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
+                                int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
+                                this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
+                                if (this.myWeeklyCrownRank == 1) {
+                                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                                } else {
+                                    double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
+                                    if (percentage <= 20) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                    } else if (percentage <= 50) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                    } else {
+                                        this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
+                                    }
+                                }
+                                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
+                                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
+                                this.mtpWeeklyCrownPage.Invalidate();
+                            }
+                            this.lblPagingInfo.Left = (this.ClientSize.Width / 2) - (this.lblPagingInfo.Width / 2);
+                            this.mlLeftPagingButton.Left = this.lblPagingInfo.Left - this.mlRightPagingButton.Width - 5;
+                            this.mlRightPagingButton.Left = this.lblPagingInfo.Right + 5;
+                            this.lblPagingInfo.Visible = true;
+                            this.mlLeftPagingButton.Enabled = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownPrevious);
+                            this.mlRightPagingButton.Enabled = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
+                            this.mlLeftPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownPrevious);
+                            this.mlRightPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
+                        } else {
+                            // this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
+                            this.weeklyCrownList = null;
+                            this.lblPagingInfo.Visible = false;
+                            this.mlLeftPagingButton.Visible = false;
+                            this.mlRightPagingButton.Visible = false;
+                        }
+                    });
+                });
+            } else {
+                this.weeklyCrownList = this.StatsForm.weeklyCrownList;
+                this.gridWeeklyCrown.DataSource = this.weeklyCrownList;
+                int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                this.myWeeklyCrownRank = index + 1;
+                this.mlMyRank.Visible = index != -1;
+                this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+                if (this.myWeeklyCrownRank == 1) {
+                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                } else { 
+                    double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
+                    if (percentage <= 20) {
+                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                    } else if (percentage <= 50) {
+                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                    } else {
+                        this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
+                    }
+                }
+                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
+                this.lblPagingInfo.Font = Overlay.GetMainFont(25f);
+                this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
+                this.lblPagingInfo.Left = (this.ClientSize.Width / 2) - (this.lblPagingInfo.Width / 2);
+                this.mlLeftPagingButton.Left = this.lblPagingInfo.Left - this.mlRightPagingButton.Width - 5;
+                this.mlRightPagingButton.Left = this.lblPagingInfo.Right + 5;
+                this.lblPagingInfo.Visible = true;
+                this.mlLeftPagingButton.Enabled = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownPrevious);
+                this.mlRightPagingButton.Enabled = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
+                this.mlLeftPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownPrevious);
+                this.mlRightPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
             }
         }
 
@@ -1470,7 +1555,10 @@ namespace FallGuysStats {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
+                this.lblPagingInfo.Visible = false;
+                this.mlLeftPagingButton.Visible = false;
+                this.mlRightPagingButton.Visible = false;
             } else if (this.mtcTabControl.SelectedIndex == 1) {
                 this.mlMyRank.Visible = this.myLevelRank != -1;
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myLevelRank)} {Stats.OnlineServiceNickname}";
@@ -1487,81 +1575,18 @@ namespace FallGuysStats {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
+                this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
+                this.lblPagingInfo.Visible = false;
+                this.mlLeftPagingButton.Visible = false;
+                this.mlRightPagingButton.Visible = false;
             } else if (this.mtcTabControl.SelectedIndex == 2) {
                 this.mlMyRank.Visible = false;
                 this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+                this.lblPagingInfo.Visible = false;
+                this.mlLeftPagingButton.Visible = false;
+                this.mlRightPagingButton.Visible = false;
             } else if (this.mtcTabControl.SelectedIndex == 3) {
-                if (this.StatsForm.leaderboardWeeklyCrownList == null || (DateTime.UtcNow > this.StatsForm.weeklyCrownLoadTime &&
-                                                                          (DateTime.UtcNow.Year != this.StatsForm.weeklyCrownLoadTime.Year
-                                                                           || DateTime.UtcNow.Month != this.StatsForm.weeklyCrownLoadTime.Month
-                                                                           || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
-                                                                           || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour))) {
-                    this.mpsSpinner05.Visible = true;
-                    this.mpsSpinner05.BringToFront();
-                    this.spinnerTransition.Start();
-                    this.targetSpinner = this.mpsSpinner05;
-                    Task.Run(() => this.StatsForm.InitializeWeeklyCrownList()).ContinueWith(prevTask => {
-                        this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
-                        this.Invoke((MethodInvoker)delegate {
-                            this.mpsSpinner05.Visible = false;
-                            this.spinnerTransition.Stop();
-                            this.targetSpinner = null;
-                            this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
-                            if (prevTask.Result) {
-                                this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
-                                int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
-                                this.myWeeklyCrownRank = index + 1;
-                                if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
-                                    this.mlMyRank.Visible = true;
-                                    this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
-                                    int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
-                                    int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
-                                    this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
-                                    if (this.myWeeklyCrownRank == 1) {
-                                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
-                                    } else {
-                                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
-                                        if (percentage <= 20) {
-                                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
-                                        } else if (percentage <= 50) {
-                                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
-                                        } else {
-                                            this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
-                                        }
-                                    }
-                                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
-                                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
-                                    this.mtpWeeklyCrownPage.Invalidate();
-                                }
-                            } else {
-                                this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
-                                this.weeklyCrownList = null;
-                            }
-                        });
-                    });
-                } else {
-                    this.weeklyCrownList = this.StatsForm.leaderboardWeeklyCrownList;
-                    this.gridWeeklyCrown.DataSource = this.weeklyCrownList;
-                    int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
-                    this.myWeeklyCrownRank = index + 1;
-                    this.mlMyRank.Visible = index != -1;
-                    this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
-                    this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5);
-                    if (this.myWeeklyCrownRank == 1) {
-                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
-                    } else {
-                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / (1000 - 1)) * 100;
-                        if (percentage <= 20) {
-                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
-                        } else if (percentage <= 50) {
-                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
-                        } else {
-                            this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
-                        }
-                    }
-                    this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + 5);
-                }
+                this.SetWeeklyCrownList();
             }
         }
 
@@ -1574,7 +1599,7 @@ namespace FallGuysStats {
                 } else if (this.mtcTabControl.SelectedIndex == 2) {
                     Process.Start(this.playerDetails == null ? $"https://fallalytics.com/player-search?q={this.mtbSearchPlayersText.Text}" : $"https://fallalytics.com/player/{this.currentUserId}");
                 } else if (this.mtcTabControl.SelectedIndex == 3) {
-                    Process.Start("https://fallalytics.com/leaderboards");
+                    Process.Start("https://fallalytics.com/leaderboards/crowns");
                 }
             } else if (sender.Equals(this.mlRefreshList)) {
                 if (!string.IsNullOrEmpty(this.key)) {

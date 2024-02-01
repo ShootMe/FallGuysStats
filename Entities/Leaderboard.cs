@@ -235,6 +235,8 @@ namespace FallGuysStats {
         public List<WeeklyCrownUser> users { get; set; }
         public double year { get; set; }
         public double week { get; set; }
+        public string previous { get; set; }
+        public string next { get; set; }
     }
     
     public class WeeklyCrownUser {

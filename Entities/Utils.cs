@@ -397,19 +397,20 @@ namespace FallGuysStats {
 
         public static string GetWeekString(int year, int week) {
             if (year == 0 || week == 0) return string.Empty;
-            
-            if (Stats.CurrentLanguage == Language.French) {
-                return $"Semaine {week}, {year}";
-            } else if (Stats.CurrentLanguage == Language.Korean) {
-                return $"{year}년 {week}주차";
-            } else if (Stats.CurrentLanguage == Language.Japanese) {
-                return $"{year}年{week}週目";
-            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
-                return $"第 {week} 周，{year} 年";
-            } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
-                return $"第 {week} 週，{year} 年";
-            } else {
-                return $"Week {week}, {year}";
+
+            switch (Stats.CurrentLanguage) {
+                case Language.French:
+                    return $"Semaine {week}, {year}";
+                case Language.Korean:
+                    return $"{year}년 {week}주차";
+                case Language.Japanese:
+                    return $"{year}年{week}週目";
+                case Language.SimplifiedChinese:
+                    return $"第 {week} 周，{year} 年";
+                case Language.TraditionalChinese:
+                    return $"第 {week} 週，{year} 年";
+                default:
+                    return $"Week {week}, {year}";
             }
         }
         
@@ -429,18 +430,19 @@ namespace FallGuysStats {
             
             DateTime start = result.AddDays(-3);
             DateTime end = start.AddDays(6);
-            if (Stats.CurrentLanguage == Language.French) {
-                return $"{start.ToString("d MMM yyyy", new CultureInfo("fr-FR"))} - {end.ToString("d MMM yyyy", new CultureInfo("fr-FR"))}";
-            } else if (Stats.CurrentLanguage == Language.Korean) {
-                return $"{start.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))} - {end.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))}";
-            } else if (Stats.CurrentLanguage == Language.Japanese) {
-                return $"{start.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))} - {end.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))}";
-            } else if (Stats.CurrentLanguage == Language.SimplifiedChinese) {
-                return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))}";
-            } else if (Stats.CurrentLanguage == Language.TraditionalChinese) {
-                return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))}";
-            } else {
-                return $"{start.ToString("MMM dd, yyyy", new CultureInfo("en-US"))} - {end.ToString("MMM dd, yyyy", new CultureInfo("en-US"))}";
+            switch (Stats.CurrentLanguage) {
+                case Language.French:
+                    return $"{start.ToString("d MMM yyyy", new CultureInfo("fr-FR"))} - {end.ToString("d MMM yyyy", new CultureInfo("fr-FR"))}";
+                case Language.Korean:
+                    return $"{start.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))} - {end.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))}";
+                case Language.Japanese:
+                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))} - {end.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))}";
+                case Language.SimplifiedChinese:
+                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))}";
+                case Language.TraditionalChinese:
+                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))}";
+                default:
+                    return $"{start.ToString("MMM dd, yyyy", new CultureInfo("en-US"))} - {end.ToString("MMM dd, yyyy", new CultureInfo("en-US"))}";
             }
         }
     }

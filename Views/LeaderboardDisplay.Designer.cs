@@ -50,6 +50,9 @@
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.mlRefreshList = new MetroFramework.Controls.MetroLink();
             this.cboRoundList = new FallGuysStats.ImageComboBox();
+            this.lblPagingInfo = new System.Windows.Forms.Label();
+            this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
+            this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
             this.picPlayerInfo01 = new System.Windows.Forms.PictureBox();
             this.picPlayerInfo02 = new System.Windows.Forms.PictureBox();
             this.picPlayerInfo03 = new System.Windows.Forms.PictureBox();
@@ -501,6 +504,51 @@
             this.mtpWeeklyCrownPage.VerticalScrollbarHighlightOnWheel = false;
             this.mtpWeeklyCrownPage.VerticalScrollbarSize = 12;
             // 
+            // lblPagingInfo
+            // 
+            this.lblPagingInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPagingInfo.AutoSize = true;
+            this.lblPagingInfo.Location = new System.Drawing.Point(675, 62);
+            this.lblPagingInfo.Name = "lblPagingInfo";
+            this.lblPagingInfo.Size = new System.Drawing.Size(31, 22);
+            this.lblPagingInfo.TabIndex = 3;
+            this.lblPagingInfo.Text = "Week 4, 2024";
+            this.lblPagingInfo.Visible = false;
+            // 
+            // mlLeftPagingButton
+            // 
+            this.mlLeftPagingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mlLeftPagingButton.AutoSize = true;
+            this.mlLeftPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlLeftPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlLeftPagingButton.Image = global::FallGuysStats.Properties.Resources.left_button_icon;
+            this.mlLeftPagingButton.ImageSize = 29;
+            this.mlLeftPagingButton.Location = new System.Drawing.Point(675, 67);
+            this.mlLeftPagingButton.Name = "mlLeftPagingButton";
+            this.mlLeftPagingButton.Size = new System.Drawing.Size(31, 30);
+            this.mlLeftPagingButton.TabIndex = 7;
+            this.mlLeftPagingButton.UseSelectable = true;
+            this.mlLeftPagingButton.UseStyleColors = true;
+            this.mlLeftPagingButton.Visible = false;
+            this.mlLeftPagingButton.Click += new System.EventHandler(this.pagingButton_Click);
+            // 
+            // mlRightPagingButton
+            // 
+            this.mlRightPagingButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.mlRightPagingButton.AutoSize = true;
+            this.mlRightPagingButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlRightPagingButton.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlRightPagingButton.Image = global::FallGuysStats.Properties.Resources.right_button_icon;
+            this.mlRightPagingButton.ImageSize = 29;
+            this.mlRightPagingButton.Location = new System.Drawing.Point(675, 67);
+            this.mlRightPagingButton.Name = "mlRightPagingButton";
+            this.mlRightPagingButton.Size = new System.Drawing.Size(31, 30);
+            this.mlRightPagingButton.TabIndex = 7;
+            this.mlRightPagingButton.UseSelectable = true;
+            this.mlRightPagingButton.UseStyleColors = true;
+            this.mlRightPagingButton.Visible = false;
+            this.mlRightPagingButton.Click += new System.EventHandler(this.pagingButton_Click);
+            // 
             // mpsSpinner05
             // 
             this.mpsSpinner05.BackColor = System.Drawing.Color.White;
@@ -643,6 +691,9 @@
             this.Controls.Add(this.mlVisitFallalytics);
             this.Controls.Add(this.mlRefreshList);
             this.Controls.Add(this.cboRoundList);
+            this.Controls.Add(this.lblPagingInfo);
+            this.Controls.Add(this.mlLeftPagingButton);
+            this.Controls.Add(this.mlRightPagingButton);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -698,6 +749,9 @@
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private MetroFramework.Controls.MetroLink mlRefreshList;
         private FallGuysStats.ImageComboBox cboRoundList;
+        private System.Windows.Forms.Label lblPagingInfo;
+        private MetroFramework.Controls.MetroLink mlLeftPagingButton;
+        private MetroFramework.Controls.MetroLink mlRightPagingButton;
         private System.Windows.Forms.PictureBox picPlayerInfo01;
         private System.Windows.Forms.PictureBox picPlayerInfo02;
         private System.Windows.Forms.PictureBox picPlayerInfo03;
