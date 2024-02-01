@@ -1486,9 +1486,8 @@ namespace FallGuysStats {
                                     }
                                 }
                                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
-                                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
-                                this.mtpWeeklyCrownPage.Invalidate();
                             }
+                            this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                             this.lblPagingInfo.Left = (this.ClientSize.Width / 2) - (this.lblPagingInfo.Width / 2);
                             this.mlLeftPagingButton.Left = this.lblPagingInfo.Left - this.mlRightPagingButton.Width - 5;
                             this.mlRightPagingButton.Left = this.lblPagingInfo.Right + 5;
@@ -1497,6 +1496,7 @@ namespace FallGuysStats {
                             this.mlRightPagingButton.Enabled = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
                             this.mlLeftPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownPrevious);
                             this.mlRightPagingButton.Visible = !string.IsNullOrEmpty(this.StatsForm.weeklyCrownNext);
+                            this.mtpWeeklyCrownPage.Invalidate();
                         } else {
                             // this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
                             this.weeklyCrownList = null;
