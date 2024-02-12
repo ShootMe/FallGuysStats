@@ -11,7 +11,7 @@ namespace FallGuysStats {
         public DateTime startDate, endDate;
         public bool isStartNotSet, isEndNotSet;
         public int selectedCustomTemplateSeason;
-        private List<DateTime[]> periodDateTemplates = new List<DateTime[]>();
+        private readonly List<DateTime[]> periodDateTemplates = new List<DateTime[]>();
         public FilterCustomRange() {
             InitializeComponent();
             this.Opacity = 0;

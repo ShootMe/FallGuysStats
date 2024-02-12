@@ -16,10 +16,10 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         private int _showStats;
         private int currentPage, totalPages;
-        private int pageSize = 5000;
+        private readonly int pageSize = 5000;
         // private int totalHeight;
-        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         
         public LevelDetails() {
             this.InitializeComponent();

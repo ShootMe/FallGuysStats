@@ -17,8 +17,7 @@ namespace FallGuysStats {
         public Overlay Overlay { get; set; }
         private int LaunchPlatform;
         private Language DisplayLang;
-        private bool CboMultilingualIsFocus;
-        private bool CboOverlayBackgroundIsFocus;
+        // private bool CboMultilingualIsFocus, CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
         private string PrevTabName;
         

@@ -25,7 +25,7 @@ namespace FallGuysStats {
                 }
 
                 return false;
-            } catch (HttpRequestException e) {
+            } catch (HttpRequestException) {
                 return false;
             }
         }
@@ -42,7 +42,7 @@ namespace FallGuysStats {
                     return true;
                 }
                 return false;
-            } catch (HttpRequestException e) {
+            } catch (HttpRequestException) {
                 return false;
             }
         }

@@ -18,7 +18,7 @@ namespace FallGuysStats {
         public Dictionary<string, int[]> roundScoreData;
         public IOrderedEnumerable<KeyValuePair<string, string>> roundList;
         private RadialGaugePlot radialGauges;
-        private string[] labelList = {
+        private readonly string[] labelList = {
             Multilingual.GetWord("main_played"), Multilingual.GetWord("level_detail_gold"),
             Multilingual.GetWord("level_detail_silver"), Multilingual.GetWord("level_detail_bronze"),
             Multilingual.GetWord("level_detail_pink"), Multilingual.GetWord("level_detail_eliminated")

@@ -12,28 +12,28 @@ using MetroFramework.Controls;
 namespace FallGuysStats {
     public partial class LeaderboardDisplay : MetroFramework.Forms.MetroForm {
         public Stats StatsForm { get; set; }
-        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         private readonly string AVAILABLE_ROUND_API_URL = "https://data.fallalytics.com/api/leaderboards";
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
         private string levelKey = String.Empty;
-        private int totalPlayers, totalPages, currentPage, totalHeight;
+        private int totalPlayers, totalPages; //, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
         private List<RankRound> availableRoundlist;
         private List<LevelRankInfo> levelRankList;
-        private List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
+        private readonly List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
         private List<OverallRankInfo> overallRankList;
-        private List<OverallRankInfo> overallRankNodata = new List<OverallRankInfo>();
+        private readonly List<OverallRankInfo> overallRankNodata = new List<OverallRankInfo>();
         private List<SearchPlayer> searchResult;
-        private List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
+        private readonly List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
         private List<PbInfo> playerDetails;
-        private List<PbInfo> playerDetailsNodata = new List<PbInfo>();
+        private readonly List<PbInfo> playerDetailsNodata = new List<PbInfo>();
         private OverallInfo overallInfo;
         private List<WeeklyCrownUser> weeklyCrownList;
-        private List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
+        private readonly List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
         private bool isSearchCompleted;
         private Timer spinnerTransition;
         private bool isIncreasing;
@@ -66,8 +66,9 @@ namespace FallGuysStats {
         }
         
         private void LeaderboardDisplay_Load(object sender, EventArgs e) {
-            this.spinnerTransition = new Timer();
-            this.spinnerTransition.Interval = 1;
+            this.spinnerTransition = new Timer {
+                Interval = 1
+            };
             this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             
             this.SetTheme(Stats.CurrentTheme);
@@ -245,7 +246,7 @@ namespace FallGuysStats {
             if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.levelKey)) { return; }
             this.levelKey = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             // this.totalHeight = 0;
-            this.currentPage = 0;
+            // this.currentPage = 0;
             this.mtcTabControl.SelectedIndex = 1;
             this.SetGridList(this.levelKey);
         }
@@ -1203,9 +1204,7 @@ namespace FallGuysStats {
                         string json = web.DownloadString($"{this.PLAYER_LIST_API_URL}{this.mtbSearchPlayersText.Text}");
                         SearchResult result = JsonSerializer.Deserialize<SearchResult>(json);
                         this.searchResult = result.found ? result.users : null;
-                        if (this.searchResult != null) {
-                            this.searchResult.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.onlineServiceNickname, y.onlineServiceNickname));
-                        }
+                        this.searchResult?.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.onlineServiceNickname, y.onlineServiceNickname));
                     }
                 }).ContinueWith(prevTask => {
                     this.spinnerTransition.Stop();

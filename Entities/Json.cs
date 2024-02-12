@@ -225,7 +225,7 @@ namespace FallGuysStats {
         }
         public bool AsBool() {
             string value = AsString();
-            return string.IsNullOrEmpty(value) || !bool.TryParse(value, out bool result) ? false : result;
+            return !string.IsNullOrEmpty(value) && bool.TryParse(value, out bool result) && result;
         }
         public long AsLong() {
             string value = AsString();
