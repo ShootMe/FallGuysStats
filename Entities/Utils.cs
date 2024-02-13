@@ -13,13 +13,13 @@ using System.Windows.Forms;
 
 namespace FallGuysStats {
 	public static class Utils {
-        public static readonly string GITHUB_API_URL = "https://api.github.com/";
+        public static readonly string FALLGUYSSTATS_RELEASES_LATEST_INFO_URL = "https://api.github.com/repos/ShootMe/FallGuysStats/releases/latest";
         public static readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
-        public static readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/";
+        public static readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/"; // $"{FALLGUYSDB_API_URL}creative/{sharecode}.json" or $"{FALLGUYSDB_API_URL}upcoming-shows"
         private static readonly string IP2C_ORG_URL = "https://ip2c.org/"; // https://ip2c.org/{ip}
-        private static readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // https://ipinfo.io/{ip}/json or https://ipinfo.io/ip
-        private static readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // http://ip-api.com/json/{ip}
-        private static readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip={ip}
+        private static readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // $"IPINFO_IO_URL{ip}/json" or $"{IPINFO_IO_URL}ip"
+        private static readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // $"{IPAPI_COM_URL}{ip}"
+        private static readonly string NORDVPN_COM_URL = "https://nordvpn.com/wp-admin/admin-ajax.php?action=get_user_info_data&ip="; // $"{NORDVPN_COM_URL}{ip}"
         
         [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -262,7 +262,7 @@ namespace FallGuysStats {
             return countryInfo;
         }
         
-        public static JsonElement GetApiData(string apiUrl, string apiEndPoint) {
+        public static JsonElement GetApiData(string apiUrl, string apiEndPoint = "") {
             JsonElement resJroot;
             using (ApiWebClient web = new ApiWebClient()) {
                 string responseJsonString = web.DownloadString($"{apiUrl}{apiEndPoint}");

@@ -3033,7 +3033,7 @@ namespace FallGuysStats {
 
                     if (this.CurrentSettings.ShowChangelog) {
                         try {
-                            string changelog = Utils.GetApiData(Utils.GITHUB_API_URL, "repos/ShootMe/FallGuysStats/releases/latest").GetProperty("body").GetString();
+                            string changelog = Utils.GetApiData(Utils.FALLGUYSSTATS_RELEASES_LATEST_INFO_URL).GetProperty("body").GetString();
                             changelog = changelog?.Substring(0, changelog.IndexOf($"{Environment.NewLine}{Environment.NewLine}<br>{Environment.NewLine}{Environment.NewLine}", StringComparison.OrdinalIgnoreCase));
                         
                             MetroMessageBox.Show(this,
