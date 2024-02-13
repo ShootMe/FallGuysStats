@@ -16,8 +16,8 @@ namespace FallGuysStats {
         private DataTable ProfilesData;
         private DataGridViewComboBoxColumn cboShowsList;
         private int selectedRowIndex;
-        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
 
         public EditProfiles() {
             this.InitializeComponent();

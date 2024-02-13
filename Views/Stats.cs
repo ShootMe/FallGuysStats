@@ -79,7 +79,7 @@ namespace FallGuysStats {
             }
         }
         
-        private static string LOGFILENAME = "Player.log";
+        private static readonly string LOGFILENAME = "Player.log";
         public static List<DateTime> Seasons = new List<DateTime> {
             new DateTime(2020, 8, 4, 0, 0, 0, DateTimeKind.Utc),
             new DateTime(2020, 10, 8, 0, 0, 0, DateTimeKind.Utc),
@@ -130,7 +130,7 @@ namespace FallGuysStats {
         public static bool IsQueued = false;
         public static int QueuedPlayers = 0;
         
-        private static FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
+        private static readonly FallalyticsReporter FallalyticsReporter = new FallalyticsReporter();
         
         public static string OnlineServiceId = string.Empty;
         public static string OnlineServiceNickname = string.Empty;
@@ -138,14 +138,14 @@ namespace FallGuysStats {
         public static string HostCountryCode = string.Empty;
         // public static string HostCountryRegion = string.Empty;
         // public static string HostCountryCity = string.Empty;
-        
-        DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-        DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+
+        readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+        readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<LevelStats> StatDetails = new List<LevelStats>();
         public List<RoundInfo> CurrentRound = new List<RoundInfo>();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
-        private LogFileWatcher logFile = new LogFileWatcher();
+        private readonly LogFileWatcher logFile = new LogFileWatcher();
         private int Shows, Rounds, CustomShows, CustomRounds;
         private TimeSpan Duration;
         private int Wins, Finals, Kudos;
@@ -174,12 +174,12 @@ namespace FallGuysStats {
         public List<PersonalBestLog> PersonalBestLogCache = new List<PersonalBestLog>();
         public Overlay overlay;
         private DateTime lastAddedShow = DateTime.MinValue;
-        public DateTime startupTime = DateTime.UtcNow;
-        public DateTime overallRankLoadTime;
-        public DateTime weeklyCrownLoadTime;
+        private readonly DateTime startupTime = DateTime.UtcNow;
+        public DateTime overallRankLoadTime {  get; set; }
+        public DateTime weeklyCrownLoadTime {  get; set; }
         public int totalOverallRankPlayers, totalWeeklyCrownPlayers;
         private int askedPreviousShows = 0;
-        private TextInfo textInfo;
+        private readonly TextInfo textInfo;
         private int currentProfile, currentLanguage;
         private Color infoStripForeColor;
         public List<ToolStripMenuItem> ProfileMenuItems = new List<ToolStripMenuItem>();
@@ -789,7 +789,7 @@ namespace FallGuysStats {
         
         public void PreventOverlayMouseClicks() {
             this.BeginInvoke((MethodInvoker)delegate {
-                if (this.overlay.IsMouseEnter() && ActiveForm != this) { this.SetCursorPositionCenter(); }
+                if (this.overlay.IsMouseOver() && ActiveForm != this) { this.SetCursorPositionCenter(); }
             });
         }
         
@@ -809,9 +809,7 @@ namespace FallGuysStats {
             Type type = Type.GetType("FallGuysStats.SecretKey");
             if (type != null) {
                 MethodInfo methodInfo = type.GetMethod("VERIFY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                if (methodInfo != null) {
-                    methodInfo.Invoke(null, null);
-                }
+                methodInfo?.Invoke(null, null);
                 FieldInfo fieldInfo = type.GetField("FALLALYTICS_KEY", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 if (fieldInfo != null) {
                     object value = fieldInfo.GetValue(null);
@@ -1364,9 +1362,7 @@ namespace FallGuysStats {
 
                     if (lastShow != info.ShowID) {
                         lastShow = info.ShowID;
-                        info.IsFinal = this.StatLookup.TryGetValue(info.Name, out LevelStats stats)
-                                       ? stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"))
-                                       : false;
+                        info.IsFinal = this.StatLookup.TryGetValue(info.Name, out LevelStats stats) && stats.IsFinal && (info.Name != "round_floor_fall" || info.Round >= 3 || (i > 0 && this.AllStats[i - 1].Name != "round_floor_fall"));
                     } else {
                         info.IsFinal = false;
                     }
@@ -3873,6 +3869,7 @@ namespace FallGuysStats {
         public string GetAlternateShowId(string showId) {
             switch (showId) {
                 case "turbo_show":
+                case "turbo_2_show":
                     return "main_show";
                 case "squadcelebration":
                 case "event_day_at_races_squads_template":
@@ -4300,8 +4297,9 @@ namespace FallGuysStats {
         }
         
         public void AllocOverlayTooltip() {
-            this.omtt = new MetroToolTip();
-            this.omtt.Theme = this.Theme;
+            this.omtt = new MetroToolTip {
+                Theme = this.Theme
+            };
         }
         
         public void ShowOverlayTooltip(string message, IWin32Window window, Point position, int duration = -1) {
@@ -4317,8 +4315,9 @@ namespace FallGuysStats {
         }
         
         public void AllocCustomTooltip(DrawToolTipEventHandler drawFunc) {
-            this.cmtt = new MetroToolTip();
-            this.cmtt.OwnerDraw = true;
+            this.cmtt = new MetroToolTip {
+                OwnerDraw = true
+            };
             this.cmtt.Draw += drawFunc;
         }
         
@@ -4335,8 +4334,9 @@ namespace FallGuysStats {
         }
         
         public void AllocTooltip() {
-            this.mtt = new MetroToolTip();
-            this.mtt.Theme = this.Theme;
+            this.mtt = new MetroToolTip {
+                Theme = this.Theme
+            };
         }
         
         public void ShowTooltip(string message, IWin32Window window, Point position, int duration = -1) {

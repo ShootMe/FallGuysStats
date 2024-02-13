@@ -22,8 +22,8 @@ namespace FallGuysStats {
         public ToolStripSeparator MenuSeparator;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
-        private Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
-        private DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
+        private readonly Dictionary<string, SortOrder> Orders = new Dictionary<string, SortOrder>(StringComparer.OrdinalIgnoreCase);
+        private readonly DWM_WINDOW_CORNER_PREFERENCE conerPreference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUNDSMALL;
         private class CustomColorTable : ProfessionalColorTable {
             public CustomColorTable() { UseSystemColors = false; }
             public override Color MenuBorder {
@@ -185,8 +185,9 @@ namespace FallGuysStats {
             if (this.DesignMode) {
                 Graphics g = e.Graphics;
                 g.Clear(BackgroundColor);
-                Pen bp = new Pen(Color.DarkGray, 1);
-                bp.DashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
+                Pen bp = new Pen(Color.DarkGray, 1) {
+                    DashStyle = System.Drawing.Drawing2D.DashStyle.Solid
+                };
                 int i = 0;
                 g.DrawLine(bp, 0, 0, 0, Height);
                 g.DrawLine(bp, Width - 1, 0, Width - 1, Height);
@@ -341,15 +342,15 @@ namespace FallGuysStats {
                 this._saveFile.Title = Multilingual.GetWord("message_save_csv_file_caption");
                 this._saveFile.Filter = "CSV files|*.csv";
                 if (this.Name.Equals("gridRoundsSummryList")) {
-                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"rounds_summary_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridShowsStats")) {
-                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"shows_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridRoundsStats")) {
-                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"rounds_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridFinalsStats")) {
-                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"finals_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 } else if (this.Name.Equals("gridRoundStats")) {
-                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now.ToString("yyyy-MM-dd hh_mm_ss")}";
+                    this._saveFile.FileName = $"round_stats_list_{DateTime.Now:yyyy-MM-dd hh_mm_ss}";
                 }
                 
                 if (this._saveFile.ShowDialog() == DialogResult.OK) {
@@ -362,7 +363,7 @@ namespace FallGuysStats {
                             string header = string.IsNullOrEmpty(col.HeaderText) ? col.ToolTipText : col.HeaderText;
                             sb.Append(EscapeQuotes(header)).Append(",");
                         }
-                        if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+                        if (sb.Length > 0) { sb.Length--; }
 
                         sb.AppendLine();
                         byte[] bytes = enc.GetBytes(sb.ToString());
@@ -380,7 +381,7 @@ namespace FallGuysStats {
                                     sb.Append($"{EscapeQuotes(tooltip)},");
                                 }
                             }
-                            if (sb.Length > 0) { sb.Length = sb.Length - 1; }
+                            if (sb.Length > 0) { sb.Length--; }
 
                             sb.AppendLine();
                             bytes = enc.GetBytes(sb.ToString());

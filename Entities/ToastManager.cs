@@ -107,9 +107,10 @@ namespace FallGuysStats {
 		/// <param name="other"></param>
 		public ToastCollection(ToastCollection other) {
 			if (other != null) {
-				_privateList = new List<Toast>(other._privateList);
-				_privateList.Capacity = ToastManager.MAX_TOASTS_ALLOWED;
-			}
+                _privateList = new List<Toast>(other._privateList) {
+                    Capacity = ToastManager.MAX_TOASTS_ALLOWED
+                };
+            }
 		}
 
 		/// <summary>

@@ -99,7 +99,7 @@ namespace FallGuysStats {
 
             if (this.dataSource == null || this.dataSource.DefaultView.Count == 0) { return; }
 
-            int w = Width; int h = Height;
+            // int w = Width; int h = Height;
             decimal xmax = decimal.MinValue; decimal xmin = decimal.MaxValue; decimal ymax = decimal.MinValue; decimal ymin = decimal.MaxValue;
             Type yType = null;
             Type xType = this.dataSource.Columns[XColumn].DataType;
@@ -127,13 +127,12 @@ namespace FallGuysStats {
             ymax += mod == 0 ? 0 : 8 - mod;
             //Get inital values
             int closeInd = 0;
-            int closeTemp = 0;
             int close = int.MaxValue;
             int closeIndY = 0;
             int i = 0;
             foreach (DataRowView row in this.dataSource.DefaultView) {
                 int x = NormalizeX(GetValue(row[XColumn]), xmin, xmax, wmin, wmax) - e.X;
-                closeTemp = x * x;
+                int closeTemp = x * x;
                 foreach (DataColumn col in this.dataSource.Columns) {
                     if (!yColumns[col.Ordinal]) { continue; }
                     int y = NormalizeY(GetValue(row[col.Ordinal]), ymin, ymax, hmin, hmax) - e.Y;
@@ -220,7 +219,6 @@ namespace FallGuysStats {
             }
             if (!visible) {
                 ymax = 10;
-                ymin = 0;
             }
             ymin = 0;
 
@@ -235,8 +233,9 @@ namespace FallGuysStats {
             g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             decimal y8 = (ymax - ymin) / (decimal)8.0; decimal x8 = (xmax - xmin) / (decimal)8.0;
             double h8 = (hmax - hmin) / 8.0; double w8 = (wmax - wmin) / 8.0;
-            Pen bp = new Pen(this.GraphYColumnColor, 1);
-            bp.DashStyle = DashStyle.Dash;
+            Pen bp = new Pen(this.GraphYColumnColor, 1) {
+                DashStyle = DashStyle.Dash
+            };
             g.DrawLine(bp, wmin, 0, wmin, hmax); // Y Outer Line
             bp.Color = this.GraphXColumnColor;
             g.DrawLine(bp, wmin, hmax, w - 1, hmax); // X Outer Line

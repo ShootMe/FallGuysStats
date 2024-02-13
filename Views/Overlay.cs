@@ -67,9 +67,9 @@ namespace FallGuysStats {
         private readonly Image positionUnlockBlur = Utils.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.4F);
         private readonly Image positionUnlockFocus = Utils.ImageOpacity(Properties.Resources.switch_unlock_icon, 0.8F);
         public bool isFixedPositionNe, isFixedPositionNw, isFixedPositionSe, isFixedPositionSw, isPositionLock;
-        private bool isFocused, isMouseEnter;
-        
-        private static PrivateFontCollection DefaultFontCollection;
+        private bool isFocused, isMouseOver;
+
+        private static readonly PrivateFontCollection DefaultFontCollection;
         public static new Font DefaultFont;
         
         static Overlay() {
@@ -135,8 +135,19 @@ namespace FallGuysStats {
         
         public Overlay() {
             this.InitializeComponent();
-        }
 
+            MouseEnter += OnMouseEnter;
+            MouseLeave += OnMouseLeave;
+        }
+        
+        private void OnMouseEnter(object sender, EventArgs e) {
+            this.isMouseOver = true;
+        }
+        
+        private void OnMouseLeave(object sender, EventArgs e) {
+            this.isMouseOver = false;
+        }
+        
         private void Overlay_Load(object sender, EventArgs e) {
             this.ChangeLanguage();
             this.SetBackground();
@@ -233,8 +244,8 @@ namespace FallGuysStats {
         public bool IsFocused() {
             return this.isFocused;
         }
-        public bool IsMouseEnter() {
-            return this.isMouseEnter;
+        public bool IsMouseOver() {
+            return this.isMouseOver;
         }
         public bool IsFixed() {
             return this.isFixedPositionNe || this.isFixedPositionNw || this.isFixedPositionSe || this.isFixedPositionSw || this.isPositionLock;
