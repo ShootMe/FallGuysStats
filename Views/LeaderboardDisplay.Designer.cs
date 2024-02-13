@@ -484,9 +484,11 @@
             this.gridLevelRank.Size = new System.Drawing.Size(1332, 768);
             this.gridLevelRank.TabIndex = 2;
             this.gridLevelRank.DataSourceChanged += new System.EventHandler(this.gridLevelRank_DataSourceChanged);
+            this.gridLevelRank.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLevelRank_CellDoubleClick);
             this.gridLevelRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridLevelRank_CellFormatting);
+            this.gridLevelRank.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
+            this.gridLevelRank.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridLevelRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridLevelRank_ColumnHeaderMouseClick);
-            this.gridLevelRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mtpWeeklyCrownPage
             // 

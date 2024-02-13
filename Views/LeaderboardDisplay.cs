@@ -685,6 +685,7 @@ namespace FallGuysStats {
             this.gridLevelRank.Columns["country"].Visible = false;
             this.gridLevelRank.Columns["onlineServiceType"].Visible = false;
             this.gridLevelRank.Columns["onlineServiceId"].Visible = false;
+            this.gridLevelRank.Columns["id"].Visible = false;
             this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
             this.gridLevelRank.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
             this.gridLevelRank.Columns["medal"].DefaultCellStyle.NullValue = null;
@@ -848,6 +849,23 @@ namespace FallGuysStats {
             this.gridLevelRank.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
+        private void gridLevelRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex != -1 && this.gridLevelRank.SelectedRows.Count > 0) {
+                LevelRankInfo data = this.gridLevelRank.SelectedRows[0].DataBoundItem as LevelRankInfo;
+                if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
+                this.gridLevelRank.Enabled = false;
+                this.gridPlayerList.Enabled = false;
+                this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
+                this.spinnerTransition.Start();
+                this.targetSpinner = this.mpsSpinner04;
+                this.mpsSpinner04.BringToFront();
+                this.mpsSpinner04.Visible = true;
+                this.currentUserId = data.id;
+                this.SetPlayerInfo(data.id);
+                this.mtcTabControl.SelectedIndex = 2;
+            }
+        }
+        
         // private void gridLevelRank_Scroll(object sender, ScrollEventArgs e) {
         //     if (this.totalHeight - this.gridLevelRank.Height < this.gridLevelRank.VerticalScrollingOffset) {
         //         // to do
@@ -974,6 +992,7 @@ namespace FallGuysStats {
                     this.gridPlayerDetails.ClearSelection();
                     this.gridPlayerList.Enabled = true;
                     this.gridOverallRank.Enabled = true;
+                    this.gridLevelRank.Enabled = true;
                     this.gridWeeklyCrown.Enabled = true;
                     if (this.overallInfo != null) {
                         this.picPlayerInfo01.Image = (string.Equals(this.overallInfo.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);

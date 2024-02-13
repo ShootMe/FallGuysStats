@@ -38,6 +38,7 @@ namespace FallGuysStats {
         public string onlineServiceType { get; set; }
         public string onlineServiceId { get; set; }
         public string onlineServiceNickname { get; set; }
+        public string id { get; set; }
     }
 
     public class LevelRankInfoConverter : JsonConverter<LevelRankInfo> {
@@ -72,8 +73,7 @@ namespace FallGuysStats {
                             break;
                         case "user":
                             if (reader.TokenType == JsonTokenType.String) {
-                                recordHolder.onlineServiceId = reader.GetString();
-                                // recordHolder.onlineServiceNickname = $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}";
+                                recordHolder.id = reader.GetString();
                             } else if (reader.TokenType == JsonTokenType.StartObject) {
                                 while (reader.Read()) {
                                     if (reader.TokenType == JsonTokenType.EndObject) {
@@ -92,6 +92,9 @@ namespace FallGuysStats {
                                                 break;
                                             case "onlineServiceNickname":
                                                 recordHolder.onlineServiceNickname = reader.GetString();
+                                                break;
+                                            case "id":
+                                                recordHolder.id = reader.GetString();
                                                 break;
                                         }
                                     }
