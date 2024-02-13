@@ -135,17 +135,6 @@ namespace FallGuysStats {
         
         public Overlay() {
             this.InitializeComponent();
-
-            MouseEnter += OnMouseEnter;
-            MouseLeave += OnMouseLeave;
-        }
-        
-        private void OnMouseEnter(object sender, EventArgs e) {
-            this.isMouseOver = true;
-        }
-        
-        private void OnMouseLeave(object sender, EventArgs e) {
-            this.isMouseOver = false;
         }
         
         private void Overlay_Load(object sender, EventArgs e) {
@@ -502,10 +491,20 @@ namespace FallGuysStats {
                 this.picPositionSW.Hide();
             }
         }
+        
         private void SetVisiblePositionLockButton(bool visible) {
             if (visible) { this.picPositionLock.Show(); }
             else { this.picPositionLock.Hide(); }
         }
+        
+        private void Overlay_MouseEnter(object sender, EventArgs e) {
+            this.isMouseOver = true;
+        }
+        
+        private void Overlay_MouseLeave(object sender, EventArgs e) {
+            this.isMouseOver = false;
+        }
+        
         private void Overlay_GotFocus(object sender, EventArgs e) {
             this.isFocused = true;
             if (this.IsFixed()) {
@@ -524,6 +523,7 @@ namespace FallGuysStats {
                 this.SetVisiblePositionLockButton(true);
             }
         }
+        
         private void Overlay_LostFocus(object sender, EventArgs e) {
             this.isFocused = false;
             if (!this.picPositionNE.Visible && !this.picPositionNW.Visible &&
@@ -531,9 +531,11 @@ namespace FallGuysStats {
             this.SetVisiblePositionMenu(false);
             this.SetVisiblePositionLockButton(false);
         }
+        
         private void Overlay_Resize(object sender, EventArgs e) {
             this.SetLocationPositionMenu(this.drawHeight > 99, this.StatsForm.CurrentSettings.FlippedDisplay);
         }
+        
         private void Overlay_MouseDown(object sender, MouseEventArgs e) {
             if (e.Button != MouseButtons.Left) return;
             if ((sender.GetType() == this.picPositionNE.GetType()) ||
@@ -545,6 +547,7 @@ namespace FallGuysStats {
             ReleaseCapture();
             SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
         }
+        
         private void UpdateTimer() {
             while (this.StatsForm != null && !this.StatsForm.IsDisposed && !this.StatsForm.Disposing) {
                 try {
@@ -561,6 +564,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetRoundLabel(LevelStats level, LevelType levelType, string roundName, int overlaySetting) {
             if (Stats.IsQueued && (overlaySetting == 1 || overlaySetting == 5)) {
                 this.lblRound.LevelColor = Color.Empty;
@@ -597,6 +601,7 @@ namespace FallGuysStats {
                 this.lblRound.TextRight = roundName;
             }
         }
+        
         private void SetWinsLabel(StatSummary levelSummary, int overlaySetting) {
             if (Stats.IsQueued && overlaySetting == 3) {
                 this.lblWins.Text = $"{Multilingual.GetWord("overlay_queued_players")} :";
@@ -615,6 +620,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetFinalsLabel(StatSummary levelSummary, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 3) {
                 this.lblFinals.OverlaySetting = overlaySetting;
@@ -630,6 +636,7 @@ namespace FallGuysStats {
                 this.lblFinals.TextRight = $"{finalText}{finalChanceDisplay}";
             }
         }
+        
         private void SetStreakLabel(StatSummary levelSummary, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 3)) {
                 this.lblStreak.OverlaySetting = overlaySetting;
@@ -654,6 +661,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetQualifyChanceLabel(StatSummary levelSummary, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 1 || overlaySetting == 5)) {
                 this.lblQualifyChance.OverlaySetting = overlaySetting;
@@ -685,6 +693,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetFastestLabel(StatSummary levelSummary, BestRecordType recordType, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 2)) {
                 this.lblFastest.OverlaySetting = overlaySetting;
@@ -729,6 +738,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetPlayersLabel(int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 0 || overlaySetting == 1 || overlaySetting == 4 || overlaySetting == 5)) {
                 this.lblPlayers.Image = null;
@@ -829,6 +839,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetDurationLabel(LevelStats level, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {
                 this.lblDuration.OverlaySetting = overlaySetting;
@@ -890,6 +901,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void SetFinishLabel(StatSummary levelSummary, LevelType levelType, string roundId, BestRecordType recordType, DateTime currentUTC, int overlaySetting) {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
@@ -975,6 +987,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void UpdateInfo() {
             if (this.StatsForm == null) { return; }
             
@@ -1045,6 +1058,7 @@ namespace FallGuysStats {
                 this.Invalidate();
             }
         }
+        
         protected override void OnPaint(PaintEventArgs e) {
             lock (DefaultFont) {
                 this.DrawGraphics.Clear(Color.Transparent);
@@ -1064,6 +1078,7 @@ namespace FallGuysStats {
                 e.Graphics.DrawImage(this.DrawImage, new Rectangle(0, 0, this.ClientSize.Width, this.ClientSize.Height), new Rectangle(0, 0, this.DrawImage.Width, this.DrawImage.Height), GraphicsUnit.Pixel);
             }
         }
+        
         private void Overlay_MouseWheel(object sender, MouseEventArgs e) {
             if (this.shiftKeyToggle == false) { return; }
             if (this.StatsForm.ProfileMenuItems.Count <= 1) { return; }
@@ -1093,6 +1108,7 @@ namespace FallGuysStats {
                 }
             }
         }
+        
         private void Overlay_KeyUp(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -1103,6 +1119,7 @@ namespace FallGuysStats {
                     break;
             }
         }
+        
         private void Overlay_KeyDown(object sender, KeyEventArgs e) {
             switch (e.KeyCode) {
                 case Keys.ShiftKey:
@@ -1216,9 +1233,11 @@ namespace FallGuysStats {
             }
             e.SuppressKeyPress = true;
         }
+        
         public void ResetOverlaySize() {
             this.Size = this.DefaultSize;
         }
+        
         public void ResetOverlayLocation(bool visible) {
             this.Location = this.StatsForm.screenCenter;
             this.StatsForm.CurrentSettings.OverlayLocationX = this.Location.X;
@@ -1235,6 +1254,7 @@ namespace FallGuysStats {
             this.SetVisiblePositionMenu(visible);
             this.SetVisiblePositionLockButton(visible);
         }
+        
         public void SetBackgroundColor(int colorOption) {
             switch (colorOption) {
                 case 0: this.BackColor = Color.FromArgb(224, 224, 224); break;
@@ -1246,6 +1266,7 @@ namespace FallGuysStats {
                 case 6: this.BackColor = Color.Blue; break;
             }
         }
+        
         public void ArrangeDisplay(bool flipDisplay, bool showTabs, bool hideWins, bool hideRound, bool hideTime, int colorOption, int? width, int? height, string serializedFont, string serializedFontColor) {
             this.FlipDisplay(false);
             
@@ -1651,6 +1672,7 @@ namespace FallGuysStats {
                 this.SetBackgroundColor(colorOption);
             }
         }
+        
         public void FlipDisplay(bool flipped) {
             if (flipped == this.flippedImage) { return; }
             this.flippedImage = flipped;
@@ -1674,6 +1696,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountSpace(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1682,6 +1705,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountBigSignCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1694,6 +1718,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountSmallSignCharacter(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1708,6 +1733,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountKorAlphabet(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1718,6 +1744,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountJpnAlphabet(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1731,6 +1758,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountEngLowercase(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1739,6 +1767,7 @@ namespace FallGuysStats {
             }
             return count;
         }
+        
         private int GetCountAmpersand(string s) {
             int count = 0;
             char[] charArr = s.ToCharArray();
@@ -1751,10 +1780,12 @@ namespace FallGuysStats {
         public void SetCurrentProfileForeColor(Color color) {
             this.lblProfile.ForeColor = color;
         }
+        
         private int GetOverlayProfileOffset(string s) {
             int sizeOfText = TextRenderer.MeasureText(s, new Font(this.lblProfile.Font.FontFamily, this.lblProfile.Font.Size, FontStyle.Regular, this.lblProfile.Font.Unit)).Width;
             return sizeOfText + (this.GetCountAmpersand(s) * 14) - 22;
         }
+        
         private Bitmap RecreateBackground() {
             lock (DefaultFont) {
                 this.Background?.Dispose();
@@ -1811,6 +1842,7 @@ namespace FallGuysStats {
                 return newImage;
             }
         }
+        
         private void DisplayTabs(bool showTabs) {
             if (showTabs) {
                 this.drawHeight = 134;
@@ -1821,6 +1853,7 @@ namespace FallGuysStats {
                 this.lblFilter.DrawVisible = false;
             }
         }
+        
         private void DisplayProfile(bool showProfile) {
             if (showProfile) {
                 this.drawHeight = 134;
@@ -1831,6 +1864,7 @@ namespace FallGuysStats {
                 this.lblProfile.DrawVisible = false;
             }
         }
+        
         public void ChangeLanguage() {
             this.SuspendLayout();
             this.lblStreak.Text = $"{Multilingual.GetWord("overlay_streak")} :";
