@@ -5876,6 +5876,8 @@ namespace FallGuysStats {
                            BackMaxSize = 32,
                            BackImagePadding = new Padding(20, 21, 0, 0)
                        }) {
+                    this.leaderboardOverallRankList?.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
+                    this.weeklyCrownList?.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                     leaderboard.ShowDialog(this);
                 }
                 this.EnableInfoStrip(true);
