@@ -54,10 +54,48 @@
             this.menuUpdate = new System.Windows.Forms.ToolStripMenuItem();
             this.menuHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLaunchFallGuys = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuLookHere = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUsefulThings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFallGuysDBMain = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBShows = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBDiscovery = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBShop = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBNewsfeeds = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBStrings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBCosmetics = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBCrownRanks = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBLiveEvents = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBDailyShop = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBCreative = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallGuysDBFaq = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.menuFallalytics = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuFallalyticsMain = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsFindPlayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsOverallRankings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsLevelRankings = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsWeeklyCrownLeague = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsRoundStatistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsShowStatistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.menuFallalyticsNews = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.menuSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -107,10 +145,48 @@
             this.trayEditProfiles = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.traySeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.trayLookHere = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayUsefulThings = new System.Windows.Forms.ToolStripMenuItem();
             this.trayFallGuysDB = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayFallGuysDBMain = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator9 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBShows = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBDiscovery = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator11 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBShop = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBNewsfeeds = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBStrings = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBCosmetics = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator15 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBCrownRanks = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator16 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBLiveEvents = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator17 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBDailyShop = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator18 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBCreative = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator19 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallGuysDBFaq = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.trayFallalytics = new System.Windows.Forms.ToolStripMenuItem();
+            this.trayFallalyticsMain = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator20 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsFindPlayer = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsOverallRankings = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator22 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsLevelRankings = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator23 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsWeeklyCrownLeague = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator24 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsRoundStatistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator25 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsShowStatistics = new System.Windows.Forms.ToolStripMenuItem();
+            this.traySubSeparator26 = new System.Windows.Forms.ToolStripSeparator();
+            this.trayFallalyticsNews = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.trayRollOffClub = new System.Windows.Forms.ToolStripMenuItem();
             this.traySubSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -212,7 +288,7 @@
             this.menu.AutoSize = false;
             this.menu.BackColor = System.Drawing.Color.Transparent;
             this.menu.Dock = System.Windows.Forms.DockStyle.None;
-            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys, this.menuLookHere });
+            this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuSettings, this.menuFilters, this.menuProfile, this.menuOverlay, this.menuUpdate, this.menuHelp, this.menuLaunchFallGuys, this.menuUsefulThings });
             this.menu.Location = new System.Drawing.Point(0, 65);
             this.menu.Name = "menu";
             this.menu.Size = new System.Drawing.Size(940, 27);
@@ -432,24 +508,173 @@
             this.menuLaunchFallGuys.MouseLeave += new System.EventHandler(this.setCursor_MouseLeave);
             this.menuLaunchFallGuys.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
-            // menuLookHere
+            // menuUsefulThings
             // 
-            this.menuLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuRollOffClub, this.menuSeparator5, this.menuLostTempleAnalyzer, this.menuSeparator6, this.menuFallGuysReddit, this.menuSeparator7, this.menuFallGuysWiki, this.menuSeparator8, this.menuFallGuysOfficial });
-            this.menuLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
-            this.menuLookHere.Name = "menuLookHere";
-            this.menuLookHere.Size = new System.Drawing.Size(91, 23);
-            this.menuLookHere.Text = "Look here!";
-            // 
-            // menuFallGuysDB
-            // 
+            this.menuUsefulThings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDB, this.menuSeparator3, this.menuFallalytics, this.menuSeparator4, this.menuFallGuysWiki, this.menuSeparator5, this.menuRollOffClub, this.menuSeparator6, this.menuLostTempleAnalyzer, this.menuSeparator7, this.menuFallGuysReddit, this.menuSeparator8, this.menuFallGuysOfficial });
+            this.menuUsefulThings.Image = global::FallGuysStats.Properties.Resources.main_icon;
+            this.menuUsefulThings.Name = "menuUsefulThings";
+            this.menuUsefulThings.Size = new System.Drawing.Size(91, 23);
+            this.menuUsefulThings.Text = "Useful things!";
+ 
+            this.menuFallGuysDB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallGuysDBMain, this.menuSeparator9, this.menuFallGuysDBShows, this.menuSeparator10, this.menuFallGuysDBDiscovery, this.menuSeparator11, this.menuFallGuysDBShop, this.menuSeparator12, this.menuFallGuysDBNewsfeeds, this.menuSeparator13, this.menuFallGuysDBStrings, this.menuSeparator14, this.menuFallGuysDBCosmetics, this.menuSeparator15, this.menuFallGuysDBCrownRanks, this.menuSeparator16, this.menuFallGuysDBLiveEvents, this.menuSeparator17, this.menuFallGuysDBDailyShop, this.menuSeparator18, this.menuFallGuysDBCreative, this.menuSeparator19, this.menuFallGuysDBFaq });
             this.menuFallGuysDB.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
             this.menuFallGuysDB.Name = "menuFallGuysDB";
             this.menuFallGuysDB.Size = new System.Drawing.Size(162, 22);
             this.menuFallGuysDB.Text = "FallGuysDB";
-            this.menuFallGuysDB.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuFallGuysDB.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuFallGuysDB.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
-            this.menuFallGuysDB.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            this.menuFallGuysDB.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuFallGuysDB.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
+            // 
+            // menuFallGuysDBMain
+            // 
+            this.menuFallGuysDBMain.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
+            this.menuFallGuysDBMain.Name = "menuFallGuysDBMain";
+            this.menuFallGuysDBMain.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBMain.Text = "Main";
+            this.menuFallGuysDBMain.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator9
+            // 
+            this.menuSeparator9.Name = "menuSeparator9";
+            this.menuSeparator9.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBShows
+            // 
+            this.menuFallGuysDBShows.Name = "menuFallGuysDBShows";
+            this.menuFallGuysDBShows.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBShows.Text = "Shows";
+            this.menuFallGuysDBShows.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBShows.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator10
+            // 
+            this.menuSeparator10.Name = "menuSeparator10";
+            this.menuSeparator10.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBDiscovery
+            // 
+            this.menuFallGuysDBDiscovery.Name = "menuFallGuysDBDiscovery";
+            this.menuFallGuysDBDiscovery.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBDiscovery.Text = "Discovery";
+            this.menuFallGuysDBDiscovery.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBDiscovery.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator11
+            // 
+            this.menuSeparator11.Name = "menuSeparator11";
+            this.menuSeparator11.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBShop
+            // 
+            this.menuFallGuysDBShop.Name = "menuFallGuysDBShop";
+            this.menuFallGuysDBShop.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBShop.Text = "Shop";
+            this.menuFallGuysDBShop.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBShop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator12
+            // 
+            this.menuSeparator12.Name = "menuSeparator12";
+            this.menuSeparator12.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBNewsfeeds
+            // 
+            this.menuFallGuysDBNewsfeeds.Name = "menuFallGuysDBNewsfeeds";
+            this.menuFallGuysDBNewsfeeds.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBNewsfeeds.Text = "Newsfeeds";
+            this.menuFallGuysDBNewsfeeds.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBNewsfeeds.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator13
+            // 
+            this.menuSeparator13.Name = "menuSeparator13";
+            this.menuSeparator13.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBStrings
+            // 
+            this.menuFallGuysDBStrings.Name = "menuFallGuysDBStrings";
+            this.menuFallGuysDBStrings.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBStrings.Text = "Strings";
+            this.menuFallGuysDBStrings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBStrings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator14
+            // 
+            this.menuSeparator14.Name = "menuSeparator14";
+            this.menuSeparator14.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBCosmetics
+            // 
+            this.menuFallGuysDBCosmetics.Name = "menuFallGuysDBCosmetics";
+            this.menuFallGuysDBCosmetics.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBCosmetics.Text = "Cosmetics";
+            this.menuFallGuysDBCosmetics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBCosmetics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator15
+            // 
+            this.menuSeparator15.Name = "menuSeparator15";
+            this.menuSeparator15.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBCrownRanks
+            // 
+            this.menuFallGuysDBCrownRanks.Name = "menuFallGuysDBCrownRanks";
+            this.menuFallGuysDBCrownRanks.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBCrownRanks.Text = "Crown Ranks";
+            this.menuFallGuysDBCrownRanks.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBCrownRanks.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator16
+            // 
+            this.menuSeparator16.Name = "menuSeparator16";
+            this.menuSeparator16.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBLiveEvents
+            // 
+            this.menuFallGuysDBLiveEvents.Name = "menuFallGuysDBLiveEvents";
+            this.menuFallGuysDBLiveEvents.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBLiveEvents.Text = "Live Events";
+            this.menuFallGuysDBLiveEvents.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBLiveEvents.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator17
+            // 
+            this.menuSeparator17.Name = "menuSeparator17";
+            this.menuSeparator17.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBDailyShop
+            // 
+            this.menuFallGuysDBDailyShop.Name = "menuFallGuysDBDailyShop";
+            this.menuFallGuysDBDailyShop.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBDailyShop.Text = "Daily Shop";
+            this.menuFallGuysDBDailyShop.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBDailyShop.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator18
+            // 
+            this.menuSeparator18.Name = "menuSeparator18";
+            this.menuSeparator18.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBCreative
+            // 
+            this.menuFallGuysDBCreative.Name = "menuFallGuysDBCreative";
+            this.menuFallGuysDBCreative.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBCreative.Text = "Creative";
+            this.menuFallGuysDBCreative.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBCreative.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator19
+            // 
+            this.menuSeparator19.Name = "menuSeparator19";
+            this.menuSeparator19.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallGuysDBFaq
+            // 
+            this.menuFallGuysDBFaq.Name = "menuFallGuysDBFaq";
+            this.menuFallGuysDBFaq.Size = new System.Drawing.Size(175, 22);
+            this.menuFallGuysDBFaq.Text = "FAQ";
+            this.menuFallGuysDBFaq.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysDBFaq.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator3
             // 
@@ -458,14 +683,113 @@
             // 
             // menuFallalytics
             // 
+            this.menuFallalytics.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.menuFallalyticsMain, this.menuSeparator20, this.menuFallalyticsFindPlayer, this.menuSeparator21, this.menuFallalyticsOverallRankings, this.menuSeparator22, this.menuFallalyticsLevelRankings, this.menuSeparator23, this.menuFallalyticsWeeklyCrownLeague, this.menuSeparator24, this.menuFallalyticsRoundStatistics, this.menuSeparator25, this.menuFallalyticsShowStatistics, this.menuSeparator26, this.menuFallalyticsNews });
             this.menuFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.menuFallalytics.Name = "menuFallalytics";
             this.menuFallalytics.Size = new System.Drawing.Size(162, 22);
             this.menuFallalytics.Text = "Fallalytics";
-            this.menuFallalytics.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuFallalytics.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuFallalytics.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
-            this.menuFallalytics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            this.menuFallalytics.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuFallalytics.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
+            // 
+            // menuFallalyticsMain
+            // 
+            this.menuFallalyticsMain.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.menuFallalyticsMain.Name = "menuFallalyticsMain";
+            this.menuFallalyticsMain.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsMain.Text = "Main";
+            this.menuFallalyticsMain.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator20
+            // 
+            this.menuSeparator20.Name = "menuSeparator20";
+            this.menuSeparator20.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsFindPlayer
+            // 
+            this.menuFallalyticsFindPlayer.Name = "menuFallalyticsFindPlayer";
+            this.menuFallalyticsFindPlayer.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsFindPlayer.Text = "Find Player";
+            this.menuFallalyticsFindPlayer.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsFindPlayer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator21
+            // 
+            this.menuSeparator21.Name = "menuSeparator21";
+            this.menuSeparator21.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsOverallRankings
+            // 
+            this.menuFallalyticsOverallRankings.Name = "menuFallalyticsOverallRankings";
+            this.menuFallalyticsOverallRankings.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsOverallRankings.Text = "Overall Rankings";
+            this.menuFallalyticsOverallRankings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsOverallRankings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator22
+            // 
+            this.menuSeparator22.Name = "menuSeparator22";
+            this.menuSeparator22.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsLevelRankings
+            // 
+            this.menuFallalyticsLevelRankings.Name = "menuFallalyticsLevelRankings";
+            this.menuFallalyticsLevelRankings.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsLevelRankings.Text = "Level Rankings";
+            this.menuFallalyticsLevelRankings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsLevelRankings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator23
+            // 
+            this.menuSeparator23.Name = "menuSeparator23";
+            this.menuSeparator23.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsWeeklyCrownLeague
+            // 
+            this.menuFallalyticsWeeklyCrownLeague.Name = "menuFallalyticsWeeklyCrownLeague";
+            this.menuFallalyticsWeeklyCrownLeague.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsWeeklyCrownLeague.Text = "Weekly Crown League";
+            this.menuFallalyticsWeeklyCrownLeague.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsWeeklyCrownLeague.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator24
+            // 
+            this.menuSeparator24.Name = "menuSeparator24";
+            this.menuSeparator24.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsRoundStatistics
+            // 
+            this.menuFallalyticsRoundStatistics.Name = "menuFallalyticsRoundStatistics";
+            this.menuFallalyticsRoundStatistics.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsRoundStatistics.Text = "Round Statistics";
+            this.menuFallalyticsRoundStatistics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsRoundStatistics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator25
+            // 
+            this.menuSeparator25.Name = "menuSeparator25";
+            this.menuSeparator25.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsShowStatistics
+            // 
+            this.menuFallalyticsShowStatistics.Name = "menuFallalyticsShowStatistics";
+            this.menuFallalyticsShowStatistics.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsShowStatistics.Text = "Show Statistics";
+            this.menuFallalyticsShowStatistics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsShowStatistics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // menuSeparator26
+            // 
+            this.menuSeparator26.Name = "menuSeparator26";
+            this.menuSeparator26.Size = new System.Drawing.Size(159, 6);
+            // 
+            // menuFallalyticsNews
+            // 
+            this.menuFallalyticsNews.Name = "menuFallalyticsNews";
+            this.menuFallalyticsNews.Size = new System.Drawing.Size(175, 22);
+            this.menuFallalyticsNews.Text = "News";
+            this.menuFallalyticsNews.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallalyticsNews.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator4
             // 
@@ -478,9 +802,9 @@
             this.menuRollOffClub.Name = "menuRollOffClub";
             this.menuRollOffClub.Size = new System.Drawing.Size(162, 22);
             this.menuRollOffClub.Text = "Roll Off Club";
-            this.menuRollOffClub.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuRollOffClub.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuRollOffClub.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuRollOffClub.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuRollOffClub.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuRollOffClub.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
             this.menuRollOffClub.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator5
@@ -494,9 +818,9 @@
             this.menuLostTempleAnalyzer.Name = "menuLostTempleAnalyzer";
             this.menuLostTempleAnalyzer.Size = new System.Drawing.Size(162, 22);
             this.menuLostTempleAnalyzer.Text = "Lost Temple Analyzer";
-            this.menuLostTempleAnalyzer.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuLostTempleAnalyzer.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuLostTempleAnalyzer.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuLostTempleAnalyzer.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuLostTempleAnalyzer.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuLostTempleAnalyzer.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
             this.menuLostTempleAnalyzer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator6
@@ -510,9 +834,9 @@
             this.menuFallGuysReddit.Name = "menuFallGuysReddit";
             this.menuFallGuysReddit.Size = new System.Drawing.Size(162, 22);
             this.menuFallGuysReddit.Text = "Fall Guys Reddit";
-            this.menuFallGuysReddit.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuFallGuysReddit.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuFallGuysReddit.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuFallGuysReddit.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysReddit.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuFallGuysReddit.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
             this.menuFallGuysReddit.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator7
@@ -526,9 +850,9 @@
             this.menuFallGuysWiki.Name = "menuFallGuysWiki";
             this.menuFallGuysWiki.Size = new System.Drawing.Size(162, 22);
             this.menuFallGuysWiki.Text = "Fall Guys Wiki";
-            this.menuFallGuysWiki.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuFallGuysWiki.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuFallGuysWiki.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuFallGuysWiki.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysWiki.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuFallGuysWiki.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
             this.menuFallGuysWiki.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // menuSeparator8
@@ -542,9 +866,9 @@
             this.menuFallGuysOfficial.Name = "menuFallGuysOfficial";
             this.menuFallGuysOfficial.Size = new System.Drawing.Size(162, 22);
             this.menuFallGuysOfficial.Text = "Fall Guys official";
-            this.menuFallGuysOfficial.Click += new System.EventHandler(this.menuLookHere_Click);
-            this.menuFallGuysOfficial.MouseEnter += new System.EventHandler(this.menuLookHere_MouseEnter);
-            this.menuFallGuysOfficial.MouseLeave += new System.EventHandler(this.menuLookHere_MouseLeave);
+            this.menuFallGuysOfficial.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.menuFallGuysOfficial.MouseEnter += new System.EventHandler(this.menuUsefulThings_MouseEnter);
+            this.menuFallGuysOfficial.MouseLeave += new System.EventHandler(this.menuUsefulThings_MouseLeave);
             this.menuFallGuysOfficial.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // infoStrip
@@ -763,7 +1087,7 @@
             // 
             // trayCMenu
             // 
-            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayLookHere, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
+            this.trayCMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayOverlay, this.traySeparator1, this.traySettings, this.traySeparator2, this.trayFilters, this.trayProfile, this.traySeparator3, this.trayUsefulThings, this.trayUpdate, this.trayHelp, this.trayLaunchFallGuys, this.traySeparator4, this.trayExitProgram });
             this.trayCMenu.Name = "trayCMenu";
             this.trayCMenu.Size = new System.Drawing.Size(166, 226);
             this.trayCMenu.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.trayCMenu_Closing);
@@ -927,21 +1251,161 @@
             this.traySeparator3.Name = "traySeparator3";
             this.traySeparator3.Size = new System.Drawing.Size(162, 6);
             // 
-            // trayLookHere
+            // trayUsefulThings
             // 
-            this.trayLookHere.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayRollOffClub, this.traySubSeparator5, this.trayLostTempleAnalyzer, this.traySubSeparator6, this.trayFallGuysReddit, this.traySubSeparator7, this.trayFallGuysWiki, this.traySubSeparator8, this.trayFallGuysOfficial });
-            this.trayLookHere.Image = global::FallGuysStats.Properties.Resources.main_icon;
-            this.trayLookHere.Name = "trayLookHere";
-            this.trayLookHere.Size = new System.Drawing.Size(165, 22);
-            this.trayLookHere.Text = "Look here!";
+            this.trayUsefulThings.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDB, this.traySubSeparator3, this.trayFallalytics, this.traySubSeparator4, this.trayFallGuysWiki, this.traySubSeparator5, this.trayRollOffClub, this.traySubSeparator6, this.trayLostTempleAnalyzer, this.traySubSeparator7, this.trayFallGuysReddit, this.traySubSeparator8, this.trayFallGuysOfficial });
+            this.trayUsefulThings.Image = global::FallGuysStats.Properties.Resources.main_icon;
+            this.trayUsefulThings.Name = "trayUsefulThings";
+            this.trayUsefulThings.Size = new System.Drawing.Size(165, 22);
+            this.trayUsefulThings.Text = "Useful things!";
             // 
             // trayFallGuysDB
             // 
+            this.trayFallGuysDB.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallGuysDBMain, this.traySubSeparator9, this.trayFallGuysDBShows, this.traySubSeparator10, this.trayFallGuysDBDiscovery, this.traySubSeparator11, this.trayFallGuysDBShop, this.traySubSeparator12, this.trayFallGuysDBNewsfeeds, this.traySubSeparator13, this.trayFallGuysDBStrings, this.traySubSeparator14, this.trayFallGuysDBCosmetics, this.traySubSeparator15, this.trayFallGuysDBCrownRanks, this.traySubSeparator16, this.trayFallGuysDBLiveEvents, this.traySubSeparator17, this.trayFallGuysDBDailyShop, this.traySubSeparator18, this.trayFallGuysDBCreative, this.traySubSeparator19, this.trayFallGuysDBFaq });
             this.trayFallGuysDB.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
             this.trayFallGuysDB.Name = "trayFallGuysDB";
             this.trayFallGuysDB.Size = new System.Drawing.Size(162, 22);
             this.trayFallGuysDB.Text = "FallGuysDB";
-            this.trayFallGuysDB.Click += new System.EventHandler(this.menuLookHere_Click);
+            // 
+            // trayFallGuysDBMain
+            // `
+            this.trayFallGuysDBMain.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
+            this.trayFallGuysDBMain.Name = "trayFallGuysDBMain";
+            this.trayFallGuysDBMain.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBMain.Text = "Main";
+            this.trayFallGuysDBMain.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator9
+            // 
+            this.traySubSeparator9.Name = "traySubSeparator9";
+            this.traySubSeparator9.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBShows
+            // 
+            this.trayFallGuysDBShows.Name = "trayFallGuysDBShows";
+            this.trayFallGuysDBShows.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBShows.Text = "Shows";
+            this.trayFallGuysDBShows.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator10
+            // 
+            this.traySubSeparator10.Name = "traySubSeparator10";
+            this.traySubSeparator10.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBDiscovery
+            // 
+            this.trayFallGuysDBDiscovery.Name = "trayFallGuysDBDiscovery";
+            this.trayFallGuysDBDiscovery.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBDiscovery.Text = "Discovery";
+            this.trayFallGuysDBDiscovery.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator11
+            // 
+            this.traySubSeparator11.Name = "traySubSeparator11";
+            this.traySubSeparator11.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBShop
+            // 
+            this.trayFallGuysDBShop.Name = "trayFallGuysDBShop";
+            this.trayFallGuysDBShop.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBShop.Text = "Shop";
+            this.trayFallGuysDBShop.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator12
+            // 
+            this.traySubSeparator12.Name = "traySubSeparator12";
+            this.traySubSeparator12.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBNewsfeeds
+            // 
+            this.trayFallGuysDBNewsfeeds.Name = "trayFallGuysDBNewsfeeds";
+            this.trayFallGuysDBNewsfeeds.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBNewsfeeds.Text = "Newsfeeds";
+            this.trayFallGuysDBNewsfeeds.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator13
+            // 
+            this.traySubSeparator13.Name = "traySubSeparator13";
+            this.traySubSeparator13.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBStrings
+            // 
+            this.trayFallGuysDBStrings.Name = "trayFallGuysDBStrings";
+            this.trayFallGuysDBStrings.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBStrings.Text = "Strings";
+            this.trayFallGuysDBStrings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator14
+            // 
+            this.traySubSeparator14.Name = "traySubSeparator14";
+            this.traySubSeparator14.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBCosmetics
+            // 
+            this.trayFallGuysDBCosmetics.Name = "trayFallGuysDBCosmetics";
+            this.trayFallGuysDBCosmetics.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBCosmetics.Text = "Cosmetics";
+            this.trayFallGuysDBCosmetics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator15
+            // 
+            this.traySubSeparator15.Name = "traySubSeparator15";
+            this.traySubSeparator15.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBCrownRanks
+            // 
+            this.trayFallGuysDBCrownRanks.Name = "trayFallGuysDBCrownRanks";
+            this.trayFallGuysDBCrownRanks.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBCrownRanks.Text = "Crown Ranks";
+            this.trayFallGuysDBCrownRanks.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator16
+            // 
+            this.traySubSeparator16.Name = "traySubSeparator16";
+            this.traySubSeparator16.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBLiveEvents
+            // 
+            this.trayFallGuysDBLiveEvents.Name = "trayFallGuysDBLiveEvents";
+            this.trayFallGuysDBLiveEvents.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBLiveEvents.Text = "Live Events";
+            this.trayFallGuysDBLiveEvents.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator17
+            // 
+            this.traySubSeparator17.Name = "traySubSeparator17";
+            this.traySubSeparator17.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBDailyShop
+            // 
+            this.trayFallGuysDBDailyShop.Name = "trayFallGuysDBDailyShop";
+            this.trayFallGuysDBDailyShop.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBDailyShop.Text = "Daily Shop";
+            this.trayFallGuysDBDailyShop.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator18
+            // 
+            this.traySubSeparator18.Name = "traySubSeparator18";
+            this.traySubSeparator18.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBCreative
+            // 
+            this.trayFallGuysDBCreative.Name = "trayFallGuysDBCreative";
+            this.trayFallGuysDBCreative.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBCreative.Text = "Creative";
+            this.trayFallGuysDBCreative.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            // 
+            // traySubSeparator19
+            // 
+            this.traySubSeparator19.Name = "traySubSeparator19";
+            this.traySubSeparator19.Size = new System.Drawing.Size(152, 6);
+            // 
+            // trayFallGuysDBFaq
+            // 
+            this.trayFallGuysDBFaq.Name = "trayFallGuysDBFaq";
+            this.trayFallGuysDBFaq.Size = new System.Drawing.Size(175, 22);
+            this.trayFallGuysDBFaq.Text = "FAQ";
+            this.trayFallGuysDBFaq.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // traySubSeparator3
             // 
@@ -950,11 +1414,111 @@
             // 
             // trayFallalytics
             // 
+            this.trayFallalytics.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { this.trayFallalyticsMain, this.traySubSeparator20, this.trayFallalyticsFindPlayer, this.traySubSeparator21, this.trayFallalyticsOverallRankings, this.traySubSeparator22, this.trayFallalyticsLevelRankings, this.traySubSeparator23, this.trayFallalyticsWeeklyCrownLeague, this.traySubSeparator24, this.trayFallalyticsRoundStatistics, this.traySubSeparator25, this.trayFallalyticsShowStatistics, this.traySubSeparator26, this.trayFallalyticsNews });
             this.trayFallalytics.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
             this.trayFallalytics.Name = "trayFallalytics";
             this.trayFallalytics.Size = new System.Drawing.Size(162, 22);
             this.trayFallalytics.Text = "Fallalytics";
-            this.trayFallalytics.Click += new System.EventHandler(this.menuLookHere_Click);
+            // 
+            // trayFallalyticsMain
+            // 
+            this.trayFallalyticsMain.Image = global::FallGuysStats.Properties.Resources.fallalytics_icon;
+            this.trayFallalyticsMain.Name = "trayFallalyticsMain";
+            this.trayFallalyticsMain.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsMain.Text = "Main";
+            this.trayFallalyticsMain.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsMain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator20
+            // 
+            this.traySubSeparator20.Name = "traySubSeparator20";
+            this.traySubSeparator20.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsFindPlayer
+            // 
+            this.trayFallalyticsFindPlayer.Name = "trayFallalyticsFindPlayer";
+            this.trayFallalyticsFindPlayer.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsFindPlayer.Text = "Find Player";
+            this.trayFallalyticsFindPlayer.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsFindPlayer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator21
+            // 
+            this.traySubSeparator21.Name = "traySubSeparator21";
+            this.traySubSeparator21.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsOverallRankings
+            // 
+            this.trayFallalyticsOverallRankings.Name = "trayFallalyticsOverallRankings";
+            this.trayFallalyticsOverallRankings.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsOverallRankings.Text = "Overall Rankings";
+            this.trayFallalyticsOverallRankings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsOverallRankings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator22
+            // 
+            this.traySubSeparator22.Name = "traySubSeparator22";
+            this.traySubSeparator22.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsLevelRankings
+            // 
+            this.trayFallalyticsLevelRankings.Name = "trayFallalyticsLevelRankings";
+            this.trayFallalyticsLevelRankings.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsLevelRankings.Text = "Level Rankings";
+            this.trayFallalyticsLevelRankings.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsLevelRankings.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator23
+            // 
+            this.traySubSeparator23.Name = "traySubSeparator23";
+            this.traySubSeparator23.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsWeeklyCrownLeague
+            // 
+            this.trayFallalyticsWeeklyCrownLeague.Name = "trayFallalyticsWeeklyCrownLeague";
+            this.trayFallalyticsWeeklyCrownLeague.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsWeeklyCrownLeague.Text = "Weekly Crown League";
+            this.trayFallalyticsWeeklyCrownLeague.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsWeeklyCrownLeague.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator24
+            // 
+            this.traySubSeparator24.Name = "traySubSeparator24";
+            this.traySubSeparator24.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsRoundStatistics
+            // 
+            this.trayFallalyticsRoundStatistics.Name = "trayFallalyticsRoundStatistics";
+            this.trayFallalyticsRoundStatistics.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsRoundStatistics.Text = "Round Statistics";
+            this.trayFallalyticsRoundStatistics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsRoundStatistics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator25
+            // 
+            this.traySubSeparator25.Name = "traySubSeparator25";
+            this.traySubSeparator25.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsShowStatistics
+            // 
+            this.trayFallalyticsShowStatistics.Name = "trayFallalyticsShowStatistics";
+            this.trayFallalyticsShowStatistics.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsShowStatistics.Text = "Show Statistics";
+            this.trayFallalyticsShowStatistics.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsShowStatistics.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
+            // 
+            // traySubSeparator26
+            // 
+            this.traySubSeparator26.Name = "traySubSeparator26";
+            this.traySubSeparator26.Size = new System.Drawing.Size(159, 6);
+            // 
+            // trayFallalyticsNews
+            // 
+            this.trayFallalyticsNews.Name = "trayFallalyticsNews";
+            this.trayFallalyticsNews.Size = new System.Drawing.Size(175, 22);
+            this.trayFallalyticsNews.Text = "News";
+            this.trayFallalyticsNews.Click += new System.EventHandler(this.menuUsefulThings_Click);
+            this.trayFallalyticsNews.MouseMove += new System.Windows.Forms.MouseEventHandler(this.setCursor_MouseMove);
             // 
             // traySubSeparator4
             // 
@@ -967,7 +1531,7 @@
             this.trayRollOffClub.Name = "trayRollOffClub";
             this.trayRollOffClub.Size = new System.Drawing.Size(162, 22);
             this.trayRollOffClub.Text = "Roll Off Club";
-            this.trayRollOffClub.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.trayRollOffClub.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // traySubSeparator5
             // 
@@ -980,7 +1544,7 @@
             this.trayLostTempleAnalyzer.Name = "trayLostTempleAnalyzer";
             this.trayLostTempleAnalyzer.Size = new System.Drawing.Size(162, 22);
             this.trayLostTempleAnalyzer.Text = "Lost Temple Analyzer";
-            this.trayLostTempleAnalyzer.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.trayLostTempleAnalyzer.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // traySubSeparator6
             // 
@@ -993,7 +1557,7 @@
             this.trayFallGuysReddit.Name = "trayFallGuysReddit";
             this.trayFallGuysReddit.Size = new System.Drawing.Size(162, 22);
             this.trayFallGuysReddit.Text = "Fall Guys Reddit";
-            this.trayFallGuysReddit.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.trayFallGuysReddit.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // traySubSeparator7
             // 
@@ -1006,7 +1570,7 @@
             this.trayFallGuysWiki.Name = "trayFallGuysWiki";
             this.trayFallGuysWiki.Size = new System.Drawing.Size(162, 22);
             this.trayFallGuysWiki.Text = "Fall Guys Wiki";
-            this.trayFallGuysWiki.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.trayFallGuysWiki.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // traySubSeparator8
             // 
@@ -1019,7 +1583,7 @@
             this.trayFallGuysOfficial.Name = "trayFallGuysOfficial";
             this.trayFallGuysOfficial.Size = new System.Drawing.Size(162, 22);
             this.trayFallGuysOfficial.Text = "Fall Guys official";
-            this.trayFallGuysOfficial.Click += new System.EventHandler(this.menuLookHere_Click);
+            this.trayFallGuysOfficial.Click += new System.EventHandler(this.menuUsefulThings_Click);
             // 
             // trayUpdate
             // 
@@ -1142,18 +1706,56 @@
         private System.Windows.Forms.ToolStripLabel lblEliminatedMedal;
         private System.Windows.Forms.ToolStripLabel lblKudos;
         private System.Windows.Forms.ToolStripMenuItem menuLaunchFallGuys;
-        private System.Windows.Forms.ToolStripMenuItem menuLookHere;
+        private System.Windows.Forms.ToolStripMenuItem menuUsefulThings;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysWiki;
         private System.Windows.Forms.ToolStripSeparator menuSeparator3;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysReddit;
         private System.Windows.Forms.ToolStripSeparator menuSeparator4;
         private System.Windows.Forms.ToolStripMenuItem menuFallalytics;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsMain;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator20;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsFindPlayer;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator21;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsOverallRankings;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsLevelRankings;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator23;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsWeeklyCrownLeague;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator24;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsRoundStatistics;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator25;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsShowStatistics;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator26;
+        private System.Windows.Forms.ToolStripMenuItem menuFallalyticsNews;
         private System.Windows.Forms.ToolStripSeparator menuSeparator5;
         private System.Windows.Forms.ToolStripMenuItem menuRollOffClub;
         private System.Windows.Forms.ToolStripSeparator menuSeparator6;
         private System.Windows.Forms.ToolStripMenuItem menuLostTempleAnalyzer;
         private System.Windows.Forms.ToolStripSeparator menuSeparator7;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysDB;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBMain;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBShows;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBDiscovery;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBShop;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBNewsfeeds;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBStrings;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBCosmetics;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator15;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBCrownRanks;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBLiveEvents;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator17;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBDailyShop;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBCreative;
+        private System.Windows.Forms.ToolStripSeparator menuSeparator19;
+        private System.Windows.Forms.ToolStripMenuItem menuFallGuysDBFaq;
         private System.Windows.Forms.ToolStripSeparator menuSeparator8;
         private System.Windows.Forms.ToolStripMenuItem menuFallGuysOfficial;
         
@@ -1171,18 +1773,56 @@
         private System.Windows.Forms.ToolStripMenuItem trayPartyFilter;
         private System.Windows.Forms.ToolStripMenuItem trayStatsFilter;
         private System.Windows.Forms.ToolStripSeparator traySeparator3;
-        private System.Windows.Forms.ToolStripMenuItem trayLookHere;
+        private System.Windows.Forms.ToolStripMenuItem trayUsefulThings;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysWiki;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator3;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysReddit;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator4;
         private System.Windows.Forms.ToolStripMenuItem trayFallalytics;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsMain;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator20;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsFindPlayer;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator21;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsOverallRankings;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator22;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsLevelRankings;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator23;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsWeeklyCrownLeague;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator24;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsRoundStatistics;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator25;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsShowStatistics;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator26;
+        private System.Windows.Forms.ToolStripMenuItem trayFallalyticsNews;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator5;
         private System.Windows.Forms.ToolStripMenuItem trayRollOffClub;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator6;
         private System.Windows.Forms.ToolStripMenuItem trayLostTempleAnalyzer;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator7;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysDB;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBMain;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator9;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBShows;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator10;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBDiscovery;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator11;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBShop;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator12;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBNewsfeeds;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBStrings;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBCosmetics;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator15;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBCrownRanks;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator16;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBLiveEvents;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator17;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBDailyShop;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator18;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBCreative;
+        private System.Windows.Forms.ToolStripSeparator traySubSeparator19;
+        private System.Windows.Forms.ToolStripMenuItem trayFallGuysDBFaq;
         private System.Windows.Forms.ToolStripSeparator traySubSeparator8;
         private System.Windows.Forms.ToolStripMenuItem trayFallGuysOfficial;
         private System.Windows.Forms.ToolStripMenuItem trayUpdate;

@@ -13,6 +13,7 @@ namespace FallGuysStats {
         public Image RoundIcon { get; set; }
         public bool IsCreative { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
+        public List<RoundInfo> CurrentRoundDetails;
         public Stats StatsForm { get; set; }
         private int _showStats;
         private int currentPage, totalPages;
@@ -80,9 +81,9 @@ namespace FallGuysStats {
                 this.SetPagingUI(true);
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
-                // this.lblPagingInfo.Enabled = true;
             }
-            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            this.gridDetails.DataSource = this.CurrentRoundDetails;
             if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
             
             if (this.gridDetails.RowCount == 0) {
@@ -178,28 +179,32 @@ namespace FallGuysStats {
             this.EnablePagingUI(false);
             if (sender.Equals(this.mlFirstPagingButton)) {
                 this.currentPage = 1;
-                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.gridDetails.DataSource = this.CurrentRoundDetails;
                 if (this.gridDetails.Rows.Count > 0) {
                     this.SetPagingUI(true);
                     this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
                 }
             } else if (sender.Equals(this.mlLeftPagingButton)) {
                 this.currentPage -= 1;
-                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.gridDetails.DataSource = this.CurrentRoundDetails;
                 if (this.gridDetails.Rows.Count > 0) {
                     this.SetPagingUI(true);
                     this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
                 }
             } else if (sender.Equals(this.mlRightPagingButton)) {
                 this.currentPage += 1;
-                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.gridDetails.DataSource = this.CurrentRoundDetails;
                 if (this.gridDetails.Rows.Count > 0) {
                     this.SetPagingUI(true);
                     this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
                 }
             } else if (sender.Equals(this.mlLastPagingButton)) {
                 this.currentPage = this.totalPages;
-                this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                this.gridDetails.DataSource = this.CurrentRoundDetails;
                 if (this.gridDetails.Rows.Count > 0) {
                     this.SetPagingUI(true);
                     this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
@@ -339,18 +344,34 @@ namespace FallGuysStats {
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             if (this.gridDetails.Columns.Count == 0) { return; }
-            
-            if (this.currentPage == 1) {
-                this.mlRightPagingButton.Enabled = true;
-                this.mlLastPagingButton.Enabled = true;
-            } else if (this.currentPage == this.totalPages) {
-                this.mlFirstPagingButton.Enabled = true;
-                this.mlLeftPagingButton.Enabled = true;
+
+            if (this.totalPages > 1) {
+                if (this.currentPage == 1) {
+                    this.mlFirstPagingButton.Enabled = false;
+                    this.mlLeftPagingButton.Enabled = false;
+                    this.mlRightPagingButton.Enabled = true;
+                    this.mlLastPagingButton.Enabled = true;
+                } else if (this.currentPage == this.totalPages) {
+                    this.mlFirstPagingButton.Enabled = true;
+                    this.mlLeftPagingButton.Enabled = true;
+                    this.mlRightPagingButton.Enabled = false;
+                    this.mlLastPagingButton.Enabled = false;
+                } else {
+                    this.mlFirstPagingButton.Enabled = true;
+                    this.mlLeftPagingButton.Enabled = true;
+                    this.mlRightPagingButton.Enabled = true;
+                    this.mlLastPagingButton.Enabled = true;
+                }
             } else {
-                this.mlFirstPagingButton.Enabled = true;
-                this.mlLeftPagingButton.Enabled = true;
-                this.mlRightPagingButton.Enabled = true;
-                this.mlLastPagingButton.Enabled = true;
+                this.mlFirstPagingButton.Enabled = false;
+                this.mlLeftPagingButton.Enabled = false;
+                this.mlRightPagingButton.Enabled = false;
+                this.mlLastPagingButton.Enabled = false;
+                this.lblPagingInfo.Visible = false;
+                this.mlFirstPagingButton.Visible = false;
+                this.mlLeftPagingButton.Visible = false;
+                this.mlRightPagingButton.Visible = false;
+                this.mlLastPagingButton.Visible = false;
             }
             
             int pos = 0;
@@ -585,12 +606,12 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-            if (this.RoundDetails == null) return;
+            if (this.CurrentRoundDetails == null) return;
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "ShowID"; }
 
-            this.RoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
+            this.CurrentRoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 int roundCompare = one.Round.CompareTo(two.Round);
                 int showCompare = one.ShowID.CompareTo(two.ShowID);
                 if (sortOrder == SortOrder.Descending) {
@@ -672,7 +693,7 @@ namespace FallGuysStats {
             });
 
             this.gridDetails.DataSource = null;
-            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            this.gridDetails.DataSource = this.CurrentRoundDetails;
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
@@ -745,12 +766,21 @@ namespace FallGuysStats {
                         this.StatsForm.StatsDB.Commit();
                     }
                     
+                    this.EnablePagingUI(false);
+                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                    if (this.currentPage > this.totalPages) {
+                        this.currentPage = this.totalPages;
+                    }
+                    this.SetPagingUI(true);
+                    this.gridDetails.Enabled = true;
+                    
+                    this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                     this.gridDetails.DataSource = null;
-                    this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                    if (minIndex < this.RoundDetails.Count) {
+                    this.gridDetails.DataSource = this.CurrentRoundDetails;
+                    if (minIndex < this.CurrentRoundDetails.Count) {
                         this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                    } else if (this.RoundDetails.Count > 0) {
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
+                    } else if (this.CurrentRoundDetails.Count > 0) {
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
                     }
 
                     this.StatsForm.ResetStats();
@@ -787,12 +817,21 @@ namespace FallGuysStats {
                             this.StatsForm.StatsDB.Commit();
                         }
                         
+                        this.EnablePagingUI(false);
+                        this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                        if (this.currentPage > this.totalPages) {
+                            this.currentPage = this.totalPages;
+                        }
+                        this.SetPagingUI(true);
+                        this.gridDetails.Enabled = true;
+                        
+                        this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                         this.gridDetails.DataSource = null;
-                        this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                        if (minIndex < this.RoundDetails.Count) {
+                        this.gridDetails.DataSource = this.CurrentRoundDetails;
+                        if (minIndex < this.CurrentRoundDetails.Count) {
                             this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                        } else if (this.RoundDetails.Count > 0) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
+                        } else if (this.CurrentRoundDetails.Count > 0) {
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
                         }
 
                         this.StatsForm.ResetStats();
@@ -876,12 +915,13 @@ namespace FallGuysStats {
                                 }
                             }
                             
+                            this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                             this.gridDetails.DataSource = null;
-                            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                            if (minIndex < this.RoundDetails.Count) {
+                            this.gridDetails.DataSource = this.CurrentRoundDetails;
+                            if (minIndex < this.CurrentRoundDetails.Count) {
                                 this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                            } else if (this.RoundDetails.Count > 0) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.RoundDetails.Count - 1;
+                            } else if (this.CurrentRoundDetails.Count > 0) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
                             }
                         }
                     }

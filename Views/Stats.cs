@@ -1799,7 +1799,6 @@ namespace FallGuysStats {
             }
 
             if (this.CurrentSettings.Version == 37) {
-                this.StatsDB.BeginTrans();
                 this.AllProfiles.AddRange(this.Profiles.FindAll());
                 for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
                     Profiles profiles = this.AllProfiles[i];
@@ -1807,6 +1806,7 @@ namespace FallGuysStats {
                         profiles.LinkedShowId = "survival_of_the_fittest";
                     }
                 }
+                this.StatsDB.BeginTrans();
                 this.Profiles.DeleteAll();
                 this.Profiles.InsertBulk(this.AllProfiles);
                 this.StatsDB.Commit();
@@ -1818,7 +1818,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 38) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
-                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
@@ -1833,6 +1832,7 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
+                this.CurrentSettings.NotifyServerConnected = false;
                 this.CurrentSettings.Version = 39;
                 this.SaveUserSettings();
             }
@@ -1840,7 +1840,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 39) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
-                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
@@ -1855,6 +1854,7 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
+                this.CurrentSettings.NotifyServerConnected = false;
                 this.CurrentSettings.Version = 40;
                 this.SaveUserSettings();
             }
@@ -1862,7 +1862,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 40) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
-                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if ((!string.IsNullOrEmpty(info.ShowNameId) && info.ShowNameId.StartsWith("wle_mrs_bagel")) && info.Name.StartsWith("wle_mrs_bagel_final")) {
@@ -1872,6 +1871,7 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
+                this.CurrentSettings.NotifyServerConnected = false;
                 this.CurrentSettings.Version = 41;
                 this.SaveUserSettings();
             }
@@ -1879,7 +1879,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 41) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
-                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
@@ -1894,6 +1893,7 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
+                this.CurrentSettings.NotifyServerConnected = false;
                 this.CurrentSettings.Version = 42;
                 this.SaveUserSettings();
             }
@@ -1901,7 +1901,6 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 42) {
                 this.AllStats.AddRange(this.RoundDetails.FindAll());
                 this.StatsDB.BeginTrans();
-                this.CurrentSettings.NotifyServerConnected = false;
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
                     if (!string.IsNullOrEmpty(info.ShowNameId) && !info.IsFinal &&
@@ -1916,6 +1915,7 @@ namespace FallGuysStats {
                 }
                 this.StatsDB.Commit();
                 this.AllStats.Clear();
+                this.CurrentSettings.NotifyServerConnected = false;
                 this.CurrentSettings.Version = 43;
                 this.SaveUserSettings();
             }
@@ -2071,7 +2071,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 53) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
@@ -2082,6 +2081,7 @@ namespace FallGuysStats {
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = false;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 54;
@@ -2089,7 +2089,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 54) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
@@ -2099,6 +2098,7 @@ namespace FallGuysStats {
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = false;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 55;
@@ -2106,7 +2106,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 55) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_shuffle_show")
@@ -2115,6 +2114,7 @@ namespace FallGuysStats {
                     ri.Name = ri.Name.StartsWith("mrs_wle_fp") ? $"current{ri.Name.Substring(3)}" : ri.Name.Substring(4);
                     ri.IsFinal = true;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 56;
@@ -2122,7 +2122,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 56) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
@@ -2132,6 +2131,7 @@ namespace FallGuysStats {
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = false;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 57;
@@ -2139,7 +2139,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 57) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
@@ -2149,6 +2148,7 @@ namespace FallGuysStats {
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = false;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 58;
@@ -2162,7 +2162,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 59) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_shuffle_show") &&
@@ -2173,6 +2172,7 @@ namespace FallGuysStats {
                         ri.Name = newName;
                     }
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 60;
@@ -2198,13 +2198,13 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 62) {
-                this.StatsDB.BeginTrans();
                 List<Profiles> profileList = (from p in this.Profiles.FindAll()
                     where string.IsNullOrEmpty(p.ProfileName)
                     select p).ToList();
                 foreach (Profiles p in profileList) {
                     p.ProfileName = Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20);
                 }
+                this.StatsDB.BeginTrans();
                 this.Profiles.Update(profileList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.NotificationSounds = 0;
@@ -2244,7 +2244,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 67) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_shuffle_discover")
@@ -2255,6 +2254,7 @@ namespace FallGuysStats {
                     ri.IsFinal = true;
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 68;
@@ -2262,7 +2262,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 68) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           (ri.ShowNameId.Equals("wle_shuffle_discover") ||
@@ -2272,6 +2271,7 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 
+                this.StatsDB.BeginTrans();
                 foreach (RoundInfo ri in roundInfoList) {
                     if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
                         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
@@ -2300,7 +2300,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 69) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           (ri.ShowNameId.Equals("wle_shuffle_discover") ||
@@ -2310,6 +2309,7 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 
+                this.StatsDB.BeginTrans();
                 foreach (RoundInfo ri in roundInfoList) {
                     if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
                         ri.Name = ri.Name.Replace("_squads", "");
@@ -2331,6 +2331,7 @@ namespace FallGuysStats {
                     }
                 }
                 this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
                 
                 Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
@@ -2348,15 +2349,15 @@ namespace FallGuysStats {
                         ri.Name = newName;
                     }
                 }
+                
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList2);
-
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 70;
                 this.SaveUserSettings();
             }
             
             if (this.CurrentSettings.Version == 70) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_bouncy_bean_time")
@@ -2367,6 +2368,7 @@ namespace FallGuysStats {
                     ri.IsFinal = ri.Name.EndsWith("_final");
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 71;
@@ -2374,7 +2376,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 71) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("event_anniversary_season_1_alternate_name")
@@ -2385,6 +2386,7 @@ namespace FallGuysStats {
                         ri.IsFinal = false;
                     }
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 72;
@@ -2392,8 +2394,8 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 72) {
-                this.StatsDB.BeginTrans();
                 DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.DeleteMany(ri =>
                     ri.Start >= dateCond
                     && ri.Name.Equals("user_creative_race_round")
@@ -2404,7 +2406,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 73) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_winter")
@@ -2417,6 +2418,7 @@ namespace FallGuysStats {
                     }
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 74;
@@ -2424,7 +2426,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 74) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("event_blast_ball_banger_template")
@@ -2435,6 +2436,7 @@ namespace FallGuysStats {
                     ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 75;
@@ -2442,7 +2444,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 75) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
@@ -2457,6 +2458,7 @@ namespace FallGuysStats {
                     }
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 76;
@@ -2476,7 +2478,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 78) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
@@ -2491,6 +2492,7 @@ namespace FallGuysStats {
                     }
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 79;
@@ -2498,7 +2500,6 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 79) {
-                this.StatsDB.BeginTrans();
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.ShowNameId.Equals("wle_mrs_bouncy_bean_time")
@@ -2509,9 +2510,63 @@ namespace FallGuysStats {
                     ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
                     if (profileId != -1) ri.Profile = profileId;
                 }
+                this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 80;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 80) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("no_elimination_show")
+                    select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (string.Equals(ri.Name, "round_snowballsurvival") || string.Equals(ri.Name, "round_robotrampage_arena_2")) {
+                        if (ri.Round == 3) {
+                            ri.IsFinal = true;
+                        } else {
+                            var filteredList = roundInfoList.Where(r => r.ShowID == ri.ShowID);
+                            int maxRound = filteredList.Max(r => r.Round);
+                            if (ri.Round == maxRound && ri.Qualified) {
+                                ri.IsFinal = true;
+                            }
+                        }
+                    } else if (ri.Name.StartsWith("wle_main_filler_") || ri.Name.StartsWith("wle_main_opener_")) {
+                        ri.Name = ri.Name.Replace("_noelim", "");
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
+                    select ri).ToList();
+
+                foreach (RoundInfo ri in roundInfoList2) {
+                    ri.Name = $"wle_{ri.Name}";
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_shuffle_chill")
+                    select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList3) {
+                    ri.IsFinal = true;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList3);
+                this.StatsDB.Commit();
+                
+                this.CurrentSettings.Version = 81;
                 this.SaveUserSettings();
             }
         }
@@ -2727,14 +2782,28 @@ namespace FallGuysStats {
             this.loadingExisting = false;
         }
         
-        private void menuLookHere_Click(object sender, EventArgs e) {
+        private void menuUsefulThings_Click(object sender, EventArgs e) {
             try {
                 if (sender.Equals(this.menuFallGuysWiki) || sender.Equals(this.trayFallGuysWiki)) {
                     Process.Start(@"https://fallguysultimateknockout.fandom.com/wiki/Fall_Guys:_Ultimate_Knockout_Wiki");
                 } else if (sender.Equals(this.menuFallGuysReddit) || sender.Equals(this.trayFallGuysReddit)) {
                     Process.Start(@"https://www.reddit.com/r/FallGuysGame/");
-                } else if (sender.Equals(this.menuFallalytics) || sender.Equals(this.trayFallalytics)) {
+                } else if (sender.Equals(this.menuFallalyticsMain) || sender.Equals(this.trayFallalyticsMain)) {
                     Process.Start(@"https://fallalytics.com/");
+                } else if (sender.Equals(this.menuFallalyticsFindPlayer) || sender.Equals(this.trayFallalyticsFindPlayer)) {
+                    Process.Start(@"https://fallalytics.com/player-search");
+                } else if (sender.Equals(this.menuFallalyticsOverallRankings) || sender.Equals(this.trayFallalyticsOverallRankings)) {
+                    Process.Start(@"https://fallalytics.com/leaderboards/speedrun-total");
+                } else if (sender.Equals(this.menuFallalyticsLevelRankings) || sender.Equals(this.trayFallalyticsLevelRankings)) {
+                    Process.Start(@"https://fallalytics.com/leaderboards/speedrun");
+                } else if (sender.Equals(this.menuFallalyticsWeeklyCrownLeague) || sender.Equals(this.trayFallalyticsWeeklyCrownLeague)) {
+                    Process.Start(@"https://fallalytics.com/leaderboards/crowns");
+                } else if (sender.Equals(this.menuFallalyticsRoundStatistics) || sender.Equals(this.trayFallalyticsRoundStatistics)) {
+                    Process.Start(@"https://fallalytics.com/rounds");
+                } else if (sender.Equals(this.menuFallalyticsShowStatistics) || sender.Equals(this.trayFallalyticsShowStatistics)) {
+                    Process.Start(@"https://fallalytics.com/shows");
+                } else if (sender.Equals(this.menuFallalyticsNews) || sender.Equals(this.trayFallalyticsNews)) {
+                    Process.Start(@"https://fallalytics.com/news");
                 } else if (sender.Equals(this.menuRollOffClub) || sender.Equals(this.trayRollOffClub)) {
                     if (CurrentLanguage == Language.Korean) {
                         Process.Start(@"https://rolloff.club/ko/");
@@ -2747,8 +2816,30 @@ namespace FallGuysStats {
                     }
                 } else if (sender.Equals(this.menuLostTempleAnalyzer) || sender.Equals(this.trayLostTempleAnalyzer)) {
                     Process.Start(@"https://alexjlockwood.github.io/lost-temple-analyzer/");
-                } else if (sender.Equals(this.menuFallGuysDB) || sender.Equals(this.trayFallGuysDB)) {
+                } else if (sender.Equals(this.menuFallGuysDBMain) || sender.Equals(this.trayFallGuysDBMain)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/");
+                } else if (sender.Equals(this.menuFallGuysDBShows) || sender.Equals(this.trayFallGuysDBShows)) {
                     Process.Start(@"https://fallguys-db.pages.dev/upcoming_shows");
+                } else if (sender.Equals(this.menuFallGuysDBDiscovery) || sender.Equals(this.trayFallGuysDBDiscovery)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/discovery");
+                } else if (sender.Equals(this.menuFallGuysDBShop) || sender.Equals(this.trayFallGuysDBShop)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/store");
+                } else if (sender.Equals(this.menuFallGuysDBNewsfeeds) || sender.Equals(this.trayFallGuysDBNewsfeeds)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/newsfeeds");
+                } else if (sender.Equals(this.menuFallGuysDBStrings) || sender.Equals(this.trayFallGuysDBStrings)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/strings");
+                } else if (sender.Equals(this.menuFallGuysDBCosmetics) || sender.Equals(this.trayFallGuysDBCosmetics)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/unlocks");
+                } else if (sender.Equals(this.menuFallGuysDBCrownRanks) || sender.Equals(this.trayFallGuysDBCrownRanks)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/crown_ranks");
+                } else if (sender.Equals(this.menuFallGuysDBLiveEvents) || sender.Equals(this.trayFallGuysDBLiveEvents)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/live_events");
+                } else if (sender.Equals(this.menuFallGuysDBDailyShop) || sender.Equals(this.trayFallGuysDBDailyShop)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/daily_store");
+                } else if (sender.Equals(this.menuFallGuysDBCreative) || sender.Equals(this.trayFallGuysDBCreative)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/creative");
+                } else if (sender.Equals(this.menuFallGuysDBFaq) || sender.Equals(this.trayFallGuysDBFaq)) {
+                    Process.Start(@"https://fallguys-db.pages.dev/faq");
                 } else if (sender.Equals(this.menuFallGuysOfficial) || sender.Equals(this.trayFallGuysOfficial)) {
                     Process.Start(@"https://fallguys.com/");
                 }
@@ -2757,8 +2848,8 @@ namespace FallGuysStats {
             }
         }
         
-        private void menuLookHere_MouseEnter(object sender, EventArgs e) {
-            Rectangle rectangle = this.menuLookHere.Bounds;
+        private void menuUsefulThings_MouseEnter(object sender, EventArgs e) {
+            Rectangle rectangle = this.menuUsefulThings.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 260);
             this.AllocCustomTooltip(this.cmtt_center_Draw);
             if (sender.Equals(this.menuFallGuysWiki)) {
@@ -2778,7 +2869,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void menuLookHere_MouseLeave(object sender, EventArgs e) {
+        private void menuUsefulThings_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
         }
@@ -2975,7 +3066,6 @@ namespace FallGuysStats {
             try {
                 if (Utils.IsInternetConnected()) {
                     Task.Run(() => { HostCountryCode = Utils.GetCountryCode(Utils.GetUserPublicIp()); });
-                    // Task.Run(this.InitializeOverallRankList);
                 }
                 
                 this.SetTheme(CurrentTheme);
@@ -2986,13 +3076,17 @@ namespace FallGuysStats {
                 Utils.DwmSetWindowAttribute(this.menuStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.menuPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.menuProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                Utils.DwmSetWindowAttribute(this.menuLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.menuUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.menuFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.menuFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.trayCMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.trayFilters.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.trayStatsFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.trayPartyFilter.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
                 Utils.DwmSetWindowAttribute(this.trayProfile.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-                Utils.DwmSetWindowAttribute(this.trayLookHere.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.trayUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
+                Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
 
                 this.UpdateDates();
             } catch (Exception ex) {
@@ -3879,16 +3973,16 @@ namespace FallGuysStats {
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if ("wle_mrs_shuffle_show".Equals(showId)) { // Digi's Shuffle Selection
+            if (string.Equals("wle_mrs_shuffle_show", showId)) { // Digi's Shuffle Selection
                 if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
-                return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : roundId.Substring(4);
-            } else if ("wle_shuffle_discover".Equals(showId)) { // Unexplored Adventures
+                return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : (roundId.StartsWith("wle_digishuffle_") ? roundId : roundId.Substring(4));
+            } else if (string.Equals("wle_shuffle_discover", showId)) { // Unexplored Adventures
                 if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
-            } else if ("wle_mrs_shuffle_show_squads".Equals(showId)) { // Squads Scramble
+            } else if (string.Equals("wle_mrs_shuffle_show_squads", showId)) { // Squads Scramble
                 if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
                     roundId = roundId.Replace("_squads_", "_discover_");
                 } else if (roundId.StartsWith("wle_shuffle_squads_2_24_01_")) {
@@ -3899,6 +3993,8 @@ namespace FallGuysStats {
                 if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
                     return newName;
                 }
+            } else if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) { // Casual Rumble
+                roundId = roundId.Replace("_noelim", "");
             } else if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
                 return newName;
             }
@@ -3912,7 +4008,9 @@ namespace FallGuysStats {
                    showId.StartsWith("current_wle_fp") ||
                    showId.StartsWith("wle_s10_cf_round_") ||
                    showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
-                   showId.Equals("wle_shuffle_discover");
+                   showId.StartsWith("wle_mrs_shuffle_show") ||
+                   showId.Equals("wle_shuffle_discover") ||
+                   showId.Equals("wle_shuffle_chill");
         }
         
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
@@ -6508,13 +6606,33 @@ namespace FallGuysStats {
             } else {
                 this.trayOverlay.Text = Multilingual.GetWord("main_hide_overlay");
             }
-            this.trayLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.trayUsefulThings.Text = Multilingual.GetWord("main_useful_things");
             this.trayFallGuysWiki.Text = Multilingual.GetWord("main_fall_guys_wiki");
             this.trayFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.trayFallalytics.Text = Multilingual.GetWord("main_fallalytics");
+            this.trayFallalyticsMain.Text = Multilingual.GetWord("main_fallalytics_main");
+            this.trayFallalyticsFindPlayer.Text = Multilingual.GetWord("main_fallalytics_find_player");
+            this.trayFallalyticsOverallRankings.Text = Multilingual.GetWord("main_fallalytics_overall_rankings");
+            this.trayFallalyticsLevelRankings.Text = Multilingual.GetWord("main_fallalytics_level_rankings");
+            this.trayFallalyticsWeeklyCrownLeague.Text = Multilingual.GetWord("main_fallalytics_weekly_crown_league");
+            this.trayFallalyticsRoundStatistics.Text = Multilingual.GetWord("main_fallalytics_round_statistics");
+            this.trayFallalyticsShowStatistics.Text = Multilingual.GetWord("main_fallalytics_show_statistics");
+            this.trayFallalyticsNews.Text = Multilingual.GetWord("main_fallalytics_news");
             this.trayRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.trayLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.trayFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
+            this.trayFallGuysDBMain.Text = Multilingual.GetWord("main_fall_guys_db_main");
+            this.trayFallGuysDBShows.Text = Multilingual.GetWord("main_fall_guys_db_shows");
+            this.trayFallGuysDBDiscovery.Text = Multilingual.GetWord("main_fall_guys_db_discovery");
+            this.trayFallGuysDBShop.Text = Multilingual.GetWord("main_fall_guys_db_shop");
+            this.trayFallGuysDBNewsfeeds.Text = Multilingual.GetWord("main_fall_guys_db_newsfeeds");
+            this.trayFallGuysDBStrings.Text = Multilingual.GetWord("main_fall_guys_db_strings");
+            this.trayFallGuysDBCosmetics.Text = Multilingual.GetWord("main_fall_guys_db_cosmetics");
+            this.trayFallGuysDBCrownRanks.Text = Multilingual.GetWord("main_fall_guys_db_crown_ranks");
+            this.trayFallGuysDBLiveEvents.Text = Multilingual.GetWord("main_fall_guys_db_live_events");
+            this.trayFallGuysDBDailyShop.Text = Multilingual.GetWord("main_fall_guys_db_daily_shop");
+            this.trayFallGuysDBCreative.Text = Multilingual.GetWord("main_fall_guys_db_creative");
+            this.trayFallGuysDBFaq.Text = Multilingual.GetWord("main_fall_guys_db_faq");
             this.trayFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
             this.trayUpdate.Text = Multilingual.GetWord("main_update");
             this.trayHelp.Text = Multilingual.GetWord("main_help");
@@ -6544,13 +6662,33 @@ namespace FallGuysStats {
             this.menuUpdate.Text = Multilingual.GetWord("main_update");
             this.menuHelp.Text = Multilingual.GetWord("main_help");
             this.menuLaunchFallGuys.Text = Multilingual.GetWord("main_launch_fall_guys");
-            this.menuLookHere.Text = Multilingual.GetWord("main_look_here");
+            this.menuUsefulThings.Text = Multilingual.GetWord("main_useful_things");
             this.menuFallGuysWiki.Text = Multilingual.GetWord("main_fall_guys_wiki");
             this.menuFallGuysReddit.Text = Multilingual.GetWord("main_fall_guys_reddit");
             this.menuFallalytics.Text = Multilingual.GetWord("main_fallalytics");
+            this.menuFallalyticsMain.Text = Multilingual.GetWord("main_fallalytics_main");
+            this.menuFallalyticsFindPlayer.Text = Multilingual.GetWord("main_fallalytics_find_player");
+            this.menuFallalyticsOverallRankings.Text = Multilingual.GetWord("main_fallalytics_overall_rankings");
+            this.menuFallalyticsLevelRankings.Text = Multilingual.GetWord("main_fallalytics_level_rankings");
+            this.menuFallalyticsWeeklyCrownLeague.Text = Multilingual.GetWord("main_fallalytics_weekly_crown_league");
+            this.menuFallalyticsRoundStatistics.Text = Multilingual.GetWord("main_fallalytics_round_statistics");
+            this.menuFallalyticsShowStatistics.Text = Multilingual.GetWord("main_fallalytics_show_statistics");
+            this.menuFallalyticsNews.Text = Multilingual.GetWord("main_fallalytics_news");
             this.menuRollOffClub.Text = Multilingual.GetWord("main_roll_off_club");
             this.menuLostTempleAnalyzer.Text = Multilingual.GetWord("main_lost_temple_analyzer");
             this.menuFallGuysDB.Text = Multilingual.GetWord("main_fall_guys_db");
+            this.menuFallGuysDBMain.Text = Multilingual.GetWord("main_fall_guys_db_main");
+            this.menuFallGuysDBShows.Text = Multilingual.GetWord("main_fall_guys_db_shows");
+            this.menuFallGuysDBDiscovery.Text = Multilingual.GetWord("main_fall_guys_db_discovery");
+            this.menuFallGuysDBShop.Text = Multilingual.GetWord("main_fall_guys_db_shop");
+            this.menuFallGuysDBNewsfeeds.Text = Multilingual.GetWord("main_fall_guys_db_newsfeeds");
+            this.menuFallGuysDBStrings.Text = Multilingual.GetWord("main_fall_guys_db_strings");
+            this.menuFallGuysDBCosmetics.Text = Multilingual.GetWord("main_fall_guys_db_cosmetics");
+            this.menuFallGuysDBCrownRanks.Text = Multilingual.GetWord("main_fall_guys_db_crown_ranks");
+            this.menuFallGuysDBLiveEvents.Text = Multilingual.GetWord("main_fall_guys_db_live_events");
+            this.menuFallGuysDBDailyShop.Text = Multilingual.GetWord("main_fall_guys_db_daily_shop");
+            this.menuFallGuysDBCreative.Text = Multilingual.GetWord("main_fall_guys_db_creative");
+            this.menuFallGuysDBFaq.Text = Multilingual.GetWord("main_fall_guys_db_faq");
             this.menuFallGuysOfficial.Text = Multilingual.GetWord("main_fall_guys_official");
             // this.SetLeaderboardTitle();
             this.ResumeLayout();

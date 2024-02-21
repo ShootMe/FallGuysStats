@@ -306,6 +306,7 @@ namespace FallGuysStats {
                  || string.Equals(showId, "wle_mrs_shuffle_show")
                  || string.Equals(showId, "wle_mrs_shuffle_show_squads")
                  || string.Equals(showId, "wle_shuffle_discover")
+                 || string.Equals(showId, "wle_shuffle_chill")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")) {
                 return true;
@@ -336,7 +337,10 @@ namespace FallGuysStats {
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
             
                     || (string.Equals(showId, "event_only_hoverboard_template")
-                        && roundId.Equals("round_hoverboardsurvival_final"));
+                        && roundId.Equals("round_hoverboardsurvival_final"))
+                    
+                    || (string.Equals(showId, "no_elimination_show")
+                        && (roundId.Equals("round_snowballsurvival_final_noelim") || roundId.Equals("round_robotrampage_arena_2_final_noelim")));
         }
 
         private bool IsModeException(string roundId, string showId) {
