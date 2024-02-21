@@ -672,7 +672,7 @@ namespace FallGuysStats {
             });
 
             this.gridDetails.DataSource = null;
-            this.gridDetails.DataSource = this.RoundDetails;
+            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
@@ -746,7 +746,7 @@ namespace FallGuysStats {
                     }
                     
                     this.gridDetails.DataSource = null;
-                    this.gridDetails.DataSource = this.RoundDetails;
+                    this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                     if (minIndex < this.RoundDetails.Count) {
                         this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
                     } else if (this.RoundDetails.Count > 0) {
@@ -788,7 +788,7 @@ namespace FallGuysStats {
                         }
                         
                         this.gridDetails.DataSource = null;
-                        this.gridDetails.DataSource = this.RoundDetails;
+                        this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                         if (minIndex < this.RoundDetails.Count) {
                             this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
                         } else if (this.RoundDetails.Count > 0) {
@@ -877,7 +877,7 @@ namespace FallGuysStats {
                             }
                             
                             this.gridDetails.DataSource = null;
-                            this.gridDetails.DataSource = this.RoundDetails;
+                            this.gridDetails.DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                             if (minIndex < this.RoundDetails.Count) {
                                 this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
                             } else if (this.RoundDetails.Count > 0) {
@@ -950,7 +950,7 @@ namespace FallGuysStats {
 
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
-                Point position = new Point(cursorPosition.X + 120, cursorPosition.Y);
+                Point position = new Point(cursorPosition.X + 80, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
             } else {
                 this.gridDetails.ShowCellToolTips = true;

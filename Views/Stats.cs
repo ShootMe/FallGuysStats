@@ -411,33 +411,30 @@ namespace FallGuysStats {
             this.StatsDB.Pragma("UTC_DATE", true);
             this.UserSettings = this.StatsDB.GetCollection<UserSettings>("UserSettings");
             
-            this.StatsDB.BeginTrans();
             if (this.UserSettings.Count() == 0) {
                 this.CurrentSettings = this.GetDefaultSettings();
+                this.StatsDB.BeginTrans();
                 this.UserSettings.Insert(this.CurrentSettings);
+                this.StatsDB.Commit();
             } else {
                 try {
                     this.CurrentSettings = this.UserSettings.FindAll().First();
                     CurrentLanguage = (Language)this.CurrentSettings.Multilingual;
                     CurrentTheme = this.CurrentSettings.Theme == 0 ? MetroThemeStyle.Light : MetroThemeStyle.Dark;
                 } catch {
-                    this.UserSettings.DeleteAll();
                     this.CurrentSettings = GetDefaultSettings();
+                    this.StatsDB.BeginTrans();
+                    this.UserSettings.DeleteAll();
                     this.UserSettings.Insert(this.CurrentSettings);
+                    this.StatsDB.Commit();
                 }
             }
-            this.StatsDB.Commit();
             
             this.RemoveUpdateFiles();
             
             this.InitializeComponent();
 
             this.SetEventWaitHandle();
-            
-            // this.SetStyle(ControlStyles.UserPaint, true);
-            // this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            // this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            // this.UpdateStyles();
             
 #if !AllowUpdate
             this.menu.Items.Remove(this.menuUpdate);
@@ -6466,16 +6463,14 @@ namespace FallGuysStats {
         }
 
         public void SetLeaderboardTitle() {
-            this.BeginInvoke((MethodInvoker)delegate {
-                if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                    this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
-                    this.mlLeaderboard.Text = OnlineServiceNickname;
-                } else {
-                    this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
-                }
-                this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
-                this.mlLeaderboard.Enabled = true;
-            });
+            if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+                this.mlLeaderboard.Text = OnlineServiceNickname;
+            } else {
+                this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+            }
+            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+            this.mlLeaderboard.Enabled = true;
         }
         
         private void ChangeLanguage() {

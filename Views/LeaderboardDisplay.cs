@@ -1112,6 +1112,7 @@ namespace FallGuysStats {
                 if (info.index == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
+                e.Value = info.index == 0 ? (object)"-" : info.index;
             } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "roundTotal") {
                 if (info.index == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
