@@ -1268,7 +1268,7 @@
             this.trayFallGuysDB.Text = "FallGuysDB";
             // 
             // trayFallGuysDBMain
-            // `
+            // 
             this.trayFallGuysDBMain.Image = global::FallGuysStats.Properties.Resources.fallguys_db_logo;
             this.trayFallGuysDBMain.Name = "trayFallGuysDBMain";
             this.trayFallGuysDBMain.Size = new System.Drawing.Size(175, 22);

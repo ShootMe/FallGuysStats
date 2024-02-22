@@ -2847,7 +2847,7 @@ namespace FallGuysStats {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
         private void menuUsefulThings_MouseEnter(object sender, EventArgs e) {
             Rectangle rectangle = this.menuUsefulThings.Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 260);
@@ -2856,19 +2856,20 @@ namespace FallGuysStats {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_wiki_tooltip"), this, position);
             } else if (sender.Equals(this.menuFallGuysReddit)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_reddit_tooltip"), this, position);
-            } else if (sender.Equals(this.menuFallalytics)) {
-                this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
             } else if (sender.Equals(this.menuRollOffClub)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_roll_off_club_tooltip"), this, position);
             } else if (sender.Equals(this.menuLostTempleAnalyzer)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_lost_temple_analyzer_tooltip"), this, position);
-            } else if (sender.Equals(this.menuFallGuysDB)) {
-                this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
             } else if (sender.Equals(this.menuFallGuysOfficial)) {
                 this.ShowCustomTooltip(Multilingual.GetWord("main_fall_guys_official_tooltip"), this, position);
             }
+            // else if (sender.Equals(this.menuFallGuysDB)) {
+            //     this.ShowCustomTooltip(Multilingual.GetWord("main_todays_show_tooltip"), this, position);
+            // } else if (sender.Equals(this.menuFallalytics)) {
+            //     this.ShowCustomTooltip(Multilingual.GetWord("main_fallalytics_tooltip"), this, position);
+            // }
         }
-        
+
         private void menuUsefulThings_MouseLeave(object sender, EventArgs e) {
             this.HideCustomTooltip(this);
             this.Cursor = Cursors.Default;
@@ -4705,83 +4706,99 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 126, 222);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = $"{e.Value:N0}";
+                        e.Value = (int)e.Value == 0 ? (object)"-" : $"{e.Value:N0}";
                         break;
                     case "Qualified":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 20, 147);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                        if (this.CurrentSettings.ShowPercentages) {
-                            e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
+                        if ((int)e.Value == 0) {
+                            e.Value = "-";
                         } else {
-                            e.Value = $"{levelStats.Qualified:N0}";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(qualifyChance * 10) / 10}%";
+                            float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            if (this.CurrentSettings.ShowPercentages) {
+                                e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
+                            } else {
+                                e.Value = $"{levelStats.Qualified:N0}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(qualifyChance * 10) / 10}%";
+                            }
                         }
                         break;
                     case "Gold":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 215, 0);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                        if (this.CurrentSettings.ShowPercentages) {
-                            e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
+                        if ((int)e.Value == 0) {
+                            e.Value = "-";
                         } else {
-                            e.Value = $"{levelStats.Gold:N0}";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(goldChance * 10) / 10}%";
+                            float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            if (this.CurrentSettings.ShowPercentages) {
+                                e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
+                            } else {
+                                e.Value = $"{levelStats.Gold:N0}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(goldChance * 10) / 10}%";
+                            }
                         }
                         break;
                     case "Silver":
                         fBrightness -= 0.3f;
                         cellColor = Color.FromArgb(192, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                        if (this.CurrentSettings.ShowPercentages) {
-                            e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
+                        if ((int)e.Value == 0) {
+                            e.Value = "-";
                         } else {
-                            e.Value = $"{levelStats.Silver:N0}";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(silverChance * 10) / 10}%";
+                            float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            if (this.CurrentSettings.ShowPercentages) {
+                                e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
+                            } else {
+                                e.Value = $"{levelStats.Silver:N0}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(silverChance * 10) / 10}%";
+                            }
                         }
                         break;
                     case "Bronze":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(205, 127, 50);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
-                        if (this.CurrentSettings.ShowPercentages) {
-                            e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
+                        if ((int)e.Value == 0) {
+                            e.Value = "-";
                         } else {
-                            e.Value = $"{levelStats.Bronze:N0}";
-                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(bronzeChance * 10) / 10}%";
+                            float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            if (this.CurrentSettings.ShowPercentages) {
+                                e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
+                            } else {
+                                e.Value = $"{levelStats.Bronze:N0}";
+                                this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{Math.Truncate(bronzeChance * 10) / 10}%";
+                            }
                         }
                         break;
                     case "Kudos":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(218, 112, 214);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = $"{e.Value:N0}";
+                        e.Value = (int)e.Value == 0 ? (object)"-" : $"{e.Value:N0}";
                         break;
                     case "AveFinish":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.AveFinish.ToString("m\\:ss\\.fff");
+                        e.Value = levelStats.AveFinish == TimeSpan.Zero ? "-" : levelStats.AveFinish.ToString("m\\:ss\\.fff");
                         break;
                     case "Fastest":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.Fastest.ToString("m\\:ss\\.fff");
+                        e.Value = levelStats.Fastest == TimeSpan.Zero ? "-" : levelStats.Fastest.ToString("m\\:ss\\.fff");
                         break;
                     case "Longest":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = levelStats.Longest.ToString("m\\:ss\\.fff");
+                        e.Value = levelStats.Longest == TimeSpan.Zero ? "-" : levelStats.Longest.ToString("m\\:ss\\.fff");
                         break;
                 }
             } catch (Exception ex) {
