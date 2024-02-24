@@ -21,6 +21,15 @@ namespace FallGuysStats {
         public double firstPlaces { get; set; }
     }
     
+    public class OverallSummary {
+        public int rank { get; set; }
+        public string country { get; set; }
+        public int gold { get; set; }
+        public int silver { get; set; }
+        public int bronze { get; set; }
+        public int players { get; set; }
+    }
+    
     public class LevelRank {
         public bool found { get; set; }
         public int total { get; set; }

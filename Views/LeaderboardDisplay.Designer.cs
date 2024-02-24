@@ -42,6 +42,7 @@
             this.mpsSpinner05 = new MetroFramework.Controls.MetroProgressSpinner();
             this.lblSearchDescription = new MetroFramework.Controls.MetroLabel();
             this.gridOverallRank = new FallGuysStats.Grid();
+            this.gridOverallSummary = new FallGuysStats.Grid();
             this.gridLevelRank = new FallGuysStats.Grid();
             this.gridPlayerList = new FallGuysStats.Grid();
             this.gridPlayerDetails = new FallGuysStats.Grid();
@@ -72,6 +73,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo04)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOverallSummary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerDetails)).BeginInit();
@@ -98,6 +100,7 @@
             // mtpOverallRankPage
             // 
             this.mtpOverallRankPage.Controls.Add(this.gridOverallRank);
+            this.mtpOverallRankPage.Controls.Add(this.gridOverallSummary);
             this.mtpOverallRankPage.Controls.Add(this.mpsSpinner01);
             this.mtpOverallRankPage.HorizontalScrollbarBarColor = true;
             this.mtpOverallRankPage.HorizontalScrollbarHighlightOnWheel = false;
@@ -319,7 +322,6 @@
             this.gridPlayerDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridPlayerDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridPlayerDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPlayerDetails_ColumnHeaderMouseClick);
-            
             // 
             // gridOverallRank
             // 
@@ -345,7 +347,8 @@
             this.gridOverallRank.RowHeadersVisible = false;
             this.gridOverallRank.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridOverallRank.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridOverallRank.Size = new System.Drawing.Size(1332, 768);
+            // this.gridOverallRank.Size = new System.Drawing.Size(1332, 768);
+            this.gridOverallRank.Size = new System.Drawing.Size(750, 768);
             this.gridOverallRank.TabIndex = 2;
             this.gridOverallRank.DataSourceChanged += new System.EventHandler(this.gridOverallRank_DataSourceChanged);
             this.gridOverallRank.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOverallRank_CellDoubleClick);
@@ -353,6 +356,36 @@
             this.gridOverallRank.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridOverallRank.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridOverallRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridOverallRank_ColumnHeaderMouseClick);
+            // 
+            // gridOverallSummary
+            // 
+            this.gridOverallSummary.AllowUserToDeleteRows = false;
+            this.gridOverallSummary.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.gridOverallSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridOverallSummary.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Cyan;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridOverallSummary.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridOverallSummary.ColumnHeadersHeight = 24;
+            this.gridOverallSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridOverallSummary.EnableHeadersVisualStyles = false;
+            this.gridOverallSummary.Location = new System.Drawing.Point(751, 0);
+            this.gridOverallSummary.MultiSelect = false;
+            this.gridOverallSummary.Name = "gridOverallSummary";
+            this.gridOverallSummary.ReadOnly = true;
+            this.gridOverallSummary.RowHeadersVisible = false;
+            this.gridOverallSummary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.gridOverallSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridOverallSummary.Size = new System.Drawing.Size(580, 768);
+            this.gridOverallSummary.TabIndex = 2;
+            this.gridOverallSummary.DataSourceChanged += new System.EventHandler(this.gridOverallSummary_DataSourceChanged);
+            this.gridOverallSummary.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridOverallSummary_CellFormatting);
+            this.gridOverallSummary.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mtpLevelRankPage
             // 
@@ -725,6 +758,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo04)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridOverallSummary)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridPlayerDetails)).EndInit();
@@ -764,6 +798,7 @@
         private MetroFramework.Controls.MetroLabel lblPlayerInfo04;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo05;
         private FallGuysStats.Grid gridOverallRank;
+        private FallGuysStats.Grid gridOverallSummary;
         private FallGuysStats.Grid gridLevelRank;
         private FallGuysStats.Grid gridPlayerList;
         private FallGuysStats.Grid gridPlayerDetails;

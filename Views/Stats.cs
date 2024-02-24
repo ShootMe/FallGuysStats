@@ -4706,14 +4706,15 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(0, 126, 222);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = (int)e.Value == 0 ? (object)"-" : $"{e.Value:N0}";
+                        e.Value = levelStats.Played == 0 ? "-" : $"{e.Value:N0}";
                         break;
                     case "Qualified":
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 20, 147);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        if ((int)e.Value == 0) {
+                        if (levelStats.Qualified == 0) {
                             e.Value = "-";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
                             float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
@@ -4729,8 +4730,9 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(255, 215, 0);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        if ((int)e.Value == 0) {
+                        if (levelStats.Gold == 0) {
                             e.Value = "-";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
                             float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
@@ -4746,8 +4748,9 @@ namespace FallGuysStats {
                         fBrightness -= 0.3f;
                         cellColor = Color.FromArgb(192, 192, 192);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        if ((int)e.Value == 0) {
+                        if (levelStats.Silver == 0) {
                             e.Value = "-";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
                             float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
@@ -4763,8 +4766,9 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(205, 127, 50);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        if ((int)e.Value == 0) {
+                        if (levelStats.Bronze == 0) {
                             e.Value = "-";
+                            this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
                             float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
@@ -4780,7 +4784,7 @@ namespace FallGuysStats {
                         fBrightness -= 0.2f;
                         cellColor = Color.FromArgb(218, 112, 214);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(cellColor, fBrightness) : cellColor;
-                        e.Value = (int)e.Value == 0 ? (object)"-" : $"{e.Value:N0}";
+                        e.Value = levelStats.Kudos == 0 ? "-" : $"{e.Value:N0}";
                         break;
                     case "AveFinish":
                         fBrightness -= 0.2f;

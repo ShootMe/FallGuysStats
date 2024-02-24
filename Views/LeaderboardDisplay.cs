@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -27,6 +28,8 @@ namespace FallGuysStats {
         private readonly List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
         private List<OverallRankInfo> overallRankList;
         private readonly List<OverallRankInfo> overallRankNodata = new List<OverallRankInfo>();
+        private List<OverallSummary> overallSummary;
+        private readonly List<OverallSummary> overallSummaryNodata = new List<OverallSummary>();
         private List<SearchPlayer> searchResult;
         private readonly List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
         private List<PbInfo> playerDetails;
@@ -90,6 +93,7 @@ namespace FallGuysStats {
             
             this.gridLevelRank.DataSource = this.levelRankNodata;
             this.gridOverallRank.DataSource = this.overallRankNodata;
+            this.gridOverallSummary.DataSource = this.overallSummaryNodata;
             this.gridPlayerList.DataSource = this.searchResultNodata;
             this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
             this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
@@ -117,6 +121,24 @@ namespace FallGuysStats {
                         this.gridOverallRank.DataSource = prevTask.Result ? this.overallRankList : this.overallRankNodata;
                         this.gridOverallRank.ClearSelection();
                         if (!prevTask.Result) this.overallRankList = null;
+                        this.overallSummary = this.overallRankList?.Where(o => !o.isAnonymous && !string.IsNullOrEmpty(o.country))
+                            .GroupBy(o => o.country)
+                            .Select(g => new OverallSummary {
+                                country = g.Key, players = g.Count()
+                                , gold = g.Count(o => o.rank == 1)
+                                , silver = g.Count(o => (((double)(o.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100) < 20)
+                                , bronze = g.Count(o => (((double)(o.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100) < 50)
+                            })
+                            .OrderByDescending(s => s.gold)
+                            .ThenByDescending(s => s.silver)
+                            .ThenByDescending(s => s.bronze)
+                            .ThenByDescending(s => s.players)
+                            .ThenBy(s => s.country).ToList();
+                        for (int i = 0; i < this.overallSummary.Count; i++) {
+                            this.overallSummary[i].rank = i + 1;
+                        }
+                        this.gridOverallSummary.DataSource = prevTask.Result ? this.overallSummary : this.overallSummaryNodata;
+                        
                         if (index != -1) {
                             int displayedRowCount = this.gridOverallRank.DisplayedRowCount(false);
                             int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
@@ -131,6 +153,23 @@ namespace FallGuysStats {
                 this.targetSpinner = null;
                 this.gridOverallRank.DataSource = this.overallRankList;
                 this.gridOverallRank.ClearSelection();
+                this.overallSummary = this.overallRankList.Where(o => !o.isAnonymous && !string.IsNullOrEmpty(o.country))
+                    .GroupBy(o => o.country)
+                    .Select(g => new OverallSummary {
+                        country = g.Key, players = g.Count()
+                        , gold = g.Count(o => o.rank == 1)
+                        , silver = g.Count(o => (((double)(o.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100) < 20)
+                        , bronze = g.Count(o => (((double)(o.rank - 1) / (this.StatsForm.totalOverallRankPlayers - 1)) * 100) < 50)
+                    })
+                    .OrderByDescending(s => s.gold)
+                    .ThenByDescending(s => s.silver)
+                    .ThenByDescending(s => s.bronze)
+                    .ThenByDescending(s => s.players)
+                    .ThenBy(s => s.country).ToList();
+                for (int i = 0; i < this.overallSummary.Count; i++) {
+                    this.overallSummary[i].rank = i + 1;
+                }
+                this.gridOverallSummary.DataSource = this.overallSummary;
             }
 
             // if (this.StatsForm.leaderboardWeeklyCrownList != null) {
@@ -488,18 +527,21 @@ namespace FallGuysStats {
                 case "crownIcon":
                     return 50;
                 case "shardIcon":
-                    return 50;
+                    return 40;
                 case "medal":
                     return 40;
                 case "onlineServiceNickname":
                     return 0;
                 case "score":
-                case "firstPlaces":
                     return 150;
+                case "firstPlaces":
+                    return 70;
                 case "record":
                     return 180;
                 case "finish":
                     return 200;
+                case "country":
+                    return 0;
                 default:
                     return 0;
             }
@@ -606,6 +648,9 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
+                if (info.firstPlaces == 0) {
+                    e.Value = "-";
+                }
             }
             
             if (e.RowIndex % 2 == 0) {
@@ -658,6 +703,72 @@ namespace FallGuysStats {
             this.gridOverallRank.DataSource = null;
             this.gridOverallRank.DataSource = this.overallRankList;
             this.gridOverallRank.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+        }
+        
+        private void gridOverallSummary_DataSourceChanged(object sender, EventArgs e) {
+            if (this.gridOverallSummary.Columns.Count == 0) { return; }
+            int pos = 0;
+            this.gridOverallSummary.Columns["players"].Visible = false;
+            this.gridOverallSummary.Setup("rank", pos++, 65, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            this.gridOverallSummary.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["flag"].DefaultCellStyle.NullValue = null;
+            this.gridOverallSummary.Setup("country", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_country")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["country"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridOverallSummary.Setup("gold", pos++, 75, $"{Multilingual.GetWord("main_gold")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["gold"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridOverallSummary.Setup("silver", pos++, 75, $"{Multilingual.GetWord("main_silver")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["silver"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            this.gridOverallSummary.Setup("bronze", pos++, 75, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns["bronze"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+        }
+        
+        private void gridOverallSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
+            if (e.RowIndex < 0 || e.RowIndex >= this.gridOverallSummary.Rows.Count) { return; }
+
+            string columnName = this.gridOverallSummary.Columns[e.ColumnIndex].Name;
+            OverallSummary summary = this.gridOverallSummary.Rows[e.RowIndex].DataBoundItem as OverallSummary;
+            
+            if (columnName == "rank") {
+                if (string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                }
+            } else if (columnName == "flag") {
+                e.Value = (Image)Properties.Resources.ResourceManager.GetObject($"country_{summary.country.ToLower()}_icon");
+            } else if (columnName == "country") {
+                e.Value = Multilingual.GetCountryName(summary.country);
+                if (string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)) {
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                }
+            } else if (columnName == "gold") {
+                if (summary.gold == 0) { e.Value = ""; }
+                else {
+                    e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
+                        ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold);
+                    
+                }
+            } else if (columnName == "silver") {
+                if (summary.silver == 0) { e.Value = ""; }
+                else {
+                    e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
+                        ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DimGray : Color.LightGray);
+                    
+                }
+            } else if (columnName == "bronze") {
+                if (summary.bronze == 0) { e.Value = ""; }
+                else {
+                    e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
+                        ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Sienna : Color.Chocolate);
+                    
+                }
+            }
+            
+            if (e.RowIndex % 2 == 0) {
+                this.gridOverallSummary.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                this.gridOverallSummary.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
         }
         
         private void gridOverallRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
@@ -1352,13 +1463,13 @@ namespace FallGuysStats {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = $"{e.Value:N0}";
+                e.Value = info.crowns == 0 ? "-" : $"{e.Value:N0}";
                 // e.Value = $"{Math.Truncate(info.score / 60):N0}";
             } else if (columnName == "shards") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
-                e.Value = info.shards >= 60 ? $"{e.Value:N0} (👑 {Math.Truncate(info.shards / 60):N0})" : $"{e.Value:N0}";
+                e.Value = info.shards == 0 ? "-" : info.shards >= 60 ? $"{e.Value:N0} ⟦👑{Math.Truncate(info.shards / 60):N0}⟧" : e.Value;
                 // e.Value = $"{info.score % 60:N0}";
             } else if (columnName == "crownIcon") {
                 e.Value = Properties.Resources.crown_grid_icon;

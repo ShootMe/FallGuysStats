@@ -231,6 +231,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_time_suffix", " s"},
                             {"leaderboard_grid_header_crowns", "Crowns"},
                             {"leaderboard_grid_header_shards", "Shards"},
+                            {"leaderboard_grid_header_country", "Country"},
 
                             {"profile_icon_enable_tooltip", "Click to not automatically change to a linked profile"},
                             {"profile_icon_disable_tooltip", "Click to automatically change to the linked profile"},
@@ -756,6 +757,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_time_suffix", " s"},
                             {"leaderboard_grid_header_crowns", "Couronnes"},
                             {"leaderboard_grid_header_shards", "Fragments"},
+                            {"leaderboard_grid_header_country", "Pays"},
 
                             {"profile_icon_enable_tooltip", "Cliquer pour ne pas passer automatiquement sur un profil lié"},
                             {"profile_icon_disable_tooltip", "Cliquer pour passer automatiquement sur un profil lié"},
@@ -1281,6 +1283,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_time_suffix", "초"},
                             {"leaderboard_grid_header_crowns", "크라운"},
                             {"leaderboard_grid_header_shards", "조각"},
+                            {"leaderboard_grid_header_country", "국가"},
 
                             {"profile_icon_enable_tooltip", "연동된 프로필로 자동 전환하지 않으려면 클릭하세요"},
                             {"profile_icon_disable_tooltip", "연동된 프로필로 자동 전환하려면 클릭하세요"},
@@ -1804,8 +1807,9 @@ namespace FallGuysStats {
                             {"leaderboard_grid_n_years_ago_suffix", "年前"},
                             {"leaderboard_grid_time_prefix", " 分"},
                             {"leaderboard_grid_time_suffix", " 秒"},
-                            {"leaderboard_grid_header_crowns", "Crowns"},
-                            {"leaderboard_grid_header_shards", "Shards"},
+                            {"leaderboard_grid_header_crowns", "クラウン"},
+                            {"leaderboard_grid_header_shards", "破片"},
+                            {"leaderboard_grid_header_country", "国名"},
 
                             {"profile_icon_enable_tooltip", "クリックすると、リンクされたプロファイルに自動的に切り替えられません"},
                             {"profile_icon_disable_tooltip", "クリックすると、リンクされたプロファイルに自動的に切り替えられます"},
@@ -2331,6 +2335,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_time_suffix", " 秒"},
                             {"leaderboard_grid_header_crowns", "Crowns"},
                             {"leaderboard_grid_header_shards", "Shards"},
+                            {"leaderboard_grid_header_country", "国家"},
 
                             {"profile_icon_enable_tooltip", "单击可不自动更改为链接的配置文件"},
                             {"profile_icon_disable_tooltip", "按一下可不自動變更為連結的設定檔"},
@@ -2856,6 +2861,7 @@ namespace FallGuysStats {
                             {"leaderboard_grid_time_suffix", " 秒"},
                             {"leaderboard_grid_header_crowns", "Crowns"},
                             {"leaderboard_grid_header_shards", "Shards"},
+                            {"leaderboard_grid_header_country", "國家"},
 
                             {"profile_icon_enable_tooltip", ""},
                             {"profile_icon_disable_tooltip", ""},
