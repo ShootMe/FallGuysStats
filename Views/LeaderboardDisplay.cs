@@ -533,9 +533,9 @@ namespace FallGuysStats {
                 case "onlineServiceNickname":
                     return 0;
                 case "score":
-                    return 150;
+                    return 140;
                 case "firstPlaces":
-                    return 70;
+                    return 80;
                 case "record":
                     return 180;
                 case "finish":
@@ -709,18 +709,27 @@ namespace FallGuysStats {
             if (this.gridOverallSummary.Columns.Count == 0) { return; }
             int pos = 0;
             this.gridOverallSummary.Columns["players"].Visible = false;
-            this.gridOverallSummary.Setup("rank", pos++, 65, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Setup("rank", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
             this.gridOverallSummary.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["flag"].DefaultCellStyle.NullValue = null;
             this.gridOverallSummary.Setup("country", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_country")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["country"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Setup("gold", pos++, 75, $"{Multilingual.GetWord("main_gold")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "goldIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridOverallSummary.Setup("goldIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridOverallSummary.Columns["goldIcon"].DefaultCellStyle.NullValue = null;
+            this.gridOverallSummary.Setup("gold", pos++, 70, $"{Multilingual.GetWord("main_gold")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["gold"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Setup("silver", pos++, 75, $"{Multilingual.GetWord("main_silver")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "silverIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridOverallSummary.Setup("silverIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridOverallSummary.Columns["silverIcon"].DefaultCellStyle.NullValue = null;
+            this.gridOverallSummary.Setup("silver", pos++, 70, $"{Multilingual.GetWord("main_silver")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["silver"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Setup("bronze", pos++, 75, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
+            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "bronzeIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            this.gridOverallSummary.Setup("bronzeIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            this.gridOverallSummary.Columns["bronzeIcon"].DefaultCellStyle.NullValue = null;
+            this.gridOverallSummary.Setup("bronze", pos++, 70, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
             this.gridOverallSummary.Columns["bronze"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
         
@@ -741,26 +750,29 @@ namespace FallGuysStats {
                 if (string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
                 }
+            } else if (columnName == "goldIcon") {
+                if (summary.gold != 0) { e.Value = Properties.Resources.medal_gold_grid_icon; }
+            } else if (columnName == "silverIcon") {
+                if (summary.silver != 0) { e.Value = Properties.Resources.medal_silver_grid_icon; }
+            } else if (columnName == "bronzeIcon") {
+                    if (summary.bronze != 0) { e.Value = Properties.Resources.medal_bronze_grid_icon; }
             } else if (columnName == "gold") {
                 if (summary.gold == 0) { e.Value = ""; }
                 else {
                     e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
                         ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold);
-                    
                 }
             } else if (columnName == "silver") {
                 if (summary.silver == 0) { e.Value = ""; }
                 else {
                     e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
                         ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.DimGray : Color.LightGray);
-                    
                 }
             } else if (columnName == "bronze") {
                 if (summary.bronze == 0) { e.Value = ""; }
                 else {
                     e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
                         ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Sienna : Color.Chocolate);
-                    
                 }
             }
             
