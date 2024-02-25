@@ -52,6 +52,9 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
   - [**프로필**](#프로필)
     - [**프로필과 쇼 연결하기**](#프로필과-쇼-연결하기)
     - [**쇼 삭제 또는 다른 프로필로 쇼 이동하기**](#쇼-삭제-또는-다른-프로필로-이동하기)
+  - [**리더보드**](#리더보드)
+    - [**리더보드 메뉴**](#리더보드-메뉴)
+    - [**리더보드 옵션**](#리더보드-옵션)
   - [**자주 묻는 질문**](#자주-묻는-질문)
     - [**에픽게임즈에서 `폴 가이즈 실행` 옵션을 설정하는 방법**](#에픽게임즈에서-폴-가이즈-실행-옵션을-설정하는-방법)
   - [**변경 내역**](#변경-내역)
@@ -185,6 +188,22 @@ Fall Guys 게임의 통계를 생성하는 간단한 프로그램입니다. 게�
   - 삭제 또는 이동하고자 하는 쇼를 선택하고 `Delete`키 또는 우클릭 메뉴의 `삭제`/`쇼 데이터 이동`을 클릭합니다.
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+### 리더보드
+
+![Automatic Profile Change](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboards.png)
+
+### 리더보드 메뉴
+
+- 나의 온라인 닉네임을 클릭하여 리더보드를 여세요.
+
+![Leaderboards Menu](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsMenu.png)
+
+### 리더보드 옵션
+
+- 리더보드에 참여하려면 폴라리틱스 옵션을 활성화하세요.
+
+![Leaderboards Options](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsOptions.png)
 
 ## 자주 묻는 질문
 ### 에픽게임즈에서 `폴 가이즈 실행` 옵션을 설정하는 방법

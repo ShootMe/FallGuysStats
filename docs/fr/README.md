@@ -52,6 +52,9 @@ Programme simple pour générer des statistiques pour le jeu Fall Guys. Lit le f
   - [**Profil**](#profil)
     - [**Lier un profil à une émission spécifique**](#lier-un-profil-à-une-émission-spécifique)
     - [**Supprimer des émissions ou déplacer des émissions vers un autre profil**](#supprimer-des-émissions-ou-déplacer-des-émissions-vers-un-autre-profil)
+  - [**Classement**](#classement)
+    - [**Menu du classement**](#menu-du-classement)
+    - [**Options de classement**](#options-de-classement)
   - [**FAQ**](#faq)
     - [**Comment définir l'option `Lancer FallGuys` dans Epic Games**](#comment-définir-l'option-lancer-fallguys-dans-epic-games)
   - [**Changelog**](#changelog)
@@ -187,6 +190,22 @@ FallGuysStats est open source, ce qui signifie que tout le monde peut voir le co
   - Faire un clique-droit sur la sélection pour pouvoir déplacer ou supprimer celle-ci.
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
+
+## Classement
+
+![Leaderboards](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboards.png)
+
+### Menu du classement
+
+- Cliquez sur votre pseudo en ligne pour ouvrir le menu des classements.
+
+![Leaderboards Menu](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsMenu.png)
+
+### Options de classement
+
+- Activez l'option Fallalytics pour rejoindre le classement.
+
+![Leaderboards Options](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsOptions.png)
 
 ## FAQ
 ### Comment définir l'option `Lancer FallGuys` dans Epic Games

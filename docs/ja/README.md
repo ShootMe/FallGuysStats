@@ -52,6 +52,9 @@ FallGuysStatsはシンプルなFall Guysのトラッカーです。Fall Guysの�
   - [**プロファイル**](#プロファイル)
     - [**プロファイルとショーをリンク**](#プロファイルとショーをリンク)
     - [**ショーを削除/別のプロファイルに移動**](#ショーを削除別のプロファイルに移動)
+  - [**リーダーボード**](#リーダーボード)
+    - [**リーダーボードメニュー**](#リーダーボードメニュー)
+    - [**リーダーボードオプション**](#リーダーボードオプション)
   - [**変更履歴**](#変更履歴)
 
 
@@ -174,7 +177,7 @@ FallGuysStatsはソースコードが公開されており、誰でもコード�
 ![Profile And Show Linkage](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/profileAndShowLinkage.png)
 
 
-  - `設定` - `リンク先のプロファイルに自動で変更する`にチェックを入れます
+  - `設定` - `リンク先のプロファイルに自動で変更する`にチェックを入れます。
 
 ![Automatic Profile Change](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/automaticProfileChange.png)
 
@@ -185,9 +188,25 @@ FallGuysStatsはソースコードが公開されており、誰でもコード�
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
+## リーダーボード
+
+![Leaderboards](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboards.png)
+
+### リーダーボードメニュー
+
+- あなたのオンラインニックネームをクリックして、リーダーボードメニューを開きます。
+
+![Leaderboards Menu](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsMenu.png)
+
+### リーダーボードオプション
+
+- リーダーボードに参加するには、Fallalyticsオプションを有効にしてください。
+
+![Leaderboards Options](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsOptions.png)
+
 ## FAQ
 ### Epic Gamesで"Fall Guys を起動"オプションを設定する方法
-1. Epic Gamesランチャーを起動します。 (FallGuysを起動している場合、閉じてください)
+1. Epic Gamesランチャーを起動します。 (FallGuysを起動している場合、閉じてください。)
 
 
 2. `ライブラリ`を押します。

@@ -52,6 +52,9 @@ Simple program to generate stats for the game Fall Guys. Reads the games log fil
   - [**Profile**](#profile)
     - [**Linking Profiles and Shows**](#linking-profiles-and-shows)
     - [**Deleting shows or moving shows to another profile**](#deleting-shows-or-moving-shows-to-another-profile)
+  - [**Leaderboards**](#leaderboards)
+    - [**Leaderboards Menu**](#leaderboards-menu)
+    - [**Leaderboards Options**](#leaderboards-options)
   - [**FAQ**](#faq)
     - [**How to set `Launch FallGuys` option in Epic Games**](#how-to-set-launch-fallguys-option-in-epic-games)
   - [**Changelog**](#changelog)
@@ -194,6 +197,22 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 
 ![Shows Window](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/showsWindow.png)
 
+## Leaderboards
+
+![Leaderboards](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboards.png)
+
+### Leaderboards Menu
+
+- Click your online nickname to open the leaderboards menu.
+
+![Leaderboards Menu](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsMenu.png)
+
+### Leaderboards Options
+
+- Enable the Fallalytics option to join the leaderboard.
+
+![Leaderboards Options](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/leaderboardsOptions.png)
+
 ## FAQ
 ### How to set `Launch FallGuys` option in Epic Games
 1. Open Epic Games Launcher (if you are playing FallGuys, close FallGuys)
@@ -238,6 +257,8 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.333`
+    - Bugfix and program optimization
   - `1.332`
     - Bugfix and program optimization
   - `1.331`
