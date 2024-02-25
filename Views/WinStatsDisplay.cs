@@ -367,7 +367,7 @@ namespace FallGuysStats {
                         this.HighlightedPoint.MarkerShape = MarkerShape.openCircle;
                     }
                 } else {
-                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}",
+                    this.tooltip = this.formsPlot.Plot.AddTooltip(label: $" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}{Environment.NewLine}{Environment.NewLine}{Multilingual.GetWord("level_no_statistical_data")}",
                         x: this.HighlightedPoint.X, y: this.HighlightedPoint.Y);
 
                     if (this.switchGraphStyle == 1) {
