@@ -258,7 +258,7 @@ namespace FallGuysStats {
                 if (this.MyScatterPlot1.Ys[currentIndex] > 0 || this.MyScatterPlot2.Ys[currentIndex] > 0 ||
                     this.MyScatterPlot3.Ys[currentIndex] > 0) {
                     StringBuilder builder = new StringBuilder();
-                    builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"))}{Environment.NewLine}{Environment.NewLine}");
+                    builder.Append($" {DateTime.FromOADate(this.MyScatterPlot1.Xs[currentIndex]).ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}{Environment.NewLine}{Environment.NewLine}");
                     builder.Append(this.MyScatterPlot1.IsVisible
                         ? $" - {Multilingual.GetWord("level_detail_shows")} :  ⟪ {this.MyScatterPlot1.Ys[currentIndex]:N0}{Multilingual.GetWord("main_inning")} ⟫{(this.MyScatterPlot2.IsVisible || this.MyScatterPlot3.IsVisible ? Environment.NewLine : "")}"
                         : "");

@@ -22,11 +22,11 @@ namespace FallGuysStats {
             for (int i = 0; i < Stats.Seasons.Count; i++) {
                 if (Stats.Seasons.Count - 1 == i) {
                     //this.templatesListBox.Items.Add($"{Multilingual.GetWord("custom_range_season")} {(i < 6 ? (i + 1) + " [" + Multilingual.GetWord("custom_range_legacy") + "]" : (i - 5) + " [" + Multilingual.GetWord("custom_range_ffa") + "]")} ({Stats.Seasons[i]:d}-)");
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"))} - )");
+                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - )");
                     this.periodDateTemplates.Add(new[] { Stats.Seasons[i], DateTime.MaxValue });
                 } else {
                     //this.templatesListBox.Items.Add($"{Multilingual.GetWord("custom_range_season")} {(i < 6 ? (i + 1) + " [" + Multilingual.GetWord("custom_range_legacy") + "]" : (i - 5) + " [" + Multilingual.GetWord("custom_range_ffa") + "]")} ({Stats.Seasons[i]:d}-{Stats.Seasons[i + 1]:d})");
-                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"))} - {Stats.Seasons[i + 1].ToString(Multilingual.GetWord("level_date_format"))})");
+                    this.lbTemplatesList.Items.Add($"{(i < 6 ? Multilingual.GetWord("custom_range_legacy_season") : Multilingual.GetWord("custom_range_ffa_season"))} {(i < 6 ? (i + 1) + " [S" + (i + 1) + "]" : (i - 5) + " [SS" + (i - 5) + "]")} ({Stats.Seasons[i].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())} - {Stats.Seasons[i + 1].ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())})");
                     this.periodDateTemplates.Add(new[] { Stats.Seasons[i], Stats.Seasons[i + 1] });
                 }
             }

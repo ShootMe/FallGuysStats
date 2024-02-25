@@ -429,17 +429,41 @@ namespace FallGuysStats {
             DateTime end = start.AddDays(6);
             switch (Stats.CurrentLanguage) {
                 case Language.French:
-                    return $"{start.ToString("d MMM yyyy", new CultureInfo("fr-FR"))} - {end.ToString("d MMM yyyy", new CultureInfo("fr-FR"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
                 case Language.Korean:
-                    return $"{start.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))} - {end.ToString("yyyy년 M월 d일", new CultureInfo("ko-KR"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
                 case Language.Japanese:
-                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))} - {end.ToString("yyyy年M月d日", new CultureInfo("ja-JP"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
                 case Language.SimplifiedChinese:
-                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-CN"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
                 case Language.TraditionalChinese:
-                    return $"{start.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))} - {end.ToString("yyyy年M月d日", new CultureInfo("zh-TW"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
                 default:
-                    return $"{start.ToString("MMM dd, yyyy", new CultureInfo("en-US"))} - {end.ToString("MMM dd, yyyy", new CultureInfo("en-US"))}";
+                    return $"{start.ToString(GetDateFormat(), GetCultureInfo())} - {end.ToString(GetDateFormat(), GetCultureInfo())}";
+            }
+        }
+
+        public static string GetDateFormat() {
+            switch (Stats.CurrentLanguage) {
+                case Language.English: return "MMM dd, yyyy";
+                case Language.French: return "d MMM yyyy";
+                case Language.Korean: return "yyyy년 M월 d일";
+                case Language.Japanese: return "yyyy年M月d日";
+                case Language.SimplifiedChinese: return "yyyy年M月d日";
+                case Language.TraditionalChinese: return "yyyy年M月d日";
+                default: return "MMM dd, yyyy";
+            }
+        }
+
+        public static CultureInfo GetCultureInfo() {
+            switch (Stats.CurrentLanguage) {
+                case Language.English: return new CultureInfo("en-US");
+                case Language.French: return new CultureInfo("fr-FR");
+                case Language.Korean: return new CultureInfo("ko-KR");
+                case Language.Japanese: return new CultureInfo("ja-JP");
+                case Language.SimplifiedChinese: return new CultureInfo("zh-CN");
+                case Language.TraditionalChinese: return new CultureInfo("zh-TW");
+                default: return new CultureInfo("en-US");
             }
         }
     }

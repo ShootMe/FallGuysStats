@@ -641,7 +641,7 @@ namespace FallGuysStats {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 3)) {
                 this.lblStreak.OverlaySetting = overlaySetting;
                 this.lblStreak.Text = "";
-                this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+                this.lblStreak.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
             } else {
                 int streakSwitchCount = this.switchCount;
                 if (!this.StatsForm.CurrentSettings.SwitchBetweenStreaks) {
@@ -666,7 +666,7 @@ namespace FallGuysStats {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && (overlaySetting == 1 || overlaySetting == 5)) {
                 this.lblQualifyChance.OverlaySetting = overlaySetting;
                 this.lblQualifyChance.Text = "";
-                this.lblQualifyChance.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+                this.lblQualifyChance.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
             } else {
                 int qualifySwitchCount = this.switchCount;
                 if (!this.StatsForm.CurrentSettings.SwitchBetweenQualify) {
@@ -845,7 +845,7 @@ namespace FallGuysStats {
                 this.lblDuration.OverlaySetting = overlaySetting;
                 this.lblDuration.TickProgress = 0;
                 this.lblDuration.Text = "";
-                this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+                this.lblDuration.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
             } else if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 6) {
                 this.lblDuration.OverlaySetting = overlaySetting;
                 this.lblDuration.TickProgress = DateTime.Now.Second;
@@ -906,7 +906,7 @@ namespace FallGuysStats {
             if (this.StatsForm.CurrentSettings.DisplayCurrentTime && !Stats.IsConnectedToServer && overlaySetting == 6) {
                 this.lblFinish.OverlaySetting = overlaySetting;
                 this.lblFinish.Text = "";
-                this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"))}";
+                this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
                 if (Stats.IsQueued && (overlaySetting == 0 || overlaySetting == 2 || overlaySetting == 4)) {

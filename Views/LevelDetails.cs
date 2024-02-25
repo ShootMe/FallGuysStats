@@ -494,7 +494,7 @@ namespace FallGuysStats {
             if (this.gridDetails.Columns[e.ColumnIndex].Name == "End") {
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Start") {
-                e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"));
+                e.Value = info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"), Utils.GetCultureInfo());
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Finish") {
                 if (info.Finish.HasValue) {
                     e.Value = (info.Finish.Value - info.Start).ToString("m\\:ss\\.fff");
