@@ -92,25 +92,28 @@ namespace FallGuysStats {
         }
         
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
-            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
+            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival && type != LevelType.CreativeHunt && type != LevelType.CreativeLogic && type != LevelType.CreativeTeam) {
                 return Color.FromArgb(alpha, 250, 195, 0);
             }
-            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
+            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival && type != LevelType.CreativeHunt && type != LevelType.CreativeLogic && type != LevelType.CreativeTeam) {
                 return Color.FromArgb(alpha, 250, 80, 0);
             }
             switch (type) {
+                // case LevelType.CreativeRace:
+                //     return Color.FromArgb(alpha, 122, 201, 241);
                 case LevelType.CreativeRace:
-                    return Color.FromArgb(alpha, 122, 201, 241);
                 case LevelType.Race:
                     return Color.FromArgb(alpha, 0, 235, 105);
                 case LevelType.CreativeSurvival:
-                    return Color.FromArgb(alpha, 185, 20, 210);
                 case LevelType.Survival:
                     return Color.FromArgb(alpha, 185, 20, 210);
+                case LevelType.CreativeHunt:
                 case LevelType.Hunt:
                     return Color.FromArgb(alpha, 45, 100, 190);
+                case LevelType.CreativeLogic:
                 case LevelType.Logic:
                     return Color.FromArgb(alpha, 90, 180, 190);
+                case LevelType.CreativeTeam:
                 case LevelType.Team:
                     return Color.FromArgb(alpha, 250, 80, 0);
                 case LevelType.Invisibeans:
@@ -120,10 +123,10 @@ namespace FallGuysStats {
         }
         
         public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
-            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
+            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival && type != LevelType.CreativeHunt && type != LevelType.CreativeLogic && type != LevelType.CreativeTeam) {
                 return Color.FromArgb(130, 100, 0);
             }
-            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
+            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival && type != LevelType.CreativeHunt && type != LevelType.CreativeLogic && type != LevelType.CreativeTeam) {
                 return Color.FromArgb(130, 40, 0);
             }
             switch (type) {
