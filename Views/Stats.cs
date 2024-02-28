@@ -476,7 +476,6 @@ namespace FallGuysStats {
             this.ShowInTaskbar = false;
             this.Opacity = 0;
             this.trayCMenu.Opacity = 0;
-            
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
@@ -504,6 +503,7 @@ namespace FallGuysStats {
             
             this.FallalyticsCrownLog.EnsureIndex(f => f.Id);
             this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
+            this.StatsDB.Commit();
             
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
@@ -517,23 +517,26 @@ namespace FallGuysStats {
                         Overlay.SetDefaultFont(18, CurrentLanguage);
                         this.CurrentSettings.Multilingual = (int)initLanguageForm.selectedLanguage;
                         if (initLanguageForm.autoGenerateProfiles) {
+                            this.StatsDB.BeginTrans();
                             for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
                                 string showId = this.PublicShowIdList[i - 1];
                                 this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId });
                             }
+                            this.StatsDB.Commit();
                             this.CurrentSettings.AutoChangeProfile = true;
                         } else {
+                            this.StatsDB.BeginTrans();
                             this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 4, LinkedShowId = "private_lobbies" });
                             this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3, LinkedShowId = "squads_4player" });
                             this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template" });
                             this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show" });
+                            this.StatsDB.Commit();
                         }
                     }
                     this.EnableInfoStrip(true);
                     this.EnableMainMenu(true);
                 }
             }
-            this.StatsDB.Commit();
             
             this.UpdateDatabaseVersion();
             
@@ -3463,7 +3466,7 @@ namespace FallGuysStats {
                                             JsonElement snapshot = je.GetProperty("snapshot");
                                             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                                             JsonElement stats = snapshot.GetProperty("stats");
-                                            string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                            string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                                             stat.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                                             stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
                                             stat.CreativeAuthor = onlinePlatformInfo[1];
@@ -4211,7 +4214,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                 JsonElement stats = snapshot.GetProperty("stats");
-                string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                 foreach (RoundInfo info in filteredInfo) {
                     info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                     info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
@@ -4981,7 +4984,7 @@ namespace FallGuysStats {
             if (isFilter) {
                 return this.StatDetails.Where(l => l.IsCreative != true || ((l.Id.StartsWith("creative_") || l.Id.StartsWith("user_creative_")) && l.Id.EndsWith("_round"))).ToList();   
             } else {
-                return this.StatDetails.Where(l => !(l.Id.StartsWith("creative_") || l.Id.EndsWith("_round"))).ToList();
+                return this.StatDetails.Where(l => !(l.Id.StartsWith("creative_") && l.Id.EndsWith("_round"))).ToList();
             }
         }
         
@@ -6271,8 +6274,7 @@ namespace FallGuysStats {
                     this.updateSelectedProfile = true;
                 }
                 
-                for (int i = 0; i < this.StatDetails.Count; i++) {
-                    LevelStats calculator = this.StatDetails[i];
+                foreach (LevelStats calculator in this.StatDetails) {
                     calculator.Clear();
                 }
 
@@ -6346,12 +6348,12 @@ namespace FallGuysStats {
             }
         }
         
-        public string FindCreativeLevelInfo(string code) {
+        public string FindUserCreativeLevelInfo(string code) {
             string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.StartsWith("user_creative_"))?.CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
         
-        public string[] FindCreativeAuthor(JsonElement authorData) {
+        public string[] FindUserCreativeAuthor(JsonElement authorData) {
             string[] onlinePlatformInfo = { "N/A", "N/A" };
             string onlinePlatformId = string.Empty;
             string onlinePlatformNickname = string.Empty;

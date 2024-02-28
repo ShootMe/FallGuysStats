@@ -441,7 +441,7 @@ namespace FallGuysStats {
                         JsonElement snapshot = je.GetProperty("snapshot");
                         JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                         JsonElement stats = snapshot.GetProperty("stats");
-                        string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                        string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                         this.creativeOnlinePlatformId = onlinePlatformInfo[0];
                         this.creativeAuthor = onlinePlatformInfo[1];
                         this.creativeShareCode = snapshot.GetProperty("share_code").GetString();

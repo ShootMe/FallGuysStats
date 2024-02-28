@@ -867,7 +867,7 @@ namespace FallGuysStats {
                                     lock (this.StatsForm.StatsDB) {
                                         this.StatsForm.StatsDB.BeginTrans();
                                         foreach (RoundInfo info in filteredInfo) {
-                                            string[] onlinePlatformInfo = this.StatsForm.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                            string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                                             info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                                             info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
                                             info.CreativeAuthor = onlinePlatformInfo[1];

@@ -1019,7 +1019,7 @@ namespace FallGuysStats {
                         this.roundId = this.lastRound.VerifiedName();
                         
                         if (this.StatsForm.StatLookup.TryGetValue(this.roundId, out this.levelStats)) {
-                            this.roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : this.levelStats.Name.ToUpper();
+                            this.roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindUserCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : this.levelStats.Name.ToUpper();
                         } else if (this.roundId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                             this.roundName = this.roundId.Substring(6).Replace('_', ' ').ToUpper();
                         } else {
