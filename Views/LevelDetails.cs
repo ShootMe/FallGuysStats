@@ -394,12 +394,18 @@ namespace FallGuysStats {
             this.gridDetails.Columns["CreativeVersion"].Visible = false;
             this.gridDetails.Columns["CreativeTitle"].Visible = false;
             this.gridDetails.Columns["CreativeDescription"].Visible = false;
+            this.gridDetails.Columns["CreativeCreatorTags"].Visible = false;
             this.gridDetails.Columns["CreativeMaxPlayer"].Visible = false;
+            this.gridDetails.Columns["CreativeThumbUrl"].Visible = false;
             this.gridDetails.Columns["CreativePlatformId"].Visible = false;
             this.gridDetails.Columns["CreativeLastModifiedDate"].Visible = false;
             this.gridDetails.Columns["CreativePlayCount"].Visible = false;
+            this.gridDetails.Columns["CreativeLikes"].Visible = false;
+            this.gridDetails.Columns["CreativeDislikes"].Visible = false;
             this.gridDetails.Columns["CreativeQualificationPercent"].Visible = false;
             this.gridDetails.Columns["CreativeTimeLimitSeconds"].Visible = false;
+            this.gridDetails.Columns["CreativeGameModeId"].Visible = false;
+            this.gridDetails.Columns["CreativeLevelThemeId"].Visible = false;
             this.gridDetails.Columns["OnlineServiceType"].Visible = false;
             this.gridDetails.Columns["OnlineServiceId"].Visible = false;
             this.gridDetails.Columns["OnlineServiceNickname"].Visible = false;
@@ -544,13 +550,13 @@ namespace FallGuysStats {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                     //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
                 }
                 // else if (this._showStats == 2) { }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                 if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : info.PrivateLobby ? c1 : ControlPaint.LightLight(c1);
+                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
                     e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
@@ -855,6 +861,7 @@ namespace FallGuysStats {
                                 if (resData.TryGetProperty("data", out JsonElement je)) {
                                     JsonElement snapshot = je.GetProperty("snapshot");
                                     JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                                    JsonElement stats = snapshot.GetProperty("stats");
                                     List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
                                         (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
                                     lock (this.StatsForm.StatsDB) {
@@ -868,10 +875,23 @@ namespace FallGuysStats {
                                             info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
                                             info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
                                             info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                            if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                                                string temps = string.Empty;
+                                                foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                                                    if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                                                    temps += t.GetString();
+                                                }
+                                                info.CreativeCreatorTags = temps;
+                                            }
                                             info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                            info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                                             info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                            info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
+                                            info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
                                             info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                            info.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                                            info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                                            info.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                                            info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                                             info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                             this.StatsForm.RoundDetails.Update(info);
@@ -990,7 +1010,7 @@ namespace FallGuysStats {
 
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
-                Point position = new Point(cursorPosition.X + 80, cursorPosition.Y);
+                Point position = new Point(cursorPosition.X + 50, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
             } else {
                 this.gridDetails.ShowCellToolTips = true;

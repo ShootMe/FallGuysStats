@@ -22,10 +22,16 @@ namespace FallGuysStats {
         public int CreativeVersion { get; set; }
         public string CreativeTitle { get; set; }
         public string CreativeDescription { get; set; }
+        public string CreativeCreatorTags { get; set; }
         public int CreativeMaxPlayer { get; set; }
+        public string CreativeThumbUrl { get; set; }
         public string CreativePlatformId { get; set; }
+        public string CreativeGameModeId { get; set; }
+        public string CreativeLevelThemeId { get; set; }
         public DateTime CreativeLastModifiedDate { get; set; } = DateTime.MinValue;
         public int CreativePlayCount { get; set; }
+        public int CreativeLikes { get; set; }
+        public int CreativeDislikes { get; set; }
         public int CreativeQualificationPercent { get; set; }
         public int CreativeTimeLimitSeconds { get; set; }
         public string SessionId { get; set; }
@@ -135,8 +141,11 @@ namespace FallGuysStats {
     public class LevelStats {
         public static Dictionary<string, LevelStats> ALL = new Dictionary<string, LevelStats>(StringComparer.OrdinalIgnoreCase) {
             { "user_creative_race_round",                                             new LevelStats("user_creative_race_round", null, "User Creative Race Round", LevelType.CreativeRace, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_creative_icon, Properties.Resources.round_creative_big_icon) },
+            { "user_creative_survival_round",                                         new LevelStats("user_creative_survival_round", null, "User Creative Survival Round", LevelType.CreativeSurvival, BestRecordType.Longest, true, false, 10, 0, 0, Properties.Resources.round_creative_icon, Properties.Resources.round_creative_big_icon) },
             { "creative_race_round",                                                  new LevelStats("creative_race_round", null, "Creative Race Round", LevelType.Race, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "creative_race_final_round",                                            new LevelStats("creative_race_final_round", null, "Creative Race Final Round", LevelType.Race, BestRecordType.Fastest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "creative_survival_round",                                              new LevelStats("creative_survival_round", null, "Creative Survival Round", LevelType.Survival, BestRecordType.Longest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "creative_survival_final_round",                                        new LevelStats("creative_survival_final_round", null, "Creative Survival Final Round", LevelType.Survival, BestRecordType.Longest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
             { "wle_s10_orig_round_001",                                               new LevelStats("wle_s10_orig_round_001", "1127-0302-4545", "Beans Ahoy!", LevelType.Race, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_s10_orig_round_002",                                               new LevelStats("wle_s10_orig_round_002", "2416-3885-2780", "Airborne Antics", LevelType.Race, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
@@ -1123,6 +1132,14 @@ namespace FallGuysStats {
             { "wle_main_opener_01",                                                   new LevelStats("wle_main_opener_01", "2567-3257-6492", "Winter Disc-O", LevelType.Race, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             { "wle_main_opener_02",                                                   new LevelStats("wle_main_opener_02", "3858-3881-8519", "Satellite Sprint", LevelType.Race, BestRecordType.Fastest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
             
+            { "wle_mrs_survival_showdown_opener",                                     new LevelStats("wle_mrs_survival_showdown_opener", "1035-7942-0514", "Slime Surfers", LevelType.Survival, BestRecordType.Longest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_opener_01",                                  new LevelStats("wle_mrs_survival_showdown_opener_01", "4729-4530-3888", "Bean Fort", LevelType.Survival, BestRecordType.Longest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_opener_02",                                  new LevelStats("wle_mrs_survival_showdown_opener_02", "1093-0713-2192", "Back & Forth", LevelType.Survival, BestRecordType.Longest, true, false, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_final",                                      new LevelStats("wle_mrs_survival_showdown_final", "3708-4701-3392", "Hectic Hexagons", LevelType.Survival, BestRecordType.Longest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_final_01",                                   new LevelStats("wle_mrs_survival_showdown_final_01", "9013-8325-3144", "Cosmic Clash", LevelType.Survival, BestRecordType.Longest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_final_02",                                   new LevelStats("wle_mrs_survival_showdown_final_02", "0268-5166-3980", "Bouncy Castle", LevelType.Survival, BestRecordType.Longest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            { "wle_mrs_survival_showdown_final_04",                                   new LevelStats("wle_mrs_survival_showdown_final_04", "1534-2904-1182", "Volcanic Chaos", LevelType.Survival, BestRecordType.Longest, true, true, 10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon) },
+            
             { "round_biggestfan",                                                     new LevelStats("round_biggestfan", null, "Big Fans", LevelType.Race, BestRecordType.Fastest, false, false, 2, 210, 120, Properties.Resources.round_big_fans_icon, Properties.Resources.round_big_fans_big_icon) },
             { "round_satellitehoppers_almond",                                        new LevelStats("round_satellitehoppers_almond", null, "Cosmic Highway", LevelType.Race, BestRecordType.Fastest, false, false, 8, 180, 180, Properties.Resources.round_cosmic_highway_icon, Properties.Resources.round_cosmic_highway_big_icon) },
             { "round_gauntlet_02",                                                    new LevelStats("round_gauntlet_02", null, "Dizzy Heights", LevelType.Race, BestRecordType.Fastest, false, false, 1, 180, 120, Properties.Resources.round_dizzy_heights_icon, Properties.Resources.round_dizzy_heights_big_icon) },
@@ -1302,7 +1319,8 @@ namespace FallGuysStats {
             { "FallGuy_SlippySlide",               "round_slippy_slide" },
             { "FallGuy_SlideChute",                "round_slide_chute" },
             
-            { "FallGuy_UseShareCode",              "user_creative_race_round" },
+            { "GAMEMODE_GAUNTLET",              "user_creative_race_round" },
+            { "GAMEMODE_SURVIVAL",              "user_creative_survival_round" },
         };
         public Image RoundIcon { get; set; }
         public Image RoundBigIcon { get; set; }
@@ -1366,7 +1384,7 @@ namespace FallGuysStats {
         }
         
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
-            if (!stat.PrivateLobby || "user_creative_race_round".Equals(stat.Name) || isLinkedCustomShow) {
+            if (!stat.PrivateLobby || (stat.Name.StartsWith("user_creative") || stat.Name.StartsWith("_round")) || isLinkedCustomShow) {
                 this.Played++;
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {

@@ -384,6 +384,22 @@ namespace FallGuysStats {
             // { "wle_mrs_shuffle_show_roundpool_winter_48", "wle_discover_level_wk2_029" },
         };
         
+        public string GetUserCreativeLevelTypeId(string gameModeId) {
+            switch (gameModeId) {
+                case "GAMEMODE_GAUNTLET":
+                    return "user_creative_race_round";
+                case "GAMEMODE_SURVIVAL":
+                    return "user_creative_survival_round";
+                case "GAMEMODE_HUNT":
+                    return "user_creative_hunt_round";
+                case "GAMEMODE_LOGIC":
+                    return "user_creative_logic_round";
+                case "GAMEMODE_TEAM":
+                    return "user_creative_team_round";
+            }
+            return "Unknown";
+        }
+        
         private void DatabaseMigration() {
             if (File.Exists("data.db")) {
                 using (var sourceDb = new LiteDatabase(@"data.db")) {
@@ -556,14 +572,12 @@ namespace FallGuysStats {
         }
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             
             // Draw the standard background.
             //e.DrawBackground();
-            
             // Draw the custom background.
             e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             
@@ -595,7 +609,7 @@ namespace FallGuysStats {
             //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
             //    //}
             //}
-            g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
+            e.Graphics.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -608,19 +622,17 @@ namespace FallGuysStats {
         }
         
         private void cmtt_overlay_Draw(object sender, DrawToolTipEventArgs e) {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             
             // Draw the custom background.
-            //g.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
             
             // Draw the standard border.
             e.DrawBorder();
             
-            g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
+            e.Graphics.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 2, e.Bounds.Y + 2));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -633,10 +645,9 @@ namespace FallGuysStats {
         }
         
         public void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
-            Graphics g = e.Graphics;
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-            g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
             
             // Draw the custom background.
             e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
@@ -651,7 +662,7 @@ namespace FallGuysStats {
                 sf.LineAlignment = StringAlignment.Center;
                 sf.HotkeyPrefix = HotkeyPrefix.None;
                 sf.FormatFlags = StringFormatFlags.NoWrap;
-                g.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, e.Bounds, sf);
+                e.Graphics.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, e.Bounds, sf);
             }
             
             MetroToolTip t = (MetroToolTip)sender;
@@ -2569,6 +2580,38 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 81;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 81) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.ShowNameId.Equals("wle_mrs_survival_showdown")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Name.IndexOf("_showdown_final", StringComparison.OrdinalIgnoreCase) != -1) {
+                        ri.IsFinal = true;
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                DateTime dateCond = new DateTime(2024, 2, 28, 10, 0, 0, DateTimeKind.Utc);
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                          ri.Start <= dateCond &&
+                          ri.Name.Equals("user_creative_race_round")
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList2) {
+                    ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                    ri.SceneName = "GAMEMODE_GAUNTLET";
+                }
+                
+                this.CurrentSettings.Version = 82;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3403,6 +3446,7 @@ namespace FallGuysStats {
                                         if (resData.TryGetProperty("data", out JsonElement je)) {
                                             JsonElement snapshot = je.GetProperty("snapshot");
                                             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                                            JsonElement stats = snapshot.GetProperty("stats");
                                             string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                                             stat.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                                             stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
@@ -3411,12 +3455,24 @@ namespace FallGuysStats {
                                             stat.CreativeStatus = versionMetadata.GetProperty("status").GetString();
                                             stat.CreativeTitle = versionMetadata.GetProperty("title").GetString();
                                             stat.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                            if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                                                string temps = string.Empty;
+                                                foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                                                    if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                                                    temps += t.GetString();
+                                                }
+                                                stat.CreativeCreatorTags = temps;
+                                            }
                                             stat.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                            stat.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                                             stat.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                            stat.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
+                                            stat.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
                                             stat.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                            stat.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                                            stat.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                                            stat.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                                            stat.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                            //stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                             isSucceed = true;
                                         }
@@ -4138,6 +4194,7 @@ namespace FallGuysStats {
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
                 JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                JsonElement stats = snapshot.GetProperty("stats");
                 string[] onlinePlatformInfo = this.FindCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                 foreach (RoundInfo info in filteredInfo) {
                     info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
@@ -4147,12 +4204,24 @@ namespace FallGuysStats {
                     info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
                     info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
                     info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                    if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                        string temps = string.Empty;
+                        foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                            if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                            temps += t.GetString();
+                        }
+                        info.CreativeCreatorTags = temps;
+                    }
                     info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                    info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                     info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                    info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
+                    info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
                     info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                    info.CreativePlayCount = snapshot.GetProperty("play_count").GetInt32();
+                    info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                    info.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                    info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                     info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                    //info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").GetProperty("time_limit_seconds").GetInt32();
                     info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                     this.RoundDetails.Update(info);
                 }
@@ -4627,26 +4696,31 @@ namespace FallGuysStats {
                             break;
                         }
                         switch (levelStats.Type) {
+                            // case LevelType.CreativeRace:
+                            //     cellColor = Color.FromArgb(122, 201, 241);
+                            //     e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                            //     break;
                             case LevelType.CreativeRace:
-                                cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
-                                break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeSurvival:
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeHunt:
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeLogic:
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeTeam:
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
@@ -4669,26 +4743,31 @@ namespace FallGuysStats {
                             break;
                         }
                         switch (levelStats.Type) {
+                            // case LevelType.CreativeRace:
+                            //     cellColor = Color.FromArgb(122, 201, 241);
+                            //     e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
+                            //     break;
                             case LevelType.CreativeRace:
-                                cellColor = Color.FromArgb(122, 201, 241);
-                                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
-                                break;
                             case LevelType.Race:
                                 cellColor = Color.FromArgb(210, 255, 220);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeSurvival:
                             case LevelType.Survival:
                                 cellColor = Color.FromArgb(250, 205, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeHunt:
                             case LevelType.Hunt:
                                 cellColor = Color.FromArgb(200, 220, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeLogic:
                             case LevelType.Logic:
                                 cellColor = Color.FromArgb(230, 250, 255);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
                                 break;
+                            case LevelType.CreativeTeam:
                             case LevelType.Team:
                                 cellColor = Color.FromArgb(255, 220, 205);
                                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? cellColor : Utils.GetColorBrightnessAdjustment(cellColor, fBrightness);
@@ -4884,9 +4963,9 @@ namespace FallGuysStats {
 
         private List<LevelStats> GetFilteredDataSource(bool isFilter) {
             if (isFilter) {
-                return this.StatDetails.Where(l => l.IsCreative != true || (l.Id.Equals("creative_race_round") || l.Id.Equals("creative_race_final_round") || l.Id.Equals("user_creative_race_round"))).ToList();   
+                return this.StatDetails.Where(l => l.IsCreative != true || ((l.Id.StartsWith("creative_") || l.Id.StartsWith("user_creative_")) && l.Id.EndsWith("_round"))).ToList();   
             } else {
-                return this.StatDetails.Where(l => !(l.Id.Equals("creative_race_round") || l.Id.Equals("creative_race_final_round"))).ToList();
+                return this.StatDetails.Where(l => !(l.Id.StartsWith("creative_") || l.Id.EndsWith("_round"))).ToList();
             }
         }
         
@@ -6252,7 +6331,7 @@ namespace FallGuysStats {
         }
         
         public string FindCreativeLevelInfo(string code) {
-            string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.Equals("user_creative_race_round"))?.CreativeTitle;
+            string levelName = this.AllStats.FindLast(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.Equals(code) && r.Name.StartsWith("user_creative_"))?.CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
         

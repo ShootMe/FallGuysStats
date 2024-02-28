@@ -7,12 +7,16 @@ namespace FallGuysStats {
             switch (type) {
                 case LevelType.CreativeRace:
                 case LevelType.Race:
+                case LevelType.CreativeHunt:
                 case LevelType.Hunt:
                 case LevelType.Invisibeans:
                     return 1; // FASTEST
+                case LevelType.CreativeSurvival:
                 case LevelType.Survival:
+                case LevelType.CreativeLogic:
                 case LevelType.Logic:
                     return 0; // LONGEST
+                case LevelType.CreativeTeam:
                 case LevelType.Team:
                     return 2; // HIGH_SCORE
             }
@@ -43,14 +47,18 @@ namespace FallGuysStats {
                 case LevelType.CreativeRace:
                 case LevelType.Race:
                     return Multilingual.GetWord("level_detail_race");
+                case LevelType.CreativeHunt:
                 case LevelType.Hunt:
                     return Multilingual.GetWord("level_detail_hunt");
                 case LevelType.Invisibeans:
                     return Multilingual.GetWord("level_detail_invisibeans");
+                case LevelType.CreativeSurvival:
                 case LevelType.Survival:
                     return Multilingual.GetWord("level_detail_survival");
+                case LevelType.CreativeLogic:
                 case LevelType.Logic:
                     return Multilingual.GetWord("level_detail_logic");
+                case LevelType.CreativeTeam:
                 case LevelType.Team:
                     return Multilingual.GetWord("level_detail_team");
             }
@@ -65,14 +73,18 @@ namespace FallGuysStats {
                 case LevelType.CreativeRace:
                 case LevelType.Race:
                     return Color.FromArgb(0, 236, 106);
+                case LevelType.CreativeHunt:
                 case LevelType.Hunt:
                     return Color.FromArgb(45, 101, 186);
                 case LevelType.Invisibeans:
                     return Color.FromArgb(0, 0, 0);
+                case LevelType.CreativeSurvival:
                 case LevelType.Survival:
                     return Color.FromArgb(184, 21, 213);
+                case LevelType.CreativeLogic:
                 case LevelType.Logic:
                     return Color.FromArgb(91, 181, 189);
+                case LevelType.CreativeTeam:
                 case LevelType.Team:
                     return Color.FromArgb(248, 82, 0);
             }
@@ -80,15 +92,19 @@ namespace FallGuysStats {
         }
         
         public static Color LevelBackColor(this LevelType type, bool isFinal, bool isTeam, int alpha) {
-            if (isFinal && type != LevelType.CreativeRace) {
+            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
                 return Color.FromArgb(alpha, 250, 195, 0);
             }
-            if (isTeam && type != LevelType.CreativeRace) {
+            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
                 return Color.FromArgb(alpha, 250, 80, 0);
             }
             switch (type) {
+                case LevelType.CreativeRace:
+                    return Color.FromArgb(alpha, 122, 201, 241);
                 case LevelType.Race:
                     return Color.FromArgb(alpha, 0, 235, 105);
+                case LevelType.CreativeSurvival:
+                    return Color.FromArgb(alpha, 185, 20, 210);
                 case LevelType.Survival:
                     return Color.FromArgb(alpha, 185, 20, 210);
                 case LevelType.Hunt:
@@ -99,34 +115,37 @@ namespace FallGuysStats {
                     return Color.FromArgb(alpha, 250, 80, 0);
                 case LevelType.Invisibeans:
                     return Color.FromArgb(alpha, 0, 0, 0);
-                case LevelType.CreativeRace:
-                    return Color.FromArgb(alpha, 122, 201, 241);
             }
             return Color.DarkGray;
         }
         
         public static Color LevelForeColor(this LevelType type, bool isFinal, bool isTeam, MetroThemeStyle theme = MetroThemeStyle.Default) {
-            if (isFinal && type != LevelType.CreativeRace) {
+            if (isFinal && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
                 return Color.FromArgb(130, 100, 0);
             }
-            if (isTeam && type != LevelType.CreativeRace) {
+            if (isTeam && type != LevelType.CreativeRace && type != LevelType.CreativeSurvival) {
                 return Color.FromArgb(130, 40, 0);
             }
             switch (type) {
+                // case LevelType.CreativeRace:
+                //     return theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow;
+                case LevelType.CreativeRace:
                 case LevelType.Race:
                     return Color.FromArgb(0, 130, 55);
+                case LevelType.CreativeSurvival:
                 case LevelType.Survival:
                     return Color.FromArgb(110, 10, 130);
+                case LevelType.CreativeHunt:
                 case LevelType.Hunt:
                     return Color.FromArgb(30, 70, 130);
+                case LevelType.CreativeLogic:
                 case LevelType.Logic:
                     return Color.FromArgb(60, 120, 130);
+                case LevelType.CreativeTeam:
                 case LevelType.Team:
                     return Color.FromArgb(130, 40, 0);
                 case LevelType.Invisibeans:
                     return theme == MetroThemeStyle.Light ? Color.FromArgb(0, 0, 0) : Color.DarkGray;
-                case LevelType.CreativeRace:
-                    return theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow;
             }
             return Color.FromArgb(60, 60, 60);
         }
