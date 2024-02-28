@@ -1384,7 +1384,7 @@ namespace FallGuysStats {
         }
         
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
-            if (!stat.PrivateLobby || (stat.Name.StartsWith("user_creative") || stat.Name.StartsWith("_round")) || isLinkedCustomShow) {
+            if (!stat.PrivateLobby || (stat.Name.StartsWith("user_creative_") && stat.Name.StartsWith("_round")) || isLinkedCustomShow) {
                 this.Played++;
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {

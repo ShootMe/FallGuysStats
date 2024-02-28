@@ -3661,6 +3661,10 @@ namespace FallGuysStats {
                             LevelStats creativeLevel = this.StatLookup[levelStats.IsFinal ? "creative_race_final_round" : "creative_race_round"];
                             creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
                             creativeLevel.Add(stat);
+                        } else if (levelStats.IsCreative && levelStats.Type == LevelType.Survival) {
+                            LevelStats creativeLevel = this.StatLookup[levelStats.IsFinal ? "creative_survival_final_round" : "creative_survival_round"];
+                            creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
+                            creativeLevel.Add(stat);
                         }
                     }
 
