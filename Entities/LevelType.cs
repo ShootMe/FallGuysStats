@@ -23,7 +23,7 @@ namespace FallGuysStats {
             return 1;
         }
         
-        public static string CreativeLevelTypeId(this LevelType type) {
+        public static string UserCreativeLevelTypeId(this LevelType type) {
             switch (type) {
                 case LevelType.CreativeRace:
                     return "user_creative_race_round";

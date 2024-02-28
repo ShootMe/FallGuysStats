@@ -400,6 +400,22 @@ namespace FallGuysStats {
             return "Unknown";
         }
         
+        private string GetCreativeLevelTypeId(LevelType type, bool isFinal) {
+            switch (type) {
+                case LevelType.Race:
+                    return isFinal ? "creative_race_final_round" : "creative_race_round";
+                case LevelType.Survival:
+                    return isFinal ? "creative_survival_final_round" : "creative_survival_round";
+                case LevelType.Hunt:
+                    return isFinal ? "creative_hunt_final_round" : "creative_hunt_round";
+                case LevelType.Logic:
+                    return isFinal ? "creative_logic_final_round" : "creative_logic_round";
+                case LevelType.Team:
+                    return isFinal ? "creative_team_final_round" : "creative_team_round";
+            }
+            return "Unknown";
+        }
+        
         private void DatabaseMigration() {
             if (File.Exists("data.db")) {
                 using (var sourceDb = new LiteDatabase(@"data.db")) {
@@ -3657,12 +3673,8 @@ namespace FallGuysStats {
                         levelStats.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
                         levelStats.Add(stat);
 
-                        if (levelStats.IsCreative && levelStats.Type == LevelType.Race) {
-                            LevelStats creativeLevel = this.StatLookup[levelStats.IsFinal ? "creative_race_final_round" : "creative_race_round"];
-                            creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
-                            creativeLevel.Add(stat);
-                        } else if (levelStats.IsCreative && levelStats.Type == LevelType.Survival) {
-                            LevelStats creativeLevel = this.StatLookup[levelStats.IsFinal ? "creative_survival_final_round" : "creative_survival_round"];
+                        if (levelStats.IsCreative && (levelStats.Type == LevelType.Race || levelStats.Type == LevelType.Survival || levelStats.Type == LevelType.Hunt || levelStats.Type == LevelType.Logic || levelStats.Type == LevelType.Team)) {
+                            LevelStats creativeLevel = this.StatLookup[this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal)];
                             creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
                             creativeLevel.Add(stat);
                         }
@@ -4243,7 +4255,7 @@ namespace FallGuysStats {
             };
 
             int lastShow = -1;
-            string levelName = useShareCode ? levelType.CreativeLevelTypeId() : name;
+            string levelName = useShareCode ? levelType.UserCreativeLevelTypeId() : name;
             if (!this.StatLookup.TryGetValue(levelName, out LevelStats currentLevel)) {
                 currentLevel = new LevelStats(name, string.Empty, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
