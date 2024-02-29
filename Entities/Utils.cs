@@ -466,5 +466,16 @@ namespace FallGuysStats {
                 default: return new CultureInfo("en-US");
             }
         }
+        
+        public static bool IsFontInstalled(string fontName) {
+            using (var fontsCollection = new System.Drawing.Text.InstalledFontCollection()) {
+                foreach (var fontFamily in fontsCollection.Families) {
+                    if (fontFamily.Name.Equals(fontName, StringComparison.OrdinalIgnoreCase)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

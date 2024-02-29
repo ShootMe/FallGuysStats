@@ -96,6 +96,7 @@ namespace FallGuysStats {
         private static DateTime SessionStart = DateTime.UtcNow;
         public static Language CurrentLanguage;
         public static MetroThemeStyle CurrentTheme = MetroThemeStyle.Light;
+        public static bool InstalledEmojiFont;
         
         public static bool InShow = false; 
         public static bool EndedShow = false;
@@ -628,7 +629,7 @@ namespace FallGuysStats {
             //    //    e.Graphics.DrawString(e.ToolTipText, f, SystemBrushes.ActiveCaptionText, e.Bounds, sf);
             //    //}
             //}
-            e.Graphics.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
+            e.Graphics.DrawString(e.ToolTipText, InstalledEmojiFont ? new Font("Segoe UI Emoji", 8.6f) : e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
             
             MetroToolTip t = (MetroToolTip)sender;
             PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -3223,6 +3224,7 @@ namespace FallGuysStats {
                     this.Opacity = 1;
                 }
                 this.SetMainDataGridViewOrder();
+                InstalledEmojiFont = Utils.IsFontInstalled("Segoe UI Emoji");
 
                 if (this.WindowState != FormWindowState.Minimized) {
                     this.WindowState = this.CurrentSettings.MaximizedWindowState ? FormWindowState.Maximized : FormWindowState.Normal;

@@ -991,6 +991,9 @@ namespace FallGuysStats {
                 }
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"{(Stats.InstalledEmojiFont ? "👍" : "Likes")} {info.CreativeLikes:N0}\t{(Stats.InstalledEmojiFont ? "👎" : "Dislikes")} {info.CreativeDislikes:N0}");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
