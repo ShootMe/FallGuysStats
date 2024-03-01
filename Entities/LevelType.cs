@@ -36,7 +36,7 @@ namespace FallGuysStats {
                 case LevelType.CreativeTeam:
                     return "user_creative_team_round";
             }
-            return "Unknown";
+            return "unknown";
         }
         
         public static string LevelTitle(this LevelType type, bool isFinal) {

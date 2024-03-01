@@ -489,7 +489,7 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
+            if (this.gridDetails.Rows.Count <= 0 || e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
 
             RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
             if (info.PrivateLobby) { // Custom
@@ -542,7 +542,7 @@ namespace FallGuysStats {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowID") {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
                 //if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
-                if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
+                if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
                     e.Value = level.RoundIcon;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Round") {
@@ -554,15 +554,22 @@ namespace FallGuysStats {
                 }
                 // else if (this._showStats == 2) { }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
-                if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
-                    Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
-                    e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
-                    e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
+                if (info.UseShareCode) {
+                    if (this.StatsForm.StatLookup.TryGetValue(info.ShowNameId, out LevelStats level)) {
+                        Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
+                        e.Value = $"☑️ {info.CreativeTitle}";
+                    }
+                } else {
+                    if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
+                        Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
+                        e.Value = $"{(level.IsCreative ? "🔧 " : "")}{level.Name}";
+                    }
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.Value = (info.UseShareCode && info.CreativeLastModifiedDate != DateTime.MinValue) ? $"☑️ {info.CreativeTitle}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
-                    //if (info.UseShareCode) this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_share_code_copied_tooltip");
+                    e.Value = info.UseShareCode ? $"🔧 {Multilingual.GetShowName("fall_guys_creative_mode")}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
                 if ((int)e.Value == 0) {
@@ -707,7 +714,7 @@ namespace FallGuysStats {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0) {
                 if (((DataGridView)sender).SelectedRows.Count == 1) {
                     RoundInfo info = this.gridDetails.Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
-                    if ((info.UseShareCode && info.CreativeLastModifiedDate == DateTime.MinValue) || (info.UseShareCode && info.CreativeQualificationPercent == 0 && info.CreativeTimeLimitSeconds == 0)) {
+                    if (info.UseShareCode) {
                         if (this.gridDetails.MenuSeparator != null && !this.gridDetails.CMenu.Items.Contains(this.gridDetails.MenuSeparator)) {
                             this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
                         }
@@ -731,7 +738,7 @@ namespace FallGuysStats {
         
         private void LevelDetails_KeyDown(object sender, KeyEventArgs e) {
             try {
-                if (e.KeyCode == Keys.Delete) {
+                if (e.KeyCode == Keys.Delete && this._showStats == 2) {
                     this.DeleteShow();
                 }
             } catch (Exception ex) {
@@ -761,6 +768,8 @@ namespace FallGuysStats {
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
                     int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                    this.gridDetails.Enabled = false;
+                    
                     lock (this.StatsForm.StatsDB) {
                         this.StatsForm.StatsDB.BeginTrans();
                         foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
@@ -808,6 +817,7 @@ namespace FallGuysStats {
                         int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                         int fromProfileId = this.StatsForm.GetCurrentProfileId();
                         int toProfileId = moveShows.SelectedProfileId;
+                        this.gridDetails.Enabled = false;
                         
                         lock (this.StatsForm.StatsDB) {
                             this.StatsForm.StatsDB.BeginTrans();
@@ -851,90 +861,63 @@ namespace FallGuysStats {
             if (Utils.IsInternetConnected()) {
                 if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
                     RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
-                    if ((ri.UseShareCode && ri.CreativeLastModifiedDate == DateTime.MinValue) || (ri.UseShareCode && ri.CreativeQualificationPercent == 0 && ri.CreativeTimeLimitSeconds == 0)) {
-                        if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{ri.ShowNameId}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
+                    if (ri.UseShareCode) {
+                        if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{(string.IsNullOrEmpty(ri.CreativeTitle) ? ri.Name : ri.CreativeTitle)}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                            bool isSucceed = false;
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                            this.gridDetails.Enabled = false;
+                            
                             try {
-                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{ri.ShowNameId}.json");
+                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{ri.Name}.json");
                                 if (resData.TryGetProperty("data", out JsonElement je)) {
                                     JsonElement snapshot = je.GetProperty("snapshot");
                                     JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                                     JsonElement stats = snapshot.GetProperty("stats");
-                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => ri.ShowNameId.Equals(r.ShowNameId) &&
-                                        (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
+                                    
+                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => r.UseShareCode && string.Equals(r.Name, ri.Name));
+                                    foreach (RoundInfo info in filteredInfo) {
+                                        info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString());
+                                        string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                        info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                        info.CreativeAuthor = onlinePlatformInfo[1];
+                                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                        if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                                            string temps = string.Empty;
+                                            foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                                                if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                                                temps += t.GetString();
+                                            }
+                                            info.CreativeCreatorTags = temps;
+                                        }
+                                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                        info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
+                                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                        info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
+                                        info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                        info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                                        info.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                                        info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
+                                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                    }
+                                    
                                     lock (this.StatsForm.StatsDB) {
                                         this.StatsForm.StatsDB.BeginTrans();
-                                        foreach (RoundInfo info in filteredInfo) {
-                                            string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
-                                            info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
-                                            info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                            info.CreativeAuthor = onlinePlatformInfo[1];
-                                            info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                            info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                                            info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                                            info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                                            if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
-                                                string temps = string.Empty;
-                                                foreach (JsonElement t in creatorTags.EnumerateArray()) {
-                                                    if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
-                                                    temps += t.GetString();
-                                                }
-                                                info.CreativeCreatorTags = temps;
-                                            }
-                                            info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                            info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
-                                            info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                            info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                                            info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
-                                            info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                            info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
-                                            info.CreativeLikes = stats.GetProperty("likes").GetInt32();
-                                            info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
-                                            info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                            info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                            this.StatsForm.RoundDetails.Update(info);
-                                        }
+                                        this.StatsForm.RoundDetails.Update(filteredInfo);
                                         this.StatsForm.StatsDB.Commit();
                                     }
-                                    isSucceed = true;
                                 }
                             } catch {
-                                isSucceed = false;
+                                MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}", 
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                             
-                            if (!isSucceed) {
-                                RoundInfo urInfo = this.StatsForm.GetRoundInfoFromShareCode(ri.ShowNameId);
-                                if (urInfo != null && !string.IsNullOrEmpty(urInfo.CreativeTitle)) {
-                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => urInfo.ShowNameId.Equals(r.ShowNameId) &&
-                                        (r.CreativeLastModifiedDate == DateTime.MinValue || (r.CreativeQualificationPercent == 0 && r.CreativeTimeLimitSeconds == 0)));
-                                    lock (this.StatsForm.StatsDB) {
-                                        this.StatsForm.StatsDB.BeginTrans();
-                                        foreach (RoundInfo info in filteredInfo) {
-                                            info.CreativeShareCode = urInfo.CreativeShareCode;
-                                            info.CreativeOnlinePlatformId = urInfo.CreativeOnlinePlatformId;
-                                            info.CreativeAuthor = urInfo.CreativeAuthor;
-                                            info.CreativeVersion = urInfo.CreativeVersion;
-                                            info.CreativeStatus = urInfo.CreativeStatus;
-                                            info.CreativeTitle = urInfo.CreativeTitle;
-                                            info.CreativeDescription = urInfo.CreativeDescription;
-                                            info.CreativeMaxPlayer = urInfo.CreativeMaxPlayer;
-                                            info.CreativePlatformId = urInfo.CreativePlatformId;
-                                            info.CreativeLastModifiedDate = urInfo.CreativeLastModifiedDate;
-                                            info.CreativePlayCount = urInfo.CreativePlayCount;
-                                            info.CreativeQualificationPercent = urInfo.CreativeQualificationPercent;
-                                            info.CreativeTimeLimitSeconds = urInfo.CreativeTimeLimitSeconds;
-                                            this.StatsForm.RoundDetails.Update(info);
-                                        }
-                                        this.StatsForm.StatsDB.Commit();
-                                    }
-                                } else {
-                                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-                            
+                            this.gridDetails.Enabled = true;
                             this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                             this.gridDetails.DataSource = null;
                             this.gridDetails.DataSource = this.CurrentRoundDetails;
@@ -952,10 +935,10 @@ namespace FallGuysStats {
             }
         }
 
-        private void gridDetails_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e) {
+        private void gridDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
-            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
-                string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            if ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+                string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);
                 this.StatsForm.AllocTooltip();
                 Point cursorPosition = this.PointToClient(Cursor.Position);
@@ -966,8 +949,8 @@ namespace FallGuysStats {
 
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
-            this.gridDetails.Cursor = Cursors.Hand;
-            if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+            if (this._showStats == 2 || (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) { this.gridDetails.Cursor = Cursors.Hand; }
+            if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Name" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 this.gridDetails.ShowCellToolTips = false;
                 RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;

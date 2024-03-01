@@ -150,10 +150,12 @@ namespace FallGuysStats {
             this.isFixedPositionSw = positionSw;
             this.isPositionLock = positionFree;
         }
+        
         public void SetBackgroundResourcesName(string backgroundResourceName, string tabResourceName) {
             this.BackgroundResourceName = backgroundResourceName;
             this.TabResourceName = tabResourceName;
         }
+        
         private void SetBackground(string backgroundResourceName = null) {
             Bitmap background = string.IsNullOrEmpty(backgroundResourceName)
                 ? Properties.Resources.background
@@ -169,6 +171,7 @@ namespace FallGuysStats {
             this.drawWidth = background.Width;
             this.drawHeight = background.Height;
         }
+        
         protected override void WndProc(ref Message m) {
             if (m.Msg == 0x84) {
                 Point pos = PointToClient(new Point(m.LParam.ToInt32()));
@@ -189,6 +192,7 @@ namespace FallGuysStats {
             }
             base.WndProc(ref m);
         }
+        
         public void StartTimer() {
             this.timer = new Thread(this.UpdateTimer) { IsBackground = true };
             this.timer.Start();
@@ -411,6 +415,7 @@ namespace FallGuysStats {
                 this.StatsForm.SaveUserSettings();
             }
         }
+        
         private void Position_MouseEnter(object sender, EventArgs e) {
             this.StatsForm.HideTooltip(this);
             if (!this.IsFixed()) {
@@ -433,6 +438,7 @@ namespace FallGuysStats {
             }
             this.isPositionButtonMouseEnter = true;
         }
+        
         private void Position_MouseLeave(object sender, EventArgs e) {
             this.StatsForm.HideTooltip(this);
 
@@ -449,6 +455,7 @@ namespace FallGuysStats {
             }
             this.isPositionButtonMouseEnter = false;
         }
+        
         private void SetLocationPositionMenu(bool visibleTab, bool flipped) {
             this.picPositionNE.Location = new Point((this.Width / 2) - (this.picPositionNE.Size.Width + 2), (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
             this.picPositionNW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) - (this.picPositionNE.Size.Height + 2) + (visibleTab ? 11 : -6));
@@ -456,18 +463,21 @@ namespace FallGuysStats {
             this.picPositionSW.Location = new Point((this.Width / 2) + 2, (this.Height / 2) + 2 + (visibleTab ? 11 : -6));
             this.picPositionLock.Location = new Point(flipped ? (this.Width - this.picPositionLock.Width - 14) : 14, (this.Height / 2) - (this.picPositionLock.Size.Height + 6) + (visibleTab ? 11 : -6));
         }
+        
         private void SetBlurPositionMenu() {
             this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnBlur : this.positionNeOffBlur;
             this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnBlur : this.positionNwOffBlur;
             this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnBlur : this.positionSeOffBlur;
             this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnBlur : this.positionSwOffBlur;
         }
+        
         private void SetFocusPositionMenu() {
             this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
             this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
             this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
             this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
         }
+        
         private void SetFocusPositionMenu(string flag) {
             this.isFixedPositionNe = flag.Equals("ne");
             this.isFixedPositionNw = flag.Equals("nw");
@@ -478,6 +488,7 @@ namespace FallGuysStats {
             this.picPositionSE.Image = flag.Equals("se") ? this.positionSeOnFocus : this.positionSeOffFocus;
             this.picPositionSW.Image = flag.Equals("sw") ? this.positionSwOnFocus : this.positionSwOffFocus;
         }
+        
         private void SetVisiblePositionMenu(bool visible) {
             if (visible) {
                 this.picPositionNE.Show();
@@ -1017,18 +1028,21 @@ namespace FallGuysStats {
                         
                         // this.roundName = this.roundId = this.lastRound.VerifiedName();
                         this.roundId = this.lastRound.VerifiedName();
-                        
+
                         if (this.StatsForm.StatLookup.TryGetValue(this.roundId, out this.levelStats)) {
-                            this.roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindUserCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : this.levelStats.Name.ToUpper();
+                            // this.roundName = this.lastRound.UseShareCode ? (string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.FindUserCreativeLevelInfo(this.lastRound.ShowNameId) : this.lastRound.CreativeTitle) : this.levelStats.Name.ToUpper();
+                            this.roundName = this.levelStats.Name.ToUpper();
                         } else if (this.roundId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                             this.roundName = this.roundId.Substring(6).Replace('_', ' ').ToUpper();
+                        } else if (this.lastRound.UseShareCode && this.StatsForm.StatLookup.TryGetValue(this.lastRound.ShowNameId, out this.levelStats)) {
+                            this.roundName = this.lastRound.CreativeTitle;
                         } else {
                             this.roundName = this.roundId.Replace('_', ' ').ToUpper();
                         }
                         
                         this.levelType = (this.levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
                         this.recordType = (this.levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
-                        this.levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.ShowNameId : this.roundName, this.levelType, this.recordType, this.lastRound.UseShareCode);
+                        this.levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.Name : this.roundName, this.levelType, this.recordType, this.lastRound.UseShareCode);
                     }
                     
                     this.SetRoundLabel(this.levelStats, this.levelType, this.roundName, overlaySetting);

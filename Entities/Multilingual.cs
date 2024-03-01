@@ -3266,6 +3266,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "User Creative Race Round"},
                             {"user_creative_survival_round", "User Creative Survival Round"},
+                            {"user_creative_hunt_round", "User Creative Hunt Round"},
+                            {"user_creative_logic_round", "User Creative Logic Round"},
+                            {"user_creative_team_round", "User Creative Team Round"},
                             {"creative_race_round", "Creative Race Round"},
                             {"creative_race_final_round", "Creative Race Final Round"},
                             {"creative_survival_round", "Creative Survival Round"},
@@ -4348,6 +4351,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "Créative des Joueurs (Course)"},
                             {"user_creative_survival_round", "Créative des Joueurs (Survie)"},
+                            {"user_creative_hunt_round", "Créative des Joueurs (Chasse)"},
+                            {"user_creative_logic_round", "Créative des Joueurs (Logique)"},
+                            {"user_creative_team_round", "Créative des Joueurs (Équipe)"},
                             {"creative_race_round", "Créative (Course)"},
                             {"creative_race_final_round", "Finale Créative (Course)"},
                             {"creative_survival_round", "Créative (Survie)"},
@@ -5430,6 +5436,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "사용자 폴크리 레이스 라운드"},
                             {"user_creative_survival_round", "사용자 폴크리 생존 라운드"},
+                            {"user_creative_hunt_round", "사용자 폴크리 사냥 라운드"},
+                            {"user_creative_logic_round", "사용자 폴크리 로직 라운드"},
+                            {"user_creative_team_round", "사용자 폴크리 팀 라운드"},
                             {"creative_race_round", "폴크리 레이스 라운드"},
                             {"creative_race_final_round", "폴크리 레이스 결승 라운드"},
                             {"creative_survival_round", "폴크리 생존 라운드"},
@@ -6512,6 +6521,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "ユーザー・クリエイティブ・レースラウンド"},
                             {"user_creative_survival_round", "ユーザー・クリエイティブ・サバイバルラウンド"},
+                            {"user_creative_hunt_round", "ユーザー・クリエイティブ・ハントラウンド"},
+                            {"user_creative_logic_round", "ユーザー・クリエイティブ・論理ラウンド"},
+                            {"user_creative_team_round", "ユーザー・クリエイティブ・チームラウンド"},
                             {"creative_race_round", "クリエイティブ・レースラウンド"},
                             {"creative_race_final_round", "クリエイティブ・レース 最終戦"},
                             {"creative_survival_round", "クリエイティブ・サバイバルラウンド"},
@@ -7594,6 +7606,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "User Creative Race Round"},
                             {"user_creative_survival_round", "User Creative Survival Round"},
+                            {"user_creative_hunt_round", "User Creative Hunt Round"},
+                            {"user_creative_logic_round", "User Creative Logic Round"},
+                            {"user_creative_team_round", "User Creative Team Round"},
                             {"creative_race_round", "Creative Race Round"},
                             {"creative_race_final_round", "Creative Race Final Round"},
                             {"creative_survival_round", "Creative Survival Round"},
@@ -8676,6 +8691,9 @@ namespace FallGuysStats {
                             
                             {"user_creative_race_round", "User Creative Race Round"},
                             {"user_creative_survival_round", "User Creative Survival Round"},
+                            {"user_creative_hunt_round", "User Creative Hunt Round"},
+                            {"user_creative_logic_round", "User Creative Logic Round"},
+                            {"user_creative_team_round", "User Creative Team Round"},
                             {"creative_race_round", "Creative Race Round"},
                             {"creative_race_final_round", "Creative Race Final Round"},
                             {"creative_survival_round", "Creative Survival Round"},

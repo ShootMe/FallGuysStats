@@ -1318,9 +1318,6 @@ namespace FallGuysStats {
             { "FallGuy_Kraken_Attack",             "round_kraken_attack" },
             { "FallGuy_SlippySlide",               "round_slippy_slide" },
             { "FallGuy_SlideChute",                "round_slide_chute" },
-            
-            { "GAMEMODE_GAUNTLET",              "user_creative_race_round" },
-            { "GAMEMODE_SURVIVAL",              "user_creative_survival_round" },
         };
         public Image RoundIcon { get; set; }
         public Image RoundBigIcon { get; set; }
@@ -1384,7 +1381,7 @@ namespace FallGuysStats {
         }
         
         public void Increase(RoundInfo stat, bool isLinkedCustomShow) {
-            if (!stat.PrivateLobby || (stat.Name.StartsWith("user_creative_") && stat.Name.EndsWith("_round")) || isLinkedCustomShow) {
+            if (!stat.PrivateLobby || (!string.IsNullOrEmpty(stat.ShowNameId) && stat.ShowNameId.StartsWith("user_creative_") && stat.ShowNameId.EndsWith("_round")) || isLinkedCustomShow) {
                 this.Played++;
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {

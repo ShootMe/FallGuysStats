@@ -141,7 +141,7 @@
             this.gridDetails.Size = new System.Drawing.Size(670, 392);
             this.gridDetails.TabIndex = 10;
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
-            this.gridDetails.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellContentDoubleClick);
+            this.gridDetails.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellDoubleClick);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseLeave);
