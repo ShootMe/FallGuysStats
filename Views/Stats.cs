@@ -3708,7 +3708,7 @@ namespace FallGuysStats {
                             levelStats.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
                             levelStats.Add(stat);
                             
-                            if (levelStats.IsCreative && (levelStats.Type == LevelType.Race || levelStats.Type == LevelType.Survival || levelStats.Type == LevelType.Hunt || levelStats.Type == LevelType.Logic || levelStats.Type == LevelType.Team)) {
+                            if (levelStats.IsCreative && !levelStats.Id.StartsWith("user_creative_")) {
                                 if (this.StatLookup.TryGetValue(this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal), out LevelStats creativeLevel)) {
                                     creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
                                     creativeLevel.Add(stat);

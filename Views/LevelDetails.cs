@@ -959,37 +959,37 @@ namespace FallGuysStats {
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
                 if (string.IsNullOrEmpty(info.CreativeAuthor) || string.IsNullOrEmpty(info.CreativeOnlinePlatformId)) {
-                    strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_author")} : N/A");
+                    strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_author")} : N/A");
                 } else {
                     string[] createAuthorArr = info.CreativeAuthor.Split(';');
                     string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
                     for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
                         Console.WriteLine(this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i]));
-                        strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}) {createAuthorArr[i]}"
-                            : $"{Environment.NewLine}\t({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}) {createAuthorArr[i]}");
+                        strBuilder.Append(i == 0 ? $"• {Multilingual.GetWord("level_detail_creative_author")} : ⟦{this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}⟧ {createAuthorArr[i]}"
+                            :$"{Environment.NewLine}\t   ⟦{this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}⟧ {createAuthorArr[i]}");
                     }
                 }
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{(Stats.InstalledEmojiFont ? $"👍 {Multilingual.GetWord("level_detail_creative_likes")}" : Multilingual.GetWord("level_detail_creative_likes"))} {info.CreativeLikes:N0}\t{(Stats.InstalledEmojiFont ? $"👎 {Multilingual.GetWord("level_detail_creative_dislikes")}" : Multilingual.GetWord("level_detail_creative_dislikes"))} {info.CreativeDislikes:N0}");
+                strBuilder.Append($"• {(Stats.InstalledEmojiFont ? "👍 " : "")}{Multilingual.GetWord("level_detail_creative_likes")} {info.CreativeLikes:N0}\t      • {(Stats.InstalledEmojiFont ? "👎 " : "")}{Multilingual.GetWord("level_detail_creative_dislikes")} {info.CreativeDislikes:N0}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_version")} : v{info.CreativeVersion}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_max_players")} : {info.CreativeMaxPlayer}{Multilingual.GetWord("level_detail_creative_player_suffix")}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_time_limit")} : {TimeSpan.FromSeconds(info.CreativeTimeLimitSeconds > 0 ? info.CreativeTimeLimitSeconds : 240):m\\:ss}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_time_limit")} : {TimeSpan.FromSeconds(info.CreativeTimeLimitSeconds > 0 ? info.CreativeTimeLimitSeconds : 240):m\\:ss}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount:N0}{Multilingual.GetWord("level_detail_creative_inning")}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount:N0}{Multilingual.GetWord("level_detail_creative_inning")}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"# {Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
+                strBuilder.Append($"# {(Stats.InstalledEmojiFont ? "📋 " : "")}{Multilingual.GetWord("level_detail_share_code_copied_tooltip")}");
 
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
