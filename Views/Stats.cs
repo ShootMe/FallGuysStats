@@ -387,34 +387,24 @@ namespace FallGuysStats {
         
         public string GetUserCreativeLevelTypeId(string gameModeId) {
             switch (gameModeId) {
-                case "GAMEMODE_GAUNTLET":
-                    return "user_creative_race_round";
-                case "GAMEMODE_SURVIVAL":
-                    return "user_creative_survival_round";
-                case "GAMEMODE_HUNT":
-                    return "user_creative_hunt_round";
-                case "GAMEMODE_LOGIC":
-                    return "user_creative_logic_round";
-                case "GAMEMODE_TEAM":
-                    return "user_creative_team_round";
+                case "GAMEMODE_GAUNTLET": return "user_creative_race_round";
+                case "GAMEMODE_SURVIVAL": return "user_creative_survival_round";
+                case "GAMEMODE_HUNT": return "user_creative_hunt_round";
+                case "GAMEMODE_LOGIC": return "user_creative_logic_round";
+                case "GAMEMODE_TEAM": return "user_creative_team_round";
+                default: return "unknown";
             }
-            return "unknown";
         }
         
         private string GetCreativeLevelTypeId(LevelType type, bool isFinal) {
             switch (type) {
-                case LevelType.Race:
-                    return isFinal ? "creative_race_final_round" : "creative_race_round";
-                case LevelType.Survival:
-                    return isFinal ? "creative_survival_final_round" : "creative_survival_round";
-                case LevelType.Hunt:
-                    return isFinal ? "creative_hunt_final_round" : "creative_hunt_round";
-                case LevelType.Logic:
-                    return isFinal ? "creative_logic_final_round" : "creative_logic_round";
-                case LevelType.Team:
-                    return isFinal ? "creative_team_final_round" : "creative_team_round";
+                case LevelType.Race: return isFinal ? "creative_race_final_round" : "creative_race_round";
+                case LevelType.Survival: return isFinal ? "creative_survival_final_round" : "creative_survival_round";
+                case LevelType.Hunt: return isFinal ? "creative_hunt_final_round" : "creative_hunt_round";
+                case LevelType.Logic: return isFinal ? "creative_logic_final_round" : "creative_logic_round";
+                case LevelType.Team: return isFinal ? "creative_team_final_round" : "creative_team_round";
+                default: return "unknown";
             }
-            return "unknown";
         }
         
         private void DatabaseMigration() {

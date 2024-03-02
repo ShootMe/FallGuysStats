@@ -589,8 +589,8 @@ namespace FallGuysStats {
             } else {
                 if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                     this.lblRound.Text = $"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
-                    this.lblRound.LevelColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
-                    this.lblRound.LevelTrueColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 127) : levelType.LevelBackColor(false, this.lastRound.IsTeam, 127);
+                    this.lblRound.LevelColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 159) : levelType.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
+                    this.lblRound.LevelTrueColor = levelType == LevelType.Unknown ? levelType.LevelBackColor(false, false, 159) : levelType.LevelBackColor(false, this.lastRound.IsTeam, 159);
                     this.lblRound.RoundIcon = levelType == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
                     if (this.lblRound.RoundIcon.Height != 23) {
                         float ratio = 23f / this.lblRound.RoundIcon.Height;
