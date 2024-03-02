@@ -492,7 +492,7 @@ namespace FallGuysStats {
             this.CurrentSettings.ShowOverlayTabs = this.chkShowTabs.Checked;
             
             if (resizeOverlay) {
-                int overlaySetting = (this.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.CurrentSettings.HideTimeInfo ? 1 : 0);
+                int overlaySetting = this.StatsForm.GetOverlaySetting();
                 switch (overlaySetting) {
                     case 0: this.CurrentSettings.OverlayWidth = 786; this.CurrentSettings.OverlayFixedWidth = 786; break;
                     case 1: this.CurrentSettings.OverlayWidth = 786 - 225 - 6; this.CurrentSettings.OverlayFixedWidth = 786 - 225 - 6; break;

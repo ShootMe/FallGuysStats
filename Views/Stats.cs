@@ -664,7 +664,7 @@ namespace FallGuysStats {
             }
         }
         
-        public void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
+        private void cmtt_center_Draw(object sender, DrawToolTipEventArgs e) {
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
             e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
@@ -821,7 +821,7 @@ namespace FallGuysStats {
             });
         }
         
-        public void SetCursorPositionCenter() {
+        private void SetCursorPositionCenter() {
             if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y <= this.screenCenter.Y) {
                 Cursor.Position = new Point(this.screenCenter.X * 2, this.screenCenter.Y * 2); // NW
             } else if (this.overlay.Location.X <= this.screenCenter.X && this.overlay.Location.Y > this.screenCenter.Y) {
@@ -2734,6 +2734,10 @@ namespace FallGuysStats {
                 Visible = true,
                 Version = 0
             };
+        }
+        
+        public int GetOverlaySetting() {
+            return (this.CurrentSettings.HideWinsInfo ? 4 : 0) + (this.CurrentSettings.HideRoundInfo ? 2 : 0) + (this.CurrentSettings.HideTimeInfo ? 1 : 0);
         }
         
         private bool IsFinalWithCreativeLevel(string levelId) {
