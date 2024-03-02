@@ -541,24 +541,20 @@ namespace FallGuysStats {
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "ShowID") {
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
-                //if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
-                if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
+                if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? (string.IsNullOrEmpty(info.ShowNameId) ? "user_creative_race_round" : info.ShowNameId) : info.Name, out LevelStats level)) {
                     e.Value = level.RoundIcon;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Round") {
-                //if (this._showStats == 1 && this.StatsForm.StatLookup.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats level)) {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
-                    //e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : Color.FromArgb(c1.A, (int)(c1.R * 0.5), (int)(c1.G * 0.5), (int)(c1.B * 0.5));
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
                 }
-                // else if (this._showStats == 2) { }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Name") {
                 if (info.UseShareCode) {
-                    if (this.StatsForm.StatLookup.TryGetValue(info.ShowNameId, out LevelStats level)) {
-                        Color c1 = level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
+                    if (this.StatsForm.StatLookup.TryGetValue((string.IsNullOrEmpty(info.ShowNameId) ? "user_creative_race_round" : info.ShowNameId), out LevelStats level)) {
+                        Color c1 = string.IsNullOrEmpty(info.CreativeTitle) ? (this.Theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow) : level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
-                        e.Value = $"☑️ {info.CreativeTitle}";
+                        e.Value = $"{(string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : $"☑️ {info.CreativeTitle}")}";
                     }
                 } else {
                     if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
@@ -968,8 +964,9 @@ namespace FallGuysStats {
                     string[] createAuthorArr = info.CreativeAuthor.Split(';');
                     string[] creativeOnlinePlatformIdArr = info.CreativeOnlinePlatformId.Split(';');
                     for (int i = 0; i < creativeOnlinePlatformIdArr.Length; i++) {
-                        strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : {createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})"
-                            : $"{Environment.NewLine}\t{createAuthorArr[i]} ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])})");
+                        Console.WriteLine(this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i]));
+                        strBuilder.Append(i == 0 ? $"{Multilingual.GetWord("level_detail_creative_author")} : ({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}) {createAuthorArr[i]}"
+                            : $"{Environment.NewLine}\t({this.GetCreativeOnlinePlatformName(creativeOnlinePlatformIdArr[i])}) {createAuthorArr[i]}");
                     }
                 }
                 strBuilder.Append(Environment.NewLine);
@@ -1010,11 +1007,14 @@ namespace FallGuysStats {
 
         private string GetCreativeOnlinePlatformName(string platform) {
             switch (platform) {
+                case "win": return Multilingual.GetWord("level_detail_playersPc");
                 case "eos": return Multilingual.GetWord("level_detail_online_platform_eos");
                 case "steam": return Multilingual.GetWord("level_detail_online_platform_steam");
                 case "psn": return Multilingual.GetWord("level_detail_online_platform_psn");
                 case "xbl": return Multilingual.GetWord("level_detail_online_platform_xbl");
-                case "nso": return Multilingual.GetWord("level_detail_online_platform_nso");
+                case "nso":
+                case "nintendo":
+                    return Multilingual.GetWord("level_detail_online_platform_nso");
             }
             return platform;
         }
