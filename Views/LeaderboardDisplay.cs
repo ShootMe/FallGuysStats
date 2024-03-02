@@ -1407,6 +1407,8 @@ namespace FallGuysStats {
         private void mtbSearchPlayersText_KeyDown(object sender, KeyEventArgs e) {
             if (string.IsNullOrEmpty(this.mtbSearchPlayersText.Text)) { return; }
             if (e.KeyCode == Keys.Enter) {
+                this.mtcTabControl.Enabled = false;
+                this.cboRoundList.Enabled = false;
                 this.mtbSearchPlayersText.Enabled = false;
                 e.SuppressKeyPress = true;
                 this.gridPlayerList.DataSource = this.searchResultNodata;
@@ -1428,6 +1430,8 @@ namespace FallGuysStats {
                     this.spinnerTransition.Stop();
                     this.targetSpinner = null;
                     this.BeginInvoke((MethodInvoker)delegate {
+                        this.mtcTabControl.Enabled = true;
+                        this.cboRoundList.Enabled = true;
                         this.mtbSearchPlayersText.Width = 1332;
                         this.mpsSpinner03.Visible = false;
                         this.gridPlayerList.DataSource = this.searchResult ?? this.searchResultNodata;
