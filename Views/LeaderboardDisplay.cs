@@ -380,6 +380,7 @@ namespace FallGuysStats {
         }
 
         private void SetLeaderboardUI(int index) {
+            this.mtcTabControl.Enabled = true;
             // this.mtpLevelRankPage.Text = $@"{this.cboRoundList.SelectedName} ({Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")})";
             this.mtpLevelRankPage.Text = $@"🏅 {this.cboRoundList.SelectedName} ({this.totalPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
             this.mpsSpinner02.Visible = false;
@@ -427,6 +428,7 @@ namespace FallGuysStats {
         }
 
         private void SetGridNoData() {
+            this.mtcTabControl.Enabled = true;
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
@@ -444,6 +446,7 @@ namespace FallGuysStats {
         }
         
         private void SetGridList(string queryKey) {
+            this.mtcTabControl.Enabled = false;
             this.cboRoundList.Enabled = false;
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
@@ -1134,6 +1137,7 @@ namespace FallGuysStats {
         }
 
         private void SetPlayerInfo(string userId) {
+            this.mtcTabControl.Enabled = false;
             Task.Run(() => {
                 using (ApiWebClient web = new ApiWebClient()) {
                     web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
@@ -1152,6 +1156,7 @@ namespace FallGuysStats {
                 this.spinnerTransition.Stop();
                 this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
+                    this.mtcTabControl.Enabled = true;
                     this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
@@ -1177,8 +1182,10 @@ namespace FallGuysStats {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_silver;
                         } else if (percentage <= 50) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_bronze;
-                        } else {
+                        } else if (percentage <= 100) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_pink;
+                        } else {
+                            this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
                         }
                         this.lblPlayerInfo03.Left = this.picPlayerInfo03.Right;
                         this.lblPlayerInfo03.Text = $@"{this.overallInfo.index} ({this.overallInfo.total})";
@@ -1631,8 +1638,9 @@ namespace FallGuysStats {
                                                                                           (DateTime.UtcNow.Year != this.StatsForm.weeklyCrownLoadTime.Year
                                                                                            || DateTime.UtcNow.Month != this.StatsForm.weeklyCrownLoadTime.Month
                                                                                            || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
-                                                                                           || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour)))
-            {
+                                                                                           || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour))) {
+                this.cboRoundList.Enabled = false;
+                this.mtcTabControl.Enabled = false;
                 this.mlVisitFallalytics.Enabled = false;
                 this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
                 this.mpsSpinner05.Visible = true;
@@ -1642,6 +1650,8 @@ namespace FallGuysStats {
                 Task.Run(() => this.StatsForm.InitializeWeeklyCrownList(date)).ContinueWith(prevTask => {
                     this.weeklyCrownList = this.StatsForm.weeklyCrownList;
                     this.Invoke((MethodInvoker)delegate {
+                        this.mtcTabControl.Enabled = true;
+                        this.cboRoundList.Enabled = true;
                         this.mpsSpinner05.Visible = false;
                         this.spinnerTransition.Stop();
                         this.targetSpinner = null;
@@ -1774,6 +1784,11 @@ namespace FallGuysStats {
                 this.mlLeftPagingButton.Visible = false;
                 this.mlRightPagingButton.Visible = false;
             } else if (this.mtcTabControl.SelectedIndex == 3) {
+                this.mlMyRank.Visible = false;
+                this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
+                this.lblPagingInfo.Visible = false;
+                this.mlLeftPagingButton.Visible = false;
+                this.mlRightPagingButton.Visible = false;
                 this.SetWeeklyCrownList();
             }
         }

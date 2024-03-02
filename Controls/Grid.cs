@@ -131,7 +131,7 @@ namespace FallGuysStats {
             Utils.DwmSetWindowAttribute(this.CMenu.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref conerPreference, sizeof(uint));
             this.CMenu.Renderer = new ToolStripProfessionalRenderer(new CustomColorTable());
             this.AllowUserToAddRows = false;
-            this.AllowUserToOrderColumns = true;
+            this.AllowUserToOrderColumns = false;
             this.AllowUserToResizeRows = false;
             this.EditMode = DataGridViewEditMode.EditOnKeystrokeOrF2;
             this.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
