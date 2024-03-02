@@ -933,7 +933,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
+            if (this._showStats == 2 || e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
             if ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 string shareCode = (string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);

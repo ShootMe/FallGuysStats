@@ -1668,6 +1668,7 @@ namespace FallGuysStats {
                                                                                            || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
                                                                                            || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour))) {
                 this.cboRoundList.Enabled = false;
+                this.mlMyRank.Enabled = false;
                 this.mtcTabControl.Enabled = false;
                 this.mlVisitFallalytics.Enabled = false;
                 this.gridWeeklyCrown.DataSource = this.weeklyCrownNodata;
@@ -1679,6 +1680,7 @@ namespace FallGuysStats {
                     this.weeklyCrownList = this.StatsForm.weeklyCrownList;
                     this.Invoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
+                        this.mlMyRank.Enabled = true;
                         this.cboRoundList.Enabled = true;
                         this.mpsSpinner05.Visible = false;
                         this.spinnerTransition.Stop();
@@ -1691,6 +1693,7 @@ namespace FallGuysStats {
                             this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
                             int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
                             this.myWeeklyCrownRank = index + 1;
+                            this.mlMyRank.Visible = index != -1;
                             if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
                                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
                                 int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
@@ -1711,7 +1714,6 @@ namespace FallGuysStats {
                                     }
                                 }
                                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
-                                this.mlMyRank.Visible = true;
                             }
                             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                             this.lblPagingInfo.Left = (this.ClientSize.Width / 2) - (this.lblPagingInfo.Width / 2);
