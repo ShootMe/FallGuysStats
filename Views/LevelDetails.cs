@@ -711,7 +711,7 @@ namespace FallGuysStats {
             if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0) {
                 if (((DataGridView)sender).SelectedRows.Count == 1) {
                     RoundInfo info = this.gridDetails.Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
-                    if (info.UseShareCode) {
+                    if (info.UseShareCode || (LevelStats.ALL.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode))) {
                         if (this.gridDetails.MenuSeparator != null && !this.gridDetails.CMenu.Items.Contains(this.gridDetails.MenuSeparator)) {
                             this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
                         }
@@ -858,22 +858,23 @@ namespace FallGuysStats {
             if (Utils.IsInternetConnected()) {
                 if (this._showStats != 2 && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
                     RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
-                    if (ri.UseShareCode) {
-                        if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{(string.IsNullOrEmpty(ri.CreativeTitle) ? ri.Name : ri.CreativeTitle)}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
+                    if ((LevelStats.ALL.TryGetValue(ri.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) || ri.UseShareCode) {
+                        string shareCode = ri.UseShareCode ? ri.Name : l1.ShareCode;
+                        if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{(string.IsNullOrEmpty(ri.CreativeTitle) ? shareCode : ri.CreativeTitle)}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.Enabled = false;
-                            
                             try {
-                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{ri.Name}.json");
+                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
                                 if (resData.TryGetProperty("data", out JsonElement je)) {
                                     JsonElement snapshot = je.GetProperty("snapshot");
                                     JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                                     JsonElement stats = snapshot.GetProperty("stats");
                                     
-                                    List<RoundInfo> filteredInfo = this.RoundDetails.FindAll(r => r.UseShareCode && string.Equals(r.Name, ri.Name));
+                                    List<RoundInfo> filteredInfo = ri.UseShareCode ? this.RoundDetails.FindAll(r => r.UseShareCode && string.Equals(r.Name, shareCode)) 
+                                                                                   : this.RoundDetails.FindAll(r => string.Equals(r.Name, ri.Name));
                                     foreach (RoundInfo info in filteredInfo) {
-                                        info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString());
+                                        if (ri.UseShareCode) { info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
                                         string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                                         info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                                         info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
@@ -941,13 +942,29 @@ namespace FallGuysStats {
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
                 this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
+            } else if (LevelStats.ALL.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode)) {
+                string shareCode = levelStats.ShareCode;
+                Clipboard.SetText(shareCode, TextDataFormat.Text);
+                this.StatsForm.AllocTooltip();
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
+                this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
             }
         }
 
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
-            if (this._showStats == 2 || (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) { this.gridDetails.Cursor = Cursors.Hand; }
-            if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Name" && (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value) {
+
+            if (this._showStats == 2
+                || (bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value
+                || LevelStats.ALL.TryGetValue((string)this.gridDetails.Rows[e.RowIndex].Cells["Name"].Value, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) {
+                this.gridDetails.Cursor = Cursors.Hand;
+            }
+            
+            if (this._showStats != 2
+                && this.gridDetails.Columns[e.ColumnIndex].Name == "Name"
+                && ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value
+                    || !string.IsNullOrEmpty((string)this.gridDetails.Rows[e.RowIndex].Cells["CreativeShareCode"].Value))) {
                 this.gridDetails.ShowCellToolTips = false;
                 RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;

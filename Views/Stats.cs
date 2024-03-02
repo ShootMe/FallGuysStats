@@ -3484,15 +3484,16 @@ namespace FallGuysStats {
                                 stat.ShowID = this.nextShowID;
                                 stat.Profile = profile;
 
-                                if (stat.UseShareCode && string.Equals(stat.ShowNameId, "unknown") && Utils.IsInternetConnected()) {
+                                if ((LevelStats.ALL.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
+                                     || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
                                     try {
-                                        JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{stat.Name}.json");
+                                        JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{(stat.UseShareCode ? stat.Name : l1.ShareCode)}.json");
                                         if (resData.TryGetProperty("data", out JsonElement je)) {
                                             JsonElement snapshot = je.GetProperty("snapshot");
                                             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
                                             JsonElement stats = snapshot.GetProperty("stats");
-                                            stat.ShowNameId = this.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString());
+                                            if (stat.UseShareCode) { stat.ShowNameId = this.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
                                             string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
                                             stat.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
                                             stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
@@ -3564,8 +3565,8 @@ namespace FallGuysStats {
                                             stat.CreativeLevelThemeId = null;
                                             stat.CreativeLastModifiedDate = DateTime.MinValue;
                                             stat.CreativePlayCount = 0;
-                                            stat.CreativeLikes = ri.CreativeLikes;
-                                            stat.CreativeDislikes = ri.CreativeDislikes;
+                                            stat.CreativeLikes = 0;
+                                            stat.CreativeDislikes = 0;
                                             stat.CreativeQualificationPercent = 0;
                                             stat.CreativeTimeLimitSeconds = 0;
                                         }
