@@ -314,10 +314,8 @@ namespace FallGuysStats {
         private bool IsRealFinalRound(string roundId, string showId) {
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
-                 || string.Equals(showId, "wle_mrs_shuffle_show")
-                 || string.Equals(showId, "wle_mrs_shuffle_show_squads")
-                 || string.Equals(showId, "wle_shuffle_discover")
-                 || string.Equals(showId, "wle_shuffle_chill")
+                 || showId.StartsWith("wle_mrs_shuffle_")
+                 || showId.StartsWith("wle_shuffle_")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")) {
                 return true;

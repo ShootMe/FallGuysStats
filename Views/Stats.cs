@@ -2646,6 +2646,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 83;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 83) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "wle_shuffle_survival")
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = true;
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 84;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -4111,16 +4128,11 @@ namespace FallGuysStats {
             return roundId;
         }
         
-        public bool IsCreativeShow(string showId) {
-            return showId.StartsWith("show_wle_s10_") ||
-                   showId.StartsWith("event_wle_s10_") ||
-                   showId.StartsWith("wle_mrs_") ||
-                   showId.StartsWith("current_wle_fp") ||
-                   showId.StartsWith("wle_s10_cf_round_") ||
-                   showId.IndexOf("wle_s10_player_round_wk", StringComparison.OrdinalIgnoreCase) != -1 ||
-                   showId.StartsWith("wle_mrs_shuffle_show") ||
-                   showId.Equals("wle_shuffle_discover") ||
-                   showId.Equals("wle_shuffle_chill");
+        private bool IsCreativeShow(string showId) {
+            return showId.StartsWith("event_wle_s10_") ||
+                   showId.StartsWith("show_wle") ||
+                   showId.StartsWith("wle_") ||
+                   showId.StartsWith("current_wle_");
         }
         
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
