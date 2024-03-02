@@ -27,6 +27,7 @@ namespace FallGuysStats {
         public int gold { get; set; }
         public int silver { get; set; }
         public int bronze { get; set; }
+        public int pink { get; set; }
         public int players { get; set; }
     }
     
