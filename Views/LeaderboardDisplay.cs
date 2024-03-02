@@ -103,6 +103,7 @@ namespace FallGuysStats {
                 this.mpsSpinner01.BringToFront();
                 this.spinnerTransition.Start();
                 this.targetSpinner = this.mpsSpinner01;
+                this.cboRoundList.Enabled = false;
                 this.mtcTabControl.Enabled = false;
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
@@ -164,6 +165,7 @@ namespace FallGuysStats {
                             this.gridOverallRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                         }
                         this.mtcTabControl.Enabled = true;
+                        this.cboRoundList.Enabled = true;
                     });
                 });
             } else {
@@ -1137,6 +1139,7 @@ namespace FallGuysStats {
         }
 
         private void SetPlayerInfo(string userId) {
+            this.cboRoundList.Enabled = false;
             this.mtcTabControl.Enabled = false;
             Task.Run(() => {
                 using (ApiWebClient web = new ApiWebClient()) {
@@ -1157,6 +1160,7 @@ namespace FallGuysStats {
                 this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.mtcTabControl.Enabled = true;
+                    this.cboRoundList.Enabled = true;
                     this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
