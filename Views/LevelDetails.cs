@@ -18,7 +18,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         private int _showStats;
         private int currentPage, totalPages;
-        private readonly int pageSize = 5000;
+        private readonly int pageSize = 1000;
         // private int totalHeight;
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -83,7 +83,7 @@ namespace FallGuysStats {
             this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
             this.currentPage = this.totalPages;
             if (this.totalPages > 1) {
-                this.SetPagingUI(true);
+                this.SetPagingDisplay(true);
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
@@ -172,7 +172,7 @@ namespace FallGuysStats {
             }
         }
 
-        private void SetPagingUI(bool visible) {
+        private void SetPagingDisplay(bool visible) {
             if (visible) {
                 this.mlLastPagingButton.Location = new Point(this.gridDetails.Right - this.mlLastPagingButton.Width, this.mlLastPagingButton.Top);
                 this.mlRightPagingButton.Location = new Point(this.mlLastPagingButton.Left - this.mlRightPagingButton.Width - 5, this.mlRightPagingButton.Top);
@@ -210,10 +210,10 @@ namespace FallGuysStats {
                     this.Invoke((MethodInvoker)delegate {
                         // this.spinnerTransition.Stop();
                         // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.Enabled = true;
                         this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.Enabled = true;
                         if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingUI(true);
+                            this.SetPagingDisplay(true);
                             this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
                         }
                     });
@@ -226,10 +226,10 @@ namespace FallGuysStats {
                     this.Invoke((MethodInvoker)delegate {
                         // this.spinnerTransition.Stop();
                         // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.Enabled = true;
                         this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.Enabled = true;
                         if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingUI(true);
+                            this.SetPagingDisplay(true);
                             this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
                         }
                     });
@@ -242,10 +242,10 @@ namespace FallGuysStats {
                     this.Invoke((MethodInvoker)delegate {
                         // this.spinnerTransition.Stop();
                         // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.Enabled = true;
                         this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.Enabled = true;
                         if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingUI(true);
+                            this.SetPagingDisplay(true);
                             this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
                         }
                     });
@@ -258,10 +258,10 @@ namespace FallGuysStats {
                     this.Invoke((MethodInvoker)delegate {
                         // this.spinnerTransition.Stop();
                         // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.Enabled = true;
                         this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.Enabled = true;
                         if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingUI(true);
+                            this.SetPagingDisplay(true);
                             this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
                         }
                     });
@@ -528,6 +528,8 @@ namespace FallGuysStats {
 
             bool colorSwitch = true;
             int lastShow = -1;
+            Color backColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            Color foreColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
             // this.totalHeight = 0;
             for (int i = 0; i < this.gridDetails.RowCount; i++) {
                 int showID = (int)this.gridDetails.Rows[i].Cells["ShowID"].Value;
@@ -537,8 +539,8 @@ namespace FallGuysStats {
                 }
 
                 if (colorSwitch) {
-                    this.gridDetails.Rows[i].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-                    this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
+                    this.gridDetails.Rows[i].DefaultCellStyle.BackColor = backColor;
+                    this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = foreColor;
                 }
                 // this.totalHeight += this.gridDetails.Rows[i].Height;
             }
@@ -843,7 +845,7 @@ namespace FallGuysStats {
                             if (this.currentPage > this.totalPages) {
                                 this.currentPage = this.totalPages;
                             }
-                            this.SetPagingUI(true);
+                            this.SetPagingDisplay(true);
                             this.gridDetails.Enabled = true;
                             this.spinnerTransition.Stop();
                             this.mpsSpinner01.Visible = false;
@@ -902,7 +904,7 @@ namespace FallGuysStats {
                                 if (this.currentPage > this.totalPages) {
                                     this.currentPage = this.totalPages;
                                 }
-                                this.SetPagingUI(true);
+                                this.SetPagingDisplay(true);
                                 
                                 this.gridDetails.Enabled = true;
                                 this.spinnerTransition.Stop();
