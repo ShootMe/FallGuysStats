@@ -31,7 +31,7 @@ namespace FallGuysStats {
             this.Opacity = 0;
         }
         
-        private void LevelDetails_Load(object sender, EventArgs e) {
+        private async void LevelDetails_Load(object sender, EventArgs e) {
             this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             this.SetTheme(Stats.CurrentTheme);
             //
@@ -87,12 +87,12 @@ namespace FallGuysStats {
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
-            // this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-            this.UpdatePage(false, true, false);
+            await this.UpdatePage(false, true, false);
             
-            this.gridDetails.DataSource = this.currentRoundDetails;
-            if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-            
+            this.SetContextMenu();
+        }
+
+        private void SetContextMenu() {
             if (this.gridDetails.RowCount == 0) {
                 this.gridDetails.DeallocContextMenu();
             }
@@ -200,8 +200,8 @@ namespace FallGuysStats {
             this.mlLastPagingButton.Enabled = enable;
         }
         
-        private void UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed) {
-            Task.Run(() => {
+        private async Task UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed) {
+            await Task.Run(() => {
                 this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
 
                 if (this._showStats != 2) {
@@ -1017,10 +1017,8 @@ namespace FallGuysStats {
                 this.gridDetails.Cursor = Cursors.Hand;
             }
             
-            if (this._showStats != 2
-                && this.gridDetails.Columns[e.ColumnIndex].Name == "Name"
-                && ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value
-                    || !string.IsNullOrEmpty((string)this.gridDetails.Rows[e.RowIndex].Cells["CreativeShareCode"].Value))) {
+            if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Name" &&
+                ((bool)this.gridDetails.Rows[e.RowIndex].Cells["UseShareCode"].Value || !string.IsNullOrEmpty((string)this.gridDetails.Rows[e.RowIndex].Cells["CreativeShareCode"].Value))) {
                 this.gridDetails.ShowCellToolTips = false;
                 RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
                 if (info.CreativeLastModifiedDate == DateTime.MinValue) return;
@@ -1067,6 +1065,28 @@ namespace FallGuysStats {
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 50, cursorPosition.Y);
+                this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
+            } else if (this._showStats == 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "ShowNameId") {
+                this.gridDetails.ShowCellToolTips = false;
+                RoundInfo info = this.gridDetails.Rows[e.RowIndex].DataBoundItem as RoundInfo;
+                StringBuilder strBuilder = new StringBuilder();
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"), Utils.GetCultureInfo()));
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append($"⟦{info.ShowID}⟧");
+                strBuilder.Append(Environment.NewLine);
+                strBuilder.Append(Environment.NewLine);
+                string[] s = info.Name.Split(';');
+                for (int i = 0; i < s.Length; i++) {
+                    string name = s[i];
+                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {name}");
+                    if (i != s.Length - 1) strBuilder.Append(Environment.NewLine);
+                }
+
+                this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw2);
+                Point cursorPosition = this.PointToClient(Cursor.Position);
+                Point position = new Point(cursorPosition.X + 40, cursorPosition.Y);
                 this.StatsForm.ShowCustomTooltip(strBuilder.ToString(), this, position);
             } else {
                 this.gridDetails.ShowCellToolTips = true;

@@ -631,6 +631,26 @@ namespace FallGuysStats {
             }
         }
         
+        public void cmtt_levelDetails_Draw2(object sender, DrawToolTipEventArgs e) {
+            e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
+            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
+            e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            
+            e.Graphics.FillRectangle(CurrentTheme == MetroThemeStyle.Light ? Brushes.Black : Brushes.WhiteSmoke, e.Bounds);
+            
+            e.DrawBorder();
+            e.Graphics.DrawString(e.ToolTipText, e.Font, CurrentTheme == MetroThemeStyle.Light ? Brushes.DarkGray : Brushes.Black, new PointF(e.Bounds.X + 8, e.Bounds.Y - 8));
+            
+            MetroToolTip t = (MetroToolTip)sender;
+            PropertyInfo h = t.GetType().GetProperty("Handle", BindingFlags.NonPublic | BindingFlags.Instance);
+            IntPtr handle = (IntPtr)h.GetValue(t);
+            Control c = e.AssociatedControl;
+            if (c.Parent != null) {
+                Point location = c.Parent.PointToScreen(new Point(c.Right - e.Bounds.Width, c.Bottom));
+                Utils.MoveWindow(handle, location.X, location.Y, e.Bounds.Width, e.Bounds.Height, false);
+            }
+        }
+        
         private void cmtt_overlay_Draw(object sender, DrawToolTipEventArgs e) {
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -5101,7 +5121,8 @@ namespace FallGuysStats {
                     })
                     .Select(g => new RoundInfo {
                         ShowID = g.ShowID,
-                        Name = g.SortedRounds.LastOrDefault().IsFinal || g.SortedRounds.LastOrDefault().Crown ? "Final" : string.Empty,
+                        // Name = g.SortedRounds.LastOrDefault().IsFinal || g.SortedRounds.LastOrDefault().Crown ? "Final" : string.Empty,
+                        Name = string.Join(";", g.SortedRounds.Select(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.StartsWith("user_creative_") ? (string.IsNullOrEmpty(r.CreativeTitle) ? r.Name : r.CreativeTitle) : Multilingual.GetRoundName(r.Name))),
                         ShowNameId = g.SortedRounds.LastOrDefault().ShowNameId,
                         IsFinal = g.SortedRounds.LastOrDefault().IsFinal,
                         End = g.SortedRounds.Max(r => r.End),
