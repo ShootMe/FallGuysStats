@@ -91,67 +91,65 @@ namespace FallGuysStats {
         }
 
         private void SetContextMenu() {
-            if (this.gridDetails.RowCount == 0) {
+            if (this.RoundDetails.Count == 0) {
                 this.gridDetails.DeallocContextMenu();
-            }
-            
-            if (this._showStats == 2 && this.gridDetails.RowCount > 0) {
-                // add separator
-                this.gridDetails.MenuSeparator = new ToolStripSeparator();
-                this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+            } else {
+                if (this._showStats == 2) {
+                    // add separator
+                    this.gridDetails.MenuSeparator = new ToolStripSeparator();
+                    this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
 
-                if (this.StatsForm.AllProfiles.Count > 1) {
+                    if (this.StatsForm.AllProfiles.Count > 1) {
+                        // 
+                        // moveShows
+                        // 
+                        this.gridDetails.MoveShows = new ToolStripMenuItem {
+                            Name = "moveShows",
+                            Size = new Size(134, 22),
+                            Text = Multilingual.GetWord("main_move_shows"),
+                            ShowShortcutKeys = true,
+                            Image = Properties.Resources.move,
+                            ShortcutKeys = Keys.Control | Keys.P
+                        };
+                        this.gridDetails.MoveShows.Click += this.moveShows_Click;
+                        this.gridDetails.CMenu.Items.Add(this.gridDetails.MoveShows);
+                    }
+                    
                     // 
-                    // moveShows
+                    // deleteShows
                     // 
-                    this.gridDetails.MoveShows = new ToolStripMenuItem {
-                        Name = "moveShows",
+                    this.gridDetails.DeleteShows = new ToolStripMenuItem {
+                        Name = "deleteShows",
                         Size = new Size(134, 22),
-                        Text = Multilingual.GetWord("main_move_shows"),
+                        Text = Multilingual.GetWord("main_delete_shows"),
                         ShowShortcutKeys = true,
-                        Image = Properties.Resources.move,
-                        ShortcutKeys = Keys.Control | Keys.P
+                        Image = Properties.Resources.delete,
+                        ShortcutKeys = Keys.Control | Keys.D
                     };
-                    this.gridDetails.MoveShows.Click += this.moveShows_Click;
-                    this.gridDetails.CMenu.Items.Add(this.gridDetails.MoveShows);
+                    this.gridDetails.DeleteShows.Click += this.deleteShows_Click;
+                    this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
+                } else {
+                    // add separator
+                    this.gridDetails.MenuSeparator = new ToolStripSeparator();
+                    this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
+                    
+                    // 
+                    // updateCreativeShows
+                    // 
+                    this.gridDetails.UpdateCreativeShows = new ToolStripMenuItem {
+                        Name = "updateCreativeShows",
+                        Size = new Size(134, 22),
+                        Text = Multilingual.GetWord("main_update_shows"),
+                        ShowShortcutKeys = true,
+                        Image = Properties.Resources.update,
+                        ShortcutKeys = Keys.Control | Keys.U
+                    };
+                    this.gridDetails.UpdateCreativeShows.Click += this.updateShows_Click;
+                    this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
                 }
-                
-                // 
-                // deleteShows
-                // 
-                this.gridDetails.DeleteShows = new ToolStripMenuItem {
-                    Name = "deleteShows",
-                    Size = new Size(134, 22),
-                    Text = Multilingual.GetWord("main_delete_shows"),
-                    ShowShortcutKeys = true,
-                    Image = Properties.Resources.delete,
-                    ShortcutKeys = Keys.Control | Keys.D
-                };
-                this.gridDetails.DeleteShows.Click += this.deleteShows_Click;
-                this.gridDetails.CMenu.Items.Add(this.gridDetails.DeleteShows);
-            }
 
-            if (this._showStats != 2 && this.gridDetails.RowCount > 0) {
-                // add separator
-                this.gridDetails.MenuSeparator = new ToolStripSeparator();
-                this.gridDetails.CMenu.Items.Add(this.gridDetails.MenuSeparator);
-                
-                // 
-                // updateCreativeShows
-                // 
-                this.gridDetails.UpdateCreativeShows = new ToolStripMenuItem {
-                    Name = "updateCreativeShows",
-                    Size = new Size(134, 22),
-                    Text = Multilingual.GetWord("main_update_shows"),
-                    ShowShortcutKeys = true,
-                    Image = Properties.Resources.update,
-                    ShortcutKeys = Keys.Control | Keys.U
-                };
-                this.gridDetails.UpdateCreativeShows.Click += this.updateShows_Click;
-                this.gridDetails.CMenu.Items.Add(this.gridDetails.UpdateCreativeShows);
+                this.gridDetails.SetContextMenuTheme();
             }
-
-            this.gridDetails.SetContextMenuTheme();
         }
         
         private void spinnerTransition_Tick(object sender, EventArgs e) {
@@ -193,55 +191,55 @@ namespace FallGuysStats {
             this.gridDetails.Enabled = enable;
             this.mlFirstPagingButton.Enabled = enable;
             this.mlLeftPagingButton.Enabled = enable;
-            // this.lblPagingInfo.Enabled = enable;
             this.mlRightPagingButton.Enabled = enable;
             this.mlLastPagingButton.Enabled = enable;
         }
         
         private void UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed, bool isInitialize) {
+            this.EnablePagingUI(false);
             Task.Run(() => {
-                this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                if (this.RoundDetails.Count > 0) {
+                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                    if (this._showStats != 2) {
+                        if ((!isFirstPage && !isLastPage) || isLastPage) {
+                            int firstShowId = this.currentRoundDetails[0].ShowID;
+                            List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == firstShowId);
+                            List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == firstShowId);
 
-                if (this._showStats != 2) {
-                    if ((!isFirstPage && !isLastPage) || isLastPage) {
-                        int firstShowId = this.currentRoundDetails[0].ShowID;
-                        List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == firstShowId);
-                        List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == firstShowId);
-
-                        if (currentShows.Count != allShows.Count) {
-                            this.currentRoundDetails.RemoveAll(r => r.ShowID == firstShowId);
-                            this.currentRoundDetails.InsertRange(0, allShows);
+                            if (currentShows.Count != allShows.Count) {
+                                this.currentRoundDetails.RemoveAll(r => r.ShowID == firstShowId);
+                                this.currentRoundDetails.InsertRange(0, allShows);
+                            }
                         }
-                    }
 
-                    if ((!isFirstPage && !isLastPage) || isFirstPage) {
-                        int lastShowId = this.currentRoundDetails[this.currentRoundDetails.Count - 1].ShowID;
-                        List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == lastShowId);
-                        List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == lastShowId);
+                        if ((!isFirstPage && !isLastPage) || isFirstPage) {
+                            int lastShowId = this.currentRoundDetails[this.currentRoundDetails.Count - 1].ShowID;
+                            List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == lastShowId);
+                            List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == lastShowId);
 
-                        if (currentShows.Count != allShows.Count) {
-                            this.currentRoundDetails.RemoveAll(r => r.ShowID == lastShowId);
-                            this.currentRoundDetails.AddRange(allShows);
+                            if (currentShows.Count != allShows.Count) {
+                                this.currentRoundDetails.RemoveAll(r => r.ShowID == lastShowId);
+                                this.currentRoundDetails.AddRange(allShows);
+                            }
                         }
                     }
                 }
             }).ContinueWith(prevTask => {
-                this.Invoke((MethodInvoker)delegate {
-                    // this.spinnerTransition.Stop();
-                    // this.mpsSpinner01.Visible = false;
-                    this.gridDetails.DataSource = this.currentRoundDetails;
-                    this.gridDetails.Enabled = true;
-                    this.SetPagingDisplay(true);
-                    this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.Rows.Count - 1;
+                this.BeginInvoke((MethodInvoker)delegate {
+                    if (this.RoundDetails.Count > 0) {
+                        this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.Enabled = true;
+                        this.SetPagingDisplay(true);
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.Rows.Count - 1;
+                    } else {
+                        this.gridDetails.DataSource = this.RoundDetails;
+                    }
                     if (isInitialize) this.SetContextMenu();
                 });
             });
         }
 
         private void pagingButton_Click(object sender, EventArgs e) {
-            this.EnablePagingUI(false);
-            // this.spinnerTransition.Start();
-            // this.mpsSpinner01.Visible = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
                 this.currentPage = 1;
                 this.UpdatePage(true, false, true, false);
