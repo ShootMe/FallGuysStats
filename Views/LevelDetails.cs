@@ -31,7 +31,7 @@ namespace FallGuysStats {
             this.Opacity = 0;
         }
         
-        private async void LevelDetails_Load(object sender, EventArgs e) {
+        private void LevelDetails_Load(object sender, EventArgs e) {
             this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             this.SetTheme(Stats.CurrentTheme);
             //
@@ -87,9 +87,7 @@ namespace FallGuysStats {
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
-            await this.UpdatePage(false, true, false);
-            
-            this.SetContextMenu();
+            this.UpdatePage(false, true, false, true);
         }
 
         private void SetContextMenu() {
@@ -200,8 +198,8 @@ namespace FallGuysStats {
             this.mlLastPagingButton.Enabled = enable;
         }
         
-        private async Task UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed) {
-            await Task.Run(() => {
+        private void UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed, bool isInitialize) {
+            Task.Run(() => {
                 this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
 
                 if (this._showStats != 2) {
@@ -235,6 +233,7 @@ namespace FallGuysStats {
                     this.gridDetails.Enabled = true;
                     this.SetPagingDisplay(true);
                     this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.Rows.Count - 1;
+                    if (isInitialize) this.SetContextMenu();
                 });
             });
         }
@@ -245,16 +244,16 @@ namespace FallGuysStats {
             // this.mpsSpinner01.Visible = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
                 this.currentPage = 1;
-                this.UpdatePage(true, false, true);
+                this.UpdatePage(true, false, true, false);
             } else if (sender.Equals(this.mlLeftPagingButton)) {
                 this.currentPage -= 1;
-                this.UpdatePage(false, false, false);
+                this.UpdatePage(false, false, false, false);
             } else if (sender.Equals(this.mlRightPagingButton)) {
                 this.currentPage += 1;
-                this.UpdatePage(false, false, true);
+                this.UpdatePage(false, false, true, false);
             } else if (sender.Equals(this.mlLastPagingButton)) {
                 this.currentPage = this.totalPages;
-                this.UpdatePage(false, true, false);
+                this.UpdatePage(false, true, false, false);
             }
         }
 
