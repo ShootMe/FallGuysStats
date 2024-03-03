@@ -38,7 +38,7 @@ namespace FallGuysStats {
         private List<WeeklyCrownUser> weeklyCrownList;
         private readonly List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
         private bool isSearchCompleted;
-        private Timer spinnerTransition;
+        private Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
         private MetroProgressSpinner targetSpinner;
         private string currentUserId;
@@ -69,11 +69,7 @@ namespace FallGuysStats {
         }
         
         private void LeaderboardDisplay_Load(object sender, EventArgs e) {
-            this.spinnerTransition = new Timer {
-                Interval = 1
-            };
             this.spinnerTransition.Tick += this.spinnerTransition_Tick;
-            
             this.SetTheme(Stats.CurrentTheme);
             this.SetRoundList();
             
@@ -133,7 +129,7 @@ namespace FallGuysStats {
                         }
                         this.mpsSpinner01.Visible = false;
                         this.spinnerTransition.Stop();
-                        this.targetSpinner = null;
+                        // this.targetSpinner = null;
                         this.gridOverallRank.DataSource = prevTask.Result ? this.overallRankList : this.overallRankNodata;
                         this.gridOverallRank.ClearSelection();
                         if (!prevTask.Result) this.overallRankList = null;
@@ -186,7 +182,7 @@ namespace FallGuysStats {
             } else {
                 this.mpsSpinner01.Visible = false;
                 this.spinnerTransition.Stop();
-                this.targetSpinner = null;
+                // this.targetSpinner = null;
                 this.gridOverallRank.DataSource = this.overallRankList;
                 this.gridOverallRank.ClearSelection();
                 this.overallSummary = this.overallRankList?
@@ -405,7 +401,7 @@ namespace FallGuysStats {
             this.mtpLevelRankPage.Text = $@"🏅 {this.cboRoundList.SelectedName} ({this.totalPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
-            this.targetSpinner = null;
+            // this.targetSpinner = null;
             this.gridLevelRank.DataSource = this.levelRankList;
             Application.DoEvents();
             this.myLevelRank = -1;
@@ -454,7 +450,7 @@ namespace FallGuysStats {
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
-            this.targetSpinner = null;
+            // this.targetSpinner = null;
             this.gridLevelRank.DataSource = this.levelRankNodata;
             this.mlRefreshList.Visible = false;
             this.mlVisitFallalytics.Visible = false;
@@ -1177,7 +1173,7 @@ namespace FallGuysStats {
                 }
             }).ContinueWith(prevTask => {
                 this.spinnerTransition.Stop();
-                this.targetSpinner = null;
+                // this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.mtcTabControl.Enabled = true;
                     this.cboRoundList.Enabled = true;
@@ -1428,7 +1424,7 @@ namespace FallGuysStats {
                     }
                 }).ContinueWith(prevTask => {
                     this.spinnerTransition.Stop();
-                    this.targetSpinner = null;
+                    // this.targetSpinner = null;
                     this.BeginInvoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
                         this.cboRoundList.Enabled = true;
@@ -1684,7 +1680,7 @@ namespace FallGuysStats {
                         this.cboRoundList.Enabled = true;
                         this.mpsSpinner05.Visible = false;
                         this.spinnerTransition.Stop();
-                        this.targetSpinner = null;
+                        // this.targetSpinner = null;
                         this.gridWeeklyCrown.DataSource = prevTask.Result ? this.weeklyCrownList : this.weeklyCrownNodata;
                         this.mlVisitFallalytics.Enabled = true;
                         if (prevTask.Result) {

@@ -32,6 +32,7 @@
             this.mlLastPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
+            this.mpsSpinner01 = new MetroFramework.Controls.MetroProgressSpinner();
             this.gridDetails = new FallGuysStats.Grid();
             ((System.ComponentModel.ISupportInitialize)(this.gridDetails)).BeginInit();
             this.SuspendLayout();
@@ -115,6 +116,24 @@
             this.mlLastPagingButton.Visible = false;
             this.mlLastPagingButton.Click += new System.EventHandler(this.pagingButton_Click);
             // 
+            // mpsSpinner01
+            // 
+            this.mpsSpinner01.BackColor = System.Drawing.Color.White;
+            this.mpsSpinner01.Location = new System.Drawing.Point(20, 20);
+            this.mpsSpinner01.Margin = new System.Windows.Forms.Padding(0);
+            this.mpsSpinner01.Maximum = 100;
+            this.mpsSpinner01.MaximumSize = new System.Drawing.Size(32, 32);
+            this.mpsSpinner01.MinimumSize = new System.Drawing.Size(32, 32);
+            this.mpsSpinner01.Name = "mpsSpinner01";
+            this.mpsSpinner01.Size = new System.Drawing.Size(32, 32);
+            this.mpsSpinner01.Speed = 3F;
+            this.mpsSpinner01.Style = MetroFramework.MetroColorStyle.Teal;
+            this.mpsSpinner01.TabIndex = 4;
+            this.mpsSpinner01.UseCustomBackColor = true;
+            this.mpsSpinner01.UseSelectable = true;
+            this.mpsSpinner01.Value = 10;
+            this.mpsSpinner01.Visible = false;
+            // 
             // gridDetails
             // 
             this.gridDetails.AllowUserToDeleteRows = false;
@@ -161,6 +180,7 @@
             this.Controls.Add(this.lblPagingInfo);
             this.Controls.Add(this.mlRightPagingButton);
             this.Controls.Add(this.mlLastPagingButton);
+            this.Controls.Add(this.mpsSpinner01);
             this.Controls.Add(this.gridDetails);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -185,6 +205,7 @@
         private MetroFramework.Controls.MetroLink mlLastPagingButton;
         private MetroFramework.Controls.MetroLink mlLeftPagingButton;
         private MetroFramework.Controls.MetroLink mlRightPagingButton;
+        private MetroFramework.Controls.MetroProgressSpinner mpsSpinner01;
         private FallGuysStats.Grid gridDetails;
     }
 }

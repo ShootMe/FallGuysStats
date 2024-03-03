@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 
@@ -13,7 +14,7 @@ namespace FallGuysStats {
         public Image RoundIcon { get; set; }
         public bool IsCreative { get; set; }
         public List<RoundInfo> RoundDetails { get; set; }
-        public List<RoundInfo> CurrentRoundDetails;
+        public List<RoundInfo> currentRoundDetails;
         public Stats StatsForm { get; set; }
         private int _showStats;
         private int currentPage, totalPages;
@@ -22,12 +23,16 @@ namespace FallGuysStats {
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         
+        private Timer spinnerTransition = new Timer { Interval = 1 };
+        private bool isIncreasing;
+        
         public LevelDetails() {
             this.InitializeComponent();
             this.Opacity = 0;
         }
         
         private void LevelDetails_Load(object sender, EventArgs e) {
+            this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             this.SetTheme(Stats.CurrentTheme);
             //
             // dataGridViewCellStyle1
@@ -82,8 +87,8 @@ namespace FallGuysStats {
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
-            this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-            this.gridDetails.DataSource = this.CurrentRoundDetails;
+            this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            this.gridDetails.DataSource = this.currentRoundDetails;
             if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
             
             if (this.gridDetails.RowCount == 0) {
@@ -148,6 +153,24 @@ namespace FallGuysStats {
 
             this.gridDetails.SetContextMenuTheme();
         }
+        
+        private void spinnerTransition_Tick(object sender, EventArgs e) {
+            if (this.isIncreasing) {
+                this.mpsSpinner01.Speed = 3.2F;
+                if (this.mpsSpinner01.Value < 90) {
+                    this.mpsSpinner01.Value++;
+                } else {
+                    this.isIncreasing = false;
+                }
+            } else {
+                this.mpsSpinner01.Speed = 2.7F;
+                if (this.mpsSpinner01.Value > 10) {
+                    this.mpsSpinner01.Value--;
+                } else {
+                    this.isIncreasing = true;
+                }
+            }
+        }
 
         private void SetPagingUI(bool visible) {
             if (visible) {
@@ -177,40 +200,73 @@ namespace FallGuysStats {
 
         private void pagingButton_Click(object sender, EventArgs e) {
             this.EnablePagingUI(false);
+            // this.spinnerTransition.Start();
+            // this.mpsSpinner01.Visible = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
-                this.currentPage = 1;
-                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                this.gridDetails.DataSource = this.CurrentRoundDetails;
-                if (this.gridDetails.Rows.Count > 0) {
-                    this.SetPagingUI(true);
-                    this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
-                }
+                Task.Run(() => {
+                    this.currentPage = 1;
+                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                }).ContinueWith(prevTask => {
+                    this.Invoke((MethodInvoker)delegate {
+                        // this.spinnerTransition.Stop();
+                        // this.mpsSpinner01.Visible = false;
+                        this.gridDetails.Enabled = true;
+                        this.gridDetails.DataSource = this.currentRoundDetails;
+                        if (this.gridDetails.Rows.Count > 0) {
+                            this.SetPagingUI(true);
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
+                        }
+                    });
+                });
             } else if (sender.Equals(this.mlLeftPagingButton)) {
-                this.currentPage -= 1;
-                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                this.gridDetails.DataSource = this.CurrentRoundDetails;
-                if (this.gridDetails.Rows.Count > 0) {
-                    this.SetPagingUI(true);
-                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-                }
+                Task.Run(() => {
+                    this.currentPage -= 1;
+                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                }).ContinueWith(prevTask => {
+                    this.Invoke((MethodInvoker)delegate {
+                        // this.spinnerTransition.Stop();
+                        // this.mpsSpinner01.Visible = false;
+                        this.gridDetails.Enabled = true;
+                        this.gridDetails.DataSource = this.currentRoundDetails;
+                        if (this.gridDetails.Rows.Count > 0) {
+                            this.SetPagingUI(true);
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+                        }
+                    });
+                });
             } else if (sender.Equals(this.mlRightPagingButton)) {
-                this.currentPage += 1;
-                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                this.gridDetails.DataSource = this.CurrentRoundDetails;
-                if (this.gridDetails.Rows.Count > 0) {
-                    this.SetPagingUI(true);
-                    this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
-                }
+                Task.Run(() => {
+                    this.currentPage += 1;
+                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                }).ContinueWith(prevTask => {
+                    this.Invoke((MethodInvoker)delegate {
+                        // this.spinnerTransition.Stop();
+                        // this.mpsSpinner01.Visible = false;
+                        this.gridDetails.Enabled = true;
+                        this.gridDetails.DataSource = this.currentRoundDetails;
+                        if (this.gridDetails.Rows.Count > 0) {
+                            this.SetPagingUI(true);
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
+                        }
+                    });
+                });
             } else if (sender.Equals(this.mlLastPagingButton)) {
-                this.currentPage = this.totalPages;
-                this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                this.gridDetails.DataSource = this.CurrentRoundDetails;
-                if (this.gridDetails.Rows.Count > 0) {
-                    this.SetPagingUI(true);
-                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-                }
+                Task.Run(() => {
+                    this.currentPage = this.totalPages;
+                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                }).ContinueWith(prevTask => {
+                    this.Invoke((MethodInvoker)delegate {
+                        // this.spinnerTransition.Stop();
+                        // this.mpsSpinner01.Visible = false;
+                        this.gridDetails.Enabled = true;
+                        this.gridDetails.DataSource = this.currentRoundDetails;
+                        if (this.gridDetails.Rows.Count > 0) {
+                            this.SetPagingUI(true);
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
+                        }
+                    });
+                });
             }
-            this.gridDetails.Enabled = true;
         }
 
         private void LevelDetails_Shown(object sender, EventArgs e) {
@@ -220,6 +276,7 @@ namespace FallGuysStats {
         private void SetTheme(MetroThemeStyle theme) {
             this.SuspendLayout();
 
+            this.mpsSpinner01.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
             this.mlFirstPagingButton.Theme = theme;
             this.mlLeftPagingButton.Theme = theme;
             this.lblPagingInfo.Font = Overlay.GetDefaultFont(23, 0);
@@ -616,12 +673,12 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-            if (this.CurrentRoundDetails == null) return;
+            if (this.currentRoundDetails == null) return;
             string columnName = this.gridDetails.Columns[e.ColumnIndex].Name;
             SortOrder sortOrder = this.gridDetails.GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "ShowID"; }
 
-            this.CurrentRoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
+            this.currentRoundDetails.Sort(delegate (RoundInfo one, RoundInfo two) {
                 int roundCompare = one.Round.CompareTo(two.Round);
                 int showCompare = one.ShowID.CompareTo(two.ShowID);
                 if (sortOrder == SortOrder.Descending) {
@@ -703,7 +760,7 @@ namespace FallGuysStats {
             });
 
             this.gridDetails.DataSource = null;
-            this.gridDetails.DataSource = this.CurrentRoundDetails;
+            this.gridDetails.DataSource = this.currentRoundDetails;
             this.gridDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
@@ -764,39 +821,46 @@ namespace FallGuysStats {
                         Multilingual.GetWord("message_delete_show_caption"), 
                         MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
                 {
-                    int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                     this.gridDetails.Enabled = false;
-                    
-                    lock (this.StatsForm.StatsDB) {
-                        this.StatsForm.StatsDB.BeginTrans();
-                        foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
-                            RoundInfo d = row.DataBoundItem as RoundInfo;
-                            this.RoundDetails.Remove(d);
-                            this.StatsForm.AllStats.RemoveAll(r => r.ShowID == d.ShowID);
-                            this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == d.ShowID);
+                    this.spinnerTransition.Start();
+                    this.mpsSpinner01.Visible = true;
+                    int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                    Task.Run(() => {
+                        lock (this.StatsForm.StatsDB) {
+                            this.StatsForm.StatsDB.BeginTrans();
+                            foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                                RoundInfo bi = row.DataBoundItem as RoundInfo;
+                                this.RoundDetails.Remove(bi);
+                                this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
+                                this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
+                            }
+                            this.StatsForm.StatsDB.Commit();
                         }
-                        this.StatsForm.StatsDB.Commit();
-                    }
+                    }).ContinueWith(prevTask => {
+                        this.BeginInvoke((MethodInvoker)delegate {
+                            this.EnablePagingUI(false);
+                            this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                            if (this.currentPage > this.totalPages) {
+                                this.currentPage = this.totalPages;
+                            }
+                            this.SetPagingUI(true);
+                            this.gridDetails.Enabled = true;
+                            this.spinnerTransition.Stop();
+                            this.mpsSpinner01.Visible = false;
                     
-                    this.EnablePagingUI(false);
-                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
-                    if (this.currentPage > this.totalPages) {
-                        this.currentPage = this.totalPages;
-                    }
-                    this.SetPagingUI(true);
-                    this.gridDetails.Enabled = true;
-                    
-                    this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                    this.gridDetails.DataSource = null;
-                    this.gridDetails.DataSource = this.CurrentRoundDetails;
-                    if (minIndex < this.CurrentRoundDetails.Count) {
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                    } else if (this.CurrentRoundDetails.Count > 0) {
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
-                    }
+                            this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                            this.gridDetails.DataSource = null;
+                            this.gridDetails.DataSource = this.currentRoundDetails;
+                            if (minIndex < this.currentRoundDetails.Count) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                            } else if (this.currentRoundDetails.Count > 0) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
+                            }
 
-                    this.StatsForm.ResetStats();
-                    Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            this.StatsForm.ResetStats();
+                            Stats.IsOverlayRoundInfoNeedRefresh = true;
+                        });
+                    });
                 }
             }
         }
@@ -811,44 +875,52 @@ namespace FallGuysStats {
                     moveShows.SelectedCount = selectedCount; 
                     moveShows.Icon = Icon;
                     if (moveShows.ShowDialog(this) == DialogResult.OK) {
-                        int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
-                        int fromProfileId = this.StatsForm.GetCurrentProfileId();
-                        int toProfileId = moveShows.SelectedProfileId;
                         this.gridDetails.Enabled = false;
-                        
-                        lock (this.StatsForm.StatsDB) {
-                            this.StatsForm.StatsDB.BeginTrans();
-                            foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
-                                RoundInfo d = row.DataBoundItem as RoundInfo;
-                                this.RoundDetails.Remove(d);
-                                List<RoundInfo> rl = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
-                                foreach (RoundInfo r in rl) {
-                                    r.Profile = toProfileId;
+                        this.spinnerTransition.Start();
+                        this.mpsSpinner01.Visible = true;
+                        int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                        Task.Run(() => {
+                            int fromProfileId = this.StatsForm.GetCurrentProfileId();
+                            int toProfileId = moveShows.SelectedProfileId;
+                            lock (this.StatsForm.StatsDB) {
+                                this.StatsForm.StatsDB.BeginTrans();
+                                foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
+                                    RoundInfo d = row.DataBoundItem as RoundInfo;
+                                    this.RoundDetails.Remove(d);
+                                    List<RoundInfo> rl = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
+                                    foreach (RoundInfo r in rl) {
+                                        r.Profile = toProfileId;
+                                    }
+                                    this.StatsForm.RoundDetails.Update(rl);
                                 }
-                                this.StatsForm.RoundDetails.Update(rl);
+                                this.StatsForm.StatsDB.Commit();
                             }
-                            this.StatsForm.StatsDB.Commit();
-                        }
+                        }).ContinueWith(prevTask => {
+                            this.BeginInvoke((MethodInvoker)delegate {
+                                this.EnablePagingUI(false);
+                                this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                                if (this.currentPage > this.totalPages) {
+                                    this.currentPage = this.totalPages;
+                                }
+                                this.SetPagingUI(true);
+                                
+                                this.gridDetails.Enabled = true;
+                                this.spinnerTransition.Stop();
+                                this.mpsSpinner01.Visible = false;
                         
-                        this.EnablePagingUI(false);
-                        this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
-                        if (this.currentPage > this.totalPages) {
-                            this.currentPage = this.totalPages;
-                        }
-                        this.SetPagingUI(true);
-                        this.gridDetails.Enabled = true;
-                        
-                        this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                        this.gridDetails.DataSource = null;
-                        this.gridDetails.DataSource = this.CurrentRoundDetails;
-                        if (minIndex < this.CurrentRoundDetails.Count) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                        } else if (this.CurrentRoundDetails.Count > 0) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
-                        }
+                                this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                                this.gridDetails.DataSource = null;
+                                this.gridDetails.DataSource = this.currentRoundDetails;
+                                if (minIndex < this.currentRoundDetails.Count) {
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                                } else if (this.currentRoundDetails.Count > 0) {
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
+                                }
 
-                        this.StatsForm.ResetStats();
-                        Stats.IsOverlayRoundInfoNeedRefresh = true;
+                                this.StatsForm.ResetStats();
+                                Stats.IsOverlayRoundInfoNeedRefresh = true;
+                            });
+                        });
                     }
                 }
             }
@@ -864,66 +936,74 @@ namespace FallGuysStats {
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.Enabled = false;
-                            try {
-                                JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
-                                if (resData.TryGetProperty("data", out JsonElement je)) {
-                                    JsonElement snapshot = je.GetProperty("snapshot");
-                                    JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
-                                    JsonElement stats = snapshot.GetProperty("stats");
-                                    
-                                    List<RoundInfo> filteredInfo = ri.UseShareCode ? this.RoundDetails.FindAll(r => r.UseShareCode && string.Equals(r.Name, shareCode)) 
-                                                                                   : this.RoundDetails.FindAll(r => string.Equals(r.Name, ri.Name));
-                                    foreach (RoundInfo info in filteredInfo) {
-                                        if (ri.UseShareCode) { info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
-                                        string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
-                                        info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
-                                        info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
-                                        info.CreativeAuthor = onlinePlatformInfo[1];
-                                        info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
-                                        info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
-                                        info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
-                                        info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
-                                        if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
-                                            string temps = string.Empty;
-                                            foreach (JsonElement t in creatorTags.EnumerateArray()) {
-                                                if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
-                                                temps += t.GetString();
+                            this.spinnerTransition.Start();
+                            this.mpsSpinner01.Visible = true;
+                            Task.Run(() => {
+                                try {
+                                    JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
+                                    if (resData.TryGetProperty("data", out JsonElement je)) {
+                                        JsonElement snapshot = je.GetProperty("snapshot");
+                                        JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                                        JsonElement stats = snapshot.GetProperty("stats");
+                                        
+                                        List<RoundInfo> filteredInfo = ri.UseShareCode ? this.RoundDetails.FindAll(r => r.UseShareCode && string.Equals(r.Name, shareCode)) 
+                                                                                       : this.RoundDetails.FindAll(r => string.Equals(r.Name, ri.Name));
+                                        foreach (RoundInfo info in filteredInfo) {
+                                            if (ri.UseShareCode) { info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
+                                            string[] onlinePlatformInfo = this.StatsForm.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                            info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                                            info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                            info.CreativeAuthor = onlinePlatformInfo[1];
+                                            info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                            info.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                            info.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                            info.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                            if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                                                string temps = string.Empty;
+                                                foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                                                    if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                                                    temps += t.GetString();
+                                                }
+                                                info.CreativeCreatorTags = temps;
                                             }
-                                            info.CreativeCreatorTags = temps;
+                                            info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                            info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
+                                            info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                            info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
+                                            info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                                            info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                            info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                                            info.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                                            info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
+                                            info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                            info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                         }
-                                        info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
-                                        info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
-                                        info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                        info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                                        info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
-                                        info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
-                                        info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
-                                        info.CreativeLikes = stats.GetProperty("likes").GetInt32();
-                                        info.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
-                                        info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
-                                        info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                        
+                                        lock (this.StatsForm.StatsDB) {
+                                            this.StatsForm.StatsDB.BeginTrans();
+                                            this.StatsForm.RoundDetails.Update(filteredInfo);
+                                            this.StatsForm.StatsDB.Commit();
+                                        }
                                     }
-                                    
-                                    lock (this.StatsForm.StatsDB) {
-                                        this.StatsForm.StatsDB.BeginTrans();
-                                        this.StatsForm.RoundDetails.Update(filteredInfo);
-                                        this.StatsForm.StatsDB.Commit();
-                                    }
+                                } catch {
+                                    MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}", 
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
-                            } catch {
-                                MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}", 
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                            
-                            this.gridDetails.Enabled = true;
-                            this.CurrentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                            this.gridDetails.DataSource = null;
-                            this.gridDetails.DataSource = this.CurrentRoundDetails;
-                            if (minIndex < this.CurrentRoundDetails.Count) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                            } else if (this.CurrentRoundDetails.Count > 0) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.CurrentRoundDetails.Count - 1;
-                            }
+                            }).ContinueWith(prevTask => {
+                                this.BeginInvoke((MethodInvoker)delegate {
+                                    this.spinnerTransition.Stop();
+                                    this.mpsSpinner01.Visible = false;
+                                    this.gridDetails.Enabled = true;
+                                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                                    this.gridDetails.DataSource = null;
+                                    this.gridDetails.DataSource = this.currentRoundDetails;
+                                    if (minIndex < this.currentRoundDetails.Count) {
+                                        this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                                    } else if (this.currentRoundDetails.Count > 0) {
+                                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
+                                    }
+                                });
+                            });
                         }
                     }
                 }
