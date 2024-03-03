@@ -638,8 +638,15 @@ namespace FallGuysStats {
 
             string columnName = this.gridOverallRank.Columns[e.ColumnIndex].Name;
             OverallRankInfo info = this.gridOverallRank.Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
+            
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
             if (info.rank == 1) {
@@ -711,12 +718,6 @@ namespace FallGuysStats {
                 if (info.firstPlaces == 0) {
                     e.Value = "-";
                 }
-            }
-            
-            if (e.RowIndex % 2 == 0) {
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-            } else {
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
@@ -800,11 +801,16 @@ namespace FallGuysStats {
             string columnName = this.gridOverallSummary.Columns[e.ColumnIndex].Name;
             OverallSummary summary = this.gridOverallSummary.Rows[e.RowIndex].DataBoundItem as OverallSummary;
             
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if (columnName == "rank") {
                 if (string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
                 }
-
                 if (summary.rank == 0) {
                     e.Value = "";
                 }
@@ -839,12 +845,6 @@ namespace FallGuysStats {
                     e.CellStyle.ForeColor = string.Equals(Stats.HostCountryCode, summary.country, StringComparison.OrdinalIgnoreCase)
                         ? (this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Sienna : Color.Chocolate);
                 }
-            }
-            
-            if (e.RowIndex % 2 == 0) {
-                this.gridOverallSummary.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-            } else {
-                this.gridOverallSummary.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
@@ -904,8 +904,15 @@ namespace FallGuysStats {
 
             string columnName = this.gridLevelRank.Columns[e.ColumnIndex].Name;
             LevelRankInfo info = this.gridLevelRank.Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
+            
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
             if (info.rank == 1) {
@@ -979,13 +986,6 @@ namespace FallGuysStats {
                 this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
-            }
-            
-            if (e.RowIndex % 2 == 0) {
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-                // this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            } else {
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
@@ -1082,8 +1082,15 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= this.gridPlayerList.Rows.Count) { return; }
 
             SearchPlayer info = this.gridPlayerList.Rows[e.RowIndex].DataBoundItem as SearchPlayer;
+            
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
-                this.gridPlayerList.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
             if (this.gridPlayerList.Columns[e.ColumnIndex].Name == "flag") {
@@ -1096,12 +1103,6 @@ namespace FallGuysStats {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (this.gridPlayerList.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
                 e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
-            }
-            
-            if (e.RowIndex % 2 == 0) {
-                this.gridPlayerList.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-            } else {
-                this.gridPlayerList.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
@@ -1262,6 +1263,12 @@ namespace FallGuysStats {
 
             PbInfo info = this.gridPlayerDetails.Rows[e.RowIndex].DataBoundItem as PbInfo;
             
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
@@ -1320,12 +1327,6 @@ namespace FallGuysStats {
             } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "finish") {
                 this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
-            }
-            
-            if (e.RowIndex % 2 == 0) {
-                this.gridPlayerDetails.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-            } else {
-                this.gridPlayerDetails.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         
@@ -1485,8 +1486,15 @@ namespace FallGuysStats {
 
             string columnName = this.gridWeeklyCrown.Columns[e.ColumnIndex].Name;
             WeeklyCrownUser info = this.gridWeeklyCrown.Rows[e.RowIndex].DataBoundItem as WeeklyCrownUser;
+            
+            if (e.RowIndex % 2 == 0) {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
+            } else {
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
+            }
+            
             if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
 
             if (info.rank == 1) {
@@ -1570,12 +1578,6 @@ namespace FallGuysStats {
             } else if (columnName == "period") {
                 this.gridWeeklyCrown.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 e.Value = $@"📆 {this.StatsForm.weeklyCrownPeriod}";
-            }
-
-            if (e.RowIndex % 2 == 0) {
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
-            } else {
-                this.gridWeeklyCrown.Rows[e.RowIndex].DefaultCellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
         }
         

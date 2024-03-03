@@ -87,7 +87,9 @@ namespace FallGuysStats {
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
-            this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            // this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            this.UpdatePage(false, true, false);
+            
             this.gridDetails.DataSource = this.currentRoundDetails;
             if (this.gridDetails.Rows.Count > 0) this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
             
@@ -197,75 +199,62 @@ namespace FallGuysStats {
             this.mlRightPagingButton.Enabled = enable;
             this.mlLastPagingButton.Enabled = enable;
         }
+        
+        private void UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed) {
+            Task.Run(() => {
+                this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+
+                if (this._showStats != 2) {
+                    if ((!isFirstPage && !isLastPage) || isLastPage) {
+                        int firstShowId = this.currentRoundDetails[0].ShowID;
+                        List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == firstShowId);
+                        List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == firstShowId);
+
+                        if (currentShows.Count != allShows.Count) {
+                            this.currentRoundDetails.RemoveAll(r => r.ShowID == firstShowId);
+                            this.currentRoundDetails.InsertRange(0, allShows);
+                        }
+                    }
+
+                    if ((!isFirstPage && !isLastPage) || isFirstPage) {
+                        int lastShowId = this.currentRoundDetails[this.currentRoundDetails.Count - 1].ShowID;
+                        List<RoundInfo> currentShows = this.currentRoundDetails.FindAll(r => r.ShowID == lastShowId);
+                        List<RoundInfo> allShows = this.RoundDetails.FindAll(r => r.ShowID == lastShowId);
+
+                        if (currentShows.Count != allShows.Count) {
+                            this.currentRoundDetails.RemoveAll(r => r.ShowID == lastShowId);
+                            this.currentRoundDetails.AddRange(allShows);
+                        }
+                    }
+                }
+            }).ContinueWith(prevTask => {
+                this.Invoke((MethodInvoker)delegate {
+                    // this.spinnerTransition.Stop();
+                    // this.mpsSpinner01.Visible = false;
+                    this.gridDetails.DataSource = this.currentRoundDetails;
+                    this.gridDetails.Enabled = true;
+                    this.SetPagingDisplay(true);
+                    this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.Rows.Count - 1;
+                });
+            });
+        }
 
         private void pagingButton_Click(object sender, EventArgs e) {
             this.EnablePagingUI(false);
             // this.spinnerTransition.Start();
             // this.mpsSpinner01.Visible = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
-                Task.Run(() => {
-                    this.currentPage = 1;
-                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                }).ContinueWith(prevTask => {
-                    this.Invoke((MethodInvoker)delegate {
-                        // this.spinnerTransition.Stop();
-                        // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.DataSource = this.currentRoundDetails;
-                        this.gridDetails.Enabled = true;
-                        if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingDisplay(true);
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
-                        }
-                    });
-                });
+                this.currentPage = 1;
+                this.UpdatePage(true, false, true);
             } else if (sender.Equals(this.mlLeftPagingButton)) {
-                Task.Run(() => {
-                    this.currentPage -= 1;
-                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                }).ContinueWith(prevTask => {
-                    this.Invoke((MethodInvoker)delegate {
-                        // this.spinnerTransition.Stop();
-                        // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.DataSource = this.currentRoundDetails;
-                        this.gridDetails.Enabled = true;
-                        if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingDisplay(true);
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-                        }
-                    });
-                });
+                this.currentPage -= 1;
+                this.UpdatePage(false, false, false);
             } else if (sender.Equals(this.mlRightPagingButton)) {
-                Task.Run(() => {
-                    this.currentPage += 1;
-                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                }).ContinueWith(prevTask => {
-                    this.Invoke((MethodInvoker)delegate {
-                        // this.spinnerTransition.Stop();
-                        // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.DataSource = this.currentRoundDetails;
-                        this.gridDetails.Enabled = true;
-                        if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingDisplay(true);
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
-                        }
-                    });
-                });
+                this.currentPage += 1;
+                this.UpdatePage(false, false, true);
             } else if (sender.Equals(this.mlLastPagingButton)) {
-                Task.Run(() => {
-                    this.currentPage = this.totalPages;
-                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                }).ContinueWith(prevTask => {
-                    this.Invoke((MethodInvoker)delegate {
-                        // this.spinnerTransition.Stop();
-                        // this.mpsSpinner01.Visible = false;
-                        this.gridDetails.DataSource = this.currentRoundDetails;
-                        this.gridDetails.Enabled = true;
-                        if (this.gridDetails.Rows.Count > 0) {
-                            this.SetPagingDisplay(true);
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.Rows.Count - 1;
-                        }
-                    });
-                });
+                this.currentPage = this.totalPages;
+                this.UpdatePage(false, true, false);
             }
         }
 
@@ -537,7 +526,7 @@ namespace FallGuysStats {
                     colorSwitch = !colorSwitch;
                     lastShow = showID;
                 }
-
+            
                 if (colorSwitch) {
                     this.gridDetails.Rows[i].DefaultCellStyle.BackColor = backColor;
                     this.gridDetails.Rows[i].DefaultCellStyle.ForeColor = foreColor;
@@ -546,7 +535,7 @@ namespace FallGuysStats {
             }
             this.gridDetails.ClearSelection();
         }
-        
+
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (this.gridDetails.Rows.Count <= 0 || e.RowIndex < 0 || e.RowIndex >= this.gridDetails.Rows.Count) { return; }
 
@@ -628,49 +617,34 @@ namespace FallGuysStats {
                     e.Value = info.UseShareCode ? $"🔧 {Multilingual.GetShowName("fall_guys_creative_mode")}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Position") {
-                if ((int)e.Value == 0) {
-                    e.Value = "";
-                }
-            // } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Players") {
+                if ((int)e.Value == 0) { e.Value = ""; }
+            } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Players") {
+                e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 1.2f);
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs4") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs4_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPs5") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPs5_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersXb1") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersXb1_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersXsx") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersXsx_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersSw") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersSw_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersPc") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersPc_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "PlayersBots") {
                 this.gridDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_playersBots_desc");
-                if ((int)e.Value == 0) {
-                    e.Value = "-";
-                }
+                if ((int)e.Value == 0) { e.Value = "-"; }
             } else if (this._showStats != 2 && this.gridDetails.Columns[e.ColumnIndex].Name == "Score") {
                 e.Value = $"{e.Value:N0}";
             } else if (this.gridDetails.Columns[e.ColumnIndex].Name == "Kudos") {
-                e.Value = $"{e.Value:N0}";
+                e.Value = (int)e.Value == 0 ? "" : $"{e.Value:N0}";
             }
         }
         
