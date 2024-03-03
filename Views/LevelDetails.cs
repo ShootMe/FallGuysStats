@@ -1074,7 +1074,7 @@ namespace FallGuysStats {
                 strBuilder.Append(info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"), Utils.GetCultureInfo()));
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"{info.ShowID}{(!string.IsNullOrEmpty(info.ShowNameId) ? $" ⟦{Multilingual.GetShowName(info.ShowNameId)}⟧" : "")}");
+                strBuilder.Append($" ⟦ {info.ShowID}{(!string.IsNullOrEmpty(Multilingual.GetShowName(info.ShowNameId)) ? $" {Multilingual.GetShowName(info.ShowNameId)} ⟧" : " ⟧")}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
                 
