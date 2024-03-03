@@ -1074,13 +1074,18 @@ namespace FallGuysStats {
                 strBuilder.Append(info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"), Utils.GetCultureInfo()));
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"⟦{info.ShowID}⟧");
+                strBuilder.Append($"{info.ShowID}{(!string.IsNullOrEmpty(info.ShowNameId) ? $" ⟦{Multilingual.GetShowName(info.ShowNameId)}⟧" : "")}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
+                
                 string[] s = info.Name.Split(';');
                 for (int i = 0; i < s.Length; i++) {
                     string name = s[i];
-                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {name}");
+                    string type = string.Empty;
+                    if (this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : name, out LevelStats levelStats)) {
+                        type = $"⟦{levelStats.Type.LevelTitle(false)}⟧ ";
+                    }
+                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{Multilingual.GetRoundName(name)}");
                     if (i != s.Length - 1) strBuilder.Append(Environment.NewLine);
                 }
 

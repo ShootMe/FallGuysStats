@@ -5122,7 +5122,7 @@ namespace FallGuysStats {
                     .Select(g => new RoundInfo {
                         ShowID = g.ShowID,
                         // Name = g.SortedRounds.LastOrDefault().IsFinal || g.SortedRounds.LastOrDefault().Crown ? "Final" : string.Empty,
-                        Name = string.Join(";", g.SortedRounds.Select(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.StartsWith("user_creative_") ? (string.IsNullOrEmpty(r.CreativeTitle) ? r.Name : r.CreativeTitle) : Multilingual.GetRoundName(r.Name))),
+                        Name = string.Join(";", g.SortedRounds.Select(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.StartsWith("user_creative_") ? (string.IsNullOrEmpty(r.CreativeTitle) ? r.Name : r.CreativeTitle) : r.Name)),
                         ShowNameId = g.SortedRounds.LastOrDefault().ShowNameId,
                         IsFinal = g.SortedRounds.LastOrDefault().IsFinal,
                         End = g.SortedRounds.Max(r => r.End),
