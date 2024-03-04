@@ -18,7 +18,7 @@ namespace FallGuysStats {
         private IContainer components;
         private SaveFileDialog _saveFile;
         private ToolStripMenuItem ExportItemCsv, ExportItemHtml, ExportItemBbcode, ExportItemMd;
-        public ToolStripMenuItem DeleteShows, MoveShows, UpdateCreativeShows;
+        public ToolStripMenuItem DeleteShows, MoveShows, UpdateCreativeLevel;
         public ToolStripSeparator MenuSeparator;
         private bool IsEditOnEnter, readOnly;
         private bool? allowUpdate, allowNew, allowDelete;
@@ -52,7 +52,7 @@ namespace FallGuysStats {
             //}
         }
         
-        private void CMenu_MouseEnter(object sender, EventArgs e) {
+        public void CMenu_MouseEnter(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = Color.Black;
                 if (tsi.Name.Equals("exportItemCSV")) {
@@ -71,7 +71,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void CMenu_MouseLeave(object sender, EventArgs e) {
+        public void CMenu_MouseLeave(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem tsi) {
                 tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 if (tsi.Name.Equals("exportItemCSV")) {
@@ -90,7 +90,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
+        public void CustomToolStripSeparator_Paint(Object sender, PaintEventArgs e) {
             ToolStripSeparator separator = (ToolStripSeparator)sender;
             e.Graphics.FillRectangle(new SolidBrush(this.Theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17)), 0, 0, separator.Width, separator.Height); // CUSTOM_COLOR_BACKGROUND
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND

@@ -36,6 +36,12 @@
         SimplifiedChinese,
         TraditionalChinese
     }
+
+    public enum StatType {
+        Shows,
+        Rounds,
+        Levels,
+    }
     
     public enum HashTypes { MD5, RIPEMD160, SHA1, SHA256, SHA384, SHA512 }
     
@@ -112,5 +118,4 @@
         ErrorDark,
         Custom
     }
-
 }
