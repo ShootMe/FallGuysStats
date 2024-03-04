@@ -1135,7 +1135,7 @@ namespace FallGuysStats {
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_platform")} : {this.GetCreativePlatformName(info.CreativePlatformId)}");
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"))}");
+                strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_last_modified")} : {info.CreativeLastModifiedDate.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_play_count")} : {info.CreativePlayCount:N0}{Multilingual.GetWord("level_detail_creative_inning")}");
                 strBuilder.Append(Environment.NewLine);

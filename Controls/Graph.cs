@@ -395,7 +395,7 @@ namespace FallGuysStats {
         private string GetRepresentation(Type t, decimal value, decimal range) {
             if (t == typeof(DateTime)) {
                 if (TimeSpan.FromTicks((long)range).Days > 0) {
-                    return new DateTime((long)value).ToString(Multilingual.GetWord("level_date_format"));
+                    return new DateTime((long)value).ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo());
                 } else {
                     return new DateTime((long)value).ToString("HH:mm");
                 }
