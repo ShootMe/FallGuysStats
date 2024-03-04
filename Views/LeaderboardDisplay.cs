@@ -634,7 +634,7 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             OverallRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
@@ -796,7 +796,7 @@ namespace FallGuysStats {
         }
         
         private void gridOverallSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             OverallSummary summary = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallSummary;
@@ -900,7 +900,7 @@ namespace FallGuysStats {
         }
         
         private void gridLevelRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
             LevelRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
@@ -1079,7 +1079,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             SearchPlayer info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as SearchPlayer;
             
@@ -1259,7 +1259,7 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             PbInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as PbInfo;
             
@@ -1482,7 +1482,7 @@ namespace FallGuysStats {
         }
         
         private void gridWeeklyCrown_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridWeeklyCrown.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= this.gridWeeklyCrown.RowCount) { return; }
 
             string columnName = this.gridWeeklyCrown.Columns[e.ColumnIndex].Name;
             WeeklyCrownUser info = this.gridWeeklyCrown.Rows[e.RowIndex].DataBoundItem as WeeklyCrownUser;

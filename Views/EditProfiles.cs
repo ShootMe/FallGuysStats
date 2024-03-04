@@ -242,7 +242,7 @@ namespace FallGuysStats {
                 this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = string.IsNullOrEmpty(this.txtAddProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtAddProfile.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty });
                 this.IsUpdate = true;
                 this.ReloadProfileList();
-                this.dgvProfiles[0, this.dgvProfiles.Rows.Count - 1].Selected = true;
+                this.dgvProfiles[0, this.dgvProfiles.RowCount - 1].Selected = true;
             }
         }
 
@@ -332,7 +332,7 @@ namespace FallGuysStats {
         
         private void ProfileListDown_Click(object sender, EventArgs e) {
             if (this.dgvProfiles.SelectedRows.Count <= 0) { return; }
-            if (this.dgvProfiles.CurrentCell.RowIndex >= this.dgvProfiles.Rows.Count - 1) { return; }
+            if (this.dgvProfiles.CurrentCell.RowIndex >= this.dgvProfiles.RowCount - 1) { return; }
             int profileListIndex = this.dgvProfiles.CurrentCell.RowIndex;
             int profileIndex = this.Profiles.Count - profileListIndex - 1;
             (this.Profiles[profileIndex].ProfileOrder, this.Profiles[profileIndex - 1].ProfileOrder) = (this.Profiles[profileIndex - 1].ProfileOrder, this.Profiles[profileIndex].ProfileOrder);

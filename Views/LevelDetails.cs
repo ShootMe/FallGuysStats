@@ -230,7 +230,7 @@ namespace FallGuysStats {
                         this.gridDetails.DataSource = this.currentRoundDetails;
                         this.gridDetails.Enabled = true;
                         this.SetPagingDisplay(true);
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.Rows.Count - 1;
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1;
                     } else {
                         this.gridDetails.DataSource = this.RoundDetails;
                     }
@@ -382,7 +382,7 @@ namespace FallGuysStats {
         // }
 
         // private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            // if (((Grid)sender).Rows.Count > 0) ((Grid)sender).FirstDisplayedScrollingRowIndex = ((Grid)sender).Rows.Count - 1;
+            // if (((Grid)sender).RowCount > 0) ((Grid)sender).FirstDisplayedScrollingRowIndex = ((Grid)sender).RowCount - 1;
         // }
         
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
@@ -534,7 +534,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (((Grid)sender).Rows.Count <= 0 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (((Grid)sender).RowCount <= 0 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             RoundInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as RoundInfo;
             if (info.PrivateLobby) { // Custom
@@ -594,6 +594,9 @@ namespace FallGuysStats {
                 if ((this._showStats == 0 || this._showStats == 1) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
                     Color c1 = level.Type.LevelForeColor(false, info.IsTeam, this.Theme);
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
+                    if (level.IsCreative && string.IsNullOrEmpty(info.CreativeShareCode)) {
+                        e.Value = $"🔄️ {e.Value}";
+                    }
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "Name") {
                 if (info.UseShareCode) {
@@ -831,10 +834,8 @@ namespace FallGuysStats {
                             this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                             this.gridDetails.DataSource = null;
                             this.gridDetails.DataSource = this.currentRoundDetails;
-                            if (minIndex < this.currentRoundDetails.Count) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                            } else if (this.currentRoundDetails.Count > 0) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
+                            if (this.gridDetails.RowCount > 0) {
+                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount < minIndex ? this.gridDetails.RowCount - 1 : minIndex;
                             }
 
                             this.StatsForm.ResetStats();
@@ -891,10 +892,8 @@ namespace FallGuysStats {
                                 this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                                 this.gridDetails.DataSource = null;
                                 this.gridDetails.DataSource = this.currentRoundDetails;
-                                if (minIndex < this.currentRoundDetails.Count) {
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                                } else if (this.currentRoundDetails.Count > 0) {
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
+                                if (this.gridDetails.RowCount > 0) {
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount < minIndex ? this.gridDetails.RowCount - 1 : minIndex;
                                 }
 
                                 this.StatsForm.ResetStats();
@@ -977,11 +976,7 @@ namespace FallGuysStats {
                                     this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
                                     this.gridDetails.DataSource = null;
                                     this.gridDetails.DataSource = this.currentRoundDetails;
-                                    if (minIndex < this.currentRoundDetails.Count) {
-                                        this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
-                                    } else if (this.currentRoundDetails.Count > 0) {
-                                        this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentRoundDetails.Count - 1;
-                                    }
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
                                 });
                             });
                         }
@@ -994,7 +989,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (this._showStats == 2 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (this._showStats == 2 || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
             if ((bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value) {
                 string shareCode = (string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);
@@ -1013,7 +1008,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             if (this._showStats == 2
                 || (bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value
