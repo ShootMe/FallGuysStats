@@ -624,7 +624,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.StatLookup.TryGetValue((string.IsNullOrEmpty(info.ShowNameId) ? "user_creative_race_round" : info.ShowNameId), out LevelStats level)) {
                         Color c1 = string.IsNullOrEmpty(info.CreativeTitle) ? (this.Theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow) : level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
-                        e.Value = $"{(string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : $"☑️ {info.CreativeTitle}")}";
+                        e.Value = $"🔧 {info.CreativeTitle}";
                     }
                 } else {
                     if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
