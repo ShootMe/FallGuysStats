@@ -648,7 +648,8 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeLikes") {
                 if ((this.statType == StatType.Levels || this.statType == StatType.Rounds) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
-                    if (level.IsCreative && info.CreativeLikes > 0) {
+                    if (level.IsCreative && !string.IsNullOrEmpty(info.CreativeShareCode)) {
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(214, 86, 100) : Color.FromArgb(220, 155, 162);
                         e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.75f);
                         e.Value = $"👍 {e.Value:N0}";
                     } else {
@@ -659,7 +660,8 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeDislikes") {
                 if ((this.statType == StatType.Levels || this.statType == StatType.Rounds) && this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats level)) {
-                    if (level.IsCreative && info.CreativeLikes > 0) {
+                    if (level.IsCreative && !string.IsNullOrEmpty(info.CreativeShareCode)) {
+                        e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(101, 82, 183) : Color.FromArgb(147, 136, 195);
                         e.CellStyle.Font = Overlay.GetMainFont(e.CellStyle.Font.Size * 0.75f);
                         e.Value = $"👎 {e.Value:N0}";
                     } else {
