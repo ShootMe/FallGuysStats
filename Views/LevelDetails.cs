@@ -26,9 +26,13 @@ namespace FallGuysStats {
         private Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
         
+        private Timer scrollTimer = new Timer { Interval = 100 };
+        private bool isScrollingStopped = true;
+        
         public LevelDetails() {
             this.InitializeComponent();
             this.Opacity = 0;
+            this.scrollTimer.Tick += this.scrollTimer_Tick;
         }
         
         private void LevelDetails_Load(object sender, EventArgs e) {
@@ -382,17 +386,26 @@ namespace FallGuysStats {
             return sizeOfText + 24;
         }
         
-        // private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
-        //     if (((Grid)sender).VerticalScrollingOffset == 0) {
-        //         if (this.currentPage <= 1) { return; }
-        //         this.currentPage -= 1;
-        //         ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-        //     } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
-        //         if (this.currentPage >= this.totalPages) { return; }
-        //         this.currentPage += 1;
-        //         ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-        //     }
-        // }
+        private void scrollTimer_Tick(object sender, EventArgs e) {
+            this.scrollTimer.Stop();
+            this.isScrollingStopped = true;
+        }
+        
+        private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
+            this.isScrollingStopped = false;
+            this.scrollTimer.Stop();
+            this.scrollTimer.Start();
+            
+            // if (((Grid)sender).VerticalScrollingOffset == 0) {
+            //     if (this.currentPage <= 1) { return; }
+            //     this.currentPage -= 1;
+            //     ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            // } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
+            //     if (this.currentPage >= this.totalPages) { return; }
+            //     this.currentPage += 1;
+            //     ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+            // }
+        }
 
         // private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
             // if (((Grid)sender).RowCount > 0) ((Grid)sender).FirstDisplayedScrollingRowIndex = ((Grid)sender).RowCount - 1;
@@ -1074,7 +1087,7 @@ namespace FallGuysStats {
         }
 
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
+            if (!this.isScrollingStopped || e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             if (this.statType == StatType.Shows
                 || (bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value
