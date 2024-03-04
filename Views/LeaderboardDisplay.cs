@@ -1174,7 +1174,7 @@ namespace FallGuysStats {
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.mtcTabControl.Enabled = true;
                     this.cboRoundList.Enabled = true;
-                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? 1332 : 351;
+                    this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? (this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2) : this.gridPlayerList.Width + 1;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
                     this.gridPlayerDetails.DataSource = this.playerDetails ?? this.playerDetailsNodata;
@@ -1425,7 +1425,7 @@ namespace FallGuysStats {
                     this.BeginInvoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
                         this.cboRoundList.Enabled = true;
-                        this.mtbSearchPlayersText.Width = 1332;
+                        this.mtbSearchPlayersText.Width = this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2;
                         this.mpsSpinner03.Visible = false;
                         this.gridPlayerList.DataSource = this.searchResult ?? this.searchResultNodata;
                         this.mtpSearchPlayersPage.Text = this.searchResult == null ? Multilingual.GetWord("leaderboard_search_players") : $"{Multilingual.GetWord("leaderboard_search_players")} ({this.searchResult.Count}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
