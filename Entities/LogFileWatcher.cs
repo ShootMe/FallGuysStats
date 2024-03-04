@@ -472,7 +472,7 @@ namespace FallGuysStats {
                         this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                         this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                         this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                        Task.Run(() => { this.StatsForm.UpdateUserCreativeLevel(shareCode, snapshot); });
+                        Task.Run(() => { this.StatsForm.UpdateCreativeLevel(shareCode, snapshot); });
                         isSucceed = true;
                     }
                 } catch {

@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -3507,8 +3508,9 @@ namespace FallGuysStats {
                                 if ((LevelStats.ALL.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
                                      || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
+                                    string shareCode = stat.UseShareCode ? stat.Name : l1.ShareCode;
                                     try {
-                                        JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{(stat.UseShareCode ? stat.Name : l1.ShareCode)}.json");
+                                        JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
                                         if (resData.TryGetProperty("data", out JsonElement je)) {
                                             JsonElement snapshot = je.GetProperty("snapshot");
                                             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
@@ -3541,6 +3543,7 @@ namespace FallGuysStats {
                                             stat.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                            Task.Run(() => { this.UpdateCreativeLevel(stat.Name, snapshot); });
                                             isSucceed = true;
                                         }
                                     } catch {
@@ -4262,8 +4265,9 @@ namespace FallGuysStats {
             return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         
-        public void UpdateUserCreativeLevel(string shareCode, JsonElement snapshot) {
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, shareCode));
+        public void UpdateCreativeLevel(string id, JsonElement snapshot) {
+            bool useShareCode = Regex.Matches(id, @"^\d{4}-\d{4}-\d{4}$").Count > 0;
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.UseShareCode == useShareCode && string.Equals(r.Name, id));
             if (filteredInfo.Count <= 0) { return; }
             
             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");

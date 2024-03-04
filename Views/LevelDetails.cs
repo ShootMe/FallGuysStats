@@ -1082,7 +1082,7 @@ namespace FallGuysStats {
                 ((Grid)sender).Cursor = Cursors.Hand;
             }
             
-            if (this.statType != StatType.Shows && ((Grid)sender).Columns[e.ColumnIndex].Name == "Name" &&
+            if (this.statType != StatType.Shows && (((Grid)sender).Columns[e.ColumnIndex].Name == "Round" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon" || ((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeLikes" || ((Grid)sender).Columns[e.ColumnIndex].Name == "CreativeDislikes") &&
                 ((bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value || !string.IsNullOrEmpty((string)((Grid)sender).Rows[e.RowIndex].Cells["CreativeShareCode"].Value))) {
                 ((Grid)sender).ShowCellToolTips = false;
                 RoundInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as RoundInfo;
