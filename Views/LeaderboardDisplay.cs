@@ -608,36 +608,36 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_DataSourceChanged(object sender, EventArgs e) {
-            if (this.gridOverallRank.Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
-            this.gridOverallRank.Columns["isAnonymous"].Visible = false;
-            this.gridOverallRank.Columns["country"].Visible = false;
-            this.gridOverallRank.Columns["onlineServiceType"].Visible = false;
-            this.gridOverallRank.Columns["id"].Visible = false;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridOverallRank.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridOverallRank.Columns["medal"].DefaultCellStyle.NullValue = null;
-            this.gridOverallRank.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridOverallRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridOverallRank.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridOverallRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridOverallRank.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallRank.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridOverallRank.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallRank.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallRank.Setup("score", pos++, this.GetDataGridViewColumnWidth("score"), $"{Multilingual.GetWord("leaderboard_grid_header_score")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallRank.Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallRank.Setup("firstPlaces", pos++, this.GetDataGridViewColumnWidth("firstPlaces"), $"{Multilingual.GetWord("leaderboard_grid_header_first_places")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallRank.Columns["firstPlaces"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns["isAnonymous"].Visible = false;
+            ((Grid)sender).Columns["country"].Visible = false;
+            ((Grid)sender).Columns["onlineServiceType"].Visible = false;
+            ((Grid)sender).Columns["id"].Visible = false;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["medal"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["platform"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["flag"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("score", pos++, this.GetDataGridViewColumnWidth("score"), $"{Multilingual.GetWord("leaderboard_grid_header_score")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("firstPlaces", pos++, this.GetDataGridViewColumnWidth("firstPlaces"), $"{Multilingual.GetWord("leaderboard_grid_header_first_places")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["firstPlaces"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
         
         private void gridOverallRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridOverallRank.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
 
-            string columnName = this.gridOverallRank.Columns[e.ColumnIndex].Name;
-            OverallRankInfo info = this.gridOverallRank.Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            OverallRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -650,14 +650,14 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 41;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 41;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
             } else if (info.rank == 2) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 39;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 39;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
             } else if (info.rank == 3) {
-                this.gridOverallRank.Rows[e.RowIndex].Height = 36;
-                this.gridOverallRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 36;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
             }
             
             if (columnName == "rank") {
@@ -665,21 +665,21 @@ namespace FallGuysStats {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
             } else if (columnName == "flag") {
-                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
             } else if (columnName == "platform") {
                 if (!info.isAnonymous) {
-                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
-                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
                     if (percentage < 20) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -688,7 +688,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
                     } else if (percentage < 50) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -697,7 +697,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_bronze_grid_icon;
                         }
                     } else {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
@@ -723,8 +723,8 @@ namespace FallGuysStats {
         
         private void gridOverallRank_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.overallRankList == null) return;
-            string columnName = this.gridOverallRank.Columns[e.ColumnIndex].Name;
-            SortOrder sortOrder = this.gridOverallRank.GetSortOrder(columnName);
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
             this.overallRankList.Sort(delegate (OverallRankInfo one, OverallRankInfo two) {
@@ -761,45 +761,45 @@ namespace FallGuysStats {
                 }
             });
             
-            this.gridOverallRank.DataSource = null;
-            this.gridOverallRank.DataSource = this.overallRankList;
-            this.gridOverallRank.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            ((Grid)sender).DataSource = null;
+            ((Grid)sender).DataSource = this.overallRankList;
+            ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
         private void gridOverallSummary_DataSourceChanged(object sender, EventArgs e) {
-            if (this.gridOverallSummary.Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
-            this.gridOverallSummary.Columns["pink"].Visible = false;
-            this.gridOverallSummary.Columns["players"].Visible = false;
-            this.gridOverallSummary.Setup("rank", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridOverallSummary.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridOverallSummary.Setup("country", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_country")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["country"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "goldIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridOverallSummary.Setup("goldIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridOverallSummary.Columns["goldIcon"].DefaultCellStyle.NullValue = null;
-            this.gridOverallSummary.Setup("gold", pos++, 70, $"{Multilingual.GetWord("main_gold")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["gold"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "silverIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridOverallSummary.Setup("silverIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridOverallSummary.Columns["silverIcon"].DefaultCellStyle.NullValue = null;
-            this.gridOverallSummary.Setup("silver", pos++, 70, $"{Multilingual.GetWord("main_silver")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["silver"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridOverallSummary.Columns.Add(new DataGridViewImageColumn { Name = "bronzeIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridOverallSummary.Setup("bronzeIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridOverallSummary.Columns["bronzeIcon"].DefaultCellStyle.NullValue = null;
-            this.gridOverallSummary.Setup("bronze", pos++, 70, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridOverallSummary.Columns["bronze"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns["pink"].Visible = false;
+            ((Grid)sender).Columns["players"].Visible = false;
+            ((Grid)sender).Setup("rank", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["flag"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("country", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_country")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["country"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "goldIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("goldIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["goldIcon"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("gold", pos++, 70, $"{Multilingual.GetWord("main_gold")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["gold"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "silverIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("silverIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["silverIcon"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("silver", pos++, 70, $"{Multilingual.GetWord("main_silver")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["silver"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "bronzeIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("bronzeIcon", pos++, 25, "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["bronzeIcon"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("bronze", pos++, 70, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["bronze"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
         
         private void gridOverallSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridOverallSummary.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
 
-            string columnName = this.gridOverallSummary.Columns[e.ColumnIndex].Name;
-            OverallSummary summary = this.gridOverallSummary.Rows[e.RowIndex].DataBoundItem as OverallSummary;
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            OverallSummary summary = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallSummary;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -849,10 +849,10 @@ namespace FallGuysStats {
         }
         
         private void gridOverallRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex != -1 && this.gridOverallRank.SelectedRows.Count > 0) {
-                OverallRankInfo data = this.gridOverallRank.SelectedRows[0].DataBoundItem as OverallRankInfo;
+            if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
+                OverallRankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as OverallRankInfo;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
-                this.gridOverallRank.Enabled = false;
+                ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
                 this.spinnerTransition.Start();
@@ -866,44 +866,44 @@ namespace FallGuysStats {
         }
         
         private void gridLevelRank_DataSourceChanged(object sender, EventArgs e) {
-            if (this.gridLevelRank.Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
-            // this.gridLevelRank.Columns["round"].Visible = false;
-            this.gridLevelRank.Columns["isAnonymous"].Visible = false;
-            this.gridLevelRank.Columns["country"].Visible = false;
-            this.gridLevelRank.Columns["onlineServiceType"].Visible = false;
-            this.gridLevelRank.Columns["onlineServiceId"].Visible = false;
-            this.gridLevelRank.Columns["id"].Visible = false;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridLevelRank.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridLevelRank.Columns["medal"].DefaultCellStyle.NullValue = null;
-            this.gridLevelRank.Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridLevelRank.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridLevelRank.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridLevelRank.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridLevelRank.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridLevelRank.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Setup("record", pos++, this.GetDataGridViewColumnWidth("record"), $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridLevelRank.Setup("finish", pos++, this.GetDataGridViewColumnWidth("finish"), $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridLevelRank.Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            // ((Grid)sender).Columns["round"].Visible = false;
+            ((Grid)sender).Columns["isAnonymous"].Visible = false;
+            ((Grid)sender).Columns["country"].Visible = false;
+            ((Grid)sender).Columns["onlineServiceType"].Visible = false;
+            ((Grid)sender).Columns["onlineServiceId"].Visible = false;
+            ((Grid)sender).Columns["id"].Visible = false;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["medal"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("rank", pos++, this.GetDataGridViewColumnWidth("rank"), $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["rank"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["platform"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["flag"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("record", pos++, this.GetDataGridViewColumnWidth("record"), $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("finish", pos++, this.GetDataGridViewColumnWidth("finish"), $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
-            // foreach (DataGridViewRow row in this.gridLevelRank.Rows) {
+            // foreach (DataGridViewRow row in ((Grid)sender).Rows) {
             //     this.totalHeight += row.Height;
             // }
         }
         
         private void gridLevelRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridLevelRank.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
 
-            string columnName = this.gridLevelRank.Columns[e.ColumnIndex].Name;
-            LevelRankInfo info = this.gridLevelRank.Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            LevelRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -916,14 +916,14 @@ namespace FallGuysStats {
             }
             
             if (info.rank == 1) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 41;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 41;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(19.5f);
             } else if (info.rank == 2) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 39;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 39;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18.6f);
             } else if (info.rank == 3) {
-                this.gridLevelRank.Rows[e.RowIndex].Height = 36;
-                this.gridLevelRank.Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
+                ((Grid)sender).Rows[e.RowIndex].Height = 36;
+                ((Grid)sender).Rows[e.RowIndex].DefaultCellStyle.Font = Overlay.GetMainFont(18f);
             }
             
             if (columnName == "rank") {
@@ -931,26 +931,26 @@ namespace FallGuysStats {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
             } else if (columnName == "show") {
-                this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (columnName == "flag") {
-                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
             } else if (columnName == "platform") {
                 if (!info.isAnonymous) {
-                    this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
-                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / ((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) - 1)) * 100;
                     if (percentage < 20) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -959,7 +959,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
                     } else if (percentage < 50) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -968,7 +968,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_bronze_grid_icon;
                         }
                     } else {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
@@ -983,16 +983,16 @@ namespace FallGuysStats {
                 }
                 e.Value = Utils.FormatTime((double)e.Value);
             } else if (columnName == "finish") {
-                this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
-                this.gridLevelRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].Style.Font = Overlay.GetMainFont(16f);
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
             }
         }
         
         private void gridLevelRank_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.levelRankList == null) return;
-            string columnName = this.gridLevelRank.Columns[e.ColumnIndex].Name;
-            SortOrder sortOrder = this.gridLevelRank.GetSortOrder(columnName);
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
             this.levelRankList.Sort(delegate (LevelRankInfo one, LevelRankInfo two) {
@@ -1032,16 +1032,16 @@ namespace FallGuysStats {
                 }
             });
             
-            this.gridLevelRank.DataSource = null;
-            this.gridLevelRank.DataSource = this.levelRankList;
-            this.gridLevelRank.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            ((Grid)sender).DataSource = null;
+            ((Grid)sender).DataSource = this.levelRankList;
+            ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
         private void gridLevelRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex != -1 && this.gridLevelRank.SelectedRows.Count > 0) {
-                LevelRankInfo data = this.gridLevelRank.SelectedRows[0].DataBoundItem as LevelRankInfo;
+            if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
+                LevelRankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as LevelRankInfo;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
-                this.gridLevelRank.Enabled = false;
+                ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
                 this.spinnerTransition.Start();
@@ -1055,33 +1055,33 @@ namespace FallGuysStats {
         }
         
         // private void gridLevelRank_Scroll(object sender, ScrollEventArgs e) {
-        //     if (this.totalHeight - this.gridLevelRank.Height < this.gridLevelRank.VerticalScrollingOffset) {
+        //     if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
         //         // to do
         //     }
         // }
 
         private void gridPlayerList_DataSourceChanged(object sender, EventArgs e) {
-            if (this.gridPlayerList.Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
-            this.gridPlayerList.Columns["isAnonymous"].Visible = false;
-            this.gridPlayerList.Columns["country"].Visible = false;
-            this.gridPlayerList.Columns["onlineServiceType"].Visible = false;
-            this.gridPlayerList.Columns["onlineServiceId"].Visible = false;
-            this.gridPlayerList.Columns["id"].Visible = false;
-            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridPlayerList.Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridPlayerList.Columns["platform"].DefaultCellStyle.NullValue = null;
-            this.gridPlayerList.Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
-            this.gridPlayerList.Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerList.Columns["flag"].DefaultCellStyle.NullValue = null;
-            this.gridPlayerList.Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerList.Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns["isAnonymous"].Visible = false;
+            ((Grid)sender).Columns["country"].Visible = false;
+            ((Grid)sender).Columns["onlineServiceType"].Visible = false;
+            ((Grid)sender).Columns["onlineServiceId"].Visible = false;
+            ((Grid)sender).Columns["id"].Visible = false;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "platform", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("platform", pos++, this.GetDataGridViewColumnWidth("platform"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["platform"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "flag", ImageLayout = DataGridViewImageCellLayout.Normal, ToolTipText = "" });
+            ((Grid)sender).Setup("flag", pos++, this.GetDataGridViewColumnWidth("flag"), "", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["flag"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
         
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridPlayerList.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
 
-            SearchPlayer info = this.gridPlayerList.Rows[e.RowIndex].DataBoundItem as SearchPlayer;
+            SearchPlayer info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as SearchPlayer;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1093,23 +1093,23 @@ namespace FallGuysStats {
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
-            if (this.gridPlayerList.Columns[e.ColumnIndex].Name == "flag") {
-                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) this.gridPlayerList.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
+            if (((Grid)sender).Columns[e.ColumnIndex].Name == "flag") {
+                if (!info.isAnonymous && !string.IsNullOrEmpty(info.country)) ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetCountryName(info.country);
                 e.Value = info.isAnonymous ? Properties.Resources.country_unknown_icon : (string.IsNullOrEmpty(info.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{info.country.ToLower()}_icon"));
-            } else if (this.gridPlayerList.Columns[e.ColumnIndex].Name == "platform") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "platform") {
                 if (!info.isAnonymous) {
-                    this.gridPlayerList.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord((info.onlineServiceType == "0" ? "level_detail_online_platform_eos" : "level_detail_online_platform_steam"));
                 }
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
-            } else if (this.gridPlayerList.Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "onlineServiceNickname") {
                 e.Value = info.isAnonymous ? $"👻 {Multilingual.GetWord("leaderboard_grid_anonymous")}" : e.Value;
             }
         }
         
         private void gridPlayerList_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.searchResult == null) return;
-            string columnName = this.gridPlayerList.Columns[e.ColumnIndex].Name;
-            SortOrder sortOrder = this.gridPlayerList.GetSortOrder(columnName);
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "onlineServiceNickname"; }
             
             this.searchResult.Sort(delegate (SearchPlayer one, SearchPlayer two) {
@@ -1134,21 +1134,21 @@ namespace FallGuysStats {
                 }
             });
             
-            this.gridPlayerList.DataSource = null;
-            this.gridPlayerList.DataSource = this.searchResult;
-            this.gridPlayerList.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            ((Grid)sender).DataSource = null;
+            ((Grid)sender).DataSource = this.searchResult;
+            ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
         private void gridPlayerList_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex != -1 && this.gridPlayerList.SelectedRows.Count > 0) {
+            if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 if (this.isSearchCompleted) {
-                    this.gridPlayerList.Enabled = false;
+                    ((Grid)sender).Enabled = false;
                     this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
                     this.spinnerTransition.Start();
                     this.targetSpinner = this.mpsSpinner04;
                     this.mpsSpinner04.BringToFront();
                     this.mpsSpinner04.Visible = true;
-                    SearchPlayer data = this.gridPlayerList.SelectedRows[0].DataBoundItem as SearchPlayer;
+                    SearchPlayer data = ((Grid)sender).SelectedRows[0].DataBoundItem as SearchPlayer;
                     this.currentUserId = data.id;
                     this.SetPlayerInfo(data.id);
                 }
@@ -1220,8 +1220,8 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex != -1 && this.gridPlayerDetails.SelectedRows.Count > 0) {
-                PbInfo data = this.gridPlayerDetails.SelectedRows[0].DataBoundItem as PbInfo;
+            if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
+                PbInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as PbInfo;
                 if (string.IsNullOrEmpty(data.round)) return;
                 string roundId = string.Equals(Multilingual.GetRoundName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
                 this.cboRoundList.SelectedImageItem(roundId, 1);
@@ -1229,39 +1229,39 @@ namespace FallGuysStats {
         }
         
         private void gridPlayerDetails_DataSourceChanged(object sender, EventArgs e) {
-            if (this.gridPlayerDetails.Columns.Count == 0) { return; }
+            if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
-            this.gridPlayerDetails.Columns["session"].Visible = false;
-            this.gridPlayerDetails.Columns["isAnonymous"].Visible = false;
-            this.gridPlayerDetails.Columns["ip"].Visible = false;
-            this.gridPlayerDetails.Columns["country"].Visible = false;
-            this.gridPlayerDetails.Columns["user"].Visible = false;
-            this.gridPlayerDetails.Columns["roundDisplayName"].Visible = false;
-            this.gridPlayerDetails.Columns["roundName"].Visible = false;
-            this.gridPlayerDetails.Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerDetails.Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridPlayerDetails.Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridPlayerDetails.Columns["RoundIcon"].DefaultCellStyle.NullValue = null;
-            this.gridPlayerDetails.Setup("round", pos++, this.GetDataGridViewColumnWidth("level"), $"{Multilingual.GetWord("level_detail_name")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerDetails.Columns["round"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
-            this.gridPlayerDetails.Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
-            this.gridPlayerDetails.Columns["medal"].DefaultCellStyle.NullValue = null;
-            this.gridPlayerDetails.Setup("index", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleRight);
-            this.gridPlayerDetails.Columns["index"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Setup("roundTotal", pos++, 100, "", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerDetails.Columns["roundTotal"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Setup("record", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerDetails.Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            this.gridPlayerDetails.Setup("finish", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
-            this.gridPlayerDetails.Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns["session"].Visible = false;
+            ((Grid)sender).Columns["isAnonymous"].Visible = false;
+            ((Grid)sender).Columns["ip"].Visible = false;
+            ((Grid)sender).Columns["country"].Visible = false;
+            ((Grid)sender).Columns["user"].Visible = false;
+            ((Grid)sender).Columns["roundDisplayName"].Visible = false;
+            ((Grid)sender).Columns["roundName"].Visible = false;
+            ((Grid)sender).Setup("show", pos++, this.GetDataGridViewColumnWidth("show"), $"{Multilingual.GetWord("leaderboard_grid_header_show")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["show"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "RoundIcon", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("RoundIcon", pos++, this.GetDataGridViewColumnWidth("RoundIcon"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["RoundIcon"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("round", pos++, this.GetDataGridViewColumnWidth("level"), $"{Multilingual.GetWord("level_detail_name")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["round"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Columns.Add(new DataGridViewImageColumn { Name = "medal", ImageLayout = DataGridViewImageCellLayout.Zoom, ToolTipText = "" });
+            ((Grid)sender).Setup("medal", pos++, this.GetDataGridViewColumnWidth("medal"), "", DataGridViewContentAlignment.MiddleCenter);
+            ((Grid)sender).Columns["medal"].DefaultCellStyle.NullValue = null;
+            ((Grid)sender).Setup("index", pos++, 40, $"{Multilingual.GetWord("leaderboard_grid_header_rank")}", DataGridViewContentAlignment.MiddleRight);
+            ((Grid)sender).Columns["index"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("roundTotal", pos++, 100, "", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["roundTotal"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("record", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_record")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).Setup("finish", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
+            ((Grid)sender).Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
         }
         
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
-            if (e.RowIndex < 0 || e.RowIndex >= this.gridPlayerDetails.Rows.Count) { return; }
+            if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).Rows.Count) { return; }
 
-            PbInfo info = this.gridPlayerDetails.Rows[e.RowIndex].DataBoundItem as PbInfo;
+            PbInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as PbInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1269,17 +1269,17 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
             
-            if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "show") {
+            if (((Grid)sender).Columns[e.ColumnIndex].Name == "show") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "RoundIcon") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
                 if (this.StatsForm.StatLookup.TryGetValue(info.round, out LevelStats l1)) {
                     e.Value = l1.RoundBigIcon;
                 } else if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l2)) {
                     e.Value = l2.RoundBigIcon;
                 }
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "round") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "round") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
                     if (info.index == 1) {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
@@ -1289,51 +1289,51 @@ namespace FallGuysStats {
                         ? Multilingual.GetRoundName(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, (string)e.Value))
                         : Multilingual.GetRoundName((string)e.Value);
                 }
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "medal") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "medal") {
                 if (info.index == 0) {
-                    this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_eliminated");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_eliminated");
                     e.Value = Properties.Resources.medal_eliminated_grid_icon;
                 } else if (info.index == 1) {
-                    this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
                     double percentage = ((double)(info.index - 1) / ((info.roundTotal > 1000 ? 1000 : info.roundTotal) - 1)) * 100;
                     if (percentage <= 20) {
-                        this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         e.Value = Properties.Resources.medal_silver_grid_icon;
                     } else if (percentage <= 50) {
-                        this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         e.Value = Properties.Resources.medal_bronze_grid_icon;
                     } else {
-                        this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "index") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "index") {
                 if (info.index == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = info.index == 0 ? (object)"-" : info.index;
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "roundTotal") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "roundTotal") {
                 if (info.index == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = $"({e.Value})";
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "record") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "record") {
                 if (info.index == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
                 e.Value = Utils.FormatTime((double)e.Value);
-            } else if (this.gridPlayerDetails.Columns[e.ColumnIndex].Name == "finish") {
-                this.gridPlayerDetails.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "finish") {
+                ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = ((DateTime)e.Value).ToString(Multilingual.GetWord("level_grid_date_format"));
                 e.Value = Utils.GetRelativeTime((DateTime)e.Value);
             }
         }
         
         private void gridPlayerDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.playerDetails == null) return;
-            string columnName = this.gridPlayerDetails.Columns[e.ColumnIndex].Name;
-            SortOrder sortOrder = this.gridPlayerDetails.GetSortOrder(columnName);
+            string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
+            SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "round"; }
             
             this.playerDetails.Sort(delegate (PbInfo one, PbInfo two) {
@@ -1374,9 +1374,9 @@ namespace FallGuysStats {
                 }
             });
             
-            this.gridPlayerDetails.DataSource = null;
-            this.gridPlayerDetails.DataSource = this.playerDetails;
-            this.gridPlayerDetails.Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            ((Grid)sender).DataSource = null;
+            ((Grid)sender).DataSource = this.playerDetails;
+            ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
         private void grid_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
@@ -1522,12 +1522,12 @@ namespace FallGuysStats {
                 e.Value = info.isAnonymous ? null : (info.onlineServiceType == "0" ? Properties.Resources.epic_grid_icon : Properties.Resources.steam_grid_icon);
             } else if (columnName == "medal") {
                 if (info.rank == 1) {
-                    this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
                     double percentage = ((double)(info.rank - 1) / ((this.StatsForm.totalWeeklyCrownPlayers > 1000 ? 1000 : this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
                     if (percentage < 20) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_silver_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -1536,7 +1536,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_silver_grid_icon;
                         }
                     } else if (percentage < 50) {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_bronze");
                         if (info.rank == 2) {
                             e.Value = Properties.Resources.medal_bronze_2nd_grid_icon;
                         } else if (info.rank == 3) {
@@ -1545,7 +1545,7 @@ namespace FallGuysStats {
                             e.Value = Properties.Resources.medal_bronze_grid_icon;
                         }
                     } else {
-                        this.gridOverallRank.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
+                        ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_pink");
                         e.Value = Properties.Resources.medal_pink_grid_icon;
                     }
                 }
@@ -1570,7 +1570,7 @@ namespace FallGuysStats {
                 e.Value = Properties.Resources.crown_grid_icon;
             } else if (columnName == "shardIcon") {
                 e.Value = Properties.Resources.shards_grid_icon;
-            } else if (this.gridOverallRank.Columns[e.ColumnIndex].Name == "score") {
+            } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "score") {
                 if (info.rank == 1) {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                 }
@@ -1633,10 +1633,10 @@ namespace FallGuysStats {
         }
         
         private void gridWeeklyCrown_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex != -1 && this.gridWeeklyCrown.SelectedRows.Count > 0) {
-                WeeklyCrownUser data = this.gridWeeklyCrown.SelectedRows[0].DataBoundItem as WeeklyCrownUser;
+            if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
+                WeeklyCrownUser data = ((Grid)sender).SelectedRows[0].DataBoundItem as WeeklyCrownUser;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
-                this.gridWeeklyCrown.Enabled = false;
+                ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
                 this.gridPlayerDetails.DataSource = this.playerDetailsNodata;
                 this.spinnerTransition.Start();
