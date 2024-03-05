@@ -317,7 +317,8 @@ namespace FallGuysStats {
                  || showId.StartsWith("wle_mrs_shuffle_")
                  || showId.StartsWith("wle_shuffle_")
                  || showId.StartsWith("current_wle_fp")
-                 || showId.StartsWith("wle_s10_cf_round_")) {
+                 || showId.StartsWith("wle_s10_cf_round_")
+                 || string.Equals(showId, "wle_playful_shuffle")) {
                 return true;
             }
 
@@ -346,10 +347,13 @@ namespace FallGuysStats {
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
             
                     || (string.Equals(showId, "event_only_hoverboard_template")
-                        && roundId.Equals("round_hoverboardsurvival_final"))
+                        && string.Equals(roundId, "round_hoverboardsurvival_final"))
+                    
+                    || (string.Equals(showId, "event_only_button_bashers_template")
+                        && string.Equals(roundId, "round_1v1_button_basher_event_only_final"))
                     
                     || (string.Equals(showId, "no_elimination_show")
-                        && (roundId.Equals("round_snowballsurvival_final_noelim") || roundId.Equals("round_robotrampage_arena_2_final_noelim")));
+                        && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")));
         }
 
         private bool IsModeException(string roundId, string showId) {
@@ -472,7 +476,7 @@ namespace FallGuysStats {
                         this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                         this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                         this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                        Task.Run(() => { this.StatsForm.UpdateCreativeLevel(shareCode, snapshot); });
+                        Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, snapshot); });
                         isSucceed = true;
                     }
                 } catch {
@@ -736,10 +740,6 @@ namespace FallGuysStats {
                     this.SetCreativeLevelInfo(logRound.Info);
                 } else {
                     logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId ?? this.threadLocalVariable.Value.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
-                    // if (LevelStats.ALL.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode)) {
-                    //     this.SetCreativeLevelVariable(levelStats.ShareCode);
-                    //     this.SetCreativeLevelInfo(logRound.Info);
-                    // }
                 }
 
                 if (this.IsRealFinalRound(logRound.Info.Name, this.threadLocalVariable.Value.selectedShowId) || logRound.Info.UseShareCode) {

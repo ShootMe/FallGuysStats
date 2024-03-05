@@ -229,6 +229,7 @@ namespace FallGuysStats {
             "no_elimination_show",
             "event_anniversary_season_1_alternate_name",
             "event_blast_ball_banger_template",
+            "event_only_button_bashers_template",
             "event_only_finals_v2_template",
             "event_only_races_any_final_template",
             "event_only_fall_ball_template",
@@ -2674,6 +2675,37 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 84;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 84) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "event_only_button_bashers_template")
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (ri.Round > 3) ri.IsFinal = true;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers") 
+                          || string.Equals(ri.ShowNameId, "wle_playful_shuffle")
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList2) {
+                    if (string.Equals(ri.ShowNameId, "wle_playful_shuffle")) {
+                        ri.IsFinal = true;
+                    } else if (string.Equals(ri.ShowNameId, "wle_mrs_ugc_playful_pioneers")) {
+                        if (LevelStats.ALL.TryGetValue(ri.Name, out LevelStats l1)) {
+                            ri.IsFinal = l1.IsFinal;
+                        }
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 85;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -2788,11 +2820,8 @@ namespace FallGuysStats {
         }
         
         private bool IsCreativeLevel(string levelId) {
-            return levelId.StartsWith("wle_s10_round_") || levelId.StartsWith("wle_s10_orig_round_")
-                   || levelId.StartsWith("wle_mrs_bagel_") || levelId.StartsWith("wle_s10_bt_round_")
-                   || levelId.StartsWith("current_wle_fp") || levelId.StartsWith("wle_s10_player_round_wk")
-                   || levelId.StartsWith("wle_s10_cf_round_") || levelId.StartsWith("wle_s10_long_round_")
-                   || levelId.StartsWith("wle_discover_level_wk") || levelId.Equals("wle_fp2_wk6_01");
+            return levelId.StartsWith("wle_") || levelId.StartsWith("current_wle_")
+                   || levelId.StartsWith("chill_") || levelId.StartsWith("playful_shuffle_");
         }
         
         private void UpdateGridRoundName() {
@@ -3543,7 +3572,7 @@ namespace FallGuysStats {
                                             stat.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                            Task.Run(() => { this.UpdateCreativeLevel(stat.Name, snapshot); });
+                                            Task.Run(() => { this.UpdateCreativeLevels(stat.Name, shareCode, snapshot); });
                                             isSucceed = true;
                                         }
                                     } catch {
@@ -4265,9 +4294,8 @@ namespace FallGuysStats {
             return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         
-        public void UpdateCreativeLevel(string id, JsonElement snapshot) {
-            bool useShareCode = Regex.Matches(id, @"^\d{4}-\d{4}-\d{4}$").Count > 0;
-            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => r.UseShareCode == useShareCode && string.Equals(r.Name, id));
+        public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement snapshot) {
+            List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => string.Equals(r.Name, levelId) || string.Equals(r.Name, shareCode) || string.Equals(r.CreativeShareCode, shareCode));
             if (filteredInfo.Count <= 0) { return; }
             
             JsonElement versionMetadata = snapshot.GetProperty("version_metadata");

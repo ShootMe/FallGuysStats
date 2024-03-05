@@ -1044,6 +1044,8 @@ namespace FallGuysStats {
                                             this.StatsForm.RoundDetails.Update(filteredInfo);
                                             this.StatsForm.StatsDB.Commit();
                                         }
+                                        
+                                        this.StatsForm.UpdateCreativeLevels(ri.Name, shareCode, snapshot);
                                     }
                                 } catch {
                                     MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_error")}", $"{Multilingual.GetWord("message_update_error_caption")}", 
