@@ -13,7 +13,6 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -219,6 +218,8 @@ namespace FallGuysStats {
         public int weeklyCrownCurrentWeek;
         public string weeklyCrownPeriod;
         public Point screenCenter;
+        
+        public event Action OnUpdatedLevelDetails;
         
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -3778,6 +3779,7 @@ namespace FallGuysStats {
                     }
 
                     if (!this.loadingExisting) { this.StatsDB.Commit(); }
+                    this.OnUpdatedLevelDetails?.Invoke();
                 }
 
                 lock (this.CurrentRound) {
@@ -4078,7 +4080,7 @@ namespace FallGuysStats {
             }
         }
         
-        private bool IsInStatsFilter(RoundInfo info) {
+        public bool IsInStatsFilter(RoundInfo info) {
             return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
                     this.menuAllStats.Checked ||
                    (this.menuSeasonStats.Checked && info.Start > SeasonStart) ||
@@ -4087,7 +4089,7 @@ namespace FallGuysStats {
                    (this.menuSessionStats.Checked && info.Start > SessionStart);
         }
         
-        private bool IsInPartyFilter(RoundInfo info) {
+        public bool IsInPartyFilter(RoundInfo info) {
             return this.menuAllPartyStats.Checked ||
                    (this.menuSoloStats.Checked && !info.InParty) ||
                    (this.menuPartyStats.Checked && info.InParty);
@@ -5026,51 +5028,14 @@ namespace FallGuysStats {
             }
         }
         
-        private void gridDetails_CellClick(object sender, DataGridViewCellEventArgs e) {
-            try {
-                if (e.RowIndex < 0) { return; }
-                if (((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
-                    LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
-                    using (LevelDetails levelDetails = new LevelDetails {
-                               LevelName = levelStats.Name,
-                               RoundIcon = levelStats.RoundBigIcon,
-                               StatsForm = this,
-                               IsCreative = levelStats.IsCreative
-                           }) {
-                        List<RoundInfo> rounds = levelStats.Stats;
-                        rounds.Sort();
-                        levelDetails.RoundDetails = rounds;
-                        this.EnableInfoStrip(false);
-                        this.EnableMainMenu(false);
-                        levelDetails.ShowDialog(this);
-                        this.EnableInfoStrip(true);
-                        this.EnableMainMenu(true);
-                    }
-                } else {
-                    this.ToggleWinPercentageDisplay();
-                }
-            } catch (Exception ex) {
-                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                this.EnableInfoStrip(true);
-                this.EnableMainMenu(true);
-            }
-        }
-        
         private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
-            // this.VisibleGridRowOfCreativeLevel(this.CurrentSettings.GroupingCreativeRoundLevels);
-            // ((Grid)sender).Invalidate();
             this.mtgCreativeLevel.Checked = this.CurrentSettings.GroupingCreativeRoundLevels;
-            // this.lblCreativeLevel.ForeColor = this.mtgCreativeLevel.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
             this.mtgIgnoreLevelTypeWhenSorting.Checked = this.CurrentSettings.IgnoreLevelTypeWhenSorting;
-            // this.lblIgnoreLevelTypeWhenSorting.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? this.Theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.FromArgb(0, 174, 219), 0.8f) : Color.FromArgb(0, 174, 219) : this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
 
-        private List<LevelStats> GetFilteredDataSource(bool isFilter) {
-            if (isFilter) {
-                return this.StatDetails.Where(l => l.IsCreative != true || ((l.Id.StartsWith("creative_") || l.Id.StartsWith("user_creative_")) && l.Id.EndsWith("_round"))).ToList();   
-            } else {
-                return this.StatDetails.Where(l => !(l.Id.StartsWith("creative_") && l.Id.EndsWith("_round"))).ToList();
-            }
+        public List<LevelStats> GetFilteredDataSource(bool isFilter) {
+            return isFilter ? this.StatDetails.Where(l => l.IsCreative != true || ((l.Id.StartsWith("creative_") || l.Id.StartsWith("user_creative_")) && l.Id.EndsWith("_round"))).ToList()
+                            : this.StatDetails.Where(l => !(l.Id.StartsWith("creative_") && l.Id.EndsWith("_round"))).ToList();
         }
         
         private void SortGridDetails(bool isInitialize, int columnIndex = 0) {
@@ -5129,16 +5094,42 @@ namespace FallGuysStats {
             }
         }
         
-        private void ToggleWinPercentageDisplay() {
-            this.CurrentSettings.ShowPercentages = !this.CurrentSettings.ShowPercentages;
-            this.SaveUserSettings();
-            this.gridDetails.Invalidate();
+        private void gridDetails_CellClick(object sender, DataGridViewCellEventArgs e) {
+            try {
+                if (e.RowIndex < 0) { return; }
+                if (((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
+                    LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
+                    using (LevelDetails levelDetails = new LevelDetails {
+                               StatsForm = this,
+                               LevelName = levelStats.Id,
+                               RoundIcon = levelStats.RoundBigIcon,
+                               IsCreative = levelStats.IsCreative
+                           }) {
+                        // List<RoundInfo> rounds = levelStats.Stats;
+                        // rounds.Sort();
+                        levelDetails.RoundDetails = levelStats.Stats;
+                        this.EnableInfoStrip(false);
+                        this.EnableMainMenu(false);
+                        this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                        levelDetails.ShowDialog(this);
+                        this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                        this.EnableInfoStrip(true);
+                        this.EnableMainMenu(true);
+                    }
+                } else {
+                    this.CurrentSettings.ShowPercentages = !this.CurrentSettings.ShowPercentages;
+                    this.SaveUserSettings();
+                    this.gridDetails.Invalidate();
+                }
+            } catch (Exception ex) {
+                MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.EnableInfoStrip(true);
+                this.EnableMainMenu(true);
+            }
         }
-        
-        private void ShowShows() {
-            using (LevelDetails levelDetails = new LevelDetails()) {
-                levelDetails.LevelName = "Shows";
-                List<RoundInfo> shows = this.AllStats
+
+        public List<RoundInfo> GetShowsForDisplay() {
+            return this.AllStats
                     .Where(r => r.Profile == this.GetCurrentProfileId() &&
                                 this.IsInStatsFilter(r) &&
                                 this.IsInPartyFilter(r))
@@ -5171,50 +5162,63 @@ namespace FallGuysStats {
                         CreativeMaxPlayer = g.SortedRounds.LastOrDefault().CreativeMaxPlayer,
                         CreativePlatformId = g.SortedRounds.LastOrDefault().CreativePlatformId,
                         CreativePlayCount = g.SortedRounds.LastOrDefault().CreativePlayCount,
-                        CreativeLastModifiedDate = g.SortedRounds.LastOrDefault().CreativeLastModifiedDate,
+                        CreativeLastModifiedDate = g.SortedRounds.LastOrDefault().CreativeLastModifiedDate
                     }).ToList();
-                levelDetails.RoundDetails = shows;
+        }
+        
+        private void DisplayShows() {
+            using (LevelDetails levelDetails = new LevelDetails()) {
                 levelDetails.StatsForm = this;
+                levelDetails.LevelName = "Shows";
+                levelDetails.RoundDetails = this.GetShowsForDisplay();
                 levelDetails.ShowDialog(this);
             }
         }
-        
-        private void ShowRounds() {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+
+        public List<RoundInfo> GetRoundsForDisplay() {
+            return this.AllStats
+                .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                            this.IsInStatsFilter(r) &&
+                            this.IsInPartyFilter(r))
+                .OrderBy(r => r.ShowID)
+                .ThenBy(r => r.Round)
+                .ToList();
+        }
+
+        private void DisplayRounds() {
             using (LevelDetails levelDetails = new LevelDetails()) {
+                levelDetails.StatsForm = this;
                 levelDetails.LevelName = "Rounds";
-                List<RoundInfo> rounds = this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
-                                this.IsInStatsFilter(r) &&
-                                this.IsInPartyFilter(r))
-                    .OrderBy(r => r.ShowID)
-                    .ThenBy(r => r.Round)
-                    .ToList();
-                levelDetails.RoundDetails = rounds;
-                levelDetails.StatsForm = this;
+                levelDetails.RoundDetails = this.GetRoundsForDisplay();
+                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
                 levelDetails.ShowDialog(this);
+                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
             }
         }
-        
-        private void ShowFinals() {
+
+        public List<RoundInfo> GetFinalsForDisplay() {
+            return this.AllStats
+                .Where(r => r.Profile == this.GetCurrentProfileId() &&
+                            this.IsInStatsFilter(r) &&
+                            this.IsInPartyFilter(r))
+                .GroupBy(r => r.ShowID)
+                .Where(g => g.Any(r => (r.Round == g.Max(x => x.Round)) && (r.IsFinal || r.Crown)))
+                .SelectMany(g => g)
+                .ToList();
+        }
+
+        private void DisplayFinals() {
             using (LevelDetails levelDetails = new LevelDetails()) {
-                levelDetails.LevelName = "Finals";
-                List<RoundInfo> rounds = this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
-                                this.IsInStatsFilter(r) &&
-                                this.IsInPartyFilter(r))
-                    .GroupBy(r => r.ShowID)
-                    .Where(g => g.Any(r => (r.Round == g.Max(x => x.Round)) && (r.IsFinal || r.Crown)))
-                    .SelectMany(g => g)
-                    .ToList();
-                levelDetails.RoundDetails = rounds;
                 levelDetails.StatsForm = this;
+                levelDetails.LevelName = "Finals";
+                levelDetails.RoundDetails = this.GetFinalsForDisplay();
+                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
                 levelDetails.ShowDialog(this);
+                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
             }
         }
         
-        private void ShowWinGraph() {
+        private void DisplayWinsGraph() {
             using (WinStatsDisplay display = new WinStatsDisplay {
                        StatsForm = this,
                        Text = $@"     {Multilingual.GetWord("level_detail_wins_per_day")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
@@ -5343,7 +5347,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void ShowRoundGraph() {
+        private void DisplayLevelGraph() {
             using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
                        StatsForm = this,
                        Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
@@ -5886,7 +5890,7 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                this.ShowRoundGraph();
+                this.DisplayLevelGraph();
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {
@@ -5900,7 +5904,7 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                this.ShowFinals();
+                this.DisplayFinals();
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {
@@ -5914,7 +5918,7 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                this.ShowShows();
+                this.DisplayShows();
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {
@@ -5928,7 +5932,7 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                this.ShowRounds();
+                this.DisplayRounds();
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {
@@ -5942,7 +5946,7 @@ namespace FallGuysStats {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                this.ShowWinGraph();
+                this.DisplayWinsGraph();
                 this.EnableInfoStrip(true);
                 this.EnableMainMenu(true);
             } catch (Exception ex) {

@@ -28,15 +28,15 @@ namespace FallGuysStats {
         
         private Timer scrollTimer = new Timer { Interval = 100 };
         private bool isScrollingStopped = true;
-        
+
         public LevelDetails() {
             this.InitializeComponent();
             this.Opacity = 0;
             this.scrollTimer.Tick += this.scrollTimer_Tick;
+            this.spinnerTransition.Tick += this.spinnerTransition_Tick;
         }
         
         private void LevelDetails_Load(object sender, EventArgs e) {
-            this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             this.SetTheme(Stats.CurrentTheme);
             //
             // dataGridViewCellStyle1
@@ -57,19 +57,19 @@ namespace FallGuysStats {
             this.gridDetails.ClearSelection();
             this.BackMaxSize = 32;
             this.BackImagePadding = new Padding(20, 20, 0, 0);
-            if (this.LevelName == "Shows") {
+            if (string.Equals(this.LevelName, "Shows")) {
                 this.gridDetails.Name = "gridShowsStats";
                 this.gridDetails.MultiSelect = true;
                 this.BackImage = Properties.Resources.fallguys_icon;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                 this.statType = StatType.Shows;
-            } else if (this.LevelName == "Rounds") {
+            } else if (string.Equals(this.LevelName, "Rounds")) {
                 this.gridDetails.Name = "gridRoundsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                 this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                 this.statType = StatType.Rounds;
-            } else if (this.LevelName == "Finals") {
+            } else if (string.Equals(this.LevelName, "Finals")) {
                 this.gridDetails.Name = "gridFinalsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
@@ -79,7 +79,7 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridLevelsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
                 this.statType = StatType.Levels;
             }
             this.ClientSize = new Size(this.GetClientWidth(), this.Height + 387);
@@ -92,6 +92,36 @@ namespace FallGuysStats {
                 this.gridDetails.Enabled = true;
             }
             this.UpdatePage(false, true, false, true);
+        }
+        
+        public void LevelDetails_OnUpdatedLevelDetails() {
+            switch (this.statType) {
+                case StatType.Shows:
+                    this.RoundDetails = this.StatsForm.GetShowsForDisplay();
+                    this.UpdatePage(false, true, false, false);
+                    this.BackImage = Properties.Resources.fallguys_icon;
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    break;
+                case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridRoundsStats"):
+                    this.RoundDetails = this.StatsForm.GetRoundsForDisplay();
+                    this.UpdatePage(false, true, false, false);
+                    this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    break;
+                case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridFinalsStats"):
+                    this.RoundDetails = this.StatsForm.GetFinalsForDisplay();
+                    this.UpdatePage(false, true, false, false);
+                    this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    break;
+                case StatType.Levels:
+                    LevelStats levelStats = this.StatsForm.GetFilteredDataSource(this.StatsForm.CurrentSettings.GroupingCreativeRoundLevels).Find(l => string.Equals(l.Id, this.LevelName));
+                    this.RoundDetails = levelStats.Stats;
+                    this.UpdatePage(false, true, false, false);
+                    this.BackImage = levelStats.RoundIcon;
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                    break;
+            }
         }
 
         private void SetContextMenu() {
@@ -240,9 +270,9 @@ namespace FallGuysStats {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (this.RoundDetails.Count > 0) {
                         this.gridDetails.DataSource = this.currentRoundDetails;
+                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1;
                         this.gridDetails.Enabled = true;
                         this.SetPagingDisplay(true);
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1;
                     } else {
                         this.gridDetails.DataSource = this.RoundDetails;
                     }
@@ -309,9 +339,9 @@ namespace FallGuysStats {
                     return this.Width - (lang == Language.English ? -380 : lang == Language.French ? -400 : lang == Language.Korean ? -370 : lang == Language.Japanese ? -370 : -380);
                 case StatType.Rounds:
                 case StatType.Levels:
-                    return this.Width + (lang == Language.English ? 1260 : lang == Language.French ? 1360 : lang == Language.Korean ? 1260 : lang == Language.Japanese ? 1260 : 1340);
+                    return this.Width + (lang == Language.English ? 1150 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
                 default:
-                    return this.Width + (lang == Language.English ? 1260 : lang == Language.French ? 1360 : lang == Language.Korean ? 1260 : lang == Language.Japanese ? 1260 : 1340);
+                    return this.Width + (lang == Language.English ? 1150 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
             }
         }
         
