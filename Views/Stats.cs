@@ -5185,7 +5185,9 @@ namespace FallGuysStats {
                 levelDetails.StatsForm = this;
                 levelDetails.LevelName = "Shows";
                 levelDetails.RoundDetails = this.GetShowsForDisplay();
+                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
                 levelDetails.ShowDialog(this);
+                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
             }
         }
 
