@@ -19,6 +19,7 @@ namespace FallGuysStats {
         private StatType statType;
         private int currentPage, totalPages;
         private readonly int pageSize = 1000;
+        private int currentProfileId = -1;
         // private int totalHeight;
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -52,7 +53,8 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             this.dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             this.gridDetails.DefaultCellStyle = this.dataGridViewCellStyle2;
-            
+
+            this.currentProfileId = this.StatsForm.GetCurrentProfileId();
             this.gridDetails.CurrentCell = null;
             this.gridDetails.ClearSelection();
             this.BackMaxSize = 32;
@@ -96,34 +98,54 @@ namespace FallGuysStats {
         
         public void LevelDetails_OnUpdatedLevelDetails() {
             switch (this.statType) {
-                case StatType.Shows:
+                case StatType.Shows when string.Equals(this.gridDetails.Name, "gridShowsStats"):
                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
                     this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                    if (this.currentProfileId != this.StatsForm.GetCurrentProfileId()) {
+                        this.currentProfileId = this.StatsForm.GetCurrentProfileId();
+                        this.currentPage = this.totalPages;
+                    }
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = Properties.Resources.fallguys_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    this.Invalidate();
                     break;
                 case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridRoundsStats"):
                     this.RoundDetails = this.StatsForm.GetRoundsForDisplay();
                     this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                    if (this.currentProfileId != this.StatsForm.GetCurrentProfileId()) {
+                        this.currentProfileId = this.StatsForm.GetCurrentProfileId();
+                        this.currentPage = this.totalPages;
+                    }
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    this.Invalidate();
                     break;
                 case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridFinalsStats"):
                     this.RoundDetails = this.StatsForm.GetFinalsForDisplay();
                     this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                    if (this.currentProfileId != this.StatsForm.GetCurrentProfileId()) {
+                        this.currentProfileId = this.StatsForm.GetCurrentProfileId();
+                        this.currentPage = this.totalPages;
+                    }
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
+                    this.Invalidate();
                     break;
-                case StatType.Levels:
+                case StatType.Levels when string.Equals(this.gridDetails.Name, "gridLevelsStats"):
                     LevelStats levelStats = this.StatsForm.GetFilteredDataSource(this.StatsForm.CurrentSettings.GroupingCreativeRoundLevels).Find(l => string.Equals(l.Id, this.LevelName));
                     this.RoundDetails = levelStats.Stats;
                     this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
+                    if (this.currentProfileId != this.StatsForm.GetCurrentProfileId()) {
+                        this.currentProfileId = this.StatsForm.GetCurrentProfileId();
+                        this.currentPage = this.totalPages;
+                    }
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = levelStats.RoundIcon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                    this.Invalidate();
                     break;
             }
         }
@@ -273,8 +295,11 @@ namespace FallGuysStats {
             }).ContinueWith(prevTask => {
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (this.RoundDetails.Count > 0) {
+                        int prevIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                         this.gridDetails.DataSource = this.currentRoundDetails;
-                        this.gridDetails.FirstDisplayedScrollingRowIndex = isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1;
+                        if (this.gridDetails.RowCount > 0) {
+                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentPage < this.totalPages && this.gridDetails.RowCount < prevIndex ? prevIndex : (isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1);
+                        }
                         this.gridDetails.Enabled = true;
                         this.SetPagingDisplay(true);
                     } else {

@@ -3477,9 +3477,7 @@ namespace FallGuysStats {
                     if (!this.loadingExisting) { this.StatsDB.BeginTrans(); }
 
                     int profile = this.currentProfile;
-                    for (int k = 0; k < round.Count; k++) {
-                        RoundInfo stat = round[k];
-
+                    foreach (var stat in round) {
                         if (!this.loadingExisting) {
                             RoundInfo info = null;
                             for (int i = this.AllStats.Count - 1; i >= 0; i--) {
@@ -3538,7 +3536,7 @@ namespace FallGuysStats {
                                 stat.Profile = profile;
 
                                 if ((LevelStats.ALL.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
-                                     || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
+                                    || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
                                     string shareCode = stat.UseShareCode ? stat.Name : l1.ShareCode;
                                     try {
@@ -3575,7 +3573,8 @@ namespace FallGuysStats {
                                             stat.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                                            Task.Run(() => { this.UpdateCreativeLevels(stat.Name, shareCode, snapshot); });
+                                            var stat1 = stat;
+                                            Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, snapshot); });
                                             isSucceed = true;
                                         }
                                     } catch {
@@ -6101,7 +6100,7 @@ namespace FallGuysStats {
         public void menuStats_Click(object sender, EventArgs e) {
             try {
                 ToolStripMenuItem button = sender as ToolStripMenuItem;
-                if (button == this.menuCustomRangeStats || button == this.trayCustomRangeStats) {
+                if (Equals(button, this.menuCustomRangeStats) || Equals(button, this.trayCustomRangeStats)) {
                     if (this.isStartingUp) {
                         this.updateFilterRange = true;
                     } else {
@@ -6138,7 +6137,7 @@ namespace FallGuysStats {
                         this.EnableMainMenu(true);
                     }
                     }
-                } else if (button == this.menuAllStats || button == this.menuSeasonStats || button == this.menuWeekStats || button == this.menuDayStats || button == this.menuSessionStats) {
+                } else if (Equals(button, this.menuAllStats) || Equals(button, this.menuSeasonStats) || Equals(button, this.menuWeekStats) || Equals(button, this.menuDayStats) || Equals(button, this.menuSessionStats)) {
                     if (!this.menuAllStats.Checked && !this.menuSeasonStats.Checked && !this.menuWeekStats.Checked && !this.menuDayStats.Checked && !this.menuSessionStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
@@ -6198,7 +6197,7 @@ namespace FallGuysStats {
                             }
                         }
                     }
-                } else if (button == this.menuAllPartyStats || button == this.menuSoloStats || button == this.menuPartyStats) {
+                } else if (Equals(button, this.menuAllPartyStats) || Equals(button, this.menuSoloStats) || Equals(button, this.menuPartyStats)) {
                     if (!this.menuAllPartyStats.Checked && !this.menuSoloStats.Checked && !this.menuPartyStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
@@ -6250,7 +6249,7 @@ namespace FallGuysStats {
                     }
                     this.currentProfile = this.GetProfileIdByName(button.Text.Replace("&&", "&"));
                     this.updateSelectedProfile = true;
-                } else if (button == this.trayAllStats || button == this.traySeasonStats || button == this.trayWeekStats || button == this.trayDayStats || button == this.traySessionStats) {
+                } else if (Equals(button, this.trayAllStats) || Equals(button, this.traySeasonStats) || Equals(button, this.trayWeekStats) || Equals(button, this.trayDayStats) || Equals(button, this.traySessionStats)) {
                     if (!this.trayAllStats.Checked && !this.traySeasonStats.Checked && !this.trayWeekStats.Checked && !this.trayDayStats.Checked && !this.traySessionStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
@@ -6310,7 +6309,7 @@ namespace FallGuysStats {
                             }
                         }
                     }
-                } else if (button == this.trayAllPartyStats || button == this.traySoloStats || button == this.trayPartyStats) {
+                } else if (Equals(button, this.trayAllPartyStats) || Equals(button, this.traySoloStats) || Equals(button, this.trayPartyStats)) {
                     if (!this.trayAllPartyStats.Checked && !this.traySoloStats.Checked && !this.trayPartyStats.Checked) {
                         button.Checked = true;
                         switch (button.Name) {
