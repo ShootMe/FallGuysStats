@@ -98,18 +98,21 @@ namespace FallGuysStats {
             switch (this.statType) {
                 case StatType.Shows:
                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
+                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = Properties.Resources.fallguys_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                     break;
                 case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridRoundsStats"):
                     this.RoundDetails = this.StatsForm.GetRoundsForDisplay();
+                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                     break;
                 case StatType.Rounds when string.Equals(this.gridDetails.Name, "gridFinalsStats"):
                     this.RoundDetails = this.StatsForm.GetFinalsForDisplay();
+                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
@@ -117,6 +120,7 @@ namespace FallGuysStats {
                 case StatType.Levels:
                     LevelStats levelStats = this.StatsForm.GetFilteredDataSource(this.StatsForm.CurrentSettings.GroupingCreativeRoundLevels).Find(l => string.Equals(l.Id, this.LevelName));
                     this.RoundDetails = levelStats.Stats;
+                    this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = levelStats.RoundIcon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
