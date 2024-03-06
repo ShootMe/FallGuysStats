@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
+using Timer = System.Windows.Forms.Timer;
 
 namespace FallGuysStats {
     public partial class Stats : MetroFramework.Forms.MetroForm {
@@ -137,8 +138,6 @@ namespace FallGuysStats {
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountryCode = string.Empty;
-        // public static string HostCountryRegion = string.Empty;
-        // public static string HostCountryCity = string.Empty;
 
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -220,6 +219,8 @@ namespace FallGuysStats {
         public Point screenCenter;
         
         public event Action OnUpdatedLevelDetails;
+        private Timer scrollTimer = new Timer { Interval = 100 };
+        private bool isScrollingStopped = true;
         
         public readonly string[] PublicShowIdList = {
             "main_show",
@@ -582,6 +583,7 @@ namespace FallGuysStats {
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
             this.SaveUserSettings();
+            this.scrollTimer.Tick += this.scrollTimer_Tick;
         }
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
@@ -4668,6 +4670,17 @@ namespace FallGuysStats {
             this.SaveUserSettings();
         }
         
+        private void scrollTimer_Tick(object sender, EventArgs e) {
+            this.scrollTimer.Stop();
+            this.isScrollingStopped = true;
+        }
+
+        private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
+            this.isScrollingStopped = false;
+            this.scrollTimer.Stop();
+            this.scrollTimer.Start();
+        }
+
         private void gridDetails_DataSourceChanged(object sender, EventArgs e) {
             try {
                 if (((Grid)sender).Columns.Count == 0) { return; }
@@ -5005,6 +5018,7 @@ namespace FallGuysStats {
         }
         
         private void gridDetails_CellMouseEnter(object sender, DataGridViewCellEventArgs e) {
+            if (!this.isScrollingStopped) return;
             try {
                 ((Grid)sender).SuspendLayout();
                 if (e.RowIndex >= 0 && (((Grid)sender).Columns[e.ColumnIndex].Name == "Name" || ((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon")) {
