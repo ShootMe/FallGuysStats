@@ -504,7 +504,7 @@ namespace FallGuysStats {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
                                  CultureInfo.CurrentUICulture.Name :
                                  CultureInfo.CurrentUICulture.Name.Substring(0, 2);
-                using (SelectLanguage initLanguageForm = new SelectLanguage(sysLang)) {
+                using (InitLanguage initLanguageForm = new InitLanguage(sysLang)) {
                     this.EnableInfoStrip(false);
                     this.EnableMainMenu(false);
                     if (initLanguageForm.ShowDialog(this) == DialogResult.OK) {
@@ -875,34 +875,32 @@ namespace FallGuysStats {
                 if (c1 is MenuStrip ms1) {
                     foreach (var item in ms1.Items) {
                         if (item is ToolStripMenuItem tsmi1) {
-                            switch (tsmi1.Name) {
-                                case "menuSettings":
-                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                                case "menuFilters":
-                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                                case "menuProfile":
-                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                                //case "menuOverlay": break;
-                                case "menuUpdate":
-                                    tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
-                                                                                   (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
-                                case "menuHelp":
-                                    tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                                //case "menuLaunchFallGuys": break;
+                            if (Equals(tsmi1, this.menuSettings)) {
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                            } else if (Equals(tsmi1, this.menuFilters)) {
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                            } else if (Equals(tsmi1, this.menuProfile)) {
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                            } else if (Equals(tsmi1, this.menuUpdate)) {
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
+                                                                             : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                            } else if (Equals(tsmi1, this.menuHelp)) {
+                                tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
                             }
+
                             tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             tsmi1.MouseEnter += this.menu_MouseEnter;
                             tsmi1.MouseLeave += this.menu_MouseLeave;
                             foreach (var item1 in tsmi1.DropDownItems) {
                                 if (item1 is ToolStripMenuItem subTsmi1) {
-                                    if (subTsmi1.Name.Equals("menuEditProfiles")) { subTsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
+                                    if (Equals(subTsmi1, this.menuEditProfiles)) { subTsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
                                     subTsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     subTsmi1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                     subTsmi1.MouseEnter += this.menu_MouseEnter;
                                     subTsmi1.MouseLeave += this.menu_MouseLeave;
                                     foreach (var item2 in subTsmi1.DropDownItems) {
                                         if (item2 is ToolStripMenuItem subTsmi2) {
-                                            if (subTsmi2.Name.Equals("menuCustomRangeStats")) { subTsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
+                                            if (Equals(subTsmi2, this.menuCustomRangeStats)) { subTsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
                                             subTsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                             subTsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                             subTsmi2.MouseEnter += this.menu_MouseEnter;
@@ -925,36 +923,26 @@ namespace FallGuysStats {
                     ts1.BackColor = Color.Transparent;
                     foreach (var tsi1 in ts1.Items) {
                         if (tsi1 is ToolStripLabel tsl1) {
-                            switch (tsl1.Name) {
-                                case "lblCurrentProfile":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192);
-                                    break;
-                                case "lblTotalTime":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
-                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    break;
-                                case "lblTotalShows":
-                                case "lblTotalWins":
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    break;
-                                case "lblTotalRounds":
-                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    break;
-                                case "lblTotalFinals":
-                                    tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                                    break;
-                                case "lblGoldMedal":
-                                case "lblSilverMedal":
-                                case "lblBronzeMedal":
-                                case "lblPinkMedal":
-                                case "lblEliminatedMedal":
-                                case "lblKudos":
-                                    tsl1.Font = Overlay.GetMainFont(14f);
-                                    tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
+                            if (Equals(tsl1, this.lblCurrentProfile)) {
+                                tsl1.Font = Overlay.GetMainFont(14f);
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192);
+                            } else if (Equals(tsl1, this.lblTotalTime)) {
+                                tsl1.Font = Overlay.GetMainFont(14f);
+                                tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.clock_icon : Properties.Resources.clock_gray_icon;
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                            } else if (Equals(tsl1, this.lblTotalShows) || Equals(tsl1, this.lblTotalWins)) {
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                            } else if (Equals(tsl1, this.lblTotalRounds)) {
+                                tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                            } else if (Equals(tsl1, this.lblTotalFinals)) {
+                                tsl1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+                            } else if (Equals(tsl1, this.lblGoldMedal) || Equals(tsl1, this.lblSilverMedal) ||
+                                       Equals(tsl1, this.lblBronzeMedal) || Equals(tsl1, this.lblPinkMedal) ||
+                                       Equals(tsl1, this.lblEliminatedMedal) || Equals(tsl1, this.lblKudos)) {
+                                tsl1.Font = Overlay.GetMainFont(14f);
+                                tsl1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray;
                             }
                         } else if (tsi1 is ToolStripSeparator tss1) {
                             tss1.ForeColor = theme == MetroThemeStyle.Light ? Color.DarkSlateGray : Color.DarkGray; break;
@@ -965,14 +953,12 @@ namespace FallGuysStats {
                 } else if (c1 is MetroLink ml1) {
                     ml1.Theme = theme;
                 } else if (c1 is Label lbl1) {
-                    if (lbl1.Name.Equals("lblCreativeLevel") || lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
-                        lbl1.Font = Overlay.GetMainFont(13f);
-                        if (lbl1.Name.Equals("lblCreativeLevel")) {
-                            lbl1.ForeColor = this.mtgCreativeLevel.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
-                        } else if (lbl1.Name.Equals("lblIgnoreLevelTypeWhenSorting")) {
-                            lbl1.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
-                        }
-                    } 
+                    lbl1.Font = Overlay.GetMainFont(13f);
+                    if (Equals(lbl1, this.lblCreativeLevel)) {
+                        lbl1.ForeColor = this.mtgCreativeLevel.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
+                    } else if (Equals(lbl1, this.lblIgnoreLevelTypeWhenSorting)) {
+                        lbl1.ForeColor = this.mtgIgnoreLevelTypeWhenSorting.Checked ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
+                    }
                 }
             }
 
@@ -994,27 +980,31 @@ namespace FallGuysStats {
                     tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     tsmi.MouseEnter += this.TrayMenu_MouseEnter;
                     tsmi.MouseLeave += this.TrayMenu_MouseLeave;
-                    switch (tsmi.Name) {
-                        case "traySettings": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                        case "trayFilters": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                        case "trayProfile": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                        case "trayUpdate":
-                            tsmi.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
-                                                                          (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
-                        case "trayHelp":
-                            tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                        case "trayExitProgram": tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
+                    if (Equals(tsmi, this.traySettings)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    } else if (Equals(tsmi, this.trayFilters)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                    } else if (Equals(tsmi, this.trayProfile)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                    } else if (Equals(tsmi, this.trayUpdate)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
+                                                                    : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                    } else if (Equals(tsmi, this.trayHelp)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                    } else if (Equals(tsmi, this.trayExitProgram)) {
+                        tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
                     }
+
                     foreach (var subItem1 in tsmi.DropDownItems) {
                         if (subItem1 is ToolStripMenuItem stsmi1) {
-                            if (stsmi1.Name.Equals("trayEditProfiles")) { stsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
+                            if (Equals(stsmi1, this.trayEditProfiles)) { stsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
                             stsmi1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                             stsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             stsmi1.MouseEnter += this.TrayMenu_MouseEnter;
                             stsmi1.MouseLeave += this.TrayMenu_MouseLeave;
                             foreach (var subItem2 in stsmi1.DropDownItems) {
                                 if (subItem2 is ToolStripMenuItem stsmi2) {
-                                    if (stsmi2.Name.Equals("trayCustomRangeStats")) { stsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
+                                    if (Equals(stsmi2, this.trayCustomRangeStats)) { stsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
                                     stsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                     stsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                                     stsmi2.MouseEnter += this.TrayMenu_MouseEnter;
@@ -1049,100 +1039,139 @@ namespace FallGuysStats {
         }
         
         private void TrayMenu_MouseEnter(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = Color.Black;
-                switch (tsi.Name) {
-                    case "traySettings": tsi.Image = Properties.Resources.setting_icon; break;
-                    case "trayFilters": tsi.Image = Properties.Resources.filter_icon; break;
-                    case "trayCustomRangeStats": tsi.Image = Properties.Resources.calendar_icon; break;
-                    case "trayProfile": tsi.Image = Properties.Resources.profile_icon; break;
-                    case "trayUpdate": tsi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon; break;
-                    case "trayHelp": tsi.Image = Properties.Resources.github_icon; break;
-                    case "trayEditProfiles": tsi.Image = Properties.Resources.setting_icon; break;
-                    case "trayExitProgram": tsi.Image = Properties.Resources.shutdown_icon; break;
+            switch (sender) {
+                case ToolStripMenuItem tsi: {
+                    tsi.ForeColor = Color.Black;
+                    if (Equals(tsi, this.traySettings)) {
+                        tsi.Image = Properties.Resources.setting_icon;
+                    } else if (Equals(tsi, this.trayFilters)) {
+                        tsi.Image = Properties.Resources.filter_icon;
+                    } else if (Equals(tsi, this.trayCustomRangeStats)) {
+                        tsi.Image = Properties.Resources.calendar_icon;
+                    } else if (Equals(tsi, this.trayProfile)) {
+                        tsi.Image = Properties.Resources.profile_icon;
+                    } else if (Equals(tsi, this.trayUpdate)) {
+                        tsi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon;
+                    } else if (Equals(tsi, this.trayHelp)) {
+                        tsi.Image = Properties.Resources.github_icon;
+                    } else if (Equals(tsi, this.trayEditProfiles)) {
+                        tsi.Image = Properties.Resources.setting_icon;
+                    } else if (Equals(tsi, this.trayExitProgram)) {
+                        tsi.Image = Properties.Resources.shutdown_icon;
+                    }
+                    break;
                 }
             }
         }
         
         private void TrayMenu_MouseLeave(object sender, EventArgs e) {
-            if (sender is ToolStripMenuItem tsi) {
-                tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                switch (tsi.Name) {
-                    case "traySettings": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                    case "trayFilters": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                    case "trayCustomRangeStats": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
-                    case "trayProfile": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                    case "trayUpdate": tsi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
-                                                                                         (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
-                    case "trayHelp": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                    case "trayEditProfiles": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                    case "trayExitProgram": tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon; break;
+            switch (sender) {
+                case ToolStripMenuItem tsi: {
+                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    if (Equals(tsi, this.traySettings)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    } else if (Equals(tsi, this.trayFilters)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                    } else if (Equals(tsi, this.trayCustomRangeStats)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
+                    } else if (Equals(tsi, this.trayProfile)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                    } else if (Equals(tsi, this.trayUpdate)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
+                            : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                    } else if (Equals(tsi, this.trayHelp)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                    } else if (Equals(tsi, this.trayEditProfiles)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    } else if (Equals(tsi, this.trayExitProgram)) {
+                        tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
+                    }
+                    break;
                 }
             }
         }
         
         private void menu_MouseEnter(object sender, EventArgs e) {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            switch (tsmi.Name) {
-                case "menuSettings": tsmi.Image = Properties.Resources.setting_icon; break;
-                case "menuFilters": tsmi.Image = Properties.Resources.filter_icon; break;
-                case "menuCustomRangeStats": tsmi.Image = Properties.Resources.calendar_icon; break;
-                case "menuProfile": tsmi.Image = Properties.Resources.profile_icon; break;
-                //case "menuOverlay": break;
-                case "menuUpdate": tsmi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon; break;
-                case "menuHelp": tsmi.Image = Properties.Resources.github_icon; break;
-                //case "menuLaunchFallGuys": break;
-                case "menuEditProfiles": tsmi.Image = Properties.Resources.setting_icon; break;
+            switch (sender) {
+                case ToolStripMenuItem tsmi: {
+                    tsmi.ForeColor = Color.Black;
+                    if (Equals(tsmi, this.menuSettings)) {
+                        tsmi.Image = Properties.Resources.setting_icon;
+                    } else if (Equals(tsmi, this.menuFilters)) {
+                        tsmi.Image = Properties.Resources.filter_icon;
+                    } else if (Equals(tsmi, this.menuCustomRangeStats)) {
+                        tsmi.Image = Properties.Resources.calendar_icon;
+                    } else if (Equals(tsmi, this.menuProfile)) {
+                        tsmi.Image = Properties.Resources.profile_icon;
+                    } else if (Equals(tsmi, this.menuUpdate)) {
+                        tsmi.Image = this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon;
+                    } else if (Equals(tsmi, this.menuHelp)) {
+                        tsmi.Image = Properties.Resources.github_icon;
+                    } else if (Equals(tsmi, this.menuEditProfiles)) {
+                        tsmi.Image = Properties.Resources.setting_icon;
+                    }
+                    break;
+                }
             }
-            tsmi.ForeColor = Color.Black;
         }
         
         private void menu_MouseLeave(object sender, EventArgs e) {
-            ToolStripMenuItem tsmi = sender as ToolStripMenuItem;
-            switch (tsmi.Name) {
-                case "menuSettings": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
-                case "menuFilters": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon; break;
-                case "menuCustomRangeStats": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; break;
-                case "menuProfile": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon; break;
-                //case "menuOverlay": break;
-                case "menuUpdate": tsmi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon) :
-                                                                                      (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon); break;
-                case "menuHelp": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon; break;
-                //case "menuLaunchFallGuys": break;
-                case "menuEditProfiles": tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; break;
+            switch (sender) {
+                case ToolStripMenuItem tsmi: {
+                    tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    if (Equals(tsmi, this.menuSettings)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    } else if (Equals(tsmi, this.menuFilters)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                    } else if (Equals(tsmi, this.menuCustomRangeStats)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
+                    } else if (Equals(tsmi, this.menuProfile)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                    } else if (Equals(tsmi, this.menuUpdate)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
+                                                                         : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                    } else if (Equals(tsmi, this.menuHelp)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                    } else if (Equals(tsmi, this.menuEditProfiles)) {
+                        tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    }
+                    break;
+                }
             }
-            tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
         }
         
         private void infoStrip_MouseEnter(object sender, EventArgs e) {
-            if (sender is ToolStripLabel lblInfo) {
-                //this.infoStripForeColor = lblInfo.ForeColor;
-                this.Cursor = Cursors.Hand;
-                this.infoStripForeColor = lblInfo.Name.Equals("lblCurrentProfile")
-                    ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
-                    : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+            switch (sender) {
+                case ToolStripLabel lblInfo: {
+                    this.Cursor = Cursors.Hand;
+                    this.infoStripForeColor = Equals(lblInfo, this.lblCurrentProfile)
+                        ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
+                        : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                 
-                lblInfo.ForeColor = lblInfo.Name.Equals("lblCurrentProfile")
-                    ? this.Theme == MetroThemeStyle.Light ? Color.FromArgb(245, 154, 168) : Color.FromArgb(231, 251, 255)
-                    : this.Theme == MetroThemeStyle.Light ? Color.FromArgb(147, 174, 248) : Color.FromArgb(255, 250, 244);
+                    lblInfo.ForeColor = Equals(lblInfo, this.lblCurrentProfile)
+                        ? this.Theme == MetroThemeStyle.Light ? Color.FromArgb(245, 154, 168) : Color.FromArgb(231, 251, 255)
+                        : this.Theme == MetroThemeStyle.Light ? Color.FromArgb(147, 174, 248) : Color.FromArgb(255, 250, 244);
 
-                Point cursorPosition = this.PointToClient(Cursor.Position);
-                Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
-                this.AllocCustomTooltip(this.cmtt_center_Draw);
-                if (lblInfo.Name.Equals("lblCurrentProfileIcon")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord($"{(this.CurrentSettings.AutoChangeProfile ? "profile_icon_enable_tooltip" : "profile_icon_disable_tooltip")}"), this, position);
-                } else if (lblInfo.Name.Equals("lblCurrentProfile")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("profile_change_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblTotalShows")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("shows_detail_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblTotalRounds")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("rounds_detail_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblTotalFinals")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("finals_detail_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblTotalWins")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltip"), this, position);
-                } else if (lblInfo.Name.Equals("lblTotalTime")) {
-                    this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltip"), this, position);
+                    Point cursorPosition = this.PointToClient(Cursor.Position);
+                    Point position = new Point(cursorPosition.X + 16, cursorPosition.Y + 16);
+                    this.AllocCustomTooltip(this.cmtt_center_Draw);
+                    if (Equals(lblInfo, this.lblCurrentProfileIcon)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord($"{(this.CurrentSettings.AutoChangeProfile ? "profile_icon_enable_tooltip" : "profile_icon_disable_tooltip")}"), this, position);
+                    } else if (Equals(lblInfo, this.lblCurrentProfile)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("profile_change_tooltip"), this, position);
+                    } else if (Equals(lblInfo, this.lblTotalShows)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("shows_detail_tooltip"), this, position);
+                    } else if (Equals(lblInfo, this.lblTotalRounds)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("rounds_detail_tooltip"), this, position);
+                    } else if (Equals(lblInfo, this.lblTotalFinals)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("finals_detail_tooltip"), this, position);
+                    } else if (Equals(lblInfo, this.lblTotalWins)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("wins_detail_tooltip"), this, position);
+                    } else if (Equals(lblInfo, this.lblTotalTime)) {
+                        this.ShowCustomTooltip(Multilingual.GetWord("stats_detail_tooltip"), this, position);
+                    }
+
+                    break;
                 }
             }
         }
@@ -1365,7 +1394,7 @@ namespace FallGuysStats {
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
 
-                    if (info.Name.Equals("round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
+                    if (string.Equals(info.Name, "round_fall_mountain", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "round_fall_mountain_hub_complete";
                         this.RoundDetails.Update(info);
                     }
@@ -1764,7 +1793,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (info.Name.Equals("wle_s10_user_creative_round")) {
+                    if (string.Equals(info.Name, "wle_s10_user_creative_round", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "wle_s10_user_creative_race_round";
                         this.RoundDetails.Update(info);
                     }
@@ -1795,7 +1824,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (info.Name.Equals("round_bluejay_40")) {
+                    if (string.Equals(info.Name, "round_bluejay_40", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "round_bluejay";
                         this.RoundDetails.Update(info);
                     }
@@ -1833,7 +1862,8 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (info.Name.Equals("round_follow-the-leader_ss2_launch") || info.Name.Equals("round_follow-the-leader_ss2_parrot")) {
+                    if (string.Equals(info.Name, "round_follow-the-leader_ss2_launch", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(info.Name, "round_follow-the-leader_ss2_parrot", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "round_follow_the_line";
                         this.RoundDetails.Update(info);
                     }
@@ -1971,7 +2001,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (info.Name.Equals("wle_s10_user_creative_race_round")) {
+                    if (string.Equals(info.Name, "wle_s10_user_creative_race_round", StringComparison.OrdinalIgnoreCase)) {
                         info.Name = "user_creative_race_round";
                         this.RoundDetails.Update(info);
                     }
@@ -2055,8 +2085,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.ShowNameId) &&
-                        info.ShowNameId.Equals("main_show") &&
+                    if (string.Equals(info.ShowNameId, "main_show") &&
                         this.IsFinalWithCreativeLevel(info.Name))
                     {
                         info.IsFinal = true;
@@ -2098,7 +2127,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                     RoundInfo info = this.AllStats[i];
-                    if (!string.IsNullOrEmpty(info.Name) && info.Name.Equals("current_wle_fp4_10_08") && info.Start < new DateTime(2023, 8, 22)) {
+                    if (string.Equals(info.Name, "current_wle_fp4_10_08") && info.Start < new DateTime(2023, 8, 22)) {
                         info.Name = "current_wle_fp4_10_08_m";
                         info.ShowNameId = "current_wle_fp4_10_08_m";
                         this.RoundDetails.Update(info);
@@ -2120,8 +2149,8 @@ namespace FallGuysStats {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
-                          ri.ShowNameId.Equals("survival_of_the_fittest") &&
-                          ri.Name.Equals("round_kraken_attack") &&
+                          string.Equals(ri.ShowNameId, "survival_of_the_fittest") &&
+                          string.Equals(ri.Name, "round_kraken_attack") &&
                           ri.Round != 4
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2138,7 +2167,7 @@ namespace FallGuysStats {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.IsFinal &&
-                          ri.ShowNameId.Equals("event_only_hexaring_template") &&
+                          string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
                           ri.Round < 3
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2153,8 +2182,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 55) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_shuffle_show")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show")
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.Name = ri.Name.StartsWith("mrs_wle_fp") ? $"current{ri.Name.Substring(3)}" : ri.Name.Substring(4);
@@ -2169,9 +2197,8 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 56) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.IsFinal &&
-                          ri.ShowNameId.Equals("event_only_thin_ice_template") &&
+                    where ri.IsFinal &&
+                          string.Equals(ri.ShowNameId, "event_only_thin_ice_template") &&
                           ri.Round < 3
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2186,9 +2213,8 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 57) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.IsFinal &&
-                          ri.ShowNameId.Equals("event_only_hexaring_template") &&
+                    where ri.IsFinal &&
+                          string.Equals(ri.ShowNameId, "event_only_hexaring_template") &&
                           ri.Round < 3
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2209,8 +2235,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 59) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_shuffle_show") &&
+                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") &&
                           ri.Name.StartsWith("shuffle_halloween_")
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2291,8 +2316,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 67) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_shuffle_discover")
+                    where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2309,9 +2333,8 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 68) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          (ri.ShowNameId.Equals("wle_shuffle_discover") ||
-                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads"))
+                    where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
+                          || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
                     select ri).ToList();
                 
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
@@ -2319,7 +2342,7 @@ namespace FallGuysStats {
                 
                 this.StatsDB.BeginTrans();
                 foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
+                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
                         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
                     }
                     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
@@ -2328,7 +2351,7 @@ namespace FallGuysStats {
                     if (profileId != -1) ri.Profile = profileId;
                     ri.IsFinal = true;
 
-                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
                         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
                         foreach (RoundInfo r in ril) {
                             if (r.Round != ri.Round) {
@@ -2347,9 +2370,8 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 69) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          (ri.ShowNameId.Equals("wle_shuffle_discover") ||
-                           ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads"))
+                    where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
+                          || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
                     select ri).ToList();
                 
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
@@ -2357,7 +2379,7 @@ namespace FallGuysStats {
                 
                 this.StatsDB.BeginTrans();
                 foreach (RoundInfo ri in roundInfoList) {
-                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
+                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
                         ri.Name = ri.Name.Replace("_squads", "");
                     }
                     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
@@ -2366,7 +2388,7 @@ namespace FallGuysStats {
                     if (profileId != -1) ri.Profile = profileId;
                     ri.IsFinal = true;
 
-                    if (ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
                         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
                         foreach (RoundInfo r in ril) {
                             if (r.Round != ri.Round) {
@@ -2405,8 +2427,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 70) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_bouncy_bean_time")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2423,8 +2444,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 71) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("event_anniversary_season_1_alternate_name")
+                    where string.Equals(ri.ShowNameId, "event_anniversary_season_1_alternate_name")
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     if (ri.Name.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
@@ -2444,7 +2464,7 @@ namespace FallGuysStats {
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.DeleteMany(ri =>
                     ri.Start >= dateCond
-                    && ri.Name.Equals("user_creative_race_round")
+                    && string.Equals(ri.Name, "user_creative_race_round")
                     && (ri.PrivateLobby == false || ri.Round > 1));
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 73;
@@ -2453,8 +2473,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 73) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_winter")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_winter")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2473,8 +2492,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 74) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("event_blast_ball_banger_template")
+                    where string.Equals(ri.ShowNameId, "event_blast_ball_banger_template")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_blast_ball_banger_template"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2491,8 +2509,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 75) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2525,8 +2542,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 78) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_shuffle_show_squads")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2547,8 +2563,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 79) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_bouncy_bean_time")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_bouncy_bean_time")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2565,8 +2580,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 80) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("no_elimination_show")
+                    where string.Equals(ri.ShowNameId, "no_elimination_show")
                     select ri).ToList();
                 
                 foreach (RoundInfo ri in roundInfoList) {
@@ -2589,8 +2603,7 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
                 
                 List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
                     select ri).ToList();
 
                 foreach (RoundInfo ri in roundInfoList2) {
@@ -2601,8 +2614,7 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
                 
                 List<RoundInfo> roundInfoList3 = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_shuffle_chill")
+                    where string.Equals(ri.ShowNameId, "wle_shuffle_chill")
                     select ri).ToList();
                 
                 foreach (RoundInfo ri in roundInfoList3) {
@@ -2618,8 +2630,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 81) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where !string.IsNullOrEmpty(ri.ShowNameId) &&
-                          ri.ShowNameId.Equals("wle_mrs_survival_showdown")
+                    where string.Equals(ri.ShowNameId, "wle_mrs_survival_showdown")
                     select ri).ToList();
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
@@ -2637,7 +2648,7 @@ namespace FallGuysStats {
                 List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
                     where !string.IsNullOrEmpty(ri.ShowNameId) &&
                           ri.Start <= dateCond &&
-                          ri.Name.Equals("user_creative_race_round")
+                          string.Equals(ri.Name, "user_creative_race_round")
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList2) {
                     ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
@@ -2650,7 +2661,7 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 82) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where (ri.Name.StartsWith("user_creative_") && ri.Name.EndsWith("_round"))
+                    where ri.Name.StartsWith("user_creative_") && ri.Name.EndsWith("_round")
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     (ri.ShowNameId, ri.Name) = (ri.Name, ri.ShowNameId);
@@ -2804,16 +2815,16 @@ namespace FallGuysStats {
         }
         
         private bool IsFinalWithCreativeLevel(string levelId) {
-            return levelId.Equals("wle_s10_orig_round_010") ||
-                   levelId.Equals("wle_s10_orig_round_011") ||
-                   levelId.Equals("wle_s10_orig_round_017") ||
-                   levelId.Equals("wle_s10_orig_round_018") ||
-                   levelId.Equals("wle_s10_orig_round_024") ||
-                   levelId.Equals("wle_s10_orig_round_025") ||
-                   levelId.Equals("wle_s10_orig_round_030") ||
-                   levelId.Equals("wle_s10_orig_round_031") ||
-                   levelId.Equals("wle_s10_round_004") ||
-                   levelId.Equals("wle_s10_round_009");
+            return string.Equals(levelId, "wle_s10_orig_round_010") ||
+                   string.Equals(levelId, "wle_s10_orig_round_011") ||
+                   string.Equals(levelId, "wle_s10_orig_round_017") ||
+                   string.Equals(levelId, "wle_s10_orig_round_018") ||
+                   string.Equals(levelId, "wle_s10_orig_round_024") ||
+                   string.Equals(levelId, "wle_s10_orig_round_025") ||
+                   string.Equals(levelId, "wle_s10_orig_round_030") ||
+                   string.Equals(levelId, "wle_s10_orig_round_031") ||
+                   string.Equals(levelId, "wle_s10_round_004") ||
+                   string.Equals(levelId, "wle_s10_round_009");
         }
         
         private void UpdateHoopsieLegends() {
@@ -4186,12 +4197,12 @@ namespace FallGuysStats {
             showId = this.GetAlternateShowId(showId);
             foreach (Profiles profiles in this.AllProfiles) {
                 if (isPrivateLobbies) {
-                    if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("private_lobbies")) {
+                    if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "private_lobbies")) {
                         return profiles.ProfileId;
                     }
                 } else {
                     if (this.IsCreativeShow(showId)) {
-                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && profiles.LinkedShowId.Equals("fall_guys_creative_mode")) {
+                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "fall_guys_creative_mode")) {
                             return profiles.ProfileId;
                         }
                     } else {
@@ -4216,14 +4227,14 @@ namespace FallGuysStats {
             this.BeginInvoke((MethodInvoker)delegate {
                 for (int i = 0; i < this.AllProfiles.Count; i++) {
                     if (isPrivateLobbies) {
-                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("private_lobbies")) {
+                        if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && string.Equals(this.AllProfiles[i].LinkedShowId, "private_lobbies")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
                             if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
                             return;
                         }
                     } else {
                         if (this.IsCreativeShow(showId)) {
-                            if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && this.AllProfiles[i].LinkedShowId.Equals("fall_guys_creative_mode")) {
+                            if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && string.Equals(this.AllProfiles[i].LinkedShowId, "fall_guys_creative_mode")) {
                                 ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
                                 if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
                                 return;

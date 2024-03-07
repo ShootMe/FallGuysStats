@@ -2,12 +2,12 @@
 using System.Drawing;
 using System.Windows.Forms;
 namespace FallGuysStats {
-    public partial class SelectLanguage : MetroFramework.Forms.MetroForm {
+    public partial class InitLanguage : MetroFramework.Forms.MetroForm {
         private readonly Language defaultLanguage;
         public Language selectedLanguage;
         public bool autoGenerateProfiles;
 
-        public SelectLanguage(string sysLang) {
+        public InitLanguage(string sysLang) {
             this.defaultLanguage = string.Equals(sysLang, "fr", StringComparison.OrdinalIgnoreCase) ? Language.French :
                                    string.Equals(sysLang, "ko", StringComparison.OrdinalIgnoreCase) ? Language.Korean :
                                    string.Equals(sysLang, "ja", StringComparison.OrdinalIgnoreCase) ? Language.Japanese :

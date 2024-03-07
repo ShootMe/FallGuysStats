@@ -1,5 +1,5 @@
 ﻿namespace FallGuysStats {
-    partial class SelectLanguage {
+    partial class InitLanguage {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SelectLanguage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitLanguage));
             this.picLanguageSelection = new System.Windows.Forms.PictureBox();
             this.cboLanguage = new MetroFramework.Controls.MetroComboBox();
             this.chkAutoGenerateProfile = new MetroFramework.Controls.MetroCheckBox();
@@ -101,7 +101,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SelectLanguage";
+            this.Name = "InitLanguage";
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
             this.ShowInTaskbar = false;
