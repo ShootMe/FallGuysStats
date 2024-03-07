@@ -370,12 +370,20 @@ namespace FallGuysStats {
                 foreach (RankRound round in this.availableRoundlist) {
                     foreach (string id in round.ids) {
                         if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id }));
+                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id, levelStats.IsCreative.ToString() }));
                             break;
                         }
                     }
                 }
-                roundItemList.Sort((x, y) => StringComparer.OrdinalIgnoreCase.Compare(x.Text, y.Text));
+                roundItemList.Sort((x, y) => {
+                    int result = string.Compare(x.Data[2], y.Data[2], StringComparison.OrdinalIgnoreCase);
+                    if (result == 0) {
+                        result = string.Compare(x.Text, y.Text, StringComparison.Ordinal);
+                    } else if (string.Equals(x.Data[2], "false")) {
+                        result = -1;
+                    }
+                    return result;
+                });
                 this.BeginInvoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
                         this.mpsSpinner02.Visible = false;

@@ -88,10 +88,10 @@ namespace FallGuysStats {
                         }
 
                         if (!string.IsNullOrEmpty(this.Text)) {
-                            if ((this.Name.Equals("lblPlayers") && (this.OverlaySetting == 0 || this.OverlaySetting == 1 || this.OverlaySetting == 4 || this.OverlaySetting == 5)) ||
-                                (this.Name.Equals("lblFastest") && this.OverlaySetting == 2) ||
-                                (this.Name.Equals("lblFinals") && this.OverlaySetting == 3) ||
-                                (this.Name.Equals("lblDuration") && this.OverlaySetting == 6)) {
+                            if ((string.Equals(this.Name, "lblPlayers") && (this.OverlaySetting == 0 || this.OverlaySetting == 1 || this.OverlaySetting == 4 || this.OverlaySetting == 5)) ||
+                                (string.Equals(this.Name, "lblFastest") && this.OverlaySetting == 2) ||
+                                (string.Equals(this.Name, "lblFinals") && this.OverlaySetting == 3) ||
+                                (string.Equals(this.Name, "lblDuration") && this.OverlaySetting == 6)) {
                                 if (this.TickProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.TickProgress / 60f, this.ClientRectangle.Height * 2, 4f);
                             }
                             this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
@@ -103,7 +103,7 @@ namespace FallGuysStats {
 
                         if (!string.IsNullOrEmpty(this.TextRight)) {
                             stringFormat.Alignment = StringAlignment.Far;
-                            if (this.Name.Equals("lblRound")) {
+                            if (string.Equals(this.Name, "lblRound")) {
                                 Font fontForLongText = this.GetFontForRoundName(this.TextRight);
                                 if (!this.LevelColor.IsEmpty) {
                                     float widthOfText = g.MeasureString(this.TextRight, fontForLongText).Width;
@@ -121,7 +121,7 @@ namespace FallGuysStats {
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, fontForLongText.FontFamily, fontForLongText.Style, fontForLongText.Size, this.TextRight, stringFormat);
                                 }
                                 //g.DrawString(this.TextRight, this.GetFontForRoundName(this.TextRight), brFore, this.ClientRectangle, stringFormat);
-                            } else if (this.Name.Equals("lblPlayers")) {
+                            } else if (string.Equals(this.Name, "lblPlayers")) {
                                 if (this.TextRight.EndsWith(" ms", StringComparison.OrdinalIgnoreCase)) {
                                     this.DrawOutlineText(g, this.ClientRectangle, new Pen(this.PingColor), new SolidBrush(this.PingColor), this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
                                     this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, FontStyle.Regular, this.Font.Size * this.GetFontSizeFactor(), this.TextRight, stringFormat);
