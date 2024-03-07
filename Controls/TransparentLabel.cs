@@ -98,6 +98,9 @@ namespace FallGuysStats {
                         }
 
                         if (this.Image != null) {
+                            if (string.Equals(this.Name, "lblPingIcon")) {
+                                this.FillRoundedRectangleF(g, null, new SolidBrush(this.PingColor), this.ImageX - 2, this.ImageY - 3, (this.ImageWidth == 0 ? this.Image.Width : this.ImageWidth) + 4, (this.ImageHeight == 0 ? this.Image.Height : this.ImageHeight) + 5, 6f);
+                            }
                             g.DrawImage(this.Image, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.Image.Width : this.ImageWidth, this.ImageHeight == 0 ? this.Image.Height : this.ImageHeight);
                         }
 

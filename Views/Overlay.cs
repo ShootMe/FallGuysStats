@@ -820,8 +820,12 @@ namespace FallGuysStats {
                         } else {
                             if (Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) {
                                 this.lblPlayers.PingColor = Color.Orange;
+                                this.lblPingIcon.PingColor = Color.Orange;
+                                // this.lblPingIcon.PingColor = Color.FromArgb(191, 255, 165, 0);
                             } else if (Stats.LastServerPing >= 200) {
                                 this.lblPlayers.PingColor = Color.Red;
+                                this.lblPingIcon.PingColor = Color.Red;
+                                // this.lblPingIcon.PingColor = Color.FromArgb(191, 255, 0, 0);
                             } else {
                                 this.lblPlayers.PingColor = Color.Green;
                             }
@@ -833,7 +837,7 @@ namespace FallGuysStats {
                                                            : Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing ? -6 : 0) : -12;
                             
                             this.lblPingIcon.Image = (Stats.IsConnectedToServer && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon
-                                                     : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 ? Properties.Resources.ping_200_icon : null);
+                                                     : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 ? Properties.Resources.ping_100_icon : null);
                             this.lblPingIcon.ImageX = (Stats.IsConnectedToServer && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15
                                                       : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17
                                                       : (Stats.IsConnectedToServer && Stats.LastServerPing > 999) ? -24 : 0;
