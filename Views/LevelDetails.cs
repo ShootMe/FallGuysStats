@@ -29,6 +29,7 @@ namespace FallGuysStats {
         
         private Timer scrollTimer = new Timer { Interval = 100 };
         private bool isScrollingStopped = true;
+        private bool isHeaderClicked;
 
         public LevelDetails() {
             this.InitializeComponent();
@@ -772,10 +773,16 @@ namespace FallGuysStats {
             }
         }
         
+        private void gridDetails_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e) {
+            if (e.RowIndex == -1) {
+                this.isHeaderClicked = true;
+            }
+        }
+        
         private void gridDetails_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
-            if (this.currentRoundDetails == null) return;
+            if (this.currentRoundDetails == null || this.currentRoundDetails.Count == 0) return;
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            if (string.Equals(columnName, "CreativeLikes") || string.Equals(columnName, "CreativeDislikes")) return;
+            // if (string.Equals(columnName, "CreativeLikes") || string.Equals(columnName, "CreativeDislikes")) return;
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "ShowID"; }
 
@@ -797,18 +804,15 @@ namespace FallGuysStats {
                         return showNameIdCompare != 0 ? showNameIdCompare : roundCompare;
                     case "Round":
                         roundCompare = one.Round.CompareTo(two.Round);
-                        return roundCompare == 0 ? showCompare : roundCompare;
+                        return roundCompare != 0 ? roundCompare : showCompare;
                     case "RoundIcon":
                     case "Name":
-                        if (this.statType != StatType.Levels) {
-                            showCompare = one.ShowID.CompareTo(two.ShowID);
-                            return showCompare != 0 ? showCompare : roundCompare;
-                        } else {
-                            string nameOne = this.StatsForm.StatLookup.TryGetValue(one.Name, out LevelStats level1) ? level1.Name : one.Name;
-                            string nameTwo = this.StatsForm.StatLookup.TryGetValue(two.Name, out LevelStats level2) ? level2.Name : two.Name;
-                            int nameCompare = nameOne.CompareTo(nameTwo);
-                            return nameCompare != 0 ? nameCompare : roundCompare;
-                        }
+                    case "CreativeLikes":
+                    case "CreativeDislikes":
+                        string nameOne = one.UseShareCode ? (string.IsNullOrEmpty(one.CreativeTitle) ? one.Name : one.CreativeTitle) : (this.StatsForm.StatLookup.TryGetValue(one.Name, out LevelStats levelOne) ? levelOne.Name : one.Name);
+                        string nameTwo = two.UseShareCode ? (string.IsNullOrEmpty(two.CreativeTitle) ? two.Name : two.CreativeTitle) : (this.StatsForm.StatLookup.TryGetValue(two.Name, out LevelStats levelTwo) ? levelTwo.Name : two.Name);
+                        int nameCompare = nameOne.CompareTo(nameTwo);
+                        return nameCompare != 0 ? nameCompare : showCompare;
                     case "Players":
                         int playerCompare = one.Players.CompareTo(two.Players);
                         return playerCompare != 0 ? playerCompare : showCompare == 0 ? roundCompare : showCompare;
@@ -862,10 +866,19 @@ namespace FallGuysStats {
 
             ((Grid)sender).DataSource = null;
             ((Grid)sender).DataSource = this.currentRoundDetails;
-            ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            if (string.Equals(columnName, "CreativeLikes") || string.Equals(columnName, "CreativeDislikes")) {
+                ((Grid)sender).Columns["Name"].HeaderCell.SortGlyphDirection = sortOrder;
+            } else {
+                ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
+            }
         }
         
         private void gridDetails_SelectionChanged(object sender, EventArgs e) {
+            if (this.isHeaderClicked) {
+                ((Grid)sender).ClearSelection();
+                this.isHeaderClicked = false;
+            }
+            
             if (this.statType != StatType.Shows && ((Grid)sender).SelectedCells.Count > 0) {
                 if (((Grid)sender).SelectedRows.Count == 1) {
                     RoundInfo info = ((Grid)sender).Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;

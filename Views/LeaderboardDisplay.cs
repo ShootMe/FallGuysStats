@@ -42,6 +42,7 @@ namespace FallGuysStats {
         private bool isIncreasing;
         private MetroProgressSpinner targetSpinner;
         private string currentUserId;
+        private bool isHeaderClicked;
         
         public LeaderboardDisplay() {
             this.InitializeComponent();
@@ -639,6 +640,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             ((Grid)sender).Setup("firstPlaces", pos++, this.GetDataGridViewColumnWidth("firstPlaces"), $"{Multilingual.GetWord("leaderboard_grid_header_first_places")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["firstPlaces"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
         }
         
         private void gridOverallRank_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -772,6 +774,10 @@ namespace FallGuysStats {
             ((Grid)sender).Columns[columnName].HeaderCell.SortGlyphDirection = sortOrder;
         }
         
+        private void gridOverallSummary_SelectionChanged(object sender, EventArgs e) {
+            ((Grid)sender).ClearSelection();
+        }
+        
         private void gridOverallSummary_DataSourceChanged(object sender, EventArgs e) {
             if (((Grid)sender).Columns.Count == 0) { return; }
             int pos = 0;
@@ -799,6 +805,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["bronzeIcon"].DefaultCellStyle.NullValue = null;
             ((Grid)sender).Setup("bronze", pos++, 70, $"{Multilingual.GetWord("main_bronze")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["bronze"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
         }
         
         private void gridOverallSummary_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -899,6 +906,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             ((Grid)sender).Setup("finish", pos++, this.GetDataGridViewColumnWidth("finish"), $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
             
             // foreach (DataGridViewRow row in ((Grid)sender).Rows) {
             //     this.totalHeight += row.Height;
@@ -1080,6 +1088,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["flag"].DefaultCellStyle.NullValue = null;
             ((Grid)sender).Setup("onlineServiceNickname", pos++, this.GetDataGridViewColumnWidth("onlineServiceNickname"), $"{Multilingual.GetWord("leaderboard_grid_header_player")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["onlineServiceNickname"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
         }
         
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -1260,6 +1269,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["record"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             ((Grid)sender).Setup("finish", pos++, 0, $"{Multilingual.GetWord("leaderboard_grid_header_finish")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["finish"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
         }
         
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
@@ -1394,7 +1404,16 @@ namespace FallGuysStats {
         }
         
         private void grid_SelectionChanged(object sender, EventArgs e) {
-            ((Grid)sender).ClearSelection();
+            if (this.isHeaderClicked) {
+                ((Grid)sender).ClearSelection();
+                this.isHeaderClicked = false;
+            }
+        }
+        
+        private void grid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e) {
+            if (e.RowIndex == -1) {
+                this.isHeaderClicked = true;
+            }
         }
         
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
@@ -1483,6 +1502,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["score"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
             ((Grid)sender).Setup("period", pos++, this.GetDataGridViewColumnWidth("period"), $"{Multilingual.GetWord("leaderboard_grid_header_period")}", DataGridViewContentAlignment.MiddleLeft);
             ((Grid)sender).Columns["period"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            ((Grid)sender).ClearSelection();
         }
         
         private void gridWeeklyCrown_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {

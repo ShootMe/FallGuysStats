@@ -162,6 +162,7 @@
             this.gridDetails.DataSourceChanged += new System.EventHandler(this.gridDetails_DataSourceChanged);
             this.gridDetails.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellDoubleClick);
             this.gridDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridDetails_CellFormatting);
+            this.gridDetails.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_CellMouseDown);
             this.gridDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseEnter);
             this.gridDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridDetails_CellMouseLeave);
             this.gridDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridDetails_ColumnHeaderMouseClick);

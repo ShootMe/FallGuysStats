@@ -286,9 +286,11 @@
             this.gridPlayerList.DataSourceChanged += new System.EventHandler(this.gridPlayerList_DataSourceChanged);
             this.gridPlayerList.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPlayerList_CellDoubleClick);
             this.gridPlayerList.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridPlayerList_CellFormatting);
+            this.gridPlayerList.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_CellMouseDown);
             this.gridPlayerList.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridPlayerList.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridPlayerList.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPlayerList_ColumnHeaderMouseClick);
+            this.gridPlayerList.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // gridPlayerDetails
             // 
@@ -319,9 +321,11 @@
             this.gridPlayerDetails.DataSourceChanged += new System.EventHandler(this.gridPlayerDetails_DataSourceChanged);
             this.gridPlayerDetails.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridPlayerDetails_CellDoubleClick);
             this.gridPlayerDetails.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridPlayerDetails_CellFormatting);
+            this.gridPlayerDetails.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_CellMouseDown);
             this.gridPlayerDetails.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridPlayerDetails.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridPlayerDetails.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridPlayerDetails_ColumnHeaderMouseClick);
+            this.gridPlayerDetails.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // gridOverallRank
             // 
@@ -353,9 +357,11 @@
             this.gridOverallRank.DataSourceChanged += new System.EventHandler(this.gridOverallRank_DataSourceChanged);
             this.gridOverallRank.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridOverallRank_CellDoubleClick);
             this.gridOverallRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridOverallRank_CellFormatting);
+            this.gridOverallRank.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_CellMouseDown);
             this.gridOverallRank.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridOverallRank.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridOverallRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridOverallRank_ColumnHeaderMouseClick);
+            this.gridOverallRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // gridOverallSummary
             // 
@@ -385,7 +391,7 @@
             this.gridOverallSummary.TabIndex = 2;
             this.gridOverallSummary.DataSourceChanged += new System.EventHandler(this.gridOverallSummary_DataSourceChanged);
             this.gridOverallSummary.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridOverallSummary_CellFormatting);
-            this.gridOverallSummary.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
+            this.gridOverallSummary.SelectionChanged += new System.EventHandler(this.gridOverallSummary_SelectionChanged);
             // 
             // mtpLevelRankPage
             // 
@@ -519,9 +525,11 @@
             this.gridLevelRank.DataSourceChanged += new System.EventHandler(this.gridLevelRank_DataSourceChanged);
             this.gridLevelRank.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridLevelRank_CellDoubleClick);
             this.gridLevelRank.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridLevelRank_CellFormatting);
+            this.gridLevelRank.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_CellMouseDown);
             this.gridLevelRank.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridLevelRank.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
             this.gridLevelRank.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridLevelRank_ColumnHeaderMouseClick);
+            this.gridLevelRank.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mtpWeeklyCrownPage
             // 
@@ -631,9 +639,11 @@
             this.gridWeeklyCrown.DataSourceChanged += new System.EventHandler(this.gridWeeklyCrown_DataSourceChanged);
             this.gridWeeklyCrown.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridWeeklyCrown_CellDoubleClick);
             this.gridWeeklyCrown.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.gridWeeklyCrown_CellFormatting);
+            this.gridWeeklyCrown.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grid_CellMouseDown);
             this.gridWeeklyCrown.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridWeeklyCrown_ColumnHeaderMouseClick);
             this.gridWeeklyCrown.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseEnter);
             this.gridWeeklyCrown.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellMouseLeave);
+            this.gridWeeklyCrown.SelectionChanged += new System.EventHandler(this.grid_SelectionChanged);
             // 
             // mlMyRank
             // 
