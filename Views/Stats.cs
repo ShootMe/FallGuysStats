@@ -2835,7 +2835,7 @@ namespace FallGuysStats {
         
         private bool IsCreativeLevel(string levelId) {
             return levelId.StartsWith("wle_") || levelId.StartsWith("current_wle_")
-                   || levelId.StartsWith("chill_") || levelId.StartsWith("playful_shuffle_");
+                   || levelId.StartsWith("chill_") || levelId.StartsWith("playful_shuffle_") || levelId.StartsWith("survival_shuffle_");
         }
         
         private void UpdateGridRoundName() {
