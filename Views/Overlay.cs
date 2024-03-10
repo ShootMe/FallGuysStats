@@ -815,7 +815,7 @@ namespace FallGuysStats {
                         if (Stats.IsBadServerPing) {
                             this.lblCountryIcon.ImageX = 49;
                             this.lblCountryIcon.Image = string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-                            this.lblPingIcon.ImageX = 40;
+                            this.lblPingIcon.ImageX = 49;
                             this.lblPingIcon.Image = Properties.Resources.ping_100_icon;
                             this.lblPingIcon.PingColor = Color.Red;
                         } else {
@@ -1336,7 +1336,7 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(thirdColumnX, 10 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 10 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 9 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
                     this.lblPingIcon.Location = new Point(thirdColumnX + 134, 14 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
