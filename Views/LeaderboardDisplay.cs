@@ -1212,7 +1212,7 @@ namespace FallGuysStats {
                         this.picPlayerInfo01.Image = (string.Equals(this.speedrunRank.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
                         this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.speedrunRank.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.speedrunRank.country.ToLower()}_icon");
                         this.lblPlayerInfo01.Text = this.speedrunRank.onlineServiceNickname;
-                        this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 25;
+                        this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 15;
                         this.lblPlayerInfo02.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} :";
                         this.picPlayerInfo03.Left = this.lblPlayerInfo02.Right;
                         double percentage = ((double)(this.speedrunRank.index - 1) / ((this.speedrunRank.total > 1000 ? 1000 : this.speedrunRank.total) - 1)) * 100;
@@ -1251,7 +1251,8 @@ namespace FallGuysStats {
 
                     if (this.crownLeagueRank != null) {
                         this.lblPlayerInfo06.Text = $@"{Multilingual.GetWord("leaderboard_weekly_crown_league")} :";
-                        this.lblPlayerInfo06.Left = this.lblPlayerInfo02.Left;
+                        int widthOfText = TextRenderer.MeasureText(this.lblPlayerInfo01.Text, this.lblPlayerInfo01.Font).Width;
+                        this.lblPlayerInfo06.Left = this.lblPlayerInfo02.Left - widthOfText;
                         this.picPlayerInfo04.Left = this.lblPlayerInfo06.Right;
                         double percentage = ((double)(this.crownLeagueRank.index - 1) / ((this.crownLeagueRank.total > 1000 ? 1000 : this.crownLeagueRank.total) - 1)) * 100;
                         if (this.crownLeagueRank.index == 0) {
