@@ -58,11 +58,18 @@
             this.picPlayerInfo02 = new System.Windows.Forms.PictureBox();
             this.picPlayerInfo03 = new System.Windows.Forms.PictureBox();
             this.picPlayerInfo04 = new System.Windows.Forms.PictureBox();
+            this.picPlayerInfo05 = new System.Windows.Forms.PictureBox();
+            this.picPlayerInfo06 = new System.Windows.Forms.PictureBox();
             this.lblPlayerInfo01 = new MetroFramework.Controls.MetroLabel();
             this.lblPlayerInfo02 = new MetroFramework.Controls.MetroLabel();
             this.lblPlayerInfo03 = new MetroFramework.Controls.MetroLabel();
             this.lblPlayerInfo04 = new MetroFramework.Controls.MetroLabel();
             this.lblPlayerInfo05 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlayerInfo06 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlayerInfo07 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlayerInfo08 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlayerInfo09 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlayerInfo10 = new MetroFramework.Controls.MetroLabel();
             this.mtcTabControl.SuspendLayout();
             this.mtpLevelRankPage.SuspendLayout();
             this.mtpOverallRankPage.SuspendLayout();
@@ -72,6 +79,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo02)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo04)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo05)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo06)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallSummary)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).BeginInit();
@@ -120,11 +129,19 @@
             this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo01);
             this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo02);
             this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo03);
+            this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo04);
+            this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo05);
+            this.mtpSearchPlayersPage.Controls.Add(this.picPlayerInfo06);
             this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo01);
             this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo02);
             this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo03);
             this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo04);
             this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo05);
+            this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo06);
+            this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo07);
+            this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo08);
+            this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo09);
+            this.mtpSearchPlayersPage.Controls.Add(this.lblPlayerInfo10);
             this.mtpSearchPlayersPage.Controls.Add(this.mpsSpinner03);
             this.mtpSearchPlayersPage.Controls.Add(this.mpsSpinner04);
             this.mtpSearchPlayersPage.Controls.Add(this.gridPlayerList);
@@ -192,6 +209,39 @@
             this.picPlayerInfo03.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPlayerInfo03.TabStop = false;
             // 
+            // picPlayerInfo04
+            // 
+            this.picPlayerInfo04.BackColor = System.Drawing.Color.Transparent;
+            this.picPlayerInfo04.Image = Properties.Resources.country_unknown_icon;
+            this.picPlayerInfo04.Location = new System.Drawing.Point(392, 31);
+            this.picPlayerInfo04.Name = "picPlayerInfo04";
+            this.picPlayerInfo04.Size = new System.Drawing.Size(26, 22);
+            this.picPlayerInfo04.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPlayerInfo04.TabStop = false;
+            this.picPlayerInfo04.Visible = false;
+            // 
+            // picPlayerInfo05
+            // 
+            this.picPlayerInfo05.BackColor = System.Drawing.Color.Transparent;
+            this.picPlayerInfo05.Image = Properties.Resources.crown_icon;
+            this.picPlayerInfo05.Location = new System.Drawing.Point(392, 31);
+            this.picPlayerInfo05.Name = "picPlayerInfo05";
+            this.picPlayerInfo05.Size = new System.Drawing.Size(26, 22);
+            this.picPlayerInfo05.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPlayerInfo05.TabStop = false;
+            this.picPlayerInfo05.Visible = false;
+            // 
+            // picPlayerInfo06
+            // 
+            this.picPlayerInfo06.BackColor = System.Drawing.Color.Transparent;
+            this.picPlayerInfo06.Image = Properties.Resources.shards_icon;
+            this.picPlayerInfo06.Location = new System.Drawing.Point(392, 31);
+            this.picPlayerInfo06.Name = "picPlayerInfo06";
+            this.picPlayerInfo06.Size = new System.Drawing.Size(26, 22);
+            this.picPlayerInfo06.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picPlayerInfo06.TabStop = false;
+            this.picPlayerInfo06.Visible = false;
+            // 
             // lblPlayerInfo01
             // 
             this.lblPlayerInfo01.AutoSize = true;
@@ -215,7 +265,7 @@
             this.lblPlayerInfo02.Name = "lblPlayerInfo02";
             this.lblPlayerInfo02.Size = new System.Drawing.Size(10, 32);
             this.lblPlayerInfo02.TabIndex = 3;
-            this.lblPlayerInfo02.Text = "Overall Rank";
+            this.lblPlayerInfo02.Text = "Overall Rank :";
             this.lblPlayerInfo02.UseCustomForeColor = true;
             // 
             // lblPlayerInfo03
@@ -256,6 +306,76 @@
             this.lblPlayerInfo05.TabIndex = 3;
             this.lblPlayerInfo05.Text = "WRs(*) : 1";
             this.lblPlayerInfo05.UseCustomForeColor = true;
+            // 
+            // lblPlayerInfo06
+            // 
+            this.lblPlayerInfo06.AutoSize = true;
+            this.lblPlayerInfo06.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPlayerInfo06.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPlayerInfo06.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblPlayerInfo06.Location = new System.Drawing.Point(425, 29);
+            this.lblPlayerInfo06.Name = "lblPlayerInfo06";
+            this.lblPlayerInfo06.Size = new System.Drawing.Size(10, 32);
+            this.lblPlayerInfo06.TabIndex = 3;
+            this.lblPlayerInfo06.Text = "Crown League Rank :";
+            this.lblPlayerInfo06.UseCustomForeColor = true;
+            this.lblPlayerInfo06.Visible = false;
+            // 
+            // lblPlayerInfo07
+            // 
+            this.lblPlayerInfo07.AutoSize = true;
+            this.lblPlayerInfo07.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPlayerInfo07.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPlayerInfo07.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblPlayerInfo07.Location = new System.Drawing.Point(425, 29);
+            this.lblPlayerInfo07.Name = "lblPlayerInfo07";
+            this.lblPlayerInfo07.Size = new System.Drawing.Size(10, 32);
+            this.lblPlayerInfo07.TabIndex = 3;
+            this.lblPlayerInfo07.Text = "1 (1000)";
+            this.lblPlayerInfo07.UseCustomForeColor = true;
+            this.lblPlayerInfo07.Visible = false;
+            // 
+            // lblPlayerInfo08
+            // 
+            this.lblPlayerInfo08.AutoSize = true;
+            this.lblPlayerInfo08.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPlayerInfo08.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPlayerInfo08.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblPlayerInfo08.Location = new System.Drawing.Point(425, 29);
+            this.lblPlayerInfo08.Name = "lblPlayerInfo08";
+            this.lblPlayerInfo08.Size = new System.Drawing.Size(10, 32);
+            this.lblPlayerInfo08.TabIndex = 3;
+            this.lblPlayerInfo08.Text = "10,000";
+            this.lblPlayerInfo08.UseCustomForeColor = true;
+            this.lblPlayerInfo08.Visible = false;
+            // 
+            // lblPlayerInfo09
+            // 
+            this.lblPlayerInfo09.AutoSize = true;
+            this.lblPlayerInfo09.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPlayerInfo09.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPlayerInfo09.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblPlayerInfo09.Location = new System.Drawing.Point(425, 29);
+            this.lblPlayerInfo09.Name = "lblPlayerInfo09";
+            this.lblPlayerInfo09.Size = new System.Drawing.Size(10, 32);
+            this.lblPlayerInfo09.TabIndex = 3;
+            this.lblPlayerInfo09.Text = "100";
+            this.lblPlayerInfo09.UseCustomForeColor = true;
+            this.lblPlayerInfo09.Visible = false;
+            // 
+            // lblPlayerInfo10
+            // 
+            this.lblPlayerInfo10.AutoSize = true;
+            this.lblPlayerInfo10.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.lblPlayerInfo10.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblPlayerInfo10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            this.lblPlayerInfo10.Location = new System.Drawing.Point(425, 29);
+            this.lblPlayerInfo10.Name = "lblPlayerInfo10";
+            this.lblPlayerInfo10.Size = new System.Drawing.Size(10, 32);
+            this.lblPlayerInfo10.TabIndex = 3;
+            this.lblPlayerInfo10.Text = "1,000";
+            this.lblPlayerInfo10.UseCustomForeColor = true;
+            this.lblPlayerInfo10.Visible = false;
             // 
             // gridPlayerList
             // 
@@ -767,6 +887,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo02)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo03)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo04)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo05)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picPlayerInfo06)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallRank)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridOverallSummary)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridLevelRank)).EndInit();
@@ -802,11 +924,18 @@
         private System.Windows.Forms.PictureBox picPlayerInfo02;
         private System.Windows.Forms.PictureBox picPlayerInfo03;
         private System.Windows.Forms.PictureBox picPlayerInfo04;
+        private System.Windows.Forms.PictureBox picPlayerInfo05;
+        private System.Windows.Forms.PictureBox picPlayerInfo06;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo01;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo02;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo03;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo04;
         private MetroFramework.Controls.MetroLabel lblPlayerInfo05;
+        private MetroFramework.Controls.MetroLabel lblPlayerInfo06;
+        private MetroFramework.Controls.MetroLabel lblPlayerInfo07;
+        private MetroFramework.Controls.MetroLabel lblPlayerInfo08;
+        private MetroFramework.Controls.MetroLabel lblPlayerInfo09;
+        private MetroFramework.Controls.MetroLabel lblPlayerInfo10;
         private FallGuysStats.Grid gridOverallRank;
         private FallGuysStats.Grid gridOverallSummary;
         private FallGuysStats.Grid gridLevelRank;

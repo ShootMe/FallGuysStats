@@ -34,7 +34,8 @@ namespace FallGuysStats {
         private readonly List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
         private List<PbInfo> playerDetails;
         private readonly List<PbInfo> playerDetailsNodata = new List<PbInfo>();
-        private OverallInfo overallInfo;
+        private SpeedrunRank speedrunRank;
+        private CrownLeagueRank crownLeagueRank;
         private List<WeeklyCrownUser> weeklyCrownList;
         private readonly List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
         private bool isSearchCompleted;
@@ -1179,10 +1180,12 @@ namespace FallGuysStats {
                     if (ps.found) {
                         ps.pbs.Sort((g1, g2) => String.Compare(Multilingual.GetRoundName(g1.round), Multilingual.GetRoundName(g2.round), StringComparison.Ordinal));
                         this.playerDetails = ps.pbs;
-                        this.overallInfo = ps.speedrunrank;
+                        this.speedrunRank = ps.speedrunrank;
+                        this.crownLeagueRank = ps.crownrank;
                     } else {
                         this.playerDetails = null;
-                        this.overallInfo = null;
+                        this.speedrunRank = null;
+                        this.crownLeagueRank = null;
                     }
                 }
             }).ContinueWith(prevTask => {
@@ -1200,17 +1203,17 @@ namespace FallGuysStats {
                     this.gridOverallRank.Enabled = true;
                     this.gridLevelRank.Enabled = true;
                     this.gridWeeklyCrown.Enabled = true;
-                    if (this.overallInfo != null) {
-                        this.picPlayerInfo01.Image = (string.Equals(this.overallInfo.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
-                        this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.overallInfo.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.overallInfo.country.ToLower()}_icon");
-                        this.lblPlayerInfo01.Text = this.overallInfo.onlineServiceNickname;
-                        this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 30;
+                    if (this.speedrunRank != null) {
+                        this.picPlayerInfo01.Image = (string.Equals(this.speedrunRank.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
+                        this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.speedrunRank.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.speedrunRank.country.ToLower()}_icon");
+                        this.lblPlayerInfo01.Text = this.speedrunRank.onlineServiceNickname;
+                        this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 25;
                         this.lblPlayerInfo02.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} :";
                         this.picPlayerInfo03.Left = this.lblPlayerInfo02.Right;
-                        double percentage = ((double)(this.overallInfo.index - 1) / ((this.overallInfo.total > 1000 ? 1000 : this.overallInfo.total) - 1)) * 100;
-                        if (this.overallInfo.index == 0) {
+                        double percentage = ((double)(this.speedrunRank.index - 1) / ((this.speedrunRank.total > 1000 ? 1000 : this.speedrunRank.total) - 1)) * 100;
+                        if (this.speedrunRank.index == 0) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
-                        } else if (this.overallInfo.index == 1) {
+                        } else if (this.speedrunRank.index == 1) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_gold;
                         } else if (percentage <= 20) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_silver;
@@ -1222,11 +1225,66 @@ namespace FallGuysStats {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
                         }
                         this.lblPlayerInfo03.Left = this.picPlayerInfo03.Right;
-                        this.lblPlayerInfo03.Text = $@"{this.overallInfo.index} ({this.overallInfo.total})";
+                        this.lblPlayerInfo03.Text = $@"{this.speedrunRank.index} ({this.speedrunRank.total})";
                         this.lblPlayerInfo04.Left = this.lblPlayerInfo03.Right + 15;
-                        this.lblPlayerInfo04.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.overallInfo.score:N0}";
+                        this.lblPlayerInfo04.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.speedrunRank.score:N0}";
                         this.lblPlayerInfo05.Left = this.lblPlayerInfo04.Right + 15;
-                        this.lblPlayerInfo05.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_first_places")} : {this.overallInfo.firstPlaces}";
+                        this.lblPlayerInfo05.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_first_places")} : {this.speedrunRank.firstPlaces}";
+                        if (this.crownLeagueRank == null) {
+                            this.gridPlayerDetails.Height = this.gridPlayerList.Height;
+                            this.gridPlayerDetails.Top = this.gridPlayerList.Top;
+                            this.lblPlayerInfo06.Visible = false;
+                            this.lblPlayerInfo07.Visible = false;
+                            this.lblPlayerInfo08.Visible = false;
+                            this.lblPlayerInfo09.Visible = false;
+                            this.lblPlayerInfo10.Visible = false;
+                            this.picPlayerInfo04.Visible = false;
+                            this.picPlayerInfo05.Visible = false;
+                            this.picPlayerInfo06.Visible = false;
+                        }
+                    }
+
+                    if (this.crownLeagueRank != null) {
+                        this.lblPlayerInfo06.Text = $@"{Multilingual.GetWord("leaderboard_weekly_crown_league")} :";
+                        this.lblPlayerInfo06.Left = this.lblPlayerInfo02.Left;
+                        this.picPlayerInfo04.Left = this.lblPlayerInfo06.Right;
+                        double percentage = ((double)(this.crownLeagueRank.index - 1) / ((this.crownLeagueRank.total > 1000 ? 1000 : this.crownLeagueRank.total) - 1)) * 100;
+                        if (this.crownLeagueRank.index == 0) {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_eliminated;
+                        } else if (this.crownLeagueRank.index == 1) {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_gold;
+                        } else if (percentage <= 20) {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_silver;
+                        } else if (percentage <= 50) {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_bronze;
+                        } else if (percentage <= 100) {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_pink;
+                        } else {
+                            this.picPlayerInfo04.Image = Properties.Resources.medal_eliminated;
+                        }
+                        this.lblPlayerInfo07.Left = this.picPlayerInfo04.Right;
+                        this.lblPlayerInfo07.Text = $@"{this.crownLeagueRank.index} ({this.crownLeagueRank.total})";
+                        
+                        this.lblPlayerInfo08.Left = this.lblPlayerInfo07.Right + 15;
+                        this.lblPlayerInfo08.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.crownLeagueRank.score:N0}";
+                        
+                        
+                        this.picPlayerInfo05.Left = this.lblPlayerInfo08.Right + 15;
+                        this.lblPlayerInfo09.Left = this.picPlayerInfo05.Right;
+                        this.lblPlayerInfo09.Text = $@"{this.crownLeagueRank.crowns:N0}";
+                        this.picPlayerInfo06.Left = this.lblPlayerInfo09.Right + 15;
+                        this.lblPlayerInfo10.Left = this.picPlayerInfo06.Right - 3;
+                        this.lblPlayerInfo10.Text = $@"{this.crownLeagueRank.shards:N0}";
+                        this.gridPlayerDetails.Height = this.gridPlayerList.Height - 25;
+                        this.gridPlayerDetails.Top = this.gridPlayerList.Top + 25;
+                        this.lblPlayerInfo06.Visible = true;
+                        this.lblPlayerInfo07.Visible = true;
+                        this.lblPlayerInfo08.Visible = true;
+                        this.lblPlayerInfo09.Visible = true;
+                        this.lblPlayerInfo10.Visible = true;
+                        this.picPlayerInfo04.Visible = true;
+                        this.picPlayerInfo05.Visible = true;
+                        this.picPlayerInfo06.Visible = true;
                     }
                 });
             });

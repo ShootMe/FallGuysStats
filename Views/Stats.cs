@@ -5744,6 +5744,7 @@ namespace FallGuysStats {
             this.menuSettings.Enabled = enable;
             this.menuFilters.Enabled = enable;
             this.menuProfile.Enabled = enable;
+            this.mlLeaderboard.Enabled = enable;
             if (enable) {
                 this.menuSettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                 this.menuSettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;

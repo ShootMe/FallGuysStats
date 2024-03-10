@@ -203,7 +203,8 @@ namespace FallGuysStats {
         public bool found { get; set; }
         public PbUser user { get; set; }
         public List<PbInfo> pbs { get; set; }
-        public OverallInfo speedrunrank { get; set; }
+        public SpeedrunRank speedrunrank { get; set; }
+        public CrownLeagueRank crownrank { get; set; }
     }
 
     public class PbUser {
@@ -230,7 +231,7 @@ namespace FallGuysStats {
         public string roundName { get; set; }
     }
     
-    public class OverallInfo {
+    public class SpeedrunRank {
         public string onlineServiceType { get; set; }
         public string onlineServiceNickname { get; set; }
         public bool isAnonymous { get; set; }
@@ -238,6 +239,19 @@ namespace FallGuysStats {
         public string id { get; set; }
         public double score { get; set; }
         public int firstPlaces { get; set; }
+        public int index { get; set; }
+        public int total { get; set; }
+    }
+    
+    public class CrownLeagueRank {
+        public string onlineServiceType { get; set; }
+        public string onlineServiceNickname { get; set; }
+        public bool isAnonymous { get; set; }
+        public string country { get; set; }
+        public string id { get; set; }
+        public double score { get; set; }
+        public int crowns { get; set; }
+        public int shards { get; set; }
         public int index { get; set; }
         public int total { get; set; }
     }
