@@ -822,11 +822,9 @@ namespace FallGuysStats {
                             if (Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) {
                                 this.lblPlayers.PingColor = Color.Orange;
                                 this.lblPingIcon.PingColor = Color.Orange;
-                                // this.lblPingIcon.PingColor = Color.FromArgb(191, 255, 165, 0);
                             } else if (Stats.LastServerPing >= 200) {
                                 this.lblPlayers.PingColor = Color.Red;
                                 this.lblPingIcon.PingColor = Color.Red;
-                                // this.lblPingIcon.PingColor = Color.FromArgb(191, 255, 0, 0);
                             } else {
                                 this.lblPlayers.PingColor = Color.Green;
                             }
@@ -839,13 +837,13 @@ namespace FallGuysStats {
                             
                             this.lblPingIcon.Image = (Stats.IsConnectedToServer && Stats.LastServerPing > 99 && 200 > Stats.LastServerPing) ? Properties.Resources.ping_100_icon
                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 ? Properties.Resources.ping_100_icon : null);
-                            this.lblPingIcon.ImageX = (Stats.IsConnectedToServer && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -15
-                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -17
-                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing > 999) ? -24 : 0;
+                            this.lblPingIcon.ImageX = (Stats.IsConnectedToServer && Stats.LastServerPing >= 100 && 199 >= Stats.LastServerPing) ? -2
+                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing >= 200 && 999 >= Stats.LastServerPing) ? -6
+                                                      : (Stats.IsConnectedToServer && Stats.LastServerPing > 999) ? -9 : 0;
                             
-                            if (!this.Font.FontFamily.Name.Equals(GetDefaultFontFamilies(0).Name)) {
+                            if (!string.Equals(this.Font.FontFamily.Name, GetDefaultFontFamilies().Name)) {
                                 this.lblCountryIcon.ImageX += 7;
-                                this.lblPingIcon.ImageX += 7;
+                                this.lblPingIcon.ImageX += 6;
                             }
                         }
                         
@@ -1338,9 +1336,9 @@ namespace FallGuysStats {
                     this.lblPlayers.Location = new Point(thirdColumnX, 10 + heightOffset);
                     this.lblPlayers.Size = new Size(thirdColumnWidth, 22);
                     this.lblPlayers.DrawVisible = true;
-                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 9 + heightOffset);
+                    this.lblCountryIcon.Location = new Point(thirdColumnX + 101, 10 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
-                    this.lblPingIcon.Location = new Point(thirdColumnX + 143, 14 + heightOffset);
+                    this.lblPingIcon.Location = new Point(thirdColumnX + 134, 14 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
@@ -1399,7 +1397,7 @@ namespace FallGuysStats {
                     this.lblPlayers.DrawVisible = true;
                     this.lblCountryIcon.Location = new Point(secondColumnX + 159, 31 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
-                    this.lblPingIcon.Location = new Point(secondColumnX + 200, 36 + heightOffset);
+                    this.lblPingIcon.Location = new Point(secondColumnX + 191, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
@@ -1522,7 +1520,7 @@ namespace FallGuysStats {
                     this.lblPlayers.DrawVisible = true;
                     this.lblCountryIcon.Location = new Point(firstColumnX + secondColumnWidth + 108, 8 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
-                    this.lblPingIcon.Location = new Point(firstColumnX + secondColumnWidth + 149, 13 + heightOffset);
+                    this.lblPingIcon.Location = new Point(firstColumnX + secondColumnWidth + 140, 13 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
@@ -1574,7 +1572,7 @@ namespace FallGuysStats {
                     this.lblPlayers.DrawVisible = true;
                     this.lblCountryIcon.Location = new Point(firstColumnX + 159, 31 + heightOffset);
                     this.lblCountryIcon.DrawVisible = true;
-                    this.lblPingIcon.Location = new Point(firstColumnX + 200, 36 + heightOffset);
+                    this.lblPingIcon.Location = new Point(firstColumnX + 191, 36 + heightOffset);
                     this.lblPingIcon.DrawVisible = true;
 
                     if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
