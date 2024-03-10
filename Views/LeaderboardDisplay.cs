@@ -1178,7 +1178,12 @@ namespace FallGuysStats {
                     string json = web.DownloadString($"{this.PLAYER_DETAILS_API_URL}{userId}");
                     PlayerStats ps = JsonSerializer.Deserialize<PlayerStats>(json);
                     if (ps.found) {
-                        ps.pbs.Sort((g1, g2) => String.Compare(Multilingual.GetRoundName(g1.round), Multilingual.GetRoundName(g2.round), StringComparison.Ordinal));
+                        ps.pbs.Sort((p1, p2) => {
+                            bool isCreative1 = LevelStats.ALL.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
+                            bool isCreative2 = LevelStats.ALL.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
+                            int result = isCreative1.CompareTo(isCreative2);
+                            return result == 0 ? string.Compare(Multilingual.GetRoundName(p1.round), Multilingual.GetRoundName(p2.round), StringComparison.Ordinal) : result;
+                        });
                         this.playerDetails = ps.pbs;
                         this.speedrunRank = ps.speedrunrank;
                         this.crownLeagueRank = ps.crownrank;
