@@ -2855,7 +2855,7 @@ namespace FallGuysStats {
         }
         
         private void UpdateGridRoundName() {
-            foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary()) {
+            foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary().Where(r => r.Value.StartsWith("round_") || r.Value.StartsWith("user_creative_") || r.Value.StartsWith("creative_"))) {
                 if (this.StatLookup.TryGetValue(item.Key, out LevelStats level)) {
                     level.Name = item.Value;
                 }
