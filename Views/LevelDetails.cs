@@ -20,12 +20,13 @@ namespace FallGuysStats {
         private int currentPage, totalPages;
         private readonly int pageSize = 1000;
         private int currentProfileId = -1;
-        // private int totalHeight;
+        private int totalHeight;
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         
         private Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
+        private bool preventPaging;
         
         private Timer scrollTimer = new Timer { Interval = 100 };
         private bool isScrollingStopped = true;
@@ -82,7 +83,7 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridLevelsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetLevelName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
                 this.statType = StatType.Levels;
             }
             this.ClientSize = new Size(this.GetClientWidth(), this.Height + 387);
@@ -145,7 +146,7 @@ namespace FallGuysStats {
                     }
                     this.UpdatePage(false, true, false, false);
                     this.BackImage = levelStats.RoundIcon;
-                    this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetRoundName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetLevelName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
                     break;
             }
@@ -310,6 +311,7 @@ namespace FallGuysStats {
                     if (isInitialize) {
                         this.SetContextMenu();
                     }
+                    this.preventPaging = false;
                 });
             });
         }
@@ -456,15 +458,25 @@ namespace FallGuysStats {
             this.scrollTimer.Stop();
             this.scrollTimer.Start();
             
-            // if (((Grid)sender).VerticalScrollingOffset == 0) {
-            //     if (this.currentPage <= 1) { return; }
-            //     this.currentPage -= 1;
-            //     ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-            // } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
-            //     if (this.currentPage >= this.totalPages) { return; }
-            //     this.currentPage += 1;
-            //     ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-            // }
+            if (((Grid)sender).VerticalScrollingOffset == 0) {
+                // if (this.currentPage <= 1) { return; }
+                // this.currentPage -= 1;
+                // ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+
+                if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
+                    this.preventPaging = true;
+                    this.mlLeftPagingButton.PerformClick();
+                }
+            } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
+                // if (this.currentPage >= this.totalPages) { return; }
+                // this.currentPage += 1;
+                // ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
+                
+                if (!this.preventPaging && this.mlRightPagingButton.Enabled) {
+                    this.preventPaging = true;
+                    this.mlRightPagingButton.PerformClick();
+                }
+            }
         }
 
         // private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
@@ -610,7 +622,7 @@ namespace FallGuysStats {
             int lastShow = -1;
             Color backColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
             Color foreColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.WhiteSmoke;
-            // this.totalHeight = 0;
+            this.totalHeight = 0;
             for (int i = 0; i < ((Grid)sender).RowCount; i++) {
                 int showID = (int)((Grid)sender).Rows[i].Cells["ShowID"].Value;
                 if (showID != lastShow) {
@@ -622,7 +634,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[i].DefaultCellStyle.BackColor = backColor;
                     ((Grid)sender).Rows[i].DefaultCellStyle.ForeColor = foreColor;
                 }
-                // this.totalHeight += ((Grid)sender).Rows[i].Height;
+                this.totalHeight += ((Grid)sender).Rows[i].Height;
             }
             ((Grid)sender).ClearSelection();
         }
@@ -1239,7 +1251,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : name, out LevelStats levelStats)) {
                         type = $"⟦{levelStats.Type.LevelTitle(false)}⟧ ";
                     }
-                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{Multilingual.GetRoundName(name)}");
+                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{Multilingual.GetLevelName(name)}");
                     if (i != s.Length - 1) strBuilder.Append(Environment.NewLine);
                 }
 

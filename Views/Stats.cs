@@ -2855,7 +2855,7 @@ namespace FallGuysStats {
         }
         
         private void UpdateGridRoundName() {
-            foreach (KeyValuePair<string, string> item in Multilingual.GetRoundsDictionary().Where(r => r.Value.StartsWith("round_") || r.Value.StartsWith("user_creative_") || r.Value.StartsWith("creative_"))) {
+            foreach (KeyValuePair<string, string> item in Multilingual.GetLevelsDictionary().Where(r => r.Value.StartsWith("round_") || r.Value.StartsWith("user_creative_") || r.Value.StartsWith("creative_"))) {
                 if (this.StatLookup.TryGetValue(item.Key, out LevelStats level)) {
                     level.Name = item.Value;
                 }
@@ -3407,7 +3407,7 @@ namespace FallGuysStats {
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                                   : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
-            string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)).Equals(Multilingual.GetRoundName(roundId)) ? $"({Multilingual.GetRoundName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetRoundName(roundId)})")}";
+            string showName = $" {(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)).Equals(Multilingual.GetLevelName(roundId)) ? $"({Multilingual.GetLevelName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetLevelName(roundId)})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
             ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
@@ -5288,13 +5288,13 @@ namespace FallGuysStats {
                                 isIncrementedWins = true;
                                 
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
-                                    if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};crown")) {
-                                        wi[$"{Multilingual.GetRoundName(info.Name)};crown"] += 1;
+                                    if (wi.ContainsKey($"{Multilingual.GetLevelName(info.Name)};crown")) {
+                                        wi[$"{Multilingual.GetLevelName(info.Name)};crown"] += 1;
                                     } else {
-                                        wi[$"{Multilingual.GetRoundName(info.Name)};crown"] = 1;
+                                        wi[$"{Multilingual.GetLevelName(info.Name)};crown"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};crown", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetLevelName(info.Name)};crown", 1}});
                                 }
 
                                 if (isOverDate) {
@@ -5303,13 +5303,13 @@ namespace FallGuysStats {
                                 }
                             } else {
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
-                                    if (wi.ContainsKey($"{Multilingual.GetRoundName(info.Name)};eliminated")) {
-                                        wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] += 1;
+                                    if (wi.ContainsKey($"{Multilingual.GetLevelName(info.Name)};eliminated")) {
+                                        wi[$"{Multilingual.GetLevelName(info.Name)};eliminated"] += 1;
                                     } else {
-                                        wi[$"{Multilingual.GetRoundName(info.Name)};eliminated"] = 1;
+                                        wi[$"{Multilingual.GetLevelName(info.Name)};eliminated"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetRoundName(info.Name)};eliminated", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetLevelName(info.Name)};eliminated", 1}});
                                 }
                                 
                                 if (isOverDate) {
@@ -5405,7 +5405,7 @@ namespace FallGuysStats {
                         roundDurationData.Add(rounds[i - 1].Name, d);
                         roundGraphData.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
                         roundScoreData.Add(rounds[i - 1].Name, new[] { hs, ls });
-                        roundList.Add(rounds[i - 1].Name, Multilingual.GetRoundName(rounds[i - 1].Name).Replace("&", "&&"));
+                        roundList.Add(rounds[i - 1].Name, Multilingual.GetLevelName(rounds[i - 1].Name).Replace("&", "&&"));
                         d = TimeSpan.Zero;
                         hs = 0; ls = 0;
                         p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
@@ -5434,7 +5434,7 @@ namespace FallGuysStats {
                         roundDurationData.Add(rounds[i].Name, d);
                         roundGraphData.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
                         roundScoreData.Add(rounds[i].Name, new[] { hs, ls });
-                        roundList.Add(rounds[i].Name, Multilingual.GetRoundName(rounds[i].Name).Replace("&", "&&"));
+                        roundList.Add(rounds[i].Name, Multilingual.GetLevelName(rounds[i].Name).Replace("&", "&&"));
                     }
                 }
 

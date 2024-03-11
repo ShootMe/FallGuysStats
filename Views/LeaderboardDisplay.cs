@@ -15,7 +15,7 @@ namespace FallGuysStats {
         public Stats StatsForm { get; set; }
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-        private readonly string AVAILABLE_ROUND_API_URL = "https://data.fallalytics.com/api/leaderboards";
+        private readonly string AVAILABLE_LEVEL_API_URL = "https://data.fallalytics.com/api/leaderboards";
         private readonly string LEADERBOARD_API_URL = "https://data.fallalytics.com/api/leaderboard";
         private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
@@ -23,7 +23,7 @@ namespace FallGuysStats {
         private int totalPlayers, totalPages; //, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
-        private List<RankRound> availableRoundlist;
+        private List<RankRound> availableLevelList;
         private List<LevelRankInfo> levelRankList;
         private readonly List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
         private List<OverallRankInfo> overallRankList;
@@ -73,7 +73,7 @@ namespace FallGuysStats {
         private void LeaderboardDisplay_Load(object sender, EventArgs e) {
             this.spinnerTransition.Tick += this.spinnerTransition_Tick;
             this.SetTheme(Stats.CurrentTheme);
-            this.SetRoundList();
+            this.SetLevelList();
             
             this.mlVisitFallalytics.Text = Multilingual.GetWord("leaderboard_see_full_rankings_in_fallalytics");
             this.mtpOverallRankPage.Text = Multilingual.GetWord("leaderboard_overall_rank");
@@ -363,16 +363,16 @@ namespace FallGuysStats {
             }
         }
 
-        private void SetRoundList() {
+        private void SetLevelList() {
             this.cboRoundList.Enabled = false;
             this.cboRoundList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner02.Visible = true;
-            Task.Run(this.GetAvailableRound).ContinueWith(prevTask => {
+            Task.Run(this.GetAvailableLevel).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
-                foreach (RankRound round in this.availableRoundlist) {
-                    foreach (string id in round.ids) {
+                foreach (RankRound level in this.availableLevelList) {
+                    foreach (string id in level.ids) {
                         if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { round.queryname, levelStats.Id, levelStats.IsCreative.ToString() }));
+                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), Multilingual.GetLevelName(levelStats.Id), Overlay.GetMainFont(15f), new[] { level.queryname, levelStats.Id, levelStats.IsCreative.ToString() }));
                             break;
                         }
                     }
@@ -559,17 +559,17 @@ namespace FallGuysStats {
             return isFound;
         }
 
-        private bool GetAvailableRound() {
+        private bool GetAvailableLevel() {
             bool result;
             using (ApiWebClient web = new ApiWebClient()) {
                 web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                 try {
-                    string json = web.DownloadString($"{this.AVAILABLE_ROUND_API_URL}");
+                    string json = web.DownloadString($"{this.AVAILABLE_LEVEL_API_URL}");
                     var options = new JsonSerializerOptions();
                     options.Converters.Add(new RoundConverter());
-                    var availableRound = JsonSerializer.Deserialize<AvailableRound>(json, options);
-                    result = availableRound.found;
-                    this.availableRoundlist = availableRound.leaderboards;
+                    var availableLevel = JsonSerializer.Deserialize<AvailableRound>(json, options);
+                    result = availableLevel.found;
+                    this.availableLevelList = availableLevel.leaderboards;
                 } catch {
                     result = false;
                 }
@@ -1182,7 +1182,7 @@ namespace FallGuysStats {
                             bool isCreative1 = LevelStats.ALL.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
                             bool isCreative2 = LevelStats.ALL.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
                             int result = isCreative1.CompareTo(isCreative2);
-                            return result == 0 ? string.Compare(Multilingual.GetRoundName(p1.round), Multilingual.GetRoundName(p2.round), StringComparison.Ordinal) : result;
+                            return result == 0 ? string.Compare(Multilingual.GetLevelName(p1.round), Multilingual.GetLevelName(p2.round), StringComparison.Ordinal) : result;
                         });
                         this.playerDetails = ps.pbs;
                         this.speedrunRank = ps.speedrunrank;
@@ -1300,7 +1300,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 PbInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as PbInfo;
                 if (string.IsNullOrEmpty(data.round)) return;
-                string roundId = string.Equals(Multilingual.GetRoundName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
+                string roundId = string.Equals(Multilingual.GetLevelName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
                 this.cboRoundList.SelectedImageItem(roundId, 1);
             }
         }
@@ -1363,9 +1363,9 @@ namespace FallGuysStats {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                     }
 
-                    e.Value = string.Equals(Multilingual.GetRoundName((string)e.Value), (string)e.Value)
-                        ? Multilingual.GetRoundName(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, (string)e.Value))
-                        : Multilingual.GetRoundName((string)e.Value);
+                    e.Value = string.Equals(Multilingual.GetLevelName((string)e.Value), (string)e.Value)
+                        ? Multilingual.GetLevelName(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, (string)e.Value))
+                        : Multilingual.GetLevelName((string)e.Value);
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "medal") {
                 if (info.index == 0) {
@@ -1416,7 +1416,7 @@ namespace FallGuysStats {
             
             this.playerDetails.Sort(delegate (PbInfo one, PbInfo two) {
                 int showCompare = String.Compare(Multilingual.GetShowName(one.show), Multilingual.GetShowName(two.show), StringComparison.Ordinal);
-                int roundCompare = String.Compare(Multilingual.GetRoundName(one.round), Multilingual.GetRoundName(two.round), StringComparison.Ordinal);
+                int roundCompare = String.Compare(Multilingual.GetLevelName(one.round), Multilingual.GetLevelName(two.round), StringComparison.Ordinal);
                 int rankCompare = one.index.CompareTo(two.index);
                 if (sortOrder == SortOrder.Descending) {
                     (one, two) = (two, one);
@@ -1428,7 +1428,7 @@ namespace FallGuysStats {
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "roundIcon":
                     case "round":
-                        roundCompare = String.Compare(Multilingual.GetRoundName(one.round), Multilingual.GetRoundName(two.round), StringComparison.Ordinal);
+                        roundCompare = String.Compare(Multilingual.GetLevelName(one.round), Multilingual.GetLevelName(two.round), StringComparison.Ordinal);
                         return roundCompare != 0 ? roundCompare : showCompare;
                     case "medal":
                         double onePercentage = ((double)(one.index - 1) / ((one.roundTotal > 1000 ? 1000 : one.roundTotal) - 1)) * 100;
