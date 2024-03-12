@@ -459,19 +459,11 @@ namespace FallGuysStats {
             this.scrollTimer.Start();
             
             if (((Grid)sender).VerticalScrollingOffset == 0) {
-                // if (this.currentPage <= 1) { return; }
-                // this.currentPage -= 1;
-                // ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-
                 if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
                     this.preventPaging = true;
                     this.mlLeftPagingButton.PerformClick();
                 }
             } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
-                // if (this.currentPage >= this.totalPages) { return; }
-                // this.currentPage += 1;
-                // ((Grid)sender).DataSource = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                
                 if (!this.preventPaging && this.mlRightPagingButton.Enabled) {
                     this.preventPaging = true;
                     this.mlRightPagingButton.PerformClick();
