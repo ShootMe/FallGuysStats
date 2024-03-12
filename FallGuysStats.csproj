@@ -109,6 +109,15 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Entities\SecretKey.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SecretKey.cs</LastGenOutput>
+    </Content>
+    <Compile Include="Entities\SecretKey.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SecretKey.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ImageComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
