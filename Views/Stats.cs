@@ -2482,11 +2482,13 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 72) {
                 DateTime dateCond = new DateTime(2023, 12, 15, 10, 0, 0, DateTimeKind.Utc);
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where ri.Start >= dateCond && string.Equals(ri.Name, "user_creative_race_round") && (ri.PrivateLobby == false || ri.Round > 1)
+                    select ri).ToList();
                 this.StatsDB.BeginTrans();
-                this.RoundDetails.DeleteMany(ri =>
-                    ri.Start >= dateCond
-                    && string.Equals(ri.Name, "user_creative_race_round")
-                    && (ri.PrivateLobby == false || ri.Round > 1));
+                foreach (RoundInfo info in roundInfoList) {
+                    this.RoundDetails.DeleteMany(r => r.ShowID == info.ShowID);
+                }
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 73;
                 this.SaveUserSettings();
