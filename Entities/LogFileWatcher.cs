@@ -119,8 +119,8 @@ namespace FallGuysStats {
             lock (this.lines) {
                 this.lines = new List<LogLine>();
             }
-            await Task.Factory.StartNew(() => this.watcher?.Join());
-            await Task.Factory.StartNew(() => this.parser?.Join());
+            await Task.Run(() => this.watcher?.Join());
+            await Task.Run(() => this.parser?.Join());
         }
 
         private void ReadLogFile() {

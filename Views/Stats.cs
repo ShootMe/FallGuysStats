@@ -3214,13 +3214,14 @@ namespace FallGuysStats {
             this.Close();
         }
         
-        private void Stats_FormClosing(object sender, FormClosingEventArgs e) {
+        private async void Stats_FormClosing(object sender, FormClosingEventArgs e) {
             if (this.isFormClosing || !this.CurrentSettings.SystemTrayIcon) {
                 try {
                     if (!this.isUpdate && !this.overlay.Disposing && !this.overlay.IsDisposed && !this.IsDisposed && !this.Disposing) {
                         this.SaveWindowState();
                         this.SaveUserSettings();
                     }
+                    await this.logFile.Stop();
                     this.StatsDB?.Dispose();
                 } catch (Exception ex) {
                     MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
