@@ -242,10 +242,10 @@
             // 
             // lblPingIcon
             // 
-            this.lblPingIcon.ImageHeight = 11;
-            this.lblPingIcon.ImageWidth = 14;
+            this.lblPingIcon.ImageHeight = 12;
+            this.lblPingIcon.ImageWidth = 15;
             this.lblPingIcon.ImageX = 0;
-            this.lblPingIcon.ImageY = 2;
+            this.lblPingIcon.ImageY = 1;
             this.lblPingIcon.LevelColor = System.Drawing.Color.Empty;
             this.lblPingIcon.Location = new System.Drawing.Point(685, 12);
             this.lblPingIcon.Name = "lblPingIcon";

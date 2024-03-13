@@ -81,7 +81,7 @@ namespace FallGuysStats {
         private List<LogLine> lines = new List<LogLine>();
         private bool running;
         private bool stop;
-        private Thread watcher, parser;
+        private Task watcher, parser;
 
         public Stats StatsForm { get; set; }
 
@@ -105,22 +105,22 @@ namespace FallGuysStats {
             this.filePath = Path.Combine(logDirectory, fileName);
             this.prevFilePath = Path.Combine(logDirectory, $"{Path.GetFileNameWithoutExtension(fileName)}-prev.log");
             this.stop = false;
-            this.watcher = new Thread(this.ReadLogFile) { IsBackground = true };
+            this.watcher = new Task(this.ReadLogFile);
             this.watcher.Start();
-            this.parser = new Thread(this.ParseLines) { IsBackground = true };
+            this.parser = new Task(this.ParseLines);
             this.parser.Start();
         }
 
         public async Task Stop() {
             this.stop = true;
-            while (this.running || this.watcher == null || this.watcher.ThreadState == ThreadState.Unstarted) {
+            while (this.running || this.watcher == null || this.watcher.Status == TaskStatus.Created) {
                 await Task.Delay(50);
             }
             lock (this.lines) {
                 this.lines = new List<LogLine>();
             }
-            await Task.Run(() => this.watcher?.Join());
-            await Task.Run(() => this.parser?.Join());
+            await Task.Run(() => this.watcher?.Wait());
+            await Task.Run(() => this.parser?.Wait());
         }
 
         private void ReadLogFile() {

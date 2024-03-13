@@ -317,6 +317,7 @@ namespace FallGuysStats {
         }
 
         private void pagingButton_Click(object sender, EventArgs e) {
+            this.preventPaging = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
                 this.currentPage = 1;
                 this.UpdatePage(true, false, true, false);
@@ -460,12 +461,10 @@ namespace FallGuysStats {
             
             if (((Grid)sender).VerticalScrollingOffset == 0) {
                 if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
-                    this.preventPaging = true;
                     this.mlLeftPagingButton.PerformClick();
                 }
             } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
                 if (!this.preventPaging && this.mlRightPagingButton.Enabled) {
-                    this.preventPaging = true;
                     this.mlRightPagingButton.PerformClick();
                 }
             }

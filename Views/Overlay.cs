@@ -813,9 +813,9 @@ namespace FallGuysStats {
                         this.lblCountryIcon.DrawVisible = true;
                         this.lblPingIcon.DrawVisible = true;
                         if (Stats.IsBadServerPing) {
-                            this.lblCountryIcon.ImageX = 49;
+                            this.lblCountryIcon.ImageX = 50;
                             this.lblCountryIcon.Image = string.IsNullOrEmpty(Stats.LastCountryAlpha2Code) ? null : (Image)Properties.Resources.ResourceManager.GetObject($"country_{Stats.LastCountryAlpha2Code}{(this.StatsForm.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-                            this.lblPingIcon.ImageX = 49;
+                            this.lblPingIcon.ImageX = 50;
                             this.lblPingIcon.Image = Properties.Resources.ping_100_icon;
                             this.lblPingIcon.PingColor = Color.Red;
                         } else {
