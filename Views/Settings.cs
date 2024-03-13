@@ -134,7 +134,7 @@ namespace FallGuysStats {
             if (Directory.Exists("Overlay")) {
                 DirectoryInfo di = new DirectoryInfo("Overlay");
                 foreach (FileInfo file in di.GetFiles()) {
-                    if (file.Name.Equals("background.png") || file.Name.Equals("tab.png")) continue;
+                    if (string.Equals(file.Name, "background.png") || string.Equals(file.Name, "tab.png")) continue;
                     if (file.Name.StartsWith("background_") && file.Name.EndsWith(".png")) {
                         string backgroundName = file.Name.Substring(11);
                         backgroundName = backgroundName.Remove(backgroundName.Length - 4);
@@ -178,14 +178,14 @@ namespace FallGuysStats {
             bool isSelected = false;
             if (this.CurrentSettings.IsOverlayBackgroundCustomized) {
                 for (int i = 0; i < overlayItemArray.Count; i++) {
-                    if (!overlayItemArray[i].Data[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
                 }
             } else {
                 for (int i = overlayItemArray.Count - 1; i >= 0; i--) {
-                    if (!overlayItemArray[i].Data[0].Equals(this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
+                    if (!string.Equals(overlayItemArray[i].Data[0], this.CurrentSettings.OverlayBackgroundResourceName)) { continue; }
                     this.cboOverlayBackground.SelectedIndex = i;
                     isSelected = true;
                     break;
@@ -1063,7 +1063,7 @@ namespace FallGuysStats {
         }
 
         private void ChangeTab(object sender, EventArgs e) {
-            if (!(sender is MetroTile tile) || tile.Name.Equals(PrevTabName)) {
+            if (!(sender is MetroTile tile) || string.Equals(tile.Name, this.PrevTabName)) {
                 return;
             }
             this.PrevTabName = tile.Name;

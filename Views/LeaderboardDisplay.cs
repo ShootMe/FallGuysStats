@@ -339,7 +339,7 @@ namespace FallGuysStats {
         }
         
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
-            if (((ImageComboBox)sender).SelectedIndex == -1 || ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0].Equals(this.levelKey)) { return; }
+            if (((ImageComboBox)sender).SelectedIndex == -1 || string.Equals(((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0], this.levelKey)) { return; }
             this.levelKey = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             // this.totalHeight = 0;
             // this.currentPage = 0;
@@ -487,7 +487,7 @@ namespace FallGuysStats {
             this.gridLevelRank.DataSource = this.levelRankNodata;
             try {
                 Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
-                    int index = this.levelRankList.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                    int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
                     this.BeginInvoke((MethodInvoker)delegate {
                         if (prevTask.Result) {
                             this.SetLeaderboardUI(index);
@@ -926,7 +926,7 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
             
-            if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
+            if (string.Equals(info.onlineServiceId, Stats.OnlineServiceId)) {
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
@@ -1103,7 +1103,7 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
             
-            if (Stats.OnlineServiceId.Equals(info.onlineServiceId)) {
+            if (string.Equals(info.onlineServiceId, Stats.OnlineServiceId)) {
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
@@ -1943,7 +1943,7 @@ namespace FallGuysStats {
                     this.gridOverallRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                 } else if (this.mtcTabControl.SelectedIndex == 1) {
                     int displayedRowCount = this.gridLevelRank.DisplayedRowCount(false);
-                    int index = this.levelRankList.FindIndex(r => Stats.OnlineServiceId.Equals(r.onlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                    int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
                     int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                     this.gridLevelRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                 } else if (this.mtcTabControl.SelectedIndex == 3) {

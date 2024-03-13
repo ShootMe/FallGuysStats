@@ -229,7 +229,7 @@ namespace FallGuysStats {
 
         private void AddPageButton_Click(object sender, EventArgs e) {
             if (this.txtAddProfile.Text.Length == 0) { return; }
-            if (this.Profiles.Find(p => p.ProfileName.Equals(this.txtAddProfile.Text)) != null) {
+            if (this.Profiles.Find(p => string.Equals(p.ProfileName, this.txtAddProfile.Text)) != null) {
                 MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -298,14 +298,14 @@ namespace FallGuysStats {
             if (this.cboProfileRename.SelectedIndex < 0) { return; }
             if (this.txtRenameProfile.Text.Length == 0) { return; }
             if (this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&") == this.txtRenameProfile.Text) { return; }
-            if (this.Profiles.Find(p => p.ProfileName.Equals(this.txtRenameProfile.Text)) != null) {
+            if (this.Profiles.Find(p => string.Equals(p.ProfileName, this.txtRenameProfile.Text)) != null) {
                 MetroMessageBox.Show(this, Multilingual.GetWord("message_same_profile_name_exists"), $"{Multilingual.GetWord("message_create_profile_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
             if (MetroMessageBox.Show(this,
                     $"{Multilingual.GetWord("message_rename_profile_prefix")} ({this.cboProfileRename.SelectedItem}) {Multilingual.GetWord("message_rename_profile_infix")} ({this.txtRenameProfile.Text.Replace("&", "&&")}) {Multilingual.GetWord("message_rename_profile_suffix")}",
                     Multilingual.GetWord("message_rename_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
-                Profiles profileToUpdate = this.Profiles.Find(p => p.ProfileName.Equals(this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&")));
+                Profiles profileToUpdate = this.Profiles.Find(p => string.Equals(p.ProfileName, this.cboProfileRename.SelectedItem.ToString().Replace("&&", "&")));
                 if (profileToUpdate != null) {
                     profileToUpdate.ProfileName = string.IsNullOrEmpty(this.txtRenameProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtRenameProfile.Text;
                     this.IsUpdate = true;

@@ -205,7 +205,7 @@ namespace FallGuysStats {
 
             control.Font = font;
             foreach (Control ctr in control.Controls) {
-                if (ctr.Name.Equals("lblProfile")) { ctr.Font = GetMainFont(font.Size, FontStyle.Bold); continue; }
+                if (string.Equals(ctr.Name, "lblProfile")) { ctr.Font = GetMainFont(font.Size, FontStyle.Bold); continue; }
                 ctr.Font = font;
                 if (ctr.HasChildren) {
                     SetFonts(ctr, customSize, font);
@@ -253,11 +253,10 @@ namespace FallGuysStats {
         // }
         private void Position_MouseClick(object sender, MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
-                string iconName = ((PictureBox)sender).Name;
                 Screen screen = Utils.GetCurrentScreen(this.Location);
                 Point screenLocation = screen != null ? screen.Bounds.Location : Screen.PrimaryScreen.Bounds.Location;
                 Size screenSize = screen != null ? screen.Bounds.Size : Screen.PrimaryScreen.Bounds.Size;
-                if (iconName.Equals("picPositionNE")) {
+                if (sender.Equals(this.picPositionNE)) {
                     if (this.isFixedPositionNe) {
                         if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
@@ -290,7 +289,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
                         this.SetVisiblePositionLockButton(false);
                     }
-                } else if (iconName.Equals("picPositionNW")) {
+                } else if (sender.Equals(this.picPositionNW)) {
                     if (this.isFixedPositionNw) {
                         if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
@@ -323,7 +322,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
                         this.SetVisiblePositionLockButton(false);
                     }
-                } else if (iconName.Equals("picPositionSE")) {
+                } else if (sender.Equals(this.picPositionSE)) {
                     if (this.isFixedPositionSe) {
                         if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
@@ -356,7 +355,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = true;
                         this.SetVisiblePositionLockButton(false);
                     }
-                } else if (iconName.Equals("picPositionSW")) {
+                } else if (sender.Equals(this.picPositionSW)) {
                     if (this.isFixedPositionSw) {
                         if (this.StatsForm.CurrentSettings.OverlayLocationX.HasValue && Utils.IsOnScreen(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value, this.Width, this.Height)) {
                             this.Location = new Point(this.StatsForm.CurrentSettings.OverlayLocationX.Value, this.StatsForm.CurrentSettings.OverlayLocationY.Value);
@@ -389,7 +388,7 @@ namespace FallGuysStats {
                         this.StatsForm.CurrentSettings.FixedFlippedDisplay = false;
                         this.SetVisiblePositionLockButton(false);
                     }
-                } else if (iconName.Equals("picPositionLock")) {
+                } else if (sender.Equals(this.picPositionLock)) {
                     if (this.isPositionLock) {
                         this.picPositionLock.Image = this.positionUnlockFocus;
                         this.isPositionLock = false;
@@ -479,14 +478,14 @@ namespace FallGuysStats {
         }
         
         private void SetFocusPositionMenu(string flag) {
-            this.isFixedPositionNe = flag.Equals("ne");
-            this.isFixedPositionNw = flag.Equals("nw");
-            this.isFixedPositionSe = flag.Equals("se");
-            this.isFixedPositionSw = flag.Equals("sw");
-            this.picPositionNE.Image = flag.Equals("ne") ? this.positionNeOnFocus : this.positionNeOffFocus;
-            this.picPositionNW.Image = flag.Equals("nw") ? this.positionNwOnFocus : this.positionNwOffFocus;
-            this.picPositionSE.Image = flag.Equals("se") ? this.positionSeOnFocus : this.positionSeOffFocus;
-            this.picPositionSW.Image = flag.Equals("sw") ? this.positionSwOnFocus : this.positionSwOffFocus;
+            this.isFixedPositionNe = string.Equals(flag, "ne");
+            this.isFixedPositionNw = string.Equals(flag, "nw");
+            this.isFixedPositionSe = string.Equals(flag, "se");
+            this.isFixedPositionSw = string.Equals(flag, "sw");
+            this.picPositionNE.Image = this.isFixedPositionNe ? this.positionNeOnFocus : this.positionNeOffFocus;
+            this.picPositionNW.Image = this.isFixedPositionNw ? this.positionNwOnFocus : this.positionNwOffFocus;
+            this.picPositionSE.Image = this.isFixedPositionSe ? this.positionSeOnFocus : this.positionSeOffFocus;
+            this.picPositionSW.Image = this.isFixedPositionSw ? this.positionSwOnFocus : this.positionSwOffFocus;
         }
         
         private void SetVisiblePositionMenu(bool visible) {
@@ -944,7 +943,7 @@ namespace FallGuysStats {
                         if (this.lastRound.Crown) {
                             this.lblFinish.TextRight = this.StatsForm.CurrentSettings.DisplayGamePlayedInfo ? $"{Multilingual.GetWord("overlay_position_win")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                         } else {
-                            if (roundId.Equals("round_skeefall")) { // "Ski Fall" Hunt-like Level Type
+                            if (string.Equals(roundId, "round_skeefall")) { // "Ski Fall" Hunt-like Level Type
                                 this.lblFinish.TextRight = (this.StatsForm.CurrentSettings.DisplayGamePlayedInfo && this.lastRound.Position > 0) ? $"{Multilingual.GetWord("overlay_position_qualified")}! {time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                             } else {
                                 switch (levelType) {
@@ -1823,7 +1822,7 @@ namespace FallGuysStats {
                         background = Properties.Resources.background;
                     } else {
                         if (overlayCustomized) {
-                            if (!this.BackgroundResourceName.Equals(this.backgroundResourceNameCache) && File.Exists($"Overlay/{this.BackgroundResourceName}.png")) {
+                            if (!string.Equals(this.BackgroundResourceName, this.backgroundResourceNameCache) && File.Exists($"Overlay/{this.BackgroundResourceName}.png")) {
                                 this.customizedBackground = new Bitmap($"Overlay/{this.BackgroundResourceName}.png");
                                 this.backgroundResourceNameCache = this.BackgroundResourceName;
                             }
@@ -1840,7 +1839,7 @@ namespace FallGuysStats {
                             tab = Properties.Resources.tab_unselected;
                         } else {
                             if (overlayCustomized) {
-                                if (!this.TabResourceName.Equals(this.tabResourceNameCache) && File.Exists($"Overlay/{this.TabResourceName}.png")) {
+                                if (!string.Equals(this.TabResourceName, this.tabResourceNameCache) && File.Exists($"Overlay/{this.TabResourceName}.png")) {
                                     this.customizedTab = new Bitmap($"Overlay/{this.TabResourceName}.png");
                                     this.tabResourceNameCache = this.TabResourceName;
                                 }

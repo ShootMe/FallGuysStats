@@ -288,12 +288,12 @@ namespace FallGuysStats {
                             string pl = string.Empty;
                             StringBuilder c = new StringBuilder();
                             foreach (KeyValuePair<string, int> kv in infos) {
-                                if (!string.IsNullOrEmpty(pl) && kv.Key.Split(';')[0].Equals(pl)) {
-                                    c.Append($" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                if (!string.IsNullOrEmpty(pl) && string.Equals(kv.Key.Split(';')[0], pl)) {
+                                    c.Append($" / {kv.Value}{(string.Equals(kv.Key.Split(';')[1], "crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
                                     continue;
                                 }
 
-                                if (!string.IsNullOrEmpty(pl) && !kv.Key.Split(';')[0].Equals(pl)) {
+                                if (!string.IsNullOrEmpty(pl) && !string.Equals(kv.Key.Split(';')[0], pl)) {
                                     // c.Append(" ⟩");
                                     if (i % 2 != 0) {
                                         if (longestLength < c.ToString().Length) {
@@ -304,7 +304,7 @@ namespace FallGuysStats {
                                     c.Clear();
                                 }
 
-                                c.Append($"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
+                                c.Append($"{kv.Key.Split(';')[0]} :  {kv.Value}{(string.Equals(kv.Key.Split(';')[1], "crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}");
                                 pl = kv.Key.Split(';')[0];
                                 i++;
                             }
@@ -316,14 +316,14 @@ namespace FallGuysStats {
                         string temp = string.Empty;
                         int index = 0;
                         foreach (KeyValuePair<string, int> kv in infos) {
-                            if (!string.IsNullOrEmpty(prevLevel) && kv.Key.Split(';')[0].Equals(prevLevel)) {
-                                temp = $" / {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                            if (!string.IsNullOrEmpty(prevLevel) && string.Equals(kv.Key.Split(';')[0], prevLevel)) {
+                                temp = $" / {kv.Value}{(string.Equals(kv.Key.Split(';')[1], "crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
                                 builder.Append(temp);
                                 prevLength += temp.Length;
                                 continue;
                             }
 
-                            // if (!string.IsNullOrEmpty(prevLevel) && !kv.Key.Split(';')[0].Equals(prevLevel)) {
+                            // if (!string.IsNullOrEmpty(prevLevel) && !string.Equals(kv.Key.Split(';')[0], prevLevel)) {
                             //     temp = " ⟩";
                             //     prevLength += temp.Length;
                             //     builder.Append(temp);
@@ -344,7 +344,7 @@ namespace FallGuysStats {
                                 builder.Append("    •  ");
                             }
 
-                            temp = $"{kv.Key.Split(';')[0]} :  {kv.Value}{(kv.Key.Split(';')[1].Equals("crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
+                            temp = $"{kv.Key.Split(';')[0]} :  {kv.Value}{(string.Equals(kv.Key.Split(';')[1], "crown") ? Multilingual.GetWord(kv.Value > 1 ? "level_wins_suffix" : "level_win_suffix") : Multilingual.GetWord(kv.Value > 1 ? "level_losses_suffix" : "level_loss_suffix"))}";
                             prevLength = temp.Length;
                             builder.Append(temp);
                             prevLevel = kv.Key.Split(';')[0];

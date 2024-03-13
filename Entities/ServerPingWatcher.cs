@@ -26,6 +26,14 @@ namespace FallGuysStats {
             this.task.Start();
         }
 
+        public async Task Stop() {
+            this.stop = true;
+            while (this.running || this.task == null || this.task.Status == TaskStatus.Created) {
+                await Task.Delay(50);
+            }
+            await Task.Run(() => this.task?.Wait());
+        }
+
         private async void CheckServerPing() {
             this.running = true;
             while (!this.stop) {

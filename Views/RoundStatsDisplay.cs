@@ -72,7 +72,7 @@ namespace FallGuysStats {
                     } else if (c1 is MetroLabel mlb1) {
                         mlb1.Theme = theme;
                     } else if (c1 is Label lb1) {
-                        if (lb1.Name.Equals("lblRoundType") || lb1.Name.Equals("lblRoundTime") || lb1.Name.Equals("lblBestRecord") || lb1.Name.Equals("lblWorstRecord")) continue;
+                        if (lb1.Equals(this.lblRoundType) || lb1.Equals(this.lblRoundTime) || lb1.Equals(this.lblBestRecord) || lb1.Equals(this.lblWorstRecord)) continue;
                         lb1.ForeColor = Color.DarkGray;
                     }
                 }
@@ -97,14 +97,14 @@ namespace FallGuysStats {
                 this.lblRoundType.borderColor = levelType.LevelDefaultColor(level.IsFinal);
                 this.lblRoundType.backColor = levelType.LevelDefaultColor(level.IsFinal);
                 this.lblRoundType.Width = TextRenderer.MeasureText(this.lblRoundType.Text, this.lblRoundType.Font).Width + 12;
-                int recordType = ("round_pixelperfect_almond".Equals(roundId) ||
-                                  "round_hoverboardsurvival_s4_show".Equals(roundId) ||
-                                  "round_hoverboardsurvival2_almond".Equals(roundId) ||
-                                  "round_snowy_scrap".Equals(roundId) ||
-                                  "round_jinxed".Equals(roundId) ||
-                                  "round_rocknroll".Equals(roundId) ||
-                                  "round_conveyor_arena".Equals(roundId)) ? 1
-                                : ("round_1v1_button_basher".Equals(roundId) || "round_1v1_volleyfall_symphony_launch_show".Equals(roundId)) ? 2
+                int recordType = (string.Equals(roundId, "round_pixelperfect_almond") ||
+                                  string.Equals(roundId, "round_hoverboardsurvival_s4_show") ||
+                                  string.Equals(roundId, "round_hoverboardsurvival2_almond") ||
+                                  string.Equals(roundId, "round_snowy_scrap") ||
+                                  string.Equals(roundId, "round_jinxed") ||
+                                  string.Equals(roundId, "round_rocknroll") ||
+                                  string.Equals(roundId, "round_conveyor_arena")) ? 1
+                                : (string.Equals(roundId, "round_1v1_button_basher") || string.Equals(roundId, "round_1v1_volleyfall_symphony_launch_show")) ? 2
                                 : levelType.FastestLabel();
                 this.lblBestRecord.Left = this.lblRoundType.Right + 12;
                 this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
@@ -117,7 +117,7 @@ namespace FallGuysStats {
             } else {
                 MatchCollection matches = Regex.Matches(roundId, @"^\d{4}-\d{4}-\d{4}$");
                 if (matches.Count > 0) { // user creative round
-                    if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.AllStats.Find(ri => roundId.Equals(ri.ShowNameId)).Name, out LevelStats creativeLevel)) {
+                    if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.AllStats.Find(ri => string.Equals(ri.ShowNameId, roundId)).Name, out LevelStats creativeLevel)) {
                         this.picRoundIcon.Size = creativeLevel.RoundBigIcon.Size;
                         this.picRoundIcon.Image = creativeLevel.RoundBigIcon;
                         this.formsPlot.Plot.Title(selectedRoundPair.Value);

@@ -15,6 +15,14 @@ namespace FallGuysStats {
             this.task = new Task(this.CheckGameState);
             this.task.Start();
         }
+        
+        public async Task Stop() {
+            this.stop = true;
+            while (this.running || this.task == null || this.task.Status == TaskStatus.Created) {
+                await Task.Delay(50);
+            }
+            await Task.Run(() => this.task?.Wait());
+        }
 
         private async void CheckGameState() {
             this.running = true;

@@ -216,7 +216,7 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = Regex.Unescape(web.DownloadString($"{IP2C_ORG_URL}{host}"));
                 string[] resArr = resStr.Split(';');
-                if ("1".Equals(resArr[0])) {
+                if (string.Equals("1", resArr[0])) {
                     countryInfo[0] = resArr[1]; // alpha-2 code
                     countryInfo[1] = resArr[3]; // a full country name
                 }
@@ -470,7 +470,7 @@ namespace FallGuysStats {
         public static bool IsFontInstalled(string fontName) {
             using (var fontsCollection = new System.Drawing.Text.InstalledFontCollection()) {
                 foreach (var fontFamily in fontsCollection.Families) {
-                    if (fontFamily.Name.Equals(fontName, StringComparison.OrdinalIgnoreCase)) {
+                    if (string.Equals(fontFamily.Name, fontName, StringComparison.OrdinalIgnoreCase)) {
                         return true;
                     }
                 }

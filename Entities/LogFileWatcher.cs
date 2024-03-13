@@ -84,9 +84,6 @@ namespace FallGuysStats {
         private Task watcher, parser;
 
         public Stats StatsForm { get; set; }
-
-        public bool autoChangeProfile;
-        public bool preventOverlayMouseClicks;
         
         private ThreadLocal<ThreadLocalData> threadLocalVariable = new ThreadLocal<ThreadLocalData>(() => new ThreadLocalData());
         public event Action<List<RoundInfo>> OnParsedLogLines;
@@ -119,6 +116,10 @@ namespace FallGuysStats {
             lock (this.lines) {
                 this.lines = new List<LogLine>();
             }
+
+            await this.gameStateWatcher.Stop();
+            await this.serverPingWatcher.Stop();
+            
             await Task.Run(() => this.watcher?.Wait());
             await Task.Run(() => this.parser?.Wait());
         }
@@ -228,11 +229,11 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
-                            } else if (this.autoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
+                            } else if (this.StatsForm.CurrentSettings.AutoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.SetLinkedProfileMenu(this.threadLocalVariable.Value.selectedShowId, logRound.PrivateLobby);
                                 }
-                            } else if (this.preventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
+                            } else if (this.StatsForm.CurrentSettings.PreventOverlayMouseClicks && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) >= 0) {
                                 if (Stats.InShow && !Stats.EndedShow) {
                                     this.StatsForm.PreventOverlayMouseClicks();
                                 }
@@ -544,8 +545,8 @@ namespace FallGuysStats {
                 if (!string.IsNullOrEmpty(ci)) {
                     string[] countryInfo = ci.Split(';');
                     Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
-                    Stats.LastCountryRegion = !"unknown".Equals(countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
-                    Stats.LastCountryCity = !"unknown".Equals(countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
+                    Stats.LastCountryRegion = !string.Equals("unknown", countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
+                    Stats.LastCountryCity = !string.Equals("unknown", countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
                 } else {
                     string countryCode = Utils.GetCountryCode(ip);
                     Stats.LastCountryAlpha2Code = !string.IsNullOrEmpty(countryCode) ? countryCode.ToLower() : string.Empty;
@@ -967,14 +968,14 @@ namespace FallGuysStats {
                                 return false;
                             }
 
-                            if (roundInfo.ShowNameId.Equals("wle_mrs_shuffle_show") || roundInfo.ShowNameId.Equals("wle_shuffle_discover") || roundInfo.ShowNameId.Equals("wle_mrs_shuffle_show_squads")) {
+                            if (string.Equals(roundInfo.ShowNameId, "wle_mrs_shuffle_show") || string.Equals(roundInfo.ShowNameId, "wle_shuffle_discover") || string.Equals(roundInfo.ShowNameId, "wle_mrs_shuffle_show_squads")) {
                                 if (round.Count > 1 && roundNum != round.Count) {
                                     roundInfo.IsFinal = false;
                                 }
                                 roundName = this.StatsForm.ReplaceLevelIdInShuffleShow(roundInfo.ShowNameId, roundName);
                             }
 
-                            if (!roundInfo.Name.Equals(roundName, StringComparison.OrdinalIgnoreCase)) {
+                            if (!string.Equals(roundInfo.Name, roundName, StringComparison.OrdinalIgnoreCase)) {
                                 return false;
                             }
 
