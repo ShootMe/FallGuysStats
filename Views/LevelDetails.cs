@@ -472,7 +472,7 @@ namespace FallGuysStats {
             } else if (((Grid)sender).Controls.OfType<VScrollBar>().First().Visible) {
                 if (e.Delta > 0 && ((Grid)sender).VerticalScrollingOffset == 0 && this.mlLeftPagingButton.Enabled) {
                     this.mlLeftPagingButton.PerformClick();
-                } else if (e.Delta < 0 && this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset && this.mlRightPagingButton.Enabled) {
+                } else if (e.Delta < 0 && (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) && this.mlRightPagingButton.Enabled) {
                     this.mlRightPagingButton.PerformClick();
                 }
             }
@@ -483,15 +483,15 @@ namespace FallGuysStats {
             this.scrollTimer.Stop();
             this.scrollTimer.Start();
             
-            if (((Grid)sender).VerticalScrollingOffset == 0) {
-                if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
-                    this.mlLeftPagingButton.PerformClick();
-                }
-            } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
-                if (!this.preventPaging && this.mlRightPagingButton.Enabled) {
-                    this.mlRightPagingButton.PerformClick();
-                }
-            }
+            // if (((Grid)sender).VerticalScrollingOffset == 0) {
+            //     if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
+            //         this.mlLeftPagingButton.PerformClick();
+            //     }
+            // } else if (this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset) {
+            //     if (!this.preventPaging && this.mlRightPagingButton.Enabled) {
+            //         this.mlRightPagingButton.PerformClick();
+            //     }
+            // }
         }
 
         // private void gridDetails_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
