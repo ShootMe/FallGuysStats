@@ -463,7 +463,21 @@ namespace FallGuysStats {
             this.scrollTimer.Stop();
             this.isScrollingStopped = true;
         }
-        
+
+        private void gridDetails_MouseWheel(object sender, MouseEventArgs e) {
+            if (this.currentPage == this.totalPages && !((Grid)sender).Controls.OfType<VScrollBar>().First().Visible) {
+                if (e.Delta > 0 && this.mlLeftPagingButton.Enabled) {
+                    this.mlLeftPagingButton.PerformClick();
+                }
+            } else if (((Grid)sender).Controls.OfType<VScrollBar>().First().Visible) {
+                if (e.Delta > 0 && ((Grid)sender).VerticalScrollingOffset == 0 && this.mlLeftPagingButton.Enabled) {
+                    this.mlLeftPagingButton.PerformClick();
+                } else if (e.Delta < 0 && this.totalHeight - ((Grid)sender).Height < ((Grid)sender).VerticalScrollingOffset && this.mlRightPagingButton.Enabled) {
+                    this.mlRightPagingButton.PerformClick();
+                }
+            }
+        }
+
         private void gridDetails_Scroll(object sender, ScrollEventArgs e) {
             this.isScrollingStopped = false;
             this.scrollTimer.Stop();
