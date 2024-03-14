@@ -217,7 +217,7 @@ namespace FallGuysStats {
         public string weeklyCrownPeriod;
         public Point screenCenter;
         
-        public event Action OnUpdatedLevelDetails;
+        public event Action OnUpdatedLevelRows;
         private System.Windows.Forms.Timer scrollTimer = new System.Windows.Forms.Timer { Interval = 100 };
         private bool isScrollingStopped = true;
         
@@ -3794,7 +3794,7 @@ namespace FallGuysStats {
                     }
 
                     if (!this.loadingExisting) { this.StatsDB.Commit(); }
-                    this.OnUpdatedLevelDetails?.Invoke();
+                    this.OnUpdatedLevelRows?.Invoke();
                 }
 
                 lock (this.CurrentRound) {
@@ -5137,9 +5137,9 @@ namespace FallGuysStats {
                         levelDetails.RoundDetails = levelStats.Stats;
                         this.EnableInfoStrip(false);
                         this.EnableMainMenu(false);
-                        this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                        this.OnUpdatedLevelRows += levelDetails.LevelDetails_OnUpdatedLevelRows;
                         levelDetails.ShowDialog(this);
-                        this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                        this.OnUpdatedLevelRows -= levelDetails.LevelDetails_OnUpdatedLevelRows;
                         this.EnableInfoStrip(true);
                         this.EnableMainMenu(true);
                     }
@@ -5198,9 +5198,9 @@ namespace FallGuysStats {
                 levelDetails.StatsForm = this;
                 levelDetails.LevelName = "Shows";
                 levelDetails.RoundDetails = this.GetShowsForDisplay();
-                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows += levelDetails.LevelDetails_OnUpdatedLevelRows;
                 levelDetails.ShowDialog(this);
-                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows -= levelDetails.LevelDetails_OnUpdatedLevelRows;
             }
         }
 
@@ -5219,9 +5219,9 @@ namespace FallGuysStats {
                 levelDetails.StatsForm = this;
                 levelDetails.LevelName = "Rounds";
                 levelDetails.RoundDetails = this.GetRoundsForDisplay();
-                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows += levelDetails.LevelDetails_OnUpdatedLevelRows;
                 levelDetails.ShowDialog(this);
-                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows -= levelDetails.LevelDetails_OnUpdatedLevelRows;
             }
         }
 
@@ -5241,9 +5241,9 @@ namespace FallGuysStats {
                 levelDetails.StatsForm = this;
                 levelDetails.LevelName = "Finals";
                 levelDetails.RoundDetails = this.GetFinalsForDisplay();
-                this.OnUpdatedLevelDetails += levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows += levelDetails.LevelDetails_OnUpdatedLevelRows;
                 levelDetails.ShowDialog(this);
-                this.OnUpdatedLevelDetails -= levelDetails.LevelDetails_OnUpdatedLevelDetails;
+                this.OnUpdatedLevelRows -= levelDetails.LevelDetails_OnUpdatedLevelRows;
             }
         }
         

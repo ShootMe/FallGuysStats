@@ -118,4 +118,10 @@
         ErrorDark,
         Custom
     }
+    
+    public enum FirstDisplayedScrollingRowIndex {
+        FirstIndex,
+        PrevIndex,
+        LastIndex
+    }
 }

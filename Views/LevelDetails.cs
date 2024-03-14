@@ -95,10 +95,10 @@ namespace FallGuysStats {
                 this.EnablePagingUI(false);
                 this.gridDetails.Enabled = true;
             }
-            this.UpdatePage(false, true, false, true);
+            this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.LastIndex, true);
         }
         
-        public void LevelDetails_OnUpdatedLevelDetails() {
+        public void LevelDetails_OnUpdatedLevelRows() {
             switch (this.statType) {
                 case StatType.Shows when string.Equals(this.gridDetails.Name, "gridShowsStats"):
                     this.RoundDetails = this.StatsForm.GetShowsForDisplay();
@@ -107,7 +107,7 @@ namespace FallGuysStats {
                         this.currentProfileId = this.StatsForm.GetCurrentProfileId();
                         this.currentPage = this.totalPages;
                     }
-                    this.UpdatePage(false, true, false, false);
+                    this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                     this.BackImage = Properties.Resources.fallguys_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_show_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
@@ -119,7 +119,7 @@ namespace FallGuysStats {
                         this.currentProfileId = this.StatsForm.GetCurrentProfileId();
                         this.currentPage = this.totalPages;
                     }
-                    this.UpdatePage(false, true, false, false);
+                    this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_round_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
@@ -131,7 +131,7 @@ namespace FallGuysStats {
                         this.currentProfileId = this.StatsForm.GetCurrentProfileId();
                         this.currentPage = this.totalPages;
                     }
-                    this.UpdatePage(false, true, false, false);
+                    this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                     this.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_final_stats")} - {StatsForm.GetCurrentProfileName().Replace("&", "&&")} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
@@ -144,7 +144,7 @@ namespace FallGuysStats {
                         this.currentProfileId = this.StatsForm.GetCurrentProfileId();
                         this.currentPage = this.totalPages;
                     }
-                    this.UpdatePage(false, true, false, false);
+                    this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                     this.BackImage = levelStats.RoundIcon;
                     this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetLevelName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
@@ -265,7 +265,7 @@ namespace FallGuysStats {
             this.mlLastPagingButton.Enabled = enable;
         }
         
-        private void UpdatePage(bool isFirstPage, bool isLastPage, bool isFirstDisplayed, bool isInitialize) {
+        private void UpdateGridPage(bool isFirstPage, bool isLastPage, FirstDisplayedScrollingRowIndex firstDisplayedScrollingRowIndex, bool isInitialize) {
             this.EnablePagingUI(false);
             Task.Run(() => {
                 if (this.RoundDetails.Count > 0) {
@@ -300,7 +300,17 @@ namespace FallGuysStats {
                         int prevIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                         this.gridDetails.DataSource = this.currentRoundDetails;
                         if (this.gridDetails.RowCount > 0) {
-                            this.gridDetails.FirstDisplayedScrollingRowIndex = this.currentPage < this.totalPages && this.gridDetails.RowCount < prevIndex ? prevIndex : (isFirstDisplayed ? 0 : this.gridDetails.RowCount - 1);
+                            switch (firstDisplayedScrollingRowIndex) {
+                                case FirstDisplayedScrollingRowIndex.FirstIndex:
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = 0;
+                                    break;
+                                case FirstDisplayedScrollingRowIndex.PrevIndex:
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount - 1 < prevIndex ? this.gridDetails.RowCount - 1 : prevIndex;
+                                    break;
+                                case FirstDisplayedScrollingRowIndex.LastIndex:
+                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount - 1;
+                                    break;
+                            }
                         }
                         this.gridDetails.Enabled = true;
                         this.SetPagingDisplay(true);
@@ -320,16 +330,16 @@ namespace FallGuysStats {
             this.preventPaging = true;
             if (sender.Equals(this.mlFirstPagingButton)) {
                 this.currentPage = 1;
-                this.UpdatePage(true, false, true, false);
+                this.UpdateGridPage(true, false, FirstDisplayedScrollingRowIndex.FirstIndex, false);
             } else if (sender.Equals(this.mlLeftPagingButton)) {
                 this.currentPage -= 1;
-                this.UpdatePage(false, false, false, false);
+                this.UpdateGridPage(false, false, FirstDisplayedScrollingRowIndex.LastIndex, false);
             } else if (sender.Equals(this.mlRightPagingButton)) {
                 this.currentPage += 1;
-                this.UpdatePage(false, false, true, false);
+                this.UpdateGridPage(false, false, FirstDisplayedScrollingRowIndex.FirstIndex, false);
             } else if (sender.Equals(this.mlLastPagingButton)) {
                 this.currentPage = this.totalPages;
-                this.UpdatePage(false, true, false, false);
+                this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.LastIndex, false);
             }
         }
 
@@ -963,36 +973,28 @@ namespace FallGuysStats {
                     this.gridDetails.Enabled = false;
                     this.spinnerTransition.Start();
                     this.mpsSpinner01.Visible = true;
-                    int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                    this.preventPaging = true;
                     Task.Run(() => {
                         lock (this.StatsForm.StatsDB) {
                             this.StatsForm.StatsDB.BeginTrans();
                             foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                 RoundInfo bi = row.DataBoundItem as RoundInfo;
-                                this.RoundDetails.Remove(bi);
-                                this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
                                 this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
                             }
                             this.StatsForm.StatsDB.Commit();
                         }
                     }).ContinueWith(prevTask => {
                         this.BeginInvoke((MethodInvoker)delegate {
-                            this.EnablePagingUI(false);
+                            this.RoundDetails = this.StatsForm.GetShowsForDisplay();
                             this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                             if (this.currentPage > this.totalPages) {
                                 this.currentPage = this.totalPages;
                             }
-                            this.SetPagingDisplay(true);
+                            this.UpdateGridPage(this.currentPage == 1, this.currentPage == this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
+                            
                             this.gridDetails.Enabled = true;
                             this.spinnerTransition.Stop();
                             this.mpsSpinner01.Visible = false;
-                    
-                            this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                            this.gridDetails.DataSource = null;
-                            this.gridDetails.DataSource = this.currentRoundDetails;
-                            if (this.gridDetails.RowCount > 0) {
-                                this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount < minIndex ? this.gridDetails.RowCount - 1 : minIndex;
-                            }
 
                             this.StatsForm.ResetStats();
                             Stats.IsOverlayRoundInfoNeedRefresh = true;
@@ -1015,42 +1017,34 @@ namespace FallGuysStats {
                         this.gridDetails.Enabled = false;
                         this.spinnerTransition.Start();
                         this.mpsSpinner01.Visible = true;
-                        int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
+                        int fromProfileId = this.StatsForm.GetCurrentProfileId();
+                        int toProfileId = moveShows.SelectedProfileId;
+                        this.preventPaging = true;
                         Task.Run(() => {
-                            int fromProfileId = this.StatsForm.GetCurrentProfileId();
-                            int toProfileId = moveShows.SelectedProfileId;
                             lock (this.StatsForm.StatsDB) {
                                 this.StatsForm.StatsDB.BeginTrans();
                                 foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                     RoundInfo d = row.DataBoundItem as RoundInfo;
-                                    this.RoundDetails.Remove(d);
-                                    List<RoundInfo> rl = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
-                                    foreach (RoundInfo r in rl) {
+                                    List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
+                                    foreach (RoundInfo r in ri) {
                                         r.Profile = toProfileId;
                                     }
-                                    this.StatsForm.RoundDetails.Update(rl);
+                                    this.StatsForm.RoundDetails.Update(ri);
                                 }
                                 this.StatsForm.StatsDB.Commit();
                             }
                         }).ContinueWith(prevTask => {
                             this.BeginInvoke((MethodInvoker)delegate {
-                                this.EnablePagingUI(false);
+                                this.RoundDetails = this.StatsForm.GetShowsForDisplay();
                                 this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                                 if (this.currentPage > this.totalPages) {
                                     this.currentPage = this.totalPages;
                                 }
-                                this.SetPagingDisplay(true);
+                                this.UpdateGridPage(this.currentPage == 1, this.currentPage == this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                                 
                                 this.gridDetails.Enabled = true;
                                 this.spinnerTransition.Stop();
                                 this.mpsSpinner01.Visible = false;
-                        
-                                this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                                this.gridDetails.DataSource = null;
-                                this.gridDetails.DataSource = this.currentRoundDetails;
-                                if (this.gridDetails.RowCount > 0) {
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = this.gridDetails.RowCount < minIndex ? this.gridDetails.RowCount - 1 : minIndex;
-                                }
 
                                 this.StatsForm.ResetStats();
                                 Stats.IsOverlayRoundInfoNeedRefresh = true;
@@ -1073,6 +1067,7 @@ namespace FallGuysStats {
                             this.gridDetails.Enabled = false;
                             this.spinnerTransition.Start();
                             this.mpsSpinner01.Visible = true;
+                            this.preventPaging = true;
                             Task.Run(() => {
                                 try {
                                     JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
@@ -1131,10 +1126,7 @@ namespace FallGuysStats {
                                     this.spinnerTransition.Stop();
                                     this.mpsSpinner01.Visible = false;
                                     this.gridDetails.Enabled = true;
-                                    this.currentRoundDetails = this.RoundDetails.Skip((this.currentPage - 1) * this.pageSize).Take(this.pageSize).ToList();
-                                    this.gridDetails.DataSource = null;
-                                    this.gridDetails.DataSource = this.currentRoundDetails;
-                                    this.gridDetails.FirstDisplayedScrollingRowIndex = minIndex;
+                                    this.preventPaging = false;
                                 });
                             });
                         }
