@@ -2852,7 +2852,7 @@ namespace FallGuysStats {
         }
         
         private void UpdateGridRoundName() {
-            foreach (KeyValuePair<string, string> item in Multilingual.GetLevelsDictionary().Where(r => r.Value.StartsWith("round_") || r.Value.StartsWith("user_creative_") || r.Value.StartsWith("creative_"))) {
+            foreach (KeyValuePair<string, string> item in Multilingual.GetLevelsDictionary().Where(r => r.Key.StartsWith("round_") || r.Key.StartsWith("user_creative_") || r.Key.StartsWith("creative_"))) {
                 if (this.StatLookup.TryGetValue(item.Key, out LevelStats level)) {
                     level.Name = item.Value;
                 }
@@ -4438,9 +4438,12 @@ namespace FallGuysStats {
                             summary.LongestFinish = finishTime;
                         }
 
-                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore)
-                            && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
+                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                             summary.BestScore = info.Score;
+                        }
+                        
+                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore) && info.Score.HasValue && (!summary.WorstScore.HasValue || info.Score.Value < summary.WorstScore.Value)) {
+                            summary.WorstScore = info.Score;
                         }
                     }
                 }

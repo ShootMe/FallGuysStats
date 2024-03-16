@@ -65,6 +65,7 @@ namespace FallGuysStats {
             } else {
                 this.rdoOnlyShowFastest.Checked = true;
             }
+            
             if (this.CurrentSettings.SwitchBetweenQualify) {
                 this.rdoCycleQualifyGold.Checked = true;
             } else if (this.CurrentSettings.OnlyShowGold) {
@@ -72,6 +73,7 @@ namespace FallGuysStats {
             } else {
                 this.rdoOnlyShowQualify.Checked = true;
             }
+            
             if (this.CurrentSettings.SwitchBetweenPlayers) {
                 this.rdoCyclePlayersPing.Checked = true;
             } else if (this.CurrentSettings.OnlyShowPing) {
@@ -79,6 +81,7 @@ namespace FallGuysStats {
             } else {
                 this.rdoOnlyShowPlayers.Checked = true;
             }
+            
             if (this.CurrentSettings.SwitchBetweenStreaks) {
                 this.rdoCycleWinFinalStreak.Checked = true;
             } else if (this.CurrentSettings.OnlyShowFinalStreak) {
@@ -439,6 +442,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.SwitchBetweenLongest = false;
                 this.CurrentSettings.OnlyShowLongest = false;
             }
+            
             if (this.rdoCycleQualifyGold.Checked) {
                 this.CurrentSettings.SwitchBetweenQualify = true;
                 this.CurrentSettings.OnlyShowGold = false;
@@ -449,6 +453,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.SwitchBetweenQualify = false;
                 this.CurrentSettings.OnlyShowGold = false;
             }
+            
             if (this.rdoCyclePlayersPing.Checked) {
                 this.CurrentSettings.SwitchBetweenPlayers = true;
                 this.CurrentSettings.OnlyShowPing = false;
@@ -459,6 +464,7 @@ namespace FallGuysStats {
                 this.CurrentSettings.SwitchBetweenPlayers = false;
                 this.CurrentSettings.OnlyShowPing = false;
             }
+            
             if (this.rdoCycleWinFinalStreak.Checked) {
                 this.CurrentSettings.SwitchBetweenStreaks = true;
                 this.CurrentSettings.OnlyShowFinalStreak = false;

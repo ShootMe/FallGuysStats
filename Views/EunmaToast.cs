@@ -39,6 +39,16 @@ namespace FallGuysStats {
         
 		private int _maxTransition;
         
+        private int maxTransition {
+            get => _maxTransition;
+            set {
+                if (_maxTransition != value) {
+                    _maxTransition = value;
+                    lblProgress.Width = (int)(_deltaTransition * _maxTransition);
+                }
+            }
+        }
+        
 		private double _deltaTransition;
 		
 		private ToastDuration _toastDuration;
@@ -201,7 +211,8 @@ namespace FallGuysStats {
 					FadeIn();
 					break;
 				case ToastAnimation.SLIDE:
-                    Utils.AnimateWindow(Handle, 100, AW_SLIDE | AW_HOR_NEGATIVE | AW_ACTIVATE);
+                    // Utils.AnimateWindow(Handle, 100, AW_SLIDE | AW_HOR_NEGATIVE | AW_ACTIVATE);
+                    FadeIn();
 					break;
 			}
         }
@@ -347,6 +358,7 @@ namespace FallGuysStats {
 				case ToastCloseStyle.ClickEntire:
 				case ToastCloseStyle.ButtonAndClickEntire:
                     if (e.Button == MouseButtons.Left) {
+                        tmrClose.Stop();
 					    Close();
                     }
 					break;
@@ -357,24 +369,22 @@ namespace FallGuysStats {
 
         private void TmrClose_Tick(object sender, EventArgs e) {
             _transitionCounter++;
-            _maxTransition++;
-            
-            lblProgress.Width = (int)(_deltaTransition * _maxTransition);
+            maxTransition++;
 
             if (_transitionCounter >= 100) {
                 _transitionCounter = 0;
                 _counter--;
             }
-            
-            if (_counter != 0) return;
-            tmrClose.Stop();
-            Close();
+
+            if (_counter == 0) {
+                tmrClose.Stop();
+                Close();
+            }
         }
 
 		private async void FadeIn() {
 			Opacity = 0;
-			while (Opacity < 1.0)
-			{
+			while (Opacity < 1.0) {
 				await Task.Delay(3, CancellationToken);
 				Opacity += 0.1;
 			}
@@ -402,6 +412,7 @@ namespace FallGuysStats {
 		}
 
 		private void BtnClose_Click(object sender, EventArgs e) {
+            tmrClose.Stop();
 			Close();
 		}
 	}

@@ -17,5 +17,6 @@ namespace FallGuysStats {
         public TimeSpan? LongestFinish { get; set; }
         public TimeSpan? LongestFinishOverall { get; set; }
         public int? BestScore { get; set; }
+        public int? WorstScore { get; set; }
     }
 }
