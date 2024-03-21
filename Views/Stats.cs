@@ -125,8 +125,8 @@ namespace FallGuysStats {
         public static bool IsLastPlayedRoundStillPlaying { get; set; }
         public static DateTime LastGameStart { get; set; } = DateTime.MinValue;
         public static DateTime LastRoundLoad { get; set; } = DateTime.MinValue;
-        public static DateTime? LastPlayedRoundStart { get; set; } = null;
-        public static DateTime? LastPlayedRoundEnd { get; set; } = null;
+        public static DateTime? LastPlayedRoundStart { get; set; }
+        public static DateTime? LastPlayedRoundEnd { get; set; }
         
         public static bool IsQueued = false;
         public static int QueuedPlayers = 0;
@@ -4095,19 +4095,19 @@ namespace FallGuysStats {
             }
         }
         
-        public bool IsInStatsFilter(RoundInfo info) {
-            return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd) ||
-                    this.menuAllStats.Checked ||
-                   (this.menuSeasonStats.Checked && info.Start > SeasonStart) ||
-                   (this.menuWeekStats.Checked && info.Start > WeekStart) ||
-                   (this.menuDayStats.Checked && info.Start > DayStart) ||
-                   (this.menuSessionStats.Checked && info.Start > SessionStart);
+        private bool IsInStatsFilter(RoundInfo info) {
+            return (this.menuCustomRangeStats.Checked && info.Start >= this.customfilterRangeStart && info.Start <= this.customfilterRangeEnd)
+                   || this.menuAllStats.Checked
+                   || (this.menuSeasonStats.Checked && info.Start > SeasonStart)
+                   || (this.menuWeekStats.Checked && info.Start > WeekStart)
+                   || (this.menuDayStats.Checked && info.Start > DayStart)
+                   || (this.menuSessionStats.Checked && info.Start > SessionStart);
         }
         
-        public bool IsInPartyFilter(RoundInfo info) {
-            return this.menuAllPartyStats.Checked ||
-                   (this.menuSoloStats.Checked && !info.InParty) ||
-                   (this.menuPartyStats.Checked && info.InParty);
+        private bool IsInPartyFilter(RoundInfo info) {
+            return this.menuAllPartyStats.Checked
+                   || (this.menuSoloStats.Checked && !info.InParty)
+                   || (this.menuPartyStats.Checked && info.InParty);
         }
         
         public string GetCurrentFilterName() {
@@ -4354,7 +4354,7 @@ namespace FallGuysStats {
             }
         }
         
-        public StatSummary GetLevelInfo(string name, LevelType levelType, BestRecordType recordType, bool useShareCode) {
+        public StatSummary GetLevelInfo(string levelId, LevelType type, BestRecordType record, bool useShareCode) {
             StatSummary summary = new StatSummary {
                 AllWins = 0,
                 TotalShows = 0,
@@ -4364,13 +4364,12 @@ namespace FallGuysStats {
             };
 
             int lastShow = -1;
-            string levelName = useShareCode ? levelType.UserCreativeLevelTypeId() : name;
-            if (!this.StatLookup.TryGetValue(levelName, out LevelStats currentLevel)) {
-                currentLevel = new LevelStats(name, string.Empty, name, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+            if (!this.StatLookup.TryGetValue(levelId, out LevelStats currentLevel)) {
+                currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
-            List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.currentProfile && string.Equals(r.Name, levelName) && string.Equals(r.ShowNameId, name)) :
-                                        this.AllStats.FindAll(r => r.Profile == this.currentProfile);
+            List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.currentProfile && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
+                                                     : this.AllStats.FindAll(r => r.Profile == this.currentProfile);
 
             for (int i = 0; i < roundInfo.Count; i++) {
                 RoundInfo info = roundInfo[i];
@@ -4438,11 +4437,11 @@ namespace FallGuysStats {
                             summary.LongestFinish = finishTime;
                         }
 
-                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
+                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
                             summary.BestScore = info.Score;
                         }
                         
-                        if ((!hasLevelDetails || recordType == BestRecordType.HighScore) && info.Score.HasValue && (!summary.WorstScore.HasValue || info.Score.Value < summary.WorstScore.Value)) {
+                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.WorstScore.HasValue || info.Score.Value < summary.WorstScore.Value)) {
                             summary.WorstScore = info.Score;
                         }
                     }
@@ -4821,7 +4820,7 @@ namespace FallGuysStats {
                 if (!((Grid)sender).Rows[e.RowIndex].Visible) { return; }
                 
                 LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
-                float fBrightness = 0.85F;
+                float fBrightness = 0.85f;
                 Color cellColor;
                 switch (((Grid)sender).Columns[e.ColumnIndex].Name) {
                     case "RoundIcon":
