@@ -1050,7 +1050,7 @@ namespace FallGuysStats {
                         
                         this.levelType = (this.levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
                         this.recordType = (this.levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
-                        this.levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.UseShareCode ? this.lastRound.Name : this.levelName, this.levelType, this.recordType, this.lastRound.UseShareCode);
+                        this.levelSummary = this.StatsForm.GetLevelInfo(this.lastRound.Name, this.levelType, this.recordType, this.lastRound.UseShareCode);
                     }
                     
                     this.SetRoundLabel(this.levelStats, this.levelType, this.levelName, overlaySetting);

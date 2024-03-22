@@ -4364,7 +4364,7 @@ namespace FallGuysStats {
             };
 
             int lastShow = -1;
-            if (!this.StatLookup.TryGetValue(levelId, out LevelStats currentLevel)) {
+            if (!this.StatLookup.TryGetValue(useShareCode ? type.UserCreativeLevelTypeId() : levelId, out LevelStats currentLevel)) {
                 currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
@@ -4376,7 +4376,8 @@ namespace FallGuysStats {
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
                 bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
-                bool isCurrentLevel = string.Equals(currentLevel.Name, hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
+                bool isCurrentLevel = useShareCode ? string.Equals(info.Name, levelId, StringComparison.OrdinalIgnoreCase)
+                                                   : string.Equals(currentLevel.Name, hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
 
                 int startRoundShowId = info.ShowID;
                 RoundInfo endRound = info;
