@@ -262,7 +262,6 @@
             this.Padding = new System.Windows.Forms.Padding(20, 60, 20, 0);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Round Stats Display";
             this.Load += new System.EventHandler(this.RoundStatsDisplay_Load);

@@ -555,13 +555,12 @@ namespace FallGuysStats {
             }
             
             this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
-            
-            this.StatDetails = LevelStats.ALL.Select(entry => entry.Value).ToList();
-            
-            // foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-            //     this.StatLookup.Add(entry.Key, entry.Value);
-            //     this.StatDetails.Add(entry.Value);
-            // }
+            this.StatDetails = LevelStats.ALL
+                .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
+                .GroupBy(entry => entry.Value.ShareCode)
+                .Select(group => group.First().Value)
+                .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
+                .ToList();
             
             this.UpdateDatabaseVersion();
 
@@ -3787,6 +3786,12 @@ namespace FallGuysStats {
                         if (this.StatLookup.TryGetValue(stat.UseShareCode ? stat.ShowNameId : stat.Name, out LevelStats levelStats)) {
                             levelStats.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                             levelStats.Add(stat);
+
+                            if (!this.StatDetails.Contains(levelStats)) {
+                                LevelStats l1 = this.StatDetails.Find(l => string.Equals(l.ShareCode, levelStats.ShareCode));
+                                l1.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
+                                l1.Add(stat);
+                            }
                             
                             if (levelStats.IsCreative && !levelStats.Id.StartsWith("user_creative_")) {
                                 if (this.StatLookup.TryGetValue(this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal), out LevelStats creativeLevel)) {
@@ -5266,14 +5271,13 @@ namespace FallGuysStats {
                     .Where(r => r.Profile == this.GetCurrentProfileId() &&
                                 this.IsInStatsFilter(r) &&
                                 this.IsInPartyFilter(r))
-                    .OrderBy(r => r.End)
-                    .ToList();
+                    .OrderBy(r => r.End).ToList();
                 
-                ArrayList dates = new ArrayList();
-                ArrayList shows = new ArrayList();
-                ArrayList finals = new ArrayList();
-                ArrayList wins = new ArrayList();
-                Dictionary<double, SortedList<string, int>> winsInfo = new Dictionary<double, SortedList<string, int>>();
+                var dates = new ArrayList();
+                var shows = new ArrayList();
+                var finals = new ArrayList();
+                var wins = new ArrayList();
+                var winsInfo = new Dictionary<double, SortedList<string, int>>();
                 if (rounds.Count > 0) {
                     DateTime start = rounds[0].StartLocal;
                     int currentShows = 0;
@@ -5341,9 +5345,9 @@ namespace FallGuysStats {
                                 daysWithoutStats--;
                                 start = start.Date.AddDays(1);
                                 dates.Add(start.ToOADate());
-                                shows.Add(0D);
-                                finals.Add(0D);
-                                wins.Add(0D);
+                                shows.Add(0d);
+                                finals.Add(0d);
+                                wins.Add(0d);
                             }
 
                             currentShows = isIncrementedShows ? 1 : 0;
@@ -5364,12 +5368,12 @@ namespace FallGuysStats {
                     finals.Add(Convert.ToDouble(currentFinals));
                     wins.Add(Convert.ToDouble(currentWins));
 
-                    display.manualSpacing = (int)Math.Ceiling(dates.Count / 28D);
+                    display.manualSpacing = (int)Math.Ceiling(dates.Count / 28d);
                 } else {
                     dates.Add(DateTime.Now.Date.ToOADate());
-                    shows.Add(0D);
-                    finals.Add(0D);
-                    wins.Add(0D);
+                    shows.Add(0d);
+                    finals.Add(0d);
+                    wins.Add(0d);
 
                     display.manualSpacing = 1;
                 }
@@ -5392,110 +5396,105 @@ namespace FallGuysStats {
                        BackImagePadding = new Padding(20, 20, 0, 0)
                    })
             {
-                List<RoundInfo> rounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId() &&
-                                                                   this.IsInStatsFilter(r) &&
-                                                                   this.IsInPartyFilter(r) &&
-                                                                   !r.UseShareCode).OrderBy(r => r.Name).ToList();
-                List<RoundInfo> userCreativeRounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId() &&
-                                                                               this.IsInStatsFilter(r) &&
-                                                                               this.IsInPartyFilter(r) &&
-                                                                               r.UseShareCode).OrderBy(r => r.ShowNameId).ToList();
+                List<RoundInfo> rounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId()
+                                                                  && this.IsInStatsFilter(r)
+                                                                  && this.IsInPartyFilter(r)
+                                                                  && !r.UseShareCode)
+                    .OrderBy(r => (this.StatLookup.TryGetValue(r.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) ? l1.ShareCode : r.Name).ToList();
+                List<RoundInfo> useShareCodeRounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId()
+                                                                              && this.IsInStatsFilter(r)
+                                                                              && this.IsInPartyFilter(r)
+                                                                              && r.UseShareCode)
+                    .OrderBy(r => r.Name).ToList();
                 
-                if (rounds.Count == 0 && userCreativeRounds.Count == 0) { return; }
+                if (rounds.Count == 0 && useShareCodeRounds.Count == 0) { return; }
                 
-                Dictionary<string, double[]> roundGraphData = new Dictionary<string, double[]>();
-                Dictionary<string, TimeSpan> roundDurationData = new Dictionary<string, TimeSpan>();
-                Dictionary<string, int[]> roundScoreData = new Dictionary<string, int[]>();
-                Dictionary<string, string> roundList = new Dictionary<string, string>();
+                var levelMedalInfo = new Dictionary<string, double[]>();
+                var levelTotalPlayTime = new Dictionary<string, TimeSpan>();
+                var levelScoreInfo = new Dictionary<string, int[]>();
+                var levelList = new Dictionary<string, string>();
                 
                 double p = 0, gm = 0, sm = 0, bm = 0, pm = 0, em = 0;
                 int hs = 0, ls = 0;
-                TimeSpan d = TimeSpan.Zero;
+                TimeSpan pt = TimeSpan.Zero;
                 for (int i = 0; i < rounds.Count; i++) {
-                    if (i > 0 && !string.Equals(rounds[i].Name, rounds[i - 1].Name)) {
-                        roundDurationData.Add(rounds[i - 1].Name, d);
-                        roundGraphData.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
-                        roundScoreData.Add(rounds[i - 1].Name, new[] { hs, ls });
-                        roundList.Add(rounds[i - 1].Name, Multilingual.GetLevelName(rounds[i - 1].Name).Replace("&", "&&"));
-                        d = TimeSpan.Zero;
+                    if (i > 0 && (rounds[i].Name.StartsWith("round_") && !string.Equals(rounds[i].Name, rounds[i - 1].Name)
+                                  || ((!rounds[i].Name.StartsWith("round_") && rounds[i - 1].Name.StartsWith("round_"))
+                                      || (!rounds[i].Name.StartsWith("round_") && !rounds[i - 1].Name.StartsWith("round_") && this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1) && this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2) && !string.Equals(l1.ShareCode, l2.ShareCode))))) {
+                        levelTotalPlayTime.Add(rounds[i - 1].Name, pt);
+                        levelMedalInfo.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
+                        levelScoreInfo.Add(rounds[i - 1].Name, new[] { hs, ls });
+                        levelList.Add(rounds[i - 1].Name, Multilingual.GetLevelName(rounds[i - 1].Name).Replace("&", "&&"));
+                        pt = TimeSpan.Zero;
                         hs = 0; ls = 0;
                         p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
                     }
                     hs = (int)(rounds[i].Score > hs ? rounds[i].Score : hs);
                     ls = (int)(rounds[i].Score < ls ? rounds[i].Score : ls);
                     
-                    d += rounds[i].End - rounds[i].Start;
-                    p++;
+                    pt += rounds[i].End - rounds[i].Start;
+                    ++p;
                     if (rounds[i].Qualified) {
                         switch (rounds[i].Tier) {
-                            case (int)QualifyTier.Pink:
-                                pm++; break;
-                            case (int)QualifyTier.Gold:
-                                gm++; break;
-                            case (int)QualifyTier.Silver:
-                                sm++; break;
-                            case (int)QualifyTier.Bronze:
-                                bm++; break;
+                            case 0: ++pm; break;
+                            case 1: ++gm; break;
+                            case 2: ++sm; break;
+                            case 3: ++bm; break;
                         }
                     } else {
-                        em++;
+                        ++em;
                     }
 
                     if (i == rounds.Count - 1) {
-                        roundDurationData.Add(rounds[i].Name, d);
-                        roundGraphData.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
-                        roundScoreData.Add(rounds[i].Name, new[] { hs, ls });
-                        roundList.Add(rounds[i].Name, Multilingual.GetLevelName(rounds[i].Name).Replace("&", "&&"));
+                        levelTotalPlayTime.Add(rounds[i].Name, pt);
+                        levelMedalInfo.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
+                        levelScoreInfo.Add(rounds[i].Name, new[] { hs, ls });
+                        levelList.Add(rounds[i].Name, Multilingual.GetLevelName(rounds[i].Name).Replace("&", "&&"));
                     }
                 }
 
-                d = TimeSpan.Zero;
+                pt = TimeSpan.Zero;
                 hs = 0; ls = 0;
                 p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
-                for (int i = 0; i < userCreativeRounds.Count; i++) {
-                    if (i > 0 && !string.Equals(userCreativeRounds[i].ShowNameId, userCreativeRounds[i - 1].ShowNameId)) {
-                        roundDurationData.Add(userCreativeRounds[i - 1].ShowNameId, d);
-                        roundGraphData.Add(userCreativeRounds[i - 1].ShowNameId, new[] { p, gm, sm, bm, pm, em });
-                        roundScoreData.Add(userCreativeRounds[i - 1].ShowNameId, new[] { hs, ls });
-                        List<RoundInfo> userCreativeRoundsTitle = userCreativeRounds.FindAll(r => string.Equals(r.ShowNameId, userCreativeRounds[i - 1].ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
-                        roundList.Add(userCreativeRounds[i - 1].ShowNameId, userCreativeRoundsTitle.Count == 0 ? userCreativeRounds[i - 1].ShowNameId : userCreativeRoundsTitle[userCreativeRoundsTitle.Count - 1].CreativeTitle.Replace("&", "&&"));
-                        d = TimeSpan.Zero;
+                for (int i = 0; i < useShareCodeRounds.Count; i++) {
+                    if (i > 0 && !string.Equals(useShareCodeRounds[i].Name, useShareCodeRounds[i - 1].Name)) {
+                        levelTotalPlayTime.Add(useShareCodeRounds[i - 1].Name, pt);
+                        levelMedalInfo.Add(useShareCodeRounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
+                        levelScoreInfo.Add(useShareCodeRounds[i - 1].Name, new[] { hs, ls });
+                        levelList.Add(useShareCodeRounds[i - 1].Name, this.GetUserCreativeLevelTitle(useShareCodeRounds[i - 1].Name).Replace("&", "&&"));
+                        
+                        pt = TimeSpan.Zero;
                         hs = 0; ls = 0;
                         p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
                     }
-                    hs = (int)(userCreativeRounds[i].Score > hs ? userCreativeRounds[i].Score : hs);
-                    ls = (int)(userCreativeRounds[i].Score < ls ? userCreativeRounds[i].Score : ls);
+                    hs = (int)(useShareCodeRounds[i].Score > hs ? useShareCodeRounds[i].Score : hs);
+                    ls = (int)(useShareCodeRounds[i].Score < ls ? useShareCodeRounds[i].Score : ls);
                     
-                    d += userCreativeRounds[i].End - userCreativeRounds[i].Start;
-                    p++;
-                    if (userCreativeRounds[i].Qualified) {
-                        switch (userCreativeRounds[i].Tier) {
-                            case (int)QualifyTier.Pink:
-                                pm++; break;
-                            case (int)QualifyTier.Gold:
-                                gm++; break;
-                            case (int)QualifyTier.Silver:
-                                sm++; break;
-                            case (int)QualifyTier.Bronze:
-                                bm++; break;
+                    pt += useShareCodeRounds[i].End - useShareCodeRounds[i].Start;
+                    ++p;
+                    if (useShareCodeRounds[i].Qualified) {
+                        switch (useShareCodeRounds[i].Tier) {
+                            case 0: ++pm; break;
+                            case 1: ++gm; break;
+                            case 2: ++sm; break;
+                            case 3: ++bm; break;
                         }
                     } else {
-                        em++;
+                        ++em;
                     }
 
-                    if (i == userCreativeRounds.Count - 1) {
-                        roundDurationData.Add(userCreativeRounds[i].ShowNameId, d);
-                        roundGraphData.Add(userCreativeRounds[i].ShowNameId, new[] { p, gm, sm, bm, pm, em });
-                        roundScoreData.Add(userCreativeRounds[i].ShowNameId, new[] { hs, ls });
-                        List<RoundInfo> userCreativeRoundsTitle = userCreativeRounds.FindAll(r => string.Equals(r.ShowNameId, userCreativeRounds[i].ShowNameId) && !string.IsNullOrEmpty(r.CreativeTitle));
-                        roundList.Add(userCreativeRounds[i].ShowNameId, userCreativeRoundsTitle.Count == 0 ? userCreativeRounds[i].ShowNameId : userCreativeRoundsTitle[userCreativeRoundsTitle.Count - 1].CreativeTitle.Replace("&", "&&"));
+                    if (i == useShareCodeRounds.Count - 1) {
+                        levelTotalPlayTime.Add(useShareCodeRounds[i].Name, pt);
+                        levelMedalInfo.Add(useShareCodeRounds[i].Name, new[] { p, gm, sm, bm, pm, em });
+                        levelScoreInfo.Add(useShareCodeRounds[i].Name, new[] { hs, ls });
+                        levelList.Add(useShareCodeRounds[i].Name, this.GetUserCreativeLevelTitle(useShareCodeRounds[i].Name).Replace("&", "&&"));
                     }
                 }
                 
-                roundStatsDisplay.roundList = from pair in roundList orderby pair.Value ascending select pair; // use LINQ
-                roundStatsDisplay.roundDurationData = roundDurationData;
-                roundStatsDisplay.roundScoreData = roundScoreData;
-                roundStatsDisplay.roundGraphData = roundGraphData;
+                roundStatsDisplay.levelList = from pair in levelList orderby pair.Value.Trim() ascending select pair;
+                roundStatsDisplay.levelTotalPlayTime = levelTotalPlayTime;
+                roundStatsDisplay.levelScoreInfo = levelScoreInfo;
+                roundStatsDisplay.levelMedalInfo = levelMedalInfo;
                 
                 roundStatsDisplay.ShowDialog(this);
             }
@@ -5774,7 +5773,7 @@ namespace FallGuysStats {
             this.infoStrip.Enabled = enable;
             this.infoStrip2.Enabled = enable;
             this.lblTotalTime.Enabled = enable;
-            // if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+            if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
             foreach (var tsi in this.infoStrip.Items) {
                 if (tsi is ToolStripLabel tsl) {
                     tsl.Enabled = enable;
@@ -6460,8 +6459,8 @@ namespace FallGuysStats {
             }
         }
         
-        public string FindUserCreativeLevelInfo(string code) {
-            string levelName = this.AllStats.FindLast(r => r.ShowNameId.StartsWith("user_creative_") && string.Equals(r.Name, code))?.CreativeTitle;
+        private string GetUserCreativeLevelTitle(string code) {
+            string levelName = this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, code))?.CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }
         

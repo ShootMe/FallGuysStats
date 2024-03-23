@@ -128,7 +128,6 @@
             this.Name = "WinStatsDisplay";
             this.Padding = new System.Windows.Forms.Padding(20, 60, 20, 0);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Stats Display";
             this.Load += new System.EventHandler(this.WinStatsDisplay_Load);

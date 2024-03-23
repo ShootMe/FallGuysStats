@@ -190,7 +190,6 @@
             this.Name = "LevelDetails";
             this.Padding = new System.Windows.Forms.Padding(23, 60, 23, 18);
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;
-            this.ShowInTaskbar = false;
             this.Style = MetroFramework.MetroColorStyle.Teal;
             this.Text = "Level Stats";
             this.Load += new System.EventHandler(this.LevelDetails_Load);
