@@ -140,10 +140,10 @@ namespace FallGuysStats {
 
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-        public List<LevelStats> StatDetails = new List<LevelStats>();
-        public List<RoundInfo> CurrentRound = new List<RoundInfo>();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
-        public Dictionary<string, LevelStats> StatLookup = new Dictionary<string, LevelStats>();
+        public List<RoundInfo> CurrentRound = new List<RoundInfo>();
+        public Dictionary<string, LevelStats> StatLookup;
+        private List<LevelStats> StatDetails;
         private readonly LogFileWatcher logFile = new LogFileWatcher();
         private int Shows, Rounds, CustomShows, CustomRounds;
         private TimeSpan Duration;
@@ -206,7 +206,7 @@ namespace FallGuysStats {
         public bool isUpdate;
         private bool isAvailableNewVersion;
         private string availableNewVersion;
-        private int profileIdWithLinkedCustomShow = -1;
+        private int profileWithLinkedCustomShow = -1;
         private Toast toast;
         public List<OverallRankInfo> leaderboardOverallRankList;
         public List<WeeklyCrownUser> weeklyCrownList;
@@ -554,12 +554,16 @@ namespace FallGuysStats {
                 }
             }
             
-            this.UpdateDatabaseVersion();
+            this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
             
-            foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
-                this.StatLookup.Add(entry.Key, entry.Value);
-                this.StatDetails.Add(entry.Value);
-            }
+            this.StatDetails = LevelStats.ALL.Select(entry => entry.Value).ToList();
+            
+            // foreach (KeyValuePair<string, LevelStats> entry in LevelStats.ALL) {
+            //     this.StatLookup.Add(entry.Key, entry.Value);
+            //     this.StatDetails.Add(entry.Value);
+            // }
+            
+            this.UpdateDatabaseVersion();
 
             this.BackImage = this.Icon.ToBitmap();
             this.BackMaxSize = 32;
@@ -1220,7 +1224,7 @@ namespace FallGuysStats {
             
             this.AllProfiles.Clear();
             this.AllProfiles = this.Profiles.FindAll().ToList();
-            this.profileIdWithLinkedCustomShow = this.AllProfiles.Find(p => string.Equals(p.LinkedShowId, "private_lobbies"))?.ProfileId ?? -1;
+            this.profileWithLinkedCustomShow = this.AllProfiles.Find(p => string.Equals(p.LinkedShowId, "private_lobbies"))?.ProfileId ?? -1;
             int profileNumber = 0; 
             for (int i = this.AllProfiles.Count - 1; i >= 0; i--) {
                 Profiles profile = this.AllProfiles[i];
@@ -3781,12 +3785,12 @@ namespace FallGuysStats {
                         }
                         
                         if (this.StatLookup.TryGetValue(stat.UseShareCode ? stat.ShowNameId : stat.Name, out LevelStats levelStats)) {
-                            levelStats.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
+                            levelStats.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                             levelStats.Add(stat);
                             
                             if (levelStats.IsCreative && !levelStats.Id.StartsWith("user_creative_")) {
                                 if (this.StatLookup.TryGetValue(this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal), out LevelStats creativeLevel)) {
-                                    creativeLevel.Increase(stat, this.profileIdWithLinkedCustomShow == stat.Profile);
+                                    creativeLevel.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                                     creativeLevel.Add(stat);
                                 }
                             }
@@ -5747,45 +5751,41 @@ namespace FallGuysStats {
         }
         
         private void EnableMainMenu(bool enable) {
-            this.BeginInvoke((MethodInvoker)delegate {
-                this.menuSettings.Enabled = enable;
-                this.menuFilters.Enabled = enable;
-                this.menuProfile.Enabled = enable;
-                this.mlLeaderboard.Enabled = enable;
+            this.menuSettings.Enabled = enable;
+            this.menuFilters.Enabled = enable;
+            this.menuProfile.Enabled = enable;
+            this.mlLeaderboard.Enabled = enable;
+            if (enable) {
+                this.menuSettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                this.menuSettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+            }
+            if (this.trayIcon.Visible) {
+                this.traySettings.Enabled = enable;
+                this.trayFilters.Enabled = enable;
+                this.trayProfile.Enabled = enable;
                 if (enable) {
-                    this.menuSettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                    this.menuSettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                    this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
                 }
-                if (this.trayIcon.Visible) {
-                    this.traySettings.Enabled = enable;
-                    this.trayFilters.Enabled = enable;
-                    this.trayProfile.Enabled = enable;
-                    if (enable) {
-                        this.traySettings.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                        this.traySettings.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
-                    }
-                }
-            });
+            }
         }
         
         private void EnableInfoStrip(bool enable) {
-            this.BeginInvoke((MethodInvoker)delegate {
-                this.infoStrip.Enabled = enable;
-                this.infoStrip2.Enabled = enable;
-                this.lblTotalTime.Enabled = enable;
-                if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                foreach (var tsi in this.infoStrip.Items) {
-                    if (tsi is ToolStripLabel tsl) {
-                        tsl.Enabled = enable;
-                        if (enable) {
-                            this.Cursor = Cursors.Default;
-                            tsl.ForeColor = Equals(tsl, this.lblCurrentProfile)
-                                ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
-                                : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
-                        }
+            this.infoStrip.Enabled = enable;
+            this.infoStrip2.Enabled = enable;
+            this.lblTotalTime.Enabled = enable;
+            // if (enable) this.lblTotalTime.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
+            foreach (var tsi in this.infoStrip.Items) {
+                if (tsi is ToolStripLabel tsl) {
+                    tsl.Enabled = enable;
+                    if (enable) {
+                        this.Cursor = Cursors.Default;
+                        tsl.ForeColor = tsl.Equals(this.lblCurrentProfile)
+                            ? this.Theme == MetroThemeStyle.Light ? Color.Red : Color.FromArgb(0, 192, 192)
+                            : this.Theme == MetroThemeStyle.Light ? Color.Blue : Color.Orange;
                     }
                 }
-            });
+            }
         }
         
         private void Stats_KeyUp(object sender, KeyEventArgs e) {
