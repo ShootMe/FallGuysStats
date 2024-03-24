@@ -83,15 +83,13 @@ namespace FallGuysStats {
         public void VerifyName() {
             if (string.IsNullOrEmpty(this.SceneName)) { return; }
 
-            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string roundName)) {
-                this.Name = roundName;
+            if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string levelId)) {
+                this.Name = levelId;
             }
         }
         
         public string VerifiedName() {
-            return string.IsNullOrEmpty(this.SceneName)
-                ? this.Name
-                : LevelStats.SceneToRound.TryGetValue(this.SceneName, out string roundName) ? roundName : this.Name;
+            return string.IsNullOrEmpty(this.SceneName) ? this.Name : (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string levelId) ? levelId : this.Name);
         }
         
         public override string ToString() {
@@ -1891,9 +1889,9 @@ namespace FallGuysStats {
         public int Kudos { get; set; }
         public TimeSpan Fastest { get; set; }
         public TimeSpan Longest { get; set; }
-        public int AveKudos { get { return this.Kudos / (this.Played == 0 ? 1 : this.Played); } }
-        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / (this.Played == 0 ? 1 : this.Played)); } }
-        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / (this.FinishedCount == 0 ? 1 : this.FinishedCount)); } }
+        public int AveKudos { get { return this.Kudos / Math.Max(1, this.Played); } }
+        public TimeSpan AveDuration { get { return TimeSpan.FromSeconds((int)this.Duration.TotalSeconds / Math.Max(1, this.Played)); } }
+        public TimeSpan AveFinish { get { return TimeSpan.FromSeconds((double)this.FinishTime.TotalSeconds / Math.Max(1, this.FinishedCount)); } }
         public LevelType Type;
         public BestRecordType BestRecordType;
         public bool IsCreative;

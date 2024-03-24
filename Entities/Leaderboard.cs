@@ -7,18 +7,18 @@ namespace FallGuysStats {
     public class OverallRank {
         public bool found { get; set; }
         public int total { get; set; }
-        public List<OverallRankInfo> users { get; set; }
-    }
-    
-    public class OverallRankInfo {
-        public int rank { get; set; }
-        public string onlineServiceType { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-        public string id { get; set; }
-        public double score { get; set; }
-        public double firstPlaces { get; set; }
+        public List<RankInfo> users { get; set; }
+        
+        public class RankInfo {
+            public int rank { get; set; }
+            public string onlineServiceType { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+            public string id { get; set; }
+            public double score { get; set; }
+            public double firstPlaces { get; set; }
+        }
     }
     
     public class OverallSummary {
@@ -34,26 +34,26 @@ namespace FallGuysStats {
     public class LevelRank {
         public bool found { get; set; }
         public int total { get; set; }
-        public List<LevelRankInfo> recordholders { get; set; }
-    }
-    
-    public class LevelRankInfo {
-        public int rank { get; set; }
-        // public string round { get; set; }
-        public double record { get; set; }
-        public string show { get; set; }
-        public bool isAnonymous { get; set; }
-        public DateTime finish { get; set; }
-        public string country { get; set; }
-        public string onlineServiceType { get; set; }
-        public string onlineServiceId { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public string id { get; set; }
+        public List<RankInfo> recordholders { get; set; }
+        
+        public class RankInfo {
+            public int rank { get; set; }
+            // public string round { get; set; }
+            public double record { get; set; }
+            public string show { get; set; }
+            public bool isAnonymous { get; set; }
+            public DateTime finish { get; set; }
+            public string country { get; set; }
+            public string onlineServiceType { get; set; }
+            public string onlineServiceId { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public string id { get; set; }
+        }
     }
 
-    public class LevelRankInfoConverter : JsonConverter<LevelRankInfo> {
-        public override LevelRankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            var recordHolder = new LevelRankInfo();
+    public class LevelRankInfoConverter : JsonConverter<LevelRank.RankInfo> {
+        public override LevelRank.RankInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            var recordHolder = new LevelRank.RankInfo();
             while (reader.Read()) {
                 if (reader.TokenType == JsonTokenType.EndObject) {
                     return recordHolder;
@@ -118,28 +118,28 @@ namespace FallGuysStats {
             throw new JsonException();
         }
 
-        public override void Write(Utf8JsonWriter writer, LevelRankInfo value, JsonSerializerOptions options) {
+        public override void Write(Utf8JsonWriter writer, LevelRank.RankInfo value, JsonSerializerOptions options) {
             throw new NotImplementedException();
         }
     }
     
-    public class AvailableRound {
+    public class AvailableLevel {
         public bool found { get; set; }
-        public List<RankRound> leaderboards { get; set; }
-    }
-
-    public class RankRound {
-        public string queryname { get; set; }
-        public string[] ids { get; set; }
+        public List<LevelInfo> leaderboards { get; set; }
+        
+        public class LevelInfo {
+            public string queryname { get; set; }
+            public string[] ids { get; set; }
+        }
     }
     
-    public class RoundConverter : JsonConverter<RankRound> {
-        public override RankRound Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-            RankRound rankRound = new RankRound();
+    public class RoundConverter : JsonConverter<AvailableLevel.LevelInfo> {
+        public override AvailableLevel.LevelInfo Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+            AvailableLevel.LevelInfo levelInfo = new AvailableLevel.LevelInfo();
 
             while (reader.Read()) {
                 if (reader.TokenType == JsonTokenType.EndObject) {
-                    return rankRound;
+                    return levelInfo;
                 }
 
                 if (reader.TokenType == JsonTokenType.PropertyName) {
@@ -147,7 +147,7 @@ namespace FallGuysStats {
                     reader.Read();
                     switch (propertyName) {
                         case "_name":
-                            rankRound.queryname = reader.GetString();
+                            levelInfo.queryname = reader.GetString();
                             break;
                         case "data":
                             while (reader.Read()) {
@@ -161,10 +161,10 @@ namespace FallGuysStats {
                                     if (dataPropertyName == "dataname") {
                                         switch (reader.TokenType) {
                                             case JsonTokenType.String:
-                                                rankRound.ids = new[] { reader.GetString() };
+                                                levelInfo.ids = new[] { reader.GetString() };
                                                 break;
                                             case JsonTokenType.StartArray:
-                                                rankRound.ids = JsonSerializer.Deserialize<string[]>(ref reader);
+                                                levelInfo.ids = JsonSerializer.Deserialize<string[]>(ref reader);
                                                 break;
                                             default:
                                                 throw new JsonException();
@@ -180,102 +180,102 @@ namespace FallGuysStats {
             throw new JsonException();
         }
 
-        public override void Write(Utf8JsonWriter writer, RankRound value, JsonSerializerOptions options) {
+        public override void Write(Utf8JsonWriter writer, AvailableLevel.LevelInfo value, JsonSerializerOptions options) {
             throw new NotImplementedException();
         }
     }
     
     public class SearchResult {
         public bool found { get; set; }
-        public List<SearchPlayer> users { get; set; }
-    }
-    
-    public class SearchPlayer {
-        public string onlineServiceType { get; set; }
-        public string onlineServiceId { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-        public string id { get; set; }
+        public List<Player> users { get; set; }
+        
+        public class Player {
+            public string onlineServiceType { get; set; }
+            public string onlineServiceId { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+            public string id { get; set; }
+        }
     }
     
     public class PlayerStats {
         public bool found { get; set; }
-        public PbUser user { get; set; }
+        public PlayerInfo user { get; set; }
         public List<PbInfo> pbs { get; set; }
         public SpeedrunRank speedrunrank { get; set; }
         public CrownLeagueRank crownrank { get; set; }
-    }
-
-    public class PbUser {
-        public string onlineServiceType { get; set; }
-        public string onlineServiceId { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-    }
-    
-    public class PbInfo {
-        public string round { get; set; }
-        public double record { get; set; }
-        public string show { get; set; }
-        public string session { get; set; }
-        public bool isAnonymous { get; set; }
-        public string ip { get; set; }
-        public DateTime finish { get; set; }
-        public string country { get; set; }
-        public string user { get; set; }
-        public int index { get; set; }
-        public int roundTotal { get; set; }
-        public string roundDisplayName { get; set; }
-        public string roundName { get; set; }
-    }
-    
-    public class SpeedrunRank {
-        public string onlineServiceType { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-        public string id { get; set; }
-        public double score { get; set; }
-        public int firstPlaces { get; set; }
-        public int index { get; set; }
-        public int total { get; set; }
-    }
-    
-    public class CrownLeagueRank {
-        public string onlineServiceType { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-        public string id { get; set; }
-        public double score { get; set; }
-        public int crowns { get; set; }
-        public int shards { get; set; }
-        public int index { get; set; }
-        public int total { get; set; }
+        
+        public class PlayerInfo {
+            public string onlineServiceType { get; set; }
+            public string onlineServiceId { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+        }
+        
+        public class PbInfo {
+            public string round { get; set; }
+            public double record { get; set; }
+            public string show { get; set; }
+            public string session { get; set; }
+            public bool isAnonymous { get; set; }
+            public string ip { get; set; }
+            public DateTime finish { get; set; }
+            public string country { get; set; }
+            public string user { get; set; }
+            public int index { get; set; }
+            public int roundTotal { get; set; }
+            public string roundDisplayName { get; set; }
+            public string roundName { get; set; }
+        }
+        
+        public class SpeedrunRank {
+            public string onlineServiceType { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+            public string id { get; set; }
+            public double score { get; set; }
+            public int firstPlaces { get; set; }
+            public int index { get; set; }
+            public int total { get; set; }
+        }
+        
+        public class CrownLeagueRank {
+            public string onlineServiceType { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+            public string id { get; set; }
+            public double score { get; set; }
+            public int crowns { get; set; }
+            public int shards { get; set; }
+            public int index { get; set; }
+            public int total { get; set; }
+        }
     }
     
     public class WeeklyCrown {
         public bool found { get; set; }
         public int total { get; set; }
-        public List<WeeklyCrownUser> users { get; set; }
+        public List<Player> users { get; set; }
         public double year { get; set; }
         public double week { get; set; }
         public string previous { get; set; }
         public string next { get; set; }
-    }
-    
-    public class WeeklyCrownUser {
-        public int rank { get; set; }
-        public string onlineServiceType { get; set; }
-        public string onlineServiceNickname { get; set; }
-        public bool isAnonymous { get; set; }
-        public string country { get; set; }
-        public string id { get; set; }
-        public double score { get; set; }
-        public double crowns { get; set; }
-        public double shards { get; set; }
-        public string period { get; set; }
+        
+        public class Player {
+            public int rank { get; set; }
+            public string onlineServiceType { get; set; }
+            public string onlineServiceNickname { get; set; }
+            public bool isAnonymous { get; set; }
+            public string country { get; set; }
+            public string id { get; set; }
+            public double score { get; set; }
+            public double crowns { get; set; }
+            public double shards { get; set; }
+            public string period { get; set; }
+        }
     }
 }

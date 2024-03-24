@@ -146,6 +146,7 @@
     <Compile Include="Entities\ToastBuilder.cs" />
     <Compile Include="Entities\ToastManager.cs" />
     <Compile Include="Entities\ToastThemeBuilder.cs" />
+    <Compile Include="Entities\UpcomingShow.cs" />
     <Compile Include="Entities\UserSettings.cs" />
     <Compile Include="Entities\Utils.cs" />
     <Compile Include="Enums\Enums.cs" />

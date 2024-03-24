@@ -23,21 +23,21 @@ namespace FallGuysStats {
         private int totalPlayers, totalPages; //, currentPage, totalHeight;
         private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
-        private List<RankRound> availableLevelList;
-        private List<LevelRankInfo> levelRankList;
-        private readonly List<LevelRankInfo> levelRankNodata = new List<LevelRankInfo>();
-        private List<OverallRankInfo> overallRankList;
-        private readonly List<OverallRankInfo> overallRankNodata = new List<OverallRankInfo>();
+        private List<AvailableLevel.LevelInfo> availableLevelList;
+        private List<LevelRank.RankInfo> levelRankList;
+        private readonly List<LevelRank.RankInfo> levelRankNodata = new List<LevelRank.RankInfo>();
+        private List<OverallRank.RankInfo> overallRankList;
+        private readonly List<OverallRank.RankInfo> overallRankNodata = new List<OverallRank.RankInfo>();
         private List<OverallSummary> overallSummary;
         private readonly List<OverallSummary> overallSummaryNodata = new List<OverallSummary>();
-        private List<SearchPlayer> searchResult;
-        private readonly List<SearchPlayer> searchResultNodata = new List<SearchPlayer>();
-        private List<PbInfo> playerDetails;
-        private readonly List<PbInfo> playerDetailsNodata = new List<PbInfo>();
-        private SpeedrunRank speedrunRank;
-        private CrownLeagueRank crownLeagueRank;
-        private List<WeeklyCrownUser> weeklyCrownList;
-        private readonly List<WeeklyCrownUser> weeklyCrownNodata = new List<WeeklyCrownUser>();
+        private List<SearchResult.Player> searchResult;
+        private readonly List<SearchResult.Player> searchResultNodata = new List<SearchResult.Player>();
+        private List<PlayerStats.PbInfo> playerDetails;
+        private readonly List<PlayerStats.PbInfo> playerDetailsNodata = new List<PlayerStats.PbInfo>();
+        private PlayerStats.SpeedrunRank speedrunRank;
+        private PlayerStats.CrownLeagueRank crownLeagueRank;
+        private List<WeeklyCrown.Player> weeklyCrownList;
+        private readonly List<WeeklyCrown.Player> weeklyCrownNodata = new List<WeeklyCrown.Player>();
         private bool isSearchCompleted;
         private Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
@@ -82,12 +82,6 @@ namespace FallGuysStats {
             this.mtpWeeklyCrownPage.Text = Multilingual.GetWord("leaderboard_weekly_crown_league");
             this.mtbSearchPlayersText.WaterMark = Multilingual.GetWord("leaderboard_search_players_WaterMark");
             this.lblSearchDescription.Text = Multilingual.GetWord("leaderboard_choose_a_round");
-            // this.lblSearchDescription.Location = new Point((this.gridLevelRank.Width - this.lblSearchDescription.Width) / 2, (this.gridLevelRank.Height - this.lblSearchDescription.Height) / 2);
-            // this.mpsSpinner01.Location = new Point((this.gridOverallRank.Width - this.mpsSpinner01.Width) / 2, (this.gridOverallRank.Height - this.mpsSpinner01.Height) / 2);
-            // this.mpsSpinner02.Location = new Point((this.gridLevelRank.Width - this.mpsSpinner02.Width) / 2, (this.gridLevelRank.Height - this.mpsSpinner02.Height) / 2);
-            // this.mpsSpinner03.Location = new Point((this.gridPlayerList.Width - this.mpsSpinner03.Width) / 2, (this.gridPlayerList.Height - this.mpsSpinner03.Height) / 2);
-            // this.mpsSpinner04.Location = new Point(this.gridPlayerDetails.Left + ((this.gridPlayerDetails.Width - this.mpsSpinner04.Width) / 2), (this.gridPlayerDetails.Height - this.mpsSpinner04.Height) / 2);
-            // this.mpsSpinner05.Location = new Point((this.gridWeeklyCrown.Width - this.mpsSpinner05.Width) / 2, (this.gridWeeklyCrown.Height - this.mpsSpinner05.Height) / 2);
             
             this.gridLevelRank.DataSource = this.levelRankNodata;
             this.gridOverallRank.DataSource = this.overallRankNodata;
@@ -225,10 +219,6 @@ namespace FallGuysStats {
                 }
                 this.gridOverallSummary.DataSource = this.overallSummary;
             }
-
-            // if (this.StatsForm.leaderboardWeeklyCrownList != null) {
-            //     this.mtpWeeklyCrownPage.Text = $@"👑 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
-            // }
         }
 
         private void LeaderboardDisplay_Shown(object sender, EventArgs e) {
@@ -369,7 +359,7 @@ namespace FallGuysStats {
             this.mpsSpinner02.Visible = true;
             Task.Run(this.GetAvailableLevel).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
-                foreach (RankRound level in this.availableLevelList) {
+                foreach (AvailableLevel.LevelInfo level in this.availableLevelList) {
                     foreach (string id in level.ids) {
                         if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
                             roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), Multilingual.GetLevelName(levelStats.Id), Overlay.GetMainFont(15f), new[] { level.queryname, levelStats.Id, levelStats.IsCreative.ToString() }));
@@ -504,17 +494,14 @@ namespace FallGuysStats {
 
         private bool DataLoadBulk(string queryKey) {
             bool isFound;
-            string json;
-            JsonSerializerOptions options;
-            LevelRank levelRank;
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
                     this.levelRankList = null;
                     web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
-                    json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p=1");
-                    options = new JsonSerializerOptions();
+                    string json = web.DownloadString($"{this.LEADERBOARD_API_URL}?round={queryKey}&p=1");
+                    var options = new JsonSerializerOptions();
                     options.Converters.Add(new LevelRankInfoConverter());
-                    levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
+                    LevelRank levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
                     isFound = levelRank.found;
                     if (isFound) {
                         this.totalPlayers = levelRank.total;
@@ -533,8 +520,6 @@ namespace FallGuysStats {
                                     HttpResponseMessage response = await client.GetAsync($"{this.LEADERBOARD_API_URL}?round={queryKey}&p={page}");
                                     if (response.IsSuccessStatusCode) {
                                         json = await response.Content.ReadAsStringAsync();
-                                        options = new JsonSerializerOptions();
-                                        options.Converters.Add(new LevelRankInfoConverter());
                                         levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
                                         for (int j = 0; j < levelRank.recordholders.Count; j++) {
                                             levelRank.recordholders[j].rank = j + 1 + ((page - 1) * 100);
@@ -567,7 +552,7 @@ namespace FallGuysStats {
                     string json = web.DownloadString($"{this.AVAILABLE_LEVEL_API_URL}");
                     var options = new JsonSerializerOptions();
                     options.Converters.Add(new RoundConverter());
-                    var availableLevel = JsonSerializer.Deserialize<AvailableRound>(json, options);
+                    var availableLevel = JsonSerializer.Deserialize<AvailableLevel>(json, options);
                     result = availableLevel.found;
                     this.availableLevelList = availableLevel.leaderboards;
                 } catch {
@@ -648,7 +633,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            OverallRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallRankInfo;
+            OverallRank.RankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallRank.RankInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -736,7 +721,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
-            this.overallRankList.Sort(delegate (OverallRankInfo one, OverallRankInfo two) {
+            this.overallRankList.Sort(delegate (OverallRank.RankInfo one, OverallRank.RankInfo two) {
                 int rankCompare = one.rank.CompareTo(two.rank);
                 int scoreCompare = one.score.CompareTo(two.score);
                 if (sortOrder == SortOrder.Descending) {
@@ -865,7 +850,7 @@ namespace FallGuysStats {
         
         private void gridOverallRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                OverallRankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as OverallRankInfo;
+                OverallRank.RankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as OverallRank.RankInfo;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
@@ -919,7 +904,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            LevelRankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelRankInfo;
+            LevelRank.RankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelRank.RankInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1009,7 +994,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
-            this.levelRankList.Sort(delegate (LevelRankInfo one, LevelRankInfo two) {
+            this.levelRankList.Sort(delegate (LevelRank.RankInfo one, LevelRank.RankInfo two) {
                 int rankCompare = one.rank.CompareTo(two.rank);
                 int recordCompare = one.record.CompareTo(two.record);
                 if (sortOrder == SortOrder.Descending) {
@@ -1053,7 +1038,7 @@ namespace FallGuysStats {
         
         private void gridLevelRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                LevelRankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as LevelRankInfo;
+                LevelRank.RankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as LevelRank.RankInfo;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
@@ -1096,7 +1081,7 @@ namespace FallGuysStats {
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
-            SearchPlayer info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as SearchPlayer;
+            SearchResult.Player info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as SearchResult.Player;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1127,7 +1112,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "onlineServiceNickname"; }
             
-            this.searchResult.Sort(delegate (SearchPlayer one, SearchPlayer two) {
+            this.searchResult.Sort(delegate (SearchResult.Player one, SearchResult.Player two) {
                 int nicknameCompare = String.Compare(one.onlineServiceNickname, two.onlineServiceNickname, StringComparison.OrdinalIgnoreCase);
                 int countryCompare = String.Compare(one.country, two.country, StringComparison.OrdinalIgnoreCase);
                 if (sortOrder == SortOrder.Descending) {
@@ -1163,7 +1148,7 @@ namespace FallGuysStats {
                     this.targetSpinner = this.mpsSpinner04;
                     this.mpsSpinner04.BringToFront();
                     this.mpsSpinner04.Visible = true;
-                    SearchPlayer data = ((Grid)sender).SelectedRows[0].DataBoundItem as SearchPlayer;
+                    SearchResult.Player data = ((Grid)sender).SelectedRows[0].DataBoundItem as SearchResult.Player;
                     this.currentUserId = data.id;
                     this.SetPlayerInfo(data.id);
                 }
@@ -1299,7 +1284,7 @@ namespace FallGuysStats {
         
         private void gridPlayerDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                PbInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as PbInfo;
+                PlayerStats.PbInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as PlayerStats.PbInfo;
                 if (string.IsNullOrEmpty(data.round)) return;
                 string roundId = string.Equals(Multilingual.GetLevelName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
                 this.cboRoundList.SelectedImageItem(roundId, 1);
@@ -1340,7 +1325,7 @@ namespace FallGuysStats {
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
-            PbInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as PbInfo;
+            PlayerStats.PbInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as PlayerStats.PbInfo;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1415,7 +1400,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "round"; }
             
-            this.playerDetails.Sort(delegate (PbInfo one, PbInfo two) {
+            this.playerDetails.Sort(delegate (PlayerStats.PbInfo one, PlayerStats.PbInfo two) {
                 int showCompare = String.Compare(Multilingual.GetShowName(one.show), Multilingual.GetShowName(two.show), StringComparison.Ordinal);
                 int roundCompare = String.Compare(Multilingual.GetLevelName(one.round), Multilingual.GetLevelName(two.round), StringComparison.Ordinal);
                 int rankCompare = one.index.CompareTo(two.index);
@@ -1574,7 +1559,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            WeeklyCrownUser info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as WeeklyCrownUser;
+            WeeklyCrown.Player info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as WeeklyCrown.Player;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1675,7 +1660,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
-            this.weeklyCrownList.Sort(delegate (WeeklyCrownUser one, WeeklyCrownUser two) {
+            this.weeklyCrownList.Sort(delegate (WeeklyCrown.Player one, WeeklyCrown.Player two) {
                 int rankCompare = one.rank.CompareTo(two.rank);
                 int scoreCompare = one.score.CompareTo(two.score);
                 if (sortOrder == SortOrder.Descending) {
@@ -1721,7 +1706,7 @@ namespace FallGuysStats {
         
         private void gridWeeklyCrown_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                WeeklyCrownUser data = ((Grid)sender).SelectedRows[0].DataBoundItem as WeeklyCrownUser;
+                WeeklyCrown.Player data = ((Grid)sender).SelectedRows[0].DataBoundItem as WeeklyCrown.Player;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;

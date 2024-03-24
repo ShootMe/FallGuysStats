@@ -208,8 +208,8 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileWithLinkedCustomShow = -1;
         private Toast toast;
-        public List<OverallRankInfo> leaderboardOverallRankList;
-        public List<WeeklyCrownUser> weeklyCrownList;
+        public List<OverallRank.RankInfo> leaderboardOverallRankList;
+        public List<WeeklyCrown.Player> weeklyCrownList;
         public string weeklyCrownNext;
         public string weeklyCrownPrevious;
         public int weeklyCrownCurrentYear;
@@ -254,7 +254,7 @@ namespace FallGuysStats {
             "private_lobbies"
         };
         
-        public readonly Dictionary<string, string> LevelIdReplacerInDigisShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        private readonly Dictionary<string, string> LevelIdReplacerInDigisShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "wle_shuffle_halloween_1", "current_wle_fp5_falloween_7_01_01" },
             { "wle_shuffle_halloween_2", "current_wle_fp5_falloween_7_01_02" },
             { "wle_shuffle_halloween_3", "current_wle_fp5_falloween_7_02_01" },
@@ -338,7 +338,7 @@ namespace FallGuysStats {
             { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
         };
         
-        public readonly Dictionary<string, string> LevelIdReplacerInShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        private readonly Dictionary<string, string> LevelIdReplacerInShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             { "wle_round_mrs_shuffle_discover_001", "wle_discover_level_wk2_027" },
             { "wle_round_mrs_shuffle_discover_002", "wle_discover_level_wk2_015" },
             { "wle_round_mrs_shuffle_discover_003", "wle_discover_level_wk2_007" },
@@ -447,7 +447,88 @@ namespace FallGuysStats {
             Utils.DwmSetWindowAttribute(this.trayUsefulThings.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
-            this.Invalidate();
+        }
+        
+        public class UpcomingShowInfo {
+            public bool ok { get; set; }
+            public ShowData data { get; set; }
+
+            public class ShowData {
+                public bool has_more { get; set; }
+                public int total_shows { get; set; }
+                public List<Show> shows { get; set; }
+
+                public class Show {
+                    public string id { get; set; }
+                    public string name { get; set; }
+                    public string display_name { get; set; }
+                    public string show_image { get; set; }
+                    public string show_section_id { get; set; }
+                    public string tile_colour { get; set; }
+                    public DateTime? starts { get; set; }
+                    public DateTime? ends { get; set; }
+                    public string description { get; set; }
+                    public int min_party_size { get; set; }
+                    public int max_party_size { get; set; }
+                    public ShowTag show_tag { get; set; }
+                    public ShowType show_type { get; set; }
+                    public Size size { get; set; }
+                    public List<Rewards> rewards { get; set; }
+                    public List<Level> rounds { get; set; }
+
+                    public class ShowTag {
+                        public string name { get; set; }
+                        public string icon { get; set; }
+                    }
+                    public class ShowType {
+                        public string type { get; set; }
+                        public int squad_size { get; set; }
+                    }
+                    public class Size {
+                        public string type { get; set; }
+                        public int min { get; set; }
+                        public int max { get; set; }
+                    }
+                    public class Rewards {
+                        public string type { get; set; }
+                        public int value { get; set; }
+                    }
+
+                    public class Level {
+                        public string id { get; set; }
+                        public string display_name { get; set; }
+                        public string share_code { get; set; }
+                        public bool is_creative_level { get; set; }
+                        public string creative_game_mode_id { get; set; }
+                        public string level_archetype { get; set; }
+                        public bool is_final { get; set; }
+                        public int max_players { get; set; }
+                        public int min_players { get; set; }
+                        public int[] can_only_be_on_these_stages { get; set; }
+                        public int[] cannot_be_on_these_stages { get; set; }
+                    }
+                }
+            }
+        }
+
+        private void UpdateUpcomingShow() {
+            using (ApiWebClient web = new ApiWebClient()) {
+                try {
+                    string json = web.DownloadString("https://api2.fallguysdb.info/api/upcoming-shows");
+                    UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<UpcomingShowInfo>(json);
+                    if (upcomingShow.ok) {
+                        foreach (var show in upcomingShow.data.shows) {
+                            foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
+                                if (!LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
+                                    // 1. Check if it exists in the DB and if not, insert it.
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    Console.WriteLine(e);
+                }
+            }
         }
 
         private Stats() {
@@ -476,12 +557,14 @@ namespace FallGuysStats {
                     this.StatsDB.Commit();
                 }
             }
+
+            // this.UpdateUpcomingShow();
+            // 2. Generate LevelStats by reading DB
             
             this.RemoveUpdateFiles();
             
             this.InitializeComponent();
             
-            this.SetWindowCorner();
             this.SetEventWaitHandle();
             
 #if !AllowUpdate
@@ -604,6 +687,7 @@ namespace FallGuysStats {
             
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
+            this.SetWindowCorner();
         }
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
@@ -4365,11 +4449,23 @@ namespace FallGuysStats {
         
         public StatSummary GetLevelInfo(string levelId, LevelType type, BestRecordType record, bool useShareCode) {
             StatSummary summary = new StatSummary {
+                CurrentStreak = 0,
+                CurrentFinalStreak = 0,
+                BestStreak = 0,
+                BestFinalStreak = 0,
                 AllWins = 0,
-                TotalShows = 0,
-                TotalPlays = 0,
                 TotalWins = 0,
-                TotalFinals = 0
+                TotalShows = 0,
+                TotalFinals = 0,
+                TotalPlays = 0,
+                TotalQualify = 0,
+                TotalGolds = 0,
+                FastestFinish = null,
+                FastestFinishOverall = null,
+                LongestFinish = null,
+                LongestFinishOverall = null,
+                HighScore = null,
+                LowScore = null
             };
 
             int lastShow = -1;
@@ -4377,46 +4473,36 @@ namespace FallGuysStats {
                 currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
-            List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.currentProfile && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
-                                                     : this.AllStats.FindAll(r => r.Profile == this.currentProfile);
+            List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId() && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
+                                                     : this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId());
 
-            for (int i = 0; i < roundInfo.Count; i++) {
-                RoundInfo info = roundInfo[i];
+            foreach (RoundInfo info in roundInfo) {
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
                 bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
-                bool isCurrentLevel = useShareCode ? string.Equals(info.Name, levelId, StringComparison.OrdinalIgnoreCase)
-                                                   : string.Equals(currentLevel.Name, hasLevelDetails ? levelDetails.Name : info.Name, StringComparison.OrdinalIgnoreCase);
+                bool isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
+                RoundInfo endRound = roundInfo.Where(r => r.ShowID == info.ShowID).OrderByDescending(r => r.Round).FirstOrDefault();
 
-                int startRoundShowId = info.ShowID;
-                RoundInfo endRound = info;
-                for (int j = i + 1; j < roundInfo.Count; j++) {
-                    if (roundInfo[j].ShowID != startRoundShowId) {
-                        break;
-                    }
-                    endRound = roundInfo[j];
-                }
-
-                bool isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !endRound.PrivateLobby;
-
-                bool isInWinsFilter = isShareCodeUsedOrIsNotPrivateLobby && (this.CurrentSettings.WinsFilter == 0 ||
-                                      (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                      (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart) ||
-                                      (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart) ||
-                                      (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart) ||
-                                      (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
-                bool isInQualifyFilter = isShareCodeUsedOrIsNotPrivateLobby && (this.CurrentSettings.QualifyFilter == 0 ||
-                                         (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                         (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart) ||
-                                         (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart) ||
-                                         (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart) ||
-                                         (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
-                bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0 ||
-                                         (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info)) ||
-                                         (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart) ||
-                                         (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart) ||
-                                         (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart) ||
-                                         (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
+                bool isInWinsFilter = (useShareCode || !endRound.PrivateLobby)
+                                      && (this.CurrentSettings.WinsFilter == 0
+                                          || (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
+                                          || (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart)
+                                          || (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart)
+                                          || (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart)
+                                          || (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
+                bool isInQualifyFilter = (useShareCode || !endRound.PrivateLobby)
+                                         && (this.CurrentSettings.QualifyFilter == 0
+                                             || (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
+                                             || (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart)
+                                             || (this.CurrentSettings.QualifyFilter == 3 && endRound.Start > WeekStart)
+                                             || (this.CurrentSettings.QualifyFilter == 4 && endRound.Start > DayStart)
+                                             || (this.CurrentSettings.QualifyFilter == 5 && endRound.Start > SessionStart));
+                bool isInFastestFilter = this.CurrentSettings.FastestFilter == 0
+                                         || (this.CurrentSettings.FastestFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
+                                         || (this.CurrentSettings.FastestFilter == 2 && endRound.Start > SeasonStart)
+                                         || (this.CurrentSettings.FastestFilter == 3 && endRound.Start > WeekStart)
+                                         || (this.CurrentSettings.FastestFilter == 4 && endRound.Start > DayStart)
+                                         || (this.CurrentSettings.FastestFilter == 5 && endRound.Start > SessionStart);
 
                 if (info.ShowID != lastShow) {
                     lastShow = info.ShowID;
@@ -4466,11 +4552,9 @@ namespace FallGuysStats {
                     }
                 }
 
-                isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !info.PrivateLobby;
-
                 if (info.Qualified) {
                     if (hasLevelDetails && (info.IsFinal || info.Crown)) {
-                        if (isShareCodeUsedOrIsNotPrivateLobby) {
+                        if (useShareCode || !info.PrivateLobby) {
                             summary.AllWins++;
                         }
 
@@ -4479,7 +4563,7 @@ namespace FallGuysStats {
                             summary.TotalFinals++;
                         }
 
-                        if (isShareCodeUsedOrIsNotPrivateLobby) {
+                        if (useShareCode || !info.PrivateLobby) {
                             summary.CurrentStreak++;
                             if (summary.CurrentStreak > summary.BestStreak) {
                                 summary.BestStreak = summary.CurrentStreak;
@@ -4495,7 +4579,7 @@ namespace FallGuysStats {
                             summary.TotalQualify++;
                         }
                     }
-                } else if (isShareCodeUsedOrIsNotPrivateLobby) {
+                } else if (useShareCode || !info.PrivateLobby) {
                     if (!info.IsFinal && !info.Crown) {
                         summary.CurrentFinalStreak = 0;
                     }
@@ -4542,10 +4626,10 @@ namespace FallGuysStats {
                 //this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
                 //this.lblTotalTime.ToolTipText = $"{Multilingual.GetWord("stats_detail_tooltiptext")}";
-                float winChance = (float)this.Wins * 100 / (this.Shows == 0 ? 1 : this.Shows);
+                float winChance = (float)this.Wins * 100 / Math.Max(1, this.Shows);
                 this.lblTotalWins.Text = $"{this.Wins:N0}{Multilingual.GetWord("main_win")} ({Math.Truncate(winChance * 10) / 10} %)";
                 //this.lblTotalWins.ToolTipText = $"{Multilingual.GetWord("wins_detail_tooltiptext")}";
-                float finalChance = (float)this.Finals * 100 / (this.Shows == 0 ? 1 : this.Shows);
+                float finalChance = (float)this.Finals * 100 / Math.Max(1, this.Shows);
                 this.lblTotalFinals.Text = $"{this.Finals:N0}{Multilingual.GetWord("main_inning")} ({Math.Truncate(finalChance * 10) / 10} %)";
                 //this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
                 this.lblGoldMedal.Text = $"{this.GoldMedals:N0}";
@@ -4939,7 +5023,7 @@ namespace FallGuysStats {
                             e.Value = "-";
                             ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
-                            float qualifyChance = levelStats.Qualified * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            float qualifyChance = levelStats.Qualified * 100f / Math.Max(1, levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(qualifyChance * 10) / 10}%";
                                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Qualified:N0}";
@@ -4957,7 +5041,7 @@ namespace FallGuysStats {
                             e.Value = "-";
                             ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
-                            float goldChance = levelStats.Gold * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            float goldChance = levelStats.Gold * 100f / Math.Max(1, levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(goldChance * 10) / 10}%";
                                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Gold:N0}";
@@ -4975,7 +5059,7 @@ namespace FallGuysStats {
                             e.Value = "-";
                             ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
-                            float silverChance = levelStats.Silver * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            float silverChance = levelStats.Silver * 100f / Math.Max(1, levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(silverChance * 10) / 10}%";
                                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Silver:N0}";
@@ -4993,7 +5077,7 @@ namespace FallGuysStats {
                             e.Value = "-";
                             ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "";
                         } else {
-                            float bronzeChance = levelStats.Bronze * 100f / (levelStats.Played == 0 ? 1 : levelStats.Played);
+                            float bronzeChance = levelStats.Bronze * 100f / Math.Max(1, levelStats.Played);
                             if (this.CurrentSettings.ShowPercentages) {
                                 e.Value = $"{Math.Truncate(bronzeChance * 10) / 10}%";
                                 ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = $"{levelStats.Bronze:N0}";
@@ -6051,7 +6135,8 @@ namespace FallGuysStats {
                     string overallRankApiUrl = "https://data.fallalytics.com/api/speedrun-total";
                     web.Headers.Add("X-Authorization-Key", Environment.GetEnvironmentVariable("FALLALYTICS_KEY"));
                     string json = web.DownloadString($"{overallRankApiUrl}?page=1");
-                    JsonSerializerOptions options = new JsonSerializerOptions();
+                    var options = new JsonSerializerOptions();
+                    options.Converters.Add(new LevelRankInfoConverter());
                     OverallRank overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json);
                     if (overallRank.found) {
                         int totalPlayers = overallRank.total;
@@ -6071,8 +6156,6 @@ namespace FallGuysStats {
                                     HttpResponseMessage response = await client.GetAsync($"{overallRankApiUrl}?page={page}");
                                     if (response.IsSuccessStatusCode) {
                                         json = await response.Content.ReadAsStringAsync();
-                                        options = new JsonSerializerOptions();
-                                        options.Converters.Add(new LevelRankInfoConverter());
                                         overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json, options);
                                         for (int j = 0; j < overallRank.users.Count; j++) {
                                             overallRank.users[j].rank = j + 1 + ((page - 1) * 100);
