@@ -95,7 +95,7 @@ namespace FallGuysStats {
         }
         
         public static Color GetColorBrightnessAdjustment(Color sourceColor, float fBrightness) {
-            return Color.FromArgb(Math.Min(255, Math.Max(0, (int)(sourceColor.R * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.G * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.B * fBrightness))));
+            return Color.FromArgb(sourceColor.A, Math.Min(255, Math.Max(0, (int)(sourceColor.R * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.G * fBrightness))), Math.Min(255, Math.Max(0, (int)(sourceColor.B * fBrightness))));
         }
         
         public static string ComputeHash(byte[] input, HashTypes hashType) {

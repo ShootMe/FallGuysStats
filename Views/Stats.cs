@@ -4430,8 +4430,8 @@ namespace FallGuysStats {
                         summary.TotalPlays++;
                     }
 
-                    if (hasFinishTime && (!summary.BestFinishOverall.HasValue || summary.BestFinishOverall.Value > finishTime)) {
-                        summary.BestFinishOverall = finishTime;
+                    if (hasFinishTime && (!summary.FastestFinishOverall.HasValue || summary.FastestFinishOverall.Value > finishTime)) {
+                        summary.FastestFinishOverall = finishTime;
                     }
 
                     if (hasFinishTime && (!summary.LongestFinishOverall.HasValue || summary.LongestFinishOverall.Value < finishTime)) {
@@ -4439,20 +4439,20 @@ namespace FallGuysStats {
                     }
 
                     if (isInFastestFilter) {
-                        if (hasFinishTime && (!summary.BestFinish.HasValue || summary.BestFinish.Value > finishTime)) {
-                            summary.BestFinish = finishTime;
+                        if (hasFinishTime && (!summary.FastestFinish.HasValue || summary.FastestFinish.Value > finishTime)) {
+                            summary.FastestFinish = finishTime;
                         }
 
                         if (hasFinishTime && (!summary.LongestFinish.HasValue || summary.LongestFinish.Value < finishTime)) {
                             summary.LongestFinish = finishTime;
                         }
 
-                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.BestScore.HasValue || info.Score.Value > summary.BestScore.Value)) {
-                            summary.BestScore = info.Score;
+                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.HighScore.HasValue || info.Score.Value > summary.HighScore.Value)) {
+                            summary.HighScore = info.Score;
                         }
                         
-                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.WorstScore.HasValue || info.Score.Value < summary.WorstScore.Value)) {
-                            summary.WorstScore = info.Score;
+                        if ((!hasLevelDetails || record == BestRecordType.HighScore) && info.Score.HasValue && (!summary.LowScore.HasValue || info.Score.Value < summary.LowScore.Value)) {
+                            summary.LowScore = info.Score;
                         }
                     }
                 }

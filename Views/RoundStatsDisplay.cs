@@ -126,8 +126,8 @@ namespace FallGuysStats {
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_team");
                         this.lblRoundType.borderColor = Color.FromArgb(248, 82, 0);
                         this.lblRoundType.backColor = Color.FromArgb(248, 82, 0);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_best_score")} : {this.levelScoreInfo[roundId][0]}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_worst_score")} : {this.levelScoreInfo[roundId][1]}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[roundId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[roundId][1]}";
                         break;
                     default:
                         this.lblRoundType.Text = "UNKNOWN";
@@ -164,8 +164,8 @@ namespace FallGuysStats {
                             this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.fff}";
                             break;
                         case BestRecordType.HighScore:
-                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_best_score")} : {this.levelScoreInfo[roundId][0]}";
-                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_worst_score")} : {this.levelScoreInfo[roundId][1]}";
+                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[roundId][0]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[roundId][1]}";
                             break;
                         default:
                             this.lblBestRecord.Text = @"-";

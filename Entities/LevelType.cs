@@ -3,25 +3,25 @@ using MetroFramework;
 
 namespace FallGuysStats {
     internal static class LevelTypeBehavior {
-        public static int FastestLabel(this LevelType type) {
-            switch (type) {
-                case LevelType.CreativeRace:
-                case LevelType.Race:
-                case LevelType.CreativeHunt:
-                case LevelType.Hunt:
-                case LevelType.Invisibeans:
-                    return 1; // FASTEST
-                case LevelType.CreativeSurvival:
-                case LevelType.Survival:
-                case LevelType.CreativeLogic:
-                case LevelType.Logic:
-                    return 0; // LONGEST
-                case LevelType.CreativeTeam:
-                case LevelType.Team:
-                    return 2; // HIGH_SCORE
-            }
-            return 1;
-        }
+        // public static int FastestLabel(this LevelType type) {
+        //     switch (type) {
+        //         case LevelType.CreativeRace:
+        //         case LevelType.Race:
+        //         case LevelType.CreativeHunt:
+        //         case LevelType.Hunt:
+        //         case LevelType.Invisibeans:
+        //             return 1; // FASTEST
+        //         case LevelType.CreativeSurvival:
+        //         case LevelType.Survival:
+        //         case LevelType.CreativeLogic:
+        //         case LevelType.Logic:
+        //             return 0; // LONGEST
+        //         case LevelType.CreativeTeam:
+        //         case LevelType.Team:
+        //             return 2; // HIGH_SCORE
+        //     }
+        //     return 1;
+        // }
         
         public static string UserCreativeLevelTypeId(this LevelType type) {
             switch (type) {

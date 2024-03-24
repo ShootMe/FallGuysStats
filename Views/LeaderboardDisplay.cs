@@ -826,7 +826,8 @@ namespace FallGuysStats {
                     e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
                 }
                 if (summary.rank == 0) {
-                    e.Value = "";
+                    e.Value = "-";
+                    e.CellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
             } else if (columnName == "flag") {
                 e.Value = (Image)Properties.Resources.ResourceManager.GetObject($"country_{summary.country.ToLower()}_icon");

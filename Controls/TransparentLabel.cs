@@ -88,13 +88,15 @@ namespace FallGuysStats {
                         }
 
                         if (!string.IsNullOrEmpty(this.Text)) {
+                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                             if ((string.Equals(this.Name, "lblPlayers") && (this.OverlaySetting == 0 || this.OverlaySetting == 1 || this.OverlaySetting == 4 || this.OverlaySetting == 5)) ||
                                 (string.Equals(this.Name, "lblFastest") && this.OverlaySetting == 2) ||
                                 (string.Equals(this.Name, "lblFinals") && this.OverlaySetting == 3) ||
                                 (string.Equals(this.Name, "lblDuration") && this.OverlaySetting == 6)) {
-                                if (this.TickProgress > 0) this.FillRoundedRectangleF(g, new Pen(this.GetComplementaryColor(brFore.Color, 95)), new SolidBrush(this.GetComplementaryColor(brFore.Color, 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.TickProgress / 60f, this.ClientRectangle.Height * 2, 4f);
+                                if (this.TickProgress > 0) {
+                                    this.FillRoundedRectangleF(g, new Pen(Utils.GetComplementaryColor(Utils.GetColorBrightnessAdjustment(brFore.Color, this.TickProgress % 2 == 0 ? 1 : 0.95f), 95)), new SolidBrush(Utils.GetComplementaryColor(Utils.GetColorBrightnessAdjustment(brFore.Color, this.TickProgress % 2 == 0 ? 1 : 0.95f), 95)), this.ClientRectangle.X, this.ClientRectangle.Y, this.ClientRectangle.Width * this.TickProgress / 60f, this.ClientRectangle.Height * 2, 4f);
+                                }
                             }
-                            this.DrawOutlineText(g, this.ClientRectangle, null, brFore, this.Font.FontFamily, this.Font.Style, this.Font.Size * this.GetFontSizeFactor(), this.Text, stringFormat);
                         }
 
                         if (this.Image != null) {
@@ -139,10 +141,6 @@ namespace FallGuysStats {
                     }
                 }
             }
-        }
-        
-        private Color GetComplementaryColor(Color source, int alpha = 255) {
-            return Color.FromArgb(Math.Min(255, Math.Max(0, alpha)), Math.Min(255, Math.Max(0, 255 - source.R)), Math.Min(255, Math.Max(0, 255 - source.G)), Math.Min(255, Math.Max(0, 255 - source.B)));
         }
         
         private float GetFontSizeFactor() {
