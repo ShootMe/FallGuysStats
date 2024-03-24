@@ -26,16 +26,16 @@ namespace FallGuysStats {
         private List<AvailableLevel.LevelInfo> availableLevelList;
         private List<LevelRank.RankInfo> levelRankList;
         private readonly List<LevelRank.RankInfo> levelRankNodata = new List<LevelRank.RankInfo>();
-        private List<OverallRank.RankInfo> overallRankList;
-        private readonly List<OverallRank.RankInfo> overallRankNodata = new List<OverallRank.RankInfo>();
+        private List<OverallRank.Player> overallRankList;
+        private readonly List<OverallRank.Player> overallRankNodata = new List<OverallRank.Player>();
         private List<OverallSummary> overallSummary;
         private readonly List<OverallSummary> overallSummaryNodata = new List<OverallSummary>();
         private List<SearchResult.Player> searchResult;
         private readonly List<SearchResult.Player> searchResultNodata = new List<SearchResult.Player>();
         private List<PlayerStats.PbInfo> playerDetails;
         private readonly List<PlayerStats.PbInfo> playerDetailsNodata = new List<PlayerStats.PbInfo>();
-        private PlayerStats.SpeedrunRank speedrunRank;
-        private PlayerStats.CrownLeagueRank crownLeagueRank;
+        private PlayerStats.SpeedrunRank? speedrunRank;
+        private PlayerStats.CrownLeagueRank? crownLeagueRank;
         private List<WeeklyCrown.Player> weeklyCrownList;
         private readonly List<WeeklyCrown.Player> weeklyCrownNodata = new List<WeeklyCrown.Player>();
         private bool isSearchCompleted;
@@ -297,7 +297,7 @@ namespace FallGuysStats {
                                     mtb3.Theme = theme;
                                 } else if (c3 is MetroLabel mlb3) {
                                     mlb3.Theme = theme;
-                                    mlb3.ForeColor = theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
+                                    mlb3.ForeColor = theme == MetroThemeStyle.Light ? Utils.GetColorBrightnessAdjustment(Color.Fuchsia, 0.8f) : Color.GreenYellow;
                                 } else if (c3 is MetroProgressSpinner mps3) {
                                     mps3.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                 }
@@ -507,7 +507,9 @@ namespace FallGuysStats {
                         this.totalPlayers = levelRank.total;
                         this.totalPages = (int)Math.Ceiling((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) / 100f);
                         for (int i = 0; i < levelRank.recordholders.Count; i++) {
-                            levelRank.recordholders[i].rank = i + 1;
+                            LevelRank.RankInfo temp = levelRank.recordholders[i];
+                            temp.rank = i + 1;
+                            levelRank.recordholders[i] = temp;
                         }
                         this.levelRankList = levelRank.recordholders;
                         if (this.totalPages > 1) {
@@ -522,7 +524,9 @@ namespace FallGuysStats {
                                         json = await response.Content.ReadAsStringAsync();
                                         levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
                                         for (int j = 0; j < levelRank.recordholders.Count; j++) {
-                                            levelRank.recordholders[j].rank = j + 1 + ((page - 1) * 100);
+                                            LevelRank.RankInfo temp = levelRank.recordholders[j];
+                                            temp.rank = j + 1 + ((page - 1) * 100);
+                                            levelRank.recordholders[j] = temp;
                                         }
                                         this.levelRankList.AddRange(levelRank.recordholders);
                                     }
@@ -633,7 +637,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            OverallRank.RankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallRank.RankInfo;
+            OverallRank.Player info = (OverallRank.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -721,7 +725,7 @@ namespace FallGuysStats {
             SortOrder sortOrder = ((Grid)sender).GetSortOrder(columnName);
             if (sortOrder == SortOrder.None) { columnName = "rank"; }
             
-            this.overallRankList.Sort(delegate (OverallRank.RankInfo one, OverallRank.RankInfo two) {
+            this.overallRankList.Sort(delegate (OverallRank.Player one, OverallRank.Player two) {
                 int rankCompare = one.rank.CompareTo(two.rank);
                 int scoreCompare = one.score.CompareTo(two.score);
                 if (sortOrder == SortOrder.Descending) {
@@ -798,7 +802,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            OverallSummary summary = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as OverallSummary;
+            OverallSummary summary = (OverallSummary)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -850,7 +854,7 @@ namespace FallGuysStats {
         
         private void gridOverallRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                OverallRank.RankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as OverallRank.RankInfo;
+                OverallRank.Player data = (OverallRank.Player)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
@@ -904,7 +908,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            LevelRank.RankInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelRank.RankInfo;
+            LevelRank.RankInfo info = (LevelRank.RankInfo)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1038,7 +1042,7 @@ namespace FallGuysStats {
         
         private void gridLevelRank_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                LevelRank.RankInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as LevelRank.RankInfo;
+                LevelRank.RankInfo data = (LevelRank.RankInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;
@@ -1081,7 +1085,7 @@ namespace FallGuysStats {
         private void gridPlayerList_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
-            SearchResult.Player info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as SearchResult.Player;
+            SearchResult.Player info = (SearchResult.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1148,7 +1152,7 @@ namespace FallGuysStats {
                     this.targetSpinner = this.mpsSpinner04;
                     this.mpsSpinner04.BringToFront();
                     this.mpsSpinner04.Visible = true;
-                    SearchResult.Player data = ((Grid)sender).SelectedRows[0].DataBoundItem as SearchResult.Player;
+                    SearchResult.Player data = (SearchResult.Player)((Grid)sender).SelectedRows[0].DataBoundItem;
                     this.currentUserId = data.id;
                     this.SetPlayerInfo(data.id);
                 }
@@ -1195,16 +1199,16 @@ namespace FallGuysStats {
                     this.gridLevelRank.Enabled = true;
                     this.gridWeeklyCrown.Enabled = true;
                     if (this.speedrunRank != null) {
-                        this.picPlayerInfo01.Image = (string.Equals(this.speedrunRank.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
-                        this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.speedrunRank.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.speedrunRank.country.ToLower()}_icon");
-                        this.lblPlayerInfo01.Text = this.speedrunRank.onlineServiceNickname;
+                        this.picPlayerInfo01.Image = (string.Equals(this.speedrunRank.Value.onlineServiceType, "0") ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon);
+                        this.picPlayerInfo02.Image = string.IsNullOrEmpty(this.speedrunRank.Value.country) ? Properties.Resources.country_unknown_icon : (Image)Properties.Resources.ResourceManager.GetObject($"country_{this.speedrunRank.Value.country.ToLower()}_icon");
+                        this.lblPlayerInfo01.Text = this.speedrunRank.Value.onlineServiceNickname;
                         this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 15;
                         this.lblPlayerInfo02.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} :";
                         this.picPlayerInfo03.Left = this.lblPlayerInfo02.Right;
-                        double percentage = ((double)(this.speedrunRank.index - 1) / ((this.speedrunRank.total > 1000 ? 1000 : this.speedrunRank.total) - 1)) * 100;
-                        if (this.speedrunRank.index == 0) {
+                        double percentage = ((double)(this.speedrunRank.Value.index - 1) / ((this.speedrunRank.Value.total > 1000 ? 1000 : this.speedrunRank.Value.total) - 1)) * 100;
+                        if (this.speedrunRank.Value.index == 0) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
-                        } else if (this.speedrunRank.index == 1) {
+                        } else if (this.speedrunRank.Value.index == 1) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_gold;
                         } else if (percentage <= 20) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_silver;
@@ -1216,11 +1220,11 @@ namespace FallGuysStats {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
                         }
                         this.lblPlayerInfo03.Left = this.picPlayerInfo03.Right;
-                        this.lblPlayerInfo03.Text = $@"{this.speedrunRank.index} ({this.speedrunRank.total})";
+                        this.lblPlayerInfo03.Text = $@"{this.speedrunRank.Value.index} ({this.speedrunRank.Value.total})";
                         this.lblPlayerInfo04.Left = this.lblPlayerInfo03.Right + 15;
-                        this.lblPlayerInfo04.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.speedrunRank.score:N0}";
+                        this.lblPlayerInfo04.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.speedrunRank.Value.score:N0}";
                         this.lblPlayerInfo05.Left = this.lblPlayerInfo04.Right + 15;
-                        this.lblPlayerInfo05.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_first_places")} : {this.speedrunRank.firstPlaces}";
+                        this.lblPlayerInfo05.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_first_places")} : {this.speedrunRank.Value.firstPlaces}";
                         if (this.crownLeagueRank == null) {
                             this.gridPlayerDetails.Height = this.gridPlayerList.Height;
                             this.gridPlayerDetails.Top = this.gridPlayerList.Top;
@@ -1240,10 +1244,10 @@ namespace FallGuysStats {
                         int widthOfText = TextRenderer.MeasureText(this.lblPlayerInfo01.Text, this.lblPlayerInfo01.Font).Width;
                         this.lblPlayerInfo06.Left = this.lblPlayerInfo02.Left - widthOfText;
                         this.picPlayerInfo04.Left = this.lblPlayerInfo06.Right;
-                        double percentage = ((double)(this.crownLeagueRank.index - 1) / ((this.crownLeagueRank.total > 1000 ? 1000 : this.crownLeagueRank.total) - 1)) * 100;
-                        if (this.crownLeagueRank.index == 0) {
+                        double percentage = ((double)(this.crownLeagueRank.Value.index - 1) / ((this.crownLeagueRank.Value.total > 1000 ? 1000 : this.crownLeagueRank.Value.total) - 1)) * 100;
+                        if (this.crownLeagueRank.Value.index == 0) {
                             this.picPlayerInfo04.Image = Properties.Resources.medal_eliminated;
-                        } else if (this.crownLeagueRank.index == 1) {
+                        } else if (this.crownLeagueRank.Value.index == 1) {
                             this.picPlayerInfo04.Image = Properties.Resources.medal_gold;
                         } else if (percentage <= 20) {
                             this.picPlayerInfo04.Image = Properties.Resources.medal_silver;
@@ -1255,18 +1259,18 @@ namespace FallGuysStats {
                             this.picPlayerInfo04.Image = Properties.Resources.medal_eliminated;
                         }
                         this.lblPlayerInfo07.Left = this.picPlayerInfo04.Right;
-                        this.lblPlayerInfo07.Text = $@"{this.crownLeagueRank.index} ({this.crownLeagueRank.total})";
+                        this.lblPlayerInfo07.Text = $@"{this.crownLeagueRank.Value.index} ({this.crownLeagueRank.Value.total})";
                         
                         this.lblPlayerInfo08.Left = this.lblPlayerInfo07.Right + 15;
-                        this.lblPlayerInfo08.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.crownLeagueRank.score:N0}";
+                        this.lblPlayerInfo08.Text = $@"{Multilingual.GetWord("leaderboard_grid_header_score")} : {this.crownLeagueRank.Value.score:N0}";
                         
                         
                         this.picPlayerInfo05.Left = this.lblPlayerInfo08.Right + 15;
                         this.lblPlayerInfo09.Left = this.picPlayerInfo05.Right;
-                        this.lblPlayerInfo09.Text = $@"{this.crownLeagueRank.crowns:N0}";
+                        this.lblPlayerInfo09.Text = $@"{this.crownLeagueRank.Value.crowns:N0}";
                         this.picPlayerInfo06.Left = this.lblPlayerInfo09.Right + 15;
                         this.lblPlayerInfo10.Left = this.picPlayerInfo06.Right - 3;
-                        this.lblPlayerInfo10.Text = $@"{this.crownLeagueRank.shards:N0}";
+                        this.lblPlayerInfo10.Text = $@"{this.crownLeagueRank.Value.shards:N0}";
                         this.gridPlayerDetails.Height = this.gridPlayerList.Height - 25;
                         this.gridPlayerDetails.Top = this.gridPlayerList.Top + 25;
                         this.lblPlayerInfo06.Visible = true;
@@ -1284,7 +1288,7 @@ namespace FallGuysStats {
         
         private void gridPlayerDetails_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                PlayerStats.PbInfo data = ((Grid)sender).SelectedRows[0].DataBoundItem as PlayerStats.PbInfo;
+                PlayerStats.PbInfo data = (PlayerStats.PbInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.round)) return;
                 string roundId = string.Equals(Multilingual.GetLevelName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
                 this.cboRoundList.SelectedImageItem(roundId, 1);
@@ -1325,7 +1329,7 @@ namespace FallGuysStats {
         private void gridPlayerDetails_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e) {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
-            PlayerStats.PbInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as PlayerStats.PbInfo;
+            PlayerStats.PbInfo info = (PlayerStats.PbInfo)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1503,6 +1507,9 @@ namespace FallGuysStats {
                         this.mtcTabControl.Enabled = true;
                         this.cboRoundList.Enabled = true;
                         this.mtbSearchPlayersText.Width = this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2;
+                        this.gridPlayerDetails.BringToFront();
+                        this.gridPlayerDetails.Height = this.gridPlayerList.Height;
+                        this.gridPlayerDetails.Top = this.gridPlayerList.Top;
                         this.mpsSpinner03.Visible = false;
                         this.gridPlayerList.DataSource = this.searchResult ?? this.searchResultNodata;
                         this.mtpSearchPlayersPage.Text = this.searchResult == null ? Multilingual.GetWord("leaderboard_search_players") : $"{Multilingual.GetWord("leaderboard_search_players")} ({this.searchResult.Count}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
@@ -1559,7 +1566,7 @@ namespace FallGuysStats {
             if (e.RowIndex < 0 || e.RowIndex >= ((Grid)sender).RowCount) { return; }
 
             string columnName = ((Grid)sender).Columns[e.ColumnIndex].Name;
-            WeeklyCrown.Player info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as WeeklyCrown.Player;
+            WeeklyCrown.Player info = (WeeklyCrown.Player)((Grid)sender).Rows[e.RowIndex].DataBoundItem;
             
             if (e.RowIndex % 2 == 0) {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(225, 235, 255) : Color.FromArgb(40, 66, 66);
@@ -1706,7 +1713,7 @@ namespace FallGuysStats {
         
         private void gridWeeklyCrown_CellDoubleClick(object sender, DataGridViewCellEventArgs e) {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
-                WeeklyCrown.Player data = ((Grid)sender).SelectedRows[0].DataBoundItem as WeeklyCrown.Player;
+                WeeklyCrown.Player data = (WeeklyCrown.Player)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.id) || data.isAnonymous) return;
                 ((Grid)sender).Enabled = false;
                 this.gridPlayerList.Enabled = false;

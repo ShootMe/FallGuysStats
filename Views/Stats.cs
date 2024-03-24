@@ -208,7 +208,7 @@ namespace FallGuysStats {
         private string availableNewVersion;
         private int profileWithLinkedCustomShow = -1;
         private Toast toast;
-        public List<OverallRank.RankInfo> leaderboardOverallRankList;
+        public List<OverallRank.Player> leaderboardOverallRankList;
         public List<WeeklyCrown.Player> weeklyCrownList;
         public string weeklyCrownNext;
         public string weeklyCrownPrevious;
@@ -449,16 +449,16 @@ namespace FallGuysStats {
             Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
         
-        public class UpcomingShowInfo {
+        public struct UpcomingShowInfo {
             public bool ok { get; set; }
             public ShowData data { get; set; }
 
-            public class ShowData {
+            public struct ShowData {
                 public bool has_more { get; set; }
                 public int total_shows { get; set; }
                 public List<Show> shows { get; set; }
 
-                public class Show {
+                public struct Show {
                     public string id { get; set; }
                     public string name { get; set; }
                     public string display_name { get; set; }
@@ -476,25 +476,25 @@ namespace FallGuysStats {
                     public List<Rewards> rewards { get; set; }
                     public List<Level> rounds { get; set; }
 
-                    public class ShowTag {
+                    public struct ShowTag {
                         public string name { get; set; }
                         public string icon { get; set; }
                     }
-                    public class ShowType {
+                    public struct ShowType {
                         public string type { get; set; }
                         public int squad_size { get; set; }
                     }
-                    public class Size {
+                    public struct Size {
                         public string type { get; set; }
                         public int min { get; set; }
                         public int max { get; set; }
                     }
-                    public class Rewards {
+                    public struct Rewards {
                         public string type { get; set; }
                         public int value { get; set; }
                     }
 
-                    public class Level {
+                    public struct Level {
                         public string id { get; set; }
                         public string display_name { get; set; }
                         public string share_code { get; set; }
@@ -558,7 +558,7 @@ namespace FallGuysStats {
                 }
             }
 
-            // this.UpdateUpcomingShow();
+            this.UpdateUpcomingShow();
             // 2. Generate LevelStats by reading DB
             
             this.RemoveUpdateFiles();
@@ -4480,7 +4480,11 @@ namespace FallGuysStats {
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
                 bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
+                
+                
                 bool isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
+                
+                
                 RoundInfo endRound = roundInfo.Where(r => r.ShowID == info.ShowID).OrderByDescending(r => r.Round).FirstOrDefault();
 
                 bool isInWinsFilter = (useShareCode || !endRound.PrivateLobby)
@@ -6093,7 +6097,9 @@ namespace FallGuysStats {
                         int totalPlayers = weeklyCrown.total;
                         int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
                         for (int i = 0; i < weeklyCrown.users.Count; i++) {
-                            weeklyCrown.users[i].rank = i + 1;
+                            WeeklyCrown.Player temp = weeklyCrown.users[i];
+                            temp.rank = i + 1;
+                            weeklyCrown.users[i] = temp;
                         }
                         this.totalWeeklyCrownPlayers = totalPlayers;
                         this.weeklyCrownList = weeklyCrown.users;
@@ -6109,7 +6115,9 @@ namespace FallGuysStats {
                                         json = await response.Content.ReadAsStringAsync();
                                         weeklyCrown = System.Text.Json.JsonSerializer.Deserialize<WeeklyCrown>(json);
                                         for (int j = 0; j < weeklyCrown.users.Count; j++) {
-                                            weeklyCrown.users[j].rank = j + 1 + ((page - 1) * 100);
+                                            WeeklyCrown.Player temp = weeklyCrown.users[j];
+                                            temp.rank = j + 1 + ((page - 1) * 100);
+                                            weeklyCrown.users[j] = temp;
                                         }
                                         this.weeklyCrownList.AddRange(weeklyCrown.users);
                                     }
@@ -6142,7 +6150,9 @@ namespace FallGuysStats {
                         int totalPlayers = overallRank.total;
                         int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
                         for (int i = 0; i < overallRank.users.Count; i++) {
-                            overallRank.users[i].rank = i + 1;
+                            OverallRank.Player temp = overallRank.users[i];
+                            temp.rank = i + 1;
+                            overallRank.users[i] = temp;
                         }
                         this.totalOverallRankPlayers = totalPlayers;
                         this.leaderboardOverallRankList = overallRank.users;
@@ -6158,7 +6168,9 @@ namespace FallGuysStats {
                                         json = await response.Content.ReadAsStringAsync();
                                         overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json, options);
                                         for (int j = 0; j < overallRank.users.Count; j++) {
-                                            overallRank.users[j].rank = j + 1 + ((page - 1) * 100);
+                                            OverallRank.Player temp = overallRank.users[j];
+                                            temp.rank = j + 1 + ((page - 1) * 100);
+                                            overallRank.users[j] = temp;
                                         }
                                         this.leaderboardOverallRankList.AddRange(overallRank.users);
                                     }

@@ -4,12 +4,12 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace FallGuysStats {
-    public class OverallRank {
+    public struct OverallRank {
         public bool found { get; set; }
         public int total { get; set; }
-        public List<RankInfo> users { get; set; }
+        public List<Player> users { get; set; }
         
-        public class RankInfo {
+        public struct Player {
             public int rank { get; set; }
             public string onlineServiceType { get; set; }
             public string onlineServiceNickname { get; set; }
@@ -21,7 +21,7 @@ namespace FallGuysStats {
         }
     }
     
-    public class OverallSummary {
+    public struct OverallSummary {
         public int rank { get; set; }
         public string country { get; set; }
         public int gold { get; set; }
@@ -31,12 +31,12 @@ namespace FallGuysStats {
         public int players { get; set; }
     }
     
-    public class LevelRank {
+    public struct LevelRank {
         public bool found { get; set; }
         public int total { get; set; }
         public List<RankInfo> recordholders { get; set; }
         
-        public class RankInfo {
+        public struct RankInfo {
             public int rank { get; set; }
             // public string round { get; set; }
             public double record { get; set; }
@@ -123,11 +123,11 @@ namespace FallGuysStats {
         }
     }
     
-    public class AvailableLevel {
+    public struct AvailableLevel {
         public bool found { get; set; }
         public List<LevelInfo> leaderboards { get; set; }
         
-        public class LevelInfo {
+        public struct LevelInfo {
             public string queryname { get; set; }
             public string[] ids { get; set; }
         }
@@ -185,11 +185,11 @@ namespace FallGuysStats {
         }
     }
     
-    public class SearchResult {
+    public struct SearchResult {
         public bool found { get; set; }
         public List<Player> users { get; set; }
         
-        public class Player {
+        public struct Player {
             public string onlineServiceType { get; set; }
             public string onlineServiceId { get; set; }
             public string onlineServiceNickname { get; set; }
@@ -199,14 +199,14 @@ namespace FallGuysStats {
         }
     }
     
-    public class PlayerStats {
+    public struct PlayerStats {
         public bool found { get; set; }
         public PlayerInfo user { get; set; }
         public List<PbInfo> pbs { get; set; }
         public SpeedrunRank speedrunrank { get; set; }
         public CrownLeagueRank crownrank { get; set; }
         
-        public class PlayerInfo {
+        public struct PlayerInfo {
             public string onlineServiceType { get; set; }
             public string onlineServiceId { get; set; }
             public string onlineServiceNickname { get; set; }
@@ -214,7 +214,7 @@ namespace FallGuysStats {
             public string country { get; set; }
         }
         
-        public class PbInfo {
+        public struct PbInfo {
             public string round { get; set; }
             public double record { get; set; }
             public string show { get; set; }
@@ -230,7 +230,7 @@ namespace FallGuysStats {
             public string roundName { get; set; }
         }
         
-        public class SpeedrunRank {
+        public struct SpeedrunRank {
             public string onlineServiceType { get; set; }
             public string onlineServiceNickname { get; set; }
             public bool isAnonymous { get; set; }
@@ -242,7 +242,7 @@ namespace FallGuysStats {
             public int total { get; set; }
         }
         
-        public class CrownLeagueRank {
+        public struct CrownLeagueRank {
             public string onlineServiceType { get; set; }
             public string onlineServiceNickname { get; set; }
             public bool isAnonymous { get; set; }
@@ -256,7 +256,7 @@ namespace FallGuysStats {
         }
     }
     
-    public class WeeklyCrown {
+    public struct WeeklyCrown {
         public bool found { get; set; }
         public int total { get; set; }
         public List<Player> users { get; set; }
@@ -265,7 +265,7 @@ namespace FallGuysStats {
         public string previous { get; set; }
         public string next { get; set; }
         
-        public class Player {
+        public struct Player {
             public int rank { get; set; }
             public string onlineServiceType { get; set; }
             public string onlineServiceNickname { get; set; }
