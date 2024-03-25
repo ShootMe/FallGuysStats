@@ -5922,17 +5922,20 @@ namespace FallGuysStats {
                     this.overlay.SetBackgroundColor(colorOption);
                     this.CurrentSettings.OverlayColor = colorOption;
                     this.SaveUserSettings();
+                    this.overlay.ResetBackgroundImage();
                     break;
                 case true when e.KeyCode == Keys.F:
                     if (!this.overlay.IsFixed()) {
                         this.overlay.FlipDisplay(!this.overlay.flippedImage);
                         this.CurrentSettings.FlippedDisplay = this.overlay.flippedImage;
                         this.SaveUserSettings();
+                        this.overlay.ResetBackgroundImage();
                     }
                     break;
                 case true when e.KeyCode == Keys.R:
                     this.CurrentSettings.ColorByRoundType = !this.CurrentSettings.ColorByRoundType;
                     this.SaveUserSettings();
+                    this.overlay.ResetBackgroundImage();
                     break;
                 case true when e.Shift && e.KeyCode == Keys.Z:
                     this.SetAutoChangeProfile(!this.CurrentSettings.AutoChangeProfile);
@@ -5952,10 +5955,7 @@ namespace FallGuysStats {
                 case true when e.KeyCode == Keys.C:
                     this.CurrentSettings.PlayerByConsoleType = !this.CurrentSettings.PlayerByConsoleType;
                     this.SaveUserSettings();
-                    this.overlay.ArrangeDisplay(this.CurrentSettings.FlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
-                        this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                        this.CurrentSettings.OverlayColor, this.CurrentSettings.OverlayWidth, this.CurrentSettings.OverlayHeight,
-                        this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
+                    this.overlay.ResetBackgroundImage();
                     break;
                 case false when e.KeyCode == Keys.ShiftKey:
                     this.shiftKeyToggle = true;
@@ -6529,6 +6529,8 @@ namespace FallGuysStats {
                     this.CurrentSettings.SelectedProfile = profile;
                     this.SaveUserSettings();
                 }
+                
+                this.overlay.ResetBackgroundImage();
 
                 this.loadingExisting = true;
                 this.LogFile_OnParsedLogLines(rounds);
@@ -6685,6 +6687,7 @@ namespace FallGuysStats {
             } else {
                 this.overlay.ShowInTaskbar = !topMost;
             }
+            this.overlay.ResetBackgroundImage();
         }
         
         public void SetAutoChangeProfile(bool autoChangeProfile) {
@@ -6701,6 +6704,7 @@ namespace FallGuysStats {
             this.CurrentSettings.OverlayBackgroundOpacity = opacity;
             this.overlay.Opacity = opacity / 100d;
             this.SaveUserSettings();
+            this.overlay.ResetBackgroundImage();
         }
         
         private void SetMinimumSize() {
@@ -6759,10 +6763,7 @@ namespace FallGuysStats {
                             this.logFile.Start(logFilePath, LOGFILENAME);
                         }
                         
-                        this.overlay.ArrangeDisplay(string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.FlippedDisplay : this.CurrentSettings.FixedFlippedDisplay, this.CurrentSettings.ShowOverlayTabs,
-                            this.CurrentSettings.HideWinsInfo, this.CurrentSettings.HideRoundInfo, this.CurrentSettings.HideTimeInfo,
-                            this.CurrentSettings.OverlayColor, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayWidth : this.CurrentSettings.OverlayFixedWidth, string.IsNullOrEmpty(this.CurrentSettings.OverlayFixedPosition) ? this.CurrentSettings.OverlayHeight : this.CurrentSettings.OverlayFixedHeight,
-                            this.CurrentSettings.OverlayFontSerialized, this.CurrentSettings.OverlayFontColorSerialized);
+                        this.overlay.ResetBackgroundImage();
                     } else {
                         this.overlay.Opacity = this.CurrentSettings.OverlayBackgroundOpacity / 100D;
                     }
@@ -6822,6 +6823,7 @@ namespace FallGuysStats {
                                        ? new Point(this.CurrentSettings.OverlayLocationX.Value, this.CurrentSettings.OverlayLocationY.Value)
                                        : this.Location;
                 }
+                this.overlay.ResetBackgroundImage();
             }
         }
         

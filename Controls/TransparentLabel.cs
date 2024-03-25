@@ -145,47 +145,50 @@ namespace FallGuysStats {
         
         private float GetFontSizeFactor() {
             float factor;
-            Language lang = Stats.CurrentLanguage;
+            bool isLangGroup1 = Stats.CurrentLanguage == Language.English || Stats.CurrentLanguage == Language.French;
+            bool isLangGroup2 = Stats.CurrentLanguage == Language.Korean || Stats.CurrentLanguage == Language.Japanese;
+            bool isLangGroup3 = Stats.CurrentLanguage == Language.SimplifiedChinese || Stats.CurrentLanguage == Language.TraditionalChinese;
+            
             switch (this.Name) {
                 case "lblWins":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup2 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.TextRight.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 65 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinals":
-                    factor = (lang == Language.English || lang == Language.French) ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) :
+                             isLangGroup2 ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.TextRight.Length > 14 ? (1f - (((this.TextRight.Length * 3.3f) - 72 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblStreak":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length > 0 && this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 70 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length > 0 && this.TextRight.Length > 12 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length > 0 && this.TextRight.Length > 10 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.Text.Length > 0 && this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 70 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup2 ? (this.Text.Length > 0 && this.TextRight.Length > 12 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.Text.Length > 0 && this.TextRight.Length > 10 ? (1f - (((this.TextRight.Length * 3.3f) - 58 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblQualifyChance":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 78 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 78 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup2 ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.TextRight.Length > 17 ? (1f - (((this.TextRight.Length * 3.3f) - 68 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFastest":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 8 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.TextRight.Length > 8 || this.Text.Length > 15 ? (1f - (((this.TextRight.Length * 3.3f) - 79 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup2 ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.TextRight.Length > 8 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblPlayers":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup2 ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 49 + (this.Text.Length * 3.3f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.TextRight.Length > 7 ? (1f - (((this.TextRight.Length * 3.3f) - 46 + (this.Text.Length * 3.3f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblDuration":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length > 16 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : (this.Text.Length > 13 && this.TextRight.Length == 8 ? 1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f) : 1f)) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.Text.Length > 16 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : (this.Text.Length > 13 && this.TextRight.Length == 8 ? 1f - (((this.TextRight.Length * 3.3f) - 63 + (this.Text.Length * 3.3f)) / 100f) : 1f)) :
+                             isLangGroup2 ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) :
+                             isLangGroup3 ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinish":
-                    factor = (lang == Language.English || lang == Language.French) ? (this.Text.Length <= 8 ? (this.TextRight.Length > 14 ? 1f - (((this.TextRight.Length * 2.5f) - 26) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
-                             (lang == Language.Korean || lang == Language.Japanese) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
-                             (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
+                    factor = isLangGroup1 ? (this.Text.Length <= 8 ? (this.TextRight.Length > 14 ? 1f - (((this.TextRight.Length * 2.5f) - 26) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
+                             isLangGroup2 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
+                             isLangGroup3 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
                     break;
                 default:
                     factor = 1f;
@@ -201,14 +204,8 @@ namespace FallGuysStats {
         private float GetFontSizeFactorForRoundName(string text) {
             Language lang = Stats.CurrentLanguage;
             float factor = 1f,
-                  factorOffsetForSpace = 0f,
-                  factorOffsetForEngUppercase = 0f,
-                  factorOffsetForEngLowercase = 0f,
-                  factorOffsetForKorCharacter = 0f,
-                  factorOffsetForJpnCharacter = 0f,
-                  factorOffsetForChineseCharacter = 0f,
-                  factorOffsetForNumeric = 0f,
-                  factorOffsetForSignCharacter = 0f;
+                  factorOffsetForSpace = 0, factorOffsetForEngUppercase = 0, factorOffsetForEngLowercase = 0, factorOffsetForKorCharacter = 0,
+                  factorOffsetForJpnCharacter = 0, factorOffsetForChineseCharacter = 0, factorOffsetForNumeric = 0, factorOffsetForSignCharacter = 0;
             
             if (text.Length >= 9 && 30 >= text.Length) {
                 factor = 0.33f;
@@ -258,7 +255,7 @@ namespace FallGuysStats {
                         factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0225f : 0.0195f) : 0.0228f;
                         factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0285f : 0.025f) : 0.0287f;
                         factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0405f : 0.036f) : 0.04f;
-                    } else { // Simplified Chinese & Traditional Chinese
+                    } else if (lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese) {
                         factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.095f : 0.08f;
                         factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0345f : 0.0255f;
                         factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.046f : 0.0345f;
