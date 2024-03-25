@@ -600,13 +600,18 @@ namespace FallGuysStats {
                     this.UpdateUpcomingShow();
                     this.GenerateLevelStats();
                     if (this.UpcomingShowCache.Any()) {
-                        this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
-                        this.StatDetails = LevelStats.ALL
-                            .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
-                            .GroupBy(entry => entry.Value.ShareCode)
-                            .Select(group => group.First().Value)
-                            .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
-                            .ToList();
+                        lock (this.StatLookup) {
+                            this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
+                        }
+
+                        lock (this.StatDetails) {
+                            this.StatDetails = LevelStats.ALL
+                                .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
+                                .GroupBy(entry => entry.Value.ShareCode)
+                                .Select(group => group.First().Value)
+                                .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
+                                .ToList();
+                        } 
                     }
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
