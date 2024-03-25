@@ -163,21 +163,21 @@ namespace FallGuysStats {
             this.TabResourceName = tabResourceName;
         }
         
-        private void SetBackground(string backgroundResourceName = null) {
-            Bitmap background = string.IsNullOrEmpty(backgroundResourceName)
-                ? Properties.Resources.background
-                : (Bitmap)Properties.Resources.ResourceManager.GetObject(backgroundResourceName) ?? Properties.Resources.background;
-            
-            Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
-            using (Graphics g = Graphics.FromImage(newImage)) {
-                g.DrawImage(background, 0, 0);
-            }
-            this.Background = newImage;
-            this.DrawImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
-            this.DrawGraphics = Graphics.FromImage(this.DrawImage);
-            this.drawWidth = background.Width;
-            this.drawHeight = background.Height;
-        }
+        // private void SetBackground(string backgroundResourceName = null) {
+        //     Bitmap background = string.IsNullOrEmpty(backgroundResourceName)
+        //         ? Properties.Resources.background
+        //         : (Bitmap)Properties.Resources.ResourceManager.GetObject(backgroundResourceName) ?? Properties.Resources.background;
+        //     
+        //     Bitmap newImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
+        //     using (Graphics g = Graphics.FromImage(newImage)) {
+        //         g.DrawImage(background, 0, 0);
+        //     }
+        //     this.Background = newImage;
+        //     this.DrawImage = new Bitmap(background.Width, background.Height, PixelFormat.Format32bppArgb);
+        //     this.DrawGraphics = Graphics.FromImage(this.DrawImage);
+        //     this.drawWidth = background.Width;
+        //     this.drawHeight = background.Height;
+        // }
         
         protected override void WndProc(ref Message m) {
             if (m.Msg == 0x84) {

@@ -4480,11 +4480,14 @@ namespace FallGuysStats {
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
                 bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
-                
-                
-                bool isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
-                
-                
+                bool isCurrentLevel = false;
+                if (!useShareCode && currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
+                    if (this.StatLookup.TryGetValue(info.Name, out LevelStats l1) && string.Equals(l1.ShareCode, currentLevel.ShareCode)) {
+                        isCurrentLevel = true;
+                    }
+                } else {
+                    isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
+                }
                 RoundInfo endRound = roundInfo.Where(r => r.ShowID == info.ShowID).OrderByDescending(r => r.Round).FirstOrDefault();
 
                 bool isInWinsFilter = (useShareCode || !endRound.PrivateLobby)
