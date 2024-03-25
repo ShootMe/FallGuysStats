@@ -142,8 +142,8 @@ namespace FallGuysStats {
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public List<RoundInfo> CurrentRound = new List<RoundInfo>();
-        public readonly Dictionary<string, LevelStats> StatLookup;
-        public readonly List<LevelStats> StatDetails;
+        public Dictionary<string, LevelStats> StatLookup;
+        public List<LevelStats> StatDetails;
         private readonly LogFileWatcher logFile = new LogFileWatcher();
         private int Shows, Rounds, CustomShows, CustomRounds;
         private TimeSpan Duration;
@@ -218,6 +218,7 @@ namespace FallGuysStats {
         public int weeklyCrownCurrentWeek;
         public string weeklyCrownPeriod;
         public Point screenCenter;
+        private System.Threading.Timer upcomingShowTimer;
         
         public event Action OnUpdatedLevelRows;
         private System.Windows.Forms.Timer scrollTimer = new System.Windows.Forms.Timer { Interval = 100 };
@@ -536,7 +537,7 @@ namespace FallGuysStats {
         }
 
         private void UpdateUpcomingShow() {
-            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
+            if (!Utils.IsInternetConnected()) { return; }
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
@@ -586,6 +587,28 @@ namespace FallGuysStats {
             }
         }
 
+        private void UpdateUpcomingShowJob() {
+            DateTime now = DateTime.UtcNow;
+            DateTime targetTime = new DateTime(now.Year, now.Month, now.Day, 10, 0, 0);
+            if (now > targetTime) {
+                targetTime = targetTime.AddDays(1);
+            }
+            double initialDelay = (targetTime - now).TotalMilliseconds;
+            this.upcomingShowTimer = new System.Threading.Timer(state => {
+                Task.Run(() => {
+                    this.UpdateUpcomingShow();
+                    this.GenerateLevelStats();
+                    this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
+                    this.StatDetails = LevelStats.ALL
+                        .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
+                        .GroupBy(entry => entry.Value.ShareCode)
+                        .Select(group => group.First().Value)
+                        .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
+                        .ToList();
+                });
+            }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
+        }
+
         private Stats() {
             this.DatabaseMigration();
             
@@ -613,8 +636,10 @@ namespace FallGuysStats {
                 }
             }
             
+            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
             this.UpdateUpcomingShow();
             this.GenerateLevelStats();
+            this.UpdateUpcomingShowJob();
             
             this.RemoveUpdateFiles();
             
