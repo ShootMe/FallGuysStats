@@ -82,7 +82,6 @@ namespace FallGuysStats {
         
         public void VerifyName() {
             if (string.IsNullOrEmpty(this.SceneName)) { return; }
-
             if (LevelStats.SceneToRound.TryGetValue(this.SceneName, out string levelId)) {
                 this.Name = levelId;
             }

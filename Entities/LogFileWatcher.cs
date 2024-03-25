@@ -585,24 +585,26 @@ namespace FallGuysStats {
 
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || info.UseShareCode || !info.Finish.HasValue) { return; }
-            string roundId = string.Empty;
-            if (LevelStats.SceneToRound.TryGetValue(info.SceneName, out roundId)) {
-                if (LevelStats.ALL.TryGetValue(roundId, out LevelStats l1)) {
-                    if (l1.Type != LevelType.Race) return;
-                }
-            } else if (LevelStats.ALL.TryGetValue(info.Name, out LevelStats l1)) {
-                if (l1.Type != LevelType.Race) return;
-                roundId = info.Name;
+            string levelId = info.VerifiedName();
+            if (LevelStats.ALL.TryGetValue(levelId, out LevelStats currentLevel) && currentLevel.Type != LevelType.Race && string.IsNullOrEmpty(levelId)) {
+                return;
             }
-            if (string.IsNullOrEmpty(roundId)) return;
 
             if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
+                List<RoundInfo> roundInfoList;
+                if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
+                    string[] ids = this.StatsForm.StatDetails.Where(l => string.Equals(l.ShareCode, currentLevel.ShareCode)).Select(l => l.Id).ToArray();
+                    roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && ids.Contains(r.Name));
+                } else {
+                    roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, levelId));
+                }
+                
                 TimeSpan currentRecord = info.Finish.Value - info.Start;
-                List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && string.Equals(r.Name, roundId) && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId));
                 TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, roundId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
+                
+                this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, levelId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
                 if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
-                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, roundId, existingRecord, currentRecord);
+                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, levelId, existingRecord, currentRecord);
                 }
             }
         }
@@ -723,7 +725,7 @@ namespace FallGuysStats {
                     int index2 = line.Line.IndexOf(" ", index + 44);
                     if (index2 < 0) { index2 = line.Line.Length; }
                     logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
-                    if (_sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
+                    if (this._sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
                         logRound.Info.SceneName = newName;
                     }
                 }

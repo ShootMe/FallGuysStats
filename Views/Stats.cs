@@ -142,8 +142,8 @@ namespace FallGuysStats {
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
         public List<RoundInfo> CurrentRound = new List<RoundInfo>();
-        public Dictionary<string, LevelStats> StatLookup;
-        private List<LevelStats> StatDetails;
+        public readonly Dictionary<string, LevelStats> StatLookup;
+        public readonly List<LevelStats> StatDetails;
         private readonly LogFileWatcher logFile = new LogFileWatcher();
         private int Shows, Rounds, CustomShows, CustomRounds;
         private TimeSpan Duration;
@@ -4488,6 +4488,7 @@ namespace FallGuysStats {
                 } else {
                     isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
                 }
+                
                 RoundInfo endRound = roundInfo.Where(r => r.ShowID == info.ShowID).OrderByDescending(r => r.Round).FirstOrDefault();
 
                 bool isInWinsFilter = (useShareCode || !endRound.PrivateLobby)
