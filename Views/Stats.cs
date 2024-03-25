@@ -571,8 +571,8 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                         }
                     }
-                } catch (Exception e) {
-                    Console.WriteLine(e);
+                } catch {
+                    // ignored
                 }
             }
         }
@@ -582,7 +582,7 @@ namespace FallGuysStats {
             foreach (var level in this.UpcomingShowCache) {
                 if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
-                        0, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+                        10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                 }
             }
         }
@@ -596,15 +596,18 @@ namespace FallGuysStats {
             double initialDelay = (targetTime - now).TotalMilliseconds;
             this.upcomingShowTimer = new System.Threading.Timer(state => {
                 Task.Run(() => {
+                    if (!Utils.IsInternetConnected()) { return; }
                     this.UpdateUpcomingShow();
                     this.GenerateLevelStats();
-                    this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
-                    this.StatDetails = LevelStats.ALL
-                        .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
-                        .GroupBy(entry => entry.Value.ShareCode)
-                        .Select(group => group.First().Value)
-                        .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
-                        .ToList();
+                    if (this.UpcomingShowCache.Any()) {
+                        this.StatLookup = LevelStats.ALL.ToDictionary(entry => entry.Key, entry => entry.Value);
+                        this.StatDetails = LevelStats.ALL
+                            .Where(entry => !string.IsNullOrEmpty(entry.Value.ShareCode))
+                            .GroupBy(entry => entry.Value.ShareCode)
+                            .Select(group => group.First().Value)
+                            .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
+                            .ToList();
+                    }
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
         }
@@ -636,11 +639,6 @@ namespace FallGuysStats {
                 }
             }
             
-            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
-            this.UpdateUpcomingShow();
-            this.GenerateLevelStats();
-            this.UpdateUpcomingShowJob();
-            
             this.RemoveUpdateFiles();
             
             this.InitializeComponent();
@@ -656,6 +654,11 @@ namespace FallGuysStats {
             this.Opacity = 0;
             this.trayCMenu.Opacity = 0;
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
+            
+            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
+            this.UpdateUpcomingShow();
+            this.GenerateLevelStats();
+            this.UpdateUpcomingShowJob();
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
