@@ -611,7 +611,9 @@ namespace FallGuysStats {
                                 .Select(group => group.First().Value)
                                 .Concat(LevelStats.ALL.Where(entry => string.IsNullOrEmpty(entry.Value.ShareCode)).Select(entry => entry.Value))
                                 .ToList();
-                        } 
+                        }
+                        
+                        this.UpdateDates();
                     }
                 });
             }, null, (int)initialDelay, 24 * 60 * 60 * 1000);
