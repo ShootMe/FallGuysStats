@@ -777,7 +777,6 @@ namespace FallGuysStats {
             
             this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
             this.UpdateGameExeLocation();
-            this.SetWindowCorner();
         }
         
         public void cmtt_levelDetails_Draw(object sender, DrawToolTipEventArgs e) {
@@ -3557,6 +3556,8 @@ namespace FallGuysStats {
                 }
                 
                 this.isStartingUp = false;
+                
+                this.SetWindowCorner();
                 
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
                     this.LaunchGame(true);

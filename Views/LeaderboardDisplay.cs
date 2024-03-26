@@ -163,6 +163,7 @@ namespace FallGuysStats {
                             } else {
                                 current.rank = 1;
                             }
+                            this.overallSummary[i] = current;
                         }
                         this.gridOverallSummary.DataSource = prevTask.Result ? this.overallSummary : this.overallSummaryNodata;
                         
