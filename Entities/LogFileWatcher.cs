@@ -586,7 +586,7 @@ namespace FallGuysStats {
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || info.UseShareCode || !info.Finish.HasValue) { return; }
             string levelId = info.VerifiedName();
-            if (LevelStats.ALL.TryGetValue(levelId, out LevelStats currentLevel) && currentLevel.Type != LevelType.Race && string.IsNullOrEmpty(levelId)) {
+            if (LevelStats.ALL.TryGetValue(levelId, out LevelStats currentLevel) && (currentLevel.Type != LevelType.Race || string.IsNullOrEmpty(levelId))) {
                 return;
             }
 
