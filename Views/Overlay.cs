@@ -721,26 +721,26 @@ namespace FallGuysStats {
                     this.lblFastest.ForeColor = this.ForeColor;
                 } else {
                     this.lblFastest.TickProgress = 0;
-                    bool isSwitching = this.StatsForm.CurrentSettings.SwitchBetweenLongest;
+                    bool useSwitching = this.StatsForm.CurrentSettings.SwitchBetweenLongest;
                     bool onlyShowLongest = this.StatsForm.CurrentSettings.OnlyShowLongest;
                     switch (bestRecordType) {
                         case BestRecordType.HighScore:
-                            this.lblFastest.Text = isSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_high_score" : "overlay_low_score")} :"
+                            this.lblFastest.Text = useSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_high_score" : "overlay_low_score")} :"
                                                                : $@"{Multilingual.GetWord(onlyShowLongest ? "overlay_low_score" : "overlay_high_score")} :";
-                            this.lblFastest.TextRight = isSwitching ? (this.switchCount == 0 ? (summary.HighScore.HasValue ? $"{summary.HighScore:N0}" : "-") : (summary.LowScore.HasValue ? $"{summary.LowScore:N0}" : "-"))
+                            this.lblFastest.TextRight = useSwitching ? (this.switchCount == 0 ? (summary.HighScore.HasValue ? $"{summary.HighScore:N0}" : "-") : (summary.LowScore.HasValue ? $"{summary.LowScore:N0}" : "-"))
                                                                     : (onlyShowLongest ? (summary.LowScore.HasValue ? $"{summary.LowScore:N0}" : "-") : (summary.HighScore.HasValue ? $"{summary.HighScore:N0}" : "-"));
                             break;
                         case BestRecordType.Longest:
-                            this.lblFastest.Text = isSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_longest" : "overlay_fastest")} :"
+                            this.lblFastest.Text = useSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_longest" : "overlay_fastest")} :"
                                                                : $@"{Multilingual.GetWord(onlyShowLongest ? "overlay_fastest" : "overlay_longest")} :";
-                            this.lblFastest.TextRight = isSwitching ? (this.switchCount == 0 ? (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-") : (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-"))
+                            this.lblFastest.TextRight = useSwitching ? (this.switchCount == 0 ? (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-") : (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-"))
                                                                     : (onlyShowLongest ? (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-") : (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-"));
                             break;
                         case BestRecordType.Fastest:
                         default:
-                            this.lblFastest.Text = isSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_fastest" : "overlay_longest")} :"
+                            this.lblFastest.Text = useSwitching ? $@"{Multilingual.GetWord(this.switchCount == 0 ? "overlay_fastest" : "overlay_longest")} :"
                                                                : $@"{Multilingual.GetWord(onlyShowLongest ? "overlay_longest" : "overlay_fastest")} :";
-                            this.lblFastest.TextRight = isSwitching ? (this.switchCount == 0 ? (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-") : (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-"))
+                            this.lblFastest.TextRight = useSwitching ? (this.switchCount == 0 ? (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-") : (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-"))
                                                                     : (onlyShowLongest ? (summary.LongestFinish.HasValue ? $"{summary.LongestFinish:m\\:ss\\.fff}" : "-") : (summary.FastestFinish.HasValue ? $"{summary.FastestFinish:m\\:ss\\.fff}" : "-"));
                             break;
                             
@@ -1031,12 +1031,7 @@ namespace FallGuysStats {
                         } else if (this.levelId.StartsWith("round_", StringComparison.OrdinalIgnoreCase)) {
                             this.levelName = this.levelId.Substring(6).Replace('_', ' ').ToUpper();
                         } else if (this.lastRound.UseShareCode && this.StatsForm.StatLookup.TryGetValue(this.lastRound.ShowNameId, out this.levelStats)) {
-                            if (string.IsNullOrEmpty(this.lastRound.CreativeTitle)) {
-                                RoundInfo r = this.StatsForm.GetRoundInfoFromShareCode(this.levelId);
-                                this.levelName = r != null ? r.CreativeTitle : this.levelId;
-                            } else {
-                                this.levelName = this.lastRound.CreativeTitle;
-                            }
+                            this.levelName = string.IsNullOrEmpty(this.lastRound.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(this.levelId) : this.lastRound.CreativeTitle;
                         } else {
                             this.levelName = this.levelId.Replace('_', ' ').ToUpper();
                         }
@@ -1058,7 +1053,7 @@ namespace FallGuysStats {
                     
                     if (this.isTimeToSwitch) {
                         this.frameCount = 0;
-                        this.switchCount ^= 1;
+                        this.switchCount = this.switchCount == 0 ? 1 : 0;
                     }
                     
                     DateTime currentUtc = DateTime.UtcNow;

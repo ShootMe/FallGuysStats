@@ -662,10 +662,7 @@ namespace FallGuysStats {
             this.trayCMenu.Opacity = 0;
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
             
-            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
-            this.UpdateUpcomingShow();
-            this.GenerateLevelStats();
-            this.UpdateUpcomingShowJob();
+            
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
@@ -673,6 +670,7 @@ namespace FallGuysStats {
             this.PersonalBestLog = this.StatsDB.GetCollection<PersonalBestLog>("PersonalBestLog");
             this.FallalyticsPbLog = this.StatsDB.GetCollection<FallalyticsPbLog>("FallalyticsPbLog");
             this.FallalyticsCrownLog = this.StatsDB.GetCollection<FallalyticsCrownLog>("FallalyticsCrownLog");
+            this.UpcomingShow = this.StatsDB.GetCollection<UpcomingShow>("UpcomingShow");
             
             this.StatsDB.BeginTrans();
             this.RoundDetails.EnsureIndex(r => r.Name);
@@ -692,7 +690,13 @@ namespace FallGuysStats {
             
             this.FallalyticsCrownLog.EnsureIndex(f => f.Id);
             this.FallalyticsCrownLog.EnsureIndex(f => f.SessionId);
+            
+            this.UpcomingShow.EnsureIndex(f => f.LevelId);
             this.StatsDB.Commit();
+            
+            this.UpdateUpcomingShow();
+            this.GenerateLevelStats();
+            this.UpdateUpcomingShowJob();
             
             if (this.Profiles.Count() == 0) {
                 string sysLang = CultureInfo.CurrentUICulture.Name.StartsWith("zh") ?
@@ -3062,14 +3066,15 @@ namespace FallGuysStats {
         }
         
         public void ResetStats() {
-            foreach (LevelStats calculator in this.StatDetails) {
+            for (int i = 0; i < this.StatDetails.Count; i++) {
+                LevelStats calculator = this.StatDetails[i];
                 calculator.Clear();
             }
 
             this.ClearTotals();
 
             List<RoundInfo> rounds = new List<RoundInfo>();
-            int profile = this.currentProfile;
+            int profile = this.GetCurrentProfileId();
 
             lock (this.StatsDB) {
                 this.AllStats.Clear();
@@ -3082,14 +3087,14 @@ namespace FallGuysStats {
                     if (this.AllStats.Count > 0) {
                         this.nextShowID = this.AllStats[this.AllStats.Count - 1].ShowID;
 
-                        int lastAddedShowID = -1;
+                        int lastAddedShowId = -1;
                         for (int i = this.AllStats.Count - 1; i >= 0; i--) {
                             RoundInfo info = this.AllStats[i];
                             info.ToLocalTime();
                             if (info.Profile != profile) { continue; }
 
-                            if (info.ShowID == lastAddedShowID || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
-                                lastAddedShowID = info.ShowID;
+                            if (info.ShowID == lastAddedShowId || (IsInStatsFilter(info) && IsInPartyFilter(info))) {
+                                lastAddedShowId = info.ShowID;
                                 rounds.Add(info);
                             }
 
@@ -3555,9 +3560,8 @@ namespace FallGuysStats {
                         break;
                 }
                 
-                this.isStartingUp = false;
-                
                 this.SetWindowCorner();
+                this.isStartingUp = false;
                 
                 if (this.CurrentSettings.AutoLaunchGameOnStartup) {
                     this.LaunchGame(true);
@@ -3684,7 +3688,6 @@ namespace FallGuysStats {
                                     IsDisplayOverlayTime = false;
                                     using (EditShows editShows = new EditShows()) {
                                         editShows.FunctionFlag = "add";
-                                        //editShows.Icon = this.Icon;
                                         editShows.Profiles = this.AllProfiles;
                                         editShows.StatsForm = this;
                                         this.EnableInfoStrip(false);
@@ -3696,7 +3699,6 @@ namespace FallGuysStats {
                                             } else {
                                                 profile = editShows.SelectedProfileId;
                                                 this.CurrentSettings.SelectedProfile = profile;
-                                                //this.ReloadProfileMenuItems();
                                                 this.SetProfileMenu(profile);
                                             }
                                         } else {
@@ -3715,7 +3717,6 @@ namespace FallGuysStats {
                                 if (stat.ShowEnd < this.startupTime && this.useLinkedProfiles) {
                                     profile = this.GetLinkedProfileId(stat.ShowNameId, stat.PrivateLobby);
                                     this.CurrentSettings.SelectedProfile = profile;
-                                    //this.ReloadProfileMenuItems();
                                     this.SetProfileMenu(profile);
                                 }
 
@@ -3932,8 +3933,8 @@ namespace FallGuysStats {
                         // add new type of round to the rounds lookup
                         if (!stat.UseShareCode && !this.StatLookup.ContainsKey(stat.Name)) {
                             string roundName = stat.Name;
-                            roundName = roundName.StartsWith("round_", StringComparison.OrdinalIgnoreCase) ? roundName.Substring(6).Replace('_', ' ')
-                                                                                                                : roundName.Replace('_', ' ');
+                            roundName = roundName.StartsWith("round_") ? roundName.Substring(6).Replace('_', ' ')
+                                                                       : roundName.Replace('_', ' ');
 
                             LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
@@ -3958,13 +3959,13 @@ namespace FallGuysStats {
                             levelStats.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                             levelStats.Add(stat);
 
-                            if (!this.StatDetails.Contains(levelStats)) {
-                                LevelStats l1 = this.StatDetails.Find(l => string.Equals(l.ShareCode, levelStats.ShareCode));
-                                l1.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
-                                l1.Add(stat);
-                            }
+                            if (levelStats.IsCreative && !stat.UseShareCode) {
+                                if (!this.StatDetails.Contains(levelStats)) {
+                                    LevelStats l1 = this.StatDetails.Find(l => string.Equals(l.ShareCode, levelStats.ShareCode));
+                                    l1.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
+                                    l1.Add(stat);
+                                }
                             
-                            if (levelStats.IsCreative && !levelStats.Id.StartsWith("user_creative_")) {
                                 if (this.StatLookup.TryGetValue(this.GetCreativeLevelTypeId(levelStats.Type, levelStats.IsFinal), out LevelStats creativeLevel)) {
                                     creativeLevel.Increase(stat, this.profileWithLinkedCustomShow == stat.Profile);
                                     creativeLevel.Add(stat);
@@ -3997,7 +3998,6 @@ namespace FallGuysStats {
                 }
 
                 IsOverlayRoundInfoNeedRefresh = true;
-
             } catch (Exception ex) {
                 MetroMessageBox.Show(this, ex.ToString(), $"{Multilingual.GetWord("message_program_error_caption")}", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -4563,7 +4563,8 @@ namespace FallGuysStats {
             List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId() && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
                                                      : this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId());
 
-            foreach (RoundInfo info in roundInfo) {
+            for (int i = 0; i < roundInfo.Count; i++) {
+                RoundInfo info = roundInfo[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
                 bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
@@ -4576,16 +4577,25 @@ namespace FallGuysStats {
                     isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
                 }
                 
-                RoundInfo endRound = roundInfo.Where(r => r.ShowID == info.ShowID).OrderByDescending(r => r.Round).FirstOrDefault();
+                int startRoundShowId = info.ShowID;
+                RoundInfo endRound = info;
+                for (int j = i + 1; j < roundInfo.Count; j++) {
+                    if (roundInfo[j].ShowID != startRoundShowId) {
+                        break;
+                    }
+                    endRound = roundInfo[j];
+                }
 
-                bool isInWinsFilter = (useShareCode || !endRound.PrivateLobby)
+                bool isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !endRound.PrivateLobby;
+
+                bool isInWinsFilter = isShareCodeUsedOrIsNotPrivateLobby
                                       && (this.CurrentSettings.WinsFilter == 0
                                           || (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
                                           || (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart)
                                           || (this.CurrentSettings.WinsFilter == 3 && endRound.Start > WeekStart)
                                           || (this.CurrentSettings.WinsFilter == 4 && endRound.Start > DayStart)
                                           || (this.CurrentSettings.WinsFilter == 5 && endRound.Start > SessionStart));
-                bool isInQualifyFilter = (useShareCode || !endRound.PrivateLobby)
+                bool isInQualifyFilter = isShareCodeUsedOrIsNotPrivateLobby
                                          && (this.CurrentSettings.QualifyFilter == 0
                                              || (this.CurrentSettings.QualifyFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
                                              || (this.CurrentSettings.QualifyFilter == 2 && endRound.Start > SeasonStart)
@@ -4647,9 +4657,11 @@ namespace FallGuysStats {
                     }
                 }
 
+                isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !info.PrivateLobby;
+
                 if (info.Qualified) {
                     if (hasLevelDetails && (info.IsFinal || info.Crown)) {
-                        if (useShareCode || !info.PrivateLobby) {
+                        if (isShareCodeUsedOrIsNotPrivateLobby) {
                             summary.AllWins++;
                         }
 
@@ -4658,7 +4670,7 @@ namespace FallGuysStats {
                             summary.TotalFinals++;
                         }
 
-                        if (useShareCode || !info.PrivateLobby) {
+                        if (isShareCodeUsedOrIsNotPrivateLobby) {
                             summary.CurrentStreak++;
                             if (summary.CurrentStreak > summary.BestStreak) {
                                 summary.BestStreak = summary.CurrentStreak;
@@ -4674,7 +4686,7 @@ namespace FallGuysStats {
                             summary.TotalQualify++;
                         }
                     }
-                } else if (useShareCode || !info.PrivateLobby) {
+                } else if (isShareCodeUsedOrIsNotPrivateLobby) {
                     if (!info.IsFinal && !info.Crown) {
                         summary.CurrentFinalStreak = 0;
                     }
@@ -6637,7 +6649,7 @@ namespace FallGuysStats {
             }
         }
         
-        private string GetUserCreativeLevelTitle(string code) {
+        public string GetUserCreativeLevelTitle(string code) {
             string levelName = this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, code))?.CreativeTitle;
             return string.IsNullOrEmpty(levelName) ? code : levelName;
         }

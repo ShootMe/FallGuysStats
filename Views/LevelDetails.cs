@@ -994,6 +994,7 @@ namespace FallGuysStats {
                             foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
                                 RoundInfo bi = row.DataBoundItem as RoundInfo;
                                 this.StatsForm.RoundDetails.DeleteMany(r => r.ShowID == bi.ShowID);
+                                this.StatsForm.AllStats.RemoveAll(r => r.ShowID == bi.ShowID);
                             }
                             this.StatsForm.StatsDB.Commit();
                         }
@@ -1004,7 +1005,7 @@ namespace FallGuysStats {
                             if (this.currentPage > this.totalPages) {
                                 this.currentPage = this.totalPages;
                             }
-                            this.UpdateGridPage(this.currentPage == 1, this.currentPage == this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
+                            this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                             
                             this.gridDetails.Enabled = true;
                             this.spinnerTransition.Stop();
@@ -1038,8 +1039,8 @@ namespace FallGuysStats {
                             lock (this.StatsForm.StatsDB) {
                                 this.StatsForm.StatsDB.BeginTrans();
                                 foreach (DataGridViewRow row in this.gridDetails.SelectedRows) {
-                                    RoundInfo d = row.DataBoundItem as RoundInfo;
-                                    List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == d.ShowID && r.Profile == fromProfileId);
+                                    RoundInfo bi = row.DataBoundItem as RoundInfo;
+                                    List<RoundInfo> ri = this.StatsForm.AllStats.FindAll(r => r.ShowID == bi.ShowID && r.Profile == fromProfileId);
                                     foreach (RoundInfo r in ri) {
                                         r.Profile = toProfileId;
                                     }
@@ -1054,7 +1055,7 @@ namespace FallGuysStats {
                                 if (this.currentPage > this.totalPages) {
                                     this.currentPage = this.totalPages;
                                 }
-                                this.UpdateGridPage(this.currentPage == 1, this.currentPage == this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
+                                this.UpdateGridPage(this.currentPage <= 1, this.currentPage >= this.totalPages, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                                 
                                 this.gridDetails.Enabled = true;
                                 this.spinnerTransition.Stop();
