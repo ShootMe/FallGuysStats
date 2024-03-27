@@ -94,7 +94,9 @@
     /// Location of Toast. Only top right and bottom right supported
     /// </summary>
     public enum ToastPosition {
+        TopLeft,
         TopRight,
+        BottomLeft,
         BottomRight
     }
     

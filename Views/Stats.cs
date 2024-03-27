@@ -2918,6 +2918,20 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 85;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 85) {
+                this.StatsDB.BeginTrans();
+                this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "wle_shuffle_discover") && u.LevelId.StartsWith("wle_shuggle_mwk3_"));
+                this.UpcomingShow.DeleteAll();
+                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                this.StatsDB.Commit();
+                if (this.CurrentSettings.NotificationWindowPosition == 0) {
+                    this.CurrentSettings.NotificationWindowPosition += 3;
+                }
+                this.CurrentSettings.NotificationWindowAnimation = 0;
+                this.CurrentSettings.Version = 86;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3594,7 +3608,7 @@ namespace FallGuysStats {
             }
             string showName = $"{(string.Equals(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)), Multilingual.GetLevelName(roundId)) ? $"({Multilingual.GetLevelName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetLevelName(roundId)})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
-            ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+            ToastPosition toastPosition = Enum.TryParse(this.CurrentSettings.NotificationWindowPosition.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
             ToastSound toastSound = Enum.TryParse(this.CurrentSettings.NotificationSounds.ToString(), out ToastSound sound) ? sound : ToastSound.Generic01;
@@ -3628,7 +3642,7 @@ namespace FallGuysStats {
             }
             string description = $"{Multilingual.GetWord("message_connected_to_server_prefix")}{countryFullName}{Multilingual.GetWord("message_connected_to_server_suffix")}";
             Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_{(string.IsNullOrEmpty(LastCountryAlpha2Code) ? "unknown" : LastCountryAlpha2Code)}{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-            ToastPosition toastPosition = this.CurrentSettings.NotificationWindowPosition == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+            ToastPosition toastPosition = Enum.TryParse(this.CurrentSettings.NotificationWindowPosition.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
             ToastAnimation toastAnimation = this.CurrentSettings.NotificationWindowAnimation == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
             ToastSound toastSound = Enum.TryParse(this.CurrentSettings.NotificationSounds.ToString(), out ToastSound sound) ? sound : ToastSound.Generic01;

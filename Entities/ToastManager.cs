@@ -48,10 +48,25 @@ namespace FallGuysStats {
 		}
 
 		private static void SetLocation(ToastPosition toastPosition) {
+            var workingArea = Screen.GetWorkingArea(CurrentToast._eunmaToast);
 			switch (toastPosition) {
-				case ToastPosition.TopRight: {
-					var workingArea = Screen.GetWorkingArea(CurrentToast._eunmaToast);
-
+				case ToastPosition.TopLeft:
+					if (ToastCollection.Count == 0) {
+						CurrentToast._eunmaToast.Left = workingArea.Left + CurrentToast.GetHorizontalMargin();
+						CurrentToast._eunmaToast.Top = workingArea.Top + CurrentToast.GetVerticalMargin();
+					} else {
+						var collection = ToastCollection.GetTopLeftToasts();
+						var enumerable = collection as List<Toast> ?? collection.ToList();
+						if (enumerable.Count == 0) {
+							CurrentToast._eunmaToast.Left = workingArea.Left + CurrentToast.GetHorizontalMargin();
+							CurrentToast._eunmaToast.Top = workingArea.Top + CurrentToast.GetVerticalMargin();
+						} else {
+							CurrentToast._eunmaToast.Left = workingArea.Left + CurrentToast.GetHorizontalMargin();
+							CurrentToast._eunmaToast.Top = workingArea.Top + CurrentToast.SequentialId * CurrentToast._eunmaToast.Height + CurrentToast.SequentialId * CurrentToast.GetVerticalMargin() + CurrentToast.GetVerticalMargin();
+						}
+					}
+					break;
+				case ToastPosition.TopRight:
 					if (ToastCollection.Count == 0) {
 						CurrentToast._eunmaToast.Left = workingArea.Right - CurrentToast._eunmaToast.Width - CurrentToast.GetHorizontalMargin();
 						CurrentToast._eunmaToast.Top = workingArea.Top + CurrentToast.GetVerticalMargin();
@@ -66,10 +81,24 @@ namespace FallGuysStats {
 							CurrentToast._eunmaToast.Top = workingArea.Top + CurrentToast.SequentialId * CurrentToast._eunmaToast.Height + CurrentToast.SequentialId * CurrentToast.GetVerticalMargin() + CurrentToast.GetVerticalMargin();
 						}
 					}
-				}
 					break;
-				case ToastPosition.BottomRight: {
-					var workingArea = Screen.GetWorkingArea(CurrentToast._eunmaToast);
+				case ToastPosition.BottomLeft:
+					if (ToastCollection.Count == 0) {
+						CurrentToast._eunmaToast.Location = new Point(workingArea.Left + CurrentToast.GetHorizontalMargin(),
+							workingArea.Bottom - CurrentToast._eunmaToast.Size.Height - CurrentToast.GetVerticalMargin());
+					} else {
+						var collection = ToastCollection.GetBottomLeftToasts();
+						var enumerable = collection as List<Toast> ?? collection.ToList();
+						if (enumerable.Count == 0) {
+							CurrentToast._eunmaToast.Location = new Point(workingArea.Left + CurrentToast.GetHorizontalMargin(),
+								workingArea.Bottom - CurrentToast._eunmaToast.Size.Height - CurrentToast.GetVerticalMargin());
+						} else {
+							CurrentToast._eunmaToast.Location = new Point(workingArea.Left + CurrentToast.GetHorizontalMargin(),
+								workingArea.Bottom - CurrentToast._eunmaToast.Size.Height - CurrentToast._eunmaToast.Size.Height * CurrentToast.SequentialId - CurrentToast.GetVerticalMargin() * CurrentToast.SequentialId - CurrentToast.GetVerticalMargin());
+						}	
+					}
+					break;
+				case ToastPosition.BottomRight:
 					if (ToastCollection.Count == 0) {
 						CurrentToast._eunmaToast.Location = new Point(workingArea.Right - CurrentToast._eunmaToast.Size.Width - CurrentToast.GetHorizontalMargin(),
 							workingArea.Bottom - CurrentToast._eunmaToast.Size.Height - CurrentToast.GetVerticalMargin());
@@ -84,7 +113,6 @@ namespace FallGuysStats {
 								workingArea.Bottom - CurrentToast._eunmaToast.Size.Height - CurrentToast._eunmaToast.Size.Height * CurrentToast.SequentialId - CurrentToast.GetVerticalMargin() * CurrentToast.SequentialId - CurrentToast.GetVerticalMargin());
 						}	
 					}
-				}
 					break;
 			}
 		}
@@ -224,6 +252,19 @@ namespace FallGuysStats {
             }
             return 0;
         }
+        
+        /// <summary>
+        /// Get all Top-Right Toasts in collection
+        /// </summary>
+        /// <returns>Top-Left Toast list</returns>
+        public IEnumerable<Toast> GetTopLeftToasts() {
+            if (_privateList.Count == 0) yield break;
+            foreach (var toast in _privateList) {
+                if (toast.ToastPosition == ToastPosition.TopLeft) {
+                    yield return toast;
+                }
+            }
+        }
 
 		/// <summary>
 		/// Get all Top-Right Toasts in collection
@@ -233,6 +274,19 @@ namespace FallGuysStats {
 			if (_privateList.Count == 0) yield break;
 			foreach (var toast in _privateList) {
 				if (toast.ToastPosition == ToastPosition.TopRight) {
+					yield return toast;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Get all Bottom-Left Toasts in collection
+		/// </summary>
+		/// <returns></returns>
+		public IEnumerable<Toast> GetBottomLeftToasts() {
+			if(_privateList.Count == 0) yield break;
+			foreach (var toast in _privateList) {
+				if (toast.ToastPosition == ToastPosition.BottomLeft) {
 					yield return toast;
 				}
 			}

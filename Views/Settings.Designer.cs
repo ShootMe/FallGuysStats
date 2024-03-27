@@ -1144,7 +1144,7 @@
             this.cboNotificationWindowPosition.FormattingEnabled = true;
             this.cboNotificationWindowPosition.IntegralHeight = false;
             this.cboNotificationWindowPosition.ItemHeight = 24;
-            this.cboNotificationWindowPosition.Items.AddRange(new object[] { "Bottom Right", "Top Right" });
+            this.cboNotificationWindowPosition.Items.AddRange(new object[] { "Top Left", "Top Right", "Bottom Left", "Bottom Right" });
             this.cboNotificationWindowPosition.Location = new System.Drawing.Point(15, 300);
             this.cboNotificationWindowPosition.Name = "cboNotificationWindowPosition";
             this.cboNotificationWindowPosition.Size = new System.Drawing.Size(116, 29);

@@ -344,12 +344,11 @@ namespace FallGuysStats {
         private void mlPlayNotificationSounds_Click(object sender, EventArgs e) {
             this.BeginInvoke((MethodInvoker)delegate {
                 Image flagImage = (Image)Properties.Resources.ResourceManager.GetObject($"country_kr{(this.CurrentSettings.ShadeTheFlagImage ? "_shiny" : "")}_icon");
-                ToastPosition toastPosition = this.cboNotificationWindowPosition.SelectedIndex == 0 ? ToastPosition.BottomRight : ToastPosition.TopRight;
+                ToastPosition toastPosition = Enum.TryParse(this.cboNotificationWindowPosition.SelectedIndex.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
                 ToastAnimation toastAnimation = this.cboNotificationWindowAnimation.SelectedIndex == 0 ? ToastAnimation.FADE : ToastAnimation.SLIDE;
                 ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
-                ToastSound toastSound = this.cboNotificationSounds.SelectedIndex == 0 ? ToastSound.Generic01 :
-                                        this.cboNotificationSounds.SelectedIndex == 1 ? ToastSound.Generic02 :
-                                        this.cboNotificationSounds.SelectedIndex == 2 ? ToastSound.Generic03 : ToastSound.Generic04;
+                ToastSound toastSound = Enum.TryParse(this.cboNotificationSounds.SelectedIndex.ToString(), out ToastSound sound) ? sound : ToastSound.Generic01;
+                
                 this.StatsForm.ShowToastNotification(this.StatsForm, Properties.Resources.main_120_icon, Multilingual.GetWord("message_test_notifications_caption", this.DisplayLang), "MADE BY Qubit Guy@eunma A.K.A. 제임스 웹 우주 망원경",
                     Overlay.GetMainFont(16, FontStyle.Bold, this.DisplayLang), flagImage, ToastDuration.VERY_SHORT, toastPosition, toastAnimation, toastTheme, toastSound, this.chkMuteNotificationSounds.Checked, true);
             });
@@ -1006,11 +1005,13 @@ namespace FallGuysStats {
             // this.cboNotificationSounds.Width = (lang == Language.English || lang == Language.French) ? 172 : lang == Language.Korean ? 115 : lang == Language.Japanese ? 95 : 110;
             this.cboNotificationWindowPosition.Items.Clear();
             this.cboNotificationWindowPosition.Items.AddRange(new object[] {
-                Multilingual.GetWord("settings_notification_window_bottom_right"),
+                Multilingual.GetWord("settings_notification_window_top_left"),
                 Multilingual.GetWord("settings_notification_window_top_right"),
+                Multilingual.GetWord("settings_notification_window_bottom_left"),
+                Multilingual.GetWord("settings_notification_window_bottom_right"),
             });
             this.cboNotificationWindowPosition.SelectedIndex = this.CurrentSettings.NotificationWindowPosition;
-            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 131 : lang == Language.Korean ? 94 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 62 : lang == Language.TraditionalChinese ? 62 : 120;
+            this.cboNotificationWindowPosition.Width = lang == Language.English ? 116 : lang == Language.French ? 140 : lang == Language.Korean ? 108 : lang == Language.Japanese ? 62 : lang == Language.SimplifiedChinese ? 77 : lang == Language.TraditionalChinese ? 77 : 120;
             this.cboNotificationWindowPosition.Location = new Point(this.cboNotificationSounds.Location.X + this.cboNotificationSounds.Width + 5, this.cboNotificationWindowPosition.Location.Y);
             this.cboNotificationWindowAnimation.Location = new Point(this.cboNotificationWindowPosition.Location.X + this.cboNotificationWindowPosition.Width + 5, this.cboNotificationWindowAnimation.Location.Y);
             this.mlPlayNotificationSounds.Location = new Point(this.cboNotificationWindowAnimation.Location.X + this.cboNotificationWindowAnimation.Width + 5, this.mlPlayNotificationSounds.Location.Y);
