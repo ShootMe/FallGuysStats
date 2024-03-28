@@ -257,7 +257,7 @@ namespace FallGuysStats {
             "private_lobbies"
         };
         
-        private readonly Dictionary<string, string> LevelIdReplacerInDigisShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        // private readonly Dictionary<string, string> LevelIdReplacerInDigisShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             // { "wle_shuffle_halloween_1", "current_wle_fp5_falloween_7_01_01" },
             // { "wle_shuffle_halloween_2", "current_wle_fp5_falloween_7_01_02" },
             // { "wle_shuffle_halloween_3", "current_wle_fp5_falloween_7_02_01" },
@@ -339,9 +339,9 @@ namespace FallGuysStats {
             // { "wle_shuffle_halloween_87", "current_wle_fp5_falloween_3_04" },
             // { "wle_shuffle_halloween_88", "current_wle_fp5_falloween_3_03" },
             // { "wle_shuffle_halloween_90", "current_wle_fp5_falloween_3_02" }
-        };
+        // };
         
-        private readonly Dictionary<string, string> LevelIdReplacerInShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+        // private readonly Dictionary<string, string> LevelIdReplacerInShuffleShow = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
             // { "wle_round_mrs_shuffle_discover_001", "wle_discover_level_wk2_027" },
             // { "wle_round_mrs_shuffle_discover_002", "wle_discover_level_wk2_015" },
             // { "wle_round_mrs_shuffle_discover_003", "wle_discover_level_wk2_007" },
@@ -389,7 +389,7 @@ namespace FallGuysStats {
             // { "wle_mrs_shuffle_show_roundpool_winter_37", "current_wle_fp4_10_07" },
             // { "wle_mrs_shuffle_show_roundpool_winter_42", "wle_discovery_shuffle_up2_37" },
             // { "wle_mrs_shuffle_show_roundpool_winter_48", "wle_discover_level_wk2_029" },
-        };
+        // };
         
         public string GetUserCreativeLevelTypeId(string gameModeId) {
             switch (gameModeId) {
@@ -2430,18 +2430,18 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 59) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") &&
-                          ri.Name.StartsWith("shuffle_halloween_")
-                    select ri).ToList();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue($"wle_{ri.Name}", out string newName)) {
-                        ri.Name = newName;
-                    }
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
+                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                //     where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") &&
+                //           ri.Name.StartsWith("shuffle_halloween_")
+                //     select ri).ToList();
+                // foreach (RoundInfo ri in roundInfoList) {
+                //     if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue($"wle_{ri.Name}", out string newName)) {
+                //         ri.Name = newName;
+                //     }
+                // }
+                // this.StatsDB.BeginTrans();
+                // this.RoundDetails.Update(roundInfoList);
+                // this.StatsDB.Commit();
                 this.CurrentSettings.Version = 60;
                 this.SaveUserSettings();
             }
@@ -2528,95 +2528,95 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 68) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
-                          || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                    select ri).ToList();
-                
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
-                
-                this.StatsDB.BeginTrans();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
-                        ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
-                    }
-                    if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
-                        ri.Name = newName;
-                    }
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = true;
-
-                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
-                        List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
-                        foreach (RoundInfo r in ril) {
-                            if (r.Round != ri.Round) {
-                                r.IsFinal = false;
-                            }
-                        }
-                        this.RoundDetails.Update(ril);
-                    }
-                }
-                
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
+                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                //     where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
+                //           || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                //     select ri).ToList();
+                //
+                // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                // int profileId = profile?.ProfileId ?? -1;
+                //
+                // this.StatsDB.BeginTrans();
+                // foreach (RoundInfo ri in roundInfoList) {
+                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
+                //         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
+                //     }
+                //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
+                //         ri.Name = newName;
+                //     }
+                //     if (profileId != -1) ri.Profile = profileId;
+                //     ri.IsFinal = true;
+                //
+                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                //         foreach (RoundInfo r in ril) {
+                //             if (r.Round != ri.Round) {
+                //                 r.IsFinal = false;
+                //             }
+                //         }
+                //         this.RoundDetails.Update(ril);
+                //     }
+                // }
+                //
+                // this.RoundDetails.Update(roundInfoList);
+                // this.StatsDB.Commit();
                 this.CurrentSettings.Version = 69;
                 this.SaveUserSettings();
             }
             
             if (this.CurrentSettings.Version == 69) {
-                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
-                          || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
-                    select ri).ToList();
+                // List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                //     where string.Equals(ri.ShowNameId, "wle_shuffle_discover")
+                //           || string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads")
+                //     select ri).ToList();
+                //
+                // Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                // int profileId = profile?.ProfileId ?? -1;
+                //
+                // this.StatsDB.BeginTrans();
+                // foreach (RoundInfo ri in roundInfoList) {
+                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
+                //         ri.Name = ri.Name.Replace("_squads", "");
+                //     }
+                //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
+                //         ri.Name = newName;
+                //     }
+                //     if (profileId != -1) ri.Profile = profileId;
+                //     ri.IsFinal = true;
+                //
+                //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
+                //         List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
+                //         foreach (RoundInfo r in ril) {
+                //             if (r.Round != ri.Round) {
+                //                 r.IsFinal = false;
+                //             }
+                //         }
+                //         this.RoundDetails.Update(ril);
+                //     }
+                // }
+                // this.RoundDetails.Update(roundInfoList);
+                // this.StatsDB.Commit();
                 
-                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
-                int profileId = profile?.ProfileId ?? -1;
+                // Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                //     { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
+                //     { "wle_discover_level_wk2_011", "current_wle_fp6_wk4_05_01" },
+                //     { "wle_discover_level_wk2_042", "current_wle_fp6_wk4_02_04" },
+                //     { "wle_discover_level_wk2_044", "current_wle_fp6_wk4_05_02" },
+                //     { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
+                // };
+                //
+                // List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll() 
+                //     where duplicatedKey.ContainsKey(ri.Name) select ri).ToList();
+                //
+                // foreach (RoundInfo ri in roundInfoList2) {
+                //     if (duplicatedKey.TryGetValue(ri.Name, out string newName)) {
+                //         ri.Name = newName;
+                //     }
+                // }
                 
-                this.StatsDB.BeginTrans();
-                foreach (RoundInfo ri in roundInfoList) {
-                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
-                        ri.Name = ri.Name.Replace("_squads", "");
-                    }
-                    if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
-                        ri.Name = newName;
-                    }
-                    if (profileId != -1) ri.Profile = profileId;
-                    ri.IsFinal = true;
-
-                    if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
-                        List<RoundInfo> ril = roundInfoList.FindAll(r => r.ShowID == ri.ShowID);
-                        foreach (RoundInfo r in ril) {
-                            if (r.Round != ri.Round) {
-                                r.IsFinal = false;
-                            }
-                        }
-                        this.RoundDetails.Update(ril);
-                    }
-                }
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                Dictionary<string, string> duplicatedKey = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                    { "wle_discover_level_wk2_004", "current_wle_fp4_05_01_05" },
-                    { "wle_discover_level_wk2_011", "current_wle_fp6_wk4_05_01" },
-                    { "wle_discover_level_wk2_042", "current_wle_fp6_wk4_02_04" },
-                    { "wle_discover_level_wk2_044", "current_wle_fp6_wk4_05_02" },
-                    { "wle_discover_level_wk2_045", "current_wle_fp6_3_04" }
-                };
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll() 
-                    where duplicatedKey.ContainsKey(ri.Name) select ri).ToList();
-                
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (duplicatedKey.TryGetValue(ri.Name, out string newName)) {
-                        ri.Name = newName;
-                    }
-                }
-                
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
+                // this.StatsDB.BeginTrans();
+                // this.RoundDetails.Update(roundInfoList2);
+                // this.StatsDB.Commit();
                 this.CurrentSettings.Version = 70;
                 this.SaveUserSettings();
             }
@@ -4354,30 +4354,8 @@ namespace FallGuysStats {
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if (string.Equals("wle_mrs_shuffle_show", showId)) { // Digi's Shuffle Selection
-                if (this.LevelIdReplacerInDigisShuffleShow.TryGetValue(roundId, out string newName)) {
-                    return newName;
-                }
-                return roundId.StartsWith("mrs_wle_fp") ? $"current{roundId.Substring(3)}" : (roundId.StartsWith("wle_digishuffle_") ? roundId : roundId.Substring(4));
-            } else if (string.Equals("wle_shuffle_discover", showId)) { // Unexplored Adventures
-                if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
-                    return newName;
-                }
-            } else if (string.Equals("wle_mrs_shuffle_show_squads", showId)) { // Squads Scramble
-                if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
-                    roundId = roundId.Replace("_squads_", "_discover_");
-                } else if (roundId.StartsWith("wle_shuffle_squads_2_24_01_")) {
-                    roundId = roundId.Replace("_squads_", "_").Replace("_24_01_", "_24_");
-                } else {
-                    roundId = roundId.Replace("_squads_", "_");
-                }
-                if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
-                    return newName;
-                }
-            } else if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) { // Casual Rumble
+            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
                 roundId = roundId.Replace("_noelim", "");
-            } else if (this.LevelIdReplacerInShuffleShow.TryGetValue(roundId, out string newName)) {
-                return newName;
             }
             return roundId;
         }
