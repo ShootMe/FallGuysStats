@@ -20,8 +20,8 @@ namespace FallGuysStats {
         private readonly string PLAYER_LIST_API_URL = "https://data.fallalytics.com/api/user-search?q=";
         private readonly string PLAYER_DETAILS_API_URL = "https://data.fallalytics.com/api/user-stats?user=";
         private string levelKey = String.Empty;
-        private int totalPlayers, totalPages; //, currentPage, totalHeight;
-        private int myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
+        private int totalPages; //, currentPage, totalHeight;
+        private int totalLevelPlayers, myLevelRank = -1, myOverallRank = -1, myWeeklyCrownRank = -1;
         private DateTime refreshTime;
         private List<AvailableLevel.LevelInfo> availableLevelList;
         private List<LevelRank.RankInfo> levelRankList;
@@ -107,15 +107,27 @@ namespace FallGuysStats {
                             this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
                             this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
                             this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3);
-                            
+
                             if (this.myOverallRank == 1) {
-                                this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                                this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                             } else {
-                                double percentage = ((double)(this.myOverallRank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
+                                double percentage = ((double)(this.myOverallRank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
                                 if (percentage <= 20) {
-                                    this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                    if (this.myOverallRank == 2) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                                    } else if (this.myOverallRank == 3) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                                    } else {
+                                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                    }
                                 } else if (percentage <= 50) {
-                                    this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                    if (this.myOverallRank == 2) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                                    } else if (this.myOverallRank == 3) {
+                                        this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                                    } else {
+                                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                    }
                                 } else if (percentage <= 100) {
                                     this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                                 } else {
@@ -235,13 +247,25 @@ namespace FallGuysStats {
                 this.myOverallRank = index + 1;
                 
                 if (this.myOverallRank == 1) {
-                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                    this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(this.myOverallRank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
+                    double percentage = ((double)(this.myOverallRank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
                     if (percentage <= 20) {
-                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        if (this.myOverallRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (this.myOverallRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
-                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        if (this.myOverallRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (this.myOverallRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else if (percentage <= 100) {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     } else {
@@ -398,11 +422,9 @@ namespace FallGuysStats {
 
         private void SetLeaderboardUI(int index) {
             this.mtcTabControl.Enabled = true;
-            // this.mtpLevelRankPage.Text = $@"{this.cboRoundList.SelectedName} ({Multilingual.GetWord("leaderboard_total_players_prefix")}{this.totalPlayers}{Multilingual.GetWord("leaderboard_total_players_suffix")})";
-            this.mtpLevelRankPage.Text = $@"🏅 {this.cboRoundList.SelectedName} ({this.totalPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+            this.mtpLevelRankPage.Text = $@"🏅 {this.cboRoundList.SelectedName} ({this.totalLevelPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
-            // this.targetSpinner = null;
             this.gridLevelRank.DataSource = this.levelRankList;
             Application.DoEvents();
             this.myLevelRank = -1;
@@ -417,13 +439,25 @@ namespace FallGuysStats {
                     this.mlMyRank.Visible = true;
                     this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myLevelRank)} {Stats.OnlineServiceNickname}";
                     if (this.myLevelRank == 1) {
-                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                        this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                     } else {
-                        double percentage = ((double)(this.myLevelRank - 1) / ((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) - 1)) * 100;
+                        double percentage = ((double)(this.myLevelRank - 1) / (Math.Min(1000, this.totalLevelPlayers) - 1)) * 100;
                         if (percentage <= 20) {
-                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                            if (this.myLevelRank == 2) {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                            } else if (this.myLevelRank == 3) {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                            } else {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                            }
                         } else if (percentage <= 50) {
-                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                            if (this.myLevelRank == 2) {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                            } else if (this.myLevelRank == 3) {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                            } else {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                            }
                         } else if (percentage <= 100) {
                             this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                         } else {
@@ -505,8 +539,8 @@ namespace FallGuysStats {
                     LevelRank levelRank = JsonSerializer.Deserialize<LevelRank>(json, options);
                     isFound = levelRank.found;
                     if (isFound) {
-                        this.totalPlayers = levelRank.total;
-                        this.totalPages = (int)Math.Ceiling((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) / 100f);
+                        this.totalLevelPlayers = levelRank.total;
+                        this.totalPages = (int)Math.Ceiling((this.totalLevelPlayers > 1000 ? 1000 : this.totalLevelPlayers) / 100f);
                         for (int i = 0; i < levelRank.recordholders.Count; i++) {
                             LevelRank.RankInfo temp = levelRank.recordholders[i];
                             temp.rank = i + 1;
@@ -538,12 +572,12 @@ namespace FallGuysStats {
                         }
                     } else {
                         this.totalPages = 0;
-                        this.totalPlayers = 0;
+                        this.totalLevelPlayers = 0;
                     }
                 } catch {
                     isFound = false;
                     this.totalPages = 0;
-                    this.totalPlayers = 0;
+                    this.totalLevelPlayers = 0;
                 }
             }
             return isFound;
@@ -952,7 +986,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / ((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / ((this.totalLevelPlayers > 1000 ? 1000 : this.totalLevelPlayers) - 1)) * 100;
                     if (percentage < 20) {
                         ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
@@ -1778,13 +1812,25 @@ namespace FallGuysStats {
                                 int firstDisplayedScrollingRowIndex = index - (displayedRowCount / 2);
                                 this.gridWeeklyCrown.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                                 if (this.myWeeklyCrownRank == 1) {
-                                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                                    this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                                 } else {
-                                    double percentage = ((double)(this.myWeeklyCrownRank - 1) / ((this.StatsForm.totalWeeklyCrownPlayers > 1000 ? 1000 : this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
+                                    double percentage = ((double)(this.myWeeklyCrownRank - 1) / (Math.Min(1000, this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
                                     if (percentage <= 20) {
-                                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                        if (this.myWeeklyCrownRank == 2) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                                        } else if (this.myWeeklyCrownRank == 3) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                                        } else {
+                                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                                        }
                                     } else if (percentage <= 50) {
-                                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                        if (this.myWeeklyCrownRank == 2) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                                        } else if (this.myWeeklyCrownRank == 3) {
+                                            this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                                        } else {
+                                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                                        }
                                     } else if (percentage <= 100) {
                                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                                     } else {
@@ -1822,13 +1868,25 @@ namespace FallGuysStats {
                 if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
                     this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
                     if (this.myWeeklyCrownRank == 1) {
-                        this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                        this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                     } else { 
-                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / ((this.StatsForm.totalWeeklyCrownPlayers > 1000 ? 1000 : this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
+                        double percentage = ((double)(this.myWeeklyCrownRank - 1) / (Math.Min(1000, this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
                         if (percentage <= 20) {
-                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                            if (this.myWeeklyCrownRank == 2) {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                            } else if (this.myWeeklyCrownRank == 3) {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                            } else {
+                                this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                            }
                         } else if (percentage <= 50) {
-                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                            if (this.myWeeklyCrownRank == 2) {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                            } else if (this.myWeeklyCrownRank == 3) {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                            } else {
+                                this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                            }
                         } else if (percentage <= 100) {
                             this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                         } else {
@@ -1856,13 +1914,25 @@ namespace FallGuysStats {
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myOverallRank)} {Stats.OnlineServiceNickname}";
                 this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myOverallRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                 if (this.myOverallRank == 1) {
-                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                    this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(this.myOverallRank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
+                    double percentage = ((double)(this.myOverallRank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
                     if (percentage <= 20) {
-                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        if (this.myOverallRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (this.myOverallRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
-                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        if (this.myOverallRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (this.myOverallRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else if (percentage <= 100) {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     } else {
@@ -1878,13 +1948,25 @@ namespace FallGuysStats {
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myLevelRank)} {Stats.OnlineServiceNickname}";
                 this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, this.myLevelRank != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
                 if (this.myLevelRank == 1) {
-                    this.mlMyRank.Image = Properties.Resources.medal_gold_grid_icon;
+                    this.mlMyRank.Image = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(this.myLevelRank - 1) / ((this.totalPlayers > 1000 ? 1000 : this.totalPlayers) - 1)) * 100;
+                    double percentage = ((double)(this.myLevelRank - 1) / (Math.Min(1000, this.totalLevelPlayers) - 1)) * 100;
                     if (percentage <= 20) {
-                        this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        if (this.myLevelRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_2nd_grid_icon;
+                        } else if (this.myLevelRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_silver_grid_icon;
+                        }
                     } else if (percentage <= 50) {
-                        this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        if (this.myLevelRank == 2) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_2nd_grid_icon;
+                        } else if (this.myLevelRank == 3) {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_3rd_grid_icon;
+                        } else {
+                            this.mlMyRank.Image = Properties.Resources.medal_bronze_grid_icon;
+                        }
                     } else if (percentage <= 100) {
                         this.mlMyRank.Image = Properties.Resources.medal_pink_grid_icon;
                     } else {
