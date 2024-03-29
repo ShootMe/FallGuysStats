@@ -234,7 +234,7 @@ namespace FallGuysStats {
             "event_anniversary_season_1_alternate_name",
             "event_blast_ball_banger_template",
             "event_only_button_bashers_template",
-            "event_only_finals_v2_template",
+            "event_only_finals_v3_template",
             "event_only_races_any_final_template",
             "event_only_fall_ball_template",
             "event_only_hexaring_template",
@@ -545,7 +545,7 @@ namespace FallGuysStats {
                     UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<UpcomingShowInfo>(json);
                     if (upcomingShow.ok) {
                         var temps = new List<UpcomingShow>();
-                        foreach (var show in upcomingShow.data.shows) {
+                        foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                             foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
                                 if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id))
                                     && !LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
@@ -2932,6 +2932,16 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 86;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 86) {
+                this.StatsDB.BeginTrans();
+                this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "event_april_fools") && !u.LevelId.StartsWith("wle_shuffle_falljam_april_"));
+                this.UpcomingShow.DeleteAll();
+                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 87;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3606,7 +3616,8 @@ namespace FallGuysStats {
                 timeDiffContent = timeDiff.Minutes > 0 ? $" ⏱️{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_prefix")}{timeDiff.Minutes}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_infix")} {timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_minute_suffix")}"
                                   : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
-            string showName = $"{(string.Equals(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)), Multilingual.GetLevelName(roundId)) ? $"({Multilingual.GetLevelName(roundId)})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {Multilingual.GetLevelName(roundId)})")}";
+            string levelName = this.StatLookup.TryGetValue(roundId, out LevelStats l1) ? l1.Name : roundId;
+            string showName = $"{(string.Equals(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)), levelName) ? $"({levelName})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {levelName})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
             ToastPosition toastPosition = Enum.TryParse(this.CurrentSettings.NotificationWindowPosition.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;
@@ -4354,17 +4365,18 @@ namespace FallGuysStats {
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
+            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) { // Casual Rumble
                 roundId = roundId.Replace("_noelim", "");
             }
             return roundId;
         }
         
         private bool IsCreativeShow(string showId) {
-            return showId.StartsWith("event_wle_s10_") ||
+            return showId.StartsWith("event_wle_") ||
                    showId.StartsWith("show_wle") ||
                    showId.StartsWith("wle_") ||
-                   showId.StartsWith("current_wle_");
+                   showId.StartsWith("current_wle_") ||
+                   (showId.StartsWith("event_") && showId.EndsWith("_fools"));
         }
         
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
@@ -5323,7 +5335,8 @@ namespace FallGuysStats {
                     LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
                     using (LevelDetails levelDetails = new LevelDetails {
                                StatsForm = this,
-                               LevelName = levelStats.Id,
+                               LevelId =levelStats.Id,
+                               LevelName = levelStats.Name,
                                RoundIcon = levelStats.RoundBigIcon,
                                IsCreative = levelStats.IsCreative
                            }) {
@@ -5485,14 +5498,15 @@ namespace FallGuysStats {
                                 currentWins++;
                                 isIncrementedWins = true;
                                 
+                                string levelName = this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
-                                    if (wi.ContainsKey($"{Multilingual.GetLevelName(info.Name)};crown")) {
-                                        wi[$"{Multilingual.GetLevelName(info.Name)};crown"] += 1;
+                                    if (wi.ContainsKey($"{levelName};crown")) {
+                                        wi[$"{levelName};crown"] += 1;
                                     } else {
-                                        wi[$"{Multilingual.GetLevelName(info.Name)};crown"] = 1;
+                                        wi[$"{levelName};crown"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetLevelName(info.Name)};crown", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{levelName};crown", 1}});
                                 }
 
                                 if (isOverDate) {
@@ -5500,14 +5514,15 @@ namespace FallGuysStats {
                                     isIncrementedShows = false;
                                 }
                             } else {
+                                string levelName = this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
-                                    if (wi.ContainsKey($"{Multilingual.GetLevelName(info.Name)};eliminated")) {
-                                        wi[$"{Multilingual.GetLevelName(info.Name)};eliminated"] += 1;
+                                    if (wi.ContainsKey($"{levelName};eliminated")) {
+                                        wi[$"{levelName};eliminated"] += 1;
                                     } else {
-                                        wi[$"{Multilingual.GetLevelName(info.Name)};eliminated"] = 1;
+                                        wi[$"{levelName};eliminated"] = 1;
                                     }
                                 } else {
-                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{Multilingual.GetLevelName(info.Name)};eliminated", 1}});
+                                    winsInfo.Add(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), new SortedList<string, int> {{$"{levelName};eliminated", 1}});
                                 }
                                 
                                 if (isOverDate) {
@@ -5604,10 +5619,11 @@ namespace FallGuysStats {
                     if (i > 0 && (rounds[i].Name.StartsWith("round_") && !string.Equals(rounds[i].Name, rounds[i - 1].Name)
                                   || ((!rounds[i].Name.StartsWith("round_") && rounds[i - 1].Name.StartsWith("round_"))
                                       || (!rounds[i].Name.StartsWith("round_") && !rounds[i - 1].Name.StartsWith("round_") && this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l1) && this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l2) && !string.Equals(l1.ShareCode, l2.ShareCode))))) {
+                        string levelName = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l3) ? l3.Name : rounds[i - 1].Name;
                         levelTotalPlayTime.Add(rounds[i - 1].Name, pt);
                         levelMedalInfo.Add(rounds[i - 1].Name, new[] { p, gm, sm, bm, pm, em });
                         levelScoreInfo.Add(rounds[i - 1].Name, new[] { hs, ls });
-                        levelList.Add(rounds[i - 1].Name, Multilingual.GetLevelName(rounds[i - 1].Name).Replace("&", "&&"));
+                        levelList.Add(rounds[i - 1].Name, levelName.Replace("&", "&&"));
                         pt = TimeSpan.Zero;
                         hs = 0; ls = 0;
                         p = 0; gm = 0; sm = 0; bm = 0; pm = 0; em = 0;
@@ -5629,10 +5645,11 @@ namespace FallGuysStats {
                     }
 
                     if (i == rounds.Count - 1) {
+                        string levelName = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l3) ? l3.Name : rounds[i - 1].Name;
                         levelTotalPlayTime.Add(rounds[i].Name, pt);
                         levelMedalInfo.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
                         levelScoreInfo.Add(rounds[i].Name, new[] { hs, ls });
-                        levelList.Add(rounds[i].Name, Multilingual.GetLevelName(rounds[i].Name).Replace("&", "&&"));
+                        levelList.Add(rounds[i].Name, levelName.Replace("&", "&&"));
                     }
                 }
 
@@ -6184,7 +6201,7 @@ namespace FallGuysStats {
                         this.weeklyCrownCurrentWeek = (int)weeklyCrown.week;
                         this.weeklyCrownPeriod = Utils.GetStartAndEndDates(this.weeklyCrownCurrentYear, this.weeklyCrownCurrentWeek);
                         int totalPlayers = weeklyCrown.total;
-                        int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
+                        int totalPages = (int)Math.Ceiling(Math.Min(1000, totalPlayers) / 100f);
                         for (int i = 0; i < weeklyCrown.users.Count; i++) {
                             WeeklyCrown.Player temp = weeklyCrown.users[i];
                             temp.rank = i + 1;
@@ -6237,7 +6254,7 @@ namespace FallGuysStats {
                     OverallRank overallRank = System.Text.Json.JsonSerializer.Deserialize<OverallRank>(json);
                     if (overallRank.found) {
                         int totalPlayers = overallRank.total;
-                        int totalPages = (int)Math.Ceiling((totalPlayers > 1000 ? 1000 : totalPlayers) / 100f);
+                        int totalPages = (int)Math.Ceiling(Math.Min(1000, totalPlayers) / 100f);
                         for (int i = 0; i < overallRank.users.Count; i++) {
                             OverallRank.Player temp = overallRank.users[i];
                             temp.rank = i + 1;

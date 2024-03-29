@@ -387,7 +387,7 @@ namespace FallGuysStats {
                 foreach (AvailableLevel.LevelInfo level in this.availableLevelList) {
                     foreach (string id in level.ids) {
                         if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
-                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), Multilingual.GetLevelName(levelStats.Id), Overlay.GetMainFont(15f), new[] { level.queryname, levelStats.Id, levelStats.IsCreative.ToString() }));
+                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { level.queryname, string.Join(";", level.ids), levelStats.IsCreative.ToString() }));
                             break;
                         }
                     }
@@ -1207,7 +1207,7 @@ namespace FallGuysStats {
                             bool isCreative1 = LevelStats.ALL.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
                             bool isCreative2 = LevelStats.ALL.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
                             int result = isCreative1.CompareTo(isCreative2);
-                            return result == 0 ? string.Compare(Multilingual.GetLevelName(p1.round), Multilingual.GetLevelName(p2.round), StringComparison.Ordinal) : result;
+                            return result == 0 ? string.Compare(l1.Name, l2.Name, StringComparison.Ordinal) : result;
                         });
                         this.playerDetails = ps.pbs;
                         this.speedrunRank = ps.speedrunrank;
@@ -1387,10 +1387,7 @@ namespace FallGuysStats {
                     if (info.index == 1) {
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Goldenrod : Color.Gold;
                     }
-
-                    e.Value = string.Equals(Multilingual.GetLevelName((string)e.Value), (string)e.Value)
-                        ? Multilingual.GetLevelName(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, (string)e.Value))
-                        : Multilingual.GetLevelName((string)e.Value);
+                    e.Value = this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats l2) ? l2.Name : (string)e.Value;
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "medal") {
                 if (info.index == 0) {
@@ -1441,7 +1438,7 @@ namespace FallGuysStats {
             
             this.playerDetails.Sort(delegate (PlayerStats.PbInfo one, PlayerStats.PbInfo two) {
                 int showCompare = String.Compare(Multilingual.GetShowName(one.show), Multilingual.GetShowName(two.show), StringComparison.Ordinal);
-                int roundCompare = String.Compare(Multilingual.GetLevelName(one.round), Multilingual.GetLevelName(two.round), StringComparison.Ordinal);
+                int roundCompare = String.Compare((this.StatsForm.StatLookup.TryGetValue(one.round, out LevelStats l1) ? l1.Name : one.round), (this.StatsForm.StatLookup.TryGetValue(two.round, out LevelStats l2) ? l2.Name : two.round), StringComparison.Ordinal);
                 int rankCompare = one.index.CompareTo(two.index);
                 if (sortOrder == SortOrder.Descending) {
                     (one, two) = (two, one);
@@ -1453,7 +1450,7 @@ namespace FallGuysStats {
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "roundIcon":
                     case "round":
-                        roundCompare = String.Compare(Multilingual.GetLevelName(one.round), Multilingual.GetLevelName(two.round), StringComparison.Ordinal);
+                        roundCompare = String.Compare(l1.Name, l2.Name, StringComparison.Ordinal);
                         return roundCompare != 0 ? roundCompare : showCompare;
                     case "medal":
                         double onePercentage = ((double)(one.index - 1) / ((one.roundTotal > 1000 ? 1000 : one.roundTotal) - 1)) * 100;

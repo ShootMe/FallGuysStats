@@ -10,6 +10,7 @@ using MetroFramework;
 
 namespace FallGuysStats {
     public partial class LevelDetails : MetroFramework.Forms.MetroForm {
+        public string LevelId { get; set; }
         public string LevelName { get; set; }
         public Image RoundIcon { get; set; }
         public bool IsCreative { get; set; }
@@ -83,7 +84,7 @@ namespace FallGuysStats {
                 this.gridDetails.Name = "gridLevelsStats";
                 this.gridDetails.MultiSelect = false;
                 this.BackImage = this.RoundIcon;
-                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetLevelName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
                 this.statType = StatType.Levels;
             }
             this.ClientSize = new Size(this.GetClientWidth(), this.Height + 387);
@@ -137,7 +138,7 @@ namespace FallGuysStats {
                     this.Invalidate();
                     break;
                 case StatType.Levels when string.Equals(this.gridDetails.Name, "gridLevelsStats"):
-                    LevelStats levelStats = this.StatsForm.GetFilteredDataSource(this.StatsForm.CurrentSettings.GroupingCreativeRoundLevels).Find(l => string.Equals(l.Id, this.LevelName));
+                    LevelStats levelStats = this.StatsForm.GetFilteredDataSource(this.StatsForm.CurrentSettings.GroupingCreativeRoundLevels).Find(l => string.Equals(l.Id, this.LevelId));
                     this.RoundDetails = levelStats.Stats;
                     this.totalPages = (int)Math.Ceiling(this.RoundDetails.Count / (float)this.pageSize);
                     if (this.currentProfileId != this.StatsForm.GetCurrentProfileId()) {
@@ -146,7 +147,7 @@ namespace FallGuysStats {
                     }
                     this.UpdateGridPage(false, true, FirstDisplayedScrollingRowIndex.PrevIndex, false);
                     this.BackImage = levelStats.RoundIcon;
-                    this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{Multilingual.GetLevelName(this.LevelName)} ({StatsForm.GetCurrentFilterName()})";
+                    this.Text = $@"     {Multilingual.GetWord("level_detail_level_stats")} - {(this.IsCreative ? "🛠️ " : "")}{this.LevelName} ({StatsForm.GetCurrentFilterName()})";
                     this.Invalidate();
                     break;
             }
@@ -382,9 +383,9 @@ namespace FallGuysStats {
                     return this.Width - (lang == Language.English ? -380 : lang == Language.French ? -400 : lang == Language.Korean ? -370 : lang == Language.Japanese ? -370 : -380);
                 case StatType.Rounds:
                 case StatType.Levels:
-                    return this.Width + (lang == Language.English ? 1150 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
+                    return this.Width + (lang == Language.English ? 1200 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
                 default:
-                    return this.Width + (lang == Language.English ? 1150 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
+                    return this.Width + (lang == Language.English ? 1200 : lang == Language.French ? 1250 : lang == Language.Korean ? 1150 : lang == Language.Japanese ? 1150 : 1230);
             }
         }
         
@@ -482,6 +483,8 @@ namespace FallGuysStats {
             this.isScrollingStopped = false;
             this.scrollTimer.Stop();
             this.scrollTimer.Start();
+            
+            this.StatsForm.HideCustomTooltip(this);
             
             // if (((Grid)sender).VerticalScrollingOffset == 0) {
             //     if (!this.preventPaging && this.mlLeftPagingButton.Enabled) {
@@ -1249,7 +1252,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : name, out LevelStats levelStats)) {
                         type = $"⟦{levelStats.Type.LevelTitle(false)}⟧ ";
                     }
-                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{Multilingual.GetLevelName(name)}");
+                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{levelStats.Name ?? name}");
                     if (i != s.Length - 1) strBuilder.Append(Environment.NewLine);
                 }
 

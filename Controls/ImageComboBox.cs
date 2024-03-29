@@ -250,7 +250,7 @@ namespace FallGuysStats {
         public void SelectedImageItem(string data, int dataIndex = 0) {
             int index = this.Items.Cast<ImageItem>()
                 .Select((item, idx) => new { Item = item, Index = idx })
-                .FirstOrDefault(x => string.Equals(data, x.Item.Data[dataIndex]))?.Index ?? -1;
+                .FirstOrDefault(x => x.Item.Data[dataIndex].Split(';').Any(d => d == data))?.Index ?? -1;
 
             if (index != -1) {
                 this.SelectedIndex = index;

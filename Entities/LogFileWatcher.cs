@@ -318,7 +318,8 @@ namespace FallGuysStats {
                  || showId.StartsWith("wle_shuffle_")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")
-                 || string.Equals(showId, "wle_playful_shuffle")) {
+                 || string.Equals(showId, "wle_playful_shuffle")
+                 || (showId.StartsWith("event_") && showId.EndsWith("_fools")) && roundId.StartsWith("wle_shuffle_")) {
                 return true;
             }
 
