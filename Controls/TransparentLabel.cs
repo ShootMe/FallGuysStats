@@ -6,13 +6,6 @@ using System.Drawing.Text;
 using System.Windows.Forms;
 namespace FallGuysStats {
     public class TransparentLabel : Label {
-        protected override CreateParams CreateParams {
-            get {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;
-                return cp;
-            }
-        }
         public TransparentLabel() {
             this.DrawVisible = true;
             this.TextRight = null;
@@ -36,27 +29,22 @@ namespace FallGuysStats {
         
         public void Draw(Graphics g) {
             if (!this.DrawVisible) { return; }
-            if (this.PlatformIcon != null) {
+            using (SolidBrush brBack = new SolidBrush(this.BackColor)) {
                 using (SolidBrush brFore = new SolidBrush(this.ForeColor)) {
-                    StringFormat stringFormat = new StringFormat {
-                        Alignment = StringAlignment.Far,
-                        LineAlignment = StringAlignment.Center
-                    };
                     g.SmoothingMode = SmoothingMode.HighQuality;
                     g.InterpolationMode = InterpolationMode.HighQualityBilinear;
                     g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-                    g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.PlatformIcon.Width : this.ImageWidth, this.ImageHeight == 0 ? this.PlatformIcon.Height : this.ImageHeight);
-                    if (this.TextRight != null) {
-                        g.DrawString(this.TextRight, new Font(this.Font.FontFamily, this.Font.Size * 0.77f, this.Font.Style, GraphicsUnit.Pixel), brFore, new RectangleF(this.ClientRectangle.X + 5, this.ClientRectangle.Y - 3, this.ClientRectangle.Width, this.ClientRectangle.Height), stringFormat);
-                    }
-                }
-            } else {
-                using (SolidBrush brBack = new SolidBrush(this.BackColor)) {
-                    using (SolidBrush brFore = new SolidBrush(this.ForeColor)) {
-                        g.SmoothingMode = SmoothingMode.HighQuality;
-                        g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                        g.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
+                    if (this.PlatformIcon != null) {
+                        StringFormat stringFormat = new StringFormat {
+                            Alignment = StringAlignment.Far,
+                            LineAlignment = StringAlignment.Center
+                        };
+                        g.DrawImage(this.PlatformIcon, this.ImageX, this.ImageY, this.ImageWidth == 0 ? this.PlatformIcon.Width : this.ImageWidth, this.ImageHeight == 0 ? this.PlatformIcon.Height : this.ImageHeight);
+                        if (this.TextRight != null) {
+                            g.DrawString(this.TextRight, new Font(this.Font.FontFamily, this.Font.Size * 0.77f, this.Font.Style, GraphicsUnit.Pixel), brFore, new RectangleF(this.ClientRectangle.X + 5, this.ClientRectangle.Y - 3, this.ClientRectangle.Width, this.ClientRectangle.Height), stringFormat);
+                        }
+                    } else {
                         StringFormat stringFormat = new StringFormat {
                             Alignment = StringAlignment.Near
                         };

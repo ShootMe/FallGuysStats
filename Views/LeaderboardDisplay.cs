@@ -48,7 +48,7 @@ namespace FallGuysStats {
         public LeaderboardDisplay() {
             this.InitializeComponent();
             this.Opacity = 0;
-            this.cboRoundList.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboLevelList.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
         }
         
         private void spinnerTransition_Tick(object sender, EventArgs e) {
@@ -95,7 +95,7 @@ namespace FallGuysStats {
                 this.mpsSpinner01.BringToFront();
                 this.spinnerTransition.Start();
                 this.targetSpinner = this.mpsSpinner01;
-                this.cboRoundList.Enabled = false;
+                this.cboLevelList.Enabled = false;
                 this.mtcTabControl.Enabled = false;
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
@@ -185,7 +185,7 @@ namespace FallGuysStats {
                             this.gridOverallRank.FirstDisplayedScrollingRowIndex = firstDisplayedScrollingRowIndex < 0 ? 0 : firstDisplayedScrollingRowIndex;
                         }
                         this.mtcTabControl.Enabled = true;
-                        this.cboRoundList.Enabled = true;
+                        this.cboLevelList.Enabled = true;
                     });
                 });
             } else {
@@ -353,13 +353,13 @@ namespace FallGuysStats {
             this.Refresh();
         }
         
-        private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
+        private void cboLevelList_SelectedIndexChanged(object sender, EventArgs e) {
             if (((ImageComboBox)sender).SelectedIndex == -1 || string.Equals(((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0], this.levelKey)) { return; }
             this.levelKey = ((ImageItem)((ImageComboBox)sender).SelectedItem).Data[0];
             // this.totalHeight = 0;
             // this.currentPage = 0;
             this.mtcTabControl.SelectedIndex = 1;
-            this.SetGridList(this.levelKey);
+            this.SetLevelRankList(this.levelKey);
         }
 
         private void metroLink_MouseEnter(object sender, EventArgs e) {
@@ -379,8 +379,8 @@ namespace FallGuysStats {
         }
 
         private void SetLevelList() {
-            this.cboRoundList.Enabled = false;
-            this.cboRoundList.SetImageItemData(new List<ImageItem>());
+            this.cboLevelList.Enabled = false;
+            this.cboLevelList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner02.Visible = true;
             Task.Run(this.GetAvailableLevel).ContinueWith(prevTask => {
                 List<ImageItem> roundItemList = new List<ImageItem>();
@@ -405,8 +405,8 @@ namespace FallGuysStats {
                     if (prevTask.Result) {
                         this.mpsSpinner02.Visible = false;
                         this.lblSearchDescription.Visible = true;
-                        this.cboRoundList.SetImageItemData(roundItemList);
-                        this.cboRoundList.Enabled = true;
+                        this.cboLevelList.SetImageItemData(roundItemList);
+                        this.cboLevelList.Enabled = true;
                     } else {
                         this.mpsSpinner02.Visible = false;
                         this.gridLevelRank.DataSource = this.levelRankNodata;
@@ -414,15 +414,15 @@ namespace FallGuysStats {
                         this.mlVisitFallalytics.Visible = false;
                         this.lblSearchDescription.Text = Multilingual.GetWord("level_detail_no_data_caption");
                         this.lblSearchDescription.Visible = true;
-                        this.cboRoundList.Enabled = false;
+                        this.cboLevelList.Enabled = false;
                     }
                 });
             });
         }
 
-        private void SetLeaderboardUI(int index) {
+        private void SetLevelRankData(int index) {
             this.mtcTabControl.Enabled = true;
-            this.mtpLevelRankPage.Text = $@"🏅 {this.cboRoundList.SelectedName} ({this.totalLevelPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
+            this.mtpLevelRankPage.Text = $@"🏅 {this.cboLevelList.SelectedName} ({this.totalLevelPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
             this.gridLevelRank.DataSource = this.levelRankList;
@@ -473,14 +473,20 @@ namespace FallGuysStats {
             }
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
             this.BackMaxSize = 38;
-            this.BackImage = LevelStats.ALL.TryGetValue(((ImageItem)this.cboRoundList.SelectedItem).Data[1], out LevelStats levelStats) ? levelStats.RoundBigIcon : ((ImageItem)this.cboRoundList.SelectedItem).Image;
+            this.BackImage = ((ImageItem)this.cboLevelList.SelectedItem).Image;
+            foreach (string key in ((ImageItem)this.cboLevelList.SelectedItem).Data[1].Split(';')) {
+                if (this.StatsForm.StatLookup.TryGetValue(key, out LevelStats level)) {
+                    this.BackImage = level.RoundBigIcon;
+                    break;
+                }
+            }
             this.BackImagePadding = new Padding(17, (int)(15 + (Math.Ceiling(Math.Max(0, 60 - this.BackImage.Height) / 5f) * 2f)), 0, 0);
-            this.mlRefreshList.Location = new Point(this.cboRoundList.Right + 15, this.cboRoundList.Location.Y);
+            this.mlRefreshList.Location = new Point(this.cboLevelList.Right + 15, this.cboLevelList.Location.Y);
             this.mlRefreshList.Visible = true;
-            this.cboRoundList.Enabled = true;
+            this.cboLevelList.Enabled = true;
         }
 
-        private void SetGridNoData() {
+        private void SetLevelRankNoData() {
             this.mtcTabControl.Enabled = true;
             // this.Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}";
             this.mpsSpinner02.Visible = false;
@@ -498,9 +504,9 @@ namespace FallGuysStats {
             this.Invalidate();
         }
         
-        private void SetGridList(string queryKey) {
+        private void SetLevelRankList(string queryKey) {
             this.mtcTabControl.Enabled = false;
-            this.cboRoundList.Enabled = false;
+            this.cboLevelList.Enabled = false;
             this.mlRefreshList.Visible = false;
             this.lblSearchDescription.Visible = false;
             this.mlMyRank.Visible = false;
@@ -515,15 +521,15 @@ namespace FallGuysStats {
                     int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
                     this.BeginInvoke((MethodInvoker)delegate {
                         if (prevTask.Result) {
-                            this.SetLeaderboardUI(index);
+                            this.SetLevelRankData(index);
                         } else {
-                            this.SetGridNoData();
+                            this.SetLevelRankNoData();
                         }
                         this.refreshTime = DateTime.Now;
                     });
                 });
             } catch {
-                this.SetGridNoData();
+                this.SetLevelRankNoData();
             }
         }
 
@@ -1195,7 +1201,7 @@ namespace FallGuysStats {
         }
 
         private void SetPlayerInfo(string userId) {
-            this.cboRoundList.Enabled = false;
+            this.cboLevelList.Enabled = false;
             this.mtcTabControl.Enabled = false;
             Task.Run(() => {
                 using (ApiWebClient web = new ApiWebClient()) {
@@ -1223,7 +1229,7 @@ namespace FallGuysStats {
                 // this.targetSpinner = null;
                 this.BeginInvoke((MethodInvoker)delegate {
                     this.mtcTabControl.Enabled = true;
-                    this.cboRoundList.Enabled = true;
+                    this.cboLevelList.Enabled = true;
                     this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? (this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2) : this.gridPlayerList.Width + 1;
                     this.mtbSearchPlayersText.Invalidate();
                     this.mpsSpinner04.Visible = false;
@@ -1326,7 +1332,7 @@ namespace FallGuysStats {
                 PlayerStats.PbInfo data = (PlayerStats.PbInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.round)) return;
                 string roundId = string.Equals(Multilingual.GetLevelName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
-                this.cboRoundList.SelectedImageItem(roundId, 1);
+                this.cboLevelList.SelectedImageItem(roundId, 1);
             }
         }
         
@@ -1514,7 +1520,7 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(this.mtbSearchPlayersText.Text)) { return; }
             if (e.KeyCode == Keys.Enter) {
                 this.mtcTabControl.Enabled = false;
-                this.cboRoundList.Enabled = false;
+                this.cboLevelList.Enabled = false;
                 this.mtbSearchPlayersText.Enabled = false;
                 e.SuppressKeyPress = true;
                 this.gridPlayerList.DataSource = this.searchResultNodata;
@@ -1537,7 +1543,7 @@ namespace FallGuysStats {
                     // this.targetSpinner = null;
                     this.BeginInvoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
-                        this.cboRoundList.Enabled = true;
+                        this.cboLevelList.Enabled = true;
                         this.mtbSearchPlayersText.Width = this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2;
                         this.gridPlayerDetails.BringToFront();
                         this.gridPlayerDetails.Height = this.gridPlayerList.Height;
@@ -1776,7 +1782,7 @@ namespace FallGuysStats {
                                                                                            || DateTime.UtcNow.Month != this.StatsForm.weeklyCrownLoadTime.Month
                                                                                            || DateTime.UtcNow.Day != this.StatsForm.weeklyCrownLoadTime.Day
                                                                                            || DateTime.UtcNow.Hour != this.StatsForm.weeklyCrownLoadTime.Hour))) {
-                this.cboRoundList.Enabled = false;
+                this.cboLevelList.Enabled = false;
                 this.mlMyRank.Enabled = false;
                 this.mtcTabControl.Enabled = false;
                 this.mlVisitFallalytics.Enabled = false;
@@ -1790,7 +1796,7 @@ namespace FallGuysStats {
                     this.Invoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
                         this.mlMyRank.Enabled = true;
-                        this.cboRoundList.Enabled = true;
+                        this.cboLevelList.Enabled = true;
                         this.mpsSpinner05.Visible = false;
                         this.spinnerTransition.Stop();
                         // this.targetSpinner = null;
@@ -2005,7 +2011,7 @@ namespace FallGuysStats {
                     TimeSpan difference = DateTime.Now - this.refreshTime;
                     if (difference.TotalSeconds > 8) {
                         this.mtcTabControl.SelectedIndex = 1;
-                        this.SetGridList(this.levelKey);
+                        this.SetLevelRankList(this.levelKey);
                     }
                 }
             } else if (sender.Equals(this.mlMyRank)) {

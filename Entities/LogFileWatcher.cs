@@ -246,7 +246,7 @@ namespace FallGuysStats {
                     if (!completed) {
                         completed = true;
                         offset = 0;
-                        currentFilePath = filePath;
+                        currentFilePath = this.filePath;
                     }
                 } catch (Exception ex) {
                     this.OnError?.Invoke(ex.ToString());
@@ -288,7 +288,7 @@ namespace FallGuysStats {
             try {
                 bool isValidSemiColon, isValidDot, isValid;
                 string lastTime = DateTime.UtcNow.ToString("hh:mm:ss.fff");
-                foreach (string line in File.ReadAllLines(filePath)) {
+                foreach (string line in File.ReadAllLines(this.filePath)) {
                     isValidSemiColon = line.IndexOf(":") == 2 && line.IndexOf(":", 3) == 5 && line.IndexOf(":", 6) == 12;
                     isValidDot = line.IndexOf(".") == 2 && line.IndexOf(".", 3) == 5 && line.IndexOf(":", 6) == 12;
                     isValid = isValidSemiColon || isValidDot;
@@ -296,7 +296,7 @@ namespace FallGuysStats {
                         lastTime = line.Substring(0, 12);
                     }
                 }
-                TextWriter tw = new StreamWriter(filePath, true);
+                TextWriter tw = new StreamWriter(this.filePath, true);
                 tw.WriteLine();
                 tw.WriteLine($"{lastTime}: [EOSPartyPlatformService.Base] Reset, reason: Shutdown");
                 tw.WriteLine();
@@ -319,7 +319,7 @@ namespace FallGuysStats {
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")
                  || string.Equals(showId, "wle_playful_shuffle")
-                 || (showId.StartsWith("event_") && showId.EndsWith("_fools")) && roundId.StartsWith("wle_shuffle_")) {
+                 || ((showId.StartsWith("event_") && showId.EndsWith("_fools")) && roundId.StartsWith("wle_shuffle_"))) {
                 return true;
             }
 

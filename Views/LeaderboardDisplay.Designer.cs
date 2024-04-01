@@ -50,7 +50,7 @@
             this.mlMyRank = new MetroFramework.Controls.MetroLink();
             this.mlVisitFallalytics = new MetroFramework.Controls.MetroLink();
             this.mlRefreshList = new MetroFramework.Controls.MetroLink();
-            this.cboRoundList = new FallGuysStats.ImageComboBox();
+            this.cboLevelList = new FallGuysStats.ImageComboBox();
             this.lblPagingInfo = new System.Windows.Forms.Label();
             this.mlLeftPagingButton = new MetroFramework.Controls.MetroLink();
             this.mlRightPagingButton = new MetroFramework.Controls.MetroLink();
@@ -831,20 +831,20 @@
             // 
             // cboRoundList
             // 
-            this.cboRoundList.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cboRoundList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboRoundList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboRoundList.FormattingEnabled = true;
-            this.cboRoundList.ItemHeight = 23;
-            this.cboRoundList.Location = new System.Drawing.Point(10, 67);
-            this.cboRoundList.MaxDropDownItems = 20;
-            this.cboRoundList.Name = "cboRoundList";
-            this.cboRoundList.SelectedImage = null;
-            this.cboRoundList.SelectedName = "";
-            this.cboRoundList.Size = new System.Drawing.Size(370, 29);
-            this.cboRoundList.TabIndex = 1;
-            this.cboRoundList.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.cboRoundList.SelectedIndexChanged += new System.EventHandler(this.cboRoundList_SelectedIndexChanged);
+            this.cboLevelList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboLevelList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cboLevelList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboLevelList.FormattingEnabled = true;
+            this.cboLevelList.ItemHeight = 23;
+            this.cboLevelList.Location = new System.Drawing.Point(10, 67);
+            this.cboLevelList.MaxDropDownItems = 20;
+            this.cboLevelList.Name = "cboLevelList";
+            this.cboLevelList.SelectedImage = null;
+            this.cboLevelList.SelectedName = "";
+            this.cboLevelList.Size = new System.Drawing.Size(370, 29);
+            this.cboLevelList.TabIndex = 1;
+            this.cboLevelList.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.cboLevelList.SelectedIndexChanged += new System.EventHandler(this.cboLevelList_SelectedIndexChanged);
             // 
             // LeaderboardDisplay
             // 
@@ -855,7 +855,7 @@
             this.Controls.Add(this.mlMyRank);
             this.Controls.Add(this.mlVisitFallalytics);
             this.Controls.Add(this.mlRefreshList);
-            this.Controls.Add(this.cboRoundList);
+            this.Controls.Add(this.cboLevelList);
             this.Controls.Add(this.lblPagingInfo);
             this.Controls.Add(this.mlLeftPagingButton);
             this.Controls.Add(this.mlRightPagingButton);
@@ -916,7 +916,7 @@
         private MetroFramework.Controls.MetroLink mlMyRank;
         private MetroFramework.Controls.MetroLink mlVisitFallalytics;
         private MetroFramework.Controls.MetroLink mlRefreshList;
-        private FallGuysStats.ImageComboBox cboRoundList;
+        private FallGuysStats.ImageComboBox cboLevelList;
         private System.Windows.Forms.Label lblPagingInfo;
         private MetroFramework.Controls.MetroLink mlLeftPagingButton;
         private MetroFramework.Controls.MetroLink mlRightPagingButton;

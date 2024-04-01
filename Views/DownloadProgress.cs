@@ -5,6 +5,7 @@ using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Windows.Forms;
 using MetroFramework;
 
 namespace FallGuysStats {
@@ -32,11 +33,12 @@ namespace FallGuysStats {
         private void zipWebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
             if (this.mpbProgressBar.Value != e.ProgressPercentage) {
                 this.mpbProgressBar.Value = e.ProgressPercentage;
-                this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
-                this.Invalidate();
+                this.mpbProgressBar.Invalidate();
             }
         }
         private void zipWebClient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e) {
+            this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
+            this.lblDownloadDescription.Refresh();
             string exeName = null;
             using (ZipArchive zipFile = new ZipArchive(new FileStream(this.FileName, FileMode.Open), ZipArchiveMode.Read)) {
                 foreach (var entry in zipFile.Entries) {
@@ -49,14 +51,13 @@ namespace FallGuysStats {
                     entry.ExtractToFile(entry.Name, true);
                 }
             }
-            this.lblDownloadDescription.Text = Multilingual.GetWord("main_update_complete");
-            this.Invalidate();
             File.Delete(this.FileName);
             Process.Start(new ProcessStartInfo(exeName));
             this.Close();
         }
         
         private void DownloadNewVersion() {
+            this.lblDownloadDescription.Text = Multilingual.GetWord("main_updating_program");
             this.ZipWebClient.DownloadProgressChanged += this.zipWebClient_DownloadProgressChanged;
             this.ZipWebClient.DownloadFileCompleted += this.zipWebClient_DownloadFileCompleted;
             this.ZipWebClient.DownloadFileAsync(new Uri(this.DownloadUrl), this.FileName);

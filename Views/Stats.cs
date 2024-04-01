@@ -2934,6 +2934,19 @@ namespace FallGuysStats {
             }
             
             if (this.CurrentSettings.Version == 86) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "event_april_fools") && ri.IsFinal == false
+                    select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = true;
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
                 this.StatsDB.BeginTrans();
                 this.UpcomingShowCache.RemoveAll(u => string.Equals(u.ShowId, "event_april_fools") && !u.LevelId.StartsWith("wle_shuffle_falljam_april_"));
                 this.UpcomingShow.DeleteAll();
@@ -4365,7 +4378,7 @@ namespace FallGuysStats {
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) { // Casual Rumble
+            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
                 roundId = roundId.Replace("_noelim", "");
             }
             return roundId;
@@ -4577,8 +4590,8 @@ namespace FallGuysStats {
                     if (this.StatLookup.TryGetValue(info.Name, out LevelStats l1) && string.Equals(l1.ShareCode, currentLevel.ShareCode)) {
                         isCurrentLevel = true;
                     }
-                } else {
-                    isCurrentLevel = string.Equals(info.Name, currentLevel.Id);
+                } else if (useShareCode) {
+                    isCurrentLevel = true;
                 }
                 
                 int startRoundShowId = info.ShowID;
@@ -5335,7 +5348,7 @@ namespace FallGuysStats {
                     LevelStats levelStats = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as LevelStats;
                     using (LevelDetails levelDetails = new LevelDetails {
                                StatsForm = this,
-                               LevelId =levelStats.Id,
+                               LevelId = levelStats.Id,
                                LevelName = levelStats.Name,
                                RoundIcon = levelStats.RoundBigIcon,
                                IsCreative = levelStats.IsCreative
@@ -6302,7 +6315,7 @@ namespace FallGuysStats {
                 this.EnableMainMenu(false);
                 using (LeaderboardDisplay leaderboard = new LeaderboardDisplay {
                            StatsForm = this,
-                           Text = $@"     {Multilingual.GetWord("leaderboard_menu_title")}",
+                           Text = $@"      {Multilingual.GetWord("leaderboard_menu_title")}",
                            BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
                            BackMaxSize = 32,
                            BackImagePadding = new Padding(20, 21, 0, 0)
