@@ -1331,8 +1331,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 PlayerStats.PbInfo data = (PlayerStats.PbInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.round)) return;
-                string roundId = string.Equals(Multilingual.GetLevelName(data.round), data.round) ? this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round) : data.round;
-                this.cboLevelList.SelectedImageItem(roundId, 1);
+                this.cboLevelList.SelectedImageItem(this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round), 1);
             }
         }
         
