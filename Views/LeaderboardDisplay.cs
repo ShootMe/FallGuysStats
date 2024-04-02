@@ -146,9 +146,9 @@ namespace FallGuysStats {
                             .Select(g => new OverallSummary {
                                 country = g.Key, players = g.Count()
                                 , gold = g.Count(o => o.rank == 1)
-                                , silver = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 20)
-                                , bronze = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 50)
-                                , pink = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) >= 50)
+                                , silver = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 20)
+                                , bronze = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 50)
+                                , pink = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) >= 50)
                             })
                             .OrderByDescending(s => s.gold)
                             .ThenByDescending(s => s.silver)
@@ -200,9 +200,9 @@ namespace FallGuysStats {
                     .Select(g => new OverallSummary {
                         country = g.Key, players = g.Count()
                         , gold = g.Count(o => o.rank == 1)
-                        , silver = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 20)
-                        , bronze = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 50)
-                        , pink = g.Count(o => (((double)(o.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100) >= 50)
+                        , silver = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 20)
+                        , bronze = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) < 50)
+                        , pink = g.Count(o => (((double)(o.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100) >= 50)
                     })
                     .OrderByDescending(s => s.gold)
                     .ThenByDescending(s => s.silver)
@@ -546,7 +546,7 @@ namespace FallGuysStats {
                     isFound = levelRank.found;
                     if (isFound) {
                         this.totalLevelPlayers = levelRank.total;
-                        this.totalPages = (int)Math.Ceiling((this.totalLevelPlayers > 1000 ? 1000 : this.totalLevelPlayers) / 100f);
+                        this.totalPages = (int)Math.Ceiling(Math.Min(1000, this.totalLevelPlayers) / 100f);
                         for (int i = 0; i < levelRank.recordholders.Count; i++) {
                             LevelRank.RankInfo temp = levelRank.recordholders[i];
                             temp.rank = i + 1;
@@ -716,7 +716,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / ((this.StatsForm.totalOverallRankPlayers > 1000 ? 1000 : this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (Math.Min(1000, this.StatsForm.totalOverallRankPlayers) - 1)) * 100;
                     if (percentage < 20) {
                         ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
@@ -992,7 +992,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / ((this.totalLevelPlayers > 1000 ? 1000 : this.totalLevelPlayers) - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (Math.Min(1000, this.totalLevelPlayers) - 1)) * 100;
                     if (percentage < 20) {
                         ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {
@@ -1246,7 +1246,7 @@ namespace FallGuysStats {
                         this.lblPlayerInfo02.Left = this.lblPlayerInfo01.Right + 15;
                         this.lblPlayerInfo02.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} :";
                         this.picPlayerInfo03.Left = this.lblPlayerInfo02.Right;
-                        double percentage = ((double)(this.speedrunRank.Value.index - 1) / ((this.speedrunRank.Value.total > 1000 ? 1000 : this.speedrunRank.Value.total) - 1)) * 100;
+                        double percentage = ((double)(this.speedrunRank.Value.index - 1) / (Math.Min(1000, this.speedrunRank.Value.total) - 1)) * 100;
                         if (this.speedrunRank.Value.index == 0) {
                             this.picPlayerInfo03.Image = Properties.Resources.medal_eliminated;
                         } else if (this.speedrunRank.Value.index == 1) {
@@ -1285,7 +1285,7 @@ namespace FallGuysStats {
                         int widthOfText = TextRenderer.MeasureText(this.lblPlayerInfo01.Text, this.lblPlayerInfo01.Font).Width;
                         this.lblPlayerInfo06.Left = this.lblPlayerInfo02.Left - widthOfText;
                         this.picPlayerInfo04.Left = this.lblPlayerInfo06.Right;
-                        double percentage = ((double)(this.crownLeagueRank.Value.index - 1) / ((this.crownLeagueRank.Value.total > 1000 ? 1000 : this.crownLeagueRank.Value.total) - 1)) * 100;
+                        double percentage = ((double)(this.crownLeagueRank.Value.index - 1) / (Math.Min(1000, this.crownLeagueRank.Value.total) - 1)) * 100;
                         if (this.crownLeagueRank.Value.index == 0) {
                             this.picPlayerInfo04.Image = Properties.Resources.medal_eliminated;
                         } else if (this.crownLeagueRank.Value.index == 1) {
@@ -1402,7 +1402,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_grid_icon;
                 } else {
-                    double percentage = ((double)(info.index - 1) / ((info.roundTotal > 1000 ? 1000 : info.roundTotal) - 1)) * 100;
+                    double percentage = ((double)(info.index - 1) / (Math.Min(1000, info.roundTotal) - 1)) * 100;
                     if (percentage <= 20) {
                         ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         e.Value = Properties.Resources.medal_silver_grid_icon;
@@ -1458,8 +1458,8 @@ namespace FallGuysStats {
                         roundCompare = String.Compare(l1.Name, l2.Name, StringComparison.Ordinal);
                         return roundCompare != 0 ? roundCompare : showCompare;
                     case "medal":
-                        double onePercentage = ((double)(one.index - 1) / ((one.roundTotal > 1000 ? 1000 : one.roundTotal) - 1)) * 100;
-                        double twoPercentage = ((double)(two.index - 1) / ((two.roundTotal > 1000 ? 1000 : two.roundTotal) - 1)) * 100;
+                        double onePercentage = ((double)(one.index - 1) / (Math.Min(1000, one.roundTotal) - 1)) * 100;
+                        double twoPercentage = ((double)(two.index - 1) / (Math.Min(1000, two.roundTotal) - 1)) * 100;
                         int medalCompare = onePercentage.CompareTo(twoPercentage);
                         return medalCompare != 0 ? medalCompare : roundCompare;
                     case "index":
@@ -1641,7 +1641,7 @@ namespace FallGuysStats {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_gold");
                     e.Value = Properties.Resources.medal_gold_1st_grid_icon;
                 } else {
-                    double percentage = ((double)(info.rank - 1) / ((this.StatsForm.totalWeeklyCrownPlayers > 1000 ? 1000 : this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
+                    double percentage = ((double)(info.rank - 1) / (Math.Min(1000, this.StatsForm.totalWeeklyCrownPlayers) - 1)) * 100;
                     if (percentage < 20) {
                         ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_silver");
                         if (info.rank == 2) {

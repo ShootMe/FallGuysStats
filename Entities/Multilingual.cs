@@ -327,6 +327,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "Added and improved win per day graph feature" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "Released the FALLALYTICS Speedrun Leaderboard" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "Weekly Crown League is now open on Fallalytics" },
+                            { "message_changelog_banning_users_using_hacking_programs", "Banning users using hacking programs" },
                             
                             { "numeric_suffix", ""},
                             { "message_question_mark", "?" },
@@ -857,6 +858,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "Améliorations du graphique des victoires par jour" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "Disponibilité du classement des meilleurs temps sur FALLALYTICS" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "La Crown League hebdomadaire est désormais ouverte sur FALLALYTICS" },
+                            { "message_changelog_banning_users_using_hacking_programs", "Bannissement des utilisateurs ayant utiliser un  logiciel de piratage" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", " ?" },
@@ -1387,6 +1389,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "일일 승리 그래프 기능 추가 및 향상" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "폴라리틱스 스피드런 순위표 출시" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "폴라리틱스 주간 크라운 리그 출시" },
+                            { "message_changelog_banning_users_using_hacking_programs", "해킹 프로그램 사용자 차단" },
 
                             { "numeric_suffix", "개" },
                             { "message_question_mark", ""},
@@ -1917,6 +1920,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "日ごとの勝利数推移グラフ機能を追加・改善しました。" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "FALLALYTICSスピードランリーダーボード発売" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "ウィークリー クラウン リーグが FALLALYTICS で公開されました。" },
+                            { "message_changelog_banning_users_using_hacking_programs", "ハッキングプログラムのユーザーブロック" },
 
                             { "numeric_suffix", "つ" },
                             { "message_question_mark", ""},
@@ -2447,6 +2451,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "添加并改进了每日获胜图表功能。" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "发布《FALLALYTICS》竞速排行榜" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每周皇冠联赛现已在 FALLALYTICS 上开放。" },
+                            { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程序的用户。" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
@@ -2977,6 +2982,7 @@ namespace FallGuysStats {
                             { "message_changelog_added_and_improved_win_per_day_graph_feature", "新增並改進了每日獲勝圖表功能。" },
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "發布《FALLALYTICS》競速排行榜" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每週皇冠聯賽現已在 FALLALYTICS 上開放。" },
+                            { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程式的用戶。" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
