@@ -912,7 +912,7 @@ namespace FallGuysStats {
             if (this.statType != StatType.Shows && ((Grid)sender).SelectedCells.Count > 0) {
                 if (((Grid)sender).SelectedRows.Count == 1) {
                     RoundInfo info = ((Grid)sender).Rows[((DataGridView)sender).SelectedRows[0].Index].DataBoundItem as RoundInfo;
-                    if (info.UseShareCode || (LevelStats.ALL.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode))) {
+                    if (info.UseShareCode || (this.StatsForm.StatLookup.TryGetValue(info.Name, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode))) {
                         if (((Grid)sender).MenuSeparator != null && !((Grid)sender).CMenu.Items.Contains(((Grid)sender).MenuSeparator)) {
                             ((Grid)sender).CMenu.Items.Add(((Grid)sender).MenuSeparator);
                         }
@@ -1077,7 +1077,7 @@ namespace FallGuysStats {
             if (Utils.IsInternetConnected()) {
                 if (this.statType != StatType.Shows && this.gridDetails.SelectedCells.Count > 0 && this.gridDetails.SelectedRows.Count == 1) {
                     RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
-                    if ((LevelStats.ALL.TryGetValue(ri.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) || ri.UseShareCode) {
+                    if ((this.StatsForm.StatLookup.TryGetValue(ri.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) || ri.UseShareCode) {
                         string shareCode = ri.UseShareCode ? ri.Name : l1.ShareCode;
                         if (MetroMessageBox.Show(this, $"{Multilingual.GetWord("message_update_creative_show_prefix")}{(string.IsNullOrEmpty(ri.CreativeTitle) ? shareCode : ri.CreativeTitle)}{Multilingual.GetWord("message_update_creative_show_suffix")}", Multilingual.GetWord("message_update_creative_show_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
@@ -1165,7 +1165,7 @@ namespace FallGuysStats {
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 4, cursorPosition.Y - 20);
                 this.StatsForm.ShowTooltip(Multilingual.GetWord("level_detail_share_code_copied"), this, position, 2000);
-            } else if (LevelStats.ALL.TryGetValue((string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode)) {
+            } else if (this.StatsForm.StatLookup.TryGetValue((string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value, out LevelStats levelStats) && levelStats.IsCreative && !string.IsNullOrEmpty(levelStats.ShareCode)) {
                 string shareCode = levelStats.ShareCode;
                 Clipboard.SetText(shareCode, TextDataFormat.Text);
                 this.StatsForm.AllocTooltip();
@@ -1180,7 +1180,7 @@ namespace FallGuysStats {
 
             if (this.statType == StatType.Shows
                 || (bool)((Grid)sender).Rows[e.RowIndex].Cells["UseShareCode"].Value
-                || LevelStats.ALL.TryGetValue((string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) {
+                || this.StatsForm.StatLookup.TryGetValue((string)((Grid)sender).Rows[e.RowIndex].Cells["Name"].Value, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) {
                 ((Grid)sender).Cursor = Cursors.Hand;
             }
             

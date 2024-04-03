@@ -14830,7 +14830,7 @@ namespace FallGuysStats {
                     { "wle_shuffle_survival", "Survie Aléatoire" },
                     { "wle_mrs_ugc_playful_pioneers", "Inventif" },
                     { "wle_playful_shuffle", "Mix Inventif" },
-                    { "event_april_fools", "Fool and Fall Shuffle" },
+                    { "event_april_fools", "Fall Mix Fou Aléatoire" },
                     
                     { "private_lobbies", "Partie Personnalisée" },
                     { "fall_guys_creative_mode", "Créatif de Fall Guys" },
@@ -15725,7 +15725,7 @@ namespace FallGuysStats {
                     { "wle_shuffle_survival", "생존 셔플" },
                     { "wle_mrs_ugc_playful_pioneers", "장난스런 개척자" },
                     { "wle_playful_shuffle", "장난스런 개척자 셔플" },
-                    { "event_april_fools", "Fool and Fall Shuffle" },
+                    { "event_april_fools", "만우절 셔플" },
                     
                     { "private_lobbies", "커스텀 쇼" },
                     { "fall_guys_creative_mode", "폴크리" },
@@ -16620,7 +16620,7 @@ namespace FallGuysStats {
                     { "wle_shuffle_survival", "サバイバルシャッフル" },
                     { "wle_mrs_ugc_playful_pioneers", "パイオニア" },
                     { "wle_playful_shuffle", "パイオニアシャッフル" },
-                    { "event_april_fools", "Fool and Fall Shuffle" },
+                    { "event_april_fools", "だまされ落下シャッフル" },
                     
                     { "private_lobbies", "カスタムショー" },
                     { "fall_guys_creative_mode", "フォールガイズ クリエイティブ" },
@@ -17515,7 +17515,7 @@ namespace FallGuysStats {
                     { "wle_shuffle_survival", "混合生存赛" },
                     { "wle_mrs_ugc_playful_pioneers", "玩乐急先锋" },
                     { "wle_playful_shuffle", "玩乐急先锋随机" },
-                    { "event_april_fools", "Fool and Fall Shuffle" },
+                    { "event_april_fools", "糖豆恶作剧混搭秀" },
                     
                     { "private_lobbies", "自定义节目" },
                     { "fall_guys_creative_mode", "Fall Guys Creative" },
@@ -18410,7 +18410,7 @@ namespace FallGuysStats {
                     { "wle_shuffle_survival", "生存特輯" },
                     { "wle_mrs_ugc_playful_pioneers", "先驅糖豆人" },
                     { "wle_playful_shuffle", "先驅糖豆人集錦" },
-                    { "event_april_fools", "Fool and Fall Shuffle" },
+                    { "event_april_fools", "激盪鬼點子集錦" },
                     
                     { "private_lobbies", "自定義節目" },
                     { "fall_guys_creative_mode", "Fall Guys Creative" },

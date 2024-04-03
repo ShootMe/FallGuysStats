@@ -2955,6 +2955,21 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 87;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 87) {
+                List<Profiles> profileList = this.Profiles.FindAll().ToList();
+                foreach (Profiles p in profileList) {
+                    if (string.Equals(p.LinkedShowId, "event_only_finals_v2_template")) {
+                        p.LinkedShowId = "event_only_finals_v3_template";
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.Profiles.DeleteAll();
+                this.Profiles.InsertBulk(profileList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 88;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3765,7 +3780,7 @@ namespace FallGuysStats {
                                 stat.ShowID = this.nextShowID;
                                 stat.Profile = profile;
 
-                                if ((LevelStats.ALL.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
+                                if ((this.StatLookup.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
                                     || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
                                     string shareCode = stat.UseShareCode ? stat.Name : l1.ShareCode;
@@ -3889,7 +3904,7 @@ namespace FallGuysStats {
                                             
                                             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("FALLALYTICS_KEY"))) {
                                                 if (this.CurrentSettings.EnableFallalyticsReporting) {
-                                                    if (stat.Finish.HasValue && (LevelStats.ALL.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
+                                                    if (stat.Finish.HasValue && (this.StatLookup.TryGetValue(stat.Name, out LevelStats level) && level.Type == LevelType.Race)) {
                                                         Task.Run(() => this.FallalyticsRegisterPb(stat));
                                                     }
                                                 }

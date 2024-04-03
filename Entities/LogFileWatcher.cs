@@ -587,7 +587,7 @@ namespace FallGuysStats {
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || info.UseShareCode || !info.Finish.HasValue) { return; }
             string levelId = info.VerifiedName();
-            if (LevelStats.ALL.TryGetValue(levelId, out LevelStats currentLevel) && (currentLevel.Type != LevelType.Race || string.IsNullOrEmpty(levelId))) {
+            if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) {
                 return;
             }
 
@@ -750,9 +750,9 @@ namespace FallGuysStats {
                 } else if (this.IsModeException(logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);
                 } else if (logRound.Info.Name.StartsWith("wle_s10_") || logRound.Info.Name.StartsWith("wle_mrs_")) {
-                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.ALL.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsFinal);
+                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && this.StatsForm.StatLookup.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsFinal);
                 } else {
-                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string levelId) && LevelStats.ALL.TryGetValue(levelId, out LevelStats levelStats) && levelStats.IsFinal);
+                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string levelId) && this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats levelStats) && levelStats.IsFinal);
                 }
                 logRound.Info.IsTeam = this.IsTeamException(logRound.Info.Name);
 

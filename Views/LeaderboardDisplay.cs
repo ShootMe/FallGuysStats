@@ -229,6 +229,7 @@ namespace FallGuysStats {
                     } else {
                         current.rank = 1;
                     }
+                    this.overallSummary[i] = current;
                 }
                 this.gridOverallSummary.DataSource = this.overallSummary;
             }
@@ -386,7 +387,7 @@ namespace FallGuysStats {
                 List<ImageItem> roundItemList = new List<ImageItem>();
                 foreach (AvailableLevel.LevelInfo level in this.availableLevelList) {
                     foreach (string id in level.ids) {
-                        if (LevelStats.ALL.TryGetValue(id, out LevelStats levelStats)) {
+                        if (this.StatsForm.StatLookup.TryGetValue(id, out LevelStats levelStats)) {
                             roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { level.queryname, string.Join(";", level.ids), levelStats.IsCreative.ToString() }));
                             break;
                         }
@@ -1210,8 +1211,8 @@ namespace FallGuysStats {
                     PlayerStats ps = JsonSerializer.Deserialize<PlayerStats>(json);
                     if (ps.found) {
                         ps.pbs.Sort((p1, p2) => {
-                            bool isCreative1 = LevelStats.ALL.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
-                            bool isCreative2 = LevelStats.ALL.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
+                            bool isCreative1 = this.StatsForm.StatLookup.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
+                            bool isCreative2 = this.StatsForm.StatLookup.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
                             int result = isCreative1.CompareTo(isCreative2);
                             return result == 0 ? string.Compare(l1.Name, l2.Name, StringComparison.Ordinal) : result;
                         });
