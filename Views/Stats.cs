@@ -4603,12 +4603,14 @@ namespace FallGuysStats {
                 bool isCurrentLevel = false;
                 if (useShareCode) {
                     isCurrentLevel = true;
-                } else if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
-                    if (this.StatLookup.TryGetValue(info.Name, out LevelStats l1) && string.Equals(l1.ShareCode, currentLevel.ShareCode)) {
+                } else {
+                    if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
+                        if (this.StatLookup.TryGetValue(info.Name, out LevelStats l1) && string.Equals(l1.ShareCode, currentLevel.ShareCode)) {
+                            isCurrentLevel = true;
+                        }
+                    } else if (string.Equals(info.Name, currentLevel.Id)) {
                         isCurrentLevel = true;
                     }
-                } else if (string.Equals(info.Name, currentLevel.Id)) {
-                    isCurrentLevel = true;
                 }
 
                 int startRoundShowId = info.ShowID;
