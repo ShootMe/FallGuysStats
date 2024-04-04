@@ -2973,23 +2973,41 @@ namespace FallGuysStats {
             
             if (this.CurrentSettings.Version == 88) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
-                    where ri.PrivateLobby && (string.Equals(ri.ShowNameId, "unknown") || string.IsNullOrEmpty(ri.CreativeGameModeId) || string.IsNullOrEmpty(ri.CreativeLevelThemeId))
+                    where ri.PrivateLobby && (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(ri.CreativeGameModeId) || string.IsNullOrEmpty(ri.CreativeLevelThemeId))
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     if (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase)) {
                         ri.ShowNameId = "user_creative_race_round";
                     }
-                    if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
-                        ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
-                    }
-                    if (string.IsNullOrEmpty(ri.CreativeLevelThemeId)) {
-                        ri.CreativeLevelThemeId = "THEME_VANILLA";
+
+                    if (!string.IsNullOrEmpty(ri.CreativeShareCode)) {
+                        if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
+                            ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                        }
+                        if (string.IsNullOrEmpty(ri.CreativeLevelThemeId)) {
+                            ri.CreativeLevelThemeId = "THEME_VANILLA";
+                        }
                     }
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 89;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 89) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where ri.PrivateLobby && string.Equals(ri.Name, "unknown", StringComparison.OrdinalIgnoreCase)
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.Name = ri.ShowNameId;
+                    ri.ShowNameId = this.GetUserCreativeLevelTypeId(ri.CreativeGameModeId ?? "user_creative_race_round");
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 90;
                 this.SaveUserSettings();
             }
         }
@@ -3583,7 +3601,7 @@ namespace FallGuysStats {
                 }
                 
                 string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
-                if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
+                if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath)) {
                     logFilePath = this.CurrentSettings.LogPath;
                 }
                 this.logFile.Start(logFilePath, LOGFILENAME);
@@ -4213,8 +4231,8 @@ namespace FallGuysStats {
         }
 
         private async Task FallalyticsResendWeeklyCrown() {
-            foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId))) {
-                RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End };
+            foreach (FallalyticsCrownLog log in this.FallalyticsCrownLogCache.FindAll(l => l.IsTransferSuccess == false)) {
+                RoundInfo stat = new RoundInfo { SessionId = log.SessionId, ShowNameId = log.ShowId, Name = log.RoundId, End = log.End, OnlineServiceType = log.OnlineServiceType, OnlineServiceId = log.OnlineServiceId, OnlineServiceNickname = log.OnlineServiceNickname };
                 log.IsTransferSuccess = await FallalyticsReporter.WeeklyCrown(stat, this.CurrentSettings.EnableFallalyticsAnonymous);
                 lock (this.StatsDB) {
                     this.StatsDB.BeginTrans();
@@ -4234,7 +4252,7 @@ namespace FallGuysStats {
             lock (this.StatsDB) {
                 FallalyticsCrownLog log = new FallalyticsCrownLog {
                     SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId, End = currentEnd, CountryCode = HostCountryCode,
-                    OnlineServiceType = (int)OnlineServiceType, OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                    OnlineServiceType = stat.OnlineServiceType.Value, OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
                     IsTransferSuccess = isTransferSuccess
                 };
                 this.StatsDB.BeginTrans();
@@ -4252,26 +4270,26 @@ namespace FallGuysStats {
             DateTime currentFinish = stat.Finish.Value;
             bool isTransferSuccess;
 
-            bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId));
+            bool existsPbLog = this.FallalyticsPbLogCache.Exists(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
             if (!existsPbLog) {
-                RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
-            
-                if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
-                    currentSessionId = recordInfo.SessionId;
-                    currentShowNameId = recordInfo.ShowNameId;
-                    currentRoundId = recordInfo.Name;
-                    currentRecord = recordInfo.Finish.Value - recordInfo.Start;
-                    currentFinish = recordInfo.Finish.Value;
-                }
+                // RoundInfo recordInfo = this.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId)).OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                //
+                // if (recordInfo != null && currentRecord > recordInfo.Finish.Value - recordInfo.Start) {
+                //     currentSessionId = recordInfo.SessionId;
+                //     currentShowNameId = recordInfo.ShowNameId;
+                //     currentRoundId = recordInfo.Name;
+                //     currentRecord = recordInfo.Finish.Value - recordInfo.Start;
+                //     currentFinish = recordInfo.Finish.Value;
+                // }
 
-                isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                isTransferSuccess = await FallalyticsReporter.RegisterPb(stat, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                 
                 lock (this.StatsDB) {
                     FallalyticsPbLog log = new FallalyticsPbLog {
                         SessionId = currentSessionId, RoundId = currentRoundId, ShowId = currentShowNameId,
                         Record = currentRecord.TotalMilliseconds, PbDate = currentFinish,
-                        CountryCode = HostCountryCode, OnlineServiceType = (int)OnlineServiceType,
-                        OnlineServiceId = OnlineServiceId, OnlineServiceNickname = OnlineServiceNickname,
+                        CountryCode = HostCountryCode, OnlineServiceType = stat.OnlineServiceType.Value,
+                        OnlineServiceId = stat.OnlineServiceId, OnlineServiceNickname = stat.OnlineServiceNickname,
                         IsTransferSuccess = isTransferSuccess
                     };
                     this.StatsDB.BeginTrans();
@@ -4280,22 +4298,22 @@ namespace FallGuysStats {
                     this.FallalyticsPbLogCache.Add(log);
                 }
             } else {
-                int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == (int)OnlineServiceType && string.Equals(l.OnlineServiceId, OnlineServiceId));
+                int logIndex = this.FallalyticsPbLogCache.FindIndex(l => string.Equals(l.RoundId, currentRoundId) && l.OnlineServiceType == stat.OnlineServiceType.Value && string.Equals(l.OnlineServiceId, stat.OnlineServiceId));
                 if (logIndex != -1) {
                     FallalyticsPbLog pbLog = this.FallalyticsPbLogCache[logIndex];
                     TimeSpan existingRecord = TimeSpan.FromMilliseconds(pbLog.Record);
                     
-                    RoundInfo missingInfo = this.AllStats.FindAll(r =>
-                            r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) &&
-                            string.Equals(r.OnlineServiceId, OnlineServiceId) && string.Equals(r.OnlineServiceNickname, OnlineServiceNickname))
-                        .OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
-                    if (missingInfo != null && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
-                        currentSessionId = missingInfo.SessionId;
-                        currentShowNameId = missingInfo.ShowNameId;
-                        currentRoundId = missingInfo.Name;
-                        currentRecord = missingInfo.Finish.Value - missingInfo.Start;
-                        currentFinish = missingInfo.Finish.Value;
-                    }
+                    // RoundInfo missingInfo = this.AllStats.FindAll(r =>
+                    //         r.PrivateLobby == false && r.Finish.HasValue && string.Equals(r.Name, currentRoundId) && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) &&
+                    //         string.Equals(r.OnlineServiceId, OnlineServiceId) && string.Equals(r.OnlineServiceNickname, OnlineServiceNickname))
+                    //     .OrderBy(r => r.Finish.Value - r.Start).FirstOrDefault();
+                    // if (missingInfo != null && (missingInfo.Finish.Value - missingInfo.Start) < currentRecord) {
+                    //     currentSessionId = missingInfo.SessionId;
+                    //     currentShowNameId = missingInfo.ShowNameId;
+                    //     currentRoundId = missingInfo.Name;
+                    //     currentRecord = missingInfo.Finish.Value - missingInfo.Start;
+                    //     currentFinish = missingInfo.Finish.Value;
+                    // }
                     
                     if (pbLog.IsTransferSuccess) {
                         if (currentRecord < existingRecord) {
@@ -4317,7 +4335,7 @@ namespace FallGuysStats {
                         currentShowNameId = currentRecord < existingRecord ? currentShowNameId : pbLog.ShowId;
                         currentRecord = currentRecord < existingRecord ? currentRecord : existingRecord;
                         currentFinish = currentRecord < existingRecord ? currentFinish : pbLog.PbDate;
-                        isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
+                        isTransferSuccess = await FallalyticsReporter.RegisterPb(new RoundInfo { SessionId = currentSessionId, ShowNameId = currentShowNameId, Name = currentRoundId, OnlineServiceType = pbLog.OnlineServiceType, OnlineServiceId = pbLog.OnlineServiceId, OnlineServiceNickname = pbLog.OnlineServiceNickname }, currentRecord.TotalMilliseconds, currentFinish, this.CurrentSettings.EnableFallalyticsAnonymous);
                         
                         lock (this.StatsDB) {
                             pbLog.SessionId = currentSessionId;
@@ -6913,7 +6931,7 @@ namespace FallGuysStats {
                             (!string.IsNullOrEmpty(lastLogPath) && string.Equals(lastLogPath, this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
                             await this.logFile.Stop();
                             string logFilePath = Path.Combine($"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}Low", "Mediatonic", "FallGuys_client");
-                            if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath)) {
+                            if (!string.IsNullOrEmpty(this.CurrentSettings.LogPath) && Directory.Exists(this.CurrentSettings.LogPath)) {
                                 logFilePath = this.CurrentSettings.LogPath;
                             }
                             this.logFile.Start(logFilePath, LOGFILENAME);
@@ -7033,12 +7051,8 @@ namespace FallGuysStats {
         }
         
         private void ChangeLaunchPlatformLogo(int launchPlatform) {
-            this.trayLaunchFallGuys.Image = launchPlatform == 0
-                                            ? Properties.Resources.epic_main_icon
-                                            : Properties.Resources.steam_main_icon;
-            this.menuLaunchFallGuys.Image = launchPlatform == 0
-                                            ? Properties.Resources.epic_main_icon
-                                            : Properties.Resources.steam_main_icon;
+            this.trayLaunchFallGuys.Image = launchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+            this.menuLaunchFallGuys.Image = launchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
         }
 
         public void SetLeaderboardTitle() {

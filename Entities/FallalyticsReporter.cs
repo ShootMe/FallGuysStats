@@ -59,44 +59,44 @@ namespace FallGuysStats {
             }
         }
         
-        private string RoundInfoToReportJsonString(RoundInfo round) {
+        private string RoundInfoToReportJsonString(RoundInfo stat) {
             var payload = new {
-                round = round.Name,
-                index = round.Round,
-                show = round.ShowNameId,
-                isfinal = round.IsFinal,
-                session = round.SessionId
+                round = stat.Name,
+                index = stat.Round,
+                show = stat.ShowNameId,
+                isfinal = stat.IsFinal,
+                session = stat.SessionId
             };
             return JsonSerializer.Serialize(payload);
         }
         
-        private string RoundInfoToRegisterPbJsonString(RoundInfo round, double record, DateTime finish, bool isAnonymous) {
+        private string RoundInfoToRegisterPbJsonString(RoundInfo stat, double record, DateTime finish, bool isAnonymous) {
             var payload = new {
                 country = Stats.HostCountryCode,
-                onlineServiceType = $"{(int)Stats.OnlineServiceType}",
-                onlineServiceId = Stats.OnlineServiceId,
-                onlineServiceNickname = Stats.OnlineServiceNickname,
+                onlineServiceType = $"{stat.OnlineServiceType}",
+                onlineServiceId = stat.OnlineServiceId,
+                onlineServiceNickname = stat.OnlineServiceNickname,
                 isAnonymous,
                 finish = $"{finish:o}",
                 record,
-                round = round.Name,
-                show = round.ShowNameId,
-                session = round.SessionId
+                round = stat.Name,
+                show = stat.ShowNameId,
+                session = stat.SessionId
             };
             return JsonSerializer.Serialize(payload);
         }
         
-        private string RoundInfoToWeeklyCrownJsonString(RoundInfo round, bool isAnonymous) {
+        private string RoundInfoToWeeklyCrownJsonString(RoundInfo stat, bool isAnonymous) {
             var payload = new {
                 country = Stats.HostCountryCode,
-                onlineServiceType = $"{(int)Stats.OnlineServiceType}",
-                onlineServiceId = Stats.OnlineServiceId,
-                onlineServiceNickname = Stats.OnlineServiceNickname,
+                onlineServiceType = $"{stat.OnlineServiceType}",
+                onlineServiceId = stat.OnlineServiceId,
+                onlineServiceNickname = stat.OnlineServiceNickname,
                 isAnonymous,
-                round = round.Name,
-                show = round.ShowNameId,
-                session = round.SessionId,
-                end = $"{round.End:o}"
+                round = stat.Name,
+                show = stat.ShowNameId,
+                session = stat.SessionId,
+                end = $"{stat.End:o}"
             };
             return JsonSerializer.Serialize(payload);
         }
