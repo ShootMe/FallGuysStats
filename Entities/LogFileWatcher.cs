@@ -120,8 +120,8 @@ namespace FallGuysStats {
             await Task.Run(() => this.logFileWatcher?.Wait());
             await Task.Run(() => this.logLineParser?.Wait());
             
-            await this.gameStateWatcher.Stop();
-            await this.serverPingWatcher.Stop();
+            // await this.gameStateWatcher.Stop();
+            // await this.serverPingWatcher.Stop();
         }
 
         private void ReadLogFile() {
@@ -469,8 +469,8 @@ namespace FallGuysStats {
                         this.threadLocalVariable.Value.creativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
                         this.threadLocalVariable.Value.creativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                         this.threadLocalVariable.Value.creativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                        this.threadLocalVariable.Value.creativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                        this.threadLocalVariable.Value.creativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                        this.threadLocalVariable.Value.creativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString() ?? "GAMEMODE_GAUNTLET";
+                        this.threadLocalVariable.Value.creativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString() ?? "THEME_VANILLA";
                         this.threadLocalVariable.Value.creativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                         this.threadLocalVariable.Value.creativePlayCount = stats.GetProperty("play_count").GetInt32();
                         this.threadLocalVariable.Value.creativeLikes = stats.GetProperty("likes").GetInt32();

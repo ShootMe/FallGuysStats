@@ -100,6 +100,7 @@ namespace FallGuysStats {
                 Task.Run(() => this.StatsForm.InitializeOverallRankList()).ContinueWith(prevTask => {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.Invoke((MethodInvoker)delegate {
+                        this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
                         int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
                         this.myOverallRank = index + 1;
                         if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
@@ -192,6 +193,7 @@ namespace FallGuysStats {
                 this.mpsSpinner01.Visible = false;
                 this.spinnerTransition.Stop();
                 // this.targetSpinner = null;
+                this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
                 this.gridOverallRank.DataSource = this.overallRankList;
                 this.gridOverallRank.ClearSelection();
                 this.overallSummary = this.overallRankList?
@@ -427,7 +429,7 @@ namespace FallGuysStats {
             this.mpsSpinner02.Visible = false;
             this.spinnerTransition.Stop();
             this.gridLevelRank.DataSource = this.levelRankList;
-            Application.DoEvents();
+            // Application.DoEvents();
             this.myLevelRank = -1;
             if (index != -1) {
                 int displayedRowCount = this.gridLevelRank.DisplayedRowCount(false);

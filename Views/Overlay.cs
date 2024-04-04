@@ -625,13 +625,9 @@ namespace FallGuysStats {
                 this.lblWins.Text = $@"{Multilingual.GetWord("overlay_wins")} :";
                 float winChance = summary.TotalWins * 100f / Math.Max(1, summary.TotalShows);
                 string winChanceDisplay = this.StatsForm.CurrentSettings.HideOverlayPercentages ? string.Empty : $" - {Math.Truncate(winChance * 10) / 10}%";
-                if (this.StatsForm.CurrentSettings.PreviousWins > 0) {
-                    this.lblWins.TextRight = $"{summary.TotalWins:N0} ({summary.AllWins + this.StatsForm.CurrentSettings.PreviousWins:N0}){winChanceDisplay}";
-                } else {
-                    this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
-                        ? $"{summary.TotalWins:N0}{Multilingual.GetWord("overlay_win")} ({summary.AllWins:N0}{Multilingual.GetWord("overlay_win")}){winChanceDisplay}"
-                        : $"{summary.TotalWins:N0}{Multilingual.GetWord("overlay_win")}{winChanceDisplay}";
-                }
+                this.lblWins.TextRight = this.StatsForm.CurrentSettings.FilterType != 1
+                    ? $"{summary.TotalWins:N0}{Multilingual.GetWord("overlay_win")} ({summary.AllWins + this.StatsForm.CurrentSettings.PreviousWins:N0}{Multilingual.GetWord("overlay_win")}){winChanceDisplay}"
+                    : $"{summary.TotalWins:N0}{Multilingual.GetWord("overlay_win")}{winChanceDisplay}";
             }
         }
         
@@ -1053,7 +1049,7 @@ namespace FallGuysStats {
                     
                     if (this.isTimeToSwitch) {
                         this.frameCount = 0;
-                        this.switchCount = this.switchCount == 0 ? 1 : 0;
+                        this.switchCount ^= 1;
                     }
                     
                     DateTime currentUtc = DateTime.UtcNow;

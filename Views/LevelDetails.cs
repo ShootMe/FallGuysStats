@@ -1117,8 +1117,8 @@ namespace FallGuysStats {
                                             info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
                                             info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                                             info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                            info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                                            info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                                            info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString() ?? "GAMEMODE_GAUNTLET";
+                                            info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString() ?? "THEME_VANILLA";
                                             info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                                             info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
                                             info.CreativeLikes = stats.GetProperty("likes").GetInt32();

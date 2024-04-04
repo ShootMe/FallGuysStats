@@ -398,7 +398,7 @@ namespace FallGuysStats {
                 case "GAMEMODE_HUNT": return "user_creative_hunt_round";
                 case "GAMEMODE_LOGIC": return "user_creative_logic_round";
                 case "GAMEMODE_TEAM": return "user_creative_team_round";
-                default: return "unknown";
+                default: return "user_creative_race_round";
             }
         }
         
@@ -2970,6 +2970,28 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 88;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 88) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where ri.PrivateLobby && (string.Equals(ri.ShowNameId, "unknown") || string.IsNullOrEmpty(ri.CreativeGameModeId) || string.IsNullOrEmpty(ri.CreativeLevelThemeId))
+                    select ri).ToList();
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase)) {
+                        ri.ShowNameId = "user_creative_race_round";
+                    }
+                    if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
+                        ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                    }
+                    if (string.IsNullOrEmpty(ri.CreativeLevelThemeId)) {
+                        ri.CreativeLevelThemeId = "THEME_VANILLA";
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 89;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3810,8 +3832,8 @@ namespace FallGuysStats {
                                             stat.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
                                             stat.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                                             stat.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                                            stat.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                                            stat.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                                            stat.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString() ?? "GAMEMODE_GAUNTLET";
+                                            stat.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString() ?? "THEME_VANILLA";
                                             stat.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                                             stat.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
                                             stat.CreativeLikes = stats.GetProperty("likes").GetInt32();
@@ -4549,8 +4571,8 @@ namespace FallGuysStats {
                 info.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
                 info.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
                 info.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
-                info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString();
-                info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString();
+                info.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString() ?? "GAMEMODE_GAUNTLET";
+                info.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString() ?? "THEME_VANILLA";
                 info.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
                 info.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
                 info.CreativeLikes = stats.GetProperty("likes").GetInt32();
