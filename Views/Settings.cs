@@ -416,7 +416,7 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
             } else {
-                this.CurrentSettings.CycleTimeSeconds = int.Parse(this.txtCycleTimeSeconds.Text);
+                this.CurrentSettings.CycleTimeSeconds = int.TryParse(this.txtCycleTimeSeconds.Text, out int cycleTimeSeconds) ? cycleTimeSeconds : 5;
                 if (this.CurrentSettings.CycleTimeSeconds <= 0) {
                     this.CurrentSettings.CycleTimeSeconds = 5;
                 }
@@ -425,7 +425,7 @@ namespace FallGuysStats {
             if (string.IsNullOrEmpty(this.txtPreviousWins.Text)) {
                 this.CurrentSettings.PreviousWins = 0;
             } else {
-                this.CurrentSettings.PreviousWins = int.Parse(this.txtPreviousWins.Text);
+                this.CurrentSettings.PreviousWins = int.TryParse(this.txtPreviousWins.Text, out int previousWins) ? previousWins : 0;
                 if (this.CurrentSettings.PreviousWins < 0) {
                     this.CurrentSettings.PreviousWins = 0;
                 }

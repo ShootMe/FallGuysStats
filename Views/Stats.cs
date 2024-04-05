@@ -3002,7 +3002,7 @@ namespace FallGuysStats {
                     select ri).ToList();
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.Name = ri.ShowNameId;
-                    ri.ShowNameId = this.GetUserCreativeLevelTypeId(ri.CreativeGameModeId ?? "user_creative_race_round");
+                    ri.ShowNameId = this.GetUserCreativeLevelTypeId(ri.CreativeGameModeId);
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);

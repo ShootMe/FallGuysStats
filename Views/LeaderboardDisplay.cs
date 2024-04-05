@@ -101,7 +101,7 @@ namespace FallGuysStats {
                     this.overallRankList = this.StatsForm.leaderboardOverallRankList;
                     this.Invoke((MethodInvoker)delegate {
                         this.mtpOverallRankPage.Text = $@"{Multilingual.GetWord("leaderboard_overall_rank")} ({this.StatsForm.totalOverallRankPlayers}{Multilingual.GetWord("level_detail_creative_player_suffix")})";
-                        int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                        int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType) ?? -1;
                         this.myOverallRank = index + 1;
                         if (this.mtcTabControl.SelectedIndex == 0 && index != -1) {
                             this.mlMyRank.Visible = true;
@@ -239,7 +239,7 @@ namespace FallGuysStats {
 
         private void LeaderboardDisplay_Shown(object sender, EventArgs e) {
             this.Opacity = 1;
-            int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+            int index = this.overallRankList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType) ?? -1;
             if (index != -1) {
                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(index + 1)} {Stats.OnlineServiceNickname}";
                 this.mlMyRank.Location = new Point(this.Width - this.mlMyRank.Width - 5, this.mtcTabControl.Top + (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? -20 : 5));
@@ -521,7 +521,7 @@ namespace FallGuysStats {
             this.gridLevelRank.DataSource = this.levelRankNodata;
             try {
                 Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
-                    int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType));
+                    int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType);
                     this.BeginInvoke((MethodInvoker)delegate {
                         if (prevTask.Result) {
                             this.SetLevelRankData(index);
@@ -689,7 +689,7 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
             
-            if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
+            if (int.TryParse(info.onlineServiceType, out int type) && (int)Stats.OnlineServiceType == type && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
             
@@ -1614,7 +1614,7 @@ namespace FallGuysStats {
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.WhiteSmoke : Color.FromArgb(49, 51, 56);
             }
             
-            if ((int)Stats.OnlineServiceType == int.Parse(info.onlineServiceType) && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
+            if (int.TryParse(info.onlineServiceType, out int type) && (int)Stats.OnlineServiceType == type && string.Equals(Stats.OnlineServiceNickname, info.onlineServiceNickname)) {
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Fuchsia : Color.GreenYellow;
             }
 
@@ -1808,7 +1808,7 @@ namespace FallGuysStats {
                             // this.mtpWeeklyCrownPage.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.leaderboardWeeklyCrownYear, this.StatsForm.leaderboardWeeklyCrownWeek)}";
                             this.lblPagingInfo.Font = Overlay.GetMainFont(23f);
                             this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
-                            int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
+                            int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType) ?? -1;
                             this.myWeeklyCrownRank = index + 1;
                             this.mlMyRank.Visible = index != -1;
                             if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
