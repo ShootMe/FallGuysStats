@@ -404,7 +404,7 @@ namespace FallGuysStats {
                     }
                     return result;
                 });
-                this.BeginInvoke((MethodInvoker)delegate {
+                this.Invoke((MethodInvoker)delegate {
                     if (prevTask.Result) {
                         this.mpsSpinner02.Visible = false;
                         this.lblSearchDescription.Visible = true;
@@ -522,7 +522,7 @@ namespace FallGuysStats {
             try {
                 Task.Run(() => this.DataLoadBulk(queryKey)).ContinueWith(prevTask => {
                     int index = this.levelRankList.FindIndex(r => string.Equals(r.onlineServiceId, Stats.OnlineServiceId) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType);
-                    this.BeginInvoke((MethodInvoker)delegate {
+                    this.Invoke((MethodInvoker)delegate {
                         if (prevTask.Result) {
                             this.SetLevelRankData(index);
                         } else {
@@ -1203,6 +1203,23 @@ namespace FallGuysStats {
             }
         }
 
+        private string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
+            if (string.Equals("wle_mrs_shuffle_show_squads", showId)) { // Squads Scramble
+                if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
+                    roundId = roundId.Replace("_squads_", "_discover_");
+                } else if (roundId.StartsWith("wle_shuffle_squads_2_24_01_")) {
+                    roundId = roundId.Replace("_squads_", "_").Replace("_24_01_", "_24_");
+                } else if (roundId.StartsWith("wle_round_mrs_shuffle_discover_") && roundId.EndsWith("_squads")) {
+                    roundId = roundId.Replace("_squads", "");
+                }
+            }
+            
+            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
+                roundId = roundId.Replace("_noelim", "");
+            }
+            return roundId;
+        }
+
         private void SetPlayerInfo(string userId) {
             this.cboLevelList.Enabled = false;
             this.mtcTabControl.Enabled = false;
@@ -1213,10 +1230,10 @@ namespace FallGuysStats {
                     PlayerStats ps = JsonSerializer.Deserialize<PlayerStats>(json);
                     if (ps.found) {
                         ps.pbs.Sort((p1, p2) => {
-                            bool isCreative1 = this.StatsForm.StatLookup.TryGetValue(p1.round, out LevelStats l1) && l1.IsCreative;
-                            bool isCreative2 = this.StatsForm.StatLookup.TryGetValue(p2.round, out LevelStats l2) && l2.IsCreative;
+                            bool isCreative1 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(p1.show, p1.round), out LevelStats l1) && l1.IsCreative;
+                            bool isCreative2 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(p2.show, p2.round), out LevelStats l2) && l2.IsCreative;
                             int result = isCreative1.CompareTo(isCreative2);
-                            return result == 0 ? string.Compare(l1.Name, l2.Name, StringComparison.Ordinal) : result;
+                            return result == 0 ? string.Compare(p1.roundDisplayName, p2.roundDisplayName, StringComparison.OrdinalIgnoreCase) : result;
                         });
                         this.playerDetails = ps.pbs;
                         this.speedrunRank = ps.speedrunrank;
@@ -1230,7 +1247,7 @@ namespace FallGuysStats {
             }).ContinueWith(prevTask => {
                 this.spinnerTransition.Stop();
                 // this.targetSpinner = null;
-                this.BeginInvoke((MethodInvoker)delegate {
+                this.Invoke((MethodInvoker)delegate {
                     this.mtcTabControl.Enabled = true;
                     this.cboLevelList.Enabled = true;
                     this.mtbSearchPlayersText.Width = this.playerDetails == null || this.playerDetails.Count == 0 ? (this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2) : this.gridPlayerList.Width + 1;
@@ -1334,7 +1351,7 @@ namespace FallGuysStats {
             if (e.RowIndex != -1 && ((Grid)sender).SelectedRows.Count > 0) {
                 PlayerStats.PbInfo data = (PlayerStats.PbInfo)((Grid)sender).SelectedRows[0].DataBoundItem;
                 if (string.IsNullOrEmpty(data.round)) return;
-                this.cboLevelList.SelectedImageItem(this.StatsForm.ReplaceLevelIdInShuffleShow(data.show, data.round), 1);
+                this.cboLevelList.SelectedImageItem(this.ReplaceLevelIdInShuffleShow(data.show, data.round), 1);
             }
         }
         
@@ -1387,7 +1404,7 @@ namespace FallGuysStats {
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
                 if (this.StatsForm.StatLookup.TryGetValue(info.round, out LevelStats l1)) {
                     e.Value = l1.RoundBigIcon;
-                } else if (this.StatsForm.StatLookup.TryGetValue(this.StatsForm.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l2)) {
+                } else if (this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l2)) {
                     e.Value = l2.RoundBigIcon;
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "round") {
@@ -1543,7 +1560,7 @@ namespace FallGuysStats {
                 }).ContinueWith(prevTask => {
                     this.spinnerTransition.Stop();
                     // this.targetSpinner = null;
-                    this.BeginInvoke((MethodInvoker)delegate {
+                    this.Invoke((MethodInvoker)delegate {
                         this.mtcTabControl.Enabled = true;
                         this.cboLevelList.Enabled = true;
                         this.mtbSearchPlayersText.Width = this.gridPlayerList.Width + this.gridPlayerDetails.Width + 2;

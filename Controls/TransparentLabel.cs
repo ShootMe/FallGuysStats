@@ -201,8 +201,8 @@ namespace FallGuysStats {
                 bool isLangGroup1 = lang == Language.English || lang == Language.French;
                 bool isLangGroup2 = lang == Language.Korean || lang == Language.Japanese;
                 bool isLangGroup3 = lang == Language.SimplifiedChinese || lang == Language.TraditionalChinese;
-                if (isLangGroup1 && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.English).Name)) {
-                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.07f : 0.065f) : 0.085f;
+                if (isLangGroup1 && string.Equals(this.Font.FontFamily.Name, Overlay.GetDefaultFontFamilies(Language.English).Name)) {
+                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.05f : 0.045f) : 0.065f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0307f : 0.0278f) : 0.034f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0333f : 0.0302f) : 0.037f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.017f : 0.015f) : 0.0192f;
@@ -210,8 +210,8 @@ namespace FallGuysStats {
                     factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.017f : 0.015f) : 0.0192f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0284f : 0.0257f) : 0.0315f;
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0312f : 0.0282f) : 0.0345f;
-                } else if (isLangGroup2 && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.Korean).Name)) {
-                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.087f : 0.075f) : 0.093f;
+                } else if (isLangGroup2 && string.Equals(this.Font.FontFamily.Name, Overlay.GetDefaultFontFamilies(Language.Korean).Name)) {
+                    factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.067f : 0.055f) : 0.073f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.034f : 0.029f) : 0.034f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.043f : 0.0372f) : 0.0427f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0237f : 0.02f) : 0.0245f;
@@ -219,8 +219,8 @@ namespace FallGuysStats {
                     factorOffsetForChineseCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.021f : 0.0175f) : 0.0217f;
                     factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0315f : 0.0267f) : 0.0315f;
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.046f : 0.0397f) : 0.046f;
-                } else if (isLangGroup3 && this.Font.FontFamily.Name.Equals(Overlay.GetDefaultFontFamilies(Language.SimplifiedChinese).Name)) {
-                    factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.1f : 0.085f;
+                } else if (isLangGroup3 && string.Equals(this.Font.FontFamily.Name, Overlay.GetDefaultFontFamilies(Language.SimplifiedChinese).Name)) {
+                    factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.08f : 0.065f;
                     factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0366f : 0.0277f;
                     factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.0459f : 0.035f;
                     factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.0205f : 0.015f;
@@ -230,7 +230,7 @@ namespace FallGuysStats {
                     factorOffsetForNumeric = this.LevelColor.IsEmpty ? 0.049f : 0.0375f;
                 } else { // Custom font
                     if (isLangGroup1) {
-                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.08f : 0.073f) : 0.1f;
+                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == 0 ? 0.06f : 0.053f) : 0.08f;
                         factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0282f : 0.0247f) : 0.0305f;
                         factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0382f : 0.0341f) : 0.0412f;
                         factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0205f : 0.0178f) : 0.0225f;
@@ -239,7 +239,7 @@ namespace FallGuysStats {
                         factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0265f : 0.0235f) : 0.0288f;
                         factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == 0 ? 0.0375f : 0.0335f) : 0.0406f;
                     } else if (isLangGroup2) {
-                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.085f : 0.075f) : 0.09f;
+                        factorOffsetForSpace = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.065f : 0.055f) : 0.07f;
                         factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0308f : 0.027f) : 0.0305f;
                         factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0412f : 0.0367f) : 0.0407f;
                         factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0225f : 0.0195f) : 0.0228f;
@@ -248,7 +248,7 @@ namespace FallGuysStats {
                         factorOffsetForSignCharacter = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0285f : 0.025f) : 0.0287f;
                         factorOffsetForNumeric = this.LevelColor.IsEmpty ? (lang == Language.Korean ? 0.0405f : 0.036f) : 0.04f;
                     } else if (isLangGroup3) {
-                        factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.095f : 0.08f;
+                        factorOffsetForSpace = this.LevelColor.IsEmpty ? 0.075f : 0.06f;
                         factorOffsetForEngUppercase = this.LevelColor.IsEmpty ? 0.0345f : 0.0255f;
                         factorOffsetForEngLowercase = this.LevelColor.IsEmpty ? 0.046f : 0.0345f;
                         factorOffsetForKorCharacter = this.LevelColor.IsEmpty ? 0.0255f : 0.0188f;
