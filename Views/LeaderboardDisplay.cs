@@ -1402,10 +1402,8 @@ namespace FallGuysStats {
                     e.Value = Multilingual.GetShowName((string)e.Value) ?? e.Value;
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "RoundIcon") {
-                if (this.StatsForm.StatLookup.TryGetValue(info.round, out LevelStats l1)) {
+                if (this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l1)) {
                     e.Value = l1.RoundBigIcon;
-                } else if (this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(info.show, info.round), out LevelStats l2)) {
-                    e.Value = l2.RoundBigIcon;
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "round") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {

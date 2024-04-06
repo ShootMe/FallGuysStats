@@ -5960,8 +5960,7 @@ namespace FallGuysStats {
                     foreach (FileInfo file in di.GetFiles()) {
                         if (!string.Equals(file.Extension, ".item")) continue;
                         JsonClass json = Json.Read(File.ReadAllText(file.FullName)) as JsonClass;
-                        string displayName = json["DisplayName"].AsString();
-                        if (string.Equals(displayName, "Fall Guys")) {
+                        if (string.Equals(json["MainGameCatalogNamespace"].AsString(), "50118b7f954e450f8823df1614b24e80") || string.Equals(json["CatalogNamespace"].AsString(), "50118b7f954e450f8823df1614b24e80")) {
                             return "com.epicgames.launcher://apps/50118b7f954e450f8823df1614b24e80%3A38ec4849ea4f4de6aa7b6fb0f2d278e1%3A0a2d9f6403244d12969e11da6713137b?action=launch&silent=true";
                         }
                     }
