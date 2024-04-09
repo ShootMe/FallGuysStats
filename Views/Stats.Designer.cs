@@ -32,6 +32,7 @@
             this.mtgIgnoreLevelTypeWhenSorting = new MetroFramework.Controls.MetroToggle();
             this.lblIgnoreLevelTypeWhenSorting = new System.Windows.Forms.Label();
             this.mlLeaderboard = new MetroFramework.Controls.MetroLink();
+            this.mlReportCheater = new MetroFramework.Controls.MetroLink();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.menuSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.menuFilters = new System.Windows.Forms.ToolStripMenuItem();
@@ -281,6 +282,26 @@
             this.mlLeaderboard.UseSelectable = true;
             this.mlLeaderboard.UseStyleColors = true;
             this.mlLeaderboard.Click += new System.EventHandler(this.mlLeaderboard_Click);
+            // 
+            // mlReportCheater
+            // 
+            this.mlReportCheater.Anchor = ((System.Windows.Forms.AnchorStyles)(System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right));
+            this.mlReportCheater.AutoSize = true;
+            this.mlReportCheater.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mlReportCheater.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.mlReportCheater.FontWeight = MetroFramework.MetroLinkWeight.Bold;
+            this.mlReportCheater.Image = global::FallGuysStats.Properties.Resources.report_icon;
+            this.mlReportCheater.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.mlReportCheater.ImageSize = 16;
+            this.mlReportCheater.Location = new System.Drawing.Point(826, 151);
+            this.mlReportCheater.Name = "mlReportCheater";
+            this.mlReportCheater.Size = new System.Drawing.Size(100, 16);
+            this.mlReportCheater.TabIndex = 7;
+            this.mlReportCheater.Text = "Leaderboard";
+            this.mlReportCheater.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.mlReportCheater.UseSelectable = true;
+            this.mlReportCheater.UseStyleColors = true;
+            this.mlReportCheater.Click += new System.EventHandler(this.mlReportCheater_Click);
             // 
             // menu
             // 
@@ -1635,6 +1656,7 @@
             this.Controls.Add(this.mtgIgnoreLevelTypeWhenSorting);
             this.Controls.Add(this.lblIgnoreLevelTypeWhenSorting);
             this.Controls.Add(this.mlLeaderboard);
+            this.Controls.Add(this.mlReportCheater);
             this.Controls.Add(this.gridDetails);
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1672,6 +1694,7 @@
         private MetroFramework.Controls.MetroToggle mtgIgnoreLevelTypeWhenSorting;
         private System.Windows.Forms.Label lblIgnoreLevelTypeWhenSorting;
         private MetroFramework.Controls.MetroLink mlLeaderboard;
+        private MetroFramework.Controls.MetroLink mlReportCheater;
         private FallGuysStats.Grid gridDetails;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem menuSettings;

@@ -200,6 +200,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " No statistical data" },
                             
                             { "leaderboard_menu_title", "Leaderboard" },
+                            { "leaderboard_report_cheater", "Report a Cheater" },
                             { "leaderboard_choose_a_round", "Choose a round" },
                             { "leaderboard_overall_rank", "🏆 Overall Rank" },
                             { "leaderboard_search_players", "🔎 Search for players" },
@@ -731,6 +732,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " Aucune donnée statistique" },
                             
                             { "leaderboard_menu_title", "Classement" },
+                            { "leaderboard_report_cheater", "Signaler un Tricheur" },
                             { "leaderboard_choose_a_round", "Sélectionnez une manche" },
                             { "leaderboard_overall_rank", "🏆 Classement général" },
                             { "leaderboard_search_players", "🔎 Recherche de joueurs" },
@@ -1262,6 +1264,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " 통계 데이터 없음" },
                             
                             { "leaderboard_menu_title", "리더보드" },
+                            { "leaderboard_report_cheater", "부정행위자 신고" },
                             { "leaderboard_choose_a_round", "라운드를 선택하세요" },
                             { "leaderboard_overall_rank", "🏆 종합 순위" },
                             { "leaderboard_search_players", "🔎 플레이어 검색" },
@@ -1793,6 +1796,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " 統計データなし" },
                             
                             { "leaderboard_menu_title", "リーダーボード" },
+                            { "leaderboard_report_cheater", "不正行為者を通報" },
                             { "leaderboard_choose_a_round", "ラウンドを選択してください。" },
                             { "leaderboard_overall_rank", "🏆 総合ランク" },
                             { "leaderboard_search_players", "🔎 プレイヤー検索" },
@@ -2324,6 +2328,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " 无统计数据" },
                             
                             { "leaderboard_menu_title", "排行榜" },
+                            { "leaderboard_report_cheater", "举报作弊者" },
                             { "leaderboard_choose_a_round", "选择一轮。" },
                             { "leaderboard_overall_rank", "🏆 总排名" },
                             { "leaderboard_search_players", "🔎 搜索球员" },
@@ -2855,6 +2860,7 @@ namespace FallGuysStats {
                             { "level_no_statistical_data", " 無統計數據" },
                             
                             { "leaderboard_menu_title", "排行榜" },
+                            { "leaderboard_report_cheater", "檢舉作弊者" },
                             { "leaderboard_choose_a_round", "選擇一輪。" },
                             { "leaderboard_overall_rank", "🏆 總排名" },
                             { "leaderboard_search_players", "🔎 搜尋球員" },

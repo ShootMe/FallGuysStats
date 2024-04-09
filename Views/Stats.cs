@@ -6367,6 +6367,10 @@ namespace FallGuysStats {
             }
         }
         
+        private void mlReportCheater_Click(object sender, EventArgs e) {
+            Process.Start("https://github.com/ShootMe/FallGuysStats/issues/332");
+        }
+        
         private void mlLeaderboard_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
@@ -7079,6 +7083,8 @@ namespace FallGuysStats {
             this.dataGridViewCellStyle2.Font = Overlay.GetMainFont(14);
             this.lblCreativeLevel.Text = Multilingual.GetWord("settings_grouping_creative_round_levels");
             this.lblIgnoreLevelTypeWhenSorting.Text = Multilingual.GetWord("settings_ignore_level_type_when_sorting");
+            this.mlReportCheater.Text = Multilingual.GetWord("leaderboard_report_cheater");
+            this.mlReportCheater.Location = new Point(this.Width - this.mlReportCheater.Width - 10, this.mlReportCheater.Location.Y);
             
             this.traySettings.Text = Multilingual.GetWord("main_settings");
             this.trayFilters.Text = Multilingual.GetWord("main_filters");

@@ -390,6 +390,7 @@
     <None Include="Resources\show_icon.png" />
     <None Include="Resources\ping_100_icon.png" />
     <None Include="Resources\ping_200_icon.png" />
+    <None Include="Resources\report_icon.png" />
     <None Include="Resources\position_ne_off_icon.png" />
     <None Include="Resources\position_nw_off_icon.png" />
     <None Include="Resources\position_se_off_icon.png" />
