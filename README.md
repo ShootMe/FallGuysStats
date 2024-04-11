@@ -127,12 +127,12 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 
 ## Multilingual Support
   - FallGuysStats supports the following languages.
-    - 🇺🇸 `English`
-    - 🇫🇷 `French`
-    - 🇰🇷 `Korean`
-    - 🇯🇵 `Japanese`
-    - 🇨🇳 `Simplified Chinese`
-    - 🇨🇳 `Traditional Chinese`
+    - ![🇺🇸](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/US.png) `English`
+    - ![🇫🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/FR.png) `French`
+    - ![🇰🇷](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/KR.png) `Korean`
+    - ![🇯🇵](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/JP.png) `Japanese`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Simplified Chinese`
+    - ![🇨🇳](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Resources/country_icon/CN.png) `Traditional Chinese`
 
 ## Overlay
 ![Overlay](https://raw.githubusercontent.com/ShootMe/FallGuysStats/master/Properties/overlay.png)
@@ -257,6 +257,9 @@ FallGuysStats is open source, meaning anyone can view the code, so download it w
 <details>
     <summary>Details</summary>
 
+  - `1.365`
+    - Banning users using hacking programs
+    - Bugfix and program optimization
   - `1.365`
     - Bugfix and program optimization
   - `1.364`
