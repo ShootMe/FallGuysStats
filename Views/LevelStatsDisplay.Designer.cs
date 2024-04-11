@@ -1,5 +1,5 @@
 ﻿namespace FallGuysStats {
-    partial class RoundStatsDisplay {
+    partial class LevelStatsDisplay {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RoundStatsDisplay));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelStatsDisplay));
             this.formsPlot = new ScottPlot.FormsPlot();
             this.picRoundIcon = new System.Windows.Forms.PictureBox();
             this.cboRoundList = new MetroFramework.Controls.MetroComboBox();
@@ -258,7 +258,7 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "RoundStatsDisplay";
+            this.Name = "LevelStatsDisplay";
             this.Padding = new System.Windows.Forms.Padding(20, 60, 20, 0);
             this.Resizable = false;
             this.ShadowType = MetroFramework.Forms.MetroFormShadowType.AeroShadow;

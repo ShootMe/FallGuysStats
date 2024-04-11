@@ -5410,11 +5410,9 @@ namespace FallGuysStats {
                                LevelId = levelStats.Id,
                                LevelName = levelStats.Name,
                                RoundIcon = levelStats.RoundBigIcon,
-                               IsCreative = levelStats.IsCreative
+                               IsCreative = levelStats.IsCreative,
+                               RoundDetails = levelStats.Stats
                            }) {
-                        // List<RoundInfo> rounds = levelStats.Stats;
-                        // rounds.Sort();
-                        levelDetails.RoundDetails = levelStats.Stats;
                         this.EnableInfoStrip(false);
                         this.EnableMainMenu(false);
                         this.OnUpdatedLevelRows += levelDetails.LevelDetails_OnUpdatedLevelRows;
@@ -5437,9 +5435,9 @@ namespace FallGuysStats {
 
         public List<RoundInfo> GetShowsForDisplay() {
             return this.AllStats
-                    .Where(r => r.Profile == this.GetCurrentProfileId() &&
-                                this.IsInStatsFilter(r) &&
-                                this.IsInPartyFilter(r))
+                    .Where(r => r.Profile == this.GetCurrentProfileId()
+                                && this.IsInStatsFilter(r)
+                                && this.IsInPartyFilter(r))
                     .GroupBy(r => r.ShowID)
                     .Select(g => new {
                         ShowID = g.Key,
@@ -5658,14 +5656,12 @@ namespace FallGuysStats {
         }
         
         private void DisplayLevelGraph() {
-            using (RoundStatsDisplay roundStatsDisplay = new RoundStatsDisplay {
-                       StatsForm = this,
-                       Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})",
-                       BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon,
-                       BackMaxSize = 32,
-                       BackImagePadding = new Padding(20, 20, 0, 0)
-                   })
-            {
+            using (LevelStatsDisplay levelStatsDisplay = new LevelStatsDisplay()) {
+                levelStatsDisplay.StatsForm = this;
+                levelStatsDisplay.Text = $@"     {Multilingual.GetWord("level_detail_stats_by_round")} - {this.GetCurrentProfileName().Replace("&", "&&")} ({this.GetCurrentFilterName()})";
+                levelStatsDisplay.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.round_icon : Properties.Resources.round_gray_icon;
+                levelStatsDisplay.BackMaxSize = 32;
+                levelStatsDisplay.BackImagePadding = new Padding(20, 20, 0, 0);
                 List<RoundInfo> rounds = this.AllStats.Where(r => r.Profile == this.GetCurrentProfileId()
                                                                   && this.IsInStatsFilter(r)
                                                                   && this.IsInPartyFilter(r)
@@ -5763,12 +5759,12 @@ namespace FallGuysStats {
                     }
                 }
                 
-                roundStatsDisplay.levelList = from pair in levelList orderby pair.Value.Trim() ascending select pair;
-                roundStatsDisplay.levelTotalPlayTime = levelTotalPlayTime;
-                roundStatsDisplay.levelScoreInfo = levelScoreInfo;
-                roundStatsDisplay.levelMedalInfo = levelMedalInfo;
+                levelStatsDisplay.levelList = from pair in levelList orderby pair.Value.Trim() ascending select pair;
+                levelStatsDisplay.levelTotalPlayTime = levelTotalPlayTime;
+                levelStatsDisplay.levelScoreInfo = levelScoreInfo;
+                levelStatsDisplay.levelMedalInfo = levelMedalInfo;
                 
-                roundStatsDisplay.ShowDialog(this);
+                levelStatsDisplay.ShowDialog(this);
             }
         }
         
@@ -6368,20 +6364,19 @@ namespace FallGuysStats {
         }
         
         private void mlReportCheater_Click(object sender, EventArgs e) {
-            Process.Start("https://github.com/ShootMe/FallGuysStats/issues/332");
+            Process.Start("https://github.com/ShootMe/FallGuysStats/issues/332#issuecomment-2042482371");
         }
         
         private void mlLeaderboard_Click(object sender, EventArgs e) {
             try {
                 this.EnableInfoStrip(false);
                 this.EnableMainMenu(false);
-                using (LeaderboardDisplay leaderboard = new LeaderboardDisplay {
-                           StatsForm = this,
-                           Text = $@"      {Multilingual.GetWord("leaderboard_menu_title")}",
-                           BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon,
-                           BackMaxSize = 32,
-                           BackImagePadding = new Padding(20, 21, 0, 0)
-                       }) {
+                using (LeaderboardDisplay leaderboard = new LeaderboardDisplay()) {
+                    leaderboard.StatsForm = this;
+                    leaderboard.Text = $@"      {Multilingual.GetWord("leaderboard_menu_title")}";
+                    leaderboard.BackImage = this.Theme == MetroThemeStyle.Light ? Properties.Resources.leaderboard_icon : Properties.Resources.leaderboard_gray_icon;
+                    leaderboard.BackMaxSize = 32;
+                    leaderboard.BackImagePadding = new Padding(20, 21, 0, 0);
                     this.leaderboardOverallRankList?.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                     this.weeklyCrownList?.Sort((r1, r2) => r1.rank.CompareTo(r2.rank));
                     leaderboard.ShowDialog(this);

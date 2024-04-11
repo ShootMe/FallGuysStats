@@ -10,7 +10,7 @@ using ScottPlot;
 using ScottPlot.Plottable;
 
 namespace FallGuysStats {
-    public partial class RoundStatsDisplay : MetroFramework.Forms.MetroForm {
+    public partial class LevelStatsDisplay : MetroFramework.Forms.MetroForm {
         public Stats StatsForm { get; set; }
         public Dictionary<string, double[]> levelMedalInfo;
         public Dictionary<string, TimeSpan> levelTotalPlayTime;
@@ -25,7 +25,7 @@ namespace FallGuysStats {
         private bool isInitComplete;
         private string goldMedalCount, silverMedalCount, bronzeMedalCount, pinkMedalCount, eliminatedMedalCount;
         private string goldMedalPercent, silverMedalPercent, bronzeMedalPercent, pinkMedalPercent, eliminatedMedalPercent;
-        public RoundStatsDisplay() {
+        public LevelStatsDisplay() {
             this.InitializeComponent();
             this.Opacity = 0;
         }

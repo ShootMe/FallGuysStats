@@ -1026,10 +1026,10 @@ namespace FallGuysStats {
             int selectedCount = this.gridDetails.SelectedRows.Count;
             if (selectedCount > 0) {
                 using (EditShows moveShows = new EditShows()) {
-                    moveShows.StatsForm = this.StatsForm; 
-                    moveShows.Profiles = this.StatsForm.AllProfiles; 
-                    moveShows.FunctionFlag = "move"; 
-                    moveShows.SelectedCount = selectedCount; 
+                    moveShows.StatsForm = this.StatsForm;
+                    moveShows.Profiles = this.StatsForm.AllProfiles;
+                    moveShows.FunctionFlag = "move";
+                    moveShows.SelectedCount = selectedCount;
                     moveShows.Icon = Icon;
                     if (moveShows.ShowDialog(this) == DialogResult.OK) {
                         this.gridDetails.Enabled = false;

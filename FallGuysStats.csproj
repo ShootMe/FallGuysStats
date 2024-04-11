@@ -184,11 +184,11 @@
     <Compile Include="Views\LeaderboardDisplay.Designer.cs">
       <DependentUpon>LeaderboardDisplay.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\RoundStatsDisplay.cs">
+    <Compile Include="Views\LevelStatsDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\RoundStatsDisplay.Designer.cs">
-      <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
+    <Compile Include="Views\LevelStatsDisplay.Designer.cs">
+      <DependentUpon>LevelStatsDisplay.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\InitLanguage.cs">
       <SubType>Form</SubType>
@@ -248,8 +248,8 @@
     <EmbeddedResource Include="Views\LeaderboardDisplay.resx">
       <DependentUpon>LeaderboardDisplay.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\RoundStatsDisplay.resx">
-      <DependentUpon>RoundStatsDisplay.cs</DependentUpon>
+    <EmbeddedResource Include="Views\LevelStatsDisplay.resx">
+      <DependentUpon>LevelStatsDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\InitLanguage.resx">
       <DependentUpon>InitLanguage.cs</DependentUpon>
