@@ -1074,18 +1074,28 @@ namespace FallGuysStats {
                         if (item is ToolStripMenuItem tsmi1) {
                             if (Equals(tsmi1, this.menuSettings)) {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             } else if (Equals(tsmi1, this.menuFilters)) {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             } else if (Equals(tsmi1, this.menuProfile)) {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             } else if (Equals(tsmi1, this.menuUpdate)) {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
                                                                              : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                                tsmi1.ForeColor = this.isAvailableNewVersion ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
                             } else if (Equals(tsmi1, this.menuHelp)) {
                                 tsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            } else if (Equals(tsmi1, this.menuOverlay)) {
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            } else if (Equals(tsmi1, this.menuLaunchFallGuys)) {
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            } else if (Equals(tsmi1, this.menuUsefulThings)) {
+                                tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             }
-
-                            tsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                            
                             tsmi1.MouseEnter += this.menu_MouseEnter;
                             tsmi1.MouseLeave += this.menu_MouseLeave;
                             foreach (var item1 in tsmi1.DropDownItems) {
@@ -1174,22 +1184,33 @@ namespace FallGuysStats {
             foreach (var item in this.trayCMenu.Items) {
                 if (item is ToolStripMenuItem tsmi) {
                     tsmi.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     tsmi.MouseEnter += this.TrayMenu_MouseEnter;
                     tsmi.MouseLeave += this.TrayMenu_MouseLeave;
                     if (Equals(tsmi, this.traySettings)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.trayFilters)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.trayProfile)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.trayUpdate)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
                                                                     : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                        tsmi.ForeColor = this.isAvailableNewVersion ? (theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
                     } else if (Equals(tsmi, this.trayHelp)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.trayExitProgram)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    } else if (Equals(tsmi, this.trayOverlay)) {
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    } else if (Equals(tsmi, this.trayLaunchFallGuys)) {
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    } else if (Equals(tsmi, this.trayUsefulThings)) {
+                        tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     }
 
                     foreach (var subItem1 in tsmi.DropDownItems) {
@@ -1264,24 +1285,31 @@ namespace FallGuysStats {
         private void TrayMenu_MouseLeave(object sender, EventArgs e) {
             switch (sender) {
                 case ToolStripMenuItem tsi: {
-                    tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     if (Equals(tsi, this.traySettings)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayFilters)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayCustomRangeStats)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayProfile)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayUpdate)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
-                            : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                                                                        : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                        tsi.ForeColor = this.isAvailableNewVersion ? (this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
                     } else if (Equals(tsi, this.trayHelp)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayEditProfiles)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayExitProgram)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     }
                     break;
                 }
@@ -1315,22 +1343,28 @@ namespace FallGuysStats {
         private void menu_MouseLeave(object sender, EventArgs e) {
             switch (sender) {
                 case ToolStripMenuItem tsmi: {
-                    tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     if (Equals(tsmi, this.menuSettings)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuFilters)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.filter_icon : Properties.Resources.filter_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuCustomRangeStats)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuProfile)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.profile_icon : Properties.Resources.profile_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuUpdate)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? (this.isAvailableNewVersion ? Properties.Resources.github_update_icon : Properties.Resources.github_icon)
                                                                          : (this.isAvailableNewVersion ? Properties.Resources.github_update_gray_icon : Properties.Resources.github_gray_icon);
+                        tsmi.ForeColor = this.isAvailableNewVersion ? (this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow) : (this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray);
                     } else if (Equals(tsmi, this.menuHelp)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.github_icon : Properties.Resources.github_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuEditProfiles)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     }
                     break;
                 }
@@ -3314,7 +3348,7 @@ namespace FallGuysStats {
             Rectangle rectangle = ((ToolStripMenuItem)sender).Bounds;
             Point position = new Point(rectangle.Left, rectangle.Bottom + 68);
             this.AllocTooltip();
-            this.ShowTooltip(string.Equals(((ToolStripMenuItem)sender).Name, "menuUpdate") && this.isAvailableNewVersion ? $"{Multilingual.GetWord("main_you_can_update_new_version_prefix_tooltip")}v{this.availableNewVersion}{Multilingual.GetWord("main_you_can_update_new_version_suffix_tooltip")}" :
+            this.ShowTooltip(sender.Equals(this.menuUpdate) && this.isAvailableNewVersion ? $"{Multilingual.GetWord("main_you_can_update_new_version_prefix_tooltip")}v{this.availableNewVersion}{Multilingual.GetWord("main_you_can_update_new_version_suffix_tooltip")}" :
                 $"{Multilingual.GetWord("main_update_prefix_tooltip")}{Environment.NewLine}{Multilingual.GetWord("main_update_suffix_tooltip")}",
                 this, position);
         }
@@ -6753,11 +6787,12 @@ namespace FallGuysStats {
         
 #if AllowUpdate
         public void ChangeStateForAvailableNewVersion(string newVersion) {
-            // this.timeSwitcherForCheckUpdate = DateTime.UtcNow;
             this.isAvailableNewVersion = true;
             this.availableNewVersion = newVersion;
             this.menuUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
             this.trayUpdate.Image = CurrentTheme == MetroThemeStyle.Light ? Properties.Resources.github_update_icon : Properties.Resources.github_update_gray_icon;
+            this.menuUpdate.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
+            this.trayUpdate.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.FromArgb(0, 174, 219) : Color.GreenYellow;
         }
         
         private bool CheckForNewVersion() {
@@ -6771,13 +6806,14 @@ namespace FallGuysStats {
                         Version newVersion = new Version(assemblyInfo.Substring(index + 17, indexEnd - index - 17));
                         if (newVersion > currentVersion) {
                             this.ChangeStateForAvailableNewVersion(newVersion.ToString(2));
+                            return true;
                         }
                     }
                 } catch {
                     return false;
                 }
             }
-            return true;
+            return false;
         }
 #endif
         
