@@ -386,19 +386,19 @@ namespace FallGuysStats {
             this.cboLevelList.SetImageItemData(new List<ImageItem>());
             this.mpsSpinner02.Visible = true;
             Task.Run(this.GetAvailableLevel).ContinueWith(prevTask => {
-                List<ImageItem> roundItemList = new List<ImageItem>();
+                List<ImageItem> levelList = new List<ImageItem>();
                 foreach (AvailableLevel.LevelInfo level in this.availableLevelList) {
                     foreach (string id in level.ids) {
                         if (this.StatsForm.StatLookup.TryGetValue(id, out LevelStats levelStats)) {
-                            roundItemList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { level.queryname, string.Join(";", level.ids), levelStats.IsCreative.ToString() }));
+                            levelList.Add(new ImageItem(Utils.ResizeImageHeight(levelStats.RoundBigIcon, 23), levelStats.Name, Overlay.GetMainFont(15f), new[] { level.queryname, string.Join(";", level.ids), levelStats.IsCreative.ToString() }));
                             break;
                         }
                     }
                 }
-                roundItemList.Sort((x, y) => {
+                levelList.Sort((x, y) => {
                     int result = string.Compare(x.Data[2], y.Data[2], StringComparison.OrdinalIgnoreCase);
                     if (result == 0) {
-                        result = string.Compare(x.Text, y.Text, StringComparison.Ordinal);
+                        result = string.Compare(x.Text, y.Text, StringComparison.OrdinalIgnoreCase);
                     } else if (string.Equals(x.Data[2], "false")) {
                         result = -1;
                     }
@@ -408,7 +408,7 @@ namespace FallGuysStats {
                     if (prevTask.Result) {
                         this.mpsSpinner02.Visible = false;
                         this.lblSearchDescription.Visible = true;
-                        this.cboLevelList.SetImageItemData(roundItemList);
+                        this.cboLevelList.SetImageItemData(levelList);
                         this.cboLevelList.Enabled = true;
                     } else {
                         this.mpsSpinner02.Visible = false;
