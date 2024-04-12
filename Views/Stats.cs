@@ -1184,8 +1184,8 @@ namespace FallGuysStats {
             foreach (var item in this.trayCMenu.Items) {
                 if (item is ToolStripMenuItem tsmi) {
                     tsmi.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
-                    tsmi.MouseEnter += this.TrayMenu_MouseEnter;
-                    tsmi.MouseLeave += this.TrayMenu_MouseLeave;
+                    tsmi.MouseEnter += this.trayMenu_MouseEnter;
+                    tsmi.MouseLeave += this.trayMenu_MouseLeave;
                     if (Equals(tsmi, this.traySettings)) {
                         tsmi.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
                         tsmi.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
@@ -1218,15 +1218,15 @@ namespace FallGuysStats {
                             if (Equals(stsmi1, this.trayEditProfiles)) { stsmi1.Image = theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon; }
                             stsmi1.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                             stsmi1.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                            stsmi1.MouseEnter += this.TrayMenu_MouseEnter;
-                            stsmi1.MouseLeave += this.TrayMenu_MouseLeave;
+                            stsmi1.MouseEnter += this.trayMenu_MouseEnter;
+                            stsmi1.MouseLeave += this.trayMenu_MouseLeave;
                             foreach (var subItem2 in stsmi1.DropDownItems) {
                                 if (subItem2 is ToolStripMenuItem stsmi2) {
                                     if (Equals(stsmi2, this.trayCustomRangeStats)) { stsmi2.Image = theme == MetroThemeStyle.Light ? Properties.Resources.calendar_icon : Properties.Resources.calendar_gray_icon; }
                                     stsmi2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                                     stsmi2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-                                    stsmi2.MouseEnter += this.TrayMenu_MouseEnter;
-                                    stsmi2.MouseLeave += this.TrayMenu_MouseLeave;
+                                    stsmi2.MouseEnter += this.trayMenu_MouseEnter;
+                                    stsmi2.MouseLeave += this.trayMenu_MouseLeave;
                                 } else if (subItem2 is ToolStripSeparator stss2) {
                                     stss2.Paint += this.CustomToolStripSeparatorCustom_Paint;
                                     stss2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
@@ -1256,7 +1256,7 @@ namespace FallGuysStats {
             e.Graphics.DrawLine(new Pen(this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray), 30, separator.Height / 2, separator.Width - 4, separator.Height / 2); // CUSTOM_COLOR_FOREGROUND
         }
         
-        private void TrayMenu_MouseEnter(object sender, EventArgs e) {
+        private void trayMenu_MouseEnter(object sender, EventArgs e) {
             switch (sender) {
                 case ToolStripMenuItem tsi: {
                     tsi.ForeColor = Color.Black;
@@ -1282,7 +1282,8 @@ namespace FallGuysStats {
             }
         }
         
-        private void TrayMenu_MouseLeave(object sender, EventArgs e) {
+        private void trayMenu_MouseLeave(object sender, EventArgs e) {
+            this.Cursor = Cursors.Default;
             switch (sender) {
                 case ToolStripMenuItem tsi: {
                     if (Equals(tsi, this.traySettings)) {
@@ -1309,6 +1310,8 @@ namespace FallGuysStats {
                         tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsi, this.trayExitProgram)) {
                         tsi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.shutdown_icon : Properties.Resources.shutdown_gray_icon;
+                        tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    } else {
                         tsi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     }
                     break;
@@ -1341,6 +1344,7 @@ namespace FallGuysStats {
         }
         
         private void menu_MouseLeave(object sender, EventArgs e) {
+            this.Cursor = Cursors.Default;
             switch (sender) {
                 case ToolStripMenuItem tsmi: {
                     if (Equals(tsmi, this.menuSettings)) {
@@ -1364,6 +1368,8 @@ namespace FallGuysStats {
                         tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     } else if (Equals(tsmi, this.menuEditProfiles)) {
                         tsmi.Image = this.Theme == MetroThemeStyle.Light ? Properties.Resources.setting_icon : Properties.Resources.setting_gray_icon;
+                        tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+                    } else {
                         tsmi.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                     }
                     break;
@@ -1469,7 +1475,9 @@ namespace FallGuysStats {
                 menuItem.Click += this.menuStats_Click;
                 menuItem.Paint += this.menuProfile_Paint;
                 menuItem.MouseMove += this.setCursor_MouseMove;
-                menuItem.MouseLeave += this.setCursor_MouseLeave;
+                // menuItem.MouseLeave += this.setCursor_MouseLeave;
+                menuItem.MouseEnter += this.menu_MouseEnter;
+                menuItem.MouseLeave += this.menu_MouseLeave;
                 this.menuProfile.DropDownItems.Add(menuItem);
                 this.ProfileMenuItems.Add(menuItem);
                 
@@ -1479,6 +1487,8 @@ namespace FallGuysStats {
                 trayItem.Text = profile.ProfileName.Replace("&", "&&");
                 trayItem.Click += this.menuStats_Click;
                 trayItem.Paint += this.menuProfile_Paint;
+                trayItem.MouseEnter += this.trayMenu_MouseEnter;
+                trayItem.MouseLeave += this.trayMenu_MouseLeave;
                 this.trayProfile.DropDownItems.Add(trayItem);
                 this.ProfileTrayItems.Add(trayItem);
                 
