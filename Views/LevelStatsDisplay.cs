@@ -25,6 +25,7 @@ namespace FallGuysStats {
         private bool isInitComplete;
         private string goldMedalCount, silverMedalCount, bronzeMedalCount, pinkMedalCount, eliminatedMedalCount;
         private string goldMedalPercent, silverMedalPercent, bronzeMedalPercent, pinkMedalPercent, eliminatedMedalPercent;
+        private bool switching;
         public LevelStatsDisplay() {
             this.InitializeComponent();
             this.Opacity = 0;
@@ -193,11 +194,19 @@ namespace FallGuysStats {
             this.pinkMedalCount = $@"{values[4]:N0}";
             this.eliminatedMedalCount = $@"{values[5]:N0}";
             
-            this.lblCountGoldMedal.Text = this.goldMedalCount;
-            this.lblCountSilverMedal.Text = this.silverMedalCount;
-            this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
-            this.lblCountPinkMedal.Text = this.pinkMedalCount;
-            this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
+            if (this.switching) {
+                this.lblCountGoldMedal.Text = this.goldMedalPercent;
+                this.lblCountSilverMedal.Text = this.silverMedalPercent;
+                this.lblCountBronzeMedal.Text = this.bronzeMedalPercent;
+                this.lblCountPinkMedal.Text = this.pinkMedalPercent;
+                this.lblCountEliminatedMedal.Text = this.eliminatedMedalPercent;
+            } else {
+                this.lblCountGoldMedal.Text = this.goldMedalCount;
+                this.lblCountSilverMedal.Text = this.silverMedalCount;
+                this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
+                this.lblCountPinkMedal.Text = this.pinkMedalCount;
+                this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
+            }
             
             this.radialGauges = this.formsPlot.Plot.AddRadialGauge(values);
             this.radialGauges.OrderInsideOut = false;
@@ -215,19 +224,30 @@ namespace FallGuysStats {
         }
 
         private void Medal_MouseEnter(object sender, EventArgs e) {
-            this.lblCountGoldMedal.Text = this.goldMedalPercent;
-            this.lblCountSilverMedal.Text = this.silverMedalPercent;
-            this.lblCountBronzeMedal.Text = this.bronzeMedalPercent;
-            this.lblCountPinkMedal.Text = this.pinkMedalPercent;
-            this.lblCountEliminatedMedal.Text = this.eliminatedMedalPercent;
+            this.Cursor = this.Theme == MetroThemeStyle.Light
+                ? new System.Windows.Forms.Cursor(Properties.Resources.transform_icon.GetHicon())
+                : new System.Windows.Forms.Cursor(Properties.Resources.transform_gray_icon.GetHicon());
         }
 
         private void Medal_MouseLeave(object sender, EventArgs e) {
-            this.lblCountGoldMedal.Text = this.goldMedalCount;
-            this.lblCountSilverMedal.Text = this.silverMedalCount;
-            this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
-            this.lblCountPinkMedal.Text = this.pinkMedalCount;
-            this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
+            this.Cursor = Cursors.Default;
+        }
+        
+        private void Medal_MouseClick(object sender, EventArgs e) {
+            this.switching = !this.switching;
+            if (this.switching) {
+                this.lblCountGoldMedal.Text = this.goldMedalPercent;
+                this.lblCountSilverMedal.Text = this.silverMedalPercent;
+                this.lblCountBronzeMedal.Text = this.bronzeMedalPercent;
+                this.lblCountPinkMedal.Text = this.pinkMedalPercent;
+                this.lblCountEliminatedMedal.Text = this.eliminatedMedalPercent;
+            } else {
+                this.lblCountGoldMedal.Text = this.goldMedalCount;
+                this.lblCountSilverMedal.Text = this.silverMedalCount;
+                this.lblCountBronzeMedal.Text = this.bronzeMedalCount;
+                this.lblCountPinkMedal.Text = this.pinkMedalCount;
+                this.lblCountEliminatedMedal.Text = this.eliminatedMedalCount;
+            }
         }
 
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {

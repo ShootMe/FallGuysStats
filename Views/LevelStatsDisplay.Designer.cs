@@ -68,6 +68,9 @@
             this.picRoundIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picRoundIcon.TabIndex = 2;
             this.picRoundIcon.TabStop = false;
+            this.picRoundIcon.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.picRoundIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.picRoundIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // cboRoundList
             // 
@@ -91,6 +94,9 @@
             this.lblRoundTime.Size = new System.Drawing.Size(49, 12);
             this.lblRoundTime.TabIndex = 3;
             this.lblRoundTime.Text = "00:00:00";
+            this.lblRoundTime.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblRoundTime.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblRoundTime.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblRoundType
             // 
@@ -100,6 +106,9 @@
             this.lblRoundType.Size = new System.Drawing.Size(100, 35);
             this.lblRoundType.TabIndex = 15;
             this.lblRoundType.Text = "RACE";
+            this.lblRoundType.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblRoundType.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblRoundType.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblBestRecord
             // 
@@ -110,6 +119,9 @@
             this.lblBestRecord.Size = new System.Drawing.Size(11, 12);
             this.lblBestRecord.TabIndex = 16;
             this.lblBestRecord.Text = "0";
+            this.lblBestRecord.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblBestRecord.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblBestRecord.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // lblWorstRecord
             // 
@@ -120,6 +132,9 @@
             this.lblWorstRecord.Size = new System.Drawing.Size(11, 12);
             this.lblWorstRecord.TabIndex = 17;
             this.lblWorstRecord.Text = "0";
+            this.lblWorstRecord.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblWorstRecord.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblWorstRecord.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // picGoldMedalIcon
             // 
@@ -130,6 +145,7 @@
             this.picGoldMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picGoldMedalIcon.TabIndex = 5;
             this.picGoldMedalIcon.TabStop = false;
+            this.picGoldMedalIcon.Click += new System.EventHandler(this.Medal_MouseClick);
             this.picGoldMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
             this.picGoldMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
@@ -142,6 +158,9 @@
             this.lblCountGoldMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountGoldMedal.TabIndex = 6;
             this.lblCountGoldMedal.Text = "0";
+            this.lblCountGoldMedal.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblCountGoldMedal.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblCountGoldMedal.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // picSilverMedalIcon
             // 
@@ -152,6 +171,7 @@
             this.picSilverMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picSilverMedalIcon.TabIndex = 7;
             this.picSilverMedalIcon.TabStop = false;
+            this.picSilverMedalIcon.Click += new System.EventHandler(this.Medal_MouseClick);
             this.picSilverMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
             this.picSilverMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
@@ -164,6 +184,9 @@
             this.lblCountSilverMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountSilverMedal.TabIndex = 8;
             this.lblCountSilverMedal.Text = "0";
+            this.lblCountSilverMedal.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblCountSilverMedal.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblCountSilverMedal.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // picBronzeMedalIcon
             // 
@@ -174,6 +197,7 @@
             this.picBronzeMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBronzeMedalIcon.TabIndex = 9;
             this.picBronzeMedalIcon.TabStop = false;
+            this.picBronzeMedalIcon.Click += new System.EventHandler(this.Medal_MouseClick);
             this.picBronzeMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
             this.picBronzeMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
@@ -186,6 +210,9 @@
             this.lblCountBronzeMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountBronzeMedal.TabIndex = 10;
             this.lblCountBronzeMedal.Text = "0";
+            this.lblCountBronzeMedal.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblCountBronzeMedal.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblCountBronzeMedal.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // picPinkMedalIcon
             // 
@@ -196,6 +223,7 @@
             this.picPinkMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picPinkMedalIcon.TabIndex = 11;
             this.picPinkMedalIcon.TabStop = false;
+            this.picPinkMedalIcon.Click += new System.EventHandler(this.Medal_MouseClick);
             this.picPinkMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
             this.picPinkMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
@@ -208,6 +236,9 @@
             this.lblCountPinkMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountPinkMedal.TabIndex = 12;
             this.lblCountPinkMedal.Text = "0";
+            this.lblCountPinkMedal.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblCountPinkMedal.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblCountPinkMedal.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // picEliminatedMedalIcon
             // 
@@ -218,6 +249,7 @@
             this.picEliminatedMedalIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picEliminatedMedalIcon.TabIndex = 13;
             this.picEliminatedMedalIcon.TabStop = false;
+            this.picEliminatedMedalIcon.Click += new System.EventHandler(this.Medal_MouseClick);
             this.picEliminatedMedalIcon.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
             this.picEliminatedMedalIcon.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
@@ -230,6 +262,9 @@
             this.lblCountEliminatedMedal.Size = new System.Drawing.Size(11, 12);
             this.lblCountEliminatedMedal.TabIndex = 14;
             this.lblCountEliminatedMedal.Text = "0";
+            this.lblCountEliminatedMedal.Click += new System.EventHandler(this.Medal_MouseClick);
+            this.lblCountEliminatedMedal.MouseEnter += new System.EventHandler(this.Medal_MouseEnter);
+            this.lblCountEliminatedMedal.MouseLeave += new System.EventHandler(this.Medal_MouseLeave);
             // 
             // RoundStatsDisplay
             // 
