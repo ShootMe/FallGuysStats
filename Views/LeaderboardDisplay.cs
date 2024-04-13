@@ -1233,7 +1233,7 @@ namespace FallGuysStats {
                             bool isCreative1 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(p1.show, p1.round), out LevelStats l1) && l1.IsCreative;
                             bool isCreative2 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(p2.show, p2.round), out LevelStats l2) && l2.IsCreative;
                             int result = isCreative1.CompareTo(isCreative2);
-                            return result == 0 ? string.Compare(p1.roundDisplayName, p2.roundDisplayName, StringComparison.OrdinalIgnoreCase) : result;
+                            return result == 0 ? string.Compare(l1?.Name ?? p1.roundDisplayName, l2?.Name ?? p2.roundDisplayName, StringComparison.OrdinalIgnoreCase) : result;
                         });
                         this.playerDetails = ps.pbs;
                         this.speedrunRank = ps.speedrunrank;
