@@ -3729,7 +3729,7 @@ namespace FallGuysStats {
                                   : $" ⏱️{timeDiff.Seconds}.{timeDiff.Milliseconds}{Multilingual.GetWord("message_new_personal_best_timediff_by_second")}";
             }
             string levelName = this.StatLookup.TryGetValue(roundId, out LevelStats l1) ? l1.Name : roundId;
-            string showName = $"{(string.Equals(Multilingual.GetShowName(this.GetAlternateShowId(showNameId)), levelName) ? $"({levelName})" : $"({Multilingual.GetShowName(this.GetAlternateShowId(showNameId))} • {levelName})")}";
+            string showName = $"{(string.Equals(Multilingual.GetShowName(showNameId), levelName) ? $"({levelName})" : $"({Multilingual.GetShowName(showNameId)} • {levelName})")}";
             string description = $"{Multilingual.GetWord("message_new_personal_best_prefix")}{showName}{Multilingual.GetWord("message_new_personal_best_suffix")}{timeDiffContent}";
             ToastPosition toastPosition = Enum.TryParse(this.CurrentSettings.NotificationWindowPosition.ToString(), out ToastPosition position) ? position : ToastPosition.BottomRight;
             ToastTheme toastTheme = this.Theme == MetroThemeStyle.Light ? ToastTheme.Light : ToastTheme.Dark;

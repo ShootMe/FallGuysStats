@@ -50,7 +50,7 @@ namespace FallGuysStats {
             this.cboRoundList.ValueMember = "Key";
 
             this.formsPlot.Plot.Legend(location: Alignment.UpperRight);
-            this.SetGraph();
+            this.SetGraph(this.cboRoundList.SelectedItem);
             this.isInitComplete = true;
         }
 
@@ -80,16 +80,15 @@ namespace FallGuysStats {
             this.ResumeLayout();
         }
 
-        private void SetGraph() {
+        private void SetGraph(object selectedItem) {
             //this.formsPlot.Plot.Grid(false);
             //this.formsPlot.Plot.Frameless();
-            KeyValuePair<string, string> selectedRoundPair = (KeyValuePair<string, string>)this.cboRoundList.SelectedItem;
-            //string roundId = (string)this.cboRoundList.SelectedValue;
-            string roundId = selectedRoundPair.Key;
+            KeyValuePair<string, string> selectedRoundPair = (KeyValuePair<string, string>)selectedItem;
+            string levelId = selectedRoundPair.Key;
             
-            MatchCollection matches = Regex.Matches(roundId, @"^\d{4}-\d{4}-\d{4}$");
+            MatchCollection matches = Regex.Matches(levelId, @"^\d{4}-\d{4}-\d{4}$");
             if (matches.Count > 0) {
-                List<RoundInfo> info = this.StatsForm.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, roundId));
+                List<RoundInfo> info = this.StatsForm.AllStats.FindAll(r => r.UseShareCode && string.Equals(r.Name, levelId));
                 this.picRoundIcon.Size = Properties.Resources.round_creative_big_icon.Size;
                 this.picRoundIcon.Image = Properties.Resources.round_creative_big_icon;
                 this.formsPlot.Plot.Title(selectedRoundPair.Value);
@@ -127,8 +126,8 @@ namespace FallGuysStats {
                         this.lblRoundType.Text = Multilingual.GetWord("level_detail_team");
                         this.lblRoundType.borderColor = Color.FromArgb(248, 82, 0);
                         this.lblRoundType.backColor = Color.FromArgb(248, 82, 0);
-                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[roundId][0]}";
-                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[roundId][1]}";
+                        this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[levelId][0]}";
+                        this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[levelId][1]}";
                         break;
                     default:
                         this.lblRoundType.Text = "UNKNOWN";
@@ -143,7 +142,7 @@ namespace FallGuysStats {
                 this.lblBestRecord.Left = this.lblRoundType.Right + 12;
                 this.lblWorstRecord.Left = this.lblRoundType.Right + 12;
             } else {
-                if (this.StatsForm.StatLookup.TryGetValue(roundId, out LevelStats level)) {
+                if (this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats level)) {
                     this.picRoundIcon.Size = level.RoundBigIcon.Size;
                     this.picRoundIcon.Image = level.RoundBigIcon;
                     this.formsPlot.Plot.Title(level.Name);
@@ -165,8 +164,8 @@ namespace FallGuysStats {
                             this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_fastest")} : {level.Fastest:m\\:ss\\.fff}";
                             break;
                         case BestRecordType.HighScore:
-                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[roundId][0]}";
-                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[roundId][1]}";
+                            this.lblBestRecord.Text = $"{Multilingual.GetWord("overlay_high_score")} : {this.levelScoreInfo[levelId][0]}";
+                            this.lblWorstRecord.Text = $"{Multilingual.GetWord("overlay_low_score")} : {this.levelScoreInfo[levelId][1]}";
                             break;
                         default:
                             this.lblBestRecord.Text = @"-";
@@ -176,9 +175,9 @@ namespace FallGuysStats {
                 }
             }
 
-            TimeSpan playTime = this.levelTotalPlayTime[roundId];
+            TimeSpan playTime = this.levelTotalPlayTime[levelId];
             this.lblRoundTime.Text = $@"{Multilingual.GetWord("level_round_played_prefix")} {(int)playTime.TotalHours}{Multilingual.GetWord("main_hour")}{playTime:mm}{Multilingual.GetWord("main_min")}{playTime:ss}{Multilingual.GetWord("main_sec")} {Multilingual.GetWord("level_round_played_suffix")}";
-            double[] values = this.levelMedalInfo[roundId];
+            double[] values = this.levelMedalInfo[levelId];
             
             this.formsPlot.Plot.Palette = new CustomPalette();
 
@@ -253,7 +252,7 @@ namespace FallGuysStats {
         private void cboRoundList_SelectedIndexChanged(object sender, EventArgs e) {
             if (this.isInitComplete) {
                 this.formsPlot.Plot.Clear();
-                this.SetGraph();
+                this.SetGraph(((MetroComboBox)sender).SelectedItem);
             }
         }
         
