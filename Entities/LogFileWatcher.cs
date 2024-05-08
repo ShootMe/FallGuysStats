@@ -641,7 +641,8 @@ namespace FallGuysStats {
                         }
                     }
                 }
-            } else if (!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1) {
+            } else if (!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")
+                       && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1) {
                 this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId, false);
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
@@ -701,11 +702,10 @@ namespace FallGuysStats {
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                     this.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
-            } else if ((index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
-                    this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 38 + 4, 14);
-                    this.threadLocalVariable.Value.useShareCode = true;
-                }
+            } else if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")
+                       && (index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
+                this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 42, 14);
+                this.threadLocalVariable.Value.useShareCode = true;
             } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;

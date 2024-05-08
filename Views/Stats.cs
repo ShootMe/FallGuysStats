@@ -3963,7 +3963,7 @@ namespace FallGuysStats {
                                 // Must have enabled the setting to enable tracking
                                 // Must not be a private lobby
                                 // Must be a game that is played after FallGuysStats started
-                                if ((this.CurrentSettings.EnableFallalyticsReporting || this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) && !stat.PrivateLobby && stat.ShowEnd > this.startupTime) {
+                                if ((this.CurrentSettings.EnableFallalyticsReporting || this.CurrentSettings.EnableFallalyticsWeeklyCrownLeague) && !stat.PrivateLobby && !stat.UseShareCode && stat.ShowEnd > this.startupTime) {
                                     if (this.CurrentSettings.EnableFallalyticsReporting) {
                                         Task.Run(() => FallalyticsReporter.Report(stat, this.CurrentSettings.FallalyticsAPIKey));
                                     }
@@ -4465,9 +4465,13 @@ namespace FallGuysStats {
             switch (showId) {
                 case "turbo_show":
                 case "turbo_2_show":
+                case "knockout_mode":
                     return "main_show";
+                case "knockout_duos":
+                    return "squads_2player_template";
                 case "squadcelebration":
                 case "event_day_at_races_squads_template":
+                case "knockout_squads":
                     return "squads_4player";
                 case "invisibeans_template":
                 case "invisibeans_pistachio_template":
@@ -4484,11 +4488,12 @@ namespace FallGuysStats {
         }
         
         private bool IsCreativeShow(string showId) {
-            return showId.StartsWith("event_wle_") ||
-                   showId.StartsWith("show_wle") ||
-                   showId.StartsWith("wle_") ||
-                   showId.StartsWith("current_wle_") ||
-                   (showId.StartsWith("event_") && showId.EndsWith("_fools"));
+            return showId.StartsWith("casual_show")
+                   || showId.StartsWith("event_wle_")
+                   || showId.StartsWith("show_wle")
+                   || showId.StartsWith("wle_")
+                   || showId.StartsWith("current_wle_")
+                   || (showId.StartsWith("event_") && showId.EndsWith("_fools"));
         }
         
         private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
