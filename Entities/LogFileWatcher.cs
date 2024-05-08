@@ -685,9 +685,12 @@ namespace FallGuysStats {
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase);
                     Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
                 }
-            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase)) != -1) {
-                this.threadLocalVariable.Value.selectedShowId = line.Line.Substring(line.Line.Length - (line.Line.Length - index - 41));
-                if (this.threadLocalVariable.Value.selectedShowId.StartsWith("ugc-")) {
+            } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is ", StringComparison.OrdinalIgnoreCase)) != -1) {
+                int index2 = line.Line.IndexOf(" IsUltimatePartyEpisode:");
+                this.threadLocalVariable.Value.selectedShowId = line.Line.Substring(index + 41, index2 - (index + 41));
+                if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
+                    this.threadLocalVariable.Value.useShareCode = true;
+                } else if (this.threadLocalVariable.Value.selectedShowId.StartsWith("ugc-")) {
                     this.threadLocalVariable.Value.selectedShowId = this.threadLocalVariable.Value.selectedShowId.Substring(4);
                     this.threadLocalVariable.Value.useShareCode = true;
                 } else {
@@ -698,7 +701,12 @@ namespace FallGuysStats {
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                     this.UpdateServerConnectionLog(this.threadLocalVariable.Value.sessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
-            } else if ((index = line.Line.IndexOf("[StateGameLoading] Loading game level scene", StringComparison.OrdinalIgnoreCase)) != -1) {
+            } else if ((index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
+                if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
+                    this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 38 + 4, 14);
+                    this.threadLocalVariable.Value.useShareCode = true;
+                }
+            } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;
                     Stats.InShow = true;
@@ -720,12 +728,11 @@ namespace FallGuysStats {
                 };
                 
                 if (logRound.Info.UseShareCode) {
-                    this.SetCreativeLevelVariable(logRound.Info.ShowNameId);
+                    this.SetCreativeLevelVariable(string.Equals(logRound.Info.ShowNameId, "casual_show") ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
                     logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
                 } else {
-                    int index2 = line.Line.IndexOf(" ", index + 44);
-                    if (index2 < 0) { index2 = line.Line.Length; }
-                    logRound.Info.SceneName = line.Line.Substring(index + 44, index2 - index - 44);
+                    int index2 = line.Line.IndexOf(" on frame ");
+                    logRound.Info.SceneName = line.Line.Substring(index + 58, index2 - (index + 58));
                     if (this._sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
                         logRound.Info.SceneName = newName;
                     }
@@ -738,7 +745,7 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
 
                 if (logRound.Info.UseShareCode) {
-                    logRound.Info.Name = logRound.Info.ShowNameId;
+                    logRound.Info.Name = string.Equals(logRound.Info.ShowNameId, "casual_show") ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
                     logRound.Info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(this.threadLocalVariable.Value.creativeGameModeId);
                     this.SetCreativeLevelInfo(logRound.Info);
                 } else {
@@ -764,14 +771,7 @@ namespace FallGuysStats {
 
                 logRound.CountingPlayers = true;
                 logRound.GetCurrentPlayerID = true;
-            // } else if (logRound.Info != null && (index = line.Line.IndexOf("NetworkGameOptions: durationInSeconds=", StringComparison.OrdinalIgnoreCase)) != -1) { // legacy code // It seems to have been deleted from the log file now.
-            //     int nextIndex = line.Line.IndexOf(" ", index + 38);
-            //     logRound.Duration = int.Parse(line.Line.Substring(index + 38, nextIndex - index - 38));
-            //     index = line.Line.IndexOf("isFinalRound=", StringComparison.OrdinalIgnoreCase);
-            //     logRound.HasIsFinal = index > 0;
-            //     index = line.Line.IndexOf("isFinalRound=True", StringComparison.OrdinalIgnoreCase);
-            //     logRound.IsFinal = index > 0;
-            } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) != -1 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) != -1) {
+            } else if (logRound.Info != null && logRound.CountingPlayers && (line.Line.IndexOf("[ClientGameManager] Finalising spawn", StringComparison.OrdinalIgnoreCase) != -1 || line.Line.IndexOf("[ClientGameManager] Added player ", StringComparison.OrdinalIgnoreCase) != -1)) {
                 logRound.Info.Players++;
             } else if (logRound.Info != null && logRound.CountingPlayers && line.Line.IndexOf("[CameraDirector] Adding Spectator target", StringComparison.OrdinalIgnoreCase) != -1) {
                 if (line.Line.IndexOf("ps4", StringComparison.OrdinalIgnoreCase) != -1) {
@@ -1027,7 +1027,9 @@ namespace FallGuysStats {
                     return false;
                 }
 
-                roundInfo.Kudos += questKudos;
+                if (roundInfo != null) {
+                    roundInfo.Kudos += questKudos;
+                }
 
                 DateTime showEnd = logRound.Info.End;
                 for (int i = 0; i < round.Count; i++) {

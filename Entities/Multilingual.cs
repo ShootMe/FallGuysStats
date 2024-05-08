@@ -13054,6 +13054,7 @@ namespace FallGuysStats {
 
         private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "Explore" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "Debug Lobbies Show" },
@@ -13301,6 +13302,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "SWEET THIEVES" },
                     { "invisibeans_pistachio_template", "Treat Thieves" },
                     { "invisibeans_template", "SWEET THIEVES" },
+                    { "knockout_duos", "Duos" },
+                    { "knockout_mode", "Knockout" },
+                    { "knockout_squads", "Squads" },
                     { "live_event_bluejay", "Gotta Go Fast!" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "Clan of Yeetus" },
                     { "live_event_clan_of_yeetus_ss1_template", "Clan of Yeetus" },
@@ -13949,6 +13953,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "Exploration" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "Émission dans lobbies de debug" },
@@ -14196,6 +14201,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "VOLEURS SUCRÉS" },
                     { "invisibeans_pistachio_template", "Voleurs de bonbons" },
                     { "invisibeans_template", "VOLEURS SUCRÉS" },
+                    { "knockout_duos", "Duos" },
+                    { "knockout_mode", "Tournois" },
+                    { "knockout_squads", "Groupes" },
                     { "live_event_bluejay", "Gotta Go Fast !" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "Clan Yeetus" },
                     { "live_event_clan_of_yeetus_ss1_template", "Clan Yeetus" },
@@ -14844,6 +14852,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "탐험" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "대기실 쇼 디버그" },
@@ -15091,6 +15100,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "달콤한 도둑들" },
                     { "invisibeans_pistachio_template", "사탕 도둑들" },
                     { "invisibeans_template", "달콤한 도둑들" },
+                    { "knockout_duos", "듀오" },
+                    { "knockout_mode", "넉아웃" },
+                    { "knockout_squads", "스쿼드" },
                     { "live_event_bluejay", "어서어서 빨리빨리!" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "망치 클랜" },
                     { "live_event_clan_of_yeetus_ss1_template", "망치 클랜" },
@@ -15739,6 +15751,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "自由探索" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "デバッグロビーショー" },
@@ -15986,6 +15999,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "キャンディードロボー" },
                     { "invisibeans_pistachio_template", "お菓子ドロボー" },
                     { "invisibeans_template", "キャンディードロボー" },
+                    { "knockout_duos", "デュオ" },
+                    { "knockout_mode", "ノックアウト" },
+                    { "knockout_squads", "スクワッド" },
                     { "live_event_bluejay", "スピードが勝負！" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "ハンマークラン" },
                     { "live_event_clan_of_yeetus_ss1_template", "ハンマークラン" },
@@ -16634,6 +16650,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "探索" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "调试用专题" },
@@ -16881,6 +16898,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "糖果窃贼" },
                     { "invisibeans_pistachio_template", "万圣来盗" },
                     { "invisibeans_template", "糖果窃贼" },
+                    { "knockout_duos", "双人" },
+                    { "knockout_mode", "淘汰赛" },
+                    { "knockout_squads", "小队" },
                     { "live_event_bluejay", "速度要快！" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "重锤部落" },
                     { "live_event_clan_of_yeetus_ss1_template", "重锤部落" },
@@ -17529,6 +17549,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "casual_show", "探索" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "調試用專題" },
@@ -17776,6 +17797,9 @@ namespace FallGuysStats {
                     { "invisibeans_2808_to_3008_2022", "糖果竊賊" },
                     { "invisibeans_pistachio_template", "萬聖來盜" },
                     { "invisibeans_template", "糖果竊賊" },
+                    { "knockout_duos", "雙人" },
+                    { "knockout_mode", "淘汰賽" },
+                    { "knockout_squads", "小隊" },
                     { "live_event_bluejay", "速度要快！" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "重錘部落" },
                     { "live_event_clan_of_yeetus_ss1_template", "重錘部落" },
