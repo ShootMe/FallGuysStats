@@ -48,7 +48,7 @@ namespace FallGuysStats {
     public class ThreadLocalData {
         public string selectedShowId;
         public bool useShareCode;
-        public string sessionId;
+        public string currentSessionId;
         
         public bool toggleCountryInfoApi;
         public bool toggleFgdbCreativeApi;
@@ -641,8 +641,8 @@ namespace FallGuysStats {
                         }
                     }
                 }
-            } else if (line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1) {
-                this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.sessionId, this.threadLocalVariable.Value.selectedShowId, false);
+            } else if (!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1) {
+                this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId, false);
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
@@ -657,8 +657,7 @@ namespace FallGuysStats {
                 this.ClearUserCreativeLevelInfo();
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
-                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
-                       ) {
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1) {
                 if (line.Date > Stats.LastGameStart) {
                     Stats.LastGameStart = line.Date;
                     if (logRound.Info != null) {
@@ -682,8 +681,9 @@ namespace FallGuysStats {
                 if (!Stats.IsConnectedToServer) {
                     Stats.IsConnectedToServer = true;
                     Stats.ConnectedToServerDate = line.Date;
-                    int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase);
-                    Stats.LastServerIp = line.Line.Substring(ipIndex + 3);
+                    int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase) + 3;
+                    Stats.LastServerIp = line.Line.Substring(ipIndex);
+                    
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 int index2 = line.Line.IndexOf(" IsUltimatePartyEpisode:");
@@ -697,9 +697,9 @@ namespace FallGuysStats {
                     this.threadLocalVariable.Value.useShareCode = false;
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Session: ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                this.threadLocalVariable.Value.sessionId = line.Line.Substring(index + 33);
+                this.threadLocalVariable.Value.currentSessionId = line.Line.Substring(index + 33);
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
-                    this.UpdateServerConnectionLog(this.threadLocalVariable.Value.sessionId, this.threadLocalVariable.Value.selectedShowId);
+                    this.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
             } else if ((index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
@@ -723,7 +723,7 @@ namespace FallGuysStats {
                 }
                 
                 logRound.Info = new RoundInfo {
-                    ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.sessionId, UseShareCode = this.threadLocalVariable.Value.useShareCode,
+                    ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId, UseShareCode = this.threadLocalVariable.Value.useShareCode,
                     OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
                 };
                 
@@ -841,6 +841,7 @@ namespace FallGuysStats {
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) != -1
+                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[MatchmakeWhileInGameHandler] Begin matchmaking...", StringComparison.OrdinalIgnoreCase) != -1)
                        || Stats.IsClientHasBeenClosed) {
                 if (Stats.IsClientHasBeenClosed) {
                     Stats.QueuedPlayers = 0;
@@ -857,6 +858,8 @@ namespace FallGuysStats {
                     return false;
                 }
 
+                Stats.QueuedPlayers = 0;
+                Stats.IsQueued = false;
                 Stats.IsConnectedToServer = false;
                 this.ClearUserCreativeLevelInfo();
                 Stats.LastServerPing = 0;
