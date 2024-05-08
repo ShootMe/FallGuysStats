@@ -3054,6 +3054,45 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 90;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 90) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                    select ri).ToList();
+                
+                Dictionary<string, string> sceneToRound = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "knockout_fp10_filler_9", "round_airtime" },
+                    { "knockout_fp10_opener_3", "round_fruitpunch_s4_show" },
+                    { "knockout_fp10_opener_4", "round_blastball_arenasurvival_symphony_launch_show" },
+                    { "knockout_fp10_opener_9", "round_see_saw_360" },
+                    { "knockout_fp10_filler_8", "round_hoops" },
+                    { "knockout_fp10_filler_15", "round_hoverboardsurvival_s4_show" },
+                    { "knockout_fp10_filler_3", "round_jump_club" },
+                    { "knockout_fp10_filler_7", "round_kraken_attack" },
+                    { "knockout_fp10_opener_8", "round_follow-the-leader_s6_launch" },
+                    { "knockout_fp10_opener_2", "round_snowballsurvival" },
+                    { "knockout_fp10_opener_7", "round_tail_tag" },
+                    { "knockout_fp10_filler_4", "round_spin_ring_symphony_launch_show" },
+                    { "knockout_fp10_opener_17", "round_gauntlet_03" },
+                    { "knockout_fp10_filler_6", "round_1v1_volleyfall_symphony_launch_show" },
+                    { "knockout_fp10_final_3", "round_fall_mountain_hub_complete" },
+                    { "knockout_fp10_final_1", "round_crown_maze" },
+                    { "knockout_fp10_final_2", "round_tunnel_final" },
+                };
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (sceneToRound.TryGetValue(ri.Name, out string levelId)) {
+                        Console.WriteLine(levelId);
+                        ri.Name = levelId;
+                        ri.IsFinal = string.Equals(levelId, "round_crown_maze") || string.Equals(levelId, "round_tunnel_final") || string.Equals(levelId, "round_fall_mountain_hub_complete");
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 91;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {

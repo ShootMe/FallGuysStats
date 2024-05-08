@@ -312,6 +312,10 @@ namespace FallGuysStats {
         };
         
         private bool IsRealFinalRound(string roundId, string showId) {
+            if (string.Equals(showId, "casual_show") && roundId.StartsWith("knockout_fp10_final_")) {
+                return true;
+            }
+            
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
                  || showId.StartsWith("wle_mrs_shuffle_")
@@ -706,7 +710,7 @@ namespace FallGuysStats {
                        && (index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 42, 14);
                 this.threadLocalVariable.Value.useShareCode = true;
-            } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene", StringComparison.OrdinalIgnoreCase)) != -1) {
+            } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {
                     Stats.LastRoundLoad = line.Date;
                     Stats.InShow = true;
@@ -732,7 +736,7 @@ namespace FallGuysStats {
                     logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
                 } else {
                     int index2 = line.Line.IndexOf(" on frame ");
-                    logRound.Info.SceneName = line.Line.Substring(index + 58, index2 - (index + 58));
+                    logRound.Info.SceneName = line.Line.Substring(index + 57, index2 - (index + 57));
                     if (this._sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
                         logRound.Info.SceneName = newName;
                     }
