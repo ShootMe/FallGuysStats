@@ -3082,7 +3082,18 @@ namespace FallGuysStats {
                 
                 foreach (RoundInfo ri in roundInfoList) {
                     if (sceneToRound.TryGetValue(ri.Name, out string levelId)) {
-                        Console.WriteLine(levelId);
+                        int profileId = -1;
+                        if (string.Equals(ri.ShowNameId, "knockout_mode")) {
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                            profileId = profile?.ProfileId ?? -1;
+                        } else if (string.Equals(ri.ShowNameId, "knockout_duos")) {
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                            profileId = profile?.ProfileId ?? -1;
+                        } else if (string.Equals(ri.ShowNameId, "knockout_squads")) {
+                            Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
+                            profileId = profile?.ProfileId ?? -1;
+                        }
+                        if (profileId != -1) ri.Profile = profileId;
                         ri.Name = levelId;
                         ri.IsFinal = string.Equals(levelId, "round_crown_maze") || string.Equals(levelId, "round_tunnel_final") || string.Equals(levelId, "round_fall_mountain_hub_complete");
                     }
