@@ -4274,23 +4274,23 @@ namespace FallGuysStats {
             }
         }
 
-        public bool ExistsServerConnectionLog(string sessionId, string showId) {
-            if (string.IsNullOrEmpty(sessionId) || string.IsNullOrEmpty(showId)) return false;
+        public bool ExistsServerConnectionLog(string sessionId) {
+            if (string.IsNullOrEmpty(sessionId)) return false;
             // BsonExpression condition = Query.And(
             //     Query.EQ("_id", sessionId),
             //     Query.EQ("ShowId", showId)
             // );
             // return this.ServerConnectionLog.Exists(condition);
-            return this.ServerConnectionLogCache.Exists(l => string.Equals(l.SessionId, sessionId) && string.Equals(l.ShowId, showId));
+            return this.ServerConnectionLogCache.Exists(l => string.Equals(l.SessionId, sessionId));
         }
         
-        public ServerConnectionLog SelectServerConnectionLog(string sessionId, string showId) {
+        public ServerConnectionLog SelectServerConnectionLog(string sessionId) {
             // BsonExpression condition = Query.And(
             //     Query.EQ("_id", sessionId),
             //     Query.EQ("ShowId", showId)
             // );
             // return this.ServerConnectionLog.FindOne(condition);
-            return this.ServerConnectionLogCache.Find(l => string.Equals(l.SessionId, sessionId) && string.Equals(l.ShowId, showId));
+            return this.ServerConnectionLogCache.Find(l => string.Equals(l.SessionId, sessionId));
         }
         
         public void InsertServerConnectionLog(string sessionId, string showId, string serverIp, DateTime connectionDate, bool isNotify, bool isPlaying) {
@@ -4306,9 +4306,9 @@ namespace FallGuysStats {
             }
         }
         
-        public void UpdateServerConnectionLog(string sessionId, string showId, bool isPlaying) {
+        public void UpdateServerConnectionLog(string sessionId, bool isPlaying) {
             lock (this.StatsDB) {
-                ServerConnectionLog log = this.SelectServerConnectionLog(sessionId, showId);
+                ServerConnectionLog log = this.SelectServerConnectionLog(sessionId);
                 if (log != null) {
                     log.IsPlaying = isPlaying;
                     this.StatsDB.BeginTrans();

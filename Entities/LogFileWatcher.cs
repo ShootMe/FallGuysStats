@@ -586,7 +586,7 @@ namespace FallGuysStats {
         }
 
         private void UpdateServerConnectionLog(string session, string show) {
-            if (!this.StatsForm.ExistsServerConnectionLog(session, show)) {
+            if (!this.StatsForm.ExistsServerConnectionLog(session)) {
                 this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
                 this.serverPingWatcher.Start();
                 this.SetCountryCodeByIp(Stats.LastServerIp);
@@ -594,7 +594,7 @@ namespace FallGuysStats {
                     this.OnServerConnectionNotification?.Invoke();
                 }
             } else {
-                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session, show);
+                ServerConnectionLog serverConnectionLog = this.StatsForm.SelectServerConnectionLog(session);
                 if (!serverConnectionLog.IsNotify) {
                     if (!Stats.IsClientHasBeenClosed && this.StatsForm.CurrentSettings.NotifyServerConnected && !string.IsNullOrEmpty(Stats.LastCountryAlpha2Code)) {
                         this.OnServerConnectionNotification?.Invoke();
@@ -638,7 +638,7 @@ namespace FallGuysStats {
             int index;
             if ((!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1)
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1) {
-                this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId, false);
+                this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, false);
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
                 Stats.IsQueued = false;
@@ -921,7 +921,7 @@ namespace FallGuysStats {
                                 round[i].IsFinal = false;
                             }
                         }
-                        this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, false);
+                        this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
                         logRound.Info = null;
                         Stats.InShow = false;
                         Stats.EndedShow = true;
@@ -1040,7 +1040,7 @@ namespace FallGuysStats {
                     logRound.GetCurrentPlayerID = false;
                     logRound.FindingPosition = false;
                 }
-                this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, logRound.Info.ShowNameId, false);
+                this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
                 logRound.Info = null;
                 return true;
             }
