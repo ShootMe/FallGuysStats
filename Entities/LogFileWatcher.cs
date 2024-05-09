@@ -332,10 +332,6 @@ namespace FallGuysStats {
         };
         
         private bool IsRealFinalRound(string roundId, string showId) {
-            if (showId.StartsWith("knockout_") && roundId.StartsWith("knockout_fp10_final_")) {
-                return true;
-            }
-            
             if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
                  || showId.StartsWith("wle_mrs_shuffle_")
@@ -398,11 +394,14 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_hexaring_event_only", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) !=
+                   -1
                    || roundId.IndexOf("round_thin_ice_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials",
+                       StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
-                   || string.Equals(showId, "event_blast_ball_banger_template");
+                   || string.Equals(showId, "event_blast_ball_banger_template")
+                   || showId.StartsWith("knockout_");
         }
 
         private bool IsModeFinalException(string roundId) {
@@ -432,7 +431,9 @@ namespace FallGuysStats {
                      || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                          && roundId.EndsWith("_03", StringComparison.OrdinalIgnoreCase))
                      
-                     || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger");
+                     || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger")
+                     
+                     || roundId.StartsWith("knockout_fp10_final_");
         }
 
         private bool IsTeamException(string roundId) {

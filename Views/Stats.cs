@@ -3119,6 +3119,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 92;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 92) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                    select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack")) {
+                        ri.IsFinal = false;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 93;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
