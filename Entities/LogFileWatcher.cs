@@ -178,7 +178,7 @@ namespace FallGuysStats {
                                             logLine.Date = currentDate;
                                         }
 
-                                        if (line.IndexOf(" == [CompletedEpisodeDto] ==") != -1 || line.IndexOf("[FNMMSClientRemoteService] Message received: ") != -1 ) {
+                                        if (line.IndexOf(" == [CompletedEpisodeDto] ==") != -1) {
                                             StringBuilder sb = new StringBuilder(line);
                                             sb.AppendLine();
                                             while ((line = sr.ReadLine()) != null) {
@@ -193,6 +193,25 @@ namespace FallGuysStats {
                                                     sb.AppendLine(line);
                                                 }
                                             }
+                                        } else if (line.IndexOf("[FNMMSClientRemoteService] Message received: {") != -1) {
+                                            while ((line = sr.ReadLine()) != null) {
+                                                if (line.IndexOf("\"queuedPlayers\": ") != -1) {
+                                                    string content = Regex.Replace(line.Substring(21), "[\",]", "");
+                                                    if (!string.Equals(content, "null") &&
+                                                        int.TryParse(content, out int queuedPlayers)) {
+                                                        Stats.IsQueued = true;
+                                                        Stats.QueuedPlayers = queuedPlayers;
+                                                        break;
+                                                    }
+                                                } else if (line.IndexOf("\"name\": ") != -1) {
+                                                    string content = Regex.Replace(line.Substring(10), "[\",]", "");
+                                                    if (string.Equals(content, "Play")) {
+                                                        Stats.IsQueued = false;
+                                                        Stats.QueuedPlayers = 0;
+                                                        break;
+                                                    }
+                                                }
+                                        }
                                         } else {
                                             tempLines.Add(logLine);
                                         }
@@ -225,6 +244,7 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
+                                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) != -1) {
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
@@ -312,7 +332,7 @@ namespace FallGuysStats {
         };
         
         private bool IsRealFinalRound(string roundId, string showId) {
-            if (string.Equals(showId, "casual_show") && roundId.StartsWith("knockout_fp10_final_")) {
+            if (showId.StartsWith("knockout_") && roundId.StartsWith("knockout_fp10_final_")) {
                 return true;
             }
             
@@ -616,37 +636,8 @@ namespace FallGuysStats {
 
         private bool ParseLine(LogLine line, List<RoundInfo> round, LogRound logRound) {
             int index;
-            if (!Stats.IsConnectedToServer && line.Line.IndexOf("[FNMMSClientRemoteService] Message received: ", StringComparison.OrdinalIgnoreCase) != -1) {
-                string detail;
-                StringReader sr = new StringReader(line.Line);
-                while ((detail = sr.ReadLine()) != null) {
-                    string content;
-                    if ((index = detail.IndexOf("\"name\": ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                        content = Regex.Replace(detail.Substring(index + 8), "[\",]", "");
-                        if (string.Equals("Play", content)) {
-                            Stats.IsQueued = false;
-                        }
-                        // else if (string.Equals("StatusUpdate", content)) {
-                        //     
-                        // }
-                    } else if ((index = detail.IndexOf("\"queuedPlayers\": ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                        content = Regex.Replace(detail.Substring(index + 17), "[\",]", "");
-                        if (!string.Equals("null", content)) {
-                            if (int.TryParse(content, out int queuedPlayers)) {
-                                Stats.QueuedPlayers = queuedPlayers;
-                            }
-                        }
-                    } else if ((index = detail.IndexOf("\"state\": ", StringComparison.OrdinalIgnoreCase)) != -1) {
-                        content = Regex.Replace(detail.Substring(index + 9), "[\",]", "");
-                        if (string.Equals("Queued", content)) {
-                            Stats.IsQueued = true;
-                        } else if (string.Equals("SessionAssignment", content)) {
-                            Stats.IsQueued = false;
-                        }
-                    }
-                }
-            } else if (!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")
-                       && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1) {
+            if ((!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1)
+                       || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1) {
                 this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId, false);
                 Stats.InShow = false;
                 Stats.QueuedPlayers = 0;
@@ -756,7 +747,7 @@ namespace FallGuysStats {
                     logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId ?? this.threadLocalVariable.Value.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
-                if (this.IsRealFinalRound(logRound.Info.Name, this.threadLocalVariable.Value.selectedShowId) || logRound.Info.UseShareCode) {
+                if (this.IsRealFinalRound(logRound.Info.Name, logRound.Info.ShowNameId) || logRound.Info.UseShareCode) {
                     logRound.Info.IsFinal = true;
                 } else if (this.IsModeException(logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);

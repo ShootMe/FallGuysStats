@@ -3104,6 +3104,21 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 91;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 91) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                    select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = ri.Name.StartsWith("knockout_fp10_final_") || string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete");
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 92;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
