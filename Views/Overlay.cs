@@ -592,7 +592,7 @@ namespace FallGuysStats {
             } else {
                 if (this.StatsForm.CurrentSettings.ColorByRoundType) {
                     this.lblRound.Text = $@"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{this.lastRound.Round}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
-                    this.lblRound.LevelColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : type.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223);
+                    this.lblRound.LevelColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : (this.lastRound.UseShareCode ? type.LevelBackColor(false, this.lastRound.IsTeam, 159) : type.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223));
                     this.lblRound.LevelTrueColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : type.LevelBackColor(false, this.lastRound.IsTeam, 159);
                     this.lblRound.RoundIcon = type == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
                     if (this.lblRound.RoundIcon.Height != 23) {
@@ -866,14 +866,9 @@ namespace FallGuysStats {
                 int showType = level == null ? 0
                                : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative)) && level.TimeLimitSeconds > 0 ? 1
                                : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0 ? 2 : 0);
-                int timeLimit = showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0);
+                int timeLimit = this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds : (showType == 1 ? level.TimeLimitSeconds : (showType == 2 ? level.TimeLimitSecondsForSquad : 0));
                 
-                if (this.lastRound.UseShareCode) {
-                    this.lblDuration.Text = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds):m\\:ss}) :"
-                                                                                        : $"{Multilingual.GetWord("overlay_duration")} :";
-                } else {
-                    this.lblDuration.Text = timeLimit > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(timeLimit):m\\:ss}) :" : $"{Multilingual.GetWord("overlay_duration")} :";
-                }
+                this.lblDuration.Text = timeLimit > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(timeLimit):m\\:ss}) :" : $"{Multilingual.GetWord("overlay_duration")} :";
                 
                 DateTime start = this.lastRound.Start;
                 DateTime end = this.lastRound.End;
@@ -886,25 +881,13 @@ namespace FallGuysStats {
                     this.lblDuration.TextRight = $"{Stats.LastPlayedRoundEnd - Stats.LastPlayedRoundStart:m\\:ss\\.fff}";
                 } else if (Stats.IsLastPlayedRoundStillPlaying) {
                     bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
-                    if (this.lastRound.UseShareCode) {
-                        runningTime = this.lastRound.CreativeTimeLimitSeconds > 0 ? TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - (currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc)) : currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc);
-                    } else {
-                        runningTime = timeLimit > 0 ? TimeSpan.FromSeconds(timeLimit) - (currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc)) : currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc);
-                    }
+                    runningTime = timeLimit > 0 ? TimeSpan.FromSeconds(timeLimit) - (currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc)) : currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc);
                     this.lblDuration.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
                 } else if (end != DateTime.MinValue) {
                     TimeSpan time = end - start;
-                    if (this.lastRound.UseShareCode) {
-                        this.lblDuration.TextRight = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                    } else {
-                        this.lblDuration.TextRight = timeLimit > 0? $"{TimeSpan.FromSeconds(timeLimit) - time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
-                    }
+                    this.lblDuration.TextRight = timeLimit > 0 ? $"{TimeSpan.FromSeconds(timeLimit) - time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                 } else if (this.lastRound.Playing) {
-                    if (this.lastRound.UseShareCode) {
-                        this.lblDuration.TextRight = this.lastRound.CreativeTimeLimitSeconds > 0 ? $"{TimeSpan.FromSeconds(this.lastRound.CreativeTimeLimitSeconds) - runningTime:m\\:ss}" : $"{runningTime:m\\:ss}";
-                    } else {
-                        this.lblDuration.TextRight = timeLimit > 0 ? $"{TimeSpan.FromSeconds(timeLimit) - runningTime:m\\:ss}" : $"{runningTime:m\\:ss}";
-                    }
+                    this.lblDuration.TextRight = timeLimit > 0 ? $"{TimeSpan.FromSeconds(timeLimit) - runningTime:m\\:ss}" : $"{runningTime:m\\:ss}";
                 } else {
                     this.lblDuration.TextRight = "-";
                 }
