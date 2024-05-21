@@ -334,14 +334,15 @@ namespace FallGuysStats {
         };
         
         private bool IsRealFinalRound(string roundId, string showId) {
-            if ((showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
+            if ((showId.StartsWith("knockout_fp") && showId.EndsWith("_srs"))
+                 || (showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
                  || showId.IndexOf("wle_s10_player_round_", StringComparison.OrdinalIgnoreCase) != -1
                  || showId.StartsWith("wle_mrs_shuffle_")
                  || showId.StartsWith("wle_shuffle_")
                  || showId.StartsWith("current_wle_fp")
                  || showId.StartsWith("wle_s10_cf_round_")
                  || string.Equals(showId, "wle_playful_shuffle")
-                 || ((showId.StartsWith("event_") && showId.EndsWith("_fools")) && roundId.StartsWith("wle_shuffle_"))) {
+                 || (showId.StartsWith("event_") && showId.EndsWith("_fools") && roundId.StartsWith("wle_shuffle_"))) {
                 return true;
             }
 
@@ -396,11 +397,9 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_hexaring_event_only", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_hexaring_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_hexsnake_event_walnut", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) !=
-                   -1
+                   || roundId.IndexOf("round_kraken_attack_event_only_survival", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_thin_ice_event_only", StringComparison.OrdinalIgnoreCase) != -1
-                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials",
-                       StringComparison.OrdinalIgnoreCase) != -1
+                   || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
                    || showId.StartsWith("knockout_");
@@ -432,10 +431,13 @@ namespace FallGuysStats {
 
                      || (roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                          && roundId.EndsWith("_03", StringComparison.OrdinalIgnoreCase))
-                     
+
                      || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger")
-                     
-                     || roundId.StartsWith("knockout_fp10_final_");
+
+                     || (!string.Equals(roundId, "knockout_fp10_final_8")
+                         && roundId.StartsWith("knockout_fp", StringComparison.OrdinalIgnoreCase)
+                         && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
+                             || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1));
         }
 
         private bool IsTeamException(string roundId) {
