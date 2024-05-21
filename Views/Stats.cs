@@ -5611,7 +5611,7 @@ namespace FallGuysStats {
                         ShowID = g.ShowID,
                         // Name = g.SortedRounds.LastOrDefault().IsFinal || g.SortedRounds.LastOrDefault().Crown ? "Final" : string.Empty,
                         Name = string.Join(";", g.SortedRounds.Select(r => !string.IsNullOrEmpty(r.ShowNameId) && r.ShowNameId.StartsWith("user_creative_") ? (string.IsNullOrEmpty(r.CreativeTitle) ? r.Name : r.CreativeTitle) : r.Name)),
-                        ShowNameId = g.SortedRounds.LastOrDefault().ShowNameId,
+                        ShowNameId = string.Join(";", g.SortedRounds.Select(r => r.ShowNameId)),
                         IsFinal = g.SortedRounds.LastOrDefault().IsFinal,
                         End = g.SortedRounds.Max(r => r.End),
                         Start = g.SortedRounds.Min(r => r.Start),
@@ -5732,7 +5732,7 @@ namespace FallGuysStats {
                                 currentWins++;
                                 isIncrementedWins = true;
                                 
-                                string levelName = this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
+                                string levelName = info.UseShareCode ? (string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : info.CreativeTitle) : this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
                                     if (wi.ContainsKey($"{levelName};crown")) {
                                         wi[$"{levelName};crown"] += 1;
@@ -5748,7 +5748,7 @@ namespace FallGuysStats {
                                     isIncrementedShows = false;
                                 }
                             } else {
-                                string levelName = this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
+                                string levelName = info.UseShareCode ? (string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : info.CreativeTitle) : this.StatLookup.TryGetValue(info.Name, out LevelStats l1) ? l1.Name : info.Name;
                                 if (winsInfo.TryGetValue(isOverDate ? info.StartLocal.Date.ToOADate() : start.Date.ToOADate(), out SortedList<string, int> wi)) {
                                     if (wi.ContainsKey($"{levelName};eliminated")) {
                                         wi[$"{levelName};eliminated"] += 1;

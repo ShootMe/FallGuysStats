@@ -762,7 +762,7 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "ShowNameId") {
                 if (!string.IsNullOrEmpty((string)e.Value)) {
-                    e.Value = info.UseShareCode ? $"🔧 {Multilingual.GetShowName("fall_guys_creative_mode")}" : Multilingual.GetShowName((string)e.Value) ?? e.Value;
+                    e.Value = info.UseShareCode ? $"🔧 {Multilingual.GetShowName("fall_guys_creative_mode")}" : Multilingual.GetShowName(((string)e.Value).Split(';')[0]) ?? "";
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "Position") {
                 if ((int)e.Value == 0) { e.Value = ""; }
@@ -1236,26 +1236,36 @@ namespace FallGuysStats {
             } else if (this.statType == StatType.Shows && ((Grid)sender).Columns[e.ColumnIndex].Name == "ShowNameId") {
                 ((Grid)sender).ShowCellToolTips = false;
                 RoundInfo info = ((Grid)sender).Rows[e.RowIndex].DataBoundItem as RoundInfo;
+                string showName = Multilingual.GetShowName(info.UseShareCode ? "fall_guys_creative_mode" : info.ShowNameId.Split(';')[0]);
                 StringBuilder strBuilder = new StringBuilder();
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(info.StartLocal.ToString(Multilingual.GetWord("level_grid_date_format"), Utils.GetCultureInfo()));
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"⟦ {info.ShowID}{(!string.IsNullOrEmpty(Multilingual.GetShowName(info.ShowNameId)) ? $" • {Multilingual.GetShowName(info.ShowNameId)} ⟧" : " ⟧")}");
+                strBuilder.Append($"⟦ {info.ShowID}{(!string.IsNullOrEmpty(showName) ? $" • {showName} ⟧" : " ⟧")}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                
-                string[] s = info.Name.Split(';');
-                for (int i = 0; i < s.Length; i++) {
-                    string name = s[i];
-                    string type = string.Empty;
-                    if (this.StatsForm.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : name, out LevelStats levelStats)) {
-                        type = $"⟦{levelStats.Type.LevelTitle(false)}⟧ ";
-                    }
-                    strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{levelStats.Name ?? name}");
-                    if (i != s.Length - 1) strBuilder.Append(Environment.NewLine);
-                }
 
+                if (info.UseShareCode) {
+                    string[] levelTypes = info.ShowNameId.Split(';');
+                    string[] levelNames = info.Name.Split(';');
+                    for (int i = 0; i < levelNames.Length; i++) {
+                        string type = $"⟦{this.GetLevelTitle(levelTypes[i])}⟧ ";
+                        strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{levelNames[i]}");
+                        if (i != levelNames.Length - 1) strBuilder.Append(Environment.NewLine);
+                    }
+                } else {
+                    string[] levelNames = info.Name.Split(';');
+                    for (int i = 0; i < levelNames.Length; i++) {
+                        string type = string.Empty;
+                        if (this.StatsForm.StatLookup.TryGetValue(levelNames[i], out LevelStats levelStats)) {
+                            type = $"⟦{levelStats.Type.LevelTitle(false)}⟧ ";
+                        }
+                        strBuilder.Append($"• {Multilingual.GetWord("overlay_round_prefix")}{i + 1}{Multilingual.GetWord("overlay_round_suffix")} : {type}{levelStats.Name ?? levelNames[i]}");
+                        if (i != levelNames.Length - 1) strBuilder.Append(Environment.NewLine);
+                    }
+                }
+                
                 this.StatsForm.AllocCustomTooltip(this.StatsForm.cmtt_levelDetails_Draw2);
                 Point cursorPosition = this.PointToClient(Cursor.Position);
                 Point position = new Point(cursorPosition.X + 40, cursorPosition.Y);
@@ -1263,6 +1273,22 @@ namespace FallGuysStats {
             } else {
                 ((Grid)sender).ShowCellToolTips = true;
             }
+        }
+        
+        private string GetLevelTitle(string showId) {
+            switch (showId) {
+                case "user_creative_race_round":
+                    return Multilingual.GetWord("level_detail_race");
+                case "user_creative_survival_round":
+                    return Multilingual.GetWord("level_detail_survival");
+                case "user_creative_hunt_round":
+                    return Multilingual.GetWord("level_detail_hunt");
+                case "user_creative_logic_round":
+                    return Multilingual.GetWord("level_detail_logic");
+                case "user_creative_team_round":
+                    return Multilingual.GetWord("level_detail_team");
+            }
+            return "unknown";
         }
 
         private void gridDetails_CellMouseLeave(object sender, DataGridViewCellEventArgs e) {
