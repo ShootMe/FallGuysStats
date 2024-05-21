@@ -2896,7 +2896,9 @@ namespace FallGuysStats {
                     ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
                     ri.SceneName = "GAMEMODE_GAUNTLET";
                 }
-                
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
                 this.CurrentSettings.Version = 82;
                 this.SaveUserSettings();
             }
@@ -3134,6 +3136,37 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 93;
+                this.SaveUserSettings();
+            }
+
+            if (this.CurrentSettings.Version == 93) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
+                                                 select ri).ToList();
+
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsFinal = (ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1) || (ri.ShowNameId.StartsWith("knockout_fp") && ri.ShowNameId.EndsWith("_srs"));
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+
+                DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                  where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                  ri.Start >= dateCond &&
+                                                  ri.ShowNameId.StartsWith("knockout_")
+                                                  select ri).ToList();
+
+                foreach (RoundInfo ri in roundInfoList2) {
+                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack") || string.Equals(ri.Name, "round_jump_showdown") ||
+                                 string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete") ||
+                                 (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1);
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 94;
                 this.SaveUserSettings();
             }
         }
