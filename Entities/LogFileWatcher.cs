@@ -49,7 +49,7 @@ namespace FallGuysStats {
         public string selectedShowId;
         public bool useShareCode;
         public string currentSessionId;
-        
+
         public bool toggleCountryInfoApi;
         public bool toggleFgdbCreativeApi;
         public string creativeShareCode;
@@ -72,7 +72,7 @@ namespace FallGuysStats {
         public int creativeQualificationPercent;
         public int creativeTimeLimitSeconds;
     }
-    
+
     public class LogFileWatcher {
         private const int UpdateDelay = 500;
 
@@ -247,8 +247,12 @@ namespace FallGuysStats {
                                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) != -1
                                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) != -1
-                                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[FNMMSRemoteServiceBase] Remote disconnection received. waiting 5s until we close our side", StringComparison.OrdinalIgnoreCase) != -1)
-                                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[GameplaySpectatorUltimatePartyFlowViewModel] Stop previous countdown", StringComparison.OrdinalIgnoreCase) != -1)) {
+                                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && (line.Line.IndexOf("[GameplaySpectatorUltimatePartyFlowViewModel] Begin countdown", StringComparison.OrdinalIgnoreCase) != -1
+                                                                                                                           || line.Line.IndexOf("[GlobalGameStateClient] Received instruction that server is ending a round", StringComparison.OrdinalIgnoreCase) != -1))) {
+                                if (line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) != -1
+                                    || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) != -1) {
+                                    Stats.CasualRoundNum = 0;
+                                }
                                 offset = i > 0 ? tempLines[i - 1].Offset : offset;
                                 lastDate = line.Date;
                             } else if (this.StatsForm.CurrentSettings.AutoChangeProfile && line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is", StringComparison.OrdinalIgnoreCase) != -1) {
@@ -590,6 +594,20 @@ namespace FallGuysStats {
             }
         }
 
+        private void ResetVariablesUsedForOverlay() {
+            Stats.QueuedPlayers = 0;
+            Stats.IsQueued = false;
+            Stats.IsConnectedToServer = false;
+            Stats.LastServerPing = 0;
+            Stats.IsBadServerPing = false;
+            Stats.LastCountryAlpha2Code = string.Empty;
+            Stats.LastCountryRegion = string.Empty;
+            Stats.LastCountryCity = string.Empty;
+            this.threadLocalVariable.Value.toggleCountryInfoApi = false;
+            this.threadLocalVariable.Value.toggleFgdbCreativeApi = false;
+            this.ClearUserCreativeLevelInfo();
+        }
+
         private void UpdateServerConnectionLog(string session, string show) {
             if (!this.StatsForm.ExistsServerConnectionLog(session)) {
                 this.StatsForm.InsertServerConnectionLog(session, show, Stats.LastServerIp, Stats.ConnectedToServerDate, true, true);
@@ -614,27 +632,47 @@ namespace FallGuysStats {
         }
 
         private void UpdatePersonalBestLog(RoundInfo info) {
-            if (info.PrivateLobby || info.UseShareCode || !info.Finish.HasValue) { return; }
-            string levelId = info.VerifiedName();
-            if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) {
-                return;
-            }
+            if (info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
 
-            if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
-                List<RoundInfo> roundInfoList;
-                if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
-                    string[] ids = this.StatsForm.StatDetails.Where(l => string.Equals(l.ShareCode, currentLevel.ShareCode)).Select(l => l.Id).ToArray();
-                    roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && ids.Contains(r.Name));
-                } else {
-                    roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, levelId));
+            if (info.IsCasualShow) {
+                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.ShowNameId, "user_creative_race_round")) {
+                    return;
                 }
-                
-                TimeSpan currentRecord = info.Finish.Value - info.Start;
-                TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
-                
-                this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, levelId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
-                if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
-                    this.OnPersonalBestNotification?.Invoke(info.ShowNameId, levelId, existingRecord, currentRecord);
+
+                if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
+                    string levelName = string.IsNullOrEmpty(info.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(info.Name) : info.CreativeTitle;
+                    List<RoundInfo> roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, info.Name));
+
+                    TimeSpan currentRecord = info.Finish.Value - info.Start;
+                    TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+
+                    this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, "casual_show", info.Name, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
+                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
+                        this.OnPersonalBestNotification?.Invoke("casual_show", levelName, existingRecord, currentRecord);
+                    }
+                }
+            } else {
+                string levelId = info.VerifiedName();
+                if (!this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats currentLevel) || currentLevel.Type != LevelType.Race) {
+                    return;
+                }
+
+                if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
+                    List<RoundInfo> roundInfoList;
+                    if (currentLevel.IsCreative && !string.IsNullOrEmpty(currentLevel.ShareCode)) {
+                        string[] ids = this.StatsForm.StatDetails.Where(l => string.Equals(l.ShareCode, currentLevel.ShareCode)).Select(l => l.Id).ToArray();
+                        roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && ids.Contains(r.Name));
+                    } else {
+                        roundInfoList = this.StatsForm.AllStats.FindAll(r => r.PrivateLobby == false && r.Finish.HasValue && !string.IsNullOrEmpty(r.ShowNameId) && !string.IsNullOrEmpty(r.SessionId) && string.Equals(r.Name, levelId));
+                    }
+
+                    TimeSpan currentRecord = info.Finish.Value - info.Start;
+                    TimeSpan existingRecord = roundInfoList.Count > 0 ? roundInfoList.Min(r => r.Finish.Value - r.Start) : TimeSpan.MaxValue;
+
+                    this.StatsForm.InsertPersonalBestLog(info.Finish.Value, info.SessionId, info.ShowNameId, levelId, currentRecord.TotalMilliseconds, currentRecord < existingRecord);
+                    if (this.StatsForm.CurrentSettings.NotifyPersonalBest && currentRecord < existingRecord) {
+                        this.OnPersonalBestNotification?.Invoke(info.ShowNameId, levelId, existingRecord, currentRecord);
+                    }
                 }
             }
         }
@@ -644,32 +682,12 @@ namespace FallGuysStats {
             if ((string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[MatchmakeWhileInGameHandler] Cancel matchmaking, reason: Cancel", StringComparison.OrdinalIgnoreCase) != -1)
                 || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[GameplaySpectatorUltimatePartyFlowViewModel] Stop previous countdown", StringComparison.OrdinalIgnoreCase) != -1)) {
                 Stats.InShow = false;
-                Stats.QueuedPlayers = 0;
-                Stats.IsQueued = false;
-                Stats.IsConnectedToServer = false;
-                Stats.LastServerPing = 0;
-                Stats.IsBadServerPing = false;
-                Stats.LastCountryAlpha2Code = string.Empty;
-                Stats.LastCountryRegion = string.Empty;
-                Stats.LastCountryCity = string.Empty;
-                this.threadLocalVariable.Value.toggleCountryInfoApi = false;
-                this.threadLocalVariable.Value.toggleFgdbCreativeApi = false;
-                this.ClearUserCreativeLevelInfo();
+                this.ResetVariablesUsedForOverlay();
             } else if ((!string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[StateDisconnectingFromServer] Shutting down game and resetting scene to reconnect", StringComparison.OrdinalIgnoreCase) != -1)
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateDisconnectingFromServer with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1) {
                 this.StatsForm.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, false);
                 Stats.InShow = false;
-                Stats.QueuedPlayers = 0;
-                Stats.IsQueued = false;
-                Stats.IsConnectedToServer = false;
-                Stats.LastServerPing = 0;
-                Stats.IsBadServerPing = false;
-                Stats.LastCountryAlpha2Code = string.Empty;
-                Stats.LastCountryRegion = string.Empty;
-                Stats.LastCountryCity = string.Empty;
-                this.threadLocalVariable.Value.toggleCountryInfoApi = false;
-                this.threadLocalVariable.Value.toggleFgdbCreativeApi = false;
-                this.ClearUserCreativeLevelInfo();
+                this.ResetVariablesUsedForOverlay();
             } else if (line.Line.IndexOf("[StateMatchmaking] Begin", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobby with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StatePrivateLobbyMinimal with FGClient.StateConnectToGame", StringComparison.OrdinalIgnoreCase) != -1) {
@@ -698,7 +716,7 @@ namespace FallGuysStats {
                     Stats.ConnectedToServerDate = line.Date;
                     int ipIndex = line.Line.IndexOf("IP:", StringComparison.OrdinalIgnoreCase) + 3;
                     Stats.LastServerIp = line.Line.Substring(ipIndex);
-                    
+
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 int index2 = line.Line.IndexOf(" IsUltimatePartyEpisode:");
@@ -735,14 +753,15 @@ namespace FallGuysStats {
                         this.gameStateWatcher.Start();
                     }
                 }
-                
+
                 logRound.Info = new RoundInfo {
-                    ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId, UseShareCode = this.threadLocalVariable.Value.useShareCode,
+                    ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId,
+                    UseShareCode = this.threadLocalVariable.Value.useShareCode, IsCasualShow = string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show"),
                     OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
                 };
-                
+
                 if (logRound.Info.UseShareCode) {
-                    this.SetCreativeLevelVariable(string.Equals(logRound.Info.ShowNameId, "casual_show") ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
+                    this.SetCreativeLevelVariable(logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
                     logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
                 } else {
                     int index2 = line.Line.IndexOf(" on frame ");
@@ -759,14 +778,16 @@ namespace FallGuysStats {
                 if (index2 < 0) { index2 = line.Line.Length; }
 
                 if (logRound.Info.UseShareCode) {
-                    logRound.Info.Name = string.Equals(logRound.Info.ShowNameId, "casual_show") ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
+                    logRound.Info.Name = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
                     logRound.Info.ShowNameId = this.StatsForm.GetUserCreativeLevelTypeId(this.threadLocalVariable.Value.creativeGameModeId);
                     this.SetCreativeLevelInfo(logRound.Info);
                 } else {
                     logRound.Info.Name = this.StatsForm.ReplaceLevelIdInShuffleShow(logRound.Info.ShowNameId ?? this.threadLocalVariable.Value.selectedShowId, line.Line.Substring(index + 62, index2 - index - 62));
                 }
 
-                if (this.IsRealFinalRound(logRound.Info.Name, logRound.Info.ShowNameId) || logRound.Info.UseShareCode) {
+                if (logRound.Info.IsCasualShow) {
+                    logRound.Info.IsFinal = false;
+                } else if (logRound.Info.UseShareCode || this.IsRealFinalRound(logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = true;
                 } else if (this.IsModeException(logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);
@@ -777,7 +798,15 @@ namespace FallGuysStats {
                 }
                 logRound.Info.IsTeam = this.IsTeamException(logRound.Info.Name);
 
-                logRound.Info.Round = !Stats.EndedShow ? round.Count : Stats.SavedRoundCount + round.Count;
+                if (logRound.Info.IsCasualShow) {
+                    if (this.threadLocalVariable.Value.currentSessionId != Stats.SavedSessionId) {
+                        Stats.SavedSessionId = this.threadLocalVariable.Value.currentSessionId;
+                        Stats.CasualRoundNum++;
+                    }
+                    logRound.Info.Round = 1;
+                } else {
+                    logRound.Info.Round = !Stats.EndedShow ? round.Count : Stats.SavedRoundCount + round.Count;
+                }
                 logRound.Info.Start = line.Date;
                 logRound.Info.InParty = logRound.CurrentlyInParty;
                 logRound.Info.PrivateLobby = logRound.PrivateLobby;
@@ -855,34 +884,16 @@ namespace FallGuysStats {
                        || line.Line.IndexOf("[GameStateMachine] Replacing FGClient.StateReloadingToMainMenu with FGClient.StateMainMenu", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[StateMainMenu] Loading scene MainMenu", StringComparison.OrdinalIgnoreCase) != -1
                        || line.Line.IndexOf("[EOSPartyPlatformService.Base] Reset, reason: Shutdown", StringComparison.OrdinalIgnoreCase) != -1
-                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && line.Line.IndexOf("[MatchmakeWhileInGameHandler] Begin matchmaking...", StringComparison.OrdinalIgnoreCase) != -1)
+                       || (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show") && (line.Line.IndexOf("[GameplaySpectatorUltimatePartyFlowViewModel] Begin countdown", StringComparison.OrdinalIgnoreCase) != -1
+                                                                                                           || line.Line.IndexOf("[GlobalGameStateClient] Received instruction that server is ending a round", StringComparison.OrdinalIgnoreCase) != -1))
                        || Stats.IsClientHasBeenClosed) {
+                this.ResetVariablesUsedForOverlay();
+
                 if (Stats.IsClientHasBeenClosed) {
-                    Stats.QueuedPlayers = 0;
-                    Stats.IsQueued = false;
-                    Stats.IsConnectedToServer = false;
-                    Stats.LastServerPing = 0;
-                    Stats.IsBadServerPing = false;
-                    Stats.LastCountryAlpha2Code = string.Empty;
-                    Stats.LastCountryRegion = string.Empty;
-                    Stats.LastCountryCity = string.Empty;
-                    
                     Stats.IsClientHasBeenClosed = false;
                     this.AddLineAfterClientShutdown();
                     return false;
                 }
-
-                Stats.QueuedPlayers = 0;
-                Stats.IsQueued = false;
-                Stats.IsConnectedToServer = false;
-                this.ClearUserCreativeLevelInfo();
-                Stats.LastServerPing = 0;
-                Stats.IsBadServerPing = false;
-                Stats.LastCountryAlpha2Code = string.Empty;
-                Stats.LastCountryRegion = string.Empty;
-                Stats.LastCountryCity = string.Empty;
-                this.threadLocalVariable.Value.toggleCountryInfoApi = false;
-                this.threadLocalVariable.Value.toggleFgdbCreativeApi = false;
 
                 if (Stats.InShow && Stats.LastPlayedRoundStart.HasValue && !Stats.LastPlayedRoundEnd.HasValue) {
                     Stats.LastPlayedRoundEnd = line.Date;
@@ -893,13 +904,47 @@ namespace FallGuysStats {
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
                 logRound.FindingPosition = false;
-                
+
                 if (logRound.Info != null) {
                     if (logRound.Info.End == DateTime.MinValue) {
                         logRound.Info.End = line.Date;
                     }
                     logRound.Info.Playing = false;
-                    if (logRound.Info.UseShareCode || (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame && !Stats.EndedShow)) {
+                    if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
+                        if (!Stats.EndedShow) {
+                            DateTime showEnd = logRound.Info.End;
+                            for (int i = 0; i < round.Count; i++) {
+                                if (string.IsNullOrEmpty(round[i].Name)) {
+                                    round.RemoveAt(i);
+                                    logRound.Info = null;
+                                    Stats.InShow = false;
+                                    Stats.EndedShow = true;
+                                    return true;
+                                }
+                                round[i].VerifyName();
+                                round[i].ShowStart = round[i].Start;
+                                round[i].Playing = false;
+                                round[i].Round = 1;
+                                if (round[i].End == DateTime.MinValue) {
+                                    round[i].End = line.Date;
+                                }
+                                if (round[i].Start == DateTime.MinValue) {
+                                    round[i].Start = round[i].End;
+                                }
+                                if (round[i].Finish.HasValue) {
+                                    round[i].Qualified = true;
+                                }
+                                round[i].ShowEnd = showEnd;
+                            }
+                            this.StatsForm.UpdateServerConnectionLog(logRound.Info.SessionId, false);
+                            logRound.Info = null;
+                            Stats.InShow = false;
+                            Stats.EndedShow = true;
+                            return true;
+                        } else {
+                            Stats.CasualRoundNum = 0;
+                        }
+                    } else if (logRound.Info.UseShareCode || (this.StatsForm.CurrentSettings.RecordEscapeDuringAGame && !Stats.EndedShow)) {
                         DateTime showStart = DateTime.MinValue;
                         DateTime showEnd = logRound.Info.End;
                         for (int i = 0; i < round.Count; i++) {

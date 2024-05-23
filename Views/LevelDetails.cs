@@ -546,6 +546,7 @@ namespace FallGuysStats {
             ((Grid)sender).Columns["SessionId"].Visible = false;
             ((Grid)sender).Columns["IsAbandon"].Visible = false;
             ((Grid)sender).Columns["UseShareCode"].Visible = false;
+            ((Grid)sender).Columns["IsCasualShow"].Visible = false;
             ((Grid)sender).Columns["CreativeShareCode"].Visible = false;
             ((Grid)sender).Columns["CreativeStatus"].Visible = false;
             ((Grid)sender).Columns["CreativeAuthor"].Visible = false;
@@ -647,7 +648,7 @@ namespace FallGuysStats {
                     colorSwitch = !colorSwitch;
                     lastShow = showID;
                 }
-            
+
                 if (colorSwitch) {
                     ((Grid)sender).Rows[i].DefaultCellStyle.BackColor = backColor;
                     ((Grid)sender).Rows[i].DefaultCellStyle.ForeColor = foreColor;
@@ -664,8 +665,11 @@ namespace FallGuysStats {
             if (info.PrivateLobby) { // Custom
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
+            } else if (info.IsCasualShow) { // "Explore" Show
+                e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightBlue : Color.FromArgb(8, 8, 40);
+                e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.MidnightBlue : Color.SkyBlue;
             }
-            
+
             if (((Grid)sender).Columns[e.ColumnIndex].Name == "End") {
                 e.Value = (info.End - info.Start).ToString("m\\:ss");
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "Start") {
@@ -701,7 +705,10 @@ namespace FallGuysStats {
                     e.Value = Properties.Resources.medal_eliminated_grid_icon;
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "IsFinalIcon") {
-                if (info.IsFinal || info.Qualified) {
+                if (info.IsCasualShow) {
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetShowName("casual_show");
+                    e.Value = Properties.Resources.casual_show_icon;
+                } else if (info.IsFinal || info.Qualified) {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_success_reaching_finals");
                     e.Value = this.Theme == MetroThemeStyle.Light ? Properties.Resources.final_icon : Properties.Resources.final_gray_icon;
                 } else {

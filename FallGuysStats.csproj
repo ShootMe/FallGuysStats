@@ -414,6 +414,7 @@
     <None Include="Resources\calendar_gray_icon.png" />
     <None Include="Resources\calendar_off_icon.png" />
     <None Include="Resources\calendar_on_icon.png" />
+    <None Include="Resources\casual_show_icon.png" />
     <None Include="Resources\lollipop_plot_icon.png" />
     <None Include="Resources\lollipop_plot_gray_icon.png" />
     <None Include="Resources\lollipop_plot_teal_icon.png" />
