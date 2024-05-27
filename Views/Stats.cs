@@ -119,6 +119,8 @@ namespace FallGuysStats {
         
         public static List<string> SucceededPlayerIds = new List<string>();
         
+        public static int CasualRoundNum { get; set; }
+        public static string SavedSessionId { get; set; }
         public static int SavedRoundCount { get; set; }
         public static int NumPlayersSucceeded { get; set; }
         public static bool IsLastRoundRunning { get; set; }
@@ -145,11 +147,11 @@ namespace FallGuysStats {
         public Dictionary<string, LevelStats> StatLookup;
         public List<LevelStats> StatDetails;
         private readonly LogFileWatcher logFile = new LogFileWatcher();
-        private int Shows, Rounds, CustomShows, CustomRounds;
+        private int Shows, Rounds, CustomAndCasualShows, CustomAndCasualRounds;
         private TimeSpan Duration;
         private int Wins, Finals, Kudos;
         private int GoldMedals, SilverMedals, BronzeMedals, PinkMedals, EliminatedMedals;
-        private int CustomGoldMedals, CustomSilverMedals, CustomBronzeMedals, CustomPinkMedals, CustomEliminatedMedals;
+        private int CustomAndCasualGoldMedals, CustomAndCasualSilverMedals, CustomAndCasualBronzeMedals, CustomAndCasualPinkMedals, CustomAndCasualEliminatedMedals;
         private int nextShowID;
         private bool loadingExisting;
         private bool updateFilterType, updateFilterRange;
@@ -3138,26 +3140,26 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 93;
                 this.SaveUserSettings();
             }
-
+            
             if (this.CurrentSettings.Version == 93) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                  where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("knockout_")
                                                  select ri).ToList();
-
+                
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsFinal = (ri.Name.StartsWith("knockout_fp") && ri.Name.IndexOf("_final") != -1) || (ri.ShowNameId.StartsWith("knockout_fp") && ri.ShowNameId.EndsWith("_srs"));
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
-
+                
                 DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
                 List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
                                                   where !string.IsNullOrEmpty(ri.ShowNameId) &&
                                                   ri.Start >= dateCond &&
                                                   ri.ShowNameId.StartsWith("knockout_")
                                                   select ri).ToList();
-
+                
                 foreach (RoundInfo ri in roundInfoList2) {
                     ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_kraken_attack") || string.Equals(ri.Name, "round_jump_showdown") ||
                                  string.Equals(ri.Name, "round_crown_maze") || string.Equals(ri.Name, "round_tunnel_final") || string.Equals(ri.Name, "round_fall_mountain_hub_complete") ||
@@ -3167,6 +3169,82 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList2);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 94;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 94) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                 ri.ShowNameId.StartsWith("user_creative_") &&
+                                                 ri.IsFinal &&
+                                                 !ri.PrivateLobby
+                                                 select ri).ToList();
+                
+                int showId = roundInfoList.First().ShowID;
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.IsCasualShow = true;
+                    ri.Round = 1;
+                    ri.IsFinal = false;
+                    ri.Qualified = ri.Finish.HasValue;
+                    ri.IsAbandon = false;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                  where ri.ShowID >= showId
+                                                  select ri).ToList();
+                
+                bool isFirstShow = true;
+                bool isFixRequired = false;
+                bool waitForNextCasualShow = false;
+                int i = 1;
+                foreach (RoundInfo ri in roundInfoList2) {
+                    if (!isFixRequired) {
+                        if (!ri.IsCasualShow) {
+                            if (isFirstShow && ri.ShowID == showId) {
+                                isFixRequired = true;
+                                waitForNextCasualShow = true;
+                            } else {
+                                isFirstShow = false;
+                                if (ri.Round == 1) {
+                                    showId = ri.ShowID;
+                                }
+                            }
+                        } else {
+                            if (isFirstShow) {
+                                isFirstShow = false;
+                            } else if (ri.ShowID == showId) {
+                                isFixRequired = true;
+                                ri.ShowID = showId + i;
+                                i++;
+                            }
+                        }
+                        continue;
+                    }
+                    if (ri.IsCasualShow) {
+                        waitForNextCasualShow = false;
+                        ri.ShowID = showId + i;
+                        i++;
+                        continue;
+                    }
+                    if (waitForNextCasualShow) {
+                        continue;
+                    }
+                    if (ri.Round == 1) {
+                        ri.ShowID = showId + i;
+                        showId = ri.ShowID;
+                        i = 1;
+                    } else {
+                        ri.ShowID = showId;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 95;
                 this.SaveUserSettings();
             }
         }
@@ -4127,20 +4205,39 @@ namespace FallGuysStats {
                             }
                         }
 
-                        if (!stat.PrivateLobby) {
+                        if (stat.PrivateLobby || stat.IsCasualShow) {
+                            if (stat.Round == 1) {
+                                this.CustomAndCasualShows++;
+                            }
+                            this.CustomAndCasualRounds++;
+                        } else {
                             if (stat.Round == 1) {
                                 this.Shows++;
                             }
                             this.Rounds++;
-                        } else {
-                            if (stat.Round == 1) {
-                                this.CustomShows++;
-                            }
-                            this.CustomRounds++;
                         }
                         this.Duration += stat.End - stat.Start;
 
-                        if (!stat.PrivateLobby) {
+                        if (stat.PrivateLobby || stat.IsCasualShow) {
+                            if (stat.Qualified) {
+                                switch (stat.Tier) {
+                                    case 0:
+                                        this.CustomAndCasualPinkMedals++;
+                                        break;
+                                    case 1:
+                                        this.CustomAndCasualGoldMedals++;
+                                        break;
+                                    case 2:
+                                        this.CustomAndCasualSilverMedals++;
+                                        break;
+                                    case 3:
+                                        this.CustomAndCasualBronzeMedals++;
+                                        break;
+                                }
+                            } else {
+                                this.CustomAndCasualEliminatedMedals++;
+                            }
+                        } else {
                             if (stat.Qualified) {
                                 switch (stat.Tier) {
                                     case 0:
@@ -4158,25 +4255,6 @@ namespace FallGuysStats {
                                 }
                             } else {
                                 this.EliminatedMedals++;
-                            }
-                        } else {
-                            if (stat.Qualified) {
-                                switch (stat.Tier) {
-                                    case 0:
-                                        this.CustomPinkMedals++;
-                                        break;
-                                    case 1:
-                                        this.CustomGoldMedals++;
-                                        break;
-                                    case 2:
-                                        this.CustomSilverMedals++;
-                                        break;
-                                    case 3:
-                                        this.CustomBronzeMedals++;
-                                        break;
-                                }
-                            } else {
-                                this.CustomEliminatedMedals++;
                             }
                         }
 
@@ -4198,7 +4276,7 @@ namespace FallGuysStats {
 
                         stat.ToLocalTime();
                         
-                        if (!stat.PrivateLobby) {
+                        if (!stat.PrivateLobby && !stat.IsCasualShow) {
                             if (stat.IsFinal || stat.Crown) {
                                 this.Finals++;
                                 if (stat.Qualified) {
@@ -4828,7 +4906,7 @@ namespace FallGuysStats {
 
                 bool isShareCodeUsedOrIsNotPrivateLobby = useShareCode || !endRound.PrivateLobby;
 
-                bool isInWinsFilter = isShareCodeUsedOrIsNotPrivateLobby
+                bool isInWinsFilter = isShareCodeUsedOrIsNotPrivateLobby && !endRound.IsCasualShow
                                       && (this.CurrentSettings.WinsFilter == 0
                                           || (this.CurrentSettings.WinsFilter == 1 && this.IsInStatsFilter(endRound) && this.IsInPartyFilter(info))
                                           || (this.CurrentSettings.WinsFilter == 2 && endRound.Start > SeasonStart)
@@ -4901,7 +4979,7 @@ namespace FallGuysStats {
 
                 if (info.Qualified) {
                     if (hasLevelDetails && (info.IsFinal || info.Crown)) {
-                        if (isShareCodeUsedOrIsNotPrivateLobby) {
+                        if (isShareCodeUsedOrIsNotPrivateLobby && !info.IsCasualShow) {
                             summary.AllWins++;
                         }
 
@@ -4910,7 +4988,7 @@ namespace FallGuysStats {
                             summary.TotalFinals++;
                         }
 
-                        if (isShareCodeUsedOrIsNotPrivateLobby) {
+                        if (isShareCodeUsedOrIsNotPrivateLobby && !info.IsCasualShow) {
                             summary.CurrentStreak++;
                             if (summary.CurrentStreak > summary.BestStreak) {
                                 summary.BestStreak = summary.CurrentStreak;
@@ -4926,7 +5004,7 @@ namespace FallGuysStats {
                             summary.TotalQualify++;
                         }
                     }
-                } else if (isShareCodeUsedOrIsNotPrivateLobby) {
+                } else if (isShareCodeUsedOrIsNotPrivateLobby && !info.IsCasualShow) {
                     if (!info.IsFinal && !info.Crown) {
                         summary.CurrentFinalStreak = 0;
                     }
@@ -4944,20 +5022,20 @@ namespace FallGuysStats {
             this.Wins = 0;
             this.Shows = 0;
             this.Rounds = 0;
-            this.CustomRounds = 0;
+            this.CustomAndCasualRounds = 0;
             this.Duration = TimeSpan.Zero;
-            this.CustomShows = 0;
+            this.CustomAndCasualShows = 0;
             this.Finals = 0;
             this.GoldMedals = 0;
             this.SilverMedals = 0;
             this.BronzeMedals = 0;
             this.PinkMedals = 0;
             this.EliminatedMedals = 0;
-            this.CustomGoldMedals = 0;
-            this.CustomSilverMedals = 0;
-            this.CustomBronzeMedals = 0;
-            this.CustomPinkMedals = 0;
-            this.CustomEliminatedMedals = 0;
+            this.CustomAndCasualGoldMedals = 0;
+            this.CustomAndCasualSilverMedals = 0;
+            this.CustomAndCasualBronzeMedals = 0;
+            this.CustomAndCasualPinkMedals = 0;
+            this.CustomAndCasualEliminatedMedals = 0;
             this.Kudos = 0;
         }
         
@@ -4966,10 +5044,10 @@ namespace FallGuysStats {
                 this.lblCurrentProfile.Text = $"{this.GetCurrentProfileName().Replace("&", "&&")}";
                 //this.lblCurrentProfile.ToolTipText = $"{Multilingual.GetWord("profile_change_tooltiptext")}";
                 this.lblTotalShows.Text = $"{this.Shows:N0}{Multilingual.GetWord("main_inning")}";
-                if (this.CustomShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomShows:N0}{Multilingual.GetWord("main_inning")})";
+                if (this.CustomAndCasualShows > 0) this.lblTotalShows.Text += $" ({Multilingual.GetWord("main_custom_and_casual_shows")} : {this.CustomAndCasualShows:N0}{Multilingual.GetWord("main_inning")})";
                 //this.lblTotalShows.ToolTipText = $"{Multilingual.GetWord("shows_detail_tooltiptext")}";
                 this.lblTotalRounds.Text = $"{this.Rounds:N0}{Multilingual.GetWord("main_round")}";
-                if (this.CustomRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_profile_custom")} : {this.CustomRounds:N0}{Multilingual.GetWord("main_round")})";
+                if (this.CustomAndCasualRounds > 0) this.lblTotalRounds.Text += $" ({Multilingual.GetWord("main_custom_and_casual_shows")} : {this.CustomAndCasualRounds:N0}{Multilingual.GetWord("main_round")})";
                 //this.lblTotalRounds.ToolTipText = $"{Multilingual.GetWord("rounds_detail_tooltiptext")}";
                 this.lblTotalTime.Text = $"{(int)this.Duration.TotalHours}{Multilingual.GetWord("main_hour")}{this.Duration:mm}{Multilingual.GetWord("main_min")}{this.Duration:ss}{Multilingual.GetWord("main_sec")}";
                 //this.lblTotalTime.ToolTipText = $"{Multilingual.GetWord("stats_detail_tooltiptext")}";
@@ -4980,20 +5058,20 @@ namespace FallGuysStats {
                 this.lblTotalFinals.Text = $"{this.Finals:N0}{Multilingual.GetWord("main_inning")} ({Math.Truncate(finalChance * 10) / 10} %)";
                 //this.lblTotalFinals.ToolTipText = $"{Multilingual.GetWord("finals_detail_tooltiptext")}";
                 this.lblGoldMedal.Text = $"{this.GoldMedals:N0}";
-                if (this.CustomGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomGoldMedals:N0})";
+                if (this.CustomAndCasualGoldMedals > 0) this.lblGoldMedal.Text += $" ({this.CustomAndCasualGoldMedals:N0})";
                 this.lblSilverMedal.Text = $"{this.SilverMedals:N0}";
-                if (this.CustomSilverMedals > 0) this.lblSilverMedal.Text += $" ({this.CustomSilverMedals:N0})";
+                if (this.CustomAndCasualSilverMedals > 0) this.lblSilverMedal.Text += $" ({this.CustomAndCasualSilverMedals:N0})";
                 this.lblBronzeMedal.Text = $"{this.BronzeMedals:N0}";
-                if (this.CustomBronzeMedals > 0) this.lblBronzeMedal.Text += $" ({this.CustomBronzeMedals:N0})";
+                if (this.CustomAndCasualBronzeMedals > 0) this.lblBronzeMedal.Text += $" ({this.CustomAndCasualBronzeMedals:N0})";
                 this.lblPinkMedal.Text = $"{this.PinkMedals:N0}";
-                if (this.CustomPinkMedals > 0) this.lblPinkMedal.Text += $" ({this.CustomPinkMedals:N0})";
+                if (this.CustomAndCasualPinkMedals > 0) this.lblPinkMedal.Text += $" ({this.CustomAndCasualPinkMedals:N0})";
                 this.lblEliminatedMedal.Text = $"{this.EliminatedMedals:N0}";
-                if (this.CustomEliminatedMedals > 0) this.lblEliminatedMedal.Text += $" ({this.CustomEliminatedMedals:N0})";
-                this.lblGoldMedal.Visible = this.GoldMedals != 0 || this.CustomGoldMedals != 0;
-                this.lblSilverMedal.Visible = this.SilverMedals != 0 || this.CustomSilverMedals != 0;
-                this.lblBronzeMedal.Visible = this.BronzeMedals != 0 || this.CustomBronzeMedals != 0;
-                this.lblPinkMedal.Visible = this.PinkMedals != 0 || this.CustomPinkMedals != 0;
-                this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomEliminatedMedals != 0;
+                if (this.CustomAndCasualEliminatedMedals > 0) this.lblEliminatedMedal.Text += $" ({this.CustomAndCasualEliminatedMedals:N0})";
+                this.lblGoldMedal.Visible = this.GoldMedals != 0 || this.CustomAndCasualGoldMedals != 0;
+                this.lblSilverMedal.Visible = this.SilverMedals != 0 || this.CustomAndCasualSilverMedals != 0;
+                this.lblBronzeMedal.Visible = this.BronzeMedals != 0 || this.CustomAndCasualBronzeMedals != 0;
+                this.lblPinkMedal.Visible = this.PinkMedals != 0 || this.CustomAndCasualPinkMedals != 0;
+                this.lblEliminatedMedal.Visible = this.EliminatedMedals != 0 || this.CustomAndCasualEliminatedMedals != 0;
                 this.lblKudos.Text = $"{this.Kudos:N0}";
                 this.lblKudos.Visible = this.Kudos != 0;
                 this.gridDetails.Invalidate();
@@ -5622,6 +5700,7 @@ namespace FallGuysStats {
                         Tier = g.SortedRounds.LastOrDefault().Qualified ? 1 : 0,
                         PrivateLobby = g.SortedRounds.LastOrDefault().PrivateLobby,
                         UseShareCode = g.SortedRounds.LastOrDefault().UseShareCode,
+                        IsCasualShow = g.SortedRounds.LastOrDefault().IsCasualShow,
                         CreativeAuthor = g.SortedRounds.LastOrDefault().CreativeAuthor,
                         CreativeOnlinePlatformId = g.SortedRounds.LastOrDefault().CreativeOnlinePlatformId,
                         CreativeShareCode = g.SortedRounds.LastOrDefault().CreativeShareCode,
@@ -5717,7 +5796,8 @@ namespace FallGuysStats {
                     bool isIncrementedFinals = false;
                     bool isIncrementedWins = false;
                     bool isOverDate = false;
-                    foreach (RoundInfo info in rounds.Where(info => !info.PrivateLobby)) {
+                    foreach (RoundInfo info in rounds.Where(info => !info.PrivateLobby &&
+                                                                    !info.IsCasualShow)) {
                         if (info.Round == 1) {
                             currentShows += isOverDate ? 2 : 1;
                             isIncrementedShows = true;
@@ -5877,7 +5957,7 @@ namespace FallGuysStats {
                     }
 
                     if (i == rounds.Count - 1) {
-                        string levelName = this.StatLookup.TryGetValue(rounds[i - 1].Name, out LevelStats l3) ? l3.Name : rounds[i - 1].Name;
+                        string levelName = this.StatLookup.TryGetValue(rounds[i].Name, out LevelStats l3) ? l3.Name : rounds[i].Name;
                         levelTotalPlayTime.Add(rounds[i].Name, pt);
                         levelMedalInfo.Add(rounds[i].Name, new[] { p, gm, sm, bm, pm, em });
                         levelScoreInfo.Add(rounds[i].Name, new[] { hs, ls });

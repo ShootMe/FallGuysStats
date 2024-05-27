@@ -13,6 +13,7 @@ namespace FallGuysStats {
         public int ShowID { get; set; }
         public string ShowNameId { get; set; }
         public bool UseShareCode { get; set; }
+        public bool IsCasualShow { get; set; }
         public string CreativeShareCode { get; set; }
         public string CreativeStatus { get; set; }
         public string CreativeAuthor { get; set; }
@@ -1948,7 +1949,7 @@ namespace FallGuysStats {
                 this.Duration += stat.End - stat.Start;
                 switch (stat.Tier) {
                     case (int)QualifyTier.Gold:
-                        this.Gold++; 
+                        this.Gold++;
                         break;
                     case (int)QualifyTier.Silver:
                         this.Silver++;

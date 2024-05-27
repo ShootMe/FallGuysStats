@@ -99,6 +99,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "Duo" },
                             { "main_profile_squad", "Squad" },
                             { "main_profile_custom", "Custom" },
+                            { "main_custom_and_casual_shows", "Custom/Explore" },
                             { "main_export_csv", "Export CSV" },
                             { "main_export_html", "Export HTML" },
                             { "main_export_bbcode", "Export BBCode" },
@@ -631,6 +632,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "Duo" },
                             { "main_profile_squad", "Groupe" },
                             { "main_profile_custom", "PP" },
+                            { "main_custom_and_casual_shows", "PP/Explo" },
                             { "main_export_csv", "Exporter en CSV" },
                             { "main_export_html", "Exporter en HTML" },
                             { "main_export_bbcode", "Exporter en BBCode" },
@@ -1007,7 +1009,7 @@ namespace FallGuysStats {
                             { "overlay_wins", "WINS" },
                             { "overlay_win", ""},
                             { "overlay_finish", "FINISH" },
-                            { "overlay_queued_players", "JOUEURS EN FILE D'ATTENTE" },
+                            { "overlay_queued_players", "JOUEURS DANS LA FILE" },
                             { "overlay_ping", "PING" },
                             { "overlay_best", ""},
                             { "overlay_inning", ""},
@@ -1163,6 +1165,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "듀오" },
                             { "main_profile_squad", "스쿼드" },
                             { "main_profile_custom", "커스텀" },
+                            { "main_custom_and_casual_shows", "커스텀/탐험" },
                             { "main_export_csv", "CSV 파일로 내보내기" },
                             { "main_export_html", "클립보드로 내보내기 (HTML)" },
                             { "main_export_bbcode", "클립보드로 내보내기 (BBCode)" },
@@ -1694,6 +1697,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "デュオ" },
                             { "main_profile_squad", "スクワッド" },
                             { "main_profile_custom", "カスタム" },
+                            { "main_custom_and_casual_shows", "カスタム/自由探索" },
                             { "main_export_csv", "CSVファイルにエクスポート" },
                             { "main_export_html", "クリップボードにコピー (HTML)" },
                             { "main_export_bbcode", "クリップボードにコピー (BBCode)" },
@@ -2227,6 +2231,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "双人" },
                             { "main_profile_squad", "四人" },
                             { "main_profile_custom", "风俗" },
+                            { "main_custom_and_casual_shows", "风俗/探索" },
                             { "main_export_csv", "导出 CSV" },
                             { "main_export_html", "导出 HTML" },
                             { "main_export_bbcode", "导出 BBCode" },
@@ -2759,6 +2764,7 @@ namespace FallGuysStats {
                             { "main_profile_duo", "雙人" },
                             { "main_profile_squad", "四人" },
                             { "main_profile_custom", "風俗" },
+                            { "main_custom_and_casual_shows", "風俗/探索" },
                             { "main_export_csv", "導出 CSV" },
                             { "main_export_html", "導出 HTML" },
                             { "main_export_bbcode", "導出 BBCode" },
@@ -14203,7 +14209,7 @@ namespace FallGuysStats {
                     { "invisibeans_template", "VOLEURS SUCRÉS" },
                     { "knockout_duos", "Duos" },
                     { "knockout_mode", "Tournois" },
-                    { "knockout_squads", "Groupes" },
+                    { "knockout_squads", "Escouades" },
                     { "live_event_bluejay", "Gotta Go Fast !" },
                     { "live_event_clan_of_yeetus_0411_0611_2022", "Clan Yeetus" },
                     { "live_event_clan_of_yeetus_ss1_template", "Clan Yeetus" },
@@ -14265,9 +14271,9 @@ namespace FallGuysStats {
                     { "solo_show_ss2_parrot", "Solo" },
                     { "spectator_show", "Sport spectateur" },
                     { "squad_duo_slimeclimbs", ""},
-                    { "squad_show", "GROUPES" },
-                    { "squad_show_2player", "GROUPES" },
-                    { "squad_show_2player_laps", "GROUPES" },
+                    { "squad_show", "ESCOUADES" },
+                    { "squad_show_2player", "ESCOUADES" },
+                    { "squad_show_2player_laps", "ESCOUADES" },
                     { "squad_show_survival", "DEBUG Squad Show Survival" },
                     { "squad_show_team_2player", "Erreur de connexion" },
                     { "squadcelebration", "Célébration de groupe" },
@@ -14280,11 +14286,11 @@ namespace FallGuysStats {
                     { "squads_3player_04012022_to_13012022", "Trios" },
                     { "squads_3player_automation", "Trios" },
                     { "squads_3player_template", "Trios" },
-                    { "squads_4player", "Groupes" },
-                    { "squads_4player_2812_no_end", "Groupes" },
-                    { "squads_4player_after_potoo", "Groupes" },
-                    { "squads_show_ss2_launch", "Groupes SS2" },
-                    { "squads_show_ss2_parrot", "Groupes" },
+                    { "squads_4player", "Escouades" },
+                    { "squads_4player_2812_no_end", "Escouades" },
+                    { "squads_4player_after_potoo", "Escouades" },
+                    { "squads_show_ss2_launch", "Escouades SS2" },
+                    { "squads_show_ss2_parrot", "Escouades" },
                     { "survival_of_the_fittest", "Le plus fort survivra" },
                     { "teams_show", "Erreur de connexion" },
                     { "toms_main_show_5_2", "Émission principale" },
@@ -20003,15 +20009,7 @@ namespace FallGuysStats {
             MultilingualShowsDictionary.TryGetValue(Stats.CurrentLanguage, out Dictionary<string, string> showsDictionary);
             showsDictionary?.TryGetValue(keyword, out name);
             return name;
-        }
-        
-        public static string GetShowName(string keyword, Language lang) {
-            if (string.IsNullOrEmpty(keyword)) return String.Empty;
-            string name = string.Empty;
-            MultilingualShowsDictionary.TryGetValue(lang, out Dictionary<string, string> showsDictionary);
-            showsDictionary?.TryGetValue(keyword, out name);
-            return name;
-        }
+        }      
         
         public static string GetCountryName(string keyword) {
             if (string.IsNullOrEmpty(keyword)) return String.Empty;
