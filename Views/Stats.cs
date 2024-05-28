@@ -3185,8 +3185,9 @@ namespace FallGuysStats {
                 foreach (RoundInfo ri in roundInfoList) {
                     ri.IsCasualShow = true;
                     ri.Round = 1;
-                    ri.IsFinal = false;
                     ri.Qualified = ri.Finish.HasValue;
+                    ri.IsFinal = false;
+                    ri.Crown = false;
                     ri.IsAbandon = false;
                 }
                 this.StatsDB.BeginTrans();
