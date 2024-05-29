@@ -3045,72 +3045,75 @@ namespace FallGuysStats {
                                                  ri.IsFinal &&
                                                  !ri.PrivateLobby
                                                  select ri).ToList();
-                
-                int showId = roundInfoList.First().ShowID;
-                
-                foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsCasualShow = true;
-                    ri.Round = 1;
-                    ri.Qualified = ri.Finish.HasValue;
-                    ri.IsFinal = false;
-                    ri.Crown = false;
-                    ri.IsAbandon = false;
-                }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList);
-                this.StatsDB.Commit();
-                
-                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
-                                                  where ri.ShowID >= showId
-                                                  select ri).ToList();
-                
-                bool isFirstShow = true;
-                bool isFixRequired = false;
-                bool waitForNextCasualShow = false;
-                int i = 1;
-                foreach (RoundInfo ri in roundInfoList2) {
-                    if (!isFixRequired) {
-                        if (!ri.IsCasualShow) {
-                            if (isFirstShow && ri.ShowID == showId) {
-                                isFixRequired = true;
-                                waitForNextCasualShow = true;
+
+                if (roundInfoList.Any()) {
+                    int showId = roundInfoList.First().ShowID;
+                    
+                    foreach (RoundInfo ri in roundInfoList) {
+                        ri.IsCasualShow = true;
+                        ri.Round = 1;
+                        ri.Qualified = ri.Finish.HasValue;
+                        ri.IsFinal = false;
+                        ri.Crown = false;
+                        ri.IsAbandon = false;
+                    }
+                    this.StatsDB.BeginTrans();
+                    this.RoundDetails.Update(roundInfoList);
+                    this.StatsDB.Commit();
+                    
+                    List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                      where ri.ShowID >= showId
+                                                      select ri).ToList();
+                    
+                    bool isFirstShow = true;
+                    bool isFixRequired = false;
+                    bool waitForNextCasualShow = false;
+                    int i = 1;
+                    foreach (RoundInfo ri in roundInfoList2) {
+                        if (!isFixRequired) {
+                            if (!ri.IsCasualShow) {
+                                if (isFirstShow && ri.ShowID == showId) {
+                                    isFixRequired = true;
+                                    waitForNextCasualShow = true;
+                                } else {
+                                    isFirstShow = false;
+                                    if (ri.Round == 1) {
+                                        showId = ri.ShowID;
+                                    }
+                                }
                             } else {
-                                isFirstShow = false;
-                                if (ri.Round == 1) {
-                                    showId = ri.ShowID;
+                                if (isFirstShow) {
+                                    isFirstShow = false;
+                                } else if (ri.ShowID == showId) {
+                                    isFixRequired = true;
+                                    ri.ShowID = showId + i;
+                                    i++;
                                 }
                             }
-                        } else {
-                            if (isFirstShow) {
-                                isFirstShow = false;
-                            } else if (ri.ShowID == showId) {
-                                isFixRequired = true;
-                                ri.ShowID = showId + i;
-                                i++;
-                            }
+                            continue;
                         }
-                        continue;
+                        if (ri.IsCasualShow) {
+                            waitForNextCasualShow = false;
+                            ri.ShowID = showId + i;
+                            i++;
+                            continue;
+                        }
+                        if (waitForNextCasualShow) {
+                            continue;
+                        }
+                        if (ri.Round == 1) {
+                            ri.ShowID = showId + i;
+                            showId = ri.ShowID;
+                            i = 1;
+                        } else {
+                            ri.ShowID = showId;
+                        }
                     }
-                    if (ri.IsCasualShow) {
-                        waitForNextCasualShow = false;
-                        ri.ShowID = showId + i;
-                        i++;
-                        continue;
-                    }
-                    if (waitForNextCasualShow) {
-                        continue;
-                    }
-                    if (ri.Round == 1) {
-                        ri.ShowID = showId + i;
-                        showId = ri.ShowID;
-                        i = 1;
-                    } else {
-                        ri.ShowID = showId;
-                    }
+                    this.StatsDB.BeginTrans();
+                    this.RoundDetails.Update(roundInfoList2);
+                    this.StatsDB.Commit();
                 }
-                this.StatsDB.BeginTrans();
-                this.RoundDetails.Update(roundInfoList2);
-                this.StatsDB.Commit();
+                
                 this.CurrentSettings.Version = 95;
                 this.SaveUserSettings();
             }
