@@ -720,7 +720,7 @@ namespace FallGuysStats {
                 }
             } else if ((index = line.Line.IndexOf("[HandleSuccessfulLogin] Selected show is ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 int index2 = line.Line.IndexOf(" IsUltimatePartyEpisode:");
-                this.threadLocalVariable.Value.selectedShowId = line.Line.Substring(index + 41, index2 - (index + 41));
+                this.threadLocalVariable.Value.selectedShowId = index2 != -1 ? line.Line.Substring(index + 41, index2 - (index + 41)) : line.Line.Substring(index + 41);
                 if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")) {
                     this.threadLocalVariable.Value.useShareCode = true;
                 } else if (this.threadLocalVariable.Value.selectedShowId.StartsWith("ugc-")) {
