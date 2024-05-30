@@ -143,10 +143,10 @@ namespace FallGuysStats {
             this.SetStyle(ControlStyles.ResizeRedraw, true);
         }
 
-        public void ResetBackgroundImage() {
+        public void ResetBackgroundImage(int width = 0, int height = 0) {
             this.ArrangeDisplay(string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.FlippedDisplay : this.StatsForm.CurrentSettings.FixedFlippedDisplay, this.StatsForm.CurrentSettings.ShowOverlayTabs,
                 this.StatsForm.CurrentSettings.HideWinsInfo, this.StatsForm.CurrentSettings.HideRoundInfo, this.StatsForm.CurrentSettings.HideTimeInfo,
-                this.StatsForm.CurrentSettings.OverlayColor, string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayWidth : this.StatsForm.CurrentSettings.OverlayFixedWidth, string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayHeight : this.StatsForm.CurrentSettings.OverlayFixedHeight,
+                this.StatsForm.CurrentSettings.OverlayColor, width > 0 ? width : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayWidth : this.StatsForm.CurrentSettings.OverlayFixedWidth, height > 0 ? height : string.IsNullOrEmpty(this.StatsForm.CurrentSettings.OverlayFixedPosition) ? this.StatsForm.CurrentSettings.OverlayHeight : this.StatsForm.CurrentSettings.OverlayFixedHeight,
                 this.StatsForm.CurrentSettings.OverlayFontSerialized, this.StatsForm.CurrentSettings.OverlayFontColorSerialized);
         }
         
@@ -1231,8 +1231,7 @@ namespace FallGuysStats {
         }
         
         public void ResetOverlaySize() {
-            this.Size = this.DefaultSize;
-            this.ResetBackgroundImage();
+            this.ResetBackgroundImage(this.DefaultSize.Width, this.DefaultSize.Height);
         }
         
         public void ResetOverlayLocation(bool visible) {
