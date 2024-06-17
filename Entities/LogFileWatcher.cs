@@ -827,7 +827,7 @@ namespace FallGuysStats {
                     logRound.Info.PlayersXsx++;
                 } else if (line.Line.IndexOf("switch", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersSw++;
-                } else if (line.Line.IndexOf("win", StringComparison.OrdinalIgnoreCase) != -1) {
+                } else if (line.Line.IndexOf("pc", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersPc++;
                 } else if (line.Line.IndexOf("bots", StringComparison.OrdinalIgnoreCase) != -1) {
                     logRound.Info.PlayersBots++;
