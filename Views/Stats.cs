@@ -2715,7 +2715,7 @@ namespace FallGuysStats {
                 List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
                     where string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show") && ri.Name.StartsWith("digishuffle_feb_")
                     select ri).ToList();
-
+                
                 foreach (RoundInfo ri in roundInfoList2) {
                     ri.Name = $"wle_{ri.Name}";
                 }
@@ -2893,7 +2893,7 @@ namespace FallGuysStats {
                     if (string.Equals(ri.ShowNameId, "unknown", StringComparison.OrdinalIgnoreCase)) {
                         ri.ShowNameId = "user_creative_race_round";
                     }
-
+                    
                     if (!string.IsNullOrEmpty(ri.CreativeShareCode)) {
                         if (string.IsNullOrEmpty(ri.CreativeGameModeId)) {
                             ri.CreativeGameModeId = "GAMEMODE_GAUNTLET";
@@ -3045,7 +3045,7 @@ namespace FallGuysStats {
                                                  ri.IsFinal &&
                                                  !ri.PrivateLobby
                                                  select ri).ToList();
-
+                
                 if (roundInfoList.Any()) {
                     int showId = roundInfoList.First().ShowID;
                     
@@ -3131,6 +3131,32 @@ namespace FallGuysStats {
                 this.StatsDB.Commit();
                 if (isDelete) this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
                 this.CurrentSettings.Version = 96;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 96) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    int profileId = -1;
+                    if (string.Equals(ri.ShowNameId, "classic_solo_main_show")) {
+                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                        profileId = profile?.ProfileId ?? -1;
+                    } else if (string.Equals(ri.ShowNameId, "classic_duos_show")) {
+                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                        profileId = profile?.ProfileId ?? -1;
+                    } else if (string.Equals(ri.ShowNameId, "classic_squads_show")) {
+                        Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_4player"));
+                        profileId = profile?.ProfileId ?? -1;
+                    }
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 97;
                 this.SaveUserSettings();
             }
         }
@@ -4545,12 +4571,15 @@ namespace FallGuysStats {
                 case "turbo_show":
                 case "turbo_2_show":
                 case "knockout_mode":
+                case "classic_solo_main_show":
                     return "main_show";
                 case "knockout_duos":
+                case "classic_duos_show":
                     return "squads_2player_template";
                 case "squadcelebration":
                 case "event_day_at_races_squads_template":
                 case "knockout_squads":
+                case "classic_squads_show":
                     return "squads_4player";
                 case "invisibeans_template":
                 case "invisibeans_pistachio_template":

@@ -13061,6 +13061,9 @@ namespace FallGuysStats {
         private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "Explore" },
+                    { "classic_duos_show", "Duos" },
+                    { "classic_solo_main_show", "Solos" },
+                    { "classic_squads_show", "Squads" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "Debug Lobbies Show" },
@@ -13960,6 +13963,9 @@ namespace FallGuysStats {
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "Exploration" },
+                    { "classic_duos_show", "Duos" },
+                    { "classic_solo_main_show", "Solo" },
+                    { "classic_squads_show", "Escouades" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "Émission dans lobbies de debug" },
@@ -14859,6 +14865,9 @@ namespace FallGuysStats {
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "탐험" },
+                    { "classic_duos_show", "듀오" },
+                    { "classic_solo_main_show", "솔로" },
+                    { "classic_squads_show", "스쿼드" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "대기실 쇼 디버그" },
@@ -15758,6 +15767,9 @@ namespace FallGuysStats {
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "自由探索" },
+                    { "classic_duos_show", "デュオ" },
+                    { "classic_solo_main_show", "ソロ" },
+                    { "classic_squads_show", "スクワッド" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "デバッグロビーショー" },
@@ -16657,6 +16669,9 @@ namespace FallGuysStats {
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "探索" },
+                    { "classic_duos_show", "双人" },
+                    { "classic_solo_main_show", "单人" },
+                    { "classic_squads_show", "小队" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "调试用专题" },
@@ -17556,6 +17571,9 @@ namespace FallGuysStats {
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
                     { "casual_show", "探索" },
+                    { "classic_duos_show", "雙人" },
+                    { "classic_solo_main_show", "單人" },
+                    { "classic_squads_show", "小隊" },
                     { "collectables_ss2_batch_01", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model1", "Collectables Batch 01" },
                     { "collectables_ss2_batch_01_model2", "調試用專題" },
