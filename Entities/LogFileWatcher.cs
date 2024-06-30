@@ -336,7 +336,7 @@ namespace FallGuysStats {
             { "FallGuy_FollowTheLeader_UNPACKED", "FallGuy_FollowTheLeader" },
             { "FallGuy_BlueJay_UNPACKED", "FallGuy_BlueJay" }
         };
-        
+
         private bool IsRealFinalRound(string roundId, string showId) {
             if ((showId.StartsWith("knockout_fp") && showId.EndsWith("_srs"))
                  || (showId.StartsWith("show_wle_s10_") && showId.IndexOf("_srs", StringComparison.OrdinalIgnoreCase) != -1)
@@ -359,9 +359,16 @@ namespace FallGuysStats {
                         && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1
                         && !string.Equals(showId, "event_anniversary_season_1_alternate_name"))
 
-                    || ((roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
-                         || roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1)
-                            && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+                    || (roundId.IndexOf("round_territory", StringComparison.OrdinalIgnoreCase) != -1
+                        && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
+
+                    || (roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
+                        && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
+                        && (roundId.EndsWith("_duos", StringComparison.OrdinalIgnoreCase)
+                            || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
+
+                    || (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
+                        && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
 
                     || ((roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
                          || roundId.IndexOf("round_robotrampage", StringComparison.OrdinalIgnoreCase) != -1)
@@ -373,13 +380,13 @@ namespace FallGuysStats {
 
                     || (roundId.IndexOf("_squads_squadcelebration", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.EndsWith("_final", StringComparison.OrdinalIgnoreCase))
-            
+
                     || (string.Equals(showId, "event_only_hoverboard_template")
                         && string.Equals(roundId, "round_hoverboardsurvival_final"))
-                    
+
                     || (string.Equals(showId, "event_only_button_bashers_template")
                         && string.Equals(roundId, "round_1v1_button_basher_event_only_final"))
-                    
+
                     || (string.Equals(showId, "no_elimination_show")
                         && (string.Equals(roundId, "round_snowballsurvival_final_noelim") || string.Equals(roundId, "round_robotrampage_arena_2_final_noelim")));
         }
@@ -449,7 +456,7 @@ namespace FallGuysStats {
                    && (roundId.IndexOf("_duos", StringComparison.OrdinalIgnoreCase) != -1
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
-        
+
         private void ClearUserCreativeLevelInfo() {
             this.threadLocalVariable.Value.creativeOnlinePlatformId = string.Empty;
             this.threadLocalVariable.Value.creativeAuthor = string.Empty;
