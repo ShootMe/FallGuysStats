@@ -3159,6 +3159,23 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 97;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 97) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && ri.ShowNameId.StartsWith("classic_")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (string.Equals(ri.Name, "round_basketfall_s4_show") || string.Equals(ri.Name, "round_territory_control_s4_show")) {
+                        ri.IsFinal = (string.Equals(ri.ShowNameId, "classic_duos_show") && ri.Players <= 4) || (string.Equals(ri.ShowNameId, "classic_squads_show") && ri.Players <= 8);
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 98;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
