@@ -916,7 +916,7 @@ namespace FallGuysStats {
                     DateTime end = this.lastRound.End;
                     DateTime? finish = this.lastRound.Finish;
                     TimeSpan runningTime = start > currentUtc ? currentUtc - this.startTime : currentUtc - start;
-                    int maxRunningTime = 12; // in minutes
+                    int maxRunningTime = 30; // in minutes
                     float fBrightness = 0.7f;
                     
                     if (!Stats.IsDisplayOverlayTime) {
