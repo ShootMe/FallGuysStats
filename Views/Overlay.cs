@@ -36,6 +36,7 @@ namespace FallGuysStats {
         private LevelStats levelStats;
         private LevelType levelType;
         private BestRecordType recordType;
+        private Image roundIcon;
         private StatSummary levelSummary;
         private int drawWidth, drawHeight;
         private bool startedPlaying;
@@ -579,7 +580,7 @@ namespace FallGuysStats {
             }
         }
         
-        private void SetRoundLabel(LevelStats level, LevelType type, string roundName, int setting) {
+        private void SetRoundLabel(Image roundIcon, LevelType type, string roundName, int setting) {
             if (Stats.IsQueued && (setting == 1 || setting == 5)) {
                 this.lblRound.LevelColor = Color.Empty;
                 this.lblRound.LevelTrueColor = Color.Empty;
@@ -596,7 +597,7 @@ namespace FallGuysStats {
                     this.lblRound.Text = $@"{Multilingual.GetWord("overlay_round_abbreviation_prefix")}{roundNum}{Multilingual.GetWord("overlay_round_abbreviation_suffix")} :";
                     this.lblRound.LevelColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : (this.lastRound.UseShareCode ? type.LevelBackColor(false, this.lastRound.IsTeam, 159) : type.LevelBackColor(this.lastRound.IsFinal, this.lastRound.IsTeam, 223));
                     this.lblRound.LevelTrueColor = type == LevelType.Unknown ? type.LevelBackColor(false, false, 159) : type.LevelBackColor(false, this.lastRound.IsTeam, 159);
-                    this.lblRound.RoundIcon = type == LevelType.Unknown ? Properties.Resources.round_unknown_icon : level.RoundBigIcon;
+                    this.lblRound.RoundIcon = roundIcon;
                     if (this.lblRound.RoundIcon.Height != 23) {
                         float ratio = 23f / this.lblRound.RoundIcon.Height;
                         this.lblRound.ImageHeight = 23;
@@ -866,12 +867,17 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
                 int showType = (level == null) ? 0
-                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1
-                               : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2 : 0;
-                int timeLimit = this.lastRound.IsCasualShow ? (type == LevelType.CreativeSurvival ? 180 : 0)
+                               : (string.Equals(this.lastRound.ShowNameId, "no_elimination_explore") && level.TimeLimitSecondsForExploreClassic > 0) ? 3
+                               : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2
+                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
+                int timeLimit = this.lastRound.IsCasualShow ? ((showType == 3) ? level.TimeLimitSecondsForExploreClassic : (type == LevelType.CreativeSurvival ? 180 : 0))
                                 : this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds
-                                : (showType == 1) ? level.TimeLimitSeconds
-                                : (showType == 2) ? level.TimeLimitSecondsForSquad : 0;
+                                : (showType == 2) ? level.TimeLimitSecondsForSquad
+                                : (showType == 1) ? level.TimeLimitSeconds : 0;
+                
+                if (level != null && string.Equals(level.Id, "round_hoops") && string.Equals(showId, "squads_4player")) {
+                    timeLimit = 300; // PLEASE FIX THE TIMER MEDIATONIC!!!
+                }
                 
                 this.lblDuration.Text = timeLimit > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(timeLimit):m\\:ss}) :" : $"{Multilingual.GetWord("overlay_duration")} :";
                 
@@ -1022,6 +1028,7 @@ namespace FallGuysStats {
                         
                         this.levelType = (this.levelStats?.Type).GetValueOrDefault(LevelType.Unknown);
                         this.recordType = (this.levelStats?.BestRecordType).GetValueOrDefault(BestRecordType.Fastest);
+                        this.roundIcon = this.levelType != LevelType.Unknown ? this.levelStats.RoundBigIcon : Properties.Resources.round_unknown_big_icon;
                         this.levelSummary = this.StatsForm.GetLevelInfo(this.levelId, this.levelType, this.recordType, this.lastRound.UseShareCode);
                     }
                     
@@ -1030,7 +1037,7 @@ namespace FallGuysStats {
                     this.SetWinsLabel(this.levelSummary, overlaySetting);
                     this.SetFinalsLabel(this.levelSummary, overlaySetting);
                     this.SetStreakLabel(this.levelSummary, overlaySetting);
-                    this.SetRoundLabel(this.levelStats, this.levelType, this.levelName, overlaySetting);
+                    this.SetRoundLabel(this.roundIcon, this.levelType, this.levelName, overlaySetting);
                     this.SetQualifyChanceLabel(this.levelSummary, overlaySetting);
                     this.SetFastestLabel(this.levelSummary, this.recordType, overlaySetting);
                     this.SetPlayersLabel(overlaySetting);

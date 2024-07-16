@@ -1204,7 +1204,7 @@ namespace FallGuysStats {
         }
 
         private string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if (string.Equals("wle_mrs_shuffle_show_squads", showId)) { // Squads Scramble
+            if (string.Equals(showId, "wle_mrs_shuffle_show_squads")) { // Squads Scramble
                 if (roundId.StartsWith("wle_shuffle_") && roundId.IndexOf("_fp") != -1) {
                     roundId = roundId.Replace("_squads_", "_discover_");
                 } else if (roundId.StartsWith("wle_shuffle_squads_2_24_01_")) {
@@ -1214,7 +1214,7 @@ namespace FallGuysStats {
                 }
             }
             
-            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
+            if (string.Equals(showId, "no_elimination_show") && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
                 roundId = roundId.Replace("_noelim", "");
             }
             return roundId;

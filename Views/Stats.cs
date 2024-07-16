@@ -450,7 +450,7 @@ namespace FallGuysStats {
             foreach (var level in this.UpcomingShowCache) {
                 if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
-                        10, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
+                        10, 0, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                 }
             }
         }
@@ -4218,7 +4218,7 @@ namespace FallGuysStats {
                             roundName = roundName.StartsWith("round_") ? roundName.Substring(6).Replace('_', ' ')
                                                                        : roundName.Replace('_', ' ');
 
-                            LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                            LevelStats newLevel = new LevelStats(stat.Name, string.Empty, this.textInfo.ToTitleCase(roundName), LevelType.Unknown, BestRecordType.Fastest, false, false, 10, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
                             this.StatLookup.Add(stat.Name, newLevel);
                             this.StatDetails.Add(newLevel);
                             this.gridDetails.DataSource = null;
@@ -4630,14 +4630,14 @@ namespace FallGuysStats {
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {
-            if (string.Equals("no_elimination_show", showId) && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
+            if (string.Equals(showId, "no_elimination_show") && (roundId.StartsWith("wle_main_filler_") || roundId.StartsWith("wle_main_opener_"))) {
                 roundId = roundId.Replace("_noelim", "");
             }
             return roundId;
         }
         
         private bool IsCreativeShow(string showId) {
-            return showId.StartsWith("casual_show")
+            return string.Equals(showId, "casual_show")
                    || showId.StartsWith("event_wle_")
                    || showId.StartsWith("show_wle")
                    || showId.StartsWith("wle_")
@@ -4817,7 +4817,7 @@ namespace FallGuysStats {
 
             int lastShow = -1;
             if (!this.StatLookup.TryGetValue(useShareCode ? type.UserCreativeLevelTypeId() : levelId, out LevelStats currentLevel)) {
-                currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
+                currentLevel = new LevelStats(levelId, string.Empty, levelId, LevelType.Unknown, BestRecordType.Fastest, false, false, 10, 0, 0, 0, Properties.Resources.round_unknown_icon, Properties.Resources.round_unknown_big_icon);
             }
 
             List<RoundInfo> roundInfo = useShareCode ? this.AllStats.FindAll(r => r.Profile == this.GetCurrentProfileId() && string.Equals(r.Name, levelId) && string.Equals(r.ShowNameId, type.UserCreativeLevelTypeId()))
