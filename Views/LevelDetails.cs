@@ -665,7 +665,7 @@ namespace FallGuysStats {
             if (info.PrivateLobby) { // Custom
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightGray : Color.FromArgb(8, 8, 8);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
-            } else if (info.IsCasualShow) { // "Explore" Show
+            } else if (info.IsCasualShow) { // "Explore" Shows
                 e.CellStyle.BackColor = this.Theme == MetroThemeStyle.Light ? Color.LightBlue : Color.FromArgb(8, 8, 40);
                 e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? Color.MidnightBlue : Color.SkyBlue;
             }

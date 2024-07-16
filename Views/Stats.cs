@@ -3176,6 +3176,29 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 98;
                 this.SaveUserSettings();
             }
+
+            if (this.CurrentSettings.Version == 98) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "no_elimination_explore")
+                                                 select ri).ToList();
+
+                foreach (RoundInfo ri in roundInfoList) {
+                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                    int profileId = profile?.ProfileId ?? -1;
+                    if (profileId != -1) ri.Profile = profileId;
+                    ri.IsCasualShow = true;
+                    ri.Round = 1;
+                    ri.Qualified = ri.Finish.HasValue;
+                    ri.IsFinal = false;
+                    ri.Crown = false;
+                    ri.IsAbandon = false;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 99;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -4589,6 +4612,7 @@ namespace FallGuysStats {
                 case "turbo_2_show":
                 case "knockout_mode":
                 case "classic_solo_main_show":
+                case "no_elimination_explore":
                     return "main_show";
                 case "knockout_duos":
                 case "classic_duos_show":
