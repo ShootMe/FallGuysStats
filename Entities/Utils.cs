@@ -216,7 +216,7 @@ namespace FallGuysStats {
             using (ApiWebClient web = new ApiWebClient()) {
                 string resStr = Regex.Unescape(web.DownloadString($"{IP2C_ORG_URL}{host}"));
                 string[] resArr = resStr.Split(';');
-                if (string.Equals("1", resArr[0])) {
+                if (string.Equals(resArr[0], "1")) {
                     countryInfo[0] = resArr[1]; // alpha-2 code
                     countryInfo[1] = resArr[3]; // a full country name
                 }

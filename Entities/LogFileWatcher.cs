@@ -589,8 +589,8 @@ namespace FallGuysStats {
                 if (!string.IsNullOrEmpty(ci)) {
                     string[] countryInfo = ci.Split(';');
                     Stats.LastCountryAlpha2Code = countryInfo[0].ToLower();
-                    Stats.LastCountryRegion = !string.Equals("unknown", countryInfo[1].ToLower()) ? countryInfo[1] : string.Empty;
-                    Stats.LastCountryCity = !string.Equals("unknown", countryInfo[2].ToLower()) ? countryInfo[2] : string.Empty;
+                    Stats.LastCountryRegion = !string.Equals(countryInfo[1].ToLower(), "unknown") ? countryInfo[1] : string.Empty;
+                    Stats.LastCountryCity = !string.Equals(countryInfo[2].ToLower(), "unknown") ? countryInfo[2] : string.Empty;
                 } else {
                     string countryCode = Utils.GetCountryCode(ip);
                     Stats.LastCountryAlpha2Code = !string.IsNullOrEmpty(countryCode) ? countryCode.ToLower() : string.Empty;
