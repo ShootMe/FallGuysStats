@@ -884,7 +884,7 @@ namespace FallGuysStats {
                 DateTime start = this.lastRound.Start;
                 DateTime end = this.lastRound.End;
                 TimeSpan runningTime = start > currentUtc ? currentUtc - this.startTime : currentUtc - start;
-                int maxRunningTime = 12; // in minutes
+                int maxRunningTime = 30; // in minutes
                 
                 if (!Stats.IsDisplayOverlayTime) {
                     this.lblDuration.TextRight = "-";
@@ -893,12 +893,12 @@ namespace FallGuysStats {
                 } else if (Stats.IsLastPlayedRoundStillPlaying) {
                     bool isOverRunningTime = runningTime.TotalMinutes >= maxRunningTime || !Stats.IsGameRunning;
                     runningTime = timeLimit > 0 ? TimeSpan.FromSeconds(timeLimit) - (currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc)) : currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc);
-                    this.lblDuration.TextRight = isOverRunningTime ? "-" : $"{runningTime:m\\:ss}";
+                    this.lblDuration.TextRight = isOverRunningTime ? "-" : $"{(timeLimit > 0 && TimeSpan.FromSeconds(timeLimit) < (currentUtc - Stats.LastPlayedRoundStart.GetValueOrDefault(currentUtc)) ? "+ " : "")}{runningTime:m\\:ss}";
                 } else if (end != DateTime.MinValue) {
                     TimeSpan time = end - start;
-                    this.lblDuration.TextRight = timeLimit > 0 ? $"{TimeSpan.FromSeconds(timeLimit) - time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
+                    this.lblDuration.TextRight = timeLimit > 0 ? $"{(TimeSpan.FromSeconds(timeLimit) < time ? "+ " : "")}{TimeSpan.FromSeconds(timeLimit) - time:m\\:ss\\.fff}" : $"{time:m\\:ss\\.fff}";
                 } else if (this.lastRound.Playing) {
-                    this.lblDuration.TextRight = timeLimit > 0 ? $"{TimeSpan.FromSeconds(timeLimit) - runningTime:m\\:ss}" : $"{runningTime:m\\:ss}";
+                    this.lblDuration.TextRight = timeLimit > 0 ? $"{(TimeSpan.FromSeconds(timeLimit) < runningTime ? "+ " : "")}{TimeSpan.FromSeconds(timeLimit) - runningTime:m\\:ss}" : $"{runningTime:m\\:ss}";
                 } else {
                     this.lblDuration.TextRight = "-";
                 }
