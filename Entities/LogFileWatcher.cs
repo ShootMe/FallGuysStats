@@ -34,13 +34,12 @@ namespace FallGuysStats {
     public class LogRound {
         public bool CurrentlyInParty;
         public bool PrivateLobby;
+        public bool InLoadingGameScreen;
+        public bool IsRoundPreloaded;
         public bool CountingPlayers;
         public bool GetCurrentPlayerID;
         public bool FindingPosition;
-        public bool IsFinal;
-        public bool HasIsFinal;
         public string CurrentPlayerID;
-        public int Duration;
 
         public RoundInfo Info;
     }
@@ -49,6 +48,7 @@ namespace FallGuysStats {
         public string selectedShowId;
         public bool useShareCode;
         public string currentSessionId;
+        public string sceneName;
 
         public bool toggleCountryInfoApi;
         public bool toggleFgdbCreativeApi;
@@ -85,7 +85,7 @@ namespace FallGuysStats {
 
         public Stats StatsForm { get; set; }
         
-        private ThreadLocal<ThreadLocalData> threadLocalVariable = new ThreadLocal<ThreadLocalData>(() => new ThreadLocalData());
+        private readonly ThreadLocal<ThreadLocalData> threadLocalVariable = new ThreadLocal<ThreadLocalData>(() => new ThreadLocalData());
         public event Action<List<RoundInfo>> OnParsedLogLines;
         public event Action<List<RoundInfo>> OnParsedLogLinesCurrent;
         public event Action<DateTime> OnNewLogFileDate;
@@ -716,6 +716,7 @@ namespace FallGuysStats {
 
                 logRound.PrivateLobby = line.Line.IndexOf("StatePrivateLobby", StringComparison.OrdinalIgnoreCase) != -1;
                 logRound.CurrentlyInParty = !logRound.PrivateLobby && (line.Line.IndexOf("solo", StringComparison.OrdinalIgnoreCase) == -1);
+                logRound.InLoadingGameScreen = false;
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
                 logRound.FindingPosition = false;
@@ -765,25 +766,52 @@ namespace FallGuysStats {
                     }
                 }
 
-                logRound.Info = new RoundInfo {
-                    ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId,
-                    UseShareCode = this.threadLocalVariable.Value.useShareCode, IsCasualShow = this.IsShowIsCasualShow(this.threadLocalVariable.Value.selectedShowId),
-                    OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
-                };
+                int index2 = line.Line.IndexOf(" on frame ");
+                this.threadLocalVariable.Value.sceneName = line.Line.Substring(index + 57, index2 - (index + 57));
 
-                if (logRound.Info.UseShareCode) {
-                    this.SetCreativeLevelVariable(logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
-                    logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
-                } else {
-                    int index2 = line.Line.IndexOf(" on frame ");
-                    logRound.Info.SceneName = line.Line.Substring(index + 57, index2 - (index + 57));
-                    if (this._sceneNameReplacer.TryGetValue(logRound.Info.SceneName, out string newName)) {
-                        logRound.Info.SceneName = newName;
+                if (logRound.InLoadingGameScreen) {
+                    logRound.Info = new RoundInfo {
+                        ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId,
+                        UseShareCode = this.threadLocalVariable.Value.useShareCode, IsCasualShow = this.IsShowIsCasualShow(this.threadLocalVariable.Value.selectedShowId),
+                        OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
+                    };
+
+                    if (logRound.Info.UseShareCode) {
+                        this.SetCreativeLevelVariable(logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
+                        logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
+                    } else {
+                        logRound.Info.SceneName = this._sceneNameReplacer.TryGetValue(this.threadLocalVariable.Value.sceneName, out string sceneName)
+                                                  ? sceneName
+                                                  : this.threadLocalVariable.Value.sceneName;
                     }
-                }
-                logRound.FindingPosition = false;
+                    logRound.FindingPosition = false;
 
-                round.Add(logRound.Info);
+                    round.Add(logRound.Info);
+                } else {
+                    logRound.IsRoundPreloaded = true;
+                }
+            } else if (line.Line.IndexOf("[StateGameLoading] ShowLoadingGameScreenAndLoadLevel", StringComparison.OrdinalIgnoreCase) != -1) {
+                logRound.InLoadingGameScreen = true;
+                if (logRound.IsRoundPreloaded) {
+                    logRound.IsRoundPreloaded = false;
+                    logRound.Info = new RoundInfo {
+                        ShowNameId = this.threadLocalVariable.Value.selectedShowId, SessionId = this.threadLocalVariable.Value.currentSessionId,
+                        UseShareCode = this.threadLocalVariable.Value.useShareCode, IsCasualShow = this.IsShowIsCasualShow(this.threadLocalVariable.Value.selectedShowId),
+                        OnlineServiceType = (int)Stats.OnlineServiceType, OnlineServiceId = Stats.OnlineServiceId, OnlineServiceNickname = Stats.OnlineServiceNickname
+                    };
+
+                    if (logRound.Info.UseShareCode) {
+                        this.SetCreativeLevelVariable(logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId);
+                        logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
+                    } else {
+                        logRound.Info.SceneName = this._sceneNameReplacer.TryGetValue(this.threadLocalVariable.Value.sceneName, out string sceneName)
+                                                  ? sceneName
+                                                  : this.threadLocalVariable.Value.sceneName;
+                    }
+                    logRound.FindingPosition = false;
+
+                    round.Add(logRound.Info);
+                }
             } else if (logRound.Info != null && (index = line.Line.IndexOf("[StateGameLoading] Finished loading game level", StringComparison.OrdinalIgnoreCase)) != -1) {
                 int index2 = line.Line.IndexOf(". ", index + 62);
                 if (index2 < 0) { index2 = line.Line.Length; }
@@ -803,9 +831,9 @@ namespace FallGuysStats {
                 } else if (this.IsModeException(logRound.Info.Name, logRound.Info.ShowNameId)) {
                     logRound.Info.IsFinal = this.IsModeFinalException(logRound.Info.Name);
                 } else if (logRound.Info.Name.StartsWith("wle_s10_") || logRound.Info.Name.StartsWith("wle_mrs_")) {
-                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && this.StatsForm.StatLookup.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsFinal);
+                    logRound.Info.IsFinal = this.StatsForm.StatLookup.TryGetValue(logRound.Info.Name, out LevelStats levelStats) && levelStats.IsFinal;
                 } else {
-                    logRound.Info.IsFinal = logRound.IsFinal || (!logRound.HasIsFinal && LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string levelId) && this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats levelStats) && levelStats.IsFinal);
+                    logRound.Info.IsFinal = LevelStats.SceneToRound.TryGetValue(logRound.Info.SceneName, out string levelId) && this.StatsForm.StatLookup.TryGetValue(levelId, out LevelStats levelStats) && levelStats.IsFinal;
                 }
                 logRound.Info.IsTeam = this.IsTeamException(logRound.Info.Name);
 
@@ -821,7 +849,6 @@ namespace FallGuysStats {
                 logRound.Info.Start = line.Date;
                 logRound.Info.InParty = logRound.CurrentlyInParty;
                 logRound.Info.PrivateLobby = logRound.PrivateLobby;
-                logRound.Info.GameDuration = logRound.Duration;
 
                 logRound.CountingPlayers = true;
                 logRound.GetCurrentPlayerID = true;
@@ -852,6 +879,7 @@ namespace FallGuysStats {
             } else if (logRound.Info != null && line.Line.IndexOf("[GameSession] Changing state from Countdown to Playing", StringComparison.OrdinalIgnoreCase) != -1) {
                 logRound.Info.Start = line.Date;
                 logRound.Info.Playing = true;
+                logRound.InLoadingGameScreen = false;
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
             } else if (logRound.Info != null && line.Line.IndexOf($"HandleServerPlayerProgress PlayerId={logRound.CurrentPlayerID} is succeeded=", StringComparison.OrdinalIgnoreCase) != -1) {
@@ -912,6 +940,7 @@ namespace FallGuysStats {
                 Stats.IsLastRoundRunning = false;
                 Stats.IsLastPlayedRoundStillPlaying = false;
 
+                logRound.InLoadingGameScreen = false;
                 logRound.CountingPlayers = false;
                 logRound.GetCurrentPlayerID = false;
                 logRound.FindingPosition = false;
@@ -1111,6 +1140,7 @@ namespace FallGuysStats {
 
                 if (logRound.Info.Qualified) {
                     logRound.Info.Crown = true;
+                    logRound.InLoadingGameScreen = false;
                     logRound.CountingPlayers = false;
                     logRound.GetCurrentPlayerID = false;
                     logRound.FindingPosition = false;

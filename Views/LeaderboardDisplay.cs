@@ -158,25 +158,27 @@ namespace FallGuysStats {
                             .ThenByDescending(s => s.players)
                             .ThenBy(s => s.country).ToList();
                         int weight = 0;
-                        for (int i = 0; i < this.overallSummary.Count; i++) {
-                            OverallSummary current = this.overallSummary[i];
-                            if (current.gold == 0 && current.silver == 0 &&current.bronze == 0) {
-                                break;
-                            }
-                            
-                            if (i > 0) {
-                                OverallSummary previous = this.overallSummary[i - 1];
-                                if (previous.gold == current.gold && previous.silver == current.silver && previous.bronze == current.bronze) {
-                                    current.rank = previous.rank;
-                                    weight++;
-                                } else {
-                                    current.rank = previous.rank + 1 + weight;
-                                    weight = 0;
+                        if (this.overallSummary.Any()) {
+                            for (int i = 0; i < this.overallSummary.Count; i++) {
+                                OverallSummary current = this.overallSummary[i];
+                                if (current.gold == 0 && current.silver == 0 && current.bronze == 0) {
+                                    break;
                                 }
-                            } else {
-                                current.rank = 1;
+
+                                if (i > 0) {
+                                    OverallSummary previous = this.overallSummary[i - 1];
+                                    if (previous.gold == current.gold && previous.silver == current.silver && previous.bronze == current.bronze) {
+                                        current.rank = previous.rank;
+                                        weight++;
+                                    } else {
+                                        current.rank = previous.rank + 1 + weight;
+                                        weight = 0;
+                                    }
+                                } else {
+                                    current.rank = 1;
+                                }
+                                this.overallSummary[i] = current;
                             }
-                            this.overallSummary[i] = current;
                         }
                         this.gridOverallSummary.DataSource = prevTask.Result ? this.overallSummary : this.overallSummaryNodata;
                         

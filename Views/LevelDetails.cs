@@ -25,11 +25,11 @@ namespace FallGuysStats {
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         
-        private Timer spinnerTransition = new Timer { Interval = 1 };
+        private readonly Timer spinnerTransition = new Timer { Interval = 1 };
         private bool isIncreasing;
         private bool preventPaging;
         
-        private Timer scrollTimer = new Timer { Interval = 100 };
+        private readonly Timer scrollTimer = new Timer { Interval = 100 };
         private bool isScrollingStopped = true;
         private bool isHeaderClicked;
 
