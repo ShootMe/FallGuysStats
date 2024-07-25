@@ -581,7 +581,7 @@ namespace FallGuysStats {
         }
         
         private void SetRoundLabel(Image roundIcon, LevelType type, string roundName, int setting) {
-            if (Stats.IsQueued && (setting == 1 || setting == 5)) {
+            if (!Stats.InShow && Stats.IsQueued && (setting == 1 || setting == 5)) {
                 this.lblRound.LevelColor = Color.Empty;
                 this.lblRound.LevelTrueColor = Color.Empty;
                 this.lblRound.RoundIcon = null;
@@ -620,7 +620,7 @@ namespace FallGuysStats {
         }
         
         private void SetWinsLabel(StatSummary summary, int setting) {
-            if (Stats.IsQueued && setting == 3) {
+            if (!Stats.InShow && Stats.IsQueued && setting == 3) {
                 this.lblWins.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                 this.lblWins.TextRight = $"{Stats.QueuedPlayers:N0}";
                 this.lblWins.ForeColor = this.ForeColor;
@@ -714,7 +714,7 @@ namespace FallGuysStats {
                 this.lblFastest.Text = $@"{Multilingual.GetWord("overlay_current_time")} :";
                 this.lblFastest.TextRight = $"{DateTime.Now:HH\\:mm\\:ss}";
             } else {
-                if (Stats.IsQueued && setting == 6) {
+                if (!Stats.InShow && Stats.IsQueued && setting == 6) {
                     this.lblFastest.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFastest.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFastest.ForeColor = this.ForeColor;
@@ -867,11 +867,15 @@ namespace FallGuysStats {
                 this.lblDuration.TickProgress = 0;
                 string showId = this.StatsForm.GetAlternateShowId(this.lastRound.ShowNameId);
                 int showType = (level == null) ? 0
-                               : (string.Equals(this.lastRound.ShowNameId, "no_elimination_explore") && level.TimeLimitSecondsForExploreClassic > 0) ? 3
+                               // : (string.Equals(this.lastRound.ShowNameId, "no_elimination_explore") && level.TimeLimitSecondsForLTM > 0) ? 3
+                               : (showId.StartsWith("event_xtreme_fall_guys_") && level.TimeLimitSecondsForLTM > 0) ? 3
                                : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2
                                : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
-                int timeLimit = this.lastRound.IsCasualShow ? ((showType == 3) ? level.TimeLimitSecondsForExploreClassic : (type == LevelType.CreativeSurvival ? 180 : 0))
+                int timeLimit = // this.lastRound.IsCasualShow ? ((showType == 3) ? level.TimeLimitSecondsForLTM
+                                //                                                : ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0))
+                                this.lastRound.IsCasualShow ? ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0)
                                 : this.lastRound.UseShareCode ? this.lastRound.CreativeTimeLimitSeconds
+                                : (showType == 3) ? level.TimeLimitSecondsForLTM
                                 : (showType == 2) ? level.TimeLimitSecondsForSquad
                                 : (showType == 1) ? level.TimeLimitSeconds : 0;
                 
@@ -912,7 +916,7 @@ namespace FallGuysStats {
                 this.lblFinish.TextRight = $@"{DateTime.Now.ToString(Multilingual.GetWord("level_date_format"), Utils.GetCultureInfo())}";
                 this.lblFinish.ForeColor = this.ForeColor;
             } else {
-                if (Stats.IsQueued && (setting == 0 || setting == 2 || setting == 4)) {
+                if (!Stats.InShow && Stats.IsQueued && (setting == 0 || setting == 2 || setting == 4)) {
                     this.lblFinish.Text = $@"{Multilingual.GetWord("overlay_queued_players")} :";
                     this.lblFinish.TextRight = Stats.QueuedPlayers.ToString();
                     this.lblFinish.ForeColor = this.ForeColor;

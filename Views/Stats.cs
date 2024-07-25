@@ -7244,16 +7244,18 @@ namespace FallGuysStats {
             this.trayLaunchFallGuys.Image = launchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
             this.menuLaunchFallGuys.Image = launchPlatform == 0 ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
         }
-
+        
         public void SetLeaderboardTitle() {
-            if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
-                this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
-                this.mlLeaderboard.Text = OnlineServiceNickname;
-            } else {
-                this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
-            }
-            this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
-            this.mlLeaderboard.Enabled = true;
+            this.BeginInvoke((MethodInvoker)delegate {
+                if (OnlineServiceType != OnlineServiceTypes.None && !string.IsNullOrEmpty(OnlineServiceId) && !string.IsNullOrEmpty(OnlineServiceNickname)) {
+                    this.mlLeaderboard.Image = OnlineServiceType == OnlineServiceTypes.EpicGames ? Properties.Resources.epic_main_icon : Properties.Resources.steam_main_icon;
+                    this.mlLeaderboard.Text = OnlineServiceNickname;
+                } else {
+                    this.mlLeaderboard.Text = Multilingual.GetWord("leaderboard_menu_title");
+                }
+                this.mlLeaderboard.Location = new Point(this.Width - this.mlLeaderboard.Width - 10, this.mlLeaderboard.Location.Y);
+                this.mlLeaderboard.Enabled = true;
+            });
         }
         
         private void ChangeLanguage() {
