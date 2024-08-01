@@ -3223,7 +3223,9 @@ namespace FallGuysStats {
                                                   select ri).ToList();
                 
                 foreach (RoundInfo ri in roundInfoList2) {
-                    ri.IsFinal = !string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_") && (ri.Name.EndsWith("_opener_4") || ri.Name.IndexOf("_final") != -1);
+                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show") || string.Equals(ri.Name, "round_floor_fall") ||
+                                 string.Equals(ri.Name, "round_hexaring_symphony_launch_show") || string.Equals(ri.Name, "round_hexsnake_almond") || string.Equals(ri.Name, "round_royal_rumble") ||
+                                 (!string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_") && (ri.Name.EndsWith("_opener_4") || ri.Name.IndexOf("_final") != -1));
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList2);
