@@ -3176,12 +3176,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 98;
                 this.SaveUserSettings();
             }
-
+            
             if (this.CurrentSettings.Version == 98) {
                 List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
                                                  where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "no_elimination_explore")
                                                  select ri).ToList();
-
+                
                 foreach (RoundInfo ri in roundInfoList) {
                     Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
                     int profileId = profile?.ProfileId ?? -1;
@@ -3197,6 +3197,38 @@ namespace FallGuysStats {
                 this.RoundDetails.Update(roundInfoList);
                 this.StatsDB.Commit();
                 this.CurrentSettings.Version = 99;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 99) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "ftue_uk_show")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                    int profileId = profile?.ProfileId ?? -1;
+                    if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = string.Equals(ri.Name, "round_snowballsurvival");
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                
+                DateTime dateCond = new DateTime(2024, 5, 15, 12, 0, 0, DateTimeKind.Utc);
+                List<RoundInfo> roundInfoList2 = (from ri in this.RoundDetails.FindAll()
+                                                  where !string.IsNullOrEmpty(ri.ShowNameId) &&
+                                                  ri.Start >= dateCond &&
+                                                  ri.ShowNameId.StartsWith("knockout_")
+                                                  select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList2) {
+                    ri.IsFinal = !string.Equals(ri.Name, "knockout_fp10_final_8") && ri.Name.StartsWith("knockout_") && (ri.Name.EndsWith("_opener_4") || ri.Name.IndexOf("_final") != -1);
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList2);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 100;
                 this.SaveUserSettings();
             }
         }
@@ -4611,6 +4643,7 @@ namespace FallGuysStats {
                 case "turbo_show":
                 case "turbo_2_show":
                 case "knockout_mode":
+                case "ftue_uk_show":
                 case "classic_solo_main_show":
                 case "no_elimination_explore":
                     return "main_show";
