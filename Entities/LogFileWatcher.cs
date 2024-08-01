@@ -417,6 +417,7 @@ namespace FallGuysStats {
                    || roundId.IndexOf("round_blastball_arenasurvival_blast_ball_trials", StringComparison.OrdinalIgnoreCase) != -1
                    || roundId.IndexOf("round_robotrampage_arena_2_ss2_show1", StringComparison.OrdinalIgnoreCase) != -1
                    || string.Equals(showId, "event_blast_ball_banger_template")
+                   || string.Equals(showId, "ftue_uk_show")
                    || showId.StartsWith("knockout_");
         }
 
@@ -449,8 +450,10 @@ namespace FallGuysStats {
 
                      || string.Equals(roundId, "round_blastball_arenasurvival_blast_ball_banger")
 
+                     || string.Equals(roundId, "round_snowballsurvival_noelim_ftue_s2")
+
                      || (!string.Equals(roundId, "knockout_fp10_final_8")
-                         && roundId.StartsWith("knockout_fp", StringComparison.OrdinalIgnoreCase)
+                         && roundId.StartsWith("knockout_", StringComparison.OrdinalIgnoreCase)
                          && (roundId.EndsWith("_opener_4", StringComparison.OrdinalIgnoreCase)
                              || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1));
         }
