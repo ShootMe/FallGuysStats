@@ -13965,7 +13965,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
-                    { "anniversary_fp12_ltm", "Féte Du 4e Anniversaire" },
+                    { "anniversary_fp12_ltm", "Fête du 4e anniversaire" },
                     { "casual_show", "Exploration" },
                     { "classic_duos_show", "Duos" },
                     { "classic_solo_main_show", "Solo" },

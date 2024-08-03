@@ -879,10 +879,6 @@ namespace FallGuysStats {
                                 : (showType == 2) ? level.TimeLimitSecondsForSquad
                                 : (showType == 1) ? level.TimeLimitSeconds : 0;
                 
-                if (level != null && string.Equals(level.Id, "round_hoops") && string.Equals(showId, "squads_4player")) {
-                    timeLimit = 300; // PLEASE FIX THE TIMER MEDIATONIC!!!
-                }
-                
                 this.lblDuration.Text = timeLimit > 0 ? $"{Multilingual.GetWord("overlay_duration")} ({TimeSpan.FromSeconds(timeLimit):m\\:ss}) :" : $"{Multilingual.GetWord("overlay_duration")} :";
                 
                 DateTime start = this.lastRound.Start;
