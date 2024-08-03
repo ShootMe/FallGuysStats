@@ -13060,6 +13060,7 @@ namespace FallGuysStats {
 
         private static readonly Dictionary<Language, Dictionary<string, string>> MultilingualShowsDictionary = new Dictionary<Language, Dictionary<string, string>> {
             { Language.English, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "4th Anniversary Party" },
                     { "casual_show", "Explore" },
                     { "classic_duos_show", "Duos" },
                     { "classic_solo_main_show", "Solos" },
@@ -13964,6 +13965,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.French, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "Féte Du 4e Anniversaire" },
                     { "casual_show", "Exploration" },
                     { "classic_duos_show", "Duos" },
                     { "classic_solo_main_show", "Solo" },
@@ -14868,6 +14870,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.Korean, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "4주년 기념 파티" },
                     { "casual_show", "탐험" },
                     { "classic_duos_show", "듀오" },
                     { "classic_solo_main_show", "솔로" },
@@ -15772,6 +15775,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.Japanese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "4周年アニバーサリーパーティー" },
                     { "casual_show", "自由探索" },
                     { "classic_duos_show", "デュオ" },
                     { "classic_solo_main_show", "ソロ" },
@@ -16676,6 +16680,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.SimplifiedChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "4 周年庆大派对" },
                     { "casual_show", "探索" },
                     { "classic_duos_show", "双人" },
                     { "classic_solo_main_show", "单人" },
@@ -17580,6 +17585,7 @@ namespace FallGuysStats {
                 }
             },
             { Language.TraditionalChinese, new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+                    { "anniversary_fp12_ltm", "4 週年派對" },
                     { "casual_show", "探索" },
                     { "classic_duos_show", "雙人" },
                     { "classic_solo_main_show", "單人" },
