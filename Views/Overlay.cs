@@ -870,7 +870,7 @@ namespace FallGuysStats {
                                // : (string.Equals(this.lastRound.ShowNameId, "no_elimination_explore") && level.TimeLimitSecondsForLTM > 0) ? 3
                                : (showId.StartsWith("event_xtreme_fall_guys_") && level.TimeLimitSecondsForLTM > 0) ? 3
                                : ((string.Equals(showId, "squads_2player_template") || string.Equals(showId, "squads_4player")) && level.TimeLimitSecondsForSquad > 0) ? 2
-                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "anniversary_fp12_ltm") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
+                               : ((string.Equals(showId, "main_show") || string.Equals(showId, "invisibeans_mode") || level.IsCreative) && level.TimeLimitSeconds > 0) ? 1 : 0;
                 int timeLimit = // this.lastRound.IsCasualShow ? ((showType == 3) ? level.TimeLimitSecondsForLTM
                                 //                                                : ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0))
                                 this.lastRound.IsCasualShow ? ((type == LevelType.CreativeSurvival) ? this.lastRound.CreativeTimeLimitSeconds : 0)
