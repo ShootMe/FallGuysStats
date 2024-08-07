@@ -794,16 +794,20 @@ namespace FallGuysStats {
                         } else {
                             this.lblPlayers.Image = null;
                             this.lblPlayers.Text = $@"{Multilingual.GetWord("overlay_players")} :";
-                            if (type == LevelType.Survival || type == LevelType.CreativeSurvival) {
-                                this.lblPlayers.TextRight = $"{this.lastRound?.Players - Stats.NumPlayersEliminated}";
-                            } else if (type == LevelType.Logic || type == LevelType.CreativeLogic) {
-                                if (bestRecordType == BestRecordType.Fastest) {
-                                    this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
-                                } else if (bestRecordType == BestRecordType.Longest) {
+                            if (this.StatsForm.CurrentSettings.CountPlayersDuringTheLevel) {
+                                if (type == LevelType.Survival || type == LevelType.CreativeSurvival) {
                                     this.lblPlayers.TextRight = $"{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                } else if (type == LevelType.Logic || type == LevelType.CreativeLogic) {
+                                    if (bestRecordType == BestRecordType.Fastest) {
+                                        this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                    } else if (bestRecordType == BestRecordType.Longest) {
+                                        this.lblPlayers.TextRight = $"{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                                    }
+                                } else if (type == LevelType.Race || type == LevelType.CreativeRace || type == LevelType.Hunt || type == LevelType.CreativeHunt || type == LevelType.Team || type == LevelType.CreativeTeam) {
+                                    this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
                                 }
-                            } else if (type == LevelType.Race || type == LevelType.CreativeRace || type == LevelType.Hunt || type == LevelType.CreativeHunt || type == LevelType.Team || type == LevelType.CreativeTeam) {
-                                this.lblPlayers.TextRight = $"{(Stats.NumPlayersSucceeded > 0 ? Stats.NumPlayersSucceeded + " / " : "")}{this.lastRound?.Players - Stats.NumPlayersEliminated}";
+                            } else {
+                                this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
                             }
                             this.lblPlayersPs.DrawVisible = false;
                             this.lblPlayersXbox.DrawVisible = false;

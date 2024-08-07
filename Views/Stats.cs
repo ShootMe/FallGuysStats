@@ -3235,6 +3235,12 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 100;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 100) {
+                this.CurrentSettings.CountPlayersDuringTheLevel = true;
+                this.CurrentSettings.Version = 101;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -3287,6 +3293,7 @@ namespace FallGuysStats {
                 ShadeTheFlagImage = false,
                 DisplayCurrentTime = false,
                 DisplayGamePlayedInfo = false,
+                CountPlayersDuringTheLevel = true,
                 PreviousWins = 0,
                 WinsFilter = 1,
                 QualifyFilter = 1,

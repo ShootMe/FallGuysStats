@@ -66,6 +66,7 @@
             this.chkShadeTheFlagImage = new MetroFramework.Controls.MetroCheckBox();
             this.chkDisplayCurrentTime = new MetroFramework.Controls.MetroCheckBox();
             this.chkDisplayGamePlayedInfo = new MetroFramework.Controls.MetroCheckBox();
+            this.chkCountPlayersDuringTheLevel = new MetroFramework.Controls.MetroCheckBox();
             this.lblCycleTimeSecondsTag = new MetroFramework.Controls.MetroLabel();
             this.lblCycleTimeSeconds = new MetroFramework.Controls.MetroLabel();
             this.txtCycleTimeSeconds = new MetroFramework.Controls.MetroTextBox();
@@ -231,7 +232,7 @@
             // 
             this.lblOverlayFont.AutoSize = true;
             this.lblOverlayFont.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblOverlayFont.Location = new System.Drawing.Point(21, 719);
+            this.lblOverlayFont.Location = new System.Drawing.Point(21, 748);
             this.lblOverlayFont.Name = "lblOverlayFont";
             this.lblOverlayFont.Size = new System.Drawing.Size(140, 19);
             this.lblOverlayFont.TabIndex = 27;
@@ -241,7 +242,7 @@
             // 
             this.btnSelectFont.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnSelectFont.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnSelectFont.Location = new System.Drawing.Point(200, 716);
+            this.btnSelectFont.Location = new System.Drawing.Point(200, 745);
             this.btnSelectFont.Name = "btnSelectFont";
             this.btnSelectFont.Size = new System.Drawing.Size(96, 26);
             this.btnSelectFont.TabIndex = 28;
@@ -253,7 +254,7 @@
             // 
             this.btnResetOverlayFont.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnResetOverlayFont.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.btnResetOverlayFont.Location = new System.Drawing.Point(303, 716);
+            this.btnResetOverlayFont.Location = new System.Drawing.Point(303, 745);
             this.btnResetOverlayFont.Name = "btnResetOverlayFont";
             this.btnResetOverlayFont.Size = new System.Drawing.Size(96, 26);
             this.btnResetOverlayFont.TabIndex = 29;
@@ -264,7 +265,7 @@
             // grpOverlayFontExample
             // 
             this.grpOverlayFontExample.Controls.Add(this.lblOverlayFontExample);
-            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 745);
+            this.grpOverlayFontExample.Location = new System.Drawing.Point(21, 774);
             this.grpOverlayFontExample.Margin = new System.Windows.Forms.Padding(2);
             this.grpOverlayFontExample.Name = "grpOverlayFontExample";
             this.grpOverlayFontExample.Padding = new System.Windows.Forms.Padding(2);
@@ -741,6 +742,24 @@
             this.chkDisplayGamePlayedInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkDisplayGamePlayedInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkDisplayGamePlayedInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // chkCountPlayers
+            // 
+            this.chkCountPlayersDuringTheLevel.AutoSize = true;
+            this.chkCountPlayersDuringTheLevel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkCountPlayersDuringTheLevel.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkCountPlayersDuringTheLevel.Location = new System.Drawing.Point(21, 697);
+            this.chkCountPlayersDuringTheLevel.Name = "chkCountPlayersDuringTheLevel";
+            this.chkCountPlayersDuringTheLevel.Size = new System.Drawing.Size(255, 19);
+            this.chkCountPlayersDuringTheLevel.TabIndex = 30;
+            this.chkCountPlayersDuringTheLevel.Text = "Count players who pass or are eliminated during the game";
+            this.chkCountPlayersDuringTheLevel.UseSelectable = true;
+            this.chkCountPlayersDuringTheLevel.UseCustomForeColor = true;
+            this.chkCountPlayersDuringTheLevel.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkCountPlayersDuringTheLevel.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkCountPlayersDuringTheLevel.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkCountPlayersDuringTheLevel.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkCountPlayersDuringTheLevel.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // lblCycleTimeSecondsTag
             // 
@@ -1501,6 +1520,7 @@
             this.panelOverlay.Controls.Add(this.chkShadeTheFlagImage);
             this.panelOverlay.Controls.Add(this.chkDisplayCurrentTime);
             this.panelOverlay.Controls.Add(this.chkDisplayGamePlayedInfo);
+            this.panelOverlay.Controls.Add(this.chkCountPlayersDuringTheLevel);
             this.panelOverlay.Controls.Add(this.chkColorByRoundType);
             this.panelOverlay.Controls.Add(this.chkPlayerByConsoleType);
             this.panelOverlay.Controls.Add(this.chkOverlayOnTop);
@@ -2028,6 +2048,7 @@
         private MetroFramework.Controls.MetroCheckBox chkShadeTheFlagImage;
         private MetroFramework.Controls.MetroCheckBox chkDisplayCurrentTime;
         private MetroFramework.Controls.MetroCheckBox chkDisplayGamePlayedInfo;
+        private MetroFramework.Controls.MetroCheckBox chkCountPlayersDuringTheLevel;
         private MetroFramework.Controls.MetroComboBox cboFastestFilter;
         private MetroFramework.Controls.MetroLabel lblFastestFilter;
         private MetroFramework.Controls.MetroComboBox cboQualifyFilter;

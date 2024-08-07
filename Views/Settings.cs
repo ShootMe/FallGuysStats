@@ -99,6 +99,7 @@ namespace FallGuysStats {
             this.chkShadeTheFlagImage.Checked = this.CurrentSettings.ShadeTheFlagImage;
             this.chkDisplayCurrentTime.Checked = this.CurrentSettings.DisplayCurrentTime;
             this.chkDisplayGamePlayedInfo.Checked = this.CurrentSettings.DisplayGamePlayedInfo;
+            this.chkCountPlayersDuringTheLevel.Checked = this.CurrentSettings.CountPlayersDuringTheLevel;
             this.chkHideWinsInfo.Checked = this.CurrentSettings.HideWinsInfo;
             this.chkHideRoundInfo.Checked = this.CurrentSettings.HideRoundInfo;
             this.chkHideTimeInfo.Checked = this.CurrentSettings.HideTimeInfo;
@@ -482,6 +483,7 @@ namespace FallGuysStats {
             this.CurrentSettings.ShadeTheFlagImage = this.chkShadeTheFlagImage.Checked;
             this.CurrentSettings.DisplayCurrentTime = this.chkDisplayCurrentTime.Checked;
             this.CurrentSettings.DisplayGamePlayedInfo = this.chkDisplayGamePlayedInfo.Checked;
+            this.CurrentSettings.CountPlayersDuringTheLevel = this.chkCountPlayersDuringTheLevel.Checked;
             if (this.chkHideRoundInfo.Checked && this.chkHideTimeInfo.Checked && this.chkHideWinsInfo.Checked) {
                 this.chkHideWinsInfo.Checked = false;
             }
@@ -971,6 +973,7 @@ namespace FallGuysStats {
             this.chkShadeTheFlagImage.Text = Multilingual.GetWord("settings_shade_the_flag_image");
             this.chkDisplayCurrentTime.Text = Multilingual.GetWord("settings_diaplay_current_time");
             this.chkDisplayGamePlayedInfo.Text = Multilingual.GetWord("settings_diaplay_game_played_info");
+            this.chkCountPlayersDuringTheLevel.Text = Multilingual.GetWord("settings_count_players_during_the_level");
             this.lblCycleTimeSecondsTag.Text = Multilingual.GetWord("settings_sec");
             this.lblCycleTimeSeconds.Text = Multilingual.GetWord("settings_cycle_time");
             this.rdoOnlyShowFinalStreak.Text = Multilingual.GetWord("settings_final_streak_only");
