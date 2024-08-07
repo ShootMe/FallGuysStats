@@ -758,7 +758,9 @@ namespace FallGuysStats {
                     Stats.LastRoundLoad = line.Date;
                     Stats.InShow = true;
                     Stats.SucceededPlayerIds.Clear();
+                    Stats.EliminatedPlayerIds.Clear();
                     Stats.NumPlayersSucceeded = 0;
+                    Stats.NumPlayersEliminated = 0;
                     Stats.IsLastRoundRunning = true;
                     Stats.IsLastPlayedRoundStillPlaying = false;
                     Stats.LastPlayedRoundStart = null;
@@ -894,6 +896,12 @@ namespace FallGuysStats {
                         this.UpdatePersonalBestLog(logRound.Info);
                     }
                     logRound.FindingPosition = true;
+                } else if (line.Line.IndexOf("succeeded=False", StringComparison.OrdinalIgnoreCase) != -1) {
+                    if (line.Date > Stats.LastRoundLoad && !Stats.EliminatedPlayerIds.Contains(logRound.CurrentPlayerID)) {
+                        Stats.EliminatedPlayerIds.Add(logRound.CurrentPlayerID);
+                        Stats.NumPlayersEliminated++;
+                    }
+                    logRound.FindingPosition = true;
                 }
             } else if (logRound.Info != null && !Stats.EndedShow && logRound.FindingPosition && (index = line.Line.IndexOf("[ClientGameSession] NumPlayersAchievingObjective=")) != -1) {
                 int position = int.Parse(line.Line.Substring(index + 49));
@@ -901,12 +909,21 @@ namespace FallGuysStats {
                     logRound.FindingPosition = false;
                     logRound.Info.Position = position;
                 }
-            } else if (line.Date > Stats.LastRoundLoad && (index = line.Line.IndexOf("HandleServerPlayerProgress PlayerId=", StringComparison.OrdinalIgnoreCase)) != -1 && line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) != -1) {
-                int prevIndex = line.Line.IndexOf(" ", index + 36);
-                string playerId = line.Line.Substring(index + 36, prevIndex - index - 36);
-                if (!Stats.SucceededPlayerIds.Contains(playerId)) {
-                    Stats.SucceededPlayerIds.Add(playerId);
-                    Stats.NumPlayersSucceeded++;
+            } else if (line.Date > Stats.LastRoundLoad && (index = line.Line.IndexOf("HandleServerPlayerProgress PlayerId=", StringComparison.OrdinalIgnoreCase)) != -1) {
+                if (line.Line.IndexOf("succeeded=True", StringComparison.OrdinalIgnoreCase) != -1) {
+                    int prevIndex = line.Line.IndexOf(" ", index + 36);
+                    string playerId = line.Line.Substring(index + 36, prevIndex - index - 36);
+                    if (!Stats.SucceededPlayerIds.Contains(playerId)) {
+                        Stats.SucceededPlayerIds.Add(playerId);
+                        Stats.NumPlayersSucceeded++;
+                    }
+                } else if (line.Line.IndexOf("succeeded=False", StringComparison.OrdinalIgnoreCase) != -1) {
+                    int prevIndex = line.Line.IndexOf(" ", index + 36);
+                    string playerId = line.Line.Substring(index + 36, prevIndex - index - 36);
+                    if (!Stats.EliminatedPlayerIds.Contains(playerId)) {
+                        Stats.EliminatedPlayerIds.Add(playerId);
+                        Stats.NumPlayersEliminated++;
+                    }
                 }
             } else if (line.Line.IndexOf("[GameSession] Changing state from Playing to GameOver", StringComparison.OrdinalIgnoreCase) != -1) {
                 if (line.Date > Stats.LastRoundLoad) {

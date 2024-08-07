@@ -118,11 +118,13 @@ namespace FallGuysStats {
         public static bool IsBadServerPing = false;
         
         public static List<string> SucceededPlayerIds = new List<string>();
+        public static List<string> EliminatedPlayerIds = new List<string>();
         
         public static int CasualRoundNum { get; set; }
         public static string SavedSessionId { get; set; }
         public static int SavedRoundCount { get; set; }
         public static int NumPlayersSucceeded { get; set; }
+        public static int NumPlayersEliminated { get; set; }
         public static bool IsLastRoundRunning { get; set; }
         public static bool IsLastPlayedRoundStillPlaying { get; set; }
         public static DateTime LastGameStart { get; set; } = DateTime.MinValue;
