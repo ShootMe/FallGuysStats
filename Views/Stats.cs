@@ -4648,7 +4648,7 @@ namespace FallGuysStats {
                 case "ftue_uk_show":
                 case "classic_solo_main_show":
                 case "no_elimination_explore":
-                case "anniversary_fp12_ltm":
+                // case "anniversary_fp12_ltm":
                     return "main_show";
                 case "knockout_duos":
                 case "classic_duos_show":
@@ -4661,8 +4661,8 @@ namespace FallGuysStats {
                 case "invisibeans_template":
                 case "invisibeans_pistachio_template":
                     return "invisibeans_mode";
+                default: return showId;
             }
-            return showId;
         }
         
         public string ReplaceLevelIdInShuffleShow(string showId, string roundId) {

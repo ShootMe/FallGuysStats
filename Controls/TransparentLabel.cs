@@ -175,7 +175,7 @@ namespace FallGuysStats {
                              isLangGroup3 ? (this.Text.Length > 14 ? (1f - ((this.TextRight.Length - 42 + (this.Text.Length * 2.5f)) / 100f)) : 1f) : 1f;
                     break;
                 case "lblFinish":
-                    factor = isLangGroup1 ? (this.Text.Length <= 8 ? (this.TextRight.Length > 14 ? 1f - (((this.TextRight.Length * 2.5f) - 26) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
+                    factor = isLangGroup1 ? (this.Text.Length <= 8 ? (this.TextRight.Length > 13 ? 1f - (((this.TextRight.Length * 2.5f) - 28) / 100f) : 1f) : (1f - (((this.Text.Length * 2.5f) - 41) / 100f))) :
                              isLangGroup2 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) :
                              isLangGroup3 ? (this.Text.Length <= 4 ? (this.TextRight.Length > 15 ? 1f - ((this.TextRight.Length - 13) / 100f) : 1f) : 1f) : 1f;
                     break;

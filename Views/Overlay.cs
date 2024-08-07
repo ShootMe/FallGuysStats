@@ -769,10 +769,10 @@ namespace FallGuysStats {
                 }
                 switch (playersSwitchCount % 2) {
                     case 0:
-                        this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
                         if (this.StatsForm.CurrentSettings.PlayerByConsoleType) {
                             this.lblPlayers.Image = Properties.Resources.player_icon;
                             this.lblPlayers.Text = @"ㅤ   :";
+                            this.lblPlayers.TextRight = $"{this.lastRound?.Players}";
                             int psCount = this.lastRound.PlayersPs4 + this.lastRound.PlayersPs5;
                             int xbCount = this.lastRound.PlayersXb1 + this.lastRound.PlayersXsx;
                             int swCount = this.lastRound.PlayersSw;
@@ -794,6 +794,7 @@ namespace FallGuysStats {
                         } else {
                             this.lblPlayers.Image = null;
                             this.lblPlayers.Text = $@"{Multilingual.GetWord("overlay_players")} :";
+                            this.lblPlayers.TextRight = $"{Stats.NumPlayersSucceeded} / {this.lastRound?.Players}";
                             this.lblPlayersPs.DrawVisible = false;
                             this.lblPlayersXbox.DrawVisible = false;
                             this.lblPlayersSwitch.DrawVisible = false;
