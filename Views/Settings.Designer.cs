@@ -143,6 +143,7 @@
             this.chkFallalyticsWeeklyCrownLeague = new MetroFramework.Controls.MetroCheckBox();
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
             this.tileFallalytics = new MetroFramework.Controls.MetroTile();
+            this.tileProxy = new MetroFramework.Controls.MetroTile();
             this.grpOverlayFontExample.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
@@ -1625,7 +1626,7 @@
             // 
             this.tileAbout.ActiveControl = null;
             this.tileAbout.BackColor = System.Drawing.Color.LightGray;
-            this.tileAbout.Location = new System.Drawing.Point(12, 328);
+            this.tileAbout.Location = new System.Drawing.Point(12, 379);
             this.tileAbout.Name = "tileAbout";
             this.tileAbout.Size = new System.Drawing.Size(193, 45);
             this.tileAbout.TabIndex = 17;
@@ -1853,7 +1854,7 @@
             // 
             this.lblFallalyticsDesc.AutoSize = true;
             this.lblFallalyticsDesc.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblFallalyticsDesc.Location = new System.Drawing.Point(11, 180);
+            this.lblFallalyticsDesc.Location = new System.Drawing.Point(7, 230);
             this.lblFallalyticsDesc.Name = "lblFallalyticsDesc";
             this.lblFallalyticsDesc.Size = new System.Drawing.Size(503, 19);
             this.lblFallalyticsDesc.TabIndex = 5;
@@ -1968,6 +1969,21 @@
             this.tileFallalytics.UseSelectable = true;
             this.tileFallalytics.Click += new System.EventHandler(this.ChangeTab);
             // 
+            // tileProxy
+            // 
+            this.tileProxy.ActiveControl = null;
+            this.tileProxy.BackColor = System.Drawing.Color.LightGray;
+            this.tileProxy.Location = new System.Drawing.Point(12, 328);
+            this.tileProxy.Name = "tileProxy";
+            this.tileProxy.Size = new System.Drawing.Size(193, 45);
+            this.tileProxy.TabIndex = 21;
+            this.tileProxy.Text = "Proxy Settings";
+            this.tileProxy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tileProxy.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileProxy.UseSelectable = true;
+            this.tileProxy.Click += new System.EventHandler(this.ChangeTab);
+            this.tileProxy.Visible = false;
+            // 
             // Settings
             // 
             this.AcceptButton = this.btnSave;
@@ -1979,6 +1995,7 @@
             this.Controls.Add(this.tileOverlay);
             this.Controls.Add(this.tileFallGuys);
             this.Controls.Add(this.tileFallalytics);
+            this.Controls.Add(this.tileProxy);
             this.Controls.Add(this.tileAbout);
             this.Controls.Add(this.panelProgram);
             this.Controls.Add(this.panelDisplay);
@@ -2149,5 +2166,6 @@
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsWeeklyCrownLeague;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
         private MetroFramework.Controls.MetroTile tileFallalytics;
+        private MetroFramework.Controls.MetroTile tileProxy;
     }
 }

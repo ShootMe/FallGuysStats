@@ -1307,7 +1307,7 @@ namespace FallGuysStats {
             switch (gameModeId) {
                 case "GAMEMODE_GAUNTLET": return Multilingual.GetWord("level_detail_race");
                 case "GAMEMODE_SURVIVAL": return Multilingual.GetWord("level_detail_survival");
-                case "GAMEMODE_HUNT": return Multilingual.GetWord("level_detail_hunt");
+                case "GAMEMODE_POINTS": return Multilingual.GetWord("level_detail_hunt");
                 case "GAMEMODE_LOGIC": return Multilingual.GetWord("level_detail_logic");
                 case "GAMEMODE_TEAM": return Multilingual.GetWord("level_detail_team");
                 default: return Multilingual.GetWord("level_detail_race");

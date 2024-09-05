@@ -265,7 +265,7 @@ namespace FallGuysStats {
             switch (gameModeId) {
                 case "GAMEMODE_GAUNTLET": return "user_creative_race_round";
                 case "GAMEMODE_SURVIVAL": return "user_creative_survival_round";
-                case "GAMEMODE_HUNT": return "user_creative_hunt_round";
+                case "GAMEMODE_POINTS": return "user_creative_hunt_round";
                 case "GAMEMODE_LOGIC": return "user_creative_logic_round";
                 case "GAMEMODE_TEAM": return "user_creative_team_round";
                 default: return "user_creative_race_round";
@@ -287,7 +287,7 @@ namespace FallGuysStats {
             switch (gameModeId) {
                 case "GAMEMODE_GAUNTLET": return LevelType.Race;
                 case "GAMEMODE_SURVIVAL": return LevelType.Survival;
-                case "GAMEMODE_HUNT": return LevelType.Hunt;
+                case "GAMEMODE_POINTS": return LevelType.Hunt;
                 case "GAMEMODE_LOGIC": return LevelType.Logic;
                 case "GAMEMODE_TEAM": return LevelType.Team;
                 default: return LevelType.Unknown;
@@ -298,7 +298,7 @@ namespace FallGuysStats {
             switch (gameModeId) {
                 case "GAMEMODE_GAUNTLET": return BestRecordType.Fastest;
                 case "GAMEMODE_SURVIVAL": return BestRecordType.Longest;
-                case "GAMEMODE_HUNT": return BestRecordType.Fastest;
+                case "GAMEMODE_POINTS": return BestRecordType.Fastest;
                 case "GAMEMODE_LOGIC": return BestRecordType.Fastest; // or Longest
                 case "GAMEMODE_TEAM": return BestRecordType.HighScore;
                 default: return BestRecordType.Fastest;
@@ -3239,6 +3239,18 @@ namespace FallGuysStats {
             if (this.CurrentSettings.Version == 100) {
                 this.CurrentSettings.CountPlayersDuringTheLevel = true;
                 this.CurrentSettings.Version = 101;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 101) {
+                this.StatsDB.BeginTrans();
+                this.UpcomingShow.UpdateMany(
+                    lv => new UpcomingShow { LevelType = LevelType.Hunt },
+                    lv => lv.LevelType == LevelType.Unknown
+                );
+                this.StatsDB.Commit();
+                this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
+                this.CurrentSettings.Version = 102;
                 this.SaveUserSettings();
             }
         }

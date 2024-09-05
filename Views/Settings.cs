@@ -846,6 +846,7 @@ namespace FallGuysStats {
             this.tileOverlay.Text = Multilingual.GetWord("settings_overlay");
             this.tileFallGuys.Text = Multilingual.GetWord("settings_launch_fallguys");
             this.tileFallalytics.Text = Multilingual.GetWord("settings_fallalytics");
+            this.tileProxy.Text = Multilingual.GetWord("settings_proxy_settings");
             this.tileAbout.Text = Multilingual.GetWord("settings_about");
             
             this.btnCancel.Text = Multilingual.GetWord("settings_cancel");
@@ -1084,18 +1085,21 @@ namespace FallGuysStats {
                 this.panelFallGuys.Location = new Point(211, 75);
                 this.panelAbout.Location = new Point(211, 75);
                 this.panelFallalytics.Location = new Point(211, 75);
+                // this.panelProxy.Location = new Point(211, 75);
                 this.panelProgram.Visible = false;
                 this.panelDisplay.Visible = false;
                 this.panelOverlay.Visible = false;
                 this.panelFallGuys.Visible = false;
                 this.panelAbout.Visible = false;
                 this.panelFallalytics.Visible = false;
+                // this.panelProxy.Visible = false;
                 this.tileProgram.Style = MetroColorStyle.Silver;
                 this.tileDisplay.Style = MetroColorStyle.Silver;
                 this.tileOverlay.Style = MetroColorStyle.Silver;
                 this.tileFallGuys.Style = MetroColorStyle.Silver;
                 this.tileAbout.Style = MetroColorStyle.Silver;
                 this.tileFallalytics.Style = MetroColorStyle.Silver;
+                this.tileProxy.Style = MetroColorStyle.Silver;
                 if (sender.Equals(this.tileProgram)) {
                     this.tileProgram.Style = MetroColorStyle.Teal;
                     this.panelProgram.Visible = true;
@@ -1143,6 +1147,9 @@ namespace FallGuysStats {
                 } else if (sender.Equals(this.tileFallalytics)) {
                     this.tileFallalytics.Style = MetroColorStyle.Teal;
                     this.panelFallalytics.Visible = true;
+                } else if (sender.Equals(this.tileProxy)) {
+                    this.tileProxy.Style = MetroColorStyle.Teal;
+                    // this.panelProxy.Visible = true;
                 }
                 this.Refresh();
             });
