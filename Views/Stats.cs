@@ -3249,6 +3249,17 @@ namespace FallGuysStats {
                     lv => lv.LevelType == LevelType.Unknown
                 );
                 this.StatsDB.Commit();
+                
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                    where string.Equals(ri.ShowNameId, "showcase_fp13") select ri).ToList();
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
                 this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
                 this.CurrentSettings.Version = 102;
                 this.SaveUserSettings();
@@ -4695,6 +4706,7 @@ namespace FallGuysStats {
         
         private bool IsCreativeShow(string showId) {
             return string.Equals(showId, "casual_show")
+                   || string.Equals(showId, "showcase_fp13")
                    || showId.StartsWith("event_wle_")
                    || showId.StartsWith("show_wle")
                    || showId.StartsWith("wle_")
