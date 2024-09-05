@@ -2,20 +2,20 @@
 using System.Net;
 using System.Net.Cache;
 using System.Text;
+
 namespace FallGuysStats {
     public class ZipWebClient : WebClient {
-        public ZipWebClient() : base() {
-            this.Encoding = Encoding.GetEncoding(65001);
+        public ZipWebClient() {
+            this.Encoding = Encoding.UTF8;
             this.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64;)";
             this.Headers["Accept-Encoding"] = "gzip, deflate";
-            this.Headers["Accept-Language"] = "en-us";
-            this.Headers["Accept"] = "text/html, application/xhtml+xml, */*";
+            this.Headers["Accept-Language"] = "en-US";
+            this.Headers["Accept"] = "application/zip";
         }
-        protected override WebRequest GetWebRequest(Uri address) {
-            HttpRequestCachePolicy requestPolicy = new HttpRequestCachePolicy(HttpCacheAgeControl.MaxAge, TimeSpan.FromSeconds(10));
 
+        protected override WebRequest GetWebRequest(Uri address) {
             HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
-            request.CachePolicy = requestPolicy;
+            request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
             return request;
         }
