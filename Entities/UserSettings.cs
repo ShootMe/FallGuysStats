@@ -90,5 +90,12 @@ namespace FallGuysStats {
         public bool EnableFallalyticsWeeklyCrownLeague { get; set; }
         public bool EnableFallalyticsAnonymous { get; set; }
         public string FallalyticsAPIKey { get; set; }
+        public bool UseProxyServer { get; set; }
+        public string ProxyAddress { get; set; }
+        public string ProxyPort { get; set; }
+        public bool EnableProxyAuthentication { get; set; }
+        public string ProxyUsername { get; set; }
+        public string ProxyPassword { get; set; }
+        public bool SucceededTestProxy { get; set; }
     }
 }

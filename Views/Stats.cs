@@ -141,6 +141,14 @@ namespace FallGuysStats {
         public static string OnlineServiceNickname = string.Empty;
         public static OnlineServiceTypes OnlineServiceType = OnlineServiceTypes.None;
         public static string HostCountryCode = string.Empty;
+        
+        public static bool UseWebProxy;
+        public static string ProxyAddress = string.Empty;
+        public static string ProxyPort = string.Empty;
+        public static bool EnableProxyAuthentication;
+        public static string ProxyUsername = string.Empty;
+        public static string ProxyPassword = string.Empty;
+        public static bool SucceededTestProxy;
 
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -532,7 +540,13 @@ namespace FallGuysStats {
             this.trayCMenu.Opacity = 0;
             this.textInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
             
-            
+            UseWebProxy = this.CurrentSettings.UseProxyServer;
+            ProxyAddress = this.CurrentSettings.ProxyAddress;
+            ProxyPort = this.CurrentSettings.ProxyPort;
+            EnableProxyAuthentication = this.CurrentSettings.EnableProxyAuthentication;
+            ProxyUsername = this.CurrentSettings.ProxyUsername;
+            ProxyPassword = this.CurrentSettings.ProxyPassword;
+            SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
@@ -3351,6 +3365,13 @@ namespace FallGuysStats {
                 EnableFallalyticsReporting = false,
                 EnableFallalyticsWeeklyCrownLeague = false,
                 EnableFallalyticsAnonymous = false,
+                UseProxyServer = false,
+                ProxyAddress = string.Empty,
+                ProxyPort = string.Empty,
+                EnableProxyAuthentication = false,
+                ProxyUsername = string.Empty,
+                ProxyPassword = string.Empty,
+                SucceededTestProxy = false,
                 ShowChangelog = true,
                 Visible = true,
                 Version = 0
@@ -7164,6 +7185,14 @@ namespace FallGuysStats {
                     this.EnableMainMenu(false);
                     if (settings.ShowDialog(this) == DialogResult.OK) {
                         this.CurrentSettings = settings.CurrentSettings;
+                        UseWebProxy = this.CurrentSettings.UseProxyServer;
+                        ProxyAddress = this.CurrentSettings.ProxyAddress;
+                        ProxyPort = this.CurrentSettings.ProxyPort;
+                        EnableProxyAuthentication = this.CurrentSettings.EnableProxyAuthentication;
+                        ProxyUsername = this.CurrentSettings.ProxyUsername;
+                        ProxyPassword = this.CurrentSettings.ProxyPassword;
+                        SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
+                        
                         this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                         this.SetTheme(CurrentTheme);
                         this.SaveUserSettings();

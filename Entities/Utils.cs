@@ -274,6 +274,7 @@ namespace FallGuysStats {
         
         public static string GetUserPublicIp() {
             using (ApiWebClient web = new ApiWebClient()) {
+                web.UseWebProxy = false;
                 try {
                     string publicIp = web.DownloadString($"{IPINFO_IO_URL}ip").Trim();
                     return publicIp;

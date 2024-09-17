@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Controls;
@@ -20,6 +22,7 @@ namespace FallGuysStats {
         // private bool CboMultilingualIsFocus, CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
         private string PrevTabName;
+        private bool IsSucceededTestProxy;
         
         public Settings() {
             this.InitializeComponent();
@@ -133,6 +136,14 @@ namespace FallGuysStats {
                 this.chkFallalyticsAnonymous.Checked = this.CurrentSettings.EnableFallalyticsAnonymous;
             }
             this.txtFallalyticsAPIKey.Text = this.CurrentSettings.FallalyticsAPIKey;
+            
+            this.chkUseProxy.Checked = this.CurrentSettings.UseProxyServer;
+            this.txtProxyAddress.Text = this.CurrentSettings.ProxyAddress;
+            this.txtProxyPort.Text = this.CurrentSettings.ProxyPort;
+            this.chkUseProxyLoginRequired.Checked = this.CurrentSettings.EnableProxyAuthentication;
+            this.txtProxyUsername.Text = this.CurrentSettings.ProxyUsername;
+            this.txtProxyPassword.Text = this.CurrentSettings.ProxyPassword;
+            this.IsSucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
 
             List<ImageItem> overlayItemArray = new List<ImageItem>();
             if (Directory.Exists("Overlay")) {
@@ -319,6 +330,8 @@ namespace FallGuysStats {
                             mlnk2.Theme = theme;
                         } else if (c2 is MetroTrackBar mtrb2) {
                             mtrb2.Theme = theme;
+                        } else if (c2 is MetroProgressSpinner mps2) {
+                            mps2.BackColor = theme == MetroThemeStyle.Light ? Color.White : Color.FromArgb(17, 17, 17);
                         } else if (c2 is GroupBox gb2) {
                             gb2.ForeColor = theme == MetroThemeStyle.Light ? Color.Black : Color.DarkGray;
                             foreach (Control c3 in gb2.Controls) {
@@ -395,6 +408,22 @@ namespace FallGuysStats {
                 if (!this.chkFallalyticsReporting.Checked && !this.chkFallalyticsWeeklyCrownLeague.Checked) {
                     this.chkFallalyticsAnonymous.Checked = false;
                 }
+            } else if (sender.Equals(this.chkUseProxy)) {
+                this.IsSucceededTestProxy = false;
+                this.mpsProxySpinner.Visible = false;
+                this.picProxyTextResult.Visible = false;
+                this.txtProxyAddress.Enabled = this.chkUseProxy.Checked;
+                this.txtProxyPort.Enabled = this.chkUseProxy.Checked;
+                this.chkUseProxyLoginRequired.Enabled = this.chkUseProxy.Checked;
+                this.txtProxyUsername.Enabled = this.chkUseProxyLoginRequired.Checked;
+                this.txtProxyPassword.Enabled = this.chkUseProxyLoginRequired.Checked;
+                this.btnProxyTestConnection.Enabled = this.chkUseProxy.Checked;
+            } else if (sender.Equals(this.chkUseProxyLoginRequired)) {
+                this.IsSucceededTestProxy = false;
+                this.mpsProxySpinner.Visible = false;
+                this.picProxyTextResult.Visible = false;
+                this.txtProxyUsername.Enabled = this.chkUseProxyLoginRequired.Checked;
+                this.txtProxyPassword.Enabled = this.chkUseProxyLoginRequired.Checked;
             }
         }
         
@@ -626,6 +655,14 @@ namespace FallGuysStats {
             this.CurrentSettings.EnableFallalyticsAnonymous = this.chkFallalyticsAnonymous.Checked;
             this.CurrentSettings.FallalyticsAPIKey = this.txtFallalyticsAPIKey.Text;
             
+            this.CurrentSettings.UseProxyServer = this.chkUseProxy.Checked;
+            this.CurrentSettings.ProxyAddress = this.txtProxyAddress.Text;
+            this.CurrentSettings.ProxyPort = this.txtProxyPort.Text;
+            this.CurrentSettings.EnableProxyAuthentication = this.chkUseProxyLoginRequired.Checked;
+            this.CurrentSettings.ProxyUsername = this.txtProxyUsername.Text;
+            this.CurrentSettings.ProxyPassword = this.txtProxyPassword.Text;
+            this.CurrentSettings.SucceededTestProxy = this.IsSucceededTestProxy;
+            
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -646,7 +683,13 @@ namespace FallGuysStats {
         
         private void txtPreviousWins_Validating(object sender, System.ComponentModel.CancelEventArgs e) {
             if (!string.IsNullOrEmpty(this.txtPreviousWins.Text) && !int.TryParse(this.txtPreviousWins.Text, out _)) {
-                this.txtPreviousWins.Text = "0";
+                this.txtPreviousWins.Text = @"0";
+            }
+        }
+        
+        private void enterOnlyDigitInTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+            if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back) {
+                e.Handled = true;
             }
         }
         
@@ -821,6 +864,59 @@ namespace FallGuysStats {
             this.StatsForm.HideTooltip(this);
         }
         
+        private void proxyInfoChanged_TextChanged(object sender, EventArgs e) {
+            this.IsSucceededTestProxy = false;
+            this.mpsProxySpinner.Visible = false;
+            this.picProxyTextResult.Visible = false;
+        }
+
+        private void btnTestProxyConnection_Click(object sender, EventArgs e) {
+            if (!this.chkUseProxy.Checked || string.IsNullOrEmpty(this.txtProxyAddress.Text)) {
+                return;
+            }
+            ((MetroButton)sender).Enabled = false;
+            
+            WebProxy webproxy = new WebProxy($"{this.txtProxyAddress.Text}:{(!string.IsNullOrEmpty(this.txtProxyPort.Text) ? this.txtProxyPort.Text : "80")}", false) {
+                BypassProxyOnLocal = false
+            };
+
+            if (this.chkUseProxyLoginRequired.Checked) {
+                if (string.IsNullOrEmpty(this.txtProxyUsername.Text) || string.IsNullOrEmpty(this.txtProxyPassword.Text)) {
+                    ((MetroButton)sender).Enabled = true;
+                    return;
+                }
+                webproxy.Credentials = new NetworkCredential(this.txtProxyUsername.Text, this.txtProxyPassword.Text);
+            }
+            
+            this.mpsProxySpinner.Visible = true;
+            Task.Run(() => {
+                try {
+                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://fallalytics.com");
+                    request.Proxy = webproxy;
+                    request.Timeout = 5000;
+
+                    using (HttpWebResponse response = (HttpWebResponse)request.GetResponse()) {
+                        bool isOk = response.StatusCode == HttpStatusCode.OK;
+                        this.IsSucceededTestProxy = isOk;
+                        this.BeginInvoke((MethodInvoker)delegate {
+                            this.mpsProxySpinner.Visible = false;
+                            this.picProxyTextResult.Image = isOk ? Properties.Resources.checkmark_icon : Properties.Resources.uncheckmark_icon;
+                            this.picProxyTextResult.Visible = true;
+                            ((MetroButton)sender).Enabled = true;
+                        });
+                    }
+                } catch {
+                    this.IsSucceededTestProxy = false;
+                    this.BeginInvoke((MethodInvoker)delegate {
+                        this.mpsProxySpinner.Visible = false;
+                        this.picProxyTextResult.Image = Properties.Resources.uncheckmark_icon;
+                        this.picProxyTextResult.Visible = true;
+                        ((MetroButton)sender).Enabled = true;
+                    });
+                }
+            });
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             if (keyData == Keys.Tab) { SendKeys.Send("%"); }
             return base.ProcessCmdKey(ref msg, keyData);
@@ -1085,14 +1181,14 @@ namespace FallGuysStats {
                 this.panelFallGuys.Location = new Point(211, 75);
                 this.panelAbout.Location = new Point(211, 75);
                 this.panelFallalytics.Location = new Point(211, 75);
-                // this.panelProxy.Location = new Point(211, 75);
+                this.panelProxy.Location = new Point(211, 75);
                 this.panelProgram.Visible = false;
                 this.panelDisplay.Visible = false;
                 this.panelOverlay.Visible = false;
                 this.panelFallGuys.Visible = false;
                 this.panelAbout.Visible = false;
                 this.panelFallalytics.Visible = false;
-                // this.panelProxy.Visible = false;
+                this.panelProxy.Visible = false;
                 this.tileProgram.Style = MetroColorStyle.Silver;
                 this.tileDisplay.Style = MetroColorStyle.Silver;
                 this.tileOverlay.Style = MetroColorStyle.Silver;
@@ -1149,7 +1245,7 @@ namespace FallGuysStats {
                     this.panelFallalytics.Visible = true;
                 } else if (sender.Equals(this.tileProxy)) {
                     this.tileProxy.Style = MetroColorStyle.Teal;
-                    // this.panelProxy.Visible = true;
+                    this.panelProxy.Visible = true;
                 }
                 this.Refresh();
             });

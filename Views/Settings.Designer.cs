@@ -144,6 +144,20 @@
             this.chkFallalyticsReporting = new MetroFramework.Controls.MetroCheckBox();
             this.tileFallalytics = new MetroFramework.Controls.MetroTile();
             this.tileProxy = new MetroFramework.Controls.MetroTile();
+            this.chkUseProxy = new MetroFramework.Controls.MetroCheckBox();
+            this.lblProxyAddress = new MetroFramework.Controls.MetroLabel();
+            this.lblProxyPort = new MetroFramework.Controls.MetroLabel();
+            this.chkUseProxyLoginRequired = new MetroFramework.Controls.MetroCheckBox();
+            this.txtProxyAddress = new MetroFramework.Controls.MetroTextBox();
+            this.txtProxyPort = new MetroFramework.Controls.MetroTextBox();
+            this.lblProxyUsername = new MetroFramework.Controls.MetroLabel();
+            this.lblProxyPassword = new MetroFramework.Controls.MetroLabel();
+            this.txtProxyUsername = new MetroFramework.Controls.MetroTextBox();
+            this.txtProxyPassword = new MetroFramework.Controls.MetroTextBox();
+            this.btnProxyTestConnection = new MetroFramework.Controls.MetroButton();
+            this.mpsProxySpinner = new MetroFramework.Controls.MetroProgressSpinner();
+            this.picProxyTextResult = new System.Windows.Forms.PictureBox();
+            this.panelProxy = new MetroFramework.Controls.MetroPanel();
             this.grpOverlayFontExample.SuspendLayout();
             this.grpCycleQualifyGold.SuspendLayout();
             this.grpCycleFastestLongest.SuspendLayout();
@@ -160,6 +174,7 @@
             this.panelFallGuys.SuspendLayout();
             this.panelAbout.SuspendLayout();
             this.panelFallalytics.SuspendLayout();
+            this.panelProxy.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLogPath
@@ -1271,6 +1286,7 @@
             this.txtPreviousWins.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPreviousWins.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
+            this.txtPreviousWins.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.enterOnlyDigitInTextBox_KeyPress);
             // 
             // lblGameExeLocation
             // 
@@ -1469,7 +1485,7 @@
             this.panelProgram.HorizontalScrollbarBarColor = true;
             this.panelProgram.HorizontalScrollbarHighlightOnWheel = false;
             this.panelProgram.HorizontalScrollbarSize = 10;
-            this.panelProgram.Location = new System.Drawing.Point(22, 15);
+            this.panelProgram.Location = new System.Drawing.Point(22, 119);
             this.panelProgram.Name = "panelProgram";
             this.panelProgram.Size = new System.Drawing.Size(667, 500);
             this.panelProgram.TabIndex = 10;
@@ -1969,6 +1985,277 @@
             this.tileFallalytics.UseSelectable = true;
             this.tileFallalytics.Click += new System.EventHandler(this.ChangeTab);
             // 
+            // panelProxy
+            // 
+            this.panelProxy.Controls.Add(this.chkUseProxy);
+            this.panelProxy.Controls.Add(this.lblProxyAddress);
+            this.panelProxy.Controls.Add(this.lblProxyPort);
+            this.panelProxy.Controls.Add(this.txtProxyAddress);
+            this.panelProxy.Controls.Add(this.txtProxyPort);
+            this.panelProxy.Controls.Add(this.chkUseProxyLoginRequired);
+            this.panelProxy.Controls.Add(this.lblProxyUsername);
+            this.panelProxy.Controls.Add(this.lblProxyPassword);
+            this.panelProxy.Controls.Add(this.txtProxyUsername);
+            this.panelProxy.Controls.Add(this.txtProxyPassword);
+            this.panelProxy.Controls.Add(this.btnProxyTestConnection);
+            this.panelProxy.Controls.Add(this.mpsProxySpinner);
+            this.panelProxy.Controls.Add(this.picProxyTextResult);
+            this.panelProxy.HorizontalScrollbarBarColor = true;
+            this.panelProxy.HorizontalScrollbarHighlightOnWheel = false;
+            this.panelProxy.HorizontalScrollbarSize = 10;
+            this.panelProxy.Location = new System.Drawing.Point(22, 7);
+            this.panelProxy.Name = "panelProxy";
+            this.panelProxy.Size = new System.Drawing.Size(667, 498);
+            this.panelProxy.TabIndex = 19;
+            this.panelProxy.VerticalScrollbarBarColor = true;
+            this.panelProxy.VerticalScrollbarHighlightOnWheel = false;
+            this.panelProxy.VerticalScrollbarSize = 15;
+            // 
+            // chkUseProxy
+            // 
+            this.chkUseProxy.AutoSize = true;
+            this.chkUseProxy.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkUseProxy.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkUseProxy.Location = new System.Drawing.Point(15, 17);
+            this.chkUseProxy.Name = "chkUseProxy";
+            this.chkUseProxy.Size = new System.Drawing.Size(266, 15);
+            this.chkUseProxy.TabIndex = 2;
+            this.chkUseProxy.Text = "Use a proxy server";
+            this.chkUseProxy.UseSelectable = true;
+            this.chkUseProxy.UseCustomForeColor = true;
+            this.chkUseProxy.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkUseProxy.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxy.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkUseProxy.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxy.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // lblProxyAddress
+            // 
+            this.lblProxyAddress.AutoSize = true;
+            this.lblProxyAddress.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProxyAddress.Location = new System.Drawing.Point(19, 50);
+            this.lblProxyAddress.Name = "lblProxyAddress";
+            this.lblProxyAddress.Size = new System.Drawing.Size(100, 19);
+            this.lblProxyAddress.TabIndex = 27;
+            this.lblProxyAddress.Text = "Address";
+            // 
+            // lblProxyPort
+            // 
+            this.lblProxyPort.AutoSize = true;
+            this.lblProxyPort.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProxyPort.Location = new System.Drawing.Point(356, 50);
+            this.lblProxyPort.Name = "lblProxyPort";
+            this.lblProxyPort.Size = new System.Drawing.Size(100, 19);
+            this.lblProxyPort.TabIndex = 27;
+            this.lblProxyPort.Text = "Port";
+            // 
+            // txtProxyAddress
+            // 
+            this.txtProxyAddress.CustomButton.Image = null;
+            this.txtProxyAddress.CustomButton.Location = new System.Drawing.Point(369, 1);
+            this.txtProxyAddress.CustomButton.Name = "";
+            this.txtProxyAddress.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.txtProxyAddress.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtProxyAddress.CustomButton.TabIndex = 1;
+            this.txtProxyAddress.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtProxyAddress.CustomButton.UseSelectable = true;
+            this.txtProxyAddress.CustomButton.Visible = false;
+            this.txtProxyAddress.Enabled = false;
+            this.txtProxyAddress.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtProxyAddress.Lines = new string[0];
+            this.txtProxyAddress.Location = new System.Drawing.Point(23, 72);
+            this.txtProxyAddress.Margin = new System.Windows.Forms.Padding(2);
+            this.txtProxyAddress.MaxLength = 32767;
+            this.txtProxyAddress.Name = "txtProxyAddress";
+            this.txtProxyAddress.PasswordChar = '\0';
+            this.txtProxyAddress.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtProxyAddress.SelectedText = "";
+            this.txtProxyAddress.SelectionLength = 0;
+            this.txtProxyAddress.SelectionStart = 0;
+            this.txtProxyAddress.ShortcutsEnabled = true;
+            this.txtProxyAddress.Size = new System.Drawing.Size(320, 27);
+            this.txtProxyAddress.TabIndex = 37;
+            this.txtProxyAddress.UseSelectable = true;
+            this.txtProxyAddress.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtProxyAddress.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtProxyAddress.TextChanged += new System.EventHandler(this.proxyInfoChanged_TextChanged);
+            // 
+            // txtProxyPort
+            // 
+            this.txtProxyPort.CustomButton.Image = null;
+            this.txtProxyPort.CustomButton.Location = new System.Drawing.Point(372, 1);
+            this.txtProxyPort.CustomButton.Name = "";
+            this.txtProxyPort.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.txtProxyPort.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtProxyPort.CustomButton.TabIndex = 1;
+            this.txtProxyPort.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtProxyPort.CustomButton.UseSelectable = true;
+            this.txtProxyPort.CustomButton.Visible = false;
+            this.txtProxyPort.Enabled = false;
+            this.txtProxyPort.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtProxyPort.Lines = new string[0];
+            this.txtProxyPort.Location = new System.Drawing.Point(360, 72);
+            this.txtProxyPort.Margin = new System.Windows.Forms.Padding(2);
+            this.txtProxyPort.MaxLength = 5;
+            this.txtProxyPort.Name = "txtProxyPort";
+            this.txtProxyPort.PasswordChar = '\0';
+            this.txtProxyPort.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtProxyPort.SelectedText = "";
+            this.txtProxyPort.SelectionLength = 0;
+            this.txtProxyPort.SelectionStart = 0;
+            this.txtProxyPort.ShortcutsEnabled = true;
+            this.txtProxyPort.Size = new System.Drawing.Size(120, 27);
+            this.txtProxyPort.TabIndex = 37;
+            this.txtProxyPort.UseSelectable = true;
+            this.txtProxyPort.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtProxyPort.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.enterOnlyDigitInTextBox_KeyPress);
+            this.txtProxyPort.TextChanged += new System.EventHandler(this.proxyInfoChanged_TextChanged);
+            // 
+            // chkUseProxyLoginRequired
+            // 
+            this.chkUseProxyLoginRequired.AutoSize = true;
+            this.chkUseProxyLoginRequired.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkUseProxyLoginRequired.Enabled = false;
+            this.chkUseProxyLoginRequired.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkUseProxyLoginRequired.Location = new System.Drawing.Point(23, 130);
+            this.chkUseProxyLoginRequired.Name = "chkUseProxyLoginRequired";
+            this.chkUseProxyLoginRequired.Size = new System.Drawing.Size(266, 15);
+            this.chkUseProxyLoginRequired.TabIndex = 2;
+            this.chkUseProxyLoginRequired.Text = "Enable Proxy authentication";
+            this.chkUseProxyLoginRequired.UseSelectable = true;
+            this.chkUseProxyLoginRequired.UseCustomForeColor = true;
+            this.chkUseProxyLoginRequired.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkUseProxyLoginRequired.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxyLoginRequired.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkUseProxyLoginRequired.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxyLoginRequired.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // lblProxyUsername
+            // 
+            this.lblProxyUsername.AutoSize = true;
+            this.lblProxyUsername.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProxyUsername.Location = new System.Drawing.Point(27, 160);
+            this.lblProxyUsername.Name = "lblProxyUsername";
+            this.lblProxyUsername.Size = new System.Drawing.Size(100, 19);
+            this.lblProxyUsername.TabIndex = 27;
+            this.lblProxyUsername.Text = "User name";
+            // 
+            // lblProxyPassword
+            // 
+            this.lblProxyPassword.AutoSize = true;
+            this.lblProxyPassword.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblProxyPassword.Location = new System.Drawing.Point(27, 220);
+            this.lblProxyPassword.Name = "lblProxyPassword";
+            this.lblProxyPassword.Size = new System.Drawing.Size(100, 19);
+            this.lblProxyPassword.TabIndex = 27;
+            this.lblProxyPassword.Text = "Password";
+            // 
+            // txtProxyUsername
+            // 
+            this.txtProxyUsername.CustomButton.Image = null;
+            this.txtProxyUsername.CustomButton.Location = new System.Drawing.Point(369, 1);
+            this.txtProxyUsername.CustomButton.Name = "";
+            this.txtProxyUsername.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.txtProxyUsername.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtProxyUsername.CustomButton.TabIndex = 1;
+            this.txtProxyUsername.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtProxyUsername.CustomButton.UseSelectable = true;
+            this.txtProxyUsername.CustomButton.Visible = false;
+            this.txtProxyUsername.Enabled = false;
+            this.txtProxyUsername.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtProxyUsername.Lines = new string[0];
+            this.txtProxyUsername.Location = new System.Drawing.Point(30, 185);
+            this.txtProxyUsername.Margin = new System.Windows.Forms.Padding(2);
+            this.txtProxyUsername.MaxLength = 32767;
+            this.txtProxyUsername.Name = "txtProxyUsername";
+            this.txtProxyUsername.PasswordChar = '\0';
+            this.txtProxyUsername.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtProxyUsername.SelectedText = "";
+            this.txtProxyUsername.SelectionLength = 0;
+            this.txtProxyUsername.SelectionStart = 0;
+            this.txtProxyUsername.ShortcutsEnabled = true;
+            this.txtProxyUsername.Size = new System.Drawing.Size(275, 27);
+            this.txtProxyUsername.TabIndex = 37;
+            this.txtProxyUsername.UseSelectable = true;
+            this.txtProxyUsername.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtProxyUsername.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtProxyUsername.TextChanged += new System.EventHandler(this.proxyInfoChanged_TextChanged);
+            // 
+            // txtProxyPassword
+            // 
+            this.txtProxyPassword.CustomButton.Image = null;
+            this.txtProxyPassword.CustomButton.Location = new System.Drawing.Point(369, 1);
+            this.txtProxyPassword.CustomButton.Name = "";
+            this.txtProxyPassword.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.txtProxyPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtProxyPassword.CustomButton.TabIndex = 1;
+            this.txtProxyPassword.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtProxyPassword.CustomButton.UseSelectable = true;
+            this.txtProxyPassword.CustomButton.Visible = false;
+            this.txtProxyPassword.Enabled = false;
+            this.txtProxyPassword.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtProxyPassword.Lines = new string[0];
+            this.txtProxyPassword.Location = new System.Drawing.Point(30, 245);
+            this.txtProxyPassword.Margin = new System.Windows.Forms.Padding(2);
+            this.txtProxyPassword.MaxLength = 32767;
+            this.txtProxyPassword.Name = "txtProxyPassword";
+            this.txtProxyPassword.PasswordChar = '•';
+            this.txtProxyPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtProxyPassword.SelectedText = "";
+            this.txtProxyPassword.SelectionLength = 0;
+            this.txtProxyPassword.SelectionStart = 0;
+            this.txtProxyPassword.ShortcutsEnabled = true;
+            this.txtProxyPassword.Size = new System.Drawing.Size(275, 27);
+            this.txtProxyPassword.TabIndex = 37;
+            this.txtProxyPassword.UseSelectable = true;
+            this.txtProxyPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtProxyPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtProxyPassword.TextChanged += new System.EventHandler(this.proxyInfoChanged_TextChanged);
+            // 
+            // btnProxyTestConnection
+            // 
+            this.btnProxyTestConnection.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnProxyTestConnection.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnProxyTestConnection.Enabled = false;
+            this.btnProxyTestConnection.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnProxyTestConnection.Location = new System.Drawing.Point(15, 310);
+            this.btnProxyTestConnection.Name = "btnProxyTestConnection";
+            this.btnProxyTestConnection.Size = new System.Drawing.Size(160, 29);
+            this.btnProxyTestConnection.TabIndex = 7;
+            this.btnProxyTestConnection.Text = "Test Proxy Connection";
+            this.btnProxyTestConnection.UseSelectable = true;
+            this.btnProxyTestConnection.Click += new System.EventHandler(this.btnTestProxyConnection_Click);
+            // 
+            // mpsProxySpinner
+            // 
+            this.mpsProxySpinner.BackColor = System.Drawing.Color.White;
+            this.mpsProxySpinner.Location = new System.Drawing.Point(190, 310);
+            this.mpsProxySpinner.Margin = new System.Windows.Forms.Padding(0);
+            this.mpsProxySpinner.Maximum = 100;
+            this.mpsProxySpinner.MaximumSize = new System.Drawing.Size(28, 28);
+            this.mpsProxySpinner.MinimumSize = new System.Drawing.Size(28, 28);
+            this.mpsProxySpinner.Name = "mpsProxySpinner";
+            this.mpsProxySpinner.Size = new System.Drawing.Size(28, 28);
+            this.mpsProxySpinner.Speed = 2F;
+            this.mpsProxySpinner.Style = MetroFramework.MetroColorStyle.Teal;
+            this.mpsProxySpinner.TabIndex = 4;
+            this.mpsProxySpinner.UseCustomBackColor = true;
+            this.mpsProxySpinner.UseSelectable = true;
+            this.mpsProxySpinner.Value = 85;
+            this.mpsProxySpinner.Visible = false;
+            // 
+            // picProxyTextResult
+            // 
+            this.picProxyTextResult.Image = global::FallGuysStats.Properties.Resources.checkmark_icon;
+            this.picProxyTextResult.Location = new System.Drawing.Point(190, 310);
+            this.picProxyTextResult.Name = "picProxyTextResult";
+            this.picProxyTextResult.Size = new System.Drawing.Size(29, 29);
+            this.picProxyTextResult.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picProxyTextResult.TabIndex = 39;
+            this.picProxyTextResult.TabStop = false;
+            this.picProxyTextResult.Visible = false;
+            // 
             // tileProxy
             // 
             this.tileProxy.ActiveControl = null;
@@ -1982,7 +2269,6 @@
             this.tileProxy.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.tileProxy.UseSelectable = true;
             this.tileProxy.Click += new System.EventHandler(this.ChangeTab);
-            this.tileProxy.Visible = false;
             // 
             // Settings
             // 
@@ -2002,6 +2288,7 @@
             this.Controls.Add(this.panelOverlay);
             this.Controls.Add(this.panelFallGuys);
             this.Controls.Add(this.panelFallalytics);
+            this.Controls.Add(this.panelProxy);
             this.Controls.Add(this.panelAbout);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -2039,10 +2326,12 @@
             this.panelOverlay.PerformLayout();
             this.panelFallGuys.ResumeLayout(false);
             this.panelFallGuys.PerformLayout();
-            this.panelAbout.ResumeLayout(false);
-            this.panelAbout.PerformLayout();
             this.panelFallalytics.ResumeLayout(false);
             this.panelFallalytics.PerformLayout();
+            this.panelProxy.ResumeLayout(false);
+            this.panelProxy.PerformLayout();
+            this.panelAbout.ResumeLayout(false);
+            this.panelAbout.PerformLayout();
             this.ResumeLayout(false);
         }
 
@@ -2166,6 +2455,20 @@
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsWeeklyCrownLeague;
         private MetroFramework.Controls.MetroCheckBox chkFallalyticsReporting;
         private MetroFramework.Controls.MetroTile tileFallalytics;
+        private MetroFramework.Controls.MetroPanel panelProxy;
+        private MetroFramework.Controls.MetroCheckBox chkUseProxy;
+        private MetroFramework.Controls.MetroLabel lblProxyAddress;
+        private MetroFramework.Controls.MetroLabel lblProxyPort;
+        private MetroFramework.Controls.MetroCheckBox chkUseProxyLoginRequired;
+        private MetroFramework.Controls.MetroTextBox txtProxyAddress;
+        private MetroFramework.Controls.MetroTextBox txtProxyPort;
+        private MetroFramework.Controls.MetroLabel lblProxyUsername;
+        private MetroFramework.Controls.MetroLabel lblProxyPassword;
+        private MetroFramework.Controls.MetroTextBox txtProxyUsername;
+        private MetroFramework.Controls.MetroTextBox txtProxyPassword;
+        private MetroFramework.Controls.MetroButton btnProxyTestConnection;
+        private MetroFramework.Controls.MetroProgressSpinner mpsProxySpinner;
+        private System.Windows.Forms.PictureBox picProxyTextResult;
         private MetroFramework.Controls.MetroTile tileProxy;
     }
 }

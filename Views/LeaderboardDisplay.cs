@@ -1827,7 +1827,7 @@ namespace FallGuysStats {
                             this.lblPagingInfo.Text = $@"📆 {Utils.GetWeekString(this.StatsForm.weeklyCrownCurrentYear, this.StatsForm.weeklyCrownCurrentWeek)}";
                             int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && int.TryParse(r.onlineServiceType, out int type) && type == (int)Stats.OnlineServiceType) ?? -1;
                             this.myWeeklyCrownRank = index + 1;
-                            this.mlMyRank.Visible = index > 0;
+                            this.mlMyRank.Visible = this.myWeeklyCrownRank > 0;
                             if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
                                 this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
                                 int displayedRowCount = this.gridWeeklyCrown.DisplayedRowCount(false);
@@ -1886,7 +1886,7 @@ namespace FallGuysStats {
                 int index = this.weeklyCrownList?.FindIndex(r => string.Equals(Stats.OnlineServiceNickname, r.onlineServiceNickname) && (int)Stats.OnlineServiceType == int.Parse(r.onlineServiceType)) ?? -1;
                 this.myWeeklyCrownRank = index + 1;
                 this.mlVisitFallalytics.Location = new Point(this.Width - this.mlVisitFallalytics.Width - 5, index != -1 ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : (Stats.CurrentLanguage == Language.French || Stats.CurrentLanguage == Language.Japanese ? this.mlMyRank.Top - this.mlVisitFallalytics.Height - 3 : this.mtcTabControl.Top + 5));
-                this.mlMyRank.Visible = index > 0;
+                this.mlMyRank.Visible = this.myWeeklyCrownRank > 0;
                 if (this.mtcTabControl.SelectedIndex == 3 && index != -1) {
                     this.mlMyRank.Text = $@"{Utils.AppendOrdinal(this.myWeeklyCrownRank)} {Stats.OnlineServiceNickname}";
                     if (this.myWeeklyCrownRank == 1) {

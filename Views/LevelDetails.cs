@@ -1337,6 +1337,7 @@ namespace FallGuysStats {
                 case "switch": return Multilingual.GetWord("level_detail_playersSw");
                 case "win":
                 case "pc_egs":
+                case "pc_steam":
                     return Multilingual.GetWord("level_detail_playersPc");
                 default: return platform;
             }
