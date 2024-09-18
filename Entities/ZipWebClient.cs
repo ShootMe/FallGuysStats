@@ -17,6 +17,19 @@ namespace FallGuysStats {
             HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
             request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            
+            if (Stats.UseWebProxy && Stats.SucceededTestProxy) {
+                WebProxy webproxy = new WebProxy($"{Stats.ProxyAddress}:{(!string.IsNullOrEmpty(Stats.ProxyPort) ? Stats.ProxyPort : "80")}", false) {
+                    BypassProxyOnLocal = false
+                };
+
+                if (Stats.EnableProxyAuthentication && !string.IsNullOrEmpty(Stats.ProxyUsername) && !string.IsNullOrEmpty(Stats.ProxyPassword)) {
+                    webproxy.Credentials = new NetworkCredential(Stats.ProxyUsername, Stats.ProxyPassword);
+                }
+                
+                request.Proxy = webproxy;
+            }
+            
             return request;
         }
     }

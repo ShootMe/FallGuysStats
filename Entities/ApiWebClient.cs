@@ -24,7 +24,7 @@ namespace FallGuysStats {
                     BypassProxyOnLocal = false
                 };
 
-                if (Stats.EnableProxyAuthentication) {
+                if (Stats.EnableProxyAuthentication && !string.IsNullOrEmpty(Stats.ProxyUsername) && !string.IsNullOrEmpty(Stats.ProxyPassword)) {
                     webproxy.Credentials = new NetworkCredential(Stats.ProxyUsername, Stats.ProxyPassword);
                 }
                 
