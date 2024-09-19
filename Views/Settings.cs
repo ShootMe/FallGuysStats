@@ -1154,6 +1154,17 @@ namespace FallGuysStats {
             this.lblFallalyticsDesc.Text = Multilingual.GetWord("settings_fallalytics_desc");
             this.linkFallalytics.Text = Multilingual.GetWord("settings_visit_fallalytics");
             
+            this.chkUseProxy.Text = Multilingual.GetWord("settings_use_a_proxy_server");
+            this.lblProxyAddress.Text = Multilingual.GetWord("settings_proxy_address");
+            this.lblProxyPort.Text = Multilingual.GetWord("settings_proxy_port");
+            this.chkUseProxyLoginRequired.Text = Multilingual.GetWord("settings_enable_proxy_authentication");
+            this.lblProxyUsername.Text = Multilingual.GetWord("settings_proxy_user_name");
+            this.lblProxyPassword.Text = Multilingual.GetWord("settings_proxy_password");
+            this.btnProxyTestConnection.Text = Multilingual.GetWord("settings_test_proxy_connection");
+            this.btnProxyTestConnection.Width = TextRenderer.MeasureText(this.btnProxyTestConnection.Text, this.btnProxyTestConnection.Font).Width + 30;
+            this.mpsProxySpinner.Left = this.btnProxyTestConnection.Right + 10;
+            this.picProxyTextResult.Left = this.btnProxyTestConnection.Right + 10;
+            
             this.fglink1.Text = Multilingual.GetWord("settings_github");
             this.fglink2.Text = $"{Multilingual.GetWord("settings_issue_traker")} && {Multilingual.GetWord("settings_translation")}";
             this.btnCheckUpdates.Text = Multilingual.GetWord("main_update");
