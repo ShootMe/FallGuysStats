@@ -4919,7 +4919,7 @@ namespace FallGuysStats {
                 RoundInfo info = roundInfo[i];
                 TimeSpan finishTime = info.Finish.GetValueOrDefault(info.Start) - info.Start;
                 bool hasFinishTime = finishTime.TotalSeconds > 1.1;
-                bool hasLevelDetails = this.StatLookup.TryGetValue(info.UseShareCode ? info.ShowNameId : info.Name, out LevelStats levelDetails);
+                bool hasLevelDetails = this.StatLookup.ContainsKey(info.UseShareCode ? info.ShowNameId : info.Name);
                 bool isCurrentLevel = false;
                 if (useShareCode) {
                     isCurrentLevel = true;
@@ -5004,7 +5004,7 @@ namespace FallGuysStats {
                     }
                 }
 
-                bool isFinalRound = useShareCode ? (info.IsFinal || info.Crown) : ((levelDetails.IsFinal || info.Crown) && !endRound.PrivateLobby);
+                bool isFinalRound = useShareCode ? (info.IsFinal || info.Crown) : ((info.IsFinal || info.Crown) && !endRound.PrivateLobby);
 
                 if (ReferenceEquals(info, endRound) && isFinalRound) {
                     summary.CurrentFinalStreak++;
@@ -6985,7 +6985,7 @@ namespace FallGuysStats {
                 }
                 
                 this.overlay.ResetBackgroundImage();
-
+                
                 this.loadingExisting = true;
                 this.LogFile_OnParsedLogLines(rounds);
                 this.loadingExisting = false;
@@ -7216,6 +7216,7 @@ namespace FallGuysStats {
                         this.Invalidate();
                         
                         IsDisplayOverlayPing = this.CurrentSettings.OverlayVisible && !this.CurrentSettings.HideRoundInfo && (this.CurrentSettings.SwitchBetweenPlayers || this.CurrentSettings.OnlyShowPing);
+                        IsOverlayRoundInfoNeedRefresh = true;
                         
                         if (string.IsNullOrEmpty(lastLogPath) != string.IsNullOrEmpty(this.CurrentSettings.LogPath) ||
                             (!string.IsNullOrEmpty(lastLogPath) && string.Equals(lastLogPath, this.CurrentSettings.LogPath, StringComparison.OrdinalIgnoreCase))) {
