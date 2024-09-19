@@ -1475,8 +1475,10 @@ namespace FallGuysStats {
                         return showCompare != 0 ? showCompare : roundCompare;
                     case "roundIcon":
                     case "round":
-                        roundCompare = String.Compare(l1.Name, l2.Name, StringComparison.Ordinal);
-                        return roundCompare != 0 ? roundCompare : showCompare;
+                        bool isCreative1 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(one.show, one.round), out LevelStats ll1) && ll1.IsCreative;
+                        bool isCreative2 = this.StatsForm.StatLookup.TryGetValue(this.ReplaceLevelIdInShuffleShow(two.show, two.round), out LevelStats ll2) && ll2.IsCreative;
+                        int result = sortOrder == SortOrder.Descending ? isCreative2.CompareTo(isCreative1) : isCreative1.CompareTo(isCreative2);
+                        return result == 0 ? string.Compare(ll1?.Name ?? one.roundDisplayName, ll2?.Name ?? two.roundDisplayName, StringComparison.OrdinalIgnoreCase) : result;
                     case "medal":
                         double onePercentage = ((double)(one.index - 1) / (Math.Min(1000, one.roundTotal) - 1)) * 100;
                         double twoPercentage = ((double)(two.index - 1) / (Math.Min(1000, two.roundTotal) - 1)) * 100;
