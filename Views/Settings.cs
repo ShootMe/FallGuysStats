@@ -875,6 +875,12 @@ namespace FallGuysStats {
                 return;
             }
             ((MetroButton)sender).Enabled = false;
+            this.chkUseProxy.Enabled = false;
+            this.txtProxyAddress.Enabled = false;
+            this.txtProxyPort.Enabled = false;
+            this.chkUseProxyLoginRequired.Enabled = false;
+            this.txtProxyUsername.Enabled = false;
+            this.txtProxyPassword.Enabled = false;
             
             WebProxy webproxy = new WebProxy($"{this.txtProxyAddress.Text}:{(!string.IsNullOrEmpty(this.txtProxyPort.Text) ? this.txtProxyPort.Text : "80")}", false) {
                 BypassProxyOnLocal = false
@@ -883,6 +889,12 @@ namespace FallGuysStats {
             if (this.chkUseProxyLoginRequired.Checked) {
                 if (string.IsNullOrEmpty(this.txtProxyUsername.Text) || string.IsNullOrEmpty(this.txtProxyPassword.Text)) {
                     ((MetroButton)sender).Enabled = true;
+                    this.chkUseProxy.Enabled = true;
+                    this.txtProxyAddress.Enabled = this.chkUseProxy.Checked;
+                    this.txtProxyPort.Enabled = this.chkUseProxy.Checked;
+                    this.chkUseProxyLoginRequired.Enabled = this.chkUseProxy.Checked;
+                    this.txtProxyUsername.Enabled = this.chkUseProxyLoginRequired.Checked;
+                    this.txtProxyPassword.Enabled = this.chkUseProxyLoginRequired.Checked;
                     return;
                 }
                 webproxy.Credentials = new NetworkCredential(this.txtProxyUsername.Text, this.txtProxyPassword.Text);
@@ -903,6 +915,12 @@ namespace FallGuysStats {
                             this.picProxyTextResult.Image = isOk ? Properties.Resources.checkmark_icon : Properties.Resources.uncheckmark_icon;
                             this.picProxyTextResult.Visible = true;
                             ((MetroButton)sender).Enabled = true;
+                            this.chkUseProxy.Enabled = true;
+                            this.txtProxyAddress.Enabled = this.chkUseProxy.Checked;
+                            this.txtProxyPort.Enabled = this.chkUseProxy.Checked;
+                            this.chkUseProxyLoginRequired.Enabled = this.chkUseProxy.Checked;
+                            this.txtProxyUsername.Enabled = this.chkUseProxyLoginRequired.Checked;
+                            this.txtProxyPassword.Enabled = this.chkUseProxyLoginRequired.Checked;
                         });
                     }
                 } catch {
@@ -912,6 +930,12 @@ namespace FallGuysStats {
                         this.picProxyTextResult.Image = Properties.Resources.uncheckmark_icon;
                         this.picProxyTextResult.Visible = true;
                         ((MetroButton)sender).Enabled = true;
+                        this.chkUseProxy.Enabled = true;
+                        this.txtProxyAddress.Enabled = this.chkUseProxy.Checked;
+                        this.txtProxyPort.Enabled = this.chkUseProxy.Checked;
+                        this.chkUseProxyLoginRequired.Enabled = this.chkUseProxy.Checked;
+                        this.txtProxyUsername.Enabled = this.chkUseProxyLoginRequired.Checked;
+                        this.txtProxyPassword.Enabled = this.chkUseProxyLoginRequired.Checked;
                     });
                 }
             });
