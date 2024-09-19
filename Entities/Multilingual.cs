@@ -330,6 +330,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "Released the FALLALYTICS Speedrun Leaderboard" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "Weekly Crown League is now open on Fallalytics" },
                             { "message_changelog_banning_users_using_hacking_programs", "Banning users using hacking programs" },
+                            { "message_changelog_add_proxy_settings", "Add proxy settings" },
                             
                             { "numeric_suffix", ""},
                             { "message_question_mark", "?" },
@@ -872,6 +873,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "Disponibilité du classement des meilleurs temps sur FALLALYTICS" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "La Ligue de la Couronne hebdomadaire est désormais ouverte sur FALLALYTICS" },
                             { "message_changelog_banning_users_using_hacking_programs", "Bannissement des utilisateurs ayant utilisés des programmes de triche" },
+                            { "message_changelog_add_proxy_settings", "Ajouter des paramètres de proxy" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", " ?" },
@@ -1414,6 +1416,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "폴라리틱스 스피드런 순위표 출시" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "폴라리틱스 주간 크라운 리그 출시" },
                             { "message_changelog_banning_users_using_hacking_programs", "해킹 프로그램 사용자 차단" },
+                            { "message_changelog_add_proxy_settings", "프록시 설정 추가" },
 
                             { "numeric_suffix", "개" },
                             { "message_question_mark", ""},
@@ -1956,6 +1959,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "FALLALYTICSスピードランリーダーボード発売" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "ウィークリー クラウン リーグが FALLALYTICS で公開されました。" },
                             { "message_changelog_banning_users_using_hacking_programs", "ハッキングプログラムのユーザーブロック" },
+                            { "message_changelog_add_proxy_settings", "プロキシ設定を追加する" },
 
                             { "numeric_suffix", "つ" },
                             { "message_question_mark", ""},
@@ -2498,6 +2502,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "发布《FALLALYTICS》竞速排行榜" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每周皇冠联赛现已在 FALLALYTICS 上开放。" },
                             { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程序的用户。" },
+                            { "message_changelog_add_proxy_settings", "添加代理设置" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
@@ -3040,6 +3045,7 @@ namespace FallGuysStats {
                             { "message_changelog_released_the_fallalytics_speedrun_leaderboard", "發布《FALLALYTICS》競速排行榜" },
                             { "message_changelog_weekly_crown_league_is_now_open_on_fallalytics", "每週皇冠聯賽現已在 FALLALYTICS 上開放。" },
                             { "message_changelog_banning_users_using_hacking_programs", "禁止使用黑客程式的用戶。" },
+                            { "message_changelog_add_proxy_settings", "新增代理設定" },
 
                             { "numeric_suffix", ""},
                             { "message_question_mark", "？" },
@@ -3053,13 +3059,13 @@ namespace FallGuysStats {
                             { "settings_launch_fallguys", "啟動糖豆人" },
                             { "settings_fallalytics", "Fallalytics" },
                             { "settings_proxy_settings", "代理設定" },
-                            { "settings_use_a_proxy_server", "使用代理服务器" },
+                            { "settings_use_a_proxy_server", "使用代理伺服器" },
                             { "settings_proxy_address", "地址" },
                             { "settings_proxy_port", "港口" },
-                            { "settings_enable_proxy_authentication", "启用代理身份验证" },
-                            { "settings_proxy_user_name", "用户名" },
-                            { "settings_proxy_password", "密码" },
-                            { "settings_test_proxy_connection", "v测试代理连接" },
+                            { "settings_enable_proxy_authentication", "啟用代理身份驗證" },
+                            { "settings_proxy_user_name", "使用者名稱" },
+                            { "settings_proxy_password", "密碼" },
+                            { "settings_test_proxy_connection", "測試代理連接" },
                             { "settings_enter_fallalytics_api_key", "(可選）輸入Fallalytics的API密鑰" },
                             { "settings_sends_info_about_rounds_played_to_fallalytics", "將比賽回合和個人最佳成績的資訊發送至 Fallalytics" },
                             { "settings_join_a_weekly_crown_league", "參加每週一次的皇冠聯賽" },
