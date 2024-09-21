@@ -22,8 +22,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Settings));
             // this.lblLogPath = new MetroFramework.Controls.MetroLabel();
             this.lblLogPathNote = new MetroFramework.Controls.MetroLabel();
@@ -82,6 +81,11 @@
             this.picPlatformCheck = new System.Windows.Forms.PictureBox();
             this.picEpicGames = new System.Windows.Forms.PictureBox();
             this.picSteam = new System.Windows.Forms.PictureBox();
+            this.cboIpGeolocationService = new MetroFramework.Controls.MetroComboBox();
+            this.lblIpGeolocationService = new MetroFramework.Controls.MetroLabel();
+            this.lblIPinfoToken = new MetroFramework.Controls.MetroLabel();
+            this.txtIPinfoToken = new MetroFramework.Controls.MetroTextBox();
+            this.linkIPinfoToken = new MetroFramework.Controls.MetroLink();
             this.cboMultilingual = new FallGuysStats.ImageComboBox();
             this.lblTheme = new MetroFramework.Controls.MetroLabel();
             this.chkChangeHoopsieLegends = new MetroFramework.Controls.MetroCheckBox();
@@ -174,6 +178,7 @@
             this.panelFallGuys.SuspendLayout();
             this.panelAbout.SuspendLayout();
             this.panelFallalytics.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picProxyTextResult)).BeginInit();
             this.panelProxy.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -413,8 +418,8 @@
             this.chkHidePercentages.Size = new System.Drawing.Size(130, 19);
             this.chkHidePercentages.TabIndex = 3;
             this.chkHidePercentages.Text = "Hide Percentages";
-            this.chkHidePercentages.UseSelectable = true;
             this.chkHidePercentages.UseCustomForeColor = true;
+            this.chkHidePercentages.UseSelectable = true;
             this.chkHidePercentages.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkHidePercentages.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkHidePercentages.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -431,8 +436,8 @@
             this.chkHideWinsInfo.Size = new System.Drawing.Size(114, 19);
             this.chkHideWinsInfo.TabIndex = 0;
             this.chkHideWinsInfo.Text = "Hide Wins info";
-            this.chkHideWinsInfo.UseSelectable = true;
             this.chkHideWinsInfo.UseCustomForeColor = true;
+            this.chkHideWinsInfo.UseSelectable = true;
             this.chkHideWinsInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkHideWinsInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkHideWinsInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -505,8 +510,8 @@
             this.chkFlipped.Size = new System.Drawing.Size(167, 19);
             this.chkFlipped.TabIndex = 24;
             this.chkFlipped.Text = "Flip display horizontally";
-            this.chkFlipped.UseSelectable = true;
             this.chkFlipped.UseCustomForeColor = true;
+            this.chkFlipped.UseSelectable = true;
             this.chkFlipped.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkFlipped.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkFlipped.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -523,8 +528,8 @@
             this.chkShowTabs.Size = new System.Drawing.Size(233, 19);
             this.chkShowTabs.TabIndex = 4;
             this.chkShowTabs.Text = "Show Tab for current filter / profile";
-            this.chkShowTabs.UseSelectable = true;
             this.chkShowTabs.UseCustomForeColor = true;
+            this.chkShowTabs.UseSelectable = true;
             this.chkShowTabs.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkShowTabs.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkShowTabs.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -541,8 +546,8 @@
             this.chkHideTimeInfo.Size = new System.Drawing.Size(113, 19);
             this.chkHideTimeInfo.TabIndex = 2;
             this.chkHideTimeInfo.Text = "Hide Time info";
-            this.chkHideTimeInfo.UseSelectable = true;
             this.chkHideTimeInfo.UseCustomForeColor = true;
+            this.chkHideTimeInfo.UseSelectable = true;
             this.chkHideTimeInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkHideTimeInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkHideTimeInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -559,8 +564,8 @@
             this.chkHideRoundInfo.Size = new System.Drawing.Size(124, 19);
             this.chkHideRoundInfo.TabIndex = 1;
             this.chkHideRoundInfo.Text = "Hide Round info";
-            this.chkHideRoundInfo.UseSelectable = true;
             this.chkHideRoundInfo.UseCustomForeColor = true;
+            this.chkHideRoundInfo.UseSelectable = true;
             this.chkHideRoundInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkHideRoundInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkHideRoundInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -643,8 +648,8 @@
             this.chkOverlayOnTop.Size = new System.Drawing.Size(148, 19);
             this.chkOverlayOnTop.TabIndex = 25;
             this.chkOverlayOnTop.Text = "Always show on top";
-            this.chkOverlayOnTop.UseSelectable = true;
             this.chkOverlayOnTop.UseCustomForeColor = true;
+            this.chkOverlayOnTop.UseSelectable = true;
             this.chkOverlayOnTop.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkOverlayOnTop.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkOverlayOnTop.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -661,8 +666,8 @@
             this.chkPlayerByConsoleType.Size = new System.Drawing.Size(234, 19);
             this.chkPlayerByConsoleType.TabIndex = 26;
             this.chkPlayerByConsoleType.Text = "Display the Player by console type";
-            this.chkPlayerByConsoleType.UseSelectable = true;
             this.chkPlayerByConsoleType.UseCustomForeColor = true;
+            this.chkPlayerByConsoleType.UseSelectable = true;
             this.chkPlayerByConsoleType.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkPlayerByConsoleType.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkPlayerByConsoleType.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -679,8 +684,8 @@
             this.chkColorByRoundType.Size = new System.Drawing.Size(269, 19);
             this.chkColorByRoundType.TabIndex = 25;
             this.chkColorByRoundType.Text = "Color round name based on round type";
-            this.chkColorByRoundType.UseSelectable = true;
             this.chkColorByRoundType.UseCustomForeColor = true;
+            this.chkColorByRoundType.UseSelectable = true;
             this.chkColorByRoundType.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkColorByRoundType.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkColorByRoundType.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -697,8 +702,8 @@
             this.chkAutoChangeProfile.Size = new System.Drawing.Size(255, 19);
             this.chkAutoChangeProfile.TabIndex = 26;
             this.chkAutoChangeProfile.Text = "Automatically change to linked profile";
-            this.chkAutoChangeProfile.UseSelectable = true;
             this.chkAutoChangeProfile.UseCustomForeColor = true;
+            this.chkAutoChangeProfile.UseSelectable = true;
             this.chkAutoChangeProfile.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkAutoChangeProfile.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkAutoChangeProfile.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -715,8 +720,8 @@
             this.chkShadeTheFlagImage.Size = new System.Drawing.Size(153, 19);
             this.chkShadeTheFlagImage.TabIndex = 27;
             this.chkShadeTheFlagImage.Text = "Shade the flag image";
-            this.chkShadeTheFlagImage.UseSelectable = true;
             this.chkShadeTheFlagImage.UseCustomForeColor = true;
+            this.chkShadeTheFlagImage.UseSelectable = true;
             this.chkShadeTheFlagImage.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkShadeTheFlagImage.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkShadeTheFlagImage.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -733,8 +738,8 @@
             this.chkDisplayCurrentTime.Size = new System.Drawing.Size(255, 19);
             this.chkDisplayCurrentTime.TabIndex = 28;
             this.chkDisplayCurrentTime.Text = "Display the current time while waiting";
-            this.chkDisplayCurrentTime.UseSelectable = true;
             this.chkDisplayCurrentTime.UseCustomForeColor = true;
+            this.chkDisplayCurrentTime.UseSelectable = true;
             this.chkDisplayCurrentTime.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkDisplayCurrentTime.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkDisplayCurrentTime.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -751,15 +756,15 @@
             this.chkDisplayGamePlayedInfo.Size = new System.Drawing.Size(255, 19);
             this.chkDisplayGamePlayedInfo.TabIndex = 29;
             this.chkDisplayGamePlayedInfo.Text = "Display game played information at the end of a round";
-            this.chkDisplayGamePlayedInfo.UseSelectable = true;
             this.chkDisplayGamePlayedInfo.UseCustomForeColor = true;
+            this.chkDisplayGamePlayedInfo.UseSelectable = true;
             this.chkDisplayGamePlayedInfo.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkDisplayGamePlayedInfo.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkDisplayGamePlayedInfo.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkDisplayGamePlayedInfo.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkDisplayGamePlayedInfo.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
-            // chkCountPlayers
+            // chkCountPlayersDuringTheLevel
             // 
             this.chkCountPlayersDuringTheLevel.AutoSize = true;
             this.chkCountPlayersDuringTheLevel.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -769,8 +774,8 @@
             this.chkCountPlayersDuringTheLevel.Size = new System.Drawing.Size(255, 19);
             this.chkCountPlayersDuringTheLevel.TabIndex = 30;
             this.chkCountPlayersDuringTheLevel.Text = "Count players who pass or are eliminated during the game";
-            this.chkCountPlayersDuringTheLevel.UseSelectable = true;
             this.chkCountPlayersDuringTheLevel.UseCustomForeColor = true;
+            this.chkCountPlayersDuringTheLevel.UseSelectable = true;
             this.chkCountPlayersDuringTheLevel.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkCountPlayersDuringTheLevel.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkCountPlayersDuringTheLevel.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -984,15 +989,87 @@
             this.platformToolTip.SetToolTip(this.picSteam, "Steam");
             this.picSteam.Click += new System.EventHandler(this.launchPlatform_Click);
             // 
-            // picLanguageSelection
+            // cboIpGeolocationService
             // 
-            this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
-            this.picLanguageSelection.Location = new System.Drawing.Point(15, 412);
-            this.picLanguageSelection.Name = "picLanguageSelection";
-            this.picLanguageSelection.Size = new System.Drawing.Size(30, 30);
-            this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picLanguageSelection.TabIndex = 39;
-            this.picLanguageSelection.TabStop = false;
+            this.cboIpGeolocationService.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cboIpGeolocationService.FormattingEnabled = true;
+            this.cboIpGeolocationService.IntegralHeight = false;
+            this.cboIpGeolocationService.ItemHeight = 23;
+            this.cboIpGeolocationService.Items.AddRange(new object[] { "Auto", "IPinfo.io" });
+            this.cboIpGeolocationService.Location = new System.Drawing.Point(462, 370);
+            this.cboIpGeolocationService.Name = "cboIpGeolocationService";
+            this.cboIpGeolocationService.Size = new System.Drawing.Size(84, 29);
+            this.cboIpGeolocationService.TabIndex = 36;
+            this.cboIpGeolocationService.UseSelectable = true;
+            this.cboIpGeolocationService.SelectedIndexChanged += new System.EventHandler(this.cboIpGeolocationService_SelectedIndexChanged);
+            // 
+            // lblIpGeolocationService
+            // 
+            this.lblIpGeolocationService.AutoSize = true;
+            this.lblIpGeolocationService.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblIpGeolocationService.Location = new System.Drawing.Point(258, 375);
+            this.lblIpGeolocationService.Name = "lblIpGeolocationService";
+            this.lblIpGeolocationService.Size = new System.Drawing.Size(203, 19);
+            this.lblIpGeolocationService.TabIndex = 40;
+            this.lblIpGeolocationService.Text = "Preferred IP geolocation service";
+            // 
+            // lblIPinfoToken
+            // 
+            this.lblIPinfoToken.AutoSize = true;
+            this.lblIPinfoToken.FontWeight = MetroFramework.MetroLabelWeight.Regular;
+            this.lblIPinfoToken.Location = new System.Drawing.Point(414, 415);
+            this.lblIPinfoToken.Name = "lblIPinfoToken";
+            this.lblIPinfoToken.Size = new System.Drawing.Size(45, 19);
+            this.lblIPinfoToken.TabIndex = 44;
+            this.lblIPinfoToken.Text = "Token";
+            this.lblIPinfoToken.Visible = false;
+            // 
+            // txtIPinfoToken
+            // 
+            this.txtIPinfoToken.CustomButton.Image = null;
+            this.txtIPinfoToken.CustomButton.Location = new System.Drawing.Point(202, 1);
+            this.txtIPinfoToken.CustomButton.Name = "";
+            this.txtIPinfoToken.CustomButton.Size = new System.Drawing.Size(23, 23);
+            this.txtIPinfoToken.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtIPinfoToken.CustomButton.TabIndex = 1;
+            this.txtIPinfoToken.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtIPinfoToken.CustomButton.UseSelectable = true;
+            this.txtIPinfoToken.CustomButton.Visible = false;
+            this.txtIPinfoToken.Visible = false;
+            this.txtIPinfoToken.FontSize = MetroFramework.MetroTextBoxSize.Medium;
+            this.txtIPinfoToken.Lines = new string[0];
+            this.txtIPinfoToken.Location = new System.Drawing.Point(462, 412);
+            this.txtIPinfoToken.MaxLength = 32767;
+            this.txtIPinfoToken.Name = "txtIPinfoToken";
+            this.txtIPinfoToken.PasswordChar = '\0';
+            this.txtIPinfoToken.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtIPinfoToken.SelectedText = "";
+            this.txtIPinfoToken.SelectionLength = 0;
+            this.txtIPinfoToken.SelectionStart = 0;
+            this.txtIPinfoToken.ShortcutsEnabled = true;
+            this.txtIPinfoToken.Size = new System.Drawing.Size(180, 23);
+            this.txtIPinfoToken.TabIndex = 48;
+            this.txtIPinfoToken.UseSelectable = true;
+            this.txtIPinfoToken.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtIPinfoToken.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtIPinfoToken.TextChanged += new System.EventHandler(this.IPinfoTokenChanged_TextChanged);
+
+            // 
+            // linkIPinfoToken
+            // 
+            this.linkIPinfoToken.AutoSize = true;
+            this.linkIPinfoToken.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkIPinfoToken.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.linkIPinfoToken.ForeColor = System.Drawing.Color.Black;
+            this.linkIPinfoToken.Visible = false;
+            this.linkIPinfoToken.Location = new System.Drawing.Point(408, 436);
+            this.linkIPinfoToken.Name = "linkIPinfoToken";
+            this.linkIPinfoToken.Size = new System.Drawing.Size(240, 23);
+            this.linkIPinfoToken.TabIndex = 1;
+            this.linkIPinfoToken.Text = "(Create an account to get a token)";
+            this.linkIPinfoToken.UseSelectable = true;
+            this.linkIPinfoToken.UseStyleColors = true;
+            this.linkIPinfoToken.Click += new System.EventHandler(this.link_Click);
             // 
             // cboMultilingual
             // 
@@ -1027,8 +1104,8 @@
             this.chkChangeHoopsieLegends.Size = new System.Drawing.Size(301, 19);
             this.chkChangeHoopsieLegends.TabIndex = 4;
             this.chkChangeHoopsieLegends.Text = "Rename Hoopsie Legends to Hoopsie Heroes";
-            this.chkChangeHoopsieLegends.UseSelectable = true;
             this.chkChangeHoopsieLegends.UseCustomForeColor = true;
+            this.chkChangeHoopsieLegends.UseSelectable = true;
             this.chkChangeHoopsieLegends.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkChangeHoopsieLegends.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkChangeHoopsieLegends.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1059,8 +1136,8 @@
             this.chkAutoUpdate.Size = new System.Drawing.Size(161, 19);
             this.chkAutoUpdate.TabIndex = 4;
             this.chkAutoUpdate.Text = "Auto Update Program";
-            this.chkAutoUpdate.UseSelectable = true;
             this.chkAutoUpdate.UseCustomForeColor = true;
+            this.chkAutoUpdate.UseSelectable = true;
             this.chkAutoUpdate.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkAutoUpdate.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkAutoUpdate.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1077,51 +1154,13 @@
             this.chkSystemTrayIcon.Size = new System.Drawing.Size(176, 19);
             this.chkSystemTrayIcon.TabIndex = 5;
             this.chkSystemTrayIcon.Text = "Use the system tray icon";
-            this.chkSystemTrayIcon.UseSelectable = true;
             this.chkSystemTrayIcon.UseCustomForeColor = true;
+            this.chkSystemTrayIcon.UseSelectable = true;
             this.chkSystemTrayIcon.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkSystemTrayIcon.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkSystemTrayIcon.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkSystemTrayIcon.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkSystemTrayIcon.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
-            // 
-            // chkRecordEscapeDuringAGame
-            // 
-            this.chkRecordEscapeDuringAGame.AutoSize = true;
-            this.chkRecordEscapeDuringAGame.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkRecordEscapeDuringAGame.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkRecordEscapeDuringAGame.Location = new System.Drawing.Point(15, 150);
-            this.chkRecordEscapeDuringAGame.Margin = new System.Windows.Forms.Padding(2);
-            this.chkRecordEscapeDuringAGame.Name = "chkRecordEscapeDuringAGame";
-            this.chkRecordEscapeDuringAGame.Size = new System.Drawing.Size(324, 19);
-            this.chkRecordEscapeDuringAGame.TabIndex = 5;
-            this.chkRecordEscapeDuringAGame.Text = "If you escape during a game, record it as a loss";
-            this.chkRecordEscapeDuringAGame.UseSelectable = true;
-            this.chkRecordEscapeDuringAGame.UseCustomForeColor = true;
-            this.chkRecordEscapeDuringAGame.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
-            this.chkRecordEscapeDuringAGame.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkRecordEscapeDuringAGame.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
-            this.chkRecordEscapeDuringAGame.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkRecordEscapeDuringAGame.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
-            // 
-            // chkNotifyPersonalBest
-            // 
-            this.chkNotifyPersonalBest.AutoSize = true;
-            this.chkNotifyPersonalBest.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkNotifyPersonalBest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkNotifyPersonalBest.Location = new System.Drawing.Point(15, 240);
-            this.chkNotifyPersonalBest.Name = "chkNotifyPersonalBest";
-            this.chkNotifyPersonalBest.Size = new System.Drawing.Size(420, 19);
-            this.chkNotifyPersonalBest.TabIndex = 5;
-            this.chkNotifyPersonalBest.Text = "Windows notification when you break your personal best during a race round";
-            this.chkNotifyPersonalBest.UseSelectable = true;
-            this.chkNotifyPersonalBest.UseCustomForeColor = true;
-            // this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
-            this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
-            this.chkNotifyPersonalBest.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkNotifyPersonalBest.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
-            this.chkNotifyPersonalBest.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkNotifyPersonalBest.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkNotifyServerConnected
             // 
@@ -1133,14 +1172,33 @@
             this.chkNotifyServerConnected.Size = new System.Drawing.Size(420, 19);
             this.chkNotifyServerConnected.TabIndex = 5;
             this.chkNotifyServerConnected.Text = "Windows notification with server name when server is connected";
-            this.chkNotifyServerConnected.UseSelectable = true;
             this.chkNotifyServerConnected.UseCustomForeColor = true;
+            this.chkNotifyServerConnected.UseSelectable = true;
             // this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
             this.chkNotifyServerConnected.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkNotifyServerConnected.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkNotifyServerConnected.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkNotifyServerConnected.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkNotifyServerConnected.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // chkNotifyPersonalBest
+            // 
+            this.chkNotifyPersonalBest.AutoSize = true;
+            this.chkNotifyPersonalBest.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkNotifyPersonalBest.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkNotifyPersonalBest.Location = new System.Drawing.Point(15, 240);
+            this.chkNotifyPersonalBest.Name = "chkNotifyPersonalBest";
+            this.chkNotifyPersonalBest.Size = new System.Drawing.Size(420, 19);
+            this.chkNotifyPersonalBest.TabIndex = 5;
+            this.chkNotifyPersonalBest.Text = "Windows notification when you break your personal best during a race round";
+            this.chkNotifyPersonalBest.UseCustomForeColor = true;
+            this.chkNotifyPersonalBest.UseSelectable = true;
+            // this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.chkNotify_CheckedChanged);
+            this.chkNotifyPersonalBest.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkNotifyPersonalBest.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyPersonalBest.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkNotifyPersonalBest.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkNotifyPersonalBest.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // chkMuteNotificationSounds
             // 
@@ -1152,8 +1210,8 @@
             this.chkMuteNotificationSounds.Size = new System.Drawing.Size(420, 19);
             this.chkMuteNotificationSounds.TabIndex = 5;
             this.chkMuteNotificationSounds.Text = "Mute notification sounds";
-            this.chkMuteNotificationSounds.UseSelectable = true;
             this.chkMuteNotificationSounds.UseCustomForeColor = true;
+            this.chkMuteNotificationSounds.UseSelectable = true;
             this.chkMuteNotificationSounds.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkMuteNotificationSounds.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkMuteNotificationSounds.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1222,13 +1280,13 @@
             this.chkPreventOverlayMouseClicks.AutoSize = true;
             this.chkPreventOverlayMouseClicks.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkPreventOverlayMouseClicks.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15 , 480);
+            this.chkPreventOverlayMouseClicks.Location = new System.Drawing.Point(15, 480);
             this.chkPreventOverlayMouseClicks.Name = "chkPreventOverlayMouseClicks";
             this.chkPreventOverlayMouseClicks.Size = new System.Drawing.Size(200, 19);
             this.chkPreventOverlayMouseClicks.TabIndex = 6;
             this.chkPreventOverlayMouseClicks.Text = "Prevent overlay mouse clicks";
-            this.chkPreventOverlayMouseClicks.UseSelectable = true;
             this.chkPreventOverlayMouseClicks.UseCustomForeColor = true;
+            this.chkPreventOverlayMouseClicks.UseSelectable = true;
             this.chkPreventOverlayMouseClicks.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkPreventOverlayMouseClicks.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkPreventOverlayMouseClicks.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1285,8 +1343,8 @@
             this.txtPreviousWins.UseSelectable = true;
             this.txtPreviousWins.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPreviousWins.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             this.txtPreviousWins.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.enterOnlyDigitInTextBox_KeyPress);
+            this.txtPreviousWins.Validating += new System.ComponentModel.CancelEventHandler(this.txtPreviousWins_Validating);
             // 
             // lblGameExeLocation
             // 
@@ -1382,13 +1440,23 @@
             this.chkLaunchGameOnStart.Size = new System.Drawing.Size(226, 19);
             this.chkLaunchGameOnStart.TabIndex = 3;
             this.chkLaunchGameOnStart.Text = "Auto-launch Fall Guys on tracker";
-            this.chkLaunchGameOnStart.UseSelectable = true;
             this.chkLaunchGameOnStart.UseCustomForeColor = true;
+            this.chkLaunchGameOnStart.UseSelectable = true;
             this.chkLaunchGameOnStart.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkLaunchGameOnStart.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkLaunchGameOnStart.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkLaunchGameOnStart.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkLaunchGameOnStart.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // picLanguageSelection
+            // 
+            this.picLanguageSelection.Image = global::FallGuysStats.Properties.Resources.language_icon;
+            this.picLanguageSelection.Location = new System.Drawing.Point(15, 412);
+            this.picLanguageSelection.Name = "picLanguageSelection";
+            this.picLanguageSelection.Size = new System.Drawing.Size(30, 30);
+            this.picLanguageSelection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picLanguageSelection.TabIndex = 39;
+            this.picLanguageSelection.TabStop = false;
             // 
             // chkIgnoreLevelTypeWhenSorting
             // 
@@ -1401,8 +1469,8 @@
             this.chkIgnoreLevelTypeWhenSorting.Size = new System.Drawing.Size(216, 19);
             this.chkIgnoreLevelTypeWhenSorting.TabIndex = 0;
             this.chkIgnoreLevelTypeWhenSorting.Text = "Ignore Level Type when sorting";
-            this.chkIgnoreLevelTypeWhenSorting.UseSelectable = true;
             this.chkIgnoreLevelTypeWhenSorting.UseCustomForeColor = true;
+            this.chkIgnoreLevelTypeWhenSorting.UseSelectable = true;
             this.chkIgnoreLevelTypeWhenSorting.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkIgnoreLevelTypeWhenSorting.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkIgnoreLevelTypeWhenSorting.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1420,13 +1488,32 @@
             this.chkGroupingCreativeRoundLevels.Size = new System.Drawing.Size(324, 19);
             this.chkGroupingCreativeRoundLevels.TabIndex = 1;
             this.chkGroupingCreativeRoundLevels.Text = "Grouping creative round levels into one category";
-            this.chkGroupingCreativeRoundLevels.UseSelectable = true;
             this.chkGroupingCreativeRoundLevels.UseCustomForeColor = true;
+            this.chkGroupingCreativeRoundLevels.UseSelectable = true;
             this.chkGroupingCreativeRoundLevels.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkGroupingCreativeRoundLevels.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkGroupingCreativeRoundLevels.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
             this.chkGroupingCreativeRoundLevels.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkGroupingCreativeRoundLevels.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            // 
+            // chkRecordEscapeDuringAGame
+            // 
+            this.chkRecordEscapeDuringAGame.AutoSize = true;
+            this.chkRecordEscapeDuringAGame.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkRecordEscapeDuringAGame.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkRecordEscapeDuringAGame.Location = new System.Drawing.Point(15, 150);
+            this.chkRecordEscapeDuringAGame.Margin = new System.Windows.Forms.Padding(2);
+            this.chkRecordEscapeDuringAGame.Name = "chkRecordEscapeDuringAGame";
+            this.chkRecordEscapeDuringAGame.Size = new System.Drawing.Size(311, 19);
+            this.chkRecordEscapeDuringAGame.TabIndex = 5;
+            this.chkRecordEscapeDuringAGame.Text = "If you escape during a game, record it as a loss";
+            this.chkRecordEscapeDuringAGame.UseCustomForeColor = true;
+            this.chkRecordEscapeDuringAGame.UseSelectable = true;
+            this.chkRecordEscapeDuringAGame.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkRecordEscapeDuringAGame.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkRecordEscapeDuringAGame.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkRecordEscapeDuringAGame.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkRecordEscapeDuringAGame.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // btnCancel
             // 
@@ -1464,6 +1551,11 @@
             // 
             // panelProgram
             // 
+            this.panelProgram.Controls.Add(this.linkIPinfoToken);
+            this.panelProgram.Controls.Add(this.lblIPinfoToken);
+            this.panelProgram.Controls.Add(this.txtIPinfoToken);
+            this.panelProgram.Controls.Add(this.lblIpGeolocationService);
+            this.panelProgram.Controls.Add(this.cboIpGeolocationService);
             this.panelProgram.Controls.Add(this.lblTheme);
             this.panelProgram.Controls.Add(this.cboTheme);
             this.panelProgram.Controls.Add(this.picLanguageSelection);
@@ -1926,8 +2018,8 @@
             this.chkFallalyticsAnonymous.Size = new System.Drawing.Size(266, 15);
             this.chkFallalyticsAnonymous.TabIndex = 3;
             this.chkFallalyticsAnonymous.Text = "Send anonymously";
-            this.chkFallalyticsAnonymous.UseSelectable = true;
             this.chkFallalyticsAnonymous.UseCustomForeColor = true;
+            this.chkFallalyticsAnonymous.UseSelectable = true;
             this.chkFallalyticsAnonymous.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkFallalyticsAnonymous.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkFallalyticsAnonymous.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1944,8 +2036,8 @@
             this.chkFallalyticsWeeklyCrownLeague.Size = new System.Drawing.Size(266, 15);
             this.chkFallalyticsWeeklyCrownLeague.TabIndex = 3;
             this.chkFallalyticsWeeklyCrownLeague.Text = "Join a weekly crown league";
-            this.chkFallalyticsWeeklyCrownLeague.UseSelectable = true;
             this.chkFallalyticsWeeklyCrownLeague.UseCustomForeColor = true;
+            this.chkFallalyticsWeeklyCrownLeague.UseSelectable = true;
             this.chkFallalyticsWeeklyCrownLeague.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkFallalyticsWeeklyCrownLeague.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkFallalyticsWeeklyCrownLeague.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -1962,8 +2054,8 @@
             this.chkFallalyticsReporting.Size = new System.Drawing.Size(266, 15);
             this.chkFallalyticsReporting.TabIndex = 2;
             this.chkFallalyticsReporting.Text = "Sends rounds played information to Fallalytics";
-            this.chkFallalyticsReporting.UseSelectable = true;
             this.chkFallalyticsReporting.UseCustomForeColor = true;
+            this.chkFallalyticsReporting.UseSelectable = true;
             // this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.chkFallalyticsReporting_CheckedChanged);
             this.chkFallalyticsReporting.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkFallalyticsReporting.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
@@ -1985,31 +2077,19 @@
             this.tileFallalytics.UseSelectable = true;
             this.tileFallalytics.Click += new System.EventHandler(this.ChangeTab);
             // 
-            // panelProxy
+            // tileProxy
             // 
-            this.panelProxy.Controls.Add(this.chkUseProxy);
-            this.panelProxy.Controls.Add(this.lblProxyAddress);
-            this.panelProxy.Controls.Add(this.lblProxyPort);
-            this.panelProxy.Controls.Add(this.txtProxyAddress);
-            this.panelProxy.Controls.Add(this.txtProxyPort);
-            this.panelProxy.Controls.Add(this.chkUseProxyLoginRequired);
-            this.panelProxy.Controls.Add(this.lblProxyUsername);
-            this.panelProxy.Controls.Add(this.lblProxyPassword);
-            this.panelProxy.Controls.Add(this.txtProxyUsername);
-            this.panelProxy.Controls.Add(this.txtProxyPassword);
-            this.panelProxy.Controls.Add(this.btnProxyTestConnection);
-            this.panelProxy.Controls.Add(this.mpsProxySpinner);
-            this.panelProxy.Controls.Add(this.picProxyTextResult);
-            this.panelProxy.HorizontalScrollbarBarColor = true;
-            this.panelProxy.HorizontalScrollbarHighlightOnWheel = false;
-            this.panelProxy.HorizontalScrollbarSize = 10;
-            this.panelProxy.Location = new System.Drawing.Point(22, 7);
-            this.panelProxy.Name = "panelProxy";
-            this.panelProxy.Size = new System.Drawing.Size(667, 498);
-            this.panelProxy.TabIndex = 19;
-            this.panelProxy.VerticalScrollbarBarColor = true;
-            this.panelProxy.VerticalScrollbarHighlightOnWheel = false;
-            this.panelProxy.VerticalScrollbarSize = 15;
+            this.tileProxy.ActiveControl = null;
+            this.tileProxy.BackColor = System.Drawing.Color.LightGray;
+            this.tileProxy.Location = new System.Drawing.Point(12, 328);
+            this.tileProxy.Name = "tileProxy";
+            this.tileProxy.Size = new System.Drawing.Size(193, 45);
+            this.tileProxy.TabIndex = 21;
+            this.tileProxy.Text = "Proxy Settings";
+            this.tileProxy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tileProxy.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.tileProxy.UseSelectable = true;
+            this.tileProxy.Click += new System.EventHandler(this.ChangeTab);
             // 
             // chkUseProxy
             // 
@@ -2021,8 +2101,8 @@
             this.chkUseProxy.Size = new System.Drawing.Size(266, 15);
             this.chkUseProxy.TabIndex = 2;
             this.chkUseProxy.Text = "Use a proxy server";
-            this.chkUseProxy.UseSelectable = true;
             this.chkUseProxy.UseCustomForeColor = true;
+            this.chkUseProxy.UseSelectable = true;
             this.chkUseProxy.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
             this.chkUseProxy.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
             this.chkUseProxy.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
@@ -2048,6 +2128,25 @@
             this.lblProxyPort.Size = new System.Drawing.Size(100, 19);
             this.lblProxyPort.TabIndex = 27;
             this.lblProxyPort.Text = "Port";
+            // 
+            // chkUseProxyLoginRequired
+            // 
+            this.chkUseProxyLoginRequired.AutoSize = true;
+            this.chkUseProxyLoginRequired.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkUseProxyLoginRequired.Enabled = false;
+            this.chkUseProxyLoginRequired.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
+            this.chkUseProxyLoginRequired.Location = new System.Drawing.Point(23, 130);
+            this.chkUseProxyLoginRequired.Name = "chkUseProxyLoginRequired";
+            this.chkUseProxyLoginRequired.Size = new System.Drawing.Size(195, 19);
+            this.chkUseProxyLoginRequired.TabIndex = 2;
+            this.chkUseProxyLoginRequired.Text = "Enable Proxy authentication";
+            this.chkUseProxyLoginRequired.UseCustomForeColor = true;
+            this.chkUseProxyLoginRequired.UseSelectable = true;
+            this.chkUseProxyLoginRequired.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
+            this.chkUseProxyLoginRequired.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxyLoginRequired.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.chkUseProxyLoginRequired.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
+            this.chkUseProxyLoginRequired.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
             // 
             // txtProxyAddress
             // 
@@ -2109,27 +2208,8 @@
             this.txtProxyPort.UseSelectable = true;
             this.txtProxyPort.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtProxyPort.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.enterOnlyDigitInTextBox_KeyPress);
             this.txtProxyPort.TextChanged += new System.EventHandler(this.proxyInfoChanged_TextChanged);
-            // 
-            // chkUseProxyLoginRequired
-            // 
-            this.chkUseProxyLoginRequired.AutoSize = true;
-            this.chkUseProxyLoginRequired.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkUseProxyLoginRequired.Enabled = false;
-            this.chkUseProxyLoginRequired.FontSize = MetroFramework.MetroCheckBoxSize.Medium;
-            this.chkUseProxyLoginRequired.Location = new System.Drawing.Point(23, 130);
-            this.chkUseProxyLoginRequired.Name = "chkUseProxyLoginRequired";
-            this.chkUseProxyLoginRequired.Size = new System.Drawing.Size(266, 15);
-            this.chkUseProxyLoginRequired.TabIndex = 2;
-            this.chkUseProxyLoginRequired.Text = "Enable Proxy authentication";
-            this.chkUseProxyLoginRequired.UseSelectable = true;
-            this.chkUseProxyLoginRequired.UseCustomForeColor = true;
-            this.chkUseProxyLoginRequired.CheckedChanged += new System.EventHandler(this.CheckBox_CheckedChanged);
-            this.chkUseProxyLoginRequired.Enter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkUseProxyLoginRequired.Leave += new System.EventHandler(this.CheckBox_MouseLeave);
-            this.chkUseProxyLoginRequired.MouseEnter += new System.EventHandler(this.CheckBox_MouseEnter);
-            this.chkUseProxyLoginRequired.MouseLeave += new System.EventHandler(this.CheckBox_MouseLeave);
+            this.txtProxyPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.enterOnlyDigitInTextBox_KeyPress);
             // 
             // lblProxyUsername
             // 
@@ -2256,19 +2336,31 @@
             this.picProxyTextResult.TabStop = false;
             this.picProxyTextResult.Visible = false;
             // 
-            // tileProxy
+            // panelProxy
             // 
-            this.tileProxy.ActiveControl = null;
-            this.tileProxy.BackColor = System.Drawing.Color.LightGray;
-            this.tileProxy.Location = new System.Drawing.Point(12, 328);
-            this.tileProxy.Name = "tileProxy";
-            this.tileProxy.Size = new System.Drawing.Size(193, 45);
-            this.tileProxy.TabIndex = 21;
-            this.tileProxy.Text = "Proxy Settings";
-            this.tileProxy.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tileProxy.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.tileProxy.UseSelectable = true;
-            this.tileProxy.Click += new System.EventHandler(this.ChangeTab);
+            this.panelProxy.Controls.Add(this.chkUseProxy);
+            this.panelProxy.Controls.Add(this.lblProxyAddress);
+            this.panelProxy.Controls.Add(this.lblProxyPort);
+            this.panelProxy.Controls.Add(this.txtProxyAddress);
+            this.panelProxy.Controls.Add(this.txtProxyPort);
+            this.panelProxy.Controls.Add(this.chkUseProxyLoginRequired);
+            this.panelProxy.Controls.Add(this.lblProxyUsername);
+            this.panelProxy.Controls.Add(this.lblProxyPassword);
+            this.panelProxy.Controls.Add(this.txtProxyUsername);
+            this.panelProxy.Controls.Add(this.txtProxyPassword);
+            this.panelProxy.Controls.Add(this.btnProxyTestConnection);
+            this.panelProxy.Controls.Add(this.mpsProxySpinner);
+            this.panelProxy.Controls.Add(this.picProxyTextResult);
+            this.panelProxy.HorizontalScrollbarBarColor = true;
+            this.panelProxy.HorizontalScrollbarHighlightOnWheel = false;
+            this.panelProxy.HorizontalScrollbarSize = 10;
+            this.panelProxy.Location = new System.Drawing.Point(22, 7);
+            this.panelProxy.Name = "panelProxy";
+            this.panelProxy.Size = new System.Drawing.Size(667, 498);
+            this.panelProxy.TabIndex = 19;
+            this.panelProxy.VerticalScrollbarBarColor = true;
+            this.panelProxy.VerticalScrollbarHighlightOnWheel = false;
+            this.panelProxy.VerticalScrollbarSize = 15;
             // 
             // Settings
             // 
@@ -2326,17 +2418,18 @@
             this.panelOverlay.PerformLayout();
             this.panelFallGuys.ResumeLayout(false);
             this.panelFallGuys.PerformLayout();
-            this.panelFallalytics.ResumeLayout(false);
-            this.panelFallalytics.PerformLayout();
-            this.panelProxy.ResumeLayout(false);
-            this.panelProxy.PerformLayout();
             this.panelAbout.ResumeLayout(false);
             this.panelAbout.PerformLayout();
+            this.panelFallalytics.ResumeLayout(false);
+            this.panelFallalytics.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picProxyTextResult)).EndInit();
+            this.panelProxy.ResumeLayout(false);
+            this.panelProxy.PerformLayout();
             this.ResumeLayout(false);
         }
 
         #endregion
-        
+
         // private MetroFramework.Controls.MetroLabel lblLogPath;
         private MetroFramework.Controls.MetroLabel lblLogPathNote;
         private MetroFramework.Controls.MetroTextBox txtLogPath;
@@ -2470,5 +2563,10 @@
         private MetroFramework.Controls.MetroProgressSpinner mpsProxySpinner;
         private System.Windows.Forms.PictureBox picProxyTextResult;
         private MetroFramework.Controls.MetroTile tileProxy;
+        private MetroFramework.Controls.MetroLabel lblIpGeolocationService;
+        private MetroFramework.Controls.MetroComboBox cboIpGeolocationService;
+        private MetroFramework.Controls.MetroLabel lblIPinfoToken;
+        private MetroFramework.Controls.MetroTextBox txtIPinfoToken;
+        private MetroFramework.Controls.MetroLink linkIPinfoToken;
     }
 }

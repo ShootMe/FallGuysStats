@@ -19,10 +19,12 @@ namespace FallGuysStats {
         public Overlay Overlay { get; set; }
         private int LaunchPlatform;
         private Language DisplayLang;
+        private int IpGeolocationService;
         // private bool CboMultilingualIsFocus, CboOverlayBackgroundIsFocus;
         private bool TrkOverlayOpacityIsEnter;
         private string PrevTabName;
         private bool IsSucceededTestProxy;
+        private string IPinfoToken;
         
         public Settings() {
             this.InitializeComponent();
@@ -32,6 +34,7 @@ namespace FallGuysStats {
             this.cboNotificationWindowAnimation.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboMultilingual.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboTheme.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
+            this.cboIpGeolocationService.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboWinsFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboQualifyFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
             this.cboFastestFilter.MouseWheel += (o, e) => ((HandledMouseEventArgs)e).Handled = true;
@@ -58,6 +61,27 @@ namespace FallGuysStats {
             };
             this.cboMultilingual.SetImageItemData(flagItemArray);
             this.cboMultilingual.SelectedIndex = (int)Stats.CurrentLanguage;
+            
+            this.IpGeolocationService = this.CurrentSettings.IpGeolocationService;
+            this.cboIpGeolocationService.SelectedIndex = this.IpGeolocationService;
+            if (File.Exists(this.StatsForm.IPinfoTokenFilePath)) {
+                try {
+                    StreamReader sr = new StreamReader(this.StatsForm.IPinfoTokenFilePath);
+                    this.IPinfoToken = sr.ReadLine();
+                    sr.Close();
+                } catch {
+                    this.IPinfoToken = string.Empty;
+                }
+            } else {
+                this.IPinfoToken = string.Empty;
+            }
+            this.txtIPinfoToken.Text = this.IPinfoToken;
+            
+            if (this.IpGeolocationService == 1) {
+                this.lblIPinfoToken.Visible = true;
+                this.txtIPinfoToken.Visible = true;
+                this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
+            }
             
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
 
@@ -442,6 +466,24 @@ namespace FallGuysStats {
             this.CurrentSettings.Theme = this.cboTheme.SelectedIndex;
             Stats.CurrentTheme = this.cboTheme.SelectedIndex == 0 ? MetroThemeStyle.Light :
                 this.cboTheme.SelectedIndex == 1 ? MetroThemeStyle.Dark : MetroThemeStyle.Default;
+
+            this.CurrentSettings.IpGeolocationService = this.IpGeolocationService;
+            if (string.IsNullOrEmpty(this.txtIPinfoToken.Text)) {
+                if (File.Exists(this.StatsForm.IPinfoTokenFilePath)) {
+                    try {
+                        File.SetAttributes(this.StatsForm.IPinfoTokenFilePath, FileAttributes.Normal);
+                        File.Delete(this.StatsForm.IPinfoTokenFilePath);
+                    } catch { }
+                }
+                Stats.IPinfoToken = string.Empty;
+            } else if (!this.IPinfoToken.Equals(this.txtIPinfoToken.Text)) {
+                try {
+                    StreamWriter sw = new StreamWriter(this.StatsForm.IPinfoTokenFilePath);
+                    sw.WriteLine(this.txtIPinfoToken.Text);
+                    sw.Close();
+                } catch { }
+                Stats.IPinfoToken = this.txtIPinfoToken.Text;
+            }
 
             if (string.IsNullOrEmpty(this.txtCycleTimeSeconds.Text)) {
                 this.CurrentSettings.CycleTimeSeconds = 5;
@@ -842,6 +884,21 @@ namespace FallGuysStats {
             });
         }
         
+        private void cboIpGeolocationService_SelectedIndexChanged(object sender, EventArgs e) {
+            if (this.IpGeolocationService == ((MetroComboBox)sender).SelectedIndex) return;
+            if (((MetroComboBox)sender).SelectedIndex == 1) {
+                this.IpGeolocationService = 1;
+                this.lblIPinfoToken.Visible = true;
+                this.txtIPinfoToken.Visible = true;
+                this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
+            } else {
+                this.IpGeolocationService = 0;
+                this.lblIPinfoToken.Visible = false;
+                this.txtIPinfoToken.Visible = false;
+                this.linkIPinfoToken.Visible = false;
+            }
+        }
+        
         private void trkOverlayOpacity_ValueChanged(object sender, EventArgs e) {
             if (((MetroTrackBar)sender).Value == (int)(this.Overlay.Opacity * 100)) { return; }
             this.Overlay.Opacity = ((MetroTrackBar)sender).Value / 100d;
@@ -862,6 +919,10 @@ namespace FallGuysStats {
         private void trkOverlayOpacity_MouseLeave(object sender, EventArgs e) {
             this.TrkOverlayOpacityIsEnter = false;
             this.StatsForm.HideTooltip(this);
+        }
+        
+        private void IPinfoTokenChanged_TextChanged(object sender, EventArgs e) {
+            this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
         }
         
         private void proxyInfoChanged_TextChanged(object sender, EventArgs e) {
@@ -977,6 +1038,23 @@ namespace FallGuysStats {
             this.btnSave.Left = this.btnCancel.Left - this.btnSave.Width - 15;
 
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(20, 16) : new Point(19, 14);
+
+            this.lblIpGeolocationService.Text = Multilingual.GetWord("settings_preferred_ip_geolocation_service");
+            this.lblIpGeolocationService.Location = new Point(lang == Language.English ? 258 : lang == Language.French ? 224 : lang == Language.Korean ? 271 : lang == Language.Japanese ? 281 : lang == Language.SimplifiedChinese ? 326 : lang == Language.TraditionalChinese ? 326 : 258, 375);
+            this.cboIpGeolocationService.Items.Clear();
+            this.cboIpGeolocationService.Items.AddRange(new object[] {
+                Multilingual.GetWord("settings_auto_selected"),
+                "IPinfo.io",
+            });
+            switch (this.IpGeolocationService) {
+                case 0: this.cboIpGeolocationService.SelectedItem = Multilingual.GetWord("settings_auto_selected"); break;
+                case 1: this.cboIpGeolocationService.SelectedItem = "IPinfo.io"; break;
+            }
+            this.lblIPinfoToken.Text = Multilingual.GetWord("settings_ipinfo_token");
+            this.lblIPinfoToken.Location = new Point(lang == Language.English ? 414 : lang == Language.French ? 406 : lang == Language.Korean ? 407 : lang == Language.Japanese ? 405 : lang == Language.SimplifiedChinese ? 414 : lang == Language.TraditionalChinese ? 414 : 414, 415);
+            this.linkIPinfoToken.Text = Multilingual.GetWord("settings_link_to_get_ipinfo_token");
+            this.linkIPinfoToken.Location = new Point(lang == Language.English ? 408 : lang == Language.French ? 363 : lang == Language.Korean ? 408 : lang == Language.Japanese ? 300 : lang == Language.SimplifiedChinese ? 452 : lang == Language.TraditionalChinese ? 452 : 408, 436);
+            this.linkIPinfoToken.Size = new Size(lang == Language.English ? 240 : lang == Language.French ? 285 : lang == Language.Korean ? 240 : lang == Language.Japanese ? 350 : lang == Language.SimplifiedChinese ? 180 : lang == Language.TraditionalChinese ? 180 : 240, 23);
 
             this.lblTheme.Text = Multilingual.GetWord("settings_theme");
             this.cboTheme.Items.Clear();
@@ -1310,6 +1388,9 @@ namespace FallGuysStats {
             }
             if (sender.Equals(this.linkFallalytics)) {
                 this.OpenLink(@"https://fallalytics.com/");
+            }
+            if (sender.Equals(this.linkIPinfoToken)) {
+                this.OpenLink(@"https://ipinfo.io/missingauth");
             }
         }
         
