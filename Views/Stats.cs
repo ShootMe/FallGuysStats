@@ -152,7 +152,7 @@ namespace FallGuysStats {
         
         public static int IpGeolocationService;
         public static string IPinfoToken;
-        public readonly string IPinfoTokenFilePath = "IPinfo.io.txt";
+        public static readonly string IPinfoTokenFilePath = "IPinfo.io.txt";
         
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
@@ -553,9 +553,9 @@ namespace FallGuysStats {
             SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
             
             IpGeolocationService = this.CurrentSettings.IpGeolocationService;
-            if (File.Exists(this.IPinfoTokenFilePath)) {
+            if (File.Exists(IPinfoTokenFilePath)) {
                 try {
-                    StreamReader sr = new StreamReader(this.IPinfoTokenFilePath);
+                    StreamReader sr = new StreamReader(IPinfoTokenFilePath);
                     IPinfoToken = sr.ReadLine();
                     sr.Close();
                 } catch {
