@@ -97,5 +97,6 @@ namespace FallGuysStats {
         public string ProxyUsername { get; set; }
         public string ProxyPassword { get; set; }
         public bool SucceededTestProxy { get; set; }
+        public int IpGeolocationService {  get; set; }
     }
 }

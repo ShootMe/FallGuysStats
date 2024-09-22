@@ -149,7 +149,11 @@ namespace FallGuysStats {
         public static string ProxyUsername = string.Empty;
         public static string ProxyPassword = string.Empty;
         public static bool SucceededTestProxy;
-
+        
+        public static int IpGeolocationService;
+        public static string IPinfoToken;
+        public readonly string IPinfoTokenFilePath = "IPinfo.io.txt";
+        
         readonly DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
         readonly DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
         public List<RoundInfo> AllStats = new List<RoundInfo>();
@@ -547,6 +551,19 @@ namespace FallGuysStats {
             ProxyUsername = this.CurrentSettings.ProxyUsername;
             ProxyPassword = this.CurrentSettings.ProxyPassword;
             SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
+            
+            IpGeolocationService = this.CurrentSettings.IpGeolocationService;
+            if (File.Exists(this.IPinfoTokenFilePath)) {
+                try {
+                    StreamReader sr = new StreamReader(this.IPinfoTokenFilePath);
+                    IPinfoToken = sr.ReadLine();
+                    sr.Close();
+                } catch {
+                    IPinfoToken = string.Empty;
+                }
+            } else {
+                IPinfoToken = string.Empty;
+            }
             
             this.RoundDetails = this.StatsDB.GetCollection<RoundInfo>("RoundDetails");
             this.Profiles = this.StatsDB.GetCollection<Profiles>("Profiles");
@@ -3372,6 +3389,7 @@ namespace FallGuysStats {
                 ProxyUsername = string.Empty,
                 ProxyPassword = string.Empty,
                 SucceededTestProxy = false,
+                IpGeolocationService = 0,
                 ShowChangelog = true,
                 Visible = true,
                 Version = 0
@@ -7192,6 +7210,8 @@ namespace FallGuysStats {
                         ProxyUsername = this.CurrentSettings.ProxyUsername;
                         ProxyPassword = this.CurrentSettings.ProxyPassword;
                         SucceededTestProxy = this.CurrentSettings.SucceededTestProxy;
+                        
+                        IpGeolocationService = this.CurrentSettings.IpGeolocationService;
                         
                         this.SetSystemTrayIcon(this.CurrentSettings.SystemTrayIcon);
                         this.SetTheme(CurrentTheme);
