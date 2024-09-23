@@ -1047,7 +1047,7 @@
             this.txtIPinfoToken.SelectionLength = 0;
             this.txtIPinfoToken.SelectionStart = 0;
             this.txtIPinfoToken.ShortcutsEnabled = true;
-            this.txtIPinfoToken.Size = new System.Drawing.Size(180, 26);
+            this.txtIPinfoToken.Size = new System.Drawing.Size(120, 26);
             this.txtIPinfoToken.TabIndex = 48;
             this.txtIPinfoToken.UseSelectable = true;
             this.txtIPinfoToken.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
