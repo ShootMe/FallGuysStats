@@ -1050,8 +1050,9 @@
             this.txtIPinfoToken.Size = new System.Drawing.Size(120, 26);
             this.txtIPinfoToken.TabIndex = 48;
             this.txtIPinfoToken.UseSelectable = true;
+            this.txtIPinfoToken.WaterMark = "(Optional)";
             this.txtIPinfoToken.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtIPinfoToken.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtIPinfoToken.WaterMarkFont = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txtIPinfoToken.TextChanged += new System.EventHandler(this.IPinfoTokenChanged_TextChanged);
             // 
             // linkIPinfoToken
