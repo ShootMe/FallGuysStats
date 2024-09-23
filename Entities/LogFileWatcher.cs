@@ -361,10 +361,12 @@ namespace FallGuysStats {
                     || (roundId.IndexOf("round_fall_ball", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
                         && roundId.IndexOf("_cup_only", StringComparison.OrdinalIgnoreCase) == -1
+                        && roundId.IndexOf("_teamgames", StringComparison.OrdinalIgnoreCase) == -1
                         && !string.Equals(showId, "event_anniversary_season_1_alternate_name"))
 
                     || (roundId.IndexOf("round_territory", StringComparison.OrdinalIgnoreCase) != -1
-                        && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1)
+                        && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
+                        && roundId.IndexOf("_teamgames", StringComparison.OrdinalIgnoreCase) == -1)
 
                     || (roundId.IndexOf("round_basketfall", StringComparison.OrdinalIgnoreCase) != -1
                         && roundId.IndexOf("_non_final", StringComparison.OrdinalIgnoreCase) == -1
@@ -372,7 +374,8 @@ namespace FallGuysStats {
                             || roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1))
 
                     || (roundId.IndexOf("round_1v1_volleyfall", StringComparison.OrdinalIgnoreCase) != -1
-                        && roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1)
+                        && (roundId.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1
+                            || roundId.IndexOf("_teamgames", StringComparison.OrdinalIgnoreCase) != -1))
 
                     || ((roundId.IndexOf("round_pixelperfect", StringComparison.OrdinalIgnoreCase) != -1
                          || roundId.IndexOf("round_robotrampage", StringComparison.OrdinalIgnoreCase) != -1)

@@ -2462,8 +2462,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = true;
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = true;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2483,13 +2483,13 @@ namespace FallGuysStats {
                 //
                 // this.StatsDB.BeginTrans();
                 // foreach (RoundInfo ri in roundInfoList) {
+                //     if (profileId != -1) ri.Profile = profileId;
                 //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.EndsWith("_squads")) {
                 //         ri.Name = ri.Name.Substring(0, ri.Name.LastIndexOf("_squads", StringComparison.OrdinalIgnoreCase));
                 //     }
                 //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
                 //         ri.Name = newName;
                 //     }
-                //     if (profileId != -1) ri.Profile = profileId;
                 //     ri.IsFinal = true;
                 //
                 //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
@@ -2520,13 +2520,13 @@ namespace FallGuysStats {
                 //
                 // this.StatsDB.BeginTrans();
                 // foreach (RoundInfo ri in roundInfoList) {
+                //     if (profileId != -1) ri.Profile = profileId;
                 //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Name.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1) {
                 //         ri.Name = ri.Name.Replace("_squads", "");
                 //     }
                 //     if (this.LevelIdReplacerInShuffleShow.TryGetValue(ri.Name, out string newName)) {
                 //         ri.Name = newName;
                 //     }
-                //     if (profileId != -1) ri.Profile = profileId;
                 //     ri.IsFinal = true;
                 //
                 //     if (string.Equals(ri.ShowNameId, "wle_mrs_shuffle_show_squads") && ri.Round > 1) {
@@ -2573,8 +2573,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = ri.Name.EndsWith("_final");
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = ri.Name.EndsWith("_final");
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2621,10 +2621,10 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
                     if (ri.Name.IndexOf("_final_", StringComparison.OrdinalIgnoreCase) != -1) {
                         ri.IsFinal = true;
                     }
-                    if (profileId != -1) ri.Profile = profileId;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2640,8 +2640,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_blast_ball_banger_template"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = string.Equals(ri.Name, "round_blastball_arenasurvival_symphony_launch_show");
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2711,8 +2711,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = ri.Name.IndexOf("_final", StringComparison.OrdinalIgnoreCase) != -1;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2778,10 +2778,10 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
                     if (ri.Name.IndexOf("_showdown_final", StringComparison.OrdinalIgnoreCase) != -1) {
                         ri.IsFinal = true;
                     }
-                    if (profileId != -1) ri.Profile = profileId;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2825,8 +2825,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = true;
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = true;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -2887,8 +2887,8 @@ namespace FallGuysStats {
                 Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "fall_guys_creative_mode"));
                 int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    ri.IsFinal = true;
                     if (profileId != -1) ri.Profile = profileId;
+                    ri.IsFinal = true;
                 }
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(roundInfoList);
@@ -3215,9 +3215,9 @@ namespace FallGuysStats {
                                                  where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "no_elimination_explore")
                                                  select ri).ToList();
                 
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                    int profileId = profile?.ProfileId ?? -1;
                     if (profileId != -1) ri.Profile = profileId;
                     ri.IsCasualShow = true;
                     ri.Round = 1;
@@ -3238,9 +3238,9 @@ namespace FallGuysStats {
                                                  where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "ftue_uk_show")
                                                  select ri).ToList();
                 
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
+                int profileId = profile?.ProfileId ?? -1;
                 foreach (RoundInfo ri in roundInfoList) {
-                    Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "main_show"));
-                    int profileId = profile?.ProfileId ?? -1;
                     if (profileId != -1) ri.Profile = profileId;
                     ri.IsFinal = string.Equals(ri.Name, "round_snowballsurvival");
                 }
@@ -3295,6 +3295,28 @@ namespace FallGuysStats {
                 }
                 this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
                 this.CurrentSettings.Version = 102;
+                this.SaveUserSettings();
+            }
+            
+            if (this.CurrentSettings.Version == 102) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "teams_show_ltm")
+                                                 select ri).ToList();
+                
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "squads_2player_template"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
+                    if (string.Equals(ri.Name, "round_territory_control_s4_show") || (string.Equals(ri.Name, "round_fall_ball_60_players") && (ri.Players % 2 == 0) && ri.Round == 1)) {
+                        ri.IsFinal = false;
+                    } else if (string.Equals(ri.Name, "round_1v1_volleyfall_symphony_launch_show")) {
+                        ri.IsFinal = true;
+                    }
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 103;
                 this.SaveUserSettings();
             }
         }
@@ -4715,26 +4737,28 @@ namespace FallGuysStats {
         
         public string GetAlternateShowId(string showId) {
             switch (showId) {
-                case "turbo_show":
-                case "turbo_2_show":
-                case "knockout_mode":
-                case "ftue_uk_show":
-                case "classic_solo_main_show":
-                case "no_elimination_explore":
                 // case "anniversary_fp12_ltm":
+                case "classic_solo_main_show":
+                case "ftue_uk_show":
+                case "knockout_mode":
+                case "no_elimination_explore":
+                case "turbo_2_show":
+                case "turbo_show":
                     return "main_show";
-                case "knockout_duos":
                 case "classic_duos_show":
+                case "knockout_duos":
+                case "teams_show_ltm":
                     return "squads_2player_template";
-                case "squadcelebration":
+                case "classic_squads_show":
                 case "event_day_at_races_squads_template":
                 case "knockout_squads":
-                case "classic_squads_show":
+                case "squadcelebration":
                     return "squads_4player";
-                case "invisibeans_template":
                 case "invisibeans_pistachio_template":
+                case "invisibeans_template":
                     return "invisibeans_mode";
-                default: return showId;
+                default:
+                    return showId;
             }
         }
         
