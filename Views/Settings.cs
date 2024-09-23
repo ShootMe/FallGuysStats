@@ -64,9 +64,9 @@ namespace FallGuysStats {
             
             this.IpGeolocationService = this.CurrentSettings.IpGeolocationService;
             this.cboIpGeolocationService.SelectedIndex = this.IpGeolocationService;
-            if (File.Exists(this.StatsForm.IPinfoTokenFilePath)) {
+            if (File.Exists(Stats.IPinfoTokenFilePath)) {
                 try {
-                    StreamReader sr = new StreamReader(this.StatsForm.IPinfoTokenFilePath);
+                    StreamReader sr = new StreamReader(Stats.IPinfoTokenFilePath);
                     this.IPinfoToken = sr.ReadLine();
                     sr.Close();
                 } catch {
@@ -469,16 +469,16 @@ namespace FallGuysStats {
 
             this.CurrentSettings.IpGeolocationService = this.IpGeolocationService;
             if (string.IsNullOrEmpty(this.txtIPinfoToken.Text)) {
-                if (File.Exists(this.StatsForm.IPinfoTokenFilePath)) {
+                if (File.Exists(Stats.IPinfoTokenFilePath)) {
                     try {
-                        File.SetAttributes(this.StatsForm.IPinfoTokenFilePath, FileAttributes.Normal);
-                        File.Delete(this.StatsForm.IPinfoTokenFilePath);
+                        File.SetAttributes(Stats.IPinfoTokenFilePath, FileAttributes.Normal);
+                        File.Delete(Stats.IPinfoTokenFilePath);
                     } catch { }
                 }
                 Stats.IPinfoToken = string.Empty;
             } else if (!this.IPinfoToken.Equals(this.txtIPinfoToken.Text)) {
                 try {
-                    StreamWriter sw = new StreamWriter(this.StatsForm.IPinfoTokenFilePath);
+                    StreamWriter sw = new StreamWriter(Stats.IPinfoTokenFilePath);
                     sw.WriteLine(this.txtIPinfoToken.Text);
                     sw.Close();
                 } catch { }
