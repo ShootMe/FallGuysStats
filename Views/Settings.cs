@@ -80,7 +80,7 @@ namespace FallGuysStats {
             if (this.IpGeolocationService == 1) {
                 this.lblIPinfoToken.Visible = true;
                 this.txtIPinfoToken.Visible = true;
-                this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
+                this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
             }
             
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
@@ -890,7 +890,7 @@ namespace FallGuysStats {
                 this.IpGeolocationService = 1;
                 this.lblIPinfoToken.Visible = true;
                 this.txtIPinfoToken.Visible = true;
-                this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
+                this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
             } else {
                 this.IpGeolocationService = 0;
                 this.lblIPinfoToken.Visible = false;
@@ -922,7 +922,7 @@ namespace FallGuysStats {
         }
         
         private void IPinfoTokenChanged_TextChanged(object sender, EventArgs e) {
-            this.linkIPinfoToken.Visible = this.txtIPinfoToken.Text.Length == 0;
+            this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
         }
         
         private void proxyInfoChanged_TextChanged(object sender, EventArgs e) {
@@ -1039,22 +1039,23 @@ namespace FallGuysStats {
 
             this.picPlatformCheck.Location = this.LaunchPlatform == 0 ? new Point(20, 16) : new Point(19, 14);
 
-            this.lblIpGeolocationService.Text = Multilingual.GetWord("settings_preferred_ip_geolocation_service");
-            this.lblIpGeolocationService.Location = new Point(lang == Language.English ? 258 : lang == Language.French ? 224 : lang == Language.Korean ? 271 : lang == Language.Japanese ? 281 : lang == Language.SimplifiedChinese ? 326 : lang == Language.TraditionalChinese ? 326 : 258, 375);
             this.cboIpGeolocationService.Items.Clear();
             this.cboIpGeolocationService.Items.AddRange(new object[] {
                 Multilingual.GetWord("settings_auto_selected"),
-                "IPinfo.io",
+                "IPinfo.io"
             });
             switch (this.IpGeolocationService) {
                 case 0: this.cboIpGeolocationService.SelectedItem = Multilingual.GetWord("settings_auto_selected"); break;
                 case 1: this.cboIpGeolocationService.SelectedItem = "IPinfo.io"; break;
             }
+            
+            this.lblIpGeolocationService.Text = Multilingual.GetWord("settings_preferred_ip_geolocation_service");
+            this.lblIpGeolocationService.Left = this.cboIpGeolocationService.Left - this.lblIpGeolocationService.Width - 5;
             this.lblIPinfoToken.Text = Multilingual.GetWord("settings_ipinfo_token");
-            this.lblIPinfoToken.Location = new Point(lang == Language.English ? 414 : lang == Language.French ? 406 : lang == Language.Korean ? 407 : lang == Language.Japanese ? 405 : lang == Language.SimplifiedChinese ? 414 : lang == Language.TraditionalChinese ? 414 : 414, 415);
+            this.lblIPinfoToken.Left = this.txtIPinfoToken.Left - this.lblIPinfoToken.Width - 5;
             this.linkIPinfoToken.Text = Multilingual.GetWord("settings_link_to_get_ipinfo_token");
-            this.linkIPinfoToken.Location = new Point(lang == Language.English ? 408 : lang == Language.French ? 363 : lang == Language.Korean ? 408 : lang == Language.Japanese ? 300 : lang == Language.SimplifiedChinese ? 452 : lang == Language.TraditionalChinese ? 452 : 408, 436);
-            this.linkIPinfoToken.Size = new Size(lang == Language.English ? 240 : lang == Language.French ? 285 : lang == Language.Korean ? 240 : lang == Language.Japanese ? 350 : lang == Language.SimplifiedChinese ? 180 : lang == Language.TraditionalChinese ? 180 : 240, 23);
+            this.linkIPinfoToken.Width = TextRenderer.MeasureText(this.linkIPinfoToken.Text, this.linkIPinfoToken.Font).Width + (lang == Language.English ? 34 : lang == Language.French ? 45 : lang == Language.Korean ? 48 : lang == Language.Japanese ? 64 : lang == Language.SimplifiedChinese ? 26 : lang == Language.TraditionalChinese ? 26 : 34);
+            this.linkIPinfoToken.Left = this.txtIPinfoToken.Right - this.linkIPinfoToken.Width + 6;
 
             this.lblTheme.Text = Multilingual.GetWord("settings_theme");
             this.cboTheme.Items.Clear();

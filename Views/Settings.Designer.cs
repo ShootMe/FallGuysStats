@@ -1047,13 +1047,12 @@
             this.txtIPinfoToken.SelectionLength = 0;
             this.txtIPinfoToken.SelectionStart = 0;
             this.txtIPinfoToken.ShortcutsEnabled = true;
-            this.txtIPinfoToken.Size = new System.Drawing.Size(180, 23);
+            this.txtIPinfoToken.Size = new System.Drawing.Size(180, 26);
             this.txtIPinfoToken.TabIndex = 48;
             this.txtIPinfoToken.UseSelectable = true;
             this.txtIPinfoToken.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtIPinfoToken.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtIPinfoToken.TextChanged += new System.EventHandler(this.IPinfoTokenChanged_TextChanged);
-
             // 
             // linkIPinfoToken
             // 
@@ -1062,11 +1061,12 @@
             this.linkIPinfoToken.FontSize = MetroFramework.MetroLinkSize.Medium;
             this.linkIPinfoToken.ForeColor = System.Drawing.Color.Black;
             this.linkIPinfoToken.Visible = false;
-            this.linkIPinfoToken.Location = new System.Drawing.Point(408, 436);
+            this.linkIPinfoToken.Location = new System.Drawing.Point(408, 438);
             this.linkIPinfoToken.Name = "linkIPinfoToken";
             this.linkIPinfoToken.Size = new System.Drawing.Size(240, 23);
             this.linkIPinfoToken.TabIndex = 1;
             this.linkIPinfoToken.Text = "(Create an account to get a token)";
+            this.linkIPinfoToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.linkIPinfoToken.UseSelectable = true;
             this.linkIPinfoToken.UseStyleColors = true;
             this.linkIPinfoToken.Click += new System.EventHandler(this.link_Click);
