@@ -3319,6 +3319,29 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 103;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 103) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where !string.IsNullOrEmpty(ri.ShowNameId) && string.Equals(ri.ShowNameId, "xtreme_explore")
+                                                 select ri).ToList();
+                
+                Profiles profile = this.Profiles.FindOne(Query.EQ("LinkedShowId", "event_xtreme_fall_guys_template"));
+                int profileId = profile?.ProfileId ?? -1;
+                foreach (RoundInfo ri in roundInfoList) {
+                    if (profileId != -1) ri.Profile = profileId;
+                    ri.IsCasualShow = true;
+                    ri.Round = 1;
+                    ri.Qualified = ri.Finish.HasValue;
+                    ri.IsFinal = false;
+                    ri.Crown = false;
+                    ri.IsAbandon = false;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 104;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
@@ -4757,6 +4780,8 @@ namespace FallGuysStats {
                 case "invisibeans_pistachio_template":
                 case "invisibeans_template":
                     return "invisibeans_mode";
+                case "xtreme_explore":
+                    return "event_xtreme_fall_guys_template";
                 default:
                     return showId;
             }
