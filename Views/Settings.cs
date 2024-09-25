@@ -80,7 +80,6 @@ namespace FallGuysStats {
             if (this.IpGeolocationService == 1) {
                 this.linkIPinfoToken.Visible = true;
                 this.txtIPinfoToken.Visible = true;
-                this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
             }
             
             this.txtLogPath.Text = this.CurrentSettings.LogPath;
@@ -473,7 +472,9 @@ namespace FallGuysStats {
                     try {
                         File.SetAttributes(Stats.IPinfoTokenFilePath, FileAttributes.Normal);
                         File.Delete(Stats.IPinfoTokenFilePath);
-                    } catch { }
+                    } catch {
+                        // ignored
+                    }
                 }
                 Stats.IPinfoToken = string.Empty;
             } else if (!this.IPinfoToken.Equals(this.txtIPinfoToken.Text)) {
@@ -481,7 +482,9 @@ namespace FallGuysStats {
                     StreamWriter sw = new StreamWriter(Stats.IPinfoTokenFilePath);
                     sw.WriteLine(this.txtIPinfoToken.Text);
                     sw.Close();
-                } catch { }
+                } catch {
+                    // ignored
+                }
                 Stats.IPinfoToken = this.txtIPinfoToken.Text;
             }
 
@@ -890,12 +893,10 @@ namespace FallGuysStats {
                 this.IpGeolocationService = 1;
                 this.linkIPinfoToken.Visible = true;
                 this.txtIPinfoToken.Visible = true;
-                this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
             } else {
                 this.IpGeolocationService = 0;
                 this.linkIPinfoToken.Visible = false;
                 this.txtIPinfoToken.Visible = false;
-                this.linkIPinfoToken.Visible = false;
             }
         }
         
@@ -919,10 +920,6 @@ namespace FallGuysStats {
         private void trkOverlayOpacity_MouseLeave(object sender, EventArgs e) {
             this.TrkOverlayOpacityIsEnter = false;
             this.StatsForm.HideTooltip(this);
-        }
-        
-        private void IPinfoTokenChanged_TextChanged(object sender, EventArgs e) {
-            this.linkIPinfoToken.Visible = string.IsNullOrEmpty(this.txtIPinfoToken.Text);
         }
         
         private void proxyInfoChanged_TextChanged(object sender, EventArgs e) {
