@@ -83,9 +83,8 @@
             this.picSteam = new System.Windows.Forms.PictureBox();
             this.cboIpGeolocationService = new MetroFramework.Controls.MetroComboBox();
             this.lblIpGeolocationService = new MetroFramework.Controls.MetroLabel();
-            this.lblIPinfoToken = new MetroFramework.Controls.MetroLabel();
-            this.txtIPinfoToken = new MetroFramework.Controls.MetroTextBox();
             this.linkIPinfoToken = new MetroFramework.Controls.MetroLink();
+            this.txtIPinfoToken = new MetroFramework.Controls.MetroTextBox();
             this.cboMultilingual = new FallGuysStats.ImageComboBox();
             this.lblTheme = new MetroFramework.Controls.MetroLabel();
             this.chkChangeHoopsieLegends = new MetroFramework.Controls.MetroCheckBox();
@@ -1013,16 +1012,24 @@
             this.lblIpGeolocationService.TabIndex = 40;
             this.lblIpGeolocationService.Text = "Preferred IP geolocation service";
             // 
-            // lblIPinfoToken
+            // linkIPinfoToken
             // 
-            this.lblIPinfoToken.AutoSize = true;
-            this.lblIPinfoToken.FontWeight = MetroFramework.MetroLabelWeight.Regular;
-            this.lblIPinfoToken.Location = new System.Drawing.Point(414, 415);
-            this.lblIPinfoToken.Name = "lblIPinfoToken";
-            this.lblIPinfoToken.Size = new System.Drawing.Size(45, 19);
-            this.lblIPinfoToken.TabIndex = 44;
-            this.lblIPinfoToken.Text = "Token";
-            this.lblIPinfoToken.Visible = false;
+            this.linkIPinfoToken.AutoSize = true;
+            this.linkIPinfoToken.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.linkIPinfoToken.FontSize = MetroFramework.MetroLinkSize.Medium;
+            this.linkIPinfoToken.ForeColor = System.Drawing.Color.Black;
+            this.linkIPinfoToken.Location = new System.Drawing.Point(414, 411);
+            this.linkIPinfoToken.Name = "linkIPinfoToken";
+            this.linkIPinfoToken.Size = new System.Drawing.Size(45, 19);
+            this.linkIPinfoToken.TabIndex = 44;
+            this.linkIPinfoToken.Text = "Token";
+            this.linkIPinfoToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.linkIPinfoToken.UseSelectable = true;
+            this.linkIPinfoToken.UseStyleColors = true;
+            this.linkIPinfoToken.Visible = false;
+            this.linkIPinfoToken.Click += new System.EventHandler(this.link_Click);
+            this.linkIPinfoToken.MouseEnter += new System.EventHandler(this.linkIPinfoToken_MouseEnter);
+            this.linkIPinfoToken.MouseLeave += new System.EventHandler(this.linkIPinfoToken_MouseLeave);
             // 
             // txtIPinfoToken
             // 
@@ -1054,23 +1061,6 @@
             this.txtIPinfoToken.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtIPinfoToken.WaterMarkFont = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txtIPinfoToken.TextChanged += new System.EventHandler(this.IPinfoTokenChanged_TextChanged);
-            // 
-            // linkIPinfoToken
-            // 
-            this.linkIPinfoToken.AutoSize = true;
-            this.linkIPinfoToken.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.linkIPinfoToken.FontSize = MetroFramework.MetroLinkSize.Medium;
-            this.linkIPinfoToken.ForeColor = System.Drawing.Color.Black;
-            this.linkIPinfoToken.Visible = false;
-            this.linkIPinfoToken.Location = new System.Drawing.Point(408, 438);
-            this.linkIPinfoToken.Name = "linkIPinfoToken";
-            this.linkIPinfoToken.Size = new System.Drawing.Size(240, 23);
-            this.linkIPinfoToken.TabIndex = 1;
-            this.linkIPinfoToken.Text = "(Create an account to get a token)";
-            this.linkIPinfoToken.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.linkIPinfoToken.UseSelectable = true;
-            this.linkIPinfoToken.UseStyleColors = true;
-            this.linkIPinfoToken.Click += new System.EventHandler(this.link_Click);
             // 
             // cboMultilingual
             // 
@@ -1553,7 +1543,6 @@
             // panelProgram
             // 
             this.panelProgram.Controls.Add(this.linkIPinfoToken);
-            this.panelProgram.Controls.Add(this.lblIPinfoToken);
             this.panelProgram.Controls.Add(this.txtIPinfoToken);
             this.panelProgram.Controls.Add(this.lblIpGeolocationService);
             this.panelProgram.Controls.Add(this.cboIpGeolocationService);
@@ -2566,8 +2555,7 @@
         private MetroFramework.Controls.MetroTile tileProxy;
         private MetroFramework.Controls.MetroLabel lblIpGeolocationService;
         private MetroFramework.Controls.MetroComboBox cboIpGeolocationService;
-        private MetroFramework.Controls.MetroLabel lblIPinfoToken;
-        private MetroFramework.Controls.MetroTextBox txtIPinfoToken;
         private MetroFramework.Controls.MetroLink linkIPinfoToken;
+        private MetroFramework.Controls.MetroTextBox txtIPinfoToken;
     }
 }
