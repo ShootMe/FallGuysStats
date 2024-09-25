@@ -338,7 +338,9 @@ namespace FallGuysStats {
         };
 
         private bool IsShowIsCasualShow(string showId) {
-            return string.Equals(showId, "casual_show") || string.Equals(showId, "no_elimination_explore");
+            return string.Equals(showId, "casual_show")
+                   || string.Equals(showId, "no_elimination_explore")
+                   || string.Equals(showId, "xtreme_explore");
         }
 
         private bool IsRealFinalRound(string roundId, string showId) {
@@ -651,10 +653,8 @@ namespace FallGuysStats {
         private void UpdatePersonalBestLog(RoundInfo info) {
             if (info.PrivateLobby || (!info.IsCasualShow && info.UseShareCode) || !info.Finish.HasValue) { return; }
 
-            if (info.IsCasualShow && !string.Equals(info.ShowNameId, "no_elimination_explore")) {
-                if (string.IsNullOrEmpty(info.Name) || !string.Equals(info.ShowNameId, "user_creative_race_round")) {
-                    return;
-                }
+            if (info.IsCasualShow && string.Equals(info.ShowNameId, "user_creative_race_round")) {
+                if (string.IsNullOrEmpty(info.Name)) { return; }
 
                 if (!this.StatsForm.ExistsPersonalBestLog(info.Finish.Value)) {
                     string levelName = string.IsNullOrEmpty(info.CreativeTitle) ? this.StatsForm.GetUserCreativeLevelTitle(info.Name) : info.CreativeTitle;

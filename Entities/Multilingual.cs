@@ -13542,6 +13542,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "Explore - Xtreme" },
                     { "xtreme_party", "X-treme Party" },
                     
                     { "show_wle_s10_wk01_mrs", "Creator Round Playlist 1" },
@@ -14449,6 +14450,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "Exploration - Xtrême" },
                     { "xtreme_party", "Fête Xtrême" },
                     
                     { "show_wle_s10_wk01_mrs", "Playlist de Manche de créateur 1" },
@@ -15356,6 +15358,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "탐험 - X-익스트림" },
                     { "xtreme_party", "X-익스트림 파티" },
                     
                     { "show_wle_s10_wk01_mrs", "크리에이터 라운드 플레이리스트 1" },
@@ -16263,6 +16266,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "自由探索 - エクストリーム" },
                     { "xtreme_party", "エクストリームパーティー" },
                     
                     { "show_wle_s10_wk01_mrs", "クリエイターラウンドのプレイリスト1" },
@@ -17170,6 +17174,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "探索 - 极限糖豆人" },
                     { "xtreme_party", "极限糖豆人派对" },
                     
                     { "show_wle_s10_wk01_mrs", "创作者回合节目列表 1" },
@@ -18077,6 +18082,7 @@ namespace FallGuysStats {
                     { "wle_srs_single_winner_template_filler", "placeholder" },
                     { "wle_srs_single_winner_template_final", "placeholder" },
                     { "wle_srs_single_winner_template_opener", "placeholder" },
+                    { "xtreme_explore", "探索 - 極限糖豆人" },
                     { "xtreme_party", "極限糖豆人派對" },
                     
                     { "show_wle_s10_wk01_mrs", "創作者回合節目列表 1" },
