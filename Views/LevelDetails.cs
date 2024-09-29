@@ -706,7 +706,7 @@ namespace FallGuysStats {
                 }
             } else if (((Grid)sender).Columns[e.ColumnIndex].Name == "IsFinalIcon") {
                 if (info.IsCasualShow) {
-                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = string.Equals(info.ShowNameId, "no_elimination_explore") ? Multilingual.GetShowName("no_elimination_explore") : Multilingual.GetShowName("casual_show");
+                    ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetShowName("casual_show");
                     e.Value = Properties.Resources.casual_show_icon;
                 } else if (info.IsFinal || info.Qualified) {
                     ((Grid)sender).Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = Multilingual.GetWord("level_detail_success_reaching_finals");

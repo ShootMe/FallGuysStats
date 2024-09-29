@@ -339,6 +339,7 @@ namespace FallGuysStats {
 
         private bool IsShowIsCasualShow(string showId) {
             return string.Equals(showId, "casual_show")
+                   || string.Equals(showId, "explore_points")
                    || string.Equals(showId, "no_elimination_explore")
                    || string.Equals(showId, "xtreme_explore");
         }
