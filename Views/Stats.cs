@@ -3362,6 +3362,25 @@ namespace FallGuysStats {
                 this.CurrentSettings.Version = 105;
                 this.SaveUserSettings();
             }
+            
+            if (this.CurrentSettings.Version == 105) {
+                List<RoundInfo> roundInfoList = (from ri in this.RoundDetails.FindAll()
+                                                 where string.Equals(ri.ShowNameId, "explore_points")
+                                                 select ri).ToList();
+                
+                foreach (RoundInfo ri in roundInfoList) {
+                    ri.ShowNameId = "user_creative_hunt_round";
+                    ri.UseShareCode = true;
+                    ri.Name = ri.Name.Substring(4, 14);
+                    ri.CreativeShareCode = ri.Name;
+                    ri.CreativeTitle = ri.Name;
+                }
+                this.StatsDB.BeginTrans();
+                this.RoundDetails.Update(roundInfoList);
+                this.StatsDB.Commit();
+                this.CurrentSettings.Version = 106;
+                this.SaveUserSettings();
+            }
         }
         
         private UserSettings GetDefaultSettings() {
