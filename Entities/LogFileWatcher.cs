@@ -753,8 +753,7 @@ namespace FallGuysStats {
                 if ((DateTime.UtcNow - Stats.ConnectedToServerDate).TotalMinutes <= 40) {
                     this.UpdateServerConnectionLog(this.threadLocalVariable.Value.currentSessionId, this.threadLocalVariable.Value.selectedShowId);
                 }
-            } else if (string.Equals(this.threadLocalVariable.Value.selectedShowId, "casual_show")
-                       && (index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
+            } else if ((index = line.Line.IndexOf("[StateGameLoading] Created UGC round: ", StringComparison.OrdinalIgnoreCase)) != -1) {
                 this.threadLocalVariable.Value.creativeShareCode = line.Line.Substring(index + 42, 14);
                 this.threadLocalVariable.Value.useShareCode = true;
             } else if ((index = line.Line.IndexOf("[RoundLoader] LoadGameLevelSceneASync COMPLETE for scene ", StringComparison.OrdinalIgnoreCase)) != -1) {
