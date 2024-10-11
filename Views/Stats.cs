@@ -273,6 +273,18 @@ namespace FallGuysStats {
             "private_lobbies"
         };
         
+        public readonly string[] PublicShowIdList2 = {
+            "knockout_mode",
+            "no_elimination_explore",
+            // "knockout_duos",
+            "teams_show_ltm",
+            "event_day_at_races_squads_template",
+            // "knockout_squads",
+            "squadcelebration",
+            "invisibeans_pistachio_template",
+            "xtreme_explore"
+        };
+        
         public string GetUserCreativeLevelTypeId(string gameModeId) {
             switch (gameModeId) {
                 case "GAMEMODE_GAUNTLET": return "user_creative_race_round";
@@ -614,16 +626,16 @@ namespace FallGuysStats {
                             this.StatsDB.BeginTrans();
                             for (int i = this.PublicShowIdList.Length; i >= 1; i--) {
                                 string showId = this.PublicShowIdList[i - 1];
-                                this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId });
+                                this.Profiles.Insert(new Profiles { ProfileId = i - 1, ProfileName = Multilingual.GetShowName(showId), ProfileOrder = i, LinkedShowId = showId, DoNotCombineShows = false });
                             }
                             this.StatsDB.Commit();
                             this.CurrentSettings.AutoChangeProfile = true;
                         } else {
                             this.StatsDB.BeginTrans();
-                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 4, LinkedShowId = "private_lobbies" });
-                            this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3, LinkedShowId = "squads_4player" });
-                            this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template" });
-                            this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show" });
+                            this.Profiles.Insert(new Profiles { ProfileId = 3, ProfileName = Multilingual.GetWord("main_profile_custom"), ProfileOrder = 4, LinkedShowId = "private_lobbies", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 2, ProfileName = Multilingual.GetWord("main_profile_squad"), ProfileOrder = 3, LinkedShowId = "squads_4player", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 1, ProfileName = Multilingual.GetWord("main_profile_duo"), ProfileOrder = 2, LinkedShowId = "squads_2player_template", DoNotCombineShows = false });
+                            this.Profiles.Insert(new Profiles { ProfileId = 0, ProfileName = Multilingual.GetWord("main_profile_solo"), ProfileOrder = 1, LinkedShowId = "main_show", DoNotCombineShows = false });
                             this.StatsDB.Commit();
                         }
                     }
@@ -4844,40 +4856,69 @@ namespace FallGuysStats {
                    || (showId.StartsWith("event_") && showId.EndsWith("_fools"));
         }
         
-        private int GetLinkedProfileId(string showId, bool isPrivateLobbies) {
-            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return 0;
-            showId = this.GetAlternateShowId(showId);
-            foreach (Profiles profiles in this.AllProfiles) {
-                if (isPrivateLobbies) {
-                    if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "private_lobbies")) {
+        private int GetLinkedProfileId(string realShowId, bool isPrivateLobbies) {
+            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(realShowId)) return 0;
+            string showId = this.GetAlternateShowId(realShowId);
+            foreach (Profiles profiles in this.AllProfiles.OrderBy(p => p.DoNotCombineShows ? 0 : 1)) {
+                if (profiles.DoNotCombineShows) {
+                    if (!isPrivateLobbies && !string.IsNullOrEmpty(profiles.LinkedShowId) && realShowId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
                         return profiles.ProfileId;
                     }
                 } else {
-                    if (this.IsCreativeShow(showId)) {
-                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "fall_guys_creative_mode")) {
+                    if (isPrivateLobbies) {
+                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "private_lobbies")) {
                             return profiles.ProfileId;
                         }
                     } else {
-                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
-                            return profiles.ProfileId;
+                        if (this.IsCreativeShow(showId)) {
+                            if (!string.IsNullOrEmpty(profiles.LinkedShowId) && string.Equals(profiles.LinkedShowId, "fall_guys_creative_mode")) {
+                                return profiles.ProfileId;
+                            }
+                        } else {
+                            if (!string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                                return profiles.ProfileId;
+                            }
                         }
                     }
                 }
             }
             if (isPrivateLobbies) {
                 // return corresponding linked profile when possible if no linked "private_lobbies" profile was found
-                return (from profiles in this.AllProfiles where !string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1 select profiles.ProfileId).FirstOrDefault();
+                return (from profiles in this.AllProfiles.OrderBy(p => p.DoNotCombineShows ? 0 : 1) where !string.IsNullOrEmpty(profiles.LinkedShowId) && showId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1 select profiles.ProfileId).FirstOrDefault();
             }
             // return ProfileId 0 if no linked profile was found/matched
             return 0;
         }
         
-        public void SetLinkedProfileMenu(string showId, bool isPrivateLobbies) {
-            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(showId)) return;
-            showId = this.GetAlternateShowId(showId);
-            if (string.Equals(this.GetCurrentProfileLinkedShowId(), showId)) return;
+        public void SetLinkedProfileMenu(string realShowId, bool isPrivateLobbies) {
+            if (this.AllProfiles.Count == 0 || string.IsNullOrEmpty(realShowId)) return;
+            string currentProfileLinkedShowId = this.GetCurrentProfileLinkedShowId();
+            bool isCurrentProfileIsDNCS = this.AllProfiles.Find(p => p.ProfileId == this.GetCurrentProfileId()).DoNotCombineShows;
+            if (isCurrentProfileIsDNCS && string.Equals(currentProfileLinkedShowId, realShowId)) return;
+            string showId = this.GetAlternateShowId(realShowId);
+            int linkedDNCSProfileId = this.AllProfiles.Find(p => p.DoNotCombineShows && string.Equals(p.LinkedShowId, realShowId))?.ProfileId ?? -1;
+            if (linkedDNCSProfileId == -1 && string.Equals(currentProfileLinkedShowId, showId)) return;
             this.BeginInvoke((MethodInvoker)delegate {
+                int profileId = -1;
+                bool isLinkedProfileFound = false;
+                foreach (Profiles profiles in this.AllProfiles.FindAll(p => p.DoNotCombineShows)) {
+                    if (!isPrivateLobbies && !string.IsNullOrEmpty(profiles.LinkedShowId) && realShowId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                        profileId = profiles.ProfileId;
+                        isLinkedProfileFound = true;
+                        break;
+                    }
+                }
                 for (int i = 0; i < this.AllProfiles.Count; i++) {
+                    if (isLinkedProfileFound) {
+                        if (this.AllProfiles[i].ProfileId == profileId) {
+                            ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
+                            if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                            return;
+                        } else {
+                            continue;
+                        }
+                    }
+                    if (this.AllProfiles[i].DoNotCombineShows) { continue; }
                     if (isPrivateLobbies) {
                         if (!string.IsNullOrEmpty(this.AllProfiles[i].LinkedShowId) && string.Equals(this.AllProfiles[i].LinkedShowId, "private_lobbies")) {
                             ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - i];
@@ -4901,20 +4942,35 @@ namespace FallGuysStats {
                     }
                 }
                 if (isPrivateLobbies) { // select corresponding linked profile when possible if no linked "private_lobbies" profile was found
-                    for (int j = 0; j < this.AllProfiles.Count; j++) {
-                        if (string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) {
-                            continue;
+                    foreach (Profiles profiles in this.AllProfiles.FindAll(p => p.DoNotCombineShows)) {
+                        if (!string.IsNullOrEmpty(profiles.LinkedShowId) && realShowId.IndexOf(profiles.LinkedShowId, StringComparison.OrdinalIgnoreCase) != -1) {
+                            profileId = profiles.ProfileId;
+                            isLinkedProfileFound = true;
+                            break;
                         }
-
-                        ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
-                        if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
-                        return;
+                    }
+                    for (int j = 0; j < this.AllProfiles.Count; j++) {
+                        if (isLinkedProfileFound) {
+                            if (this.AllProfiles[j].ProfileId == profileId) {
+                                ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                                if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                                return;
+                            } else {
+                                continue;
+                            }
+                        } else {
+                            if (this.AllProfiles[j].DoNotCombineShows || string.IsNullOrEmpty(this.AllProfiles[j].LinkedShowId) || showId.IndexOf(this.AllProfiles[j].LinkedShowId, StringComparison.OrdinalIgnoreCase) == -1) { continue; }
+                            
+                            ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - j];
+                            if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
+                            return;
+                        }
                     }
                 }
                 // select ProfileId 0 if no linked profile was found/matched
                 for (int k = 0; k < this.AllProfiles.Count; k++) {
                     if (this.AllProfiles[k].ProfileId != 0) { continue; }
-
+                    
                     ToolStripMenuItem item = this.ProfileMenuItems[this.AllProfiles.Count - 1 - k];
                     if (!item.Checked) { this.menuStats_Click(item, EventArgs.Empty); }
                     return;

@@ -108,7 +108,7 @@ namespace FallGuysStats {
             this.Theme = theme;
             this.ResumeLayout();
         }
-
+        
         private void InitProfileList() {
             this.cboShowsList = new DataGridViewComboBoxColumn {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.ComboBox
@@ -116,13 +116,17 @@ namespace FallGuysStats {
             DataTable showsData = new DataTable();
             showsData.Columns.Add("showName");
             showsData.Columns.Add("showId");
-            showsData.Rows.Add("", "");
+            showsData.Columns.Add("doNotCombineShows");
+            showsData.Rows.Add("", "", "False");
             foreach (string showId in this.StatsForm.PublicShowIdList) {
-                showsData.Rows.Add(Multilingual.GetShowName(showId), showId);
+                showsData.Rows.Add(Multilingual.GetShowName(showId), showId, "False");
             }
-
+            foreach (string showId in this.StatsForm.PublicShowIdList2) {
+                showsData.Rows.Add(Multilingual.GetShowName(showId), showId, "True");
+            }
+            
             showsData.DefaultView.Sort = "showName ASC";
-
+            
             this.cboShowsList.DataSource = showsData;
             this.cboShowsList.DisplayMember = "showName";
             this.cboShowsList.ValueMember = "showId";
@@ -192,13 +196,15 @@ namespace FallGuysStats {
         private void SubCombo_SelectionChangeCommitted(object sender, EventArgs e) {
             DataRowView dataRow = (DataRowView)((ComboBox)sender).SelectedItem;
             string linkedShowId = (string)dataRow.Row[1];
-
+            bool doNotCombineShows = bool.Parse((string)dataRow.Row[2]);
+            
             if (this.Profiles.FindIndex(item => item.LinkedShowId == linkedShowId) != -1) {
                 ((ComboBox)sender).SelectedIndex = this.selectedRowIndex;
             } else {
                 int profileListIndex = this.dgvProfiles.CurrentCell.RowIndex;
                 int profileIndex = this.Profiles.Count - profileListIndex - 1;
                 this.Profiles[profileIndex].LinkedShowId = linkedShowId;
+                this.Profiles[profileIndex].DoNotCombineShows = doNotCombineShows;
                 this.IsUpdate = true;
                 this.selectedRowIndex = ((ComboBox)sender).SelectedIndex;
             }
@@ -239,7 +245,7 @@ namespace FallGuysStats {
                     Multilingual.GetWord("message_create_profile_caption"), MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                 int maxId = this.Profiles.Max(p => p.ProfileId);
                 int maxOrder = this.Profiles.Max(p => p.ProfileOrder);
-                this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = string.IsNullOrEmpty(this.txtAddProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtAddProfile.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty });
+                this.Profiles.Insert(0, new Profiles { ProfileId = maxId + 1, ProfileName = string.IsNullOrEmpty(this.txtAddProfile.Text) ? Utils.ComputeHash(BitConverter.GetBytes(DateTime.Now.Ticks), HashTypes.MD5).Substring(0, 20) : this.txtAddProfile.Text, ProfileOrder = maxOrder + 1, LinkedShowId = string.Empty, DoNotCombineShows = false });
                 this.IsUpdate = true;
                 this.ReloadProfileList();
                 this.dgvProfiles[0, this.dgvProfiles.RowCount - 1].Selected = true;
