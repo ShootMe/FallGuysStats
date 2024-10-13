@@ -15,7 +15,8 @@ namespace FallGuysStats {
 	public static class Utils {
         public static readonly string FALLGUYSSTATS_RELEASES_LATEST_INFO_URL = "https://api.github.com/repos/ShootMe/FallGuysStats/releases/latest";
         public static readonly string FALLGUYSSTATS_RELEASES_LATEST_DOWNLOAD_URL = "https://github.com/ShootMe/FallGuysStats/releases/latest/download/FallGuysStats.zip";
-        public static readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/"; // $"{FALLGUYSDB_API_URL}creative/{sharecode}.json" or $"{FALLGUYSDB_API_URL}upcoming-shows"
+        public static readonly string FALLGUYSDB_API_URL = "https://api2.fallguysdb.info/api/"; // $"{FALLGUYSDB_API_URL}creative/{shareCode}.json" or $"{FALLGUYSDB_API_URL}upcoming-shows"
+        public static readonly string FGANALYST_API_URL = "https://cloudseeker.xyz/api/cv2/"; // $"{FGANALYST_API_URL}creative/?share_code={shareCode}"
         private static readonly string IP2C_ORG_URL = "https://ip2c.org/"; // $"{IP2C_ORG_URL}{ip}"
         private static readonly string IPINFO_IO_URL = "https://ipinfo.io/"; // $"{IPINFO_IO_URL}{ip}/json" or $"{IPINFO_IO_URL}{ip}?token="
         private static readonly string IPAPI_COM_URL = "http://ip-api.com/json/"; // $"{IPAPI_COM_URL}{ip}"

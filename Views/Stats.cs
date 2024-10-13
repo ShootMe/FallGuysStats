@@ -129,6 +129,7 @@ namespace FallGuysStats {
         public static bool IsLastPlayedRoundStillPlaying { get; set; }
         public static DateTime LastGameStart { get; set; } = DateTime.MinValue;
         public static DateTime LastRoundLoad { get; set; } = DateTime.MinValue;
+        public static DateTime LastCreativeRoundLoad { get; set; } = DateTime.MinValue;
         public static DateTime? LastPlayedRoundStart { get; set; }
         public static DateTime? LastPlayedRoundEnd { get; set; }
         
@@ -435,12 +436,19 @@ namespace FallGuysStats {
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
-                    string json = web.DownloadString("https://api2.fallguysdb.info/api/upcoming-shows");
+                    var temps = new List<UpcomingShow>();
+                    string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
                     UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<UpcomingShowInfo>(json);
                     if (upcomingShow.ok) {
-                        var temps = new List<UpcomingShow>();
                         foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                             foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
+                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
+                                    this.StatsDB.BeginTrans();
+                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
+                                    this.UpcomingShow.DeleteAll();
+                                    this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                                    this.StatsDB.Commit();
+                                }
                                 if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id))
                                     && !LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
                                     var temp = new UpcomingShow {
@@ -458,7 +466,7 @@ namespace FallGuysStats {
                                 }
                             }
                         }
-
+                        
                         if (temps.Count > 0) {
                             this.StatsDB.BeginTrans();
                             this.UpcomingShow.InsertBulk(temps);
@@ -474,7 +482,13 @@ namespace FallGuysStats {
         private void GenerateLevelStats() {
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             foreach (var level in this.UpcomingShowCache) {
-                if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
+                if (string.IsNullOrEmpty(level.DisplayName) || string.Equals(level.LevelType, LevelType.Unknown)) {
+                    this.StatsDB.BeginTrans();
+                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
+                    this.UpcomingShow.DeleteAll();
+                    this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                    this.StatsDB.Commit();
+                } else if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
                         10, 0, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                 }
@@ -4212,19 +4226,59 @@ namespace FallGuysStats {
                                 stat.ShowID = this.nextShowID;
                                 stat.Profile = profile;
 
-                                if ((this.StatLookup.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeShareCode))
-                                    || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeShareCode))) && Utils.IsInternetConnected()) {
+                                if ((this.StatLookup.TryGetValue(stat.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode) && string.IsNullOrEmpty(stat.CreativeTitle))
+                                    || (stat.UseShareCode && (string.Equals(stat.ShowNameId, "unknown") || string.IsNullOrEmpty(stat.CreativeTitle))) && Utils.IsInternetConnected()) {
                                     bool isSucceed = false;
                                     string shareCode = stat.UseShareCode ? stat.Name : l1.ShareCode;
                                     try {
                                         JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
-                                        if (resData.TryGetProperty("data", out JsonElement je)) {
-                                            JsonElement snapshot = je.GetProperty("snapshot");
-                                            JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
-                                            JsonElement stats = snapshot.GetProperty("stats");
+                                        JsonElement je = resData.GetProperty("data");
+                                        JsonElement snapshot = je.GetProperty("snapshot");
+                                        JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
+                                        JsonElement stats = snapshot.GetProperty("stats");
+                                        if (stat.UseShareCode) { stat.ShowNameId = this.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
+                                        string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+                                        // stat.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                                        stat.CreativeShareCode = shareCode;
+                                        stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
+                                        stat.CreativeAuthor = onlinePlatformInfo[1];
+                                        stat.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
+                                        stat.CreativeStatus = versionMetadata.GetProperty("status").GetString();
+                                        stat.CreativeTitle = versionMetadata.GetProperty("title").GetString();
+                                        stat.CreativeDescription = versionMetadata.GetProperty("description").GetString();
+                                        if (versionMetadata.TryGetProperty("creator_tags", out JsonElement creatorTags) && creatorTags.ValueKind == JsonValueKind.Array) {
+                                            string temps = string.Empty;
+                                            foreach (JsonElement t in creatorTags.EnumerateArray()) {
+                                                if (!string.IsNullOrEmpty(temps)) { temps += ";"; }
+                                                temps += t.GetString();
+                                            }
+                                            stat.CreativeCreatorTags = temps;
+                                        }
+                                        stat.CreativeMaxPlayer = versionMetadata.GetProperty("max_player_count").GetInt32();
+                                        stat.CreativeThumbUrl = versionMetadata.GetProperty("thumb_url").GetString();
+                                        stat.CreativePlatformId = versionMetadata.GetProperty("platform_id").GetString();
+                                        stat.CreativeGameModeId = versionMetadata.GetProperty("game_mode_id").GetString() ?? "GAMEMODE_GAUNTLET";
+                                        stat.CreativeLevelThemeId = versionMetadata.GetProperty("level_theme_id").GetString() ?? "THEME_VANILLA";
+                                        stat.CreativeLastModifiedDate = versionMetadata.GetProperty("last_modified_date").GetDateTime();
+                                        stat.CreativePlayCount = stats.GetProperty("play_count").GetInt32();
+                                        stat.CreativeLikes = stats.GetProperty("likes").GetInt32();
+                                        stat.CreativeDislikes = stats.GetProperty("dislikes").GetInt32();
+                                        stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
+                                        stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
+                                        var stat1 = stat;
+                                        Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, snapshot); });
+                                        isSucceed = true;
+                                    } catch {
+                                        try {
+                                            JsonElement resData = Utils.GetApiData(Utils.FGANALYST_API_URL, $"creative/?share_code={shareCode}");
+                                            JsonElement je = resData.GetProperty("level_data");
+                                            JsonElement levelData = je[0];
+                                            JsonElement versionMetadata = levelData.GetProperty("version_metadata");
+                                            JsonElement stats = levelData.GetProperty("stats");
                                             if (stat.UseShareCode) { stat.ShowNameId = this.GetUserCreativeLevelTypeId(versionMetadata.GetProperty("game_mode_id").GetString()); }
-                                            string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
-                                            stat.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                                            string[] onlinePlatformInfo = this.FindUserCreativeAuthor(levelData.GetProperty("author").GetProperty("name_per_platform"));
+                                            // stat.CreativeShareCode = levelData.GetProperty("share_code").GetString();
+                                            stat.CreativeShareCode = shareCode;
                                             stat.CreativeOnlinePlatformId = onlinePlatformInfo[0];
                                             stat.CreativeAuthor = onlinePlatformInfo[1];
                                             stat.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
@@ -4251,19 +4305,19 @@ namespace FallGuysStats {
                                             stat.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                                             stat.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
                                             var stat1 = stat;
-                                            Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, snapshot); });
+                                            Task.Run(() => { this.UpdateCreativeLevels(stat1.Name, shareCode, levelData); });
                                             isSucceed = true;
+                                        } catch {
+                                            isSucceed = false;
                                         }
-                                    } catch {
-                                        isSucceed = false;
                                     }
                                     
                                     if (!isSucceed) {
-                                        RoundInfo ri = this.GetRoundInfoFromShareCode(stat.ShowNameId);
+                                        RoundInfo ri = this.GetRoundInfoFromShareCode(shareCode);
                                         if (ri != null) {
                                             stat.CreativeOnlinePlatformId = ri.CreativePlatformId;
                                             stat.CreativeAuthor = ri.CreativeAuthor;
-                                            stat.CreativeShareCode = ri.CreativeShareCode;
+                                            stat.CreativeShareCode = shareCode;
                                             stat.CreativeVersion = ri.CreativeVersion;
                                             stat.CreativeStatus = ri.CreativeStatus;
                                             stat.CreativeTitle = ri.CreativeTitle;
@@ -4281,19 +4335,19 @@ namespace FallGuysStats {
                                             stat.CreativeQualificationPercent = ri.CreativeQualificationPercent;
                                             stat.CreativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                                         } else {
-                                            stat.CreativeShareCode = null;
-                                            stat.CreativeOnlinePlatformId = null;
-                                            stat.CreativeAuthor = null;
+                                            stat.CreativeOnlinePlatformId = string.Empty;
+                                            stat.CreativeAuthor = string.Empty;
+                                            stat.CreativeShareCode = shareCode;
                                             stat.CreativeVersion = 0;
-                                            stat.CreativeStatus = null;
-                                            stat.CreativeTitle = null;
-                                            stat.CreativeDescription = null;
-                                            stat.CreativeCreatorTags = null;
+                                            stat.CreativeStatus = string.Empty;
+                                            stat.CreativeTitle = string.Empty;
+                                            stat.CreativeDescription = string.Empty;
+                                            stat.CreativeCreatorTags = string.Empty;
                                             stat.CreativeMaxPlayer = 0;
-                                            stat.CreativeThumbUrl = null;
-                                            stat.CreativePlatformId = null;
-                                            stat.CreativeGameModeId = null;
-                                            stat.CreativeLevelThemeId = null;
+                                            stat.CreativeThumbUrl = string.Empty;
+                                            stat.CreativePlatformId = string.Empty;
+                                            stat.CreativeGameModeId = "GAMEMODE_GAUNTLET";
+                                            stat.CreativeLevelThemeId = "THEME_VANILLA";
                                             stat.CreativeLastModifiedDate = DateTime.MinValue;
                                             stat.CreativePlayCount = 0;
                                             stat.CreativeLikes = 0;
@@ -4849,6 +4903,8 @@ namespace FallGuysStats {
             return string.Equals(showId, "casual_show")
                    || string.Equals(showId, "explore_points")
                    || string.Equals(showId, "showcase_fp13")
+                   || showId.StartsWith("user_creative_")
+                   || showId.StartsWith("creative_")
                    || showId.StartsWith("event_wle_")
                    || showId.StartsWith("show_wle")
                    || showId.StartsWith("wle_")
@@ -5006,15 +5062,16 @@ namespace FallGuysStats {
             return this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, shareCode) && !string.IsNullOrEmpty(r.CreativeTitle));
         }
         
-        public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement snapshot) {
+        public void UpdateCreativeLevels(string levelId, string shareCode, JsonElement levelData) {
             List<RoundInfo> filteredInfo = this.AllStats.FindAll(r => string.Equals(r.Name, levelId) || string.Equals(r.Name, shareCode) || string.Equals(r.CreativeShareCode, shareCode));
             if (filteredInfo.Count <= 0) { return; }
             
-            JsonElement versionMetadata = snapshot.GetProperty("version_metadata");
-            JsonElement stats = snapshot.GetProperty("stats");
-            string[] onlinePlatformInfo = this.FindUserCreativeAuthor(snapshot.GetProperty("author").GetProperty("name_per_platform"));
+            JsonElement versionMetadata = levelData.GetProperty("version_metadata");
+            JsonElement stats = levelData.GetProperty("stats");
+            string[] onlinePlatformInfo = this.FindUserCreativeAuthor(levelData.GetProperty("author").GetProperty("name_per_platform"));
             foreach (RoundInfo info in filteredInfo) {
-                info.CreativeShareCode = snapshot.GetProperty("share_code").GetString();
+                // info.CreativeShareCode = levelData.GetProperty("share_code").GetString();
+                info.CreativeShareCode = shareCode;
                 info.CreativeOnlinePlatformId = onlinePlatformInfo[0];
                 info.CreativeAuthor = onlinePlatformInfo[1];
                 info.CreativeVersion = versionMetadata.GetProperty("version").GetInt32();
@@ -5041,7 +5098,7 @@ namespace FallGuysStats {
                 info.CreativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                 info.CreativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
             }
-                
+            
             lock (this.StatsDB) {
                 this.StatsDB.BeginTrans();
                 this.RoundDetails.Update(filteredInfo);
@@ -5902,16 +5959,25 @@ namespace FallGuysStats {
                         PrivateLobby = g.SortedRounds.LastOrDefault().PrivateLobby,
                         UseShareCode = g.SortedRounds.LastOrDefault().UseShareCode,
                         IsCasualShow = g.SortedRounds.LastOrDefault().IsCasualShow,
-                        CreativeAuthor = g.SortedRounds.LastOrDefault().CreativeAuthor,
                         CreativeOnlinePlatformId = g.SortedRounds.LastOrDefault().CreativeOnlinePlatformId,
+                        CreativeAuthor = g.SortedRounds.LastOrDefault().CreativeAuthor,
                         CreativeShareCode = g.SortedRounds.LastOrDefault().CreativeShareCode,
+                        CreativeVersion = g.SortedRounds.LastOrDefault().CreativeVersion,
+                        CreativeStatus = g.SortedRounds.LastOrDefault().CreativeStatus,
                         CreativeTitle = g.SortedRounds.LastOrDefault().CreativeTitle,
                         CreativeDescription = g.SortedRounds.LastOrDefault().CreativeDescription,
-                        CreativeVersion = g.SortedRounds.LastOrDefault().CreativeVersion,
+                        CreativeCreatorTags = g.SortedRounds.LastOrDefault().CreativeCreatorTags,
                         CreativeMaxPlayer = g.SortedRounds.LastOrDefault().CreativeMaxPlayer,
+                        CreativeThumbUrl = g.SortedRounds.LastOrDefault().CreativeThumbUrl,
                         CreativePlatformId = g.SortedRounds.LastOrDefault().CreativePlatformId,
+                        CreativeGameModeId = g.SortedRounds.LastOrDefault().CreativeGameModeId,
+                        CreativeLevelThemeId = g.SortedRounds.LastOrDefault().CreativeLevelThemeId,
+                        CreativeLastModifiedDate = g.SortedRounds.LastOrDefault().CreativeLastModifiedDate,
                         CreativePlayCount = g.SortedRounds.LastOrDefault().CreativePlayCount,
-                        CreativeLastModifiedDate = g.SortedRounds.LastOrDefault().CreativeLastModifiedDate
+                        CreativeLikes = g.SortedRounds.LastOrDefault().CreativeLikes,
+                        CreativeDislikes = g.SortedRounds.LastOrDefault().CreativeDislikes,
+                        CreativeQualificationPercent = g.SortedRounds.LastOrDefault().CreativeQualificationPercent,
+                        CreativeTimeLimitSeconds = g.SortedRounds.LastOrDefault().CreativeTimeLimitSeconds
                     }).ToList();
         }
         
@@ -7173,9 +7239,9 @@ namespace FallGuysStats {
             }
         }
         
-        public string GetUserCreativeLevelTitle(string code) {
-            string levelName = this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, code))?.CreativeTitle;
-            return string.IsNullOrEmpty(levelName) ? code : levelName;
+        public string GetUserCreativeLevelTitle(string shareCode) {
+            string levelName = this.AllStats.FindLast(r => r.UseShareCode && string.Equals(r.Name, shareCode))?.CreativeTitle;
+            return string.IsNullOrEmpty(levelName) ? shareCode : levelName;
         }
         
         public string[] FindUserCreativeAuthor(JsonElement authorData) {
