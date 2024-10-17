@@ -469,10 +469,10 @@ namespace FallGuysStats {
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
-        private void SetDefaultUserCreativeLevelInfo(string shareCode = "") {
+        private void SetDefaultUserCreativeLevelInfo() {
             this.threadLocalVariable.Value.creativeOnlinePlatformId = string.Empty;
             this.threadLocalVariable.Value.creativeAuthor = string.Empty;
-            this.threadLocalVariable.Value.creativeShareCode = shareCode;
+            this.threadLocalVariable.Value.creativeShareCode = string.Empty;
             this.threadLocalVariable.Value.creativeVersion = 0;
             this.threadLocalVariable.Value.creativeStatus = string.Empty;
             this.threadLocalVariable.Value.creativeTitle = string.Empty;
@@ -481,8 +481,8 @@ namespace FallGuysStats {
             this.threadLocalVariable.Value.creativeMaxPlayer = 0;
             this.threadLocalVariable.Value.creativeThumbUrl = string.Empty;
             this.threadLocalVariable.Value.creativePlatformId = string.Empty;
-            this.threadLocalVariable.Value.creativeGameModeId = "GAMEMODE_GAUNTLET";
-            this.threadLocalVariable.Value.creativeLevelThemeId = "THEME_VANILLA";
+            this.threadLocalVariable.Value.creativeGameModeId = string.Empty;
+            this.threadLocalVariable.Value.creativeLevelThemeId = string.Empty;
             this.threadLocalVariable.Value.creativeLastModifiedDate = DateTime.MinValue;
             this.threadLocalVariable.Value.creativePlayCount = 0;
             this.threadLocalVariable.Value.creativeLikes = 0;
@@ -595,7 +595,7 @@ namespace FallGuysStats {
                     this.threadLocalVariable.Value.creativeQualificationPercent = ri.CreativeQualificationPercent;
                     this.threadLocalVariable.Value.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
                 } else {
-                    this.SetDefaultUserCreativeLevelInfo(shareCode);
+                    this.SetDefaultUserCreativeLevelInfo();
                 }
             }
         }

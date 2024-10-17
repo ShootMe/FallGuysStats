@@ -4337,7 +4337,7 @@ namespace FallGuysStats {
                                         } else {
                                             stat.CreativeOnlinePlatformId = string.Empty;
                                             stat.CreativeAuthor = string.Empty;
-                                            stat.CreativeShareCode = shareCode;
+                                            stat.CreativeShareCode = string.Empty;
                                             stat.CreativeVersion = 0;
                                             stat.CreativeStatus = string.Empty;
                                             stat.CreativeTitle = string.Empty;
@@ -4346,8 +4346,8 @@ namespace FallGuysStats {
                                             stat.CreativeMaxPlayer = 0;
                                             stat.CreativeThumbUrl = string.Empty;
                                             stat.CreativePlatformId = string.Empty;
-                                            stat.CreativeGameModeId = "GAMEMODE_GAUNTLET";
-                                            stat.CreativeLevelThemeId = "THEME_VANILLA";
+                                            stat.CreativeGameModeId = string.Empty;
+                                            stat.CreativeLevelThemeId = string.Empty;
                                             stat.CreativeLastModifiedDate = DateTime.MinValue;
                                             stat.CreativePlayCount = 0;
                                             stat.CreativeLikes = 0;
