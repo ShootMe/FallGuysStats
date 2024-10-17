@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -368,8 +369,8 @@ namespace FallGuysStats {
             Utils.DwmSetWindowAttribute(this.trayFallGuysDB.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
             Utils.DwmSetWindowAttribute(this.trayFallalytics.DropDown.Handle, DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE, ref windowConerPreference, sizeof(uint));
         }
-        
-        public struct UpcomingShowInfo {
+
+        public struct FGDB_UpcomingShowInfo {
             public bool ok { get; set; }
             public ShowData data { get; set; }
 
@@ -431,15 +432,55 @@ namespace FallGuysStats {
             }
         }
 
+        public struct FGA_UpcomingShowInfo {
+
+            [JsonExtensionData]
+            public Dictionary<string, JsonElement> Shows { get; set; }
+            public string section_name { get; set; }
+
+            public struct Show {
+                public string id { get; set; }
+                public string show_name { get; set; }
+                public string show_desc { get; set; }
+                public long begins { get; set; }
+                public long ends { get; set; }
+                public string roundpool { get; set; }
+                public string image { get; set; }
+                public Dictionary<string, JsonElement> victory_rewards { get; set; }
+            }
+        }
+
+        public struct FGA_RoundPoolInfo {
+
+            [JsonExtensionData]
+            public Dictionary<string, JsonElement> Levels { get; set; }
+
+            public struct Level {
+                public string name { get; set; }
+                public string id { get; set; }
+                public string archetype { get; set; }
+                public string creative_gamemode { get; set; }
+                public string type { get; set; }
+                public int[] cannot_be_on_stages { get; set; }
+                public int[] can_only_be_on_stages { get; set; }
+                public int min_players { get; set; }
+                public int max_players { get; set; }
+                public int time_remaining { get; set; }
+                public string wushu_id { get; set; }
+                // public string wushu_author { get; set; }
+                public bool is_final { get; set; }
+            }
+        }
+
         private void UpdateUpcomingShow() {
             if (!Utils.IsInternetConnected()) { return; }
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             using (ApiWebClient web = new ApiWebClient()) {
                 try {
-                    var temps = new List<UpcomingShow>();
                     string json = web.DownloadString($"{Utils.FALLGUYSDB_API_URL}upcoming-shows");
-                    UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<UpcomingShowInfo>(json);
+                    FGDB_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGDB_UpcomingShowInfo>(json);
                     if (upcomingShow.ok) {
+                        var temps = new List<UpcomingShow>();
                         foreach (var show in upcomingShow.data.shows.Where(s => s.starts <= DateTime.UtcNow)) {
                             foreach (var level in show.rounds.Where(r => r.is_creative_level)) {
                                 if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
@@ -472,9 +513,71 @@ namespace FallGuysStats {
                             this.UpcomingShow.InsertBulk(temps);
                             this.StatsDB.Commit();
                         }
+                    } else {
+                        throw new Exception("FALLGUYSDB API Error");
                     }
                 } catch {
-                    // ignored
+                    try {
+                        JsonElement resData = Utils.GetApiData(Utils.FGANALYST_API_URL, "show-selector/");
+                        if (string.Equals(resData.GetProperty("xstatus").ToString(), "success")) {
+                            JsonElement shows = resData.GetProperty("shows");
+                            var liveShows = System.Text.Json.JsonSerializer.Deserialize<List<FGA_UpcomingShowInfo>>(shows.GetProperty("live_shows"));
+                            var selectedShows = new List<FGA_UpcomingShowInfo.Show>();
+                            foreach (var showInfo in liveShows) {
+                                if (string.Equals(showInfo.section_name, "CLASSIC GAMES")) { continue; }
+                                foreach (var showDetails in showInfo.Shows.Values) {
+                                    var show = showDetails.Deserialize<FGA_UpcomingShowInfo.Show>();
+                                    if (string.Equals(show.id, "ftue_uk_show") || show.victory_rewards.Count == 0) { continue; }
+                                    selectedShows.Add(show);
+                                }
+                            }
+                            var temps = new List<UpcomingShow>();
+                            foreach (var show in selectedShows) {
+                                if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
+                                    resData = Utils.GetApiData(Utils.FGANALYST_API_URL, $"show-roundpools/?roundpool={show.roundpool}");
+                                    if (string.Equals(resData.GetProperty("xstatus").ToString(), "success")) {
+                                        shows = resData.GetProperty("shows");
+                                        var roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundPoolInfo>(shows.GetProperty("roundpool"));
+                                        foreach (var levelDetails in roundpool.Levels.Values) {
+                                            var level = levelDetails.Deserialize<FGA_RoundPoolInfo.Level>();
+                                            if (string.Equals(level.type, "wushu")) {
+                                                if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
+                                                    this.StatsDB.BeginTrans();
+                                                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
+                                                    this.UpcomingShow.DeleteAll();
+                                                    this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                                                    this.StatsDB.Commit();
+                                                }
+                                                if (!this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id))
+                                                    && !LevelStats.ALL.ContainsKey(this.ReplaceLevelIdInShuffleShow(show.id, level.id))) {
+                                                    var temp = new UpcomingShow {
+                                                        ShowId = show.id,
+                                                        LevelId = level.id,
+                                                        DisplayName = level.name,
+                                                        ShareCode = level.wushu_id,
+                                                        IsFinal = level.is_final,
+                                                        IsCreative = true,
+                                                        LevelType = this.GetCreativeLevelType(level.creative_gamemode),
+                                                        BestRecordType = this.GetBestRecordType(level.creative_gamemode),
+                                                        AddDate = this.startupTime
+                                                    };
+                                                    temps.Add(temp);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            if (temps.Count > 0) {
+                                this.StatsDB.BeginTrans();
+                                this.UpcomingShow.InsertBulk(temps);
+                                this.StatsDB.Commit();
+                            }
+                        }
+                    } catch {
+                        // ignored
+                    }
                 }
             }
         }
