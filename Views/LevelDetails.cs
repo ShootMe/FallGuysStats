@@ -734,7 +734,7 @@ namespace FallGuysStats {
                     if (this.StatsForm.StatLookup.TryGetValue((string.IsNullOrEmpty(info.ShowNameId) ? "user_creative_race_round" : info.ShowNameId), out LevelStats level)) {
                         Color c1 = string.IsNullOrEmpty(info.CreativeTitle) ? (this.Theme == MetroThemeStyle.Light ? Color.Navy : Color.Snow) : level.Type.LevelForeColor(info.IsFinal, info.IsTeam, this.Theme);
                         e.CellStyle.ForeColor = this.Theme == MetroThemeStyle.Light ? c1 : ControlPaint.LightLight(c1);
-                        e.Value = $"🔧 {(string.IsNullOrEmpty(info.CreativeTitle) ? $"{info.CreativeShareCode}" : $"{info.CreativeTitle}")}";
+                        e.Value = $"🔧 {(string.IsNullOrEmpty(info.CreativeTitle) ? info.Name : info.CreativeTitle)}";
                     }
                 } else {
                     if (this.StatsForm.StatLookup.TryGetValue((string)e.Value, out LevelStats level)) {
@@ -1086,7 +1086,10 @@ namespace FallGuysStats {
                     RoundInfo ri = this.gridDetails.Rows[this.gridDetails.SelectedCells[0].RowIndex].DataBoundItem as RoundInfo;
                     if ((this.StatsForm.StatLookup.TryGetValue(ri.Name, out LevelStats l1) && l1.IsCreative && !string.IsNullOrEmpty(l1.ShareCode)) || ri.UseShareCode) {
                         string shareCode = ri.UseShareCode ? ri.Name : l1.ShareCode;
-                        if (MetroMessageBox.Show(this, string.IsNullOrEmpty(ri.CreativeTitle) ? $"{Multilingual.GetWord("message_update_creative_map_with_sharecode_prefix")}{shareCode}{Multilingual.GetWord("message_update_creative_map_with_sharecode_suffix")}" : $"{Multilingual.GetWord("message_update_creative_map_with_title_prefix")}{ri.CreativeTitle}{Multilingual.GetWord("message_update_creative_map_with_title_suffix")}", Multilingual.GetWord("message_update_creative_map_caption"),
+                        if (MetroMessageBox.Show(this,
+                                string.IsNullOrEmpty(ri.CreativeTitle) ? $"{Multilingual.GetWord("message_update_creative_map_with_sharecode_prefix")}{shareCode}{Multilingual.GetWord("message_update_creative_map_with_sharecode_suffix")}"
+                                                                       : $"{Multilingual.GetWord("message_update_creative_map_with_title_prefix")}{ri.CreativeTitle}{Multilingual.GetWord("message_update_creative_map_with_title_suffix")}",
+                                Multilingual.GetWord("message_update_creative_map_caption"),
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK) {
                             int minIndex = this.gridDetails.FirstDisplayedScrollingRowIndex;
                             this.gridDetails.Enabled = false;
@@ -1266,7 +1269,7 @@ namespace FallGuysStats {
                 }
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
-                strBuilder.Append($"• {(Stats.InstalledEmojiFont ? "👍" : $"{Multilingual.GetWord("level_detail_creative_likes")}")} {info.CreativeLikes:N0}\t      • {(Stats.InstalledEmojiFont ? "👎" : $"{Multilingual.GetWord("level_detail_creative_dislikes")}")} {info.CreativeDislikes:N0}");
+                strBuilder.Append($"• {(Stats.InstalledEmojiFont ? "👍" : Multilingual.GetWord("level_detail_creative_likes"))} {info.CreativeLikes:N0}\t      • {(Stats.InstalledEmojiFont ? "👎" : Multilingual.GetWord("level_detail_creative_dislikes"))} {info.CreativeDislikes:N0}");
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append(Environment.NewLine);
                 strBuilder.Append($"• {Multilingual.GetWord("level_detail_creative_share_code")} : {info.CreativeShareCode}");

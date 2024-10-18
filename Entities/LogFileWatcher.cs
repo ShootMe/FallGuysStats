@@ -469,10 +469,10 @@ namespace FallGuysStats {
                        || roundId.IndexOf("_squads", StringComparison.OrdinalIgnoreCase) != -1);
         }
 
-        private void SetDefaultUserCreativeLevelInfo(string shareCode = "") {
+        private void SetDefaultCreativeLevelVariables() {
             this.threadLocalVariable.Value.creativeOnlinePlatformId = string.Empty;
             this.threadLocalVariable.Value.creativeAuthor = string.Empty;
-            this.threadLocalVariable.Value.creativeShareCode = shareCode;
+            this.threadLocalVariable.Value.creativeShareCode = string.Empty;
             this.threadLocalVariable.Value.creativeVersion = 0;
             this.threadLocalVariable.Value.creativeStatus = string.Empty;
             this.threadLocalVariable.Value.creativeTitle = string.Empty;
@@ -481,8 +481,8 @@ namespace FallGuysStats {
             this.threadLocalVariable.Value.creativeMaxPlayer = 0;
             this.threadLocalVariable.Value.creativeThumbUrl = string.Empty;
             this.threadLocalVariable.Value.creativePlatformId = string.Empty;
-            this.threadLocalVariable.Value.creativeGameModeId = "GAMEMODE_GAUNTLET";
-            this.threadLocalVariable.Value.creativeLevelThemeId = "THEME_VANILLA";
+            this.threadLocalVariable.Value.creativeGameModeId = string.Empty;
+            this.threadLocalVariable.Value.creativeLevelThemeId = string.Empty;
             this.threadLocalVariable.Value.creativeLastModifiedDate = DateTime.MinValue;
             this.threadLocalVariable.Value.creativePlayCount = 0;
             this.threadLocalVariable.Value.creativeLikes = 0;
@@ -491,9 +491,32 @@ namespace FallGuysStats {
             this.threadLocalVariable.Value.creativeTimeLimitSeconds = 0;
         }
 
-        private void SetCreativeLevelVariable(string shareCode) {
-            TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
+        private void SetCreativeLevelVariables(string shareCode) {
+            RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
+            if (ri != null) {
+                this.threadLocalVariable.Value.creativeOnlinePlatformId = ri.CreativePlatformId;
+                this.threadLocalVariable.Value.creativeAuthor = ri.CreativeAuthor;
+                // this.threadLocalVariable.Value.creativeShareCode = ri.CreativeShareCode;
+                this.threadLocalVariable.Value.creativeVersion = ri.CreativeVersion;
+                this.threadLocalVariable.Value.creativeStatus = ri.CreativeStatus;
+                this.threadLocalVariable.Value.creativeTitle = ri.CreativeTitle;
+                this.threadLocalVariable.Value.creativeDescription = ri.CreativeDescription;
+                this.threadLocalVariable.Value.creativeCreatorTags = ri.CreativeCreatorTags;
+                this.threadLocalVariable.Value.creativeMaxPlayer = ri.CreativeMaxPlayer;
+                this.threadLocalVariable.Value.creativeThumbUrl = ri.CreativeThumbUrl;
+                this.threadLocalVariable.Value.creativePlatformId = ri.CreativePlatformId;
+                this.threadLocalVariable.Value.creativeGameModeId = ri.CreativeGameModeId;
+                this.threadLocalVariable.Value.creativeLevelThemeId = ri.CreativeLevelThemeId;
+                this.threadLocalVariable.Value.creativeLastModifiedDate = ri.CreativeLastModifiedDate;
+                this.threadLocalVariable.Value.creativePlayCount = ri.CreativePlayCount;
+                this.threadLocalVariable.Value.creativeLikes = ri.CreativeLikes;
+                this.threadLocalVariable.Value.creativeDislikes = ri.CreativeDislikes;
+                this.threadLocalVariable.Value.creativeQualificationPercent = ri.CreativeQualificationPercent;
+                this.threadLocalVariable.Value.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
+                return;
+            }
             bool isSucceed = false;
+            TimeSpan timeDiff = DateTime.UtcNow - Stats.ConnectedToServerDate;
             if (timeDiff.TotalMinutes <= 15 && Utils.IsInternetConnected()) {
                 try {
                     JsonElement resData = Utils.GetApiData(Utils.FALLGUYSDB_API_URL, $"creative/{shareCode}.json");
@@ -528,7 +551,7 @@ namespace FallGuysStats {
                     this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                     this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                     this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                    Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, snapshot); });
+                    // Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, snapshot); });
                     isSucceed = true;
                 } catch {
                     try {
@@ -564,7 +587,7 @@ namespace FallGuysStats {
                         this.threadLocalVariable.Value.creativeDislikes = stats.GetProperty("dislikes").GetInt32();
                         this.threadLocalVariable.Value.creativeQualificationPercent = versionMetadata.GetProperty("qualification_percent").GetInt32();
                         this.threadLocalVariable.Value.creativeTimeLimitSeconds = versionMetadata.GetProperty("config").TryGetProperty("time_limit_seconds", out JsonElement jeTimeLimitSeconds) ? jeTimeLimitSeconds.GetInt32() : 240;
-                        Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, levelData); });
+                        // Task.Run(() => { this.StatsForm.UpdateCreativeLevels(string.Empty, shareCode, levelData); });
                         isSucceed = true;
                     } catch {
                         isSucceed = false;
@@ -573,30 +596,7 @@ namespace FallGuysStats {
             }
             
             if (!isSucceed) {
-                RoundInfo ri = this.StatsForm.GetRoundInfoFromShareCode(shareCode);
-                if (ri != null) {
-                    this.threadLocalVariable.Value.creativeOnlinePlatformId = ri.CreativePlatformId;
-                    this.threadLocalVariable.Value.creativeAuthor = ri.CreativeAuthor;
-                    // this.threadLocalVariable.Value.creativeShareCode = ri.CreativeShareCode;
-                    this.threadLocalVariable.Value.creativeVersion = ri.CreativeVersion;
-                    this.threadLocalVariable.Value.creativeStatus = ri.CreativeStatus;
-                    this.threadLocalVariable.Value.creativeTitle = ri.CreativeTitle;
-                    this.threadLocalVariable.Value.creativeDescription = ri.CreativeDescription;
-                    this.threadLocalVariable.Value.creativeCreatorTags = ri.CreativeCreatorTags;
-                    this.threadLocalVariable.Value.creativeMaxPlayer = ri.CreativeMaxPlayer;
-                    this.threadLocalVariable.Value.creativeThumbUrl = ri.CreativeThumbUrl;
-                    this.threadLocalVariable.Value.creativePlatformId = ri.CreativePlatformId;
-                    this.threadLocalVariable.Value.creativeGameModeId = ri.CreativeGameModeId;
-                    this.threadLocalVariable.Value.creativeLevelThemeId = ri.CreativeLevelThemeId;
-                    this.threadLocalVariable.Value.creativeLastModifiedDate = ri.CreativeLastModifiedDate;
-                    this.threadLocalVariable.Value.creativePlayCount = ri.CreativePlayCount;
-                    this.threadLocalVariable.Value.creativeLikes = ri.CreativeLikes;
-                    this.threadLocalVariable.Value.creativeDislikes = ri.CreativeDislikes;
-                    this.threadLocalVariable.Value.creativeQualificationPercent = ri.CreativeQualificationPercent;
-                    this.threadLocalVariable.Value.creativeTimeLimitSeconds = ri.CreativeTimeLimitSeconds;
-                } else {
-                    this.SetDefaultUserCreativeLevelInfo(shareCode);
-                }
+                this.SetDefaultCreativeLevelVariables();
             }
         }
 
@@ -659,7 +659,7 @@ namespace FallGuysStats {
             Stats.LastCountryRegion = string.Empty;
             Stats.LastCountryCity = string.Empty;
             this.threadLocalVariable.Value.toggleCountryInfoApi = false;
-            this.SetDefaultUserCreativeLevelInfo();
+            this.SetDefaultCreativeLevelVariables();
         }
 
         private void UpdateServerConnectionLog(string session, string show) {
@@ -822,7 +822,7 @@ namespace FallGuysStats {
                         if (line.Date > Stats.LastCreativeRoundLoad) {
                             Stats.LastCreativeRoundLoad = line.Date;
                             this.threadLocalVariable.Value.creativeShareCode = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
-                            this.SetCreativeLevelVariable(this.threadLocalVariable.Value.creativeShareCode);
+                            this.SetCreativeLevelVariables(this.threadLocalVariable.Value.creativeShareCode);
                         }
                         logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
                     } else {
@@ -850,7 +850,7 @@ namespace FallGuysStats {
                         if (line.Date > Stats.LastCreativeRoundLoad) {
                             Stats.LastCreativeRoundLoad = line.Date;
                             this.threadLocalVariable.Value.creativeShareCode = logRound.Info.IsCasualShow ? this.threadLocalVariable.Value.creativeShareCode : logRound.Info.ShowNameId;
-                            this.SetCreativeLevelVariable(this.threadLocalVariable.Value.creativeShareCode);
+                            this.SetCreativeLevelVariables(this.threadLocalVariable.Value.creativeShareCode);
                         }
                         logRound.Info.SceneName = this.threadLocalVariable.Value.creativeGameModeId;
                     } else {
