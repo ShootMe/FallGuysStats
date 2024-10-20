@@ -433,42 +433,68 @@ namespace FallGuysStats {
         }
 
         public struct FGA_UpcomingShowInfo {
+            public string xstatus { get; set; }
+            public ShowData shows { get; set; }
 
-            [JsonExtensionData]
-            public Dictionary<string, JsonElement> Shows { get; set; }
-            public string section_name { get; set; }
+            public struct ShowData {
+                public List<LiveShow> live_shows { get; set; }
 
-            public struct Show {
-                public string id { get; set; }
-                public string show_name { get; set; }
-                public string show_desc { get; set; }
-                public long begins { get; set; }
-                public long ends { get; set; }
-                public string roundpool { get; set; }
-                public string image { get; set; }
-                public Dictionary<string, JsonElement> victory_rewards { get; set; }
+                public struct LiveShow {
+
+                    [JsonExtensionData]
+                    public Dictionary<string, JsonElement> showInfo { get; set; }
+                    public string section_name { get; set; }
+
+                    public struct Show {
+                        public string id { get; set; }
+                        public string show_name { get; set; }
+                        public string show_desc { get; set; }
+                        public long begins { get; set; }
+                        public long ends { get; set; }
+                        public string roundpool { get; set; }
+                        public string image { get; set; }
+                        public Dictionary<string, int> victory_rewards { get; set; }
+
+                        public struct Rewards {
+                            public int? fame { get; set; }
+                            public int? shards { get; set; }
+                            public int? crowns { get; set; }
+                        }
+                    }
+                }
             }
         }
 
-        public struct FGA_RoundPoolInfo {
+        public struct FGA_RoundpoolInfo {
+            public string xstatus { get; set; }
+            public LevelData shows { get; set; }
 
-            [JsonExtensionData]
-            public Dictionary<string, JsonElement> Levels { get; set; }
+            public struct LevelData {
+                public Roundpool roundpool { get; set; }
 
-            public struct Level {
-                public string name { get; set; }
-                public string id { get; set; }
-                public string archetype { get; set; }
-                public string creative_gamemode { get; set; }
-                public string type { get; set; }
-                public int[] cannot_be_on_stages { get; set; }
-                public int[] can_only_be_on_stages { get; set; }
-                public int min_players { get; set; }
-                public int max_players { get; set; }
-                public int time_remaining { get; set; }
-                public string wushu_id { get; set; }
-                // public string wushu_author { get; set; }
-                public bool is_final { get; set; }
+                public struct Roundpool {
+
+                    [JsonExtensionData]
+                    public Dictionary<string, JsonElement> roundpoolInfo { get; set; }
+
+                    public struct Level {
+                        public string name { get; set; }
+                        public string id { get; set; }
+                        public string archetype { get; set; }
+                        public string creative_gamemode { get; set; }
+                        public string type { get; set; }
+                        public int[] cannot_be_on_stages { get; set; }
+                        public int[] can_only_be_on_stages { get; set; }
+                        public int min_players { get; set; }
+                        public int max_players { get; set; }
+                        public int time_remaining { get; set; }
+                        public string wushu_id { get; set; }
+
+                        [JsonExtensionData]
+                        public Dictionary<string, JsonElement> wushu_author { get; set; }
+                        public bool is_final { get; set; }
+                    }
+                }
             }
         }
 
@@ -514,19 +540,18 @@ namespace FallGuysStats {
                             this.StatsDB.Commit();
                         }
                     } else {
-                        throw new Exception("FALLGUYSDB API Error");
+                        throw new Exception("FallGuysDB API is unavailable => Try FGAnalyst API now");
                     }
                 } catch {
                     try {
-                        JsonElement resData = Utils.GetApiData(Utils.FGANALYST_API_URL, "show-selector/");
-                        if (string.Equals(resData.GetProperty("xstatus").ToString(), "success")) {
-                            JsonElement shows = resData.GetProperty("shows");
-                            var liveShows = System.Text.Json.JsonSerializer.Deserialize<List<FGA_UpcomingShowInfo>>(shows.GetProperty("live_shows"));
-                            var selectedShows = new List<FGA_UpcomingShowInfo.Show>();
-                            foreach (var showInfo in liveShows) {
-                                if (string.Equals(showInfo.section_name, "CLASSIC GAMES")) { continue; }
-                                foreach (var showDetails in showInfo.Shows.Values) {
-                                    var show = showDetails.Deserialize<FGA_UpcomingShowInfo.Show>();
+                        string json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-selector/");
+                        FGA_UpcomingShowInfo upcomingShow = System.Text.Json.JsonSerializer.Deserialize<FGA_UpcomingShowInfo>(json);
+                        if (string.Equals(upcomingShow.xstatus, "success")) {
+                            var selectedShows = new List<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
+                            foreach (var liveShow in upcomingShow.shows.live_shows) {
+                                if (string.Equals(liveShow.section_name, "CLASSIC GAMES")) { continue; }
+                                foreach (var showDetails in liveShow.showInfo.Values) {
+                                    var show = showDetails.Deserialize<FGA_UpcomingShowInfo.ShowData.LiveShow.Show>();
                                     if (string.Equals(show.id, "ftue_uk_show") || show.victory_rewards.Count == 0) { continue; }
                                     selectedShows.Add(show);
                                 }
@@ -534,12 +559,11 @@ namespace FallGuysStats {
                             var temps = new List<UpcomingShow>();
                             foreach (var show in selectedShows) {
                                 if (show.begins <= DateTimeOffset.UtcNow.ToUnixTimeSeconds()) {
-                                    resData = Utils.GetApiData(Utils.FGANALYST_API_URL, $"show-roundpools/?roundpool={show.roundpool}");
-                                    if (string.Equals(resData.GetProperty("xstatus").ToString(), "success")) {
-                                        shows = resData.GetProperty("shows");
-                                        var roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundPoolInfo>(shows.GetProperty("roundpool"));
-                                        foreach (var levelDetails in roundpool.Levels.Values) {
-                                            var level = levelDetails.Deserialize<FGA_RoundPoolInfo.Level>();
+                                    json = web.DownloadString($"{Utils.FGANALYST_API_URL}show-roundpools/?roundpool={show.roundpool}");
+                                    FGA_RoundpoolInfo roundpool = System.Text.Json.JsonSerializer.Deserialize<FGA_RoundpoolInfo>(json);
+                                    if (string.Equals(roundpool.xstatus, "success")) {
+                                        foreach (var levelDetails in roundpool.shows.roundpool.roundpoolInfo.Values) {
+                                            var level = levelDetails.Deserialize<FGA_RoundpoolInfo.LevelData.Roundpool.Level>();
                                             if (string.Equals(level.type, "wushu")) {
                                                 if (this.UpcomingShowCache.Exists(u => string.Equals(u.LevelId, level.id) && (string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown)))) {
                                                     this.StatsDB.BeginTrans();
@@ -583,18 +607,22 @@ namespace FallGuysStats {
         }
 
         private void GenerateLevelStats() {
+            List<string> removableLevelsInUpcomingShow = new List<string>();
             this.UpcomingShowCache = this.UpcomingShow.FindAll().ToList();
             foreach (var level in this.UpcomingShowCache) {
                 if (string.IsNullOrEmpty(level.DisplayName) || string.Equals(level.LevelType, LevelType.Unknown)) {
-                    this.StatsDB.BeginTrans();
-                    this.UpcomingShowCache.RemoveAll(u => string.IsNullOrEmpty(u.DisplayName) || string.Equals(u.LevelType, LevelType.Unknown));
-                    this.UpcomingShow.DeleteAll();
-                    this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
-                    this.StatsDB.Commit();
+                    removableLevelsInUpcomingShow.Add(level.LevelId);
                 } else if (!LevelStats.ALL.ContainsKey(level.LevelId)) {
                     LevelStats.ALL.Add(level.LevelId, new LevelStats(level.LevelId, level.ShareCode, level.DisplayName, level.LevelType, level.BestRecordType, level.IsCreative, level.IsFinal,
                         10, 0, 0, 0, Properties.Resources.round_gauntlet_icon, Properties.Resources.round_gauntlet_big_icon));
                 }
+            }
+            if (removableLevelsInUpcomingShow.Count > 0) {
+                this.StatsDB.BeginTrans();
+                this.UpcomingShowCache.RemoveAll(u => removableLevelsInUpcomingShow.Contains(u.LevelId));
+                this.UpcomingShow.DeleteAll();
+                this.UpcomingShow.InsertBulk(this.UpcomingShowCache);
+                this.StatsDB.Commit();
             }
         }
 
